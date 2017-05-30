@@ -76,7 +76,7 @@ void Encoder::setVideoCodec(AVCodecID codecId, csSDK_int32 width, csSDK_int32 he
 	/* Get pixel format name */
 	char filterString[256];
 	const char *pixFmtName = av_get_pix_fmt_name(pixelFormat);
-	sprintf_s(filterString, "format=pix_fmts=%s", pixFmtName);
+	sprintf_s(filterString, "vflip,format=pix_fmts=%s", pixFmtName);
 
 	/* Configure video frame filter output format */
 	videoContext->frameFilter = new FrameFilter();
@@ -223,50 +223,44 @@ int Encoder::writeVideoFrame(char *data)
 {
 	int ret;
 
-	AVFrame *frame = NULL;
-
-	if (data != NULL)
+	/* Do we just want to flush the encoder? */
+	if (data == NULL)
 	{
-		frame = av_frame_alloc();
-		frame->width = videoContext->codecContext->width;
-		frame->height = videoContext->codecContext->height;
-		frame->format = PLUGIN_VIDEO_PIX_FORMAT;
-
-		/* Reserve buffer space */
-		if ((ret = av_frame_get_buffer(frame, 32)) < 0)
+		/* Send the frame to the encoder */
+		if ((ret = encodeAndWriteFrame(videoContext, NULL)) < 0)
 		{
 			return ret;
 		}
 
-		/* Fill the source frame */
-		int ls = frame->width * 4;
-		for (int y = 0; y < frame->height; y++)
-		{
-			for (int x = 0; x < ls; x += 4)
-			{
-				int sp = y * ls + x;
-				int dp = (frame->height - y - 1) * ls + x;
-				frame->data[0][sp] = data[dp - 4];
-				frame->data[0][sp + 1] = data[dp - 3];
-				frame->data[0][sp + 2] = data[dp - 2];
-				frame->data[0][sp + 3] = data[dp - 1];
-			}
-		}
-
-		/* Presentation timestamp */
-		frame->pts = videoContext->next_pts++;
+		return S_OK;
 	}
 
-	/* Send the frame to the encoder */
-	if ((ret = encodeAndWriteFrame(videoContext, frame)) < 0)
+	/* Create a new frame */
+	AVFrame *frame = av_frame_alloc();
+	frame->width = videoContext->codecContext->width;
+	frame->height = videoContext->codecContext->height;
+	frame->format = PLUGIN_VIDEO_PIX_FORMAT;
+
+	/* Reserve buffer space */
+	if ((ret = av_frame_get_buffer(frame, 32)) < 0)
 	{
 		return ret;
 	}
 
-	if (frame != NULL)
+	/* Fill the source frame */
+	frame->data[0] = (uint8_t*)data;
+
+	/* Presentation timestamp */
+	frame->pts = videoContext->next_pts++;
+	
+	/* Send the frame to the encoder */
+	if ((ret = encodeAndWriteFrame(videoContext, frame)) < 0)
 	{
 		av_frame_free(&frame);
+		return ret;
 	}
+
+	av_frame_free(&frame);
 
 	return S_OK;
 }
@@ -327,6 +321,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		/* Send the frame to the encoder */
 		if ((ret = encodeAndWriteFrame(audioContext, frame)) < 0)
 		{
+			av_frame_free(&frame);
 			return ret;
 		}
 
