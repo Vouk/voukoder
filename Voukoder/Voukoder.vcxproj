@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>C:\Program Files\Adobe\Adobe Premiere Elements 15\Plug-Ins\Common\</OutDir>
+    <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <TargetExt>.prm</TargetExt>
     <SourcePath>$(SourcePath)</SourcePath>
     <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;$(SolutionDir)3rdparty\ffmpeg\include;$(IncludePath)</IncludePath>
@@ -94,7 +94,7 @@
     <LibraryPath>$(SolutionDir)3rdparty\ffmpeg\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.prm</TargetExt>
     <CustomBuildAfterTargets />
-    <OutDir>C:\Program Files\Adobe\Adobe Premiere Elements 15\Plug-Ins\Common\</OutDir>
+    <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,6 +127,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\Voukoder.prm" "C:\Program Files\Adobe\Adobe Premiere Elements 15\Plug-Ins\Common\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
