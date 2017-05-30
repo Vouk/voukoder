@@ -48,86 +48,103 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Basic Video Settings", kPrFalse, kPrFalse, kPrFalse);
 
 		/* Video Codec */
-		exNewParamInfo videoCodecParam;
 		exParamValues videoCodecValues;
-		safeStrCpy(videoCodecParam.identifier, kPrMaxName, ADBEVideoCodec);
-		videoCodecParam.paramType = exParamType_int;
-		videoCodecParam.flags = exParamFlag_none;
+		videoCodecValues.structVersion = 1;
 		videoCodecValues.value.intValue = AV_CODEC_ID_H264;
 		videoCodecValues.disabled = kPrFalse;
 		videoCodecValues.hidden = kPrFalse;
+		videoCodecValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo videoCodecParam;
+		videoCodecParam.structVersion = 1;
+		videoCodecParam.flags = exParamFlag_none;
+		videoCodecParam.paramType = exParamType_int;
 		videoCodecParam.paramValues = videoCodecValues;
-		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &videoCodecParam);
-		
+		::lstrcpyA(videoCodecParam.identifier, ADBEVideoCodec);
+
 		/* Width */
-		exNewParamInfo widthParam;
 		exParamValues widthValues;
-		safeStrCpy(widthParam.identifier, kPrMaxName, ADBEVideoWidth);
-		widthParam.paramType = exParamType_int;
-		widthParam.flags = exParamFlag_none;
+		widthValues.structVersion = 1;
+		widthValues.value.intValue = seqWidth.mInt32;
 		widthValues.rangeMin.intValue = 16;
 		widthValues.rangeMax.intValue = 4096;
-		widthValues.value.intValue = seqWidth.mInt32;
 		widthValues.disabled = kPrFalse;
 		widthValues.hidden = kPrFalse;
+		widthValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo widthParam;
+		widthParam.structVersion = 1;
+		widthParam.flags = exParamFlag_none;
+		widthParam.paramType = exParamType_int;
 		widthParam.paramValues = widthValues;
+		::lstrcpyA(widthParam.identifier, ADBEVideoWidth);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &widthParam);
 
 		/* Height */
-		exNewParamInfo heightParam;
 		exParamValues heightValues;
-		safeStrCpy(heightParam.identifier, kPrMaxName, ADBEVideoHeight);
-		heightParam.paramType = exParamType_int;
-		heightParam.flags = exParamFlag_none;
+		heightValues.structVersion = 1;
+		heightValues.value.intValue = seqHeight.mInt32;
 		heightValues.rangeMin.intValue = 16;
 		heightValues.rangeMax.intValue = 4096;
-		heightValues.value.intValue = seqHeight.mInt32;
 		heightValues.disabled = kPrFalse;
 		heightValues.hidden = kPrFalse;
+		heightValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo heightParam;
+		heightParam.structVersion = 1;
+		heightParam.flags = exParamFlag_none;
+		heightParam.paramType = exParamType_int;
 		heightParam.paramValues = heightValues;
+		::lstrcpyA(heightParam.identifier, ADBEVideoHeight);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &heightParam);
 
 		/* Pixel aspect ratio */
-		exNewParamInfo PARParam;
 		exParamValues PARValues;
-		safeStrCpy(PARParam.identifier, kPrMaxName, ADBEVideoAspect);
-		PARParam.paramType = exParamType_ratio;
-		PARParam.flags = exParamFlag_none;
+		PARValues.structVersion = 1;
+		PARValues.value.ratioValue.numerator = seqPARNum.mInt32;
+		PARValues.value.ratioValue.denominator = seqPARDen.mInt32;
 		PARValues.rangeMin.ratioValue.numerator = 10;
 		PARValues.rangeMin.ratioValue.denominator = 11;
 		PARValues.rangeMax.ratioValue.numerator = 2;
 		PARValues.rangeMax.ratioValue.denominator = 1;
-		PARValues.value.ratioValue.numerator = seqPARNum.mInt32;
-		PARValues.value.ratioValue.denominator = seqPARDen.mInt32;
 		PARValues.disabled = kPrFalse;
 		PARValues.hidden = kPrFalse;
+		PARValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo PARParam;
+		PARParam.structVersion = 1;
+		PARParam.flags = exParamFlag_none;
+		PARParam.paramType = exParamType_ratio;
 		PARParam.paramValues = PARValues;
+		::lstrcpyA(PARParam.identifier, ADBEVideoAspect);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &PARParam);
 
 		/* Frame rate */
-		exNewParamInfo frameRateParam;
 		exParamValues frameRateValues;
-		safeStrCpy(frameRateParam.identifier, kPrMaxName, ADBEVideoFPS);
-		frameRateParam.paramType = exParamType_ticksFrameRate;
-		frameRateParam.flags = exParamFlag_none;
+		frameRateValues.structVersion = 1;
+		frameRateValues.value.timeValue = seqFrameRate.mInt64;
 		frameRateValues.rangeMin.timeValue = 1;
 		timeSuite->GetTicksPerSecond(&frameRateValues.rangeMax.timeValue);
-		frameRateValues.value.timeValue = seqFrameRate.mInt64;
 		frameRateValues.disabled = kPrFalse;
 		frameRateValues.hidden = kPrFalse;
+		frameRateValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo frameRateParam;
+		frameRateParam.structVersion = 1;
+		frameRateParam.flags = exParamFlag_none;
+		frameRateParam.paramType = exParamType_ticksFrameRate;
 		frameRateParam.paramValues = frameRateValues;
+		::lstrcpyA(frameRateParam.identifier, ADBEVideoFPS);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &frameRateParam);
 
 		/* Field order */
-		exNewParamInfo fieldOrderParam;
 		exParamValues fieldOrderValues;
-		safeStrCpy(fieldOrderParam.identifier, kPrMaxName, ADBEVideoFieldType);
-		fieldOrderParam.paramType = exParamType_int;
-		fieldOrderParam.flags = exParamFlag_none;
+		fieldOrderValues.structVersion = 1;
 		fieldOrderValues.value.intValue = seqFieldOrder.mInt32;
 		fieldOrderValues.disabled = kPrFalse;
 		fieldOrderValues.hidden = kPrFalse;
+		fieldOrderValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo fieldOrderParam;
+		fieldOrderParam.structVersion = 1;
+		fieldOrderParam.flags = exParamFlag_none;
+		fieldOrderParam.paramType = exParamType_int;
 		fieldOrderParam.paramValues = fieldOrderValues;
+		::lstrcpyA(fieldOrderParam.identifier, ADBEVideoFieldType);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &fieldOrderParam);
 
 #pragma endregion
@@ -137,95 +154,114 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Basic Encoder Settings", kPrFalse, kPrFalse, kPrFalse);
 
 		/* Preset */
-		exNewParamInfo presetParam;
 		exParamValues presetValues;
-		safeStrCpy(presetParam.identifier, kPrMaxName, X264_Preset);
-		presetParam.paramType = exParamType_int;
-		presetParam.flags = exParamFlag_none;
+		presetValues.structVersion = 1;
 		presetValues.value.intValue = static_cast<csSDK_int32>(X264::Preset::Medium);
 		presetValues.disabled = kPrFalse;
 		presetValues.hidden = kPrFalse;
+		presetValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo presetParam;
+		presetParam.structVersion = 1;
+		presetParam.flags = exParamFlag_none;
+		presetParam.paramType = exParamType_int;
 		presetParam.paramValues = presetValues;
+		::lstrcpyA(presetParam.identifier, X264_Preset);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &presetParam);
 
 		/* Profile */
-		exNewParamInfo profileParam;
 		exParamValues profileValues;
-		safeStrCpy(profileParam.identifier, kPrMaxName, X264_Profile);
-		profileParam.paramType = exParamType_int;
-		profileParam.flags = exParamFlag_none;
+		profileValues.structVersion = 1;
 		profileValues.value.intValue = (csSDK_int32)(X264::Profile::High);
 		profileValues.disabled = kPrFalse;
 		profileValues.hidden = kPrFalse;
+		profileValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo profileParam;
+		profileParam.structVersion = 1;
+		profileParam.flags = exParamFlag_none;
+		profileParam.paramType = exParamType_int;
 		profileParam.paramValues = profileValues;
+		::lstrcpyA(profileParam.identifier, X264_Profile);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &profileParam);
 
 		/* Level */
-		exNewParamInfo levelParam;
 		exParamValues levelValues;
-		safeStrCpy(levelParam.identifier, kPrMaxName, X264_Level);
-		levelParam.paramType = exParamType_int;
-		levelParam.flags = exParamFlag_none;
+		levelValues.structVersion = 1;
 		levelValues.value.intValue = (csSDK_int32)(X264::Level::Auto);
 		levelValues.disabled = kPrFalse;
 		levelValues.hidden = kPrFalse;
+		levelValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo levelParam;
+		levelParam.structVersion = 1;
+		levelParam.flags = exParamFlag_none;
+		levelParam.paramType = exParamType_int;
 		levelParam.paramValues = levelValues;
+		::lstrcpyA(levelParam.identifier, X264_Level);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &levelParam);
 
 		/* Strategy */
-		exNewParamInfo strategyParam;
 		exParamValues strategyValues;
-		safeStrCpy(strategyParam.identifier, kPrMaxName, X264_Strategy);
-		strategyParam.paramType = exParamType_int;
-		strategyParam.flags = exParamFlag_none;
+		strategyValues.structVersion = 1;
 		strategyValues.value.intValue = (csSDK_int32)(X264::Strategy::CRF);
 		strategyValues.disabled = kPrFalse;
 		strategyValues.hidden = kPrFalse;
+		strategyValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo strategyParam;
+		strategyParam.structVersion = 1;
+		strategyParam.flags = exParamFlag_none;
+		strategyParam.paramType = exParamType_int;
 		strategyParam.paramValues = strategyValues;
+		::lstrcpyA(strategyParam.identifier, X264_Strategy);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &strategyParam);
 
 		/* Encoding bitrate (ABR mode only) */
-		exNewParamInfo videoBitrateParam;
 		exParamValues videoBitrateValues;
-		safeStrCpy(videoBitrateParam.identifier, kPrMaxName, ADBEVideoBitrateEncoding);
-		videoBitrateParam.paramType = exParamType_float;
-		videoBitrateParam.flags = exParamFlag_slider;
+		videoBitrateValues.structVersion = 1;
+		videoBitrateValues.value.floatValue = 15.0;
 		videoBitrateValues.rangeMin.floatValue = 1.0;
 		videoBitrateValues.rangeMax.floatValue = 50.0;
-		videoBitrateValues.value.floatValue = 15.0;
 		videoBitrateValues.disabled = kPrFalse;
 		videoBitrateValues.hidden = kPrTrue;
+		videoBitrateValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo videoBitrateParam;
+		videoBitrateParam.structVersion = 1;
+		videoBitrateParam.flags = exParamFlag_slider;
+		videoBitrateParam.paramType = exParamType_float;
 		videoBitrateParam.paramValues = videoBitrateValues;
+		::lstrcpyA(videoBitrateParam.identifier, ADBEVideoBitrateEncoding);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &videoBitrateParam);
 
 		/* Constant Rate Factor (CRF) */
-		exNewParamInfo crfParam;
 		exParamValues crfValues;
-		safeStrCpy(crfParam.identifier, kPrMaxName, X264_Strategy_CRF);
-		crfParam.paramType = exParamType_int;
-		crfParam.flags = exParamFlag_slider;
 		crfValues.structVersion = 1;
+		crfValues.value.intValue = 23;
 		crfValues.rangeMin.intValue = 0;
 		crfValues.rangeMax.intValue = 51;
-		crfValues.value.intValue = 23;
 		crfValues.disabled = kPrFalse;
 		crfValues.hidden = kPrFalse;
+		crfValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo crfParam;
+		crfParam.structVersion = 1;
+		crfParam.flags = exParamFlag_slider;
+		crfParam.paramType = exParamType_int;
 		crfParam.paramValues = crfValues;
+		::lstrcpyA(crfParam.identifier, X264_Strategy_CRF);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &crfParam);
 
 		/* Constant Quantizer (CQ) */
-		exNewParamInfo cqParam;
 		exParamValues cqValues;
-		safeStrCpy(cqParam.identifier, kPrMaxName, X264_Strategy_QP);
-		cqParam.paramType = exParamType_int;
-		cqParam.flags = exParamFlag_slider;
 		cqValues.structVersion = 1;
+		cqValues.value.intValue = 23;
 		cqValues.rangeMin.intValue = 0;
 		cqValues.rangeMax.intValue = 69;
-		cqValues.value.intValue = 23;
 		cqValues.disabled = kPrFalse;
 		cqValues.hidden = kPrTrue;
+		cqValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo cqParam;
+		cqParam.structVersion = 1;
+		cqParam.flags = exParamFlag_slider;
+		cqParam.paramType = exParamType_int;
 		cqParam.paramValues = cqValues;
+		::lstrcpyA(cqParam.identifier, X264_Strategy_QP);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEVideoCodecGroup, &cqParam);
 
 #pragma endregion
@@ -239,15 +275,18 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		exportParamSuite->AddParamGroup(exID, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Basic Audio Settings", kPrFalse, kPrFalse, kPrFalse);
 
 		/* Audio Codec */
-		exNewParamInfo audioCodecParam;
 		exParamValues audioCodecValues;
-		safeStrCpy(audioCodecParam.identifier, kPrMaxName, ADBEAudioCodec);
-		audioCodecParam.paramType = exParamType_int;
-		audioCodecParam.flags = exParamFlag_none;
+		audioCodecValues.structVersion = 1;
 		audioCodecValues.value.intValue = AV_CODEC_ID_AAC;
 		audioCodecValues.disabled = kPrFalse;
 		audioCodecValues.hidden = kPrFalse;
+		audioCodecValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo audioCodecParam;
+		audioCodecParam.structVersion = 1;
+		audioCodecParam.flags = exParamFlag_none;
+		audioCodecParam.paramType = exParamType_int;
 		audioCodecParam.paramValues = audioCodecValues;
+		::lstrcpyA(audioCodecParam.identifier, ADBEAudioCodec);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicAudioGroup, &audioCodecParam);
 
 #pragma endregion
@@ -258,39 +297,48 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		exportParamSuite->AddParamGroup(exID, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Basic Encoder Settings", kPrFalse, kPrFalse, kPrFalse);
 
 		/* Sample rate */
-		exNewParamInfo sampleRateParam;
 		exParamValues sampleRateValues;
-		safeStrCpy(sampleRateParam.identifier, 256, ADBEAudioRatePerSecond);
-		sampleRateParam.paramType = exParamType_float;
-		sampleRateParam.flags = exParamFlag_none;
+		sampleRateValues.structVersion = 1;
 		sampleRateValues.value.floatValue = seqSampleRate.mFloat64;
 		sampleRateValues.disabled = kPrFalse;
 		sampleRateValues.hidden = kPrFalse;
+		sampleRateValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo sampleRateParam;
+		sampleRateParam.structVersion = 1;
+		sampleRateParam.flags = exParamFlag_none;
+		sampleRateParam.paramType = exParamType_float;
 		sampleRateParam.paramValues = sampleRateValues;
+		::lstrcpyA(sampleRateParam.identifier, ADBEAudioRatePerSecond);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEAudioCodecGroup, &sampleRateParam);
 
 		/* Channel type */
-		exNewParamInfo channelTypeParam;
 		exParamValues channelTypeValues;
-		safeStrCpy(channelTypeParam.identifier, 256, ADBEAudioNumChannels);
-		channelTypeParam.paramType = exParamType_int;
-		channelTypeParam.flags = exParamFlag_none;
+		channelTypeValues.structVersion = 1;
 		channelTypeValues.value.intValue = seqChannelType.mInt32;
 		channelTypeValues.disabled = kPrFalse;
 		channelTypeValues.hidden = kPrFalse;
+		channelTypeValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo channelTypeParam;
+		channelTypeParam.structVersion = 1;
+		channelTypeParam.flags = exParamFlag_none;
+		channelTypeParam.paramType = exParamType_int;
 		channelTypeParam.paramValues = channelTypeValues;
+		::lstrcpyA(channelTypeParam.identifier, ADBEAudioNumChannels);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEAudioCodecGroup, &channelTypeParam);
 		
 		/* Bitrate */
-		exNewParamInfo audioBitrateParam;
 		exParamValues audioBitrateValues;
-		safeStrCpy(audioBitrateParam.identifier, 256, ADBEAudioBitrate);
-		audioBitrateParam.paramType = exParamType_int;
-		audioBitrateParam.flags = exParamFlag_none;
+		audioBitrateValues.structVersion = 1;
 		audioBitrateValues.value.intValue = 128;
 		audioBitrateValues.disabled = kPrFalse;
 		audioBitrateValues.hidden = kPrFalse;
+		audioBitrateValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo audioBitrateParam;
+		audioBitrateParam.structVersion = 1;
+		audioBitrateParam.flags = exParamFlag_none;
+		audioBitrateParam.paramType = exParamType_int;
 		audioBitrateParam.paramValues = audioBitrateValues;
+		::lstrcpyA(audioBitrateParam.identifier, ADBEAudioBitrate);
 		exportParamSuite->AddParam(exID, groupIndex, ADBEAudioCodecGroup, &audioBitrateParam);
 
 #pragma endregion
@@ -304,15 +352,18 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		exportParamSuite->AddParamGroup(exID, groupIndex, FFMultiplexerTabGroup, FFMultiplexerBasicGroup, L"Basic Multiplexer Settings", kPrFalse, kPrFalse, kPrFalse);
 
 		/* Multiplexer */
-		exNewParamInfo multiplexerParam;
 		exParamValues multiplexerValues;
-		safeStrCpy(multiplexerParam.identifier, kPrMaxName, FFMultiplexer);
-		multiplexerParam.paramType = exParamType_int;
-		multiplexerParam.flags = exParamFlag_multiLine;
+		multiplexerValues.structVersion = 1;
 		multiplexerValues.value.intValue = FFExportFormat::MP4;
 		multiplexerValues.disabled = kPrFalse;
 		multiplexerValues.hidden = kPrFalse;
+		multiplexerValues.optionalParamEnabled = kPrFalse;
+		exNewParamInfo multiplexerParam;
+		multiplexerParam.structVersion = 1;
+		multiplexerParam.flags = exParamFlag_multiLine;
+		multiplexerParam.paramType = exParamType_int;
 		multiplexerParam.paramValues = multiplexerValues;
+		::lstrcpyA(multiplexerParam.identifier, FFMultiplexer);
 		exportParamSuite->AddParam(exID, groupIndex, FFMultiplexerBasicGroup, &multiplexerParam);
 
 #pragma endregion
@@ -326,52 +377,29 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 {
 	prMALError result = malNoError;
 
-	Config config;
 	csSDK_int32 exID = postProcessParamsRecP->exporterPluginID, groupIndex = 0;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(postProcessParamsRecP->privateData);
+	
 	prUTF16Char tempString[kPrMaxName];
 	exOneParamValueRec tempParamValue;
-	
+
+#pragma region Group: Video settings
+
+	Config config;
 	PrTime ticksPerSecond = 0;
 	instRec->timeSuite->GetTicksPerSecond(&ticksPerSecond);
 
-	/* Populate codecs */
-	exParamValues multiplexerValue;
-	instRec->exportParamSuite->GetParamValue(exID, groupIndex, FFMultiplexer, &multiplexerValue);
-	
+	/* Group: Encoder settings */
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEBasicVideoGroup, L"Video settings");
+
+	/* Video codec */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoCodec, L"Video Codec");
-	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioCodec, L"Audio Codec");
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEVideoCodec);
-	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioCodec);
-
-	/* Fill content */
-	for (ExportFormats item : config.formats)
-	{
-		if (item.exportFormat == static_cast<FFExportFormat>(multiplexerValue.value.intValue))
-		{
-			const AVCodecDescriptor *descriptor;
-			for (AVCodecID codecId : item.codecIDs)
-			{
-				descriptor = avcodec_descriptor_get(codecId);
-				if (descriptor != NULL)
-				{
-					tempParamValue.intValue = codecId;
-					swprintf(tempString, kPrMaxName, L"%hs", descriptor->long_name);
-					if (descriptor->type == AVMEDIA_TYPE_VIDEO)
-					{
-						instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoCodec, &tempParamValue, tempString);
-					}
-					else if (descriptor->type == AVMEDIA_TYPE_AUDIO)
-					{
-						instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEAudioCodec, &tempParamValue, tempString);
-					}
-				}
-			}
-			break;
-		}
-	}
-
-#pragma region Group: Basic Video Settings
+	exOneParamValueRec tempVideoCodec;
+	tempVideoCodec.intValue = AV_CODEC_ID_H264;
+	const AVCodecDescriptor *descriptor = avcodec_descriptor_get((AVCodecID)tempVideoCodec.intValue);
+	swprintf(tempString, kPrMaxName, L"%hs", descriptor->long_name);
+	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoCodec, &tempVideoCodec, tempString);
 
 	/* Video width */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoWidth, L"Width");
@@ -415,9 +443,12 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 
 #pragma endregion
 
-#pragma region Group: Basic Video Encoder Settings
+#pragma region Group: Video encoder settings
 
 	X264 x264;
+
+	/* Group: Encoder settings */
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEVideoCodecGroup, L"Codec settings");
 
 	/* Preset */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, X264_Preset, L"Preset");
@@ -462,15 +493,55 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 		swprintf(tempString, kPrMaxName, L"%hs", item.name.c_str());
 		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, X264_Strategy, &tempStrategy, tempString);
 	}
+	
+	/* Strategy: ABR */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoBitrateEncoding, L"Average Bitrate (Mbps)");
+	exParamValues abrValues;
+	instRec->exportParamSuite->GetParamValue(exID, groupIndex, ADBEVideoBitrateEncoding, &abrValues);
+	abrValues.rangeMin.floatValue = 1.0;
+	abrValues.rangeMax.floatValue = 50.0;
+	instRec->exportParamSuite->ChangeParam(exID, groupIndex, ADBEVideoBitrateEncoding, &abrValues);
+
+	/* Strategy: CRF */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, X264_Strategy_CRF, L"Constant Rate Factor");
+	exParamValues crfValues;
+	instRec->exportParamSuite->GetParamValue(exID, groupIndex, X264_Strategy_CRF, &crfValues);
+	crfValues.rangeMin.intValue = 0;
+	crfValues.rangeMax.intValue = 51;
+	instRec->exportParamSuite->ChangeParam(exID, groupIndex, X264_Strategy_CRF, &crfValues);
+
+	/* Strategy: QP */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, X264_Strategy_QP, L"Constant Quantizer");
+	exParamValues qpValues;
+	instRec->exportParamSuite->GetParamValue(exID, groupIndex, X264_Strategy_QP, &qpValues);
+	qpValues.rangeMin.intValue = 0;
+	qpValues.rangeMax.intValue = 69;
+	instRec->exportParamSuite->ChangeParam(exID, groupIndex, X264_Strategy_QP, &qpValues);
 
 #pragma endregion
 
-#pragma region Group: Basic Audio Encoder Settings
+#pragma region Group: Audio settings
 
 	AAC aac;
+
+	/* Group: Encoder settings */
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEBasicAudioGroup, L"Audio settings");
+
+	/* Video codec */
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioCodec, L"Audio Codec");
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioCodec);
+	exOneParamValueRec tempAudioCodec;
+	tempAudioCodec.intValue = AV_CODEC_ID_AAC;
+	const AVCodecDescriptor *descriptor2 = avcodec_descriptor_get((AVCodecID)tempAudioCodec.intValue);
+	swprintf(tempString, kPrMaxName, L"%hs", descriptor2->long_name);
+	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEAudioCodec, &tempAudioCodec, tempString);
+
+#pragma endregion
+
+#pragma region Group: Audio encoder settings
+
+	/* Group: Audio encoder settings */
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEAudioCodecGroup, L"Codec settings");
 
 	/* Sample rate */
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioRatePerSecond, L"Sample Rate");
@@ -507,13 +578,15 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 
 #pragma endregion
 
-	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexerTabGroup, L"Multiplexer");
-
 #pragma region Group: Multiplexer
-	
+
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexerTabGroup, L"Multiplexer");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexerBasicGroup, L"Container");
+
 	/* Container format */
-	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexer, L"Container Format");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexer, L"Format");
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, FFMultiplexer);
+
 	AVOutputFormat *format;
 	for (ExportFormats exportFormat : config.formats)
 	{
@@ -534,6 +607,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *validateParamChangedRecP)
 {
 	prMALError result = malNoError;
+
 	csSDK_uint32 exID = validateParamChangedRecP->exporterPluginID, groupIndex = validateParamChangedRecP->multiGroupIndex;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateParamChangedRecP->privateData);
 	exParamValues changedValue, tempValue;

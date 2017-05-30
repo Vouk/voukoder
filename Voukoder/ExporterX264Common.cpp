@@ -15,12 +15,3 @@ void copyConvertStringLiteralIntoUTF16(const wchar_t* inputString, prUTF16Char* 
 	wcscpy_s(destination, length + 1, inputString);
 #endif
 }
-
-void safeStrCpy(char *destStr, int size, const char *srcStr)
-{
-#ifdef PRWIN_ENV
-	strcpy_s(destStr, size, srcStr);
-#elif defined PRMAC_ENV
-	strcpy(destStr, srcStr);
-#endif
-}

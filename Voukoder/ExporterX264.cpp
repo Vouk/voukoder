@@ -22,6 +22,9 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 {
+	av_register_all();
+	avfilter_register_all();
+
 	infoRecP->fileType = 'X264';
 	copyConvertStringLiteralIntoUTF16(APPNAME, infoRecP->fileTypeName);
 	copyConvertStringLiteralIntoUTF16(L"mp4", infoRecP->fileTypeDefaultExtension);

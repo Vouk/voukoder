@@ -8,6 +8,7 @@
 #define FFAudioEncoderGroup				"AudioEncoderGroup"
 #define FFOptionFaststart				"OptionFaststart"
 #define FFVersions						"Versions"
+#define X264_Codec						"X264_Codec"
 #define X264_Preset						"X264_Preset"
 #define X264_Profile					"X264_Profile"
 #define X264_Level						"X264_Level"

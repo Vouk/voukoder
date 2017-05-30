@@ -46,6 +46,11 @@ extern "C" {
 //#define PLUGIN_AUDIO_SAMPLE_RATE 48000
 #define PLUGIN_VIDEO_PIX_FORMAT AV_PIX_FMT_ARGB
 
+struct ContainerFormat
+{
+
+};
+
 struct Framerate
 {
 	int64_t ticksPerSecond;
@@ -232,4 +237,3 @@ typedef struct AAC
 
 
 void copyConvertStringLiteralIntoUTF16(const wchar_t* inputString, prUTF16Char* destination);
-void safeStrCpy(char *destStr, int size, const char *srcStr);
