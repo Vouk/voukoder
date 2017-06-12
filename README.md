@@ -8,5 +8,5 @@ To compile this you need to create one folder "3rdparty" and copy some packages 
 The official SDK
 - 3rdparty\Premiere Pro CS6 r2 Win SDK
 
-The 64bit dev package of ffmpeg
-- 3rdparty\ffmpeg
+A static build of libav (incl. x264)
+- 3rdparty\libav
