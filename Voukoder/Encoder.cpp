@@ -18,8 +18,8 @@ Encoder::Encoder(const char *filename)
 	this->filename = filename;
 	
 	/* Create the container format */
-	AVOutputFormat *format = av_guess_format(NULL, filename, NULL);
-	avformat_alloc_output_context2(&formatContext, format, NULL, NULL);
+	formatContext = avformat_alloc_context();
+	formatContext->oformat = av_guess_format(NULL, filename, NULL);
 
 	av_log_set_level(AV_LOG_DEBUG);
 	av_log_set_callback(avlog_cb);
@@ -108,6 +108,7 @@ void Encoder::setAudioCodec(AVCodecID codecId, csSDK_int64 channelLayout, csSDK_
 	}
 
 	/* Configure context */
+	audioContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	audioContext->codecContext->channels = av_get_channel_layout_nb_channels(channelLayout);
 	audioContext->codecContext->channel_layout = channelLayout;
 	audioContext->codecContext->sample_rate = sampleRate;
@@ -148,7 +149,7 @@ int Encoder::open(const char *videoOptions, const char *audioOptions)
 
 	/* Configure x264 encoder  */
 	AVDictionary *options = NULL;
-	av_dict_set(&options, "x264opts", videoOptions, 0);
+	av_dict_set(&options, "x264-params", videoOptions, 0);
 		
 	/* Open video stream */
 	if ((ret = openStream(videoContext, options)) < 0)
@@ -192,12 +193,11 @@ void Encoder::close()
 		audioContext->frameFilter->~FrameFilter();
 	}
 
+	avcodec_close(videoContext->codecContext);
 	avcodec_close(audioContext->codecContext);
 
 	/* Close the file */
-	avio_closep(&formatContext->pb);
-
-	avformat_close_input(&formatContext);
+	avio_close(formatContext->pb);
 }
 
 int Encoder::openStream(AVContext *context, AVDictionary *options)

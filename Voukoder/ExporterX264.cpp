@@ -194,11 +194,31 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	instRec->exportParamSuite->GetParamValue(exID, 0, X264_Level, &level);
 	instRec->exportParamSuite->GetParamValue(exID, 0, X264_Strategy, &strategy);
 
+	/* Profile */
+	switch (profile.value.intValue)
+	{
+	case (csSDK_int32)X264::Profile::Baseline:
+		options.push_back("profile=baseline");
+		break;
+
+	case (csSDK_int32)X264::Profile::Main:
+		options.push_back("profile=main");
+		break;
+
+	case (csSDK_int32)X264::Profile::High422:
+		options.push_back("profile=high422");
+		break;
+
+	case (csSDK_int32)X264::Profile::High444:
+		options.push_back("profile=high444");
+		break;
+	}
+
 	/* Preset */
 	switch (preset.value.intValue)
 	{
 	case (csSDK_int32)X264::Preset::UltraFast:
-		options.push_back("preset=ultrafast");
+		options.push_back("no-8x8dct:aq-mode=0:b-adapt=0:bframes=0:no-cabac:no-deblock:no-mbtree:me=dia:no-mixed-refs:partitions=none:rc-lookahead=0:ref=1:scenecut=0:subme=0:trellis=0:no-weightb:weightp=0");
 		break;
 
 	case (csSDK_int32)X264::Preset::SuperFast:
@@ -230,27 +250,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 		break;
 
 	case (csSDK_int32)X264::Preset::Placebo:
-		options.push_back("preset=placebo");
-		break;
-	}
-
-	/* Profile */
-	switch (profile.value.intValue)
-	{
-	case (csSDK_int32)X264::Profile::Baseline:
-		options.push_back("profile=baseline");
-		break;
-
-	case (csSDK_int32)X264::Profile::Main:
-		options.push_back("profile=main");
-		break;
-
-	case (csSDK_int32)X264::Profile::High422:
-		options.push_back("profile=high422");
-		break;
-
-	case (csSDK_int32)X264::Profile::High444:
-		options.push_back("profile=high444");
+		options.push_back("bframes=16:b-adapt=2:direct=auto:slow-firstpass:no-fast-pskip:me=tesa:merange=24:partitions=all:rc-lookahead=60:ref=16:subme=11:trellis=2");
 		break;
 	}
 

@@ -24,11 +24,14 @@
 extern "C" {
 #include "libavformat\avformat.h"
 #include "libavcodec\avcodec.h"
-#include "libswscale\swscale.h"
 #include "libavfilter\avfilter.h"
+#include "libavutil\avutil.h"
+#include "libavutil\channel_layout.h"
+#include "libswscale\swscale.h"
+
 #include "libavfilter\buffersrc.h"
 #include "libavfilter\buffersink.h"
-#include "libavutil\avutil.h"
+
 #include "libavutil\audio_fifo.h"
 #include "libavutil\opt.h"
 #include "libavutil\imgutils.h"
@@ -36,10 +39,15 @@ extern "C" {
 #include "libavutil\log.h"
 }
 
-#pragma comment(lib, "avformat.lib")
-#pragma comment(lib, "avcodec.lib")
-#pragma comment(lib, "avfilter.lib")
-#pragma comment(lib, "avutil.lib")
+#pragma comment(lib, "libavformat.lib")
+#pragma comment(lib, "libavcodec.lib")
+#pragma comment(lib, "libavfilter.lib")
+#pragma comment(lib, "libavutil.lib")
+#pragma comment(lib, "libswscale.lib")
+#pragma comment(lib, "libavresample.lib")
+#pragma comment(lib, "libx264.lib")
+#pragma comment(lib, "Ws2_32.lib")
+
 
 #define APPNAME L"Voukoder (x264 plugin)"
 #define PLUGIN_AUDIO_SAMPLE_FORMAT AV_SAMPLE_FMT_FLTP

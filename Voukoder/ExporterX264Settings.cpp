@@ -60,6 +60,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		videoCodecParam.paramType = exParamType_int;
 		videoCodecParam.paramValues = videoCodecValues;
 		::lstrcpyA(videoCodecParam.identifier, ADBEVideoCodec);
+		exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &videoCodecParam);
 
 		/* Width */
 		exParamValues widthValues;

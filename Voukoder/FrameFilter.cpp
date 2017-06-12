@@ -13,7 +13,7 @@ FrameFilter::~FrameFilter()
 int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 {
 	int err;
-	AVFilter *in, *out;
+	const AVFilter *in, *out;
 	
 	/* Create the right input & output filters */
 	switch (options.media_type)
@@ -77,22 +77,22 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	inputs->next = NULL;
 
 	/* Parse filter chain & configure graph */
-	err = avfilter_graph_parse_ptr(filterGraph, filters, &inputs, &outputs, NULL);
+	err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL);
 	err = avfilter_graph_config(filterGraph, NULL);
 
 	/* Free inputs & outputs */
-	avfilter_inout_free(&inputs);
-	avfilter_inout_free(&outputs);
+	//avfilter_inout_free(&inputs);
+	//avfilter_inout_free(&outputs);
 
 	/* Dump filter configuration */
-	OutputDebugStringA(avfilter_graph_dump(filterGraph, NULL));
+	//OutputDebugStringA(avfilter_graph_(filterGraph, NULL));
 
 	return err;
 }
 
 int FrameFilter::sendFrame(AVFrame *frame)
 {
-	return av_buffersrc_add_frame_flags(in_ctx, frame, AV_BUFFERSRC_FLAG_KEEP_REF);
+	return av_buffersrc_add_frame(in_ctx, frame);// , AV_BUFFERSRC_FLAG_KEEP_REF);
 }
 
 int FrameFilter::receiveFrame(AVFrame *frame)
