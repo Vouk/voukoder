@@ -218,7 +218,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	switch (preset.value.intValue)
 	{
 	case (csSDK_int32)X264::Preset::UltraFast:
-		options.push_back("no-8x8dct:aq-mode=0:b-adapt=0:bframes=0:no-cabac:no-deblock:no-mbtree:me=dia:no-mixed-refs:partitions=none:rc-lookahead=0:ref=1:scenecut=0:subme=0:trellis=0:no-weightb:weightp=0");
+		options.push_back("preset=ultrafast");
 		break;
 
 	case (csSDK_int32)X264::Preset::SuperFast:
@@ -250,7 +250,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 		break;
 
 	case (csSDK_int32)X264::Preset::Placebo:
-		options.push_back("bframes=16:b-adapt=2:direct=auto:slow-firstpass:no-fast-pskip:me=tesa:merange=24:partitions=all:rc-lookahead=60:ref=16:subme=11:trellis=2");
+		options.push_back("preset=placebo");
 		break;
 	}
 
@@ -459,8 +459,9 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 	/* Create an encoder instance */
 	Encoder *encoder = new Encoder(filename);
-	encoder->setVideoCodec(static_cast<AVCodecID>(videoCodec.value.intValue), videoWidth.value.intValue, videoHeight.value.intValue, pixelFormat, { pixelAspectRatio.value.ratioValue.numerator, pixelAspectRatio.value.ratioValue.denominator }, { num, den }, static_cast<AVFieldOrder>(fieldType.value.intValue));
-	encoder->setAudioCodec(static_cast<AVCodecID>(audioCodec.value.intValue), channelLayout, audioBitrate.value.intValue * 1000, static_cast<int>(audioSampleRate.value.floatValue), maxBlip);
+	encoder->setVideoCodec("libx264", videoWidth.value.intValue, videoHeight.value.intValue, pixelFormat, { pixelAspectRatio.value.ratioValue.numerator, pixelAspectRatio.value.ratioValue.denominator }, { num, den }, static_cast<AVFieldOrder>(fieldType.value.intValue));
+	encoder->setAudioCodec("aac", channelLayout, audioBitrate.value.intValue * 1000, static_cast<int>(audioSampleRate.value.floatValue), maxBlip);
+	// TODO: Make this an actual codec selection
 
 	/* Open the encoder streams */
 	encoder->open(ss.str().c_str(), NULL);

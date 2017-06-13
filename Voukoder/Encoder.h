@@ -19,8 +19,8 @@ class Encoder
 public:
 	Encoder(const char *filename);
 	~Encoder();
-	void Encoder::setVideoCodec(AVCodecID codecId, csSDK_int32 width, csSDK_int32 height, AVPixelFormat pixelFormat, AVRational pixelAspectRation, AVRational timebase, AVFieldOrder fieldOrder);
-	void Encoder::setAudioCodec(AVCodecID codecId, csSDK_int64 channellayout, csSDK_int64 bitrate, int sampleRate, csSDK_int32 frame_size);
+	void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 height, AVPixelFormat pixelFormat, AVRational pixelAspectRation, AVRational timebase, AVFieldOrder fieldOrder);
+	void Encoder::setAudioCodec(const char *codec, csSDK_int64 channellayout, csSDK_int64 bitrate, int sampleRate, csSDK_int32 frame_size);
 	int Encoder::open(const char *videoOptions, const char *audioOptions);
 	void Encoder::close();
 	int Encoder::writeVideoFrame(char *data);

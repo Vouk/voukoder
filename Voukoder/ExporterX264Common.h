@@ -46,7 +46,6 @@ extern "C" {
 #pragma comment(lib, "libswscale.lib")
 #pragma comment(lib, "libavresample.lib")
 #pragma comment(lib, "libx264.lib")
-#pragma comment(lib, "Ws2_32.lib")
 
 
 #define APPNAME L"Voukoder (x264 plugin)"
@@ -90,7 +89,7 @@ struct ExportFormats
 {
 	FFExportFormat exportFormat;
 	std::string name;
-	std::vector<AVCodecID> codecIDs;
+	std::vector<std::string> codecs;
 };
 
 struct RatioParam
@@ -116,10 +115,11 @@ typedef struct Config
 {
 	std::vector<ExportFormats> const formats
 	{
-		{ FFExportFormat::MP4, "mp4", { AV_CODEC_ID_H264, AV_CODEC_ID_AAC } },
-		{ FFExportFormat::Matroska, "matroska",{ AV_CODEC_ID_H264, AV_CODEC_ID_AAC } },
-		{ FFExportFormat::MOV, "mov",{ AV_CODEC_ID_H264, AV_CODEC_ID_AAC } }
+		{ FFExportFormat::MP4, "mp4", { "libx264", "aac" } },
+		{ FFExportFormat::Matroska, "matroska",{ "libx264", "aac" } },
+		{ FFExportFormat::MOV, "mov",{ "libx264", "aac" } }
 	};
+
 	std::vector<RatioParam> const pixelAspectRatios
 	{
 		{ 1, 1, "Square pixels (1.0)" },

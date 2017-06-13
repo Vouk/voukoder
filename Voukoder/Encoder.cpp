@@ -31,12 +31,12 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(AVCodecID codecId, csSDK_int32 width, csSDK_int32 height, AVPixelFormat pixelFormat, AVRational pixelAspectRation, AVRational timebase, AVFieldOrder fieldOrder)
+void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 height, AVPixelFormat pixelFormat, AVRational pixelAspectRation, AVRational timebase, AVFieldOrder fieldOrder)
 {
 	videoContext = new AVContext;
 
 	/* Find codec */
-	videoContext->codec = avcodec_find_encoder(codecId);
+	videoContext->codec = avcodec_find_encoder_by_name(codec);
 	if (videoContext->codec == NULL)
 	{
 		return;
@@ -49,7 +49,7 @@ void Encoder::setVideoCodec(AVCodecID codecId, csSDK_int32 width, csSDK_int32 he
 
 	/* Allocate the codec context */
 	videoContext->codecContext = avcodec_alloc_context3(videoContext->codec);
-	videoContext->codecContext->codec_id = codecId;
+	videoContext->codecContext->codec_id = videoContext->codec->id;
 	videoContext->codecContext->width = width;
 	videoContext->codecContext->height = height;
 	videoContext->codecContext->bit_rate = 400000; // dummy
@@ -89,12 +89,12 @@ void Encoder::setVideoCodec(AVCodecID codecId, csSDK_int32 width, csSDK_int32 he
 	videoContext->codecContext->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 }
 
-void Encoder::setAudioCodec(AVCodecID codecId, csSDK_int64 channelLayout, csSDK_int64 bitrate, int sampleRate, csSDK_int32 frame_size)
+void Encoder::setAudioCodec(const char *codec, csSDK_int64 channelLayout, csSDK_int64 bitrate, int sampleRate, csSDK_int32 frame_size)
 {
 	audioContext = new AVContext;
 
 	/* Find codec */
-	audioContext->codec = avcodec_find_encoder(codecId);
+	audioContext->codec = avcodec_find_encoder_by_name(codec);
 	if (audioContext->codec == NULL)
 	{
 		return;

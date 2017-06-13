@@ -533,6 +533,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioCodec);
 	exOneParamValueRec tempAudioCodec;
 	tempAudioCodec.intValue = AV_CODEC_ID_AAC;
+
 	const AVCodecDescriptor *descriptor2 = avcodec_descriptor_get((AVCodecID)tempAudioCodec.intValue);
 	swprintf(tempString, kPrMaxName, L"%hs", descriptor2->long_name);
 	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEAudioCodec, &tempAudioCodec, tempString);
