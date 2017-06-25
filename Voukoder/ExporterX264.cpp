@@ -15,6 +15,7 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 	case exSelValidateParamChanged:		return exValidateParamChanged(stdParmsP, reinterpret_cast<exParamChangedRec*>(param1));
 	case exSelExport:					return exExport(stdParmsP, reinterpret_cast<exDoExportRec*>(param1));
 	case exSelQueryExportFileExtension: return exFileExtension(stdParmsP, reinterpret_cast<exQueryExportFileExtensionRec*>(param1));
+	case exSelQueryOutputSettings:		return exQueryOutputSettings(stdParmsP, reinterpret_cast<exQueryOutputSettingsRec*>(param1));
 	}
 
 	return exportReturn_Unsupported;
@@ -162,6 +163,63 @@ prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtension
 	}
 
 	return malNoError;
+}
+
+prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSettingsRec *outputSettingsP)
+{
+	prMALError result = malNoError;
+	csSDK_uint32 exID = outputSettingsP->exporterPluginID;
+	exParamValues width, height, frameRate, pixelAspectRatio, fieldType, codec, sampleRate, channelType;
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(outputSettingsP->privateData);
+	PrSDKExportParamSuite *paramSuite = instRec->exportParamSuite;
+	csSDK_int32 mgroupIndex = 0;
+	float fps = 0.0f;
+
+	if (outputSettingsP->inExportVideo)
+	{
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoWidth, &width);
+		outputSettingsP->outVideoWidth = width.value.intValue;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoHeight, &height);
+		outputSettingsP->outVideoHeight = height.value.intValue;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoFPS, &frameRate);
+		outputSettingsP->outVideoFrameRate = frameRate.value.timeValue;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoAspect, &pixelAspectRatio);
+		outputSettingsP->outVideoAspectNum = pixelAspectRatio.value.ratioValue.numerator;
+		outputSettingsP->outVideoAspectDen = pixelAspectRatio.value.ratioValue.denominator;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoFieldType, &fieldType);
+		outputSettingsP->outVideoFieldType = fieldType.value.intValue;
+	}
+	if (outputSettingsP->inExportAudio)
+	{
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEAudioRatePerSecond, &sampleRate);
+		outputSettingsP->outAudioSampleRate = sampleRate.value.floatValue;
+		outputSettingsP->outAudioSampleType = kPrAudioSampleType_32BitFloat;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEAudioNumChannels, &channelType);
+		outputSettingsP->outAudioChannelType = (PrAudioChannelType)channelType.value.intValue;
+	}
+
+	// Calculate bitrate
+	PrTime ticksPerSecond = 0;
+	csSDK_uint32 videoBitrate = 0, audioBitrate = 0;
+	if (outputSettingsP->inExportVideo)
+	{
+		instRec->timeSuite->GetTicksPerSecond(&ticksPerSecond);
+		fps = static_cast<float>(ticksPerSecond) / frameRate.value.timeValue;
+		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoCodec, &codec);
+		videoBitrate = static_cast<csSDK_uint32>(width.value.intValue * height.value.intValue * 4 * fps); //TODO
+	}
+	if (outputSettingsP->inExportAudio)
+	{
+		audioBitrate = static_cast<csSDK_uint32>(sampleRate.value.floatValue * 4 * 2); //TODO
+	}
+	outputSettingsP->outBitratePerSecond = videoBitrate + audioBitrate;
+
+	// New in CS5 - return outBitratePerSecond in kbps
+	outputSettingsP->outBitratePerSecond = outputSettingsP->outBitratePerSecond * 8 / 1000;
+
+	//TODO: Add proper bitrate calculation if possible
+
+	return result;
 }
 
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
