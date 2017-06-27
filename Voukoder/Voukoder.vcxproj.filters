@@ -300,6 +300,9 @@
     <ClInclude Include="ExporterX264Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ExporterX264.cpp">
@@ -322,6 +325,10 @@
     <None Include="sdkheaders\PrSDKPiPL.r">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="id_text1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Config.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ExporterX264.rc">

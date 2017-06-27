@@ -1,4 +1,5 @@
 #include "ExporterX264Common.h"
+#include "json.hpp"
 
 void copyConvertStringLiteralIntoUTF16(const wchar_t* inputString, prUTF16Char* destination)
 {

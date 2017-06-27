@@ -104,6 +104,7 @@
     <ClInclude Include="ExporterX264Settings.h" />
     <ClInclude Include="Encoder.h" />
     <ClInclude Include="FrameFilter.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sdkheaders\AE_CacheOnLoadSuite.h" />
     <ClInclude Include="sdkheaders\PrSDKAcceleratedRender.h" />
@@ -203,6 +204,10 @@
     <ClCompile Include="FrameFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config.json">
+      <FileType>Text</FileType>
+    </None>
+    <None Include="id_text1.bin" />
     <None Include="sdkheaders\PrSDKPiPL.r" />
   </ItemGroup>
   <ItemGroup>

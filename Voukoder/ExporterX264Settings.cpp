@@ -355,7 +355,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 		/* Multiplexer */
 		exParamValues multiplexerValues;
 		multiplexerValues.structVersion = 1;
-		multiplexerValues.value.intValue = FFExportFormat::MP4;
+		multiplexerValues.value.intValue = 0;
 		multiplexerValues.disabled = kPrFalse;
 		multiplexerValues.hidden = kPrFalse;
 		multiplexerValues.optionalParamEnabled = kPrFalse;
@@ -589,13 +589,17 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexer, L"Format");
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, FFMultiplexer);
 
+	/* Fill the muxers dropdown box */
 	AVOutputFormat *format;
-	for (ExportFormats exportFormat : config.formats)
+	for (auto iterator = instRec->features["muxers"].begin(); iterator != instRec->features["muxers"].end(); ++iterator)
 	{
-		format = av_guess_format(exportFormat.name.c_str(), NULL, NULL);
+		json item = *iterator;
+		std::string name = item["name"].get<std::string>();
+
+		format = av_guess_format(name.c_str(), NULL, NULL);
 		if (format != NULL)
 		{
-			tempParamValue.intValue = exportFormat.exportFormat;
+			tempParamValue.intValue = item["id"].get<int>();
 			swprintf(tempString, kPrMaxName, L"%hs", format->long_name);
 			instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, FFMultiplexer, &tempParamValue, tempString);
 		}

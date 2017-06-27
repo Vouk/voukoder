@@ -20,6 +20,7 @@
 #include "PrSDKPPixCacheSuite.h"
 #include "PrSDKMemoryManagerSuite.h"
 #include "PrSDKWindowSuite.h"
+#include "json.hpp"
 
 extern "C" {
 #include "libavformat\avformat.h"
@@ -53,6 +54,8 @@ extern "C" {
 //#define PLUGIN_AUDIO_SAMPLE_RATE 48000
 #define PLUGIN_VIDEO_PIX_FORMAT AV_PIX_FMT_ARGB
 
+using json = nlohmann::json;
+
 struct ContainerFormat
 {
 
@@ -76,21 +79,8 @@ typedef struct InstanceRec
 	PrSDKExportFileSuite *exportFileSuite;
 	PrSDKPPixSuite *ppixSuite;
 	PrSDKExportProgressSuite *exportProgressSuite;
+	json features;
 } InstanceRec;
-
-enum FFExportFormat
-{
-	MP4,
-	Matroska,
-	MOV
-};
-
-struct ExportFormats
-{
-	FFExportFormat exportFormat;
-	std::string name;
-	std::vector<std::string> codecs;
-};
 
 struct RatioParam
 {
@@ -113,13 +103,6 @@ struct DoubleParam
 
 typedef struct Config
 {
-	std::vector<ExportFormats> const formats
-	{
-		{ FFExportFormat::MP4, "mp4", { "libx264", "aac" } },
-		{ FFExportFormat::Matroska, "matroska",{ "libx264", "aac" } },
-		{ FFExportFormat::MOV, "mov",{ "libx264", "aac" } }
-	};
-
 	std::vector<RatioParam> const pixelAspectRatios
 	{
 		{ 1, 1, "Square pixels (1.0)" },

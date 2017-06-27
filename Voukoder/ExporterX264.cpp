@@ -2,6 +2,30 @@
 #include "ExporterX264.h"
 #include "ExporterX264Common.h"
 #include "ExporterX264Settings.h"
+#include <windows.h>
+#include "resource.h"
+
+void initFeatures(json *features)
+{
+	MEMORY_BASIC_INFORMATION mbi;
+	static int dummy;
+	VirtualQuery(&dummy, &mbi, sizeof(mbi));
+	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
+	HRSRC hRes = FindResourceEx(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+	if (NULL != hRes)
+	{
+		HGLOBAL hData = LoadResource(hModule, hRes);
+		if (NULL != hData)
+		{
+			const DWORD dataSize = SizeofResource(hModule, hRes);
+			char *resource = new char[dataSize + 1];
+			memcpy(resource, LockResource(hData), dataSize);
+			resource[dataSize] = 0;
+
+			*features = json::parse(resource);
+		}
+	}
+}
 
 DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParmsP, void *param1, void	*param2)
 {
@@ -67,6 +91,9 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKExportFileSuite, kPrSDKExportFileSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportFileSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppixSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
+
+			// Get features
+			initFeatures(&instRec->features);
 		}
 
 		instanceRecP->privateData = reinterpret_cast<void*>(instRec);
@@ -133,6 +160,7 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 			instRec->memorySuite->PrDisposePtr(reinterpret_cast<PrMemoryPtr>(instRec));
 			result = spBasic->ReleaseSuite(kPrSDKMemoryManagerSuite, kPrSDKMemoryManagerSuiteVersion);
 		}
+		instRec->features = NULL;
 	}
 
 	return malNoError;
@@ -148,21 +176,22 @@ prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtension
 	exParamValues multiplexer;
 	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
 
-	Config config;
-	switch (multiplexer.value.intValue)
+	/* Find the right extension */
+	for (auto iterator = instRec->features["muxers"].begin(); iterator != instRec->features["muxers"].end(); ++iterator)
 	{
-	case FFExportFormat::MP4:
-		copyConvertStringLiteralIntoUTF16(L"mp4", exportFileExtensionRecP->outFileExtension);
-		break;
-	case FFExportFormat::Matroska:
-		copyConvertStringLiteralIntoUTF16(L"mkv", exportFileExtensionRecP->outFileExtension);
-		break;
-	case FFExportFormat::MOV:
-		copyConvertStringLiteralIntoUTF16(L"mov", exportFileExtensionRecP->outFileExtension);
-		break;
+		json item = *iterator;
+
+		if (multiplexer.value.intValue == item["id"].get<int>())
+		{
+			std::string extension = (*iterator)["extension"].get<std::string>();
+			std::wstring widestr = std::wstring(extension.begin(), extension.end());
+			copyConvertStringLiteralIntoUTF16(widestr.c_str(), exportFileExtensionRecP->outFileExtension);
+
+			return malNoError;
+		}
 	}
 
-	return malNoError;
+	return malUnknownError;
 }
 
 prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSettingsRec *outputSettingsP)
