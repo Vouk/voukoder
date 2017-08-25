@@ -31,12 +31,13 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 height, AVPixelFormat pixelFormat, AVRational pixelAspectRation, AVRational timebase, AVFieldOrder fieldOrder)
+void Encoder::setVideoCodec(const std::string codec, const std::string configuration, csSDK_int32 width, csSDK_int32 height, AVRational timebase)
 {
 	videoContext = new AVContext;
+	videoContext->configuration = configuration;
 
 	/* Find codec */
-	videoContext->codec = avcodec_find_encoder_by_name(codec);
+	videoContext->codec = avcodec_find_encoder_by_name(codec.c_str());
 	if (videoContext->codec == NULL)
 	{
 		return;
@@ -52,9 +53,9 @@ void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 he
 	videoContext->codecContext->codec_id = videoContext->codec->id;
 	videoContext->codecContext->width = width;
 	videoContext->codecContext->height = height;
-	videoContext->codecContext->bit_rate = 400000; // dummy
+	videoContext->codecContext->bit_rate = 0; // dummy
 	videoContext->codecContext->time_base = timebase;
-	videoContext->codecContext->pix_fmt = pixelFormat;
+	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV422P;
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{
@@ -75,7 +76,7 @@ void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 he
 
 	/* Get pixel format name */
 	char filterString[256];
-	const char *pixFmtName = av_get_pix_fmt_name(pixelFormat);
+	const char *pixFmtName = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P);
 	sprintf_s(filterString, "vflip,format=pix_fmts=%s", pixFmtName);
 
 	/* Configure video frame filter output format */
@@ -89,12 +90,13 @@ void Encoder::setVideoCodec(const char *codec, csSDK_int32 width, csSDK_int32 he
 	videoContext->codecContext->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 }
 
-void Encoder::setAudioCodec(const char *codec, csSDK_int64 channelLayout, csSDK_int64 bitrate, int sampleRate, csSDK_int32 frame_size)
+void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate, csSDK_int32 frame_size)
 {
 	audioContext = new AVContext;
+	audioContext->configuration = configuration;
 
 	/* Find codec */
-	audioContext->codec = avcodec_find_encoder_by_name(codec);
+	audioContext->codec = avcodec_find_encoder_by_name(codec.c_str());
 	if (audioContext->codec == NULL)
 	{
 		return;
@@ -113,7 +115,7 @@ void Encoder::setAudioCodec(const char *codec, csSDK_int64 channelLayout, csSDK_
 	audioContext->codecContext->channel_layout = channelLayout;
 	audioContext->codecContext->sample_rate = sampleRate;
 	audioContext->codecContext->sample_fmt = audioContext->codec->sample_fmts ? audioContext->codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-	audioContext->codecContext->bit_rate = bitrate;
+	audioContext->codecContext->bit_rate = 0;
 
 	/* Create the stream */
 	audioContext->stream = avformat_new_stream(formatContext, NULL);
@@ -143,35 +145,39 @@ void Encoder::setAudioCodec(const char *codec, csSDK_int64 channelLayout, csSDK_
 	audioContext->frameFilter->configure(options, filterConfig);
 }
 
-int Encoder::open(const char *videoOptions, const char *audioOptions)
+int Encoder::open()
 {
 	int ret;
 
-	/* Configure x264 encoder  */
-	AVDictionary *options = NULL;
-	av_dict_set(&options, "x264-params", videoOptions, 0);
-		
-	/* Open video stream */
-	if ((ret = openStream(videoContext, options)) < 0)
+	// Open video stream
+	if ((ret = openStream(videoContext, videoContext->configuration)) < 0)
 	{
 		return ret;
 	}
 
-	/* Open audio stream */
-	if ((ret = openStream(audioContext, NULL)) > 0)
+	// Open audio stream
+	if ((ret = openStream(audioContext, audioContext->configuration)) > 0)
 	{
 		return ret;
 	}
 
-	/* Create audio fifo buffer */
+	// Create audio fifo buffer
 	if (!(fifo = av_audio_fifo_alloc(audioContext->codecContext->sample_fmt, audioContext->codecContext->channels, 1))) 
 	{
 		return AVERROR_EXIT;
 	}
 
-	/* Open the target file */
-	avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE);
-	avformat_write_header(formatContext, NULL);
+	// Open the target file
+	if ((ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE)) != S_OK)
+	{
+		return ret;
+	}
+	
+	// Check muxer/codec combination and write header
+	if ((ret = avformat_write_header(formatContext, NULL)) != S_OK)
+	{
+		return ret;
+	}
 
 	return S_OK;
 }
@@ -200,9 +206,15 @@ void Encoder::close()
 	avio_close(formatContext->pb);
 }
 
-int Encoder::openStream(AVContext *context, AVDictionary *options)
+int Encoder::openStream(AVContext *context, std::string configuration)
 {
 	int ret;
+
+	// Parse consiguration to an av dictionary
+	AVDictionary *options = NULL;
+	av_dict_parse_string(&options, configuration.c_str(), "=", ":", 0);
+
+	context->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
 	/* Open the codec */
 	if ((ret = avcodec_open2(context->codecContext, context->codec, &options)) < 0)

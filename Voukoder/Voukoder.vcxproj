@@ -194,6 +194,7 @@
     <ClInclude Include="sdkheaders\SPConfig.h" />
     <ClInclude Include="sdkheaders\SPErrorCodes.h" />
     <ClInclude Include="sdkheaders\SPTypes.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +203,10 @@
     <ClCompile Include="ExporterX264Settings.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
+    <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.json">
+    <None Include="Settings.json">
       <FileType>Text</FileType>
     </None>
     <None Include="id_text1.bin" />

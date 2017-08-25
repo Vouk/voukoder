@@ -9,3 +9,4 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP);
 prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtensionRec *exportFileExtensionRecP);
 prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSettingsRec *outputSettingsP);
+void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration);

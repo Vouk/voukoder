@@ -15,7 +15,7 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	int err;
 	const AVFilter *in, *out;
 	
-	/* Create the right input & output filters */
+	// Create the right input & output filters
 	switch (options.media_type)
 	{
 	case AVMEDIA_TYPE_AUDIO:
@@ -31,11 +31,11 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 		return -1;
 	}
 
-	/* Allocate input & output contexts */
+	// Allocate input & output contexts
 	in_ctx = avfilter_graph_alloc_filter(filterGraph, in, "in");
 	out_ctx = avfilter_graph_alloc_filter(filterGraph, out, "out");
 
-	/* Set the source options */
+	// Set the source options
 	switch (options.media_type)
 	{
 	case AVMEDIA_TYPE_AUDIO:
@@ -58,15 +58,15 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 		break;
 	}
 	
-	/* Initialize filters */
+	// Initialize filters
 	err = avfilter_init_str(in_ctx, NULL);
 	err = avfilter_init_str(out_ctx, NULL);
 
-	/* Allocate input & output endpoints */
+	// Allocate input & output endpoints
 	AVFilterInOut *outputs = avfilter_inout_alloc();
 	AVFilterInOut *inputs = avfilter_inout_alloc();
 
-	/* Configure input & output endpoints */
+	// Configure input & output endpoints
 	outputs->name = av_strdup("in");
 	outputs->filter_ctx = in_ctx;
 	outputs->pad_idx = 0;
@@ -76,16 +76,13 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	inputs->pad_idx = 0;
 	inputs->next = NULL;
 
-	/* Parse filter chain & configure graph */
+	// Parse filter chain & configure graph
 	err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL);
 	err = avfilter_graph_config(filterGraph, NULL);
 
-	/* Free inputs & outputs */
+	// Free inputs & outputs
 	//avfilter_inout_free(&inputs);
 	//avfilter_inout_free(&outputs);
-
-	/* Dump filter configuration */
-	//OutputDebugStringA(avfilter_graph_(filterGraph, NULL));
 
 	return err;
 }
