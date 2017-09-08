@@ -46,8 +46,8 @@ extern "C" {
 #pragma comment(lib, "libavresample.lib")
 #pragma comment(lib, "libx264.lib")
 
-#define PLUGIN_APPNAME L"Voukoder (x264 plugin)"
-#define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED L"This combination of muxer and encoders is not supported."
+#define PLUGIN_APPNAME L"Voukoder"
+#define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED L"This combination of muxer, encoders and parameters is not supported.\n\nNOTE: MP4 supports AAC audio only."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE 48000
 #define PLUGIN_VIDEO_PIX_FORMAT AV_PIX_FMT_ARGB
