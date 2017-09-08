@@ -479,12 +479,18 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 			{
 				if (option.find("disableFieldOnZero") != option.end())
 				{
-					const std::string field = option["disableFieldOnZero"].get<std::string>();
+					json fields = option["disableFieldOnZero"];
 
-					// Change the elements visibility
-					instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-					tempValue.disabled = changedValue.value.intValue == 0 ? kPrTrue : kPrFalse;
-					instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+					// Iterate all mentioned fields
+					for (json::iterator iterator = fields.begin(); iterator != fields.end(); ++iterator)
+					{
+						const std::string field = (*iterator).get<std::string>();
+
+						// Change the elements visibility
+						instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+						tempValue.disabled = changedValue.value.intValue == 0 ? kPrTrue : kPrFalse;
+						instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+					}
 				}
 			}
 			else
@@ -515,22 +521,31 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 							if (isSelected && suboption.find("disableFieldOnZero") != suboption.end())
 							{
 								const std::string name = suboption["name"].get<std::string>();
-								const std::string field = suboption["disableFieldOnZero"].get<std::string>();
+
+								json fields = option["disableFieldOnZero"];
 
 								// Get current suboption value
 								exParamValues suboptionValue;
 								instRec->exportParamSuite->GetParamValue(exID, groupIndex, name.c_str(), &suboptionValue);
 
-								// Change the elements visibility
-								instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-								tempValue.disabled = suboptionValue.value.intValue == 0 ? kPrTrue : kPrFalse;
-								instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+								// Iterate all mentioned fields
+								for (json::iterator iterator3 = fields.begin(); iterator3 != fields.end(); ++iterator)
+								{
+									const std::string field = (*iterator3).get<std::string>();
+
+									// Change the elements visibility
+									instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+									tempValue.disabled = suboptionValue.value.intValue == 0 ? kPrTrue : kPrFalse;
+									instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+
+		// Here
 	}
 	else
 	{

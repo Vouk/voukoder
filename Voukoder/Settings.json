@@ -316,7 +316,7 @@
 									"minValue" : 0,
 									"maxValue" : 51,
 									"param" : "crf=%d",
-									"disableFieldOnZero" : "x264Profile"
+									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
 								}			
 							]
 						},
@@ -333,7 +333,7 @@
 									"minValue" : 0,
 									"maxValue" : 69,
 									"param" : "qp=%d",
-									"disableFieldOnZero" : "x264Profile"
+									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
 								}			
 							]
 						}

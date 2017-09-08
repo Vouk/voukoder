@@ -4,6 +4,7 @@
 #include "ExporterX264Settings.h"
 #include <windows.h>
 #include "resource.h"
+#include <chrono>
 
 void initFeatures(json *features)
 {
@@ -444,7 +445,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	PrAudioSample totalSamplesRemaining = exportDur / ticksPerSample;
 	PrTime nextFramePos = 0, nextVideoFrame = 0, nextAudioFrame = 0;
 	csSDK_int32 samplesRequestedL;
-
+	
 	// Export loop
 	while (nextFramePos < exportDur && totalSamplesRemaining > 0)
 	{
@@ -622,14 +623,20 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 						length = sprintf_s(buffer, subparam.c_str(), value);
 					}
 
-					// TODO
+					// TODO: This works only for suboptions, and only if the field that should be disabled has been already processed!
 					if (isZero && suboption.find("disableFieldOnZero") != suboption.end())
 					{
 						const std::string name = suboption["name"].get<std::string>();
-						const std::string field = suboption["disableFieldOnZero"].get<std::string>();
 
-						optionMap.erase(field);
-						//TODO
+						json fields = suboption["disableFieldOnZero"];
+
+						// Iterate all mentioned fields
+						for (json::iterator iterator3 = fields.begin(); iterator3 != fields.end(); ++iterator3)
+						{
+							const std::string field = (*iterator3).get<std::string>();
+
+							optionMap.erase(field);
+						} //TODO
 					}
 
 					// Get the parameter
