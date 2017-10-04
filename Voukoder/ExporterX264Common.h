@@ -36,6 +36,7 @@ extern "C" {
 #include "libavutil\imgutils.h"
 #include "libavutil\fifo.h"
 #include "libavutil\log.h"
+#include "libavutil\mathematics.h"
 }
 
 #pragma comment(lib, "libavformat.lib")
@@ -51,6 +52,7 @@ extern "C" {
 #define PLUGIN_AUDIO_SAMPLE_FORMAT AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE 48000
 #define PLUGIN_VIDEO_PIX_FORMAT AV_PIX_FMT_ARGB
+#define MAX_AUDIO_CHANNELS 6
 
 #define FFMultiplexerTabGroup			"MultiplexerTab"
 #define FFMultiplexerBasicGroup			"MultiplexerBasicGroup"
@@ -74,9 +76,12 @@ typedef struct InstanceRec
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
 	Settings *settings;
+	csSDK_uint32 videoRenderID;
+	csSDK_uint32 audioRenderID;
+	csSDK_int32 maxBlip;
 } InstanceRec;
 
-void copyConvertStringLiteralIntoUTF16(const wchar_t* inputString, prUTF16Char* destination);
+PrTime gcd(PrTime a, PrTime b);
 void populateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders);
 void createEncoderOptionElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *groupIdentifier, json encoders, int selectedId);
 exNewParamInfo createGUIElement(json option, prBool hidden);

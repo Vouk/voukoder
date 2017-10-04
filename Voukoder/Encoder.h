@@ -3,6 +3,11 @@
 #include "ExporterX264Common.h"
 #include "FrameFilter.h"
 
+enum FrameType {
+	VideoFrame,
+	AudioFrame
+};
+
 typedef struct AVContext
 {
 	AVCodec *codec;
@@ -21,11 +26,12 @@ public:
 	Encoder(const char *filename);
 	~Encoder();
 	void Encoder::setVideoCodec(const std::string codec, const std::string configuration, csSDK_int32 width, csSDK_int32 height, AVRational timebase);
-	void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channellayout, int sampleRate, csSDK_int32 frame_size);
+	void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channellayout, int sampleRate);
 	int Encoder::open();
 	void Encoder::close();
 	int Encoder::writeVideoFrame(char *data);
 	int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount);
+	FrameType Encoder::getNextFrameType();
 private:
 	int Encoder::openStream(AVContext *context, std::string configuration);
 	int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame);

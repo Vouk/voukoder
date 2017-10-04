@@ -1,46 +1,27 @@
 #include "Encoder.h"
 #include "ExporterX264.h"
 #include "ExporterX264Common.h"
-#include "ExporterX264Settings.h"
 #include <windows.h>
 #include "resource.h"
 #include <chrono>
-
-void initFeatures(json *features)
-{
-	MEMORY_BASIC_INFORMATION mbi;
-	static int dummy;
-	VirtualQuery(&dummy, &mbi, sizeof(mbi));
-	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
-	HRSRC hRes = FindResourceEx(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
-	if (NULL != hRes)
-	{
-		HGLOBAL hData = LoadResource(hModule, hRes);
-		if (NULL != hData)
-		{
-			const DWORD dataSize = SizeofResource(hModule, hRes);
-			char *resource = new char[dataSize + 1];
-			memcpy(resource, LockResource(hData), dataSize);
-			resource[dataSize] = 0;
-
-			*features = json::parse(resource);
-		}
-	}
-}
 
 DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParmsP, void *param1, void	*param2)
 {
 	switch (selector)
 	{
-	case exSelStartup:					return exStartup(stdParmsP, reinterpret_cast<exExporterInfoRec*>(param1));
-	case exSelBeginInstance:			return exBeginInstance(stdParmsP, reinterpret_cast<exExporterInstanceRec*>(param1));
-	case exSelEndInstance:				return exEndInstance(stdParmsP, reinterpret_cast<exExporterInstanceRec*>(param1));
-	case exSelGenerateDefaultParams:	return exGenerateDefaultParams(stdParmsP, reinterpret_cast<exGenerateDefaultParamRec*>(param1));
-	case exSelPostProcessParams:		return exPostProcessParams(stdParmsP, reinterpret_cast<exPostProcessParamsRec*>(param1));
-	case exSelValidateParamChanged:		return exValidateParamChanged(stdParmsP, reinterpret_cast<exParamChangedRec*>(param1));
-	case exSelExport:					return exExport(stdParmsP, reinterpret_cast<exDoExportRec*>(param1));
-	case exSelQueryExportFileExtension: return exFileExtension(stdParmsP, reinterpret_cast<exQueryExportFileExtensionRec*>(param1));
-	case exSelQueryOutputSettings:		return exQueryOutputSettings(stdParmsP, reinterpret_cast<exQueryOutputSettingsRec*>(param1));
+		case exSelStartup:					return exStartup(stdParmsP, reinterpret_cast<exExporterInfoRec*>(param1));
+		case exSelShutdown:					return exShutdown();
+		case exSelBeginInstance:			return exBeginInstance(stdParmsP, reinterpret_cast<exExporterInstanceRec*>(param1));
+		case exSelGenerateDefaultParams:	return exGenerateDefaultParams(stdParmsP, reinterpret_cast<exGenerateDefaultParamRec*>(param1));
+		case exSelPostProcessParams:		return exPostProcessParams(stdParmsP, reinterpret_cast<exPostProcessParamsRec*>(param1));
+		case exSelValidateParamChanged:		return exValidateParamChanged(stdParmsP, reinterpret_cast<exParamChangedRec*>(param1));
+		case exSelGetParamSummary:          return exGetParamSummary(stdParmsP, reinterpret_cast<exParamSummaryRec*>(param1));
+		case exSelEndInstance:				return exEndInstance(stdParmsP, reinterpret_cast<exExporterInstanceRec*>(param1));
+		case exSelExport:					return exExport(stdParmsP, reinterpret_cast<exDoExportRec*>(param1));
+		case exSelQueryExportFileExtension: return exFileExtension(stdParmsP, reinterpret_cast<exQueryExportFileExtensionRec*>(param1));
+		//case exSelQueryOutputFileList
+		case exSelQueryOutputSettings:		return exQueryOutputSettings(stdParmsP, reinterpret_cast<exQueryOutputSettingsRec*>(param1));
+		case exSelValidateOutputSettings:   return exValidateOutputSettings(stdParmsP, reinterpret_cast<exValidateOutputSettingsRec*>(param1));
 	}
 
 	return exportReturn_Unsupported;
@@ -50,11 +31,11 @@ prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 {
 	av_register_all();
 	avfilter_register_all();
-
+	
 	infoRecP->fileType = 'X264';
-	copyConvertStringLiteralIntoUTF16(PLUGIN_APPNAME, infoRecP->fileTypeName);
-	copyConvertStringLiteralIntoUTF16(L"mp4", infoRecP->fileTypeDefaultExtension);
-	infoRecP->classID = 'DTEK';
+	prUTF16CharCopy(infoRecP->fileTypeName, PLUGIN_APPNAME);
+	prUTF16CharCopy(infoRecP->fileTypeDefaultExtension, L"mkv");
+	infoRecP->classID = 'VOUK';
 	infoRecP->exportReqIndex = 0;
 	infoRecP->wantsNoProgressBar = kPrFalse;
 	infoRecP->hideInUI = kPrFalse;
@@ -62,6 +43,14 @@ prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 	infoRecP->canExportVideo = kPrTrue;
 	infoRecP->canExportAudio = kPrTrue;
 	infoRecP->interfaceVersion = EXPORTMOD_VERSION;
+	infoRecP->isCacheable = kPrFalse;
+
+	return malNoError;
+}
+
+prMALError exShutdown()
+{
+	// Maybe needed later
 
 	return malNoError;
 }
@@ -82,8 +71,10 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 		InstanceRec *instRec = reinterpret_cast<InstanceRec *>(memorySuite->NewPtrClear(sizeof(InstanceRec)));
 		if (instRec)
 		{
+			instRec->settings = new Settings();
 			instRec->spBasic = spBasic;
 			instRec->memorySuite = memorySuite;
+
 			spError = spBasic->AcquireSuite(kPrSDKTimeSuite, kPrSDKTimeSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->timeSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportParamSuite, kPrSDKExportParamSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportParamSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportInfoSuite, kPrSDKExportInfoSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportInfoSuite))));
@@ -93,9 +84,6 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppixSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
-
-			// Get settings
-			instRec->settings = new Settings();
 		}
 
 		instanceRecP->privateData = reinterpret_cast<void*>(instRec);
@@ -111,10 +99,9 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *instanceRecP)
 {
 	prMALError result = malNoError;
-
-	/* Release all aquired suites */
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(instanceRecP->privateData);
 	SPBasicSuite *spBasic = instRec->spBasic;
+
 	if (spBasic != NULL)
 	{
 		if (instRec->timeSuite)
@@ -177,7 +164,6 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 
 prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtensionRec *exportFileExtensionRecP)
 {
-	prMALError result = malNoError;
 	csSDK_uint32 exID = exportFileExtensionRecP->exporterPluginID;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportFileExtensionRecP->privateData);
 	Settings *settings = instRec->settings;
@@ -195,7 +181,7 @@ prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtension
 	{
 		const std::string extension = muxer["extension"].get<std::string>();
 		const std::wstring widestr = std::wstring(extension.begin(), extension.end());
-		copyConvertStringLiteralIntoUTF16(widestr.c_str(), exportFileExtensionRecP->outFileExtension);
+		prUTF16CharCopy(exportFileExtensionRecP->outFileExtension, widestr.c_str());
 
 		return malNoError;
 	}
@@ -206,12 +192,15 @@ prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtension
 prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSettingsRec *outputSettingsP)
 {
 	prMALError result = malNoError;
+
 	csSDK_uint32 exID = outputSettingsP->exporterPluginID;
+	csSDK_int32 mgroupIndex = 0;
 	exParamValues width, height, frameRate, pixelAspectRatio, fieldType, codec, sampleRate, channelType;
+
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(outputSettingsP->privateData);
 	Settings *settings = instRec->settings;
 	PrSDKExportParamSuite *paramSuite = instRec->exportParamSuite;
-	csSDK_int32 mgroupIndex = 0;
+
 	float fps = 0.0f;
 
 	if (outputSettingsP->inExportVideo)
@@ -251,10 +240,7 @@ prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSetting
 	{
 		audioBitrate = static_cast<csSDK_uint32>(sampleRate.value.floatValue * 4 * 2); //TODO
 	}
-	outputSettingsP->outBitratePerSecond = videoBitrate + audioBitrate;
-
-	// New in CS5 - return outBitratePerSecond in kbps
-	outputSettingsP->outBitratePerSecond = outputSettingsP->outBitratePerSecond * 8 / 1000;
+	outputSettingsP->outBitratePerSecond = (videoBitrate + audioBitrate) * 8 / 1000;
 
 	//TODO: Add proper bitrate calculation if possible
 
@@ -264,148 +250,10 @@ prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSetting
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 {
 	prMALError result = malNoError;
+
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
-	
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
-	Settings *settings = instRec->settings;
 
-	int ret;
-
-	// Export video params
-	exParamValues videoCodec, videoWidth, videoHeight, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
-
-#pragma region Get video encoder settings
-
-	const int videoCodecId = videoCodec.value.intValue;
-
-	// Get the selected codec
-	json videoCodecs = settings->getVideoEncoders();
-	json vCodec = settings->filterArrayById(videoCodecs, videoCodecId);
-
-	// Go through all codec options
-	std::vector<std::string> videoEncoderOptions;
-	createEncoderConfiguration(instRec, exID, 0, vCodec["options"], &videoEncoderOptions);
-
-	// Convert vector to string
-	std::stringstream videoEncoderStream;
-	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-			videoEncoderStream << ':';
-		videoEncoderStream << videoEncoderOptions[i];
-	}
-
-	const std::string videoEncoderConfig = videoEncoderStream.str();
-
-#pragma endregion
-
-#pragma region Get audio encoder settings
-
-	const int audioCodecId = audioCodec.value.intValue;
-
-	// Get the selected codec
-	json audioCodecs = settings->getAudioEncoders();
-	json aCodec = settings->filterArrayById(audioCodecs, audioCodecId);
-
-	// Go through all codec options
-	std::vector<std::string> audioEncoderOptions;
-	createEncoderConfiguration(instRec, exID, 0, aCodec["options"], &audioEncoderOptions);
-
-	// Convert vector to string
-	std::stringstream audioEncoderStream;
-	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-			audioEncoderStream << ':';
-		audioEncoderStream << audioEncoderOptions[i];
-	}
-
-	const std::string audioEncoderConfig = audioEncoderStream.str();
-
-#pragma endregion
-
-	// Use a lossless pixel format for converstion to libav
-	PrPixelFormat pixelFormats[] = { PrPixelFormat_ARGB_4444_8u };
-
-	// Define the render params
-	SequenceRender_ParamsRec renderParms;
-	renderParms.inRequestedPixelFormatArray = pixelFormats;
-	renderParms.inRequestedPixelFormatArrayCount = 1;
-	renderParms.inWidth = videoWidth.value.intValue;
-	renderParms.inHeight = videoHeight.value.intValue;
-	renderParms.inPixelAspectRatioNumerator = 1;
-	renderParms.inPixelAspectRatioDenominator = 1;
-	renderParms.inRenderQuality = kPrRenderQuality_High;
-	renderParms.inFieldType = prFieldsNone;
-	renderParms.inDeinterlace = kPrFalse;
-	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
-	renderParms.inCompositeOnBlack = kPrTrue;
-
-#pragma region Get the selected framerate
-
-	// Get the ticks per second
-	PrTime ticksPerSecond = 0;
-	instRec->timeSuite->GetTicksPerSecond(&ticksPerSecond);
-
-	json configuration = settings->getConfiguration();
-
-	// Set default framerate
-	csSDK_int32 num = 1, den = 25;
-	
-	// Iterate all framerate options
-	for (auto iterator = configuration["videoFramerates"].begin(); iterator != configuration["videoFramerates"].end(); ++iterator)
-	{
-		const json framerate = *iterator;
-
-		const int num2 = framerate["num"].get<int>();
-		const int den2 = framerate["den"].get<int>();
-
-		csSDK_int64 tpf = ticksPerSecond / num2 * den2;
-
-		if (tpf == ticksPerFrame.value.timeValue)
-		{
-			num = num2;
-			den = den2;
-			break;
-		}
-	}
-
-#pragma endregion
-
-	// Make video renderer
-	csSDK_uint32 videoRenderID;
-	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &videoRenderID, ticksPerFrame.value.timeValue);
-
-	PrTime ticksPerSample;
-	instRec->timeSuite->GetTicksPerAudioSample(audioSampleRate.value.floatValue, &ticksPerSample);
-
-	// Make the audio renderer
-	csSDK_uint32 audioRenderID;
-	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &audioRenderID);
-
-	// Translate the channel layout to AVLib
-	csSDK_int64 channelLayout;
-	switch (channelType.value.intValue)
-	{
-	case kPrAudioChannelType_Mono:
-		channelLayout = AV_CH_LAYOUT_MONO;
-		break;
-	case kPrAudioChannelType_51:
-		channelLayout = AV_CH_LAYOUT_5POINT1;
-		break;
-	default:
-		channelLayout = AV_CH_LAYOUT_STEREO;
-		break;
-	}
-	
 	// Get the file name 
 	prUTF16Char prFilename[kPrMaxPath];
 	csSDK_int32 prFilenameLength = kPrMaxPath;
@@ -414,129 +262,699 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	char *filename = (char*)malloc(kPrMaxPath);
 	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
 
-	// Get the audio frame size we need to send to the encoder
-	csSDK_int32 maxBlip = 0;
-	instRec->sequenceAudioSuite->GetMaxBlip(audioRenderID, ticksPerFrame.value.timeValue, &maxBlip);
-
-	// Get the selected encoders
-	const std::string videoEncoder = vCodec["name"].get<std::string>();
-	const std::string audioEncoder = aCodec["name"].get<std::string>();
-
-	// Create and configure an encoder instance
+	// Create encoder instance
 	Encoder *encoder = new Encoder(filename);
-	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }); // framerate -> timebase
-	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue, maxBlip);
-	
+	result = SetupEncoderInstance(instRec, exID, encoder);
+
 	// Open the encoder
-	if (encoder->open() != S_OK)
+	if (encoder->open() == S_OK)
 	{
-		// Show message box
-		HWND mainWnd = instRec->windowSuite->GetMainWindow();
-		MessageBox(GetLastActivePopup(mainWnd), PLUGIN_ERR_COMBINATION_NOT_SUPPORTED, PLUGIN_APPNAME, MB_OK);
-
-		// Show no premiere error message
-		result = malNoError;
-
-		goto error;
+		// Render and write all video and audio frames
+		result = RenderAndWriteAllFrames(exportInfoP, encoder);
+		
+		// Flush the encoders
+		encoder->writeVideoFrame(NULL);
+		encoder->writeAudioFrame(NULL, 0);
+		
+		encoder->close();
 	}
-
-	// Export range samples
-	PrTime exportDur = exportInfoP->endTime - exportInfoP->startTime;
-	PrAudioSample totalSamplesRemaining = exportDur / ticksPerSample;
-	PrTime nextFramePos = 0, nextVideoFrame = 0, nextAudioFrame = 0;
-	csSDK_int32 samplesRequestedL;
-	
-	// Export loop
-	while (nextFramePos < exportDur && totalSamplesRemaining > 0)
-	{
-		// Add a video frame
-		if (nextFramePos >= nextVideoFrame)
-		{
-			// Render the uncompressed frame
-			SequenceRender_GetFrameReturnRec renderResult;
-			result = instRec->sequenceRenderSuite->RenderVideoFrame(videoRenderID, exportInfoP->startTime + nextVideoFrame, &renderParms, kRenderCacheType_None, &renderResult);
-
-			char *pixels;
-			instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
-
-			// Send raw data to the encoder
-			ret = encoder->writeVideoFrame(pixels);
-
-			// Dispose the rendered frame
-			result = instRec->ppixSuite->Dispose(renderResult.outFrame);
-
-			nextVideoFrame += ticksPerFrame.value.timeValue;
-		}
-
-		// Add an audio frame
-		if (nextFramePos >= nextAudioFrame)
-		{
-			// How many samples should we request
-			samplesRequestedL = maxBlip;
-			if (totalSamplesRemaining < samplesRequestedL)
-			{
-				samplesRequestedL = (csSDK_int32)totalSamplesRemaining;
-			}
-
-			// Allocate output buffer
-			float *audioBuffer[6] = { NULL, NULL, NULL, NULL, NULL, NULL };
-			for (csSDK_int32 bufferIndexL = 0; bufferIndexL < 6; bufferIndexL++)
-			{
-				audioBuffer[bufferIndexL] = (float *)instRec->memorySuite->NewPtr(samplesRequestedL * 4); //TODO: get proper sample size
-			}
-
-			// Get the sample data
-			result = instRec->sequenceAudioSuite->GetAudio(audioRenderID, samplesRequestedL, audioBuffer, kPrFalse); //TODO: What is inClipAudio?
-
-			// Send data to the encoder
-			ret = encoder->writeAudioFrame((const uint8_t**)audioBuffer, samplesRequestedL);
-
-			// Free output buffer
-			for (csSDK_int32 bufferIndexL = 0; bufferIndexL < 6; bufferIndexL++)
-			{
-				instRec->memorySuite->PrDisposePtr((char *)audioBuffer[bufferIndexL]);
-			}
-
-			totalSamplesRemaining -= samplesRequestedL;
-
-			nextAudioFrame += ticksPerSample * samplesRequestedL;
-		}
-
-		// Increase the progress by the smallest unit
-		nextFramePos = FFMIN(nextVideoFrame, nextAudioFrame);
-
-		// Update the encoding progress
-		const float progress = static_cast<float>(nextFramePos) / static_cast<float>(exportDur);
-		result = instRec->exportProgressSuite->UpdateProgressPercent(exID, progress);
-
-		// Error handling
-		if (result == suiteError_ExporterSuspended)
-		{
-			instRec->exportProgressSuite->WaitForResume(exID);
-		}
-		else if (result == exportReturn_Abort)
-		{
-			exportDur = nextFramePos + ticksPerFrame.value.timeValue < exportDur ? nextFramePos + ticksPerFrame.value.timeValue : exportDur;
-			break;
-		}
-	}
-
-	// Flush the encoders
-	encoder->writeVideoFrame(NULL);
-	encoder->writeAudioFrame(NULL, 0);
-	encoder->close();
-
-error:
-
-	// Release renderers
-	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, videoRenderID);
-	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, audioRenderID);
 
 	encoder->~Encoder();
 
 	return result;
 }
-	
+
+prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultParamRec *generateDefaultParamRec)
+{
+	prMALError result = malNoError;
+	PrParam seqWidth, seqHeight, seqPARNum, seqPARDen, seqFrameRate, seqFieldOrder, seqChannelType, seqSampleRate;
+
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(generateDefaultParamRec->privateData);
+	PrSDKExportParamSuite *exportParamSuite = instRec->exportParamSuite;
+	PrSDKExportInfoSuite *exportInfoSuite = instRec->exportInfoSuite;
+	PrSDKTimeSuite *timeSuite = instRec->timeSuite;
+	Settings *settings = instRec->settings;
+
+	csSDK_int32 exID = generateDefaultParamRec->exporterPluginID;
+	csSDK_int32 groupIndex = 0;
+
+	// Get the values from the sequence
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_VideoWidth, &seqWidth);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_VideoHeight, &seqHeight);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_PixelAspectNumerator, &seqPARNum);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_PixelAspectDenominator, &seqPARDen);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_VideoFrameRate, &seqFrameRate);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_VideoFieldType, &seqFieldOrder);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_AudioSampleRate, &seqSampleRate);
+	exportInfoSuite->GetExportSourceInfo(exID, kExportInfo_AudioChannelsType, &seqChannelType);
+
+	// Width
+	if (seqWidth.mInt32 == 0)
+	{
+		seqWidth.mInt32 = 1920;
+	}
+
+	// Height
+	if (seqHeight.mInt32 == 0)
+	{
+		seqHeight.mInt32 = 1080;
+	}
+
+	exportParamSuite->AddMultiGroup(exID, &groupIndex);
+
+#pragma region Group: Basic Video Settings
+
+	// Video tab group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, ADBEVideoTabGroup, L"Video", kPrFalse, kPrFalse, kPrFalse);
+
+	// Basic settings group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Basic Video Settings", kPrFalse, kPrFalse, kPrFalse);
+
+	// Video Encoder
+	exParamValues videoCodecValues;
+	videoCodecValues.structVersion = 1;
+	videoCodecValues.value.intValue = settings->getDefaultVideoCodecId();
+	videoCodecValues.disabled = kPrFalse;
+	videoCodecValues.hidden = kPrFalse;
+	videoCodecValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo videoCodecParam;
+	videoCodecParam.structVersion = 1;
+	videoCodecParam.flags = exParamFlag_none;
+	videoCodecParam.paramType = exParamType_int;
+	videoCodecParam.paramValues = videoCodecValues;
+	::lstrcpyA(videoCodecParam.identifier, ADBEVideoCodec);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &videoCodecParam);
+
+	// Video width
+	exParamValues widthValues;
+	widthValues.structVersion = 1;
+	widthValues.value.intValue = seqWidth.mInt32;
+	widthValues.rangeMin.intValue = 16;
+	widthValues.rangeMax.intValue = 4096;
+	widthValues.disabled = kPrFalse;
+	widthValues.hidden = kPrFalse;
+	widthValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo widthParam;
+	widthParam.structVersion = 1;
+	widthParam.flags = exParamFlag_none;
+	widthParam.paramType = exParamType_int;
+	widthParam.paramValues = widthValues;
+	::lstrcpyA(widthParam.identifier, ADBEVideoWidth);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &widthParam);
+
+	// Video height
+	exParamValues heightValues;
+	heightValues.structVersion = 1;
+	heightValues.value.intValue = seqHeight.mInt32;
+	heightValues.rangeMin.intValue = 16;
+	heightValues.rangeMax.intValue = 4096;
+	heightValues.disabled = kPrFalse;
+	heightValues.hidden = kPrFalse;
+	heightValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo heightParam;
+	heightParam.structVersion = 1;
+	heightParam.flags = exParamFlag_none;
+	heightParam.paramType = exParamType_int;
+	heightParam.paramValues = heightValues;
+	::lstrcpyA(heightParam.identifier, ADBEVideoHeight);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &heightParam);
+
+	// Pixel aspect ratio
+	exParamValues PARValues;
+	PARValues.structVersion = 1;
+	PARValues.value.ratioValue.numerator = seqPARNum.mInt32;
+	PARValues.value.ratioValue.denominator = seqPARDen.mInt32;
+	PARValues.rangeMin.ratioValue.numerator = 10;
+	PARValues.rangeMin.ratioValue.denominator = 11;
+	PARValues.rangeMax.ratioValue.numerator = 2;
+	PARValues.rangeMax.ratioValue.denominator = 1;
+	PARValues.disabled = kPrFalse;
+	PARValues.hidden = kPrFalse;
+	PARValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo PARParam;
+	PARParam.structVersion = 1;
+	PARParam.flags = exParamFlag_none;
+	PARParam.paramType = exParamType_ratio;
+	PARParam.paramValues = PARValues;
+	::lstrcpyA(PARParam.identifier, ADBEVideoAspect);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &PARParam);
+
+	// Video frame rate
+	exParamValues frameRateValues;
+	frameRateValues.structVersion = 1;
+	frameRateValues.value.timeValue = seqFrameRate.mInt64;
+	frameRateValues.rangeMin.timeValue = 1;
+	timeSuite->GetTicksPerSecond(&frameRateValues.rangeMax.timeValue);
+	frameRateValues.disabled = kPrFalse;
+	frameRateValues.hidden = kPrFalse;
+	frameRateValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo frameRateParam;
+	frameRateParam.structVersion = 1;
+	frameRateParam.flags = exParamFlag_none;
+	frameRateParam.paramType = exParamType_ticksFrameRate;
+	frameRateParam.paramValues = frameRateValues;
+	::lstrcpyA(frameRateParam.identifier, ADBEVideoFPS);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &frameRateParam);
+
+	// Field order
+	exParamValues fieldOrderValues;
+	fieldOrderValues.structVersion = 1;
+	fieldOrderValues.value.intValue = seqFieldOrder.mInt32;
+	fieldOrderValues.disabled = kPrFalse;
+	fieldOrderValues.hidden = kPrFalse;
+	fieldOrderValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo fieldOrderParam;
+	fieldOrderParam.structVersion = 1;
+	fieldOrderParam.flags = exParamFlag_none;
+	fieldOrderParam.paramType = exParamType_int;
+	fieldOrderParam.paramValues = fieldOrderValues;
+	::lstrcpyA(fieldOrderParam.identifier, ADBEVideoFieldType);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &fieldOrderParam);
+
+#pragma endregion
+
+#pragma region Group: Video Encoder Options
+
+	// Basic settings group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Basic Encoder Settings", kPrFalse, kPrFalse, kPrFalse);
+
+	// Populate video encoder options
+	json videoCodecs = settings->getVideoEncoders();
+	createEncoderOptionElements(exportParamSuite, exID, groupIndex, ADBEVideoCodecGroup, videoCodecs, videoCodecValues.value.intValue);
+
+#pragma endregion
+
+#pragma region Group: Basic Audio Settings
+
+	// Audio tab group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, ADBEAudioTabGroup, L"Audio", kPrFalse, kPrFalse, kPrFalse);
+
+	// Basic audio settings group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Basic Audio Settings", kPrFalse, kPrFalse, kPrFalse);
+
+	// Audio Codec
+	exParamValues audioCodecValues;
+	audioCodecValues.structVersion = 1;
+	audioCodecValues.value.intValue = settings->getDefaultAudioCodecId();
+	audioCodecValues.disabled = kPrFalse;
+	audioCodecValues.hidden = kPrFalse;
+	audioCodecValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo audioCodecParam;
+	audioCodecParam.structVersion = 1;
+	audioCodecParam.flags = exParamFlag_none;
+	audioCodecParam.paramType = exParamType_int;
+	audioCodecParam.paramValues = audioCodecValues;
+	::lstrcpyA(audioCodecParam.identifier, ADBEAudioCodec);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicAudioGroup, &audioCodecParam);
+
+	// Sample rate
+	exParamValues sampleRateValues;
+	sampleRateValues.structVersion = 1;
+	sampleRateValues.value.floatValue = seqSampleRate.mFloat64;
+	sampleRateValues.disabled = kPrFalse;
+	sampleRateValues.hidden = kPrFalse;
+	sampleRateValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo sampleRateParam;
+	sampleRateParam.structVersion = 1;
+	sampleRateParam.flags = exParamFlag_none;
+	sampleRateParam.paramType = exParamType_float;
+	sampleRateParam.paramValues = sampleRateValues;
+	::lstrcpyA(sampleRateParam.identifier, ADBEAudioRatePerSecond);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicAudioGroup, &sampleRateParam);
+
+	// Channels
+	exParamValues channelsValues;
+	channelsValues.structVersion = 1;
+	channelsValues.value.intValue = seqChannelType.mInt32;
+	channelsValues.disabled = kPrFalse;
+	channelsValues.hidden = kPrFalse;
+	channelsValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo channelsParam;
+	channelsParam.structVersion = 1;
+	channelsParam.flags = exParamFlag_none;
+	channelsParam.paramType = exParamType_int;
+	channelsParam.paramValues = channelsValues;
+	::lstrcpyA(channelsParam.identifier, ADBEAudioNumChannels);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicAudioGroup, &channelsParam);
+
+#pragma endregion
+
+#pragma region Group: Audio Encoder Options
+
+	// Basic settings group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
+
+	// Populate audio encoder options
+	json audioCodecs = settings->getAudioEncoders();
+	createEncoderOptionElements(exportParamSuite, exID, groupIndex, ADBEAudioCodecGroup, audioCodecs, audioCodecValues.value.intValue);
+
+#pragma endregion
+
+#pragma region Group: Multiplexer
+
+	// Multiplexer tab group
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, FFMultiplexerTabGroup, L"Multiplexer", kPrFalse, kPrFalse, kPrFalse);
+
+	// Multiplexer settings group
+	exportParamSuite->AddParamGroup(exID, groupIndex, FFMultiplexerTabGroup, FFMultiplexerBasicGroup, L"Multiplexer Settings", kPrFalse, kPrFalse, kPrFalse);
+
+	// Multiplexer
+	exParamValues multiplexerValues;
+	multiplexerValues.structVersion = 1;
+	multiplexerValues.value.intValue = settings->getDefaultMuxerId();
+	multiplexerValues.disabled = kPrFalse;
+	multiplexerValues.hidden = kPrFalse;
+	multiplexerValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo multiplexerParam;
+	multiplexerParam.structVersion = 1;
+	multiplexerParam.flags = exParamFlag_multiLine;
+	multiplexerParam.paramType = exParamType_int;
+	multiplexerParam.paramValues = multiplexerValues;
+	::lstrcpyA(multiplexerParam.identifier, FFMultiplexer);
+	exportParamSuite->AddParam(exID, groupIndex, FFMultiplexerBasicGroup, &multiplexerParam);
+
+#pragma endregion
+
+	exportParamSuite->SetParamsVersion(exID, 1);
+
+	return result;
+}
+
+prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec *postProcessParamsRecP)
+{
+	prMALError result = malNoError;
+	prUTF16Char paramString[kPrMaxName];
+	exOneParamValueRec tempParamValue;
+
+	const csSDK_int32		PARs[][2] = {
+		{ 1, 1 },			// Square pixels (1.0)
+		{ 10, 11 },		// D1/DV NTSC (0.9091)
+		{ 40, 33 },		// D1/DV NTSC Widescreen 16:9 (1.2121)
+		{ 768, 702 },		// D1/DV PAL (1.0940)
+		{ 1024, 702 },	// D1/DV PAL Widescreen 16:9 (1.4587)
+		{ 2, 1 },			// Anamorphic 2:1 (2.0)
+		{ 4, 3 },			// HD Anamorphic 1080 (1.3333)
+		{ 3, 2 }			// DVCPRO HD (1.5)
+	};
+	const wchar_t* const	PARStrings[] = {
+		L"Square pixels (1.0)",
+		L"D1/DV NTSC (0.9091)",
+		L"D1/DV NTSC Widescreen 16:9 (1.2121)",
+		L"D1/DV PAL (1.0940)",
+		L"D1/DV PAL Widescreen 16:9 (1.4587)",
+		L"Anamorphic 2:1 (2.0)",
+		L"HD Anamorphic 1080 (1.3333)",
+		L"DVCPRO HD (1.5)"
+	};
+
+	const csSDK_int32		fieldOrders[] = {
+		prFieldsNone,
+		prFieldsUpperFirst,
+		prFieldsLowerFirst
+	};
+	const wchar_t* const	fieldOrderStrings[] = {
+		L"None (Progressive)",
+		L"Upper First",
+		L"Lower First"
+	};
+
+	csSDK_int32 exID = postProcessParamsRecP->exporterPluginID;
+	csSDK_int32 groupIndex = 0;
+
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(postProcessParamsRecP->privateData);
+	Settings *settings = instRec->settings;
+
+	// Get various settings
+	json configuration = settings->getConfiguration();
+	json videoEncoders = settings->getVideoEncoders();
+	json audioEncoders = settings->getAudioEncoders();
+	json muxers = settings->getMuxers();
+
+#pragma region Group: Video settings
+
+	// Label elements
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEBasicVideoGroup, L"Video settings");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoCodec, L"Video Codec");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoWidth, L"Width");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoHeight, L"Height");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoAspect, L"Pixel Aspect Ratio");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFPS, L"Frame Rate");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFieldType, L"Field Order");
+
+	// Populate video encoder dropdown
+	populateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, videoEncoders);
+
+	// Pixel aspect ratio
+	instRec->exportParamSuite->ClearConstrainedValues(exID, 0, ADBEVideoAspect);
+	exOneParamValueRec tempPAR;
+	for (csSDK_int32 i = 0; i < sizeof(PARs) / sizeof(PARs[0]); i++)
+	{
+		tempPAR.ratioValue.numerator = PARs[i][0];
+		tempPAR.ratioValue.denominator = PARs[i][1];
+		swprintf(paramString, kPrMaxName, L"%s", PARStrings[i]);
+		instRec->exportParamSuite->AddConstrainedValuePair(exID, 0, ADBEVideoAspect, &tempPAR, paramString);
+	}
+
+	// Get ticks per second
+	PrTime ticksPerSecond = 0;
+	instRec->timeSuite->GetTicksPerSecond(&ticksPerSecond);
+
+	// Clear the framerate dropdown
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEVideoFPS);
+
+	// Populate framerate dropdown
+	exOneParamValueRec tempFPS;
+	for (auto iterator = configuration["videoFramerates"].begin(); iterator != configuration["videoFramerates"].end(); ++iterator)
+	{
+		json framerate = *iterator;
+
+		int num = framerate["num"].get<int>();
+		int den = framerate["den"].get<int>();
+
+		tempFPS.timeValue = ticksPerSecond / num * den;
+
+		std::string name = framerate["name"].get<std::string>();
+		swprintf(paramString, kPrMaxName, L"%hs", name.c_str());
+		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoFPS, &tempFPS, paramString);
+	}
+
+	// Field orders
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEVideoFieldType);
+	exOneParamValueRec tempOrder;
+	for (csSDK_int32 i = 0; i < 3; i++)
+	{
+		tempOrder.intValue = fieldOrders[i];
+		swprintf(paramString, kPrMaxName, L"%s", fieldOrderStrings[i]);
+		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoFieldType, &tempOrder, paramString);
+	}
+
+#pragma endregion
+
+#pragma region Group: Video encoder settings
+
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEVideoCodecGroup, L"Codec settings");
+
+	populateEncoderOptionValues(instRec, exID, groupIndex, videoEncoders);
+
+#pragma endregion
+
+#pragma region Group: Audio settings
+
+	// Label elements
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEBasicAudioGroup, L"Audio settings");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioCodec, L"Audio Codec");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioRatePerSecond, L"Sample Rate");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioNumChannels, L"Channels");
+
+	// Populate audio encoder dropdown
+	populateEncoders(instRec, exID, groupIndex, ADBEAudioCodec, audioEncoders);
+
+	// Clear the samplerate dropdown
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioRatePerSecond);
+
+	// Populate the samplerate dropdown
+	exOneParamValueRec oneParamValueRec;
+	for (auto iterator = configuration["audioSampleRates"].begin(); iterator != configuration["audioSampleRates"].end(); ++iterator)
+	{
+		json sampleRate = *iterator;
+
+		oneParamValueRec.floatValue = sampleRate["id"].get<double>();
+
+		std::string name = sampleRate["name"].get<std::string>();
+		swprintf(paramString, kPrMaxName, L"%hs", name.c_str());
+		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEAudioRatePerSecond, &oneParamValueRec, paramString);
+	}
+
+	// Clear the channels dropdown
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioNumChannels);
+
+	// Populate the channels dropdown
+	exOneParamValueRec oneParamValueRec2;
+	for (auto iterator = configuration["audioChannels"].begin(); iterator != configuration["audioChannels"].end(); ++iterator)
+	{
+		json channels = *iterator;
+
+		oneParamValueRec2.intValue = channels["id"].get<int>();
+
+		std::string name = channels["name"].get<std::string>();
+		swprintf(paramString, kPrMaxName, L"%hs", name.c_str());
+		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEAudioNumChannels, &oneParamValueRec2, paramString);
+	}
+
+#pragma endregion
+
+#pragma region Group: Audio encoder settings
+
+	// Label elements
+	instRec->exportParamSuite->SetParamName(exID, 0, ADBEAudioCodecGroup, L"Codec settings");
+
+	// Populate audio encoder dropdown
+	populateEncoderOptionValues(instRec, exID, groupIndex, audioEncoders);
+
+#pragma endregion
+
+#pragma region Group: Multiplexer
+
+	// Label elements
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexerTabGroup, L"Multiplexer");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexerBasicGroup, L"Container");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, FFMultiplexer, L"Format");
+
+	// Clear the multiplexer dropdown
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, FFMultiplexer);
+
+	// Populate the multiplexer dropdown
+	AVOutputFormat *format;
+	for (auto iterator = muxers.begin(); iterator != muxers.end(); ++iterator)
+	{
+		json item = *iterator;
+		std::string name = item["name"].get<std::string>();
+
+		format = av_guess_format(name.c_str(), NULL, NULL);
+		if (format != NULL)
+		{
+			tempParamValue.intValue = item["id"].get<int>();
+			swprintf(paramString, kPrMaxName, L"%hs", format->long_name);
+			instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, FFMultiplexer, &tempParamValue, paramString);
+		}
+	}
+
+#pragma endregion
+
+	return result;
+}
+
+prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *validateParamChangedRecP)
+{
+	prMALError result = malNoError;
+	exParamValues tempValue;
+
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateParamChangedRecP->privateData);
+	Settings *settings = instRec->settings;
+
+	csSDK_uint32 exID = validateParamChangedRecP->exporterPluginID;
+	csSDK_uint32 groupIndex = validateParamChangedRecP->multiGroupIndex;
+
+	if (instRec->exportParamSuite)
+	{
+		// Get the changed value
+		exParamValues changedValue;
+		instRec->exportParamSuite->GetParamValue(exID, groupIndex, validateParamChangedRecP->changedParamIdentifier, &changedValue);
+
+		// What has changed?
+		const char* optionName = validateParamChangedRecP->changedParamIdentifier;
+
+		// Is it a encoder selection element?
+		if (strcmp(optionName, ADBEVideoCodec) == 0 || strcmp(optionName, ADBEAudioCodec) == 0)
+		{
+			json encoders;
+
+			// Get the encoders
+			if (strcmp(optionName, ADBEVideoCodec) == 0)
+			{
+				encoders = settings->getVideoEncoders();
+			}
+			else if (strcmp(optionName, ADBEAudioCodec) == 0)
+			{
+				encoders = settings->getAudioEncoders();
+			}
+
+			// Iterate all encoders
+			for (auto iterator = encoders.begin(); iterator != encoders.end(); ++iterator)
+			{
+				const json encoder = *iterator;
+
+				// Should these options be hidden?
+				const bool isSelected = encoder["id"].get<int>() == changedValue.value.intValue;
+
+				for (auto iterator2 = encoder["options"].begin(); iterator2 != encoder["options"].end(); ++iterator2)
+				{
+					const json option = *iterator2;
+
+					const std::string name = option["name"].get<std::string>();
+					const std::string flags = option["flags"].get<std::string>();
+
+					// Change the visibility of an element
+					instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+					tempValue.hidden = isSelected ? kPrFalse : kPrTrue;
+					instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+
+					if (flags == "none" && option.find("values") != option.end())
+					{
+						int selectedId = tempValue.value.intValue;
+
+						// Handle the elements suboptions
+						for (auto iterator = option["values"].begin(); iterator != option["values"].end(); ++iterator)
+						{
+							const json value = *iterator;
+
+							// Do we have suboptions at all?
+							if (value.find("suboptions") != value.end())
+							{
+								// Should this suboption be visible
+								const bool isValueSelected = isSelected && value["id"].get<int>() == selectedId;
+
+								// Iterate these suboptions
+								for (auto iterator2 = value["suboptions"].begin(); iterator2 != value["suboptions"].end(); ++iterator2)
+								{
+									const json suboption = *iterator2;
+
+									const std::string name = suboption["name"].get<std::string>();
+
+									// Change the elements visibility
+									instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+									tempValue.hidden = isValueSelected ? kPrFalse : kPrTrue;
+									instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else // Dynamic created elements
+		{
+			// Try to find the selection in one option of the codecs
+			json option = Settings::find(settings->getVideoEncoders(), "name", optionName);
+			if (option.empty())
+			{
+				option = Settings::find(settings->getAudioEncoders(), "name", optionName);
+				if (option.empty())
+				{
+					return result;
+				}
+			}
+
+			// What type of element do we have?
+			const std::string flags = option["flags"].get<std::string>();
+
+			// Process the different cases
+			if (flags == "slider")
+			{
+				if (option.find("disableFieldOnZero") != option.end())
+				{
+					json fields = option["disableFieldOnZero"];
+
+					// Iterate all mentioned fields
+					for (json::iterator iterator = fields.begin(); iterator != fields.end(); ++iterator)
+					{
+						const std::string field = (*iterator).get<std::string>();
+
+						// Change the elements visibility
+						instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+						tempValue.disabled = changedValue.value.intValue == 0 ? kPrTrue : kPrFalse;
+						instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+					}
+				}
+			}
+			else
+			{
+				// Iterate these options
+				for (auto iterator = option["values"].begin(); iterator != option["values"].end(); ++iterator)
+				{
+					const json value = *iterator;
+
+					if (value.find("suboptions") != value.end())
+					{
+						// Should this suboption be visible
+						const bool isSelected = value["id"].get<int>() == changedValue.value.intValue;
+
+						// Iterate these suboptions
+						for (auto iterator2 = value["suboptions"].begin(); iterator2 != value["suboptions"].end(); ++iterator2)
+						{
+							const json suboption = *iterator2;
+
+							const std::string name = suboption["name"].get<std::string>();
+
+							// Change the elements visibility
+							instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+							tempValue.hidden = isSelected ? kPrFalse : kPrTrue;
+							instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+
+							// Disable one field on zero value?
+							if (isSelected && suboption.find("disableFieldOnZero") != suboption.end())
+							{
+								const std::string name = suboption["name"].get<std::string>();
+
+								json fields = option["disableFieldOnZero"];
+
+								// Get current suboption value
+								exParamValues suboptionValue;
+								instRec->exportParamSuite->GetParamValue(exID, groupIndex, name.c_str(), &suboptionValue);
+
+								// Iterate all mentioned fields
+								for (json::iterator iterator3 = fields.begin(); iterator3 != fields.end(); ++iterator)
+								{
+									const std::string field = (*iterator3).get<std::string>();
+
+									// Change the elements visibility
+									instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+									tempValue.disabled = suboptionValue.value.intValue == 0 ? kPrTrue : kPrFalse;
+									instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Here
+	}
+	else
+	{
+		result = exportReturn_ErrMemory;
+	}
+
+	return result;
+}
+
+prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP)
+{
+	// TODO
+	prUTF16CharCopy(summaryRecP->videoSummary, L"videosummaryTODO");
+	prUTF16CharCopy(summaryRecP->audioSummary, L"audioSummaryTODO");
+	prUTF16CharCopy(summaryRecP->bitrateSummary, L"bitrateSummaryTODO");
+
+	return malNoError;
+}
+
+prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec)
+{
+	prMALError result = malNoError;
+
+	csSDK_uint32 exID = validateOutputSettingsRec->exporterPluginID;
+
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
+
+	//result = CreateEncoderInstance(instRec, exID);
+
+	//encoder->close();
+	//encoder->~Encoder();
+
+	return result;
+}
+
 void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration)
 {
 	std::map<std::string, std::string> optionMap;
@@ -670,3 +1088,256 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 	}
 }
 
+void loadSettings(json *settings)
+{
+	MEMORY_BASIC_INFORMATION mbi;
+	static int dummy;
+	VirtualQuery(&dummy, &mbi, sizeof(mbi));
+	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
+	HRSRC hRes = FindResourceEx(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+	if (NULL != hRes)
+	{
+		HGLOBAL hData = LoadResource(hModule, hRes);
+		if (NULL != hData)
+		{
+			const DWORD dataSize = SizeofResource(hModule, hRes);
+			char *resource = new char[dataSize + 1];
+			memcpy(resource, LockResource(hData), dataSize);
+			resource[dataSize] = 0;
+
+			*settings = json::parse(resource);
+		}
+	}
+}
+
+prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder)
+{
+	prMALError result = malNoError;
+
+	Settings *settings = instRec->settings;
+
+	// Export video params
+	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
+
+	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
+	int num = 254016000000 / c;
+	int den = ticksPerFrame.value.timeValue / c;
+
+#pragma region Get video encoder settings
+
+	const int videoCodecId = videoCodec.value.intValue;
+
+	// Get the selected codec
+	json videoCodecs = settings->getVideoEncoders();
+	json vCodec = settings->filterArrayById(videoCodecs, videoCodecId);
+
+	// Go through all codec options
+	std::vector<std::string> videoEncoderOptions;
+	createEncoderConfiguration(instRec, exID, 0, vCodec["options"], &videoEncoderOptions);
+
+	// Convert vector to string
+	std::stringstream videoEncoderStream;
+	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
+	{
+		if (i != 0)
+			videoEncoderStream << ':';
+		videoEncoderStream << videoEncoderOptions[i];
+	}
+
+	const std::string videoEncoderConfig = videoEncoderStream.str();
+
+#pragma endregion
+
+#pragma region Get audio encoder settings
+
+	const int audioCodecId = audioCodec.value.intValue;
+
+	// Get the selected codec
+	json audioCodecs = settings->getAudioEncoders();
+	json aCodec = settings->filterArrayById(audioCodecs, audioCodecId);
+
+	// Go through all codec options
+	std::vector<std::string> audioEncoderOptions;
+	createEncoderConfiguration(instRec, exID, 0, aCodec["options"], &audioEncoderOptions);
+
+	// Convert vector to string
+	std::stringstream audioEncoderStream;
+	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
+	{
+		if (i != 0)
+			audioEncoderStream << ':';
+		audioEncoderStream << audioEncoderOptions[i];
+	}
+
+	const std::string audioEncoderConfig = audioEncoderStream.str();
+
+#pragma endregion
+
+	// Translate the channel layout to AVLib
+	csSDK_int64 channelLayout;
+	switch (channelType.value.intValue)
+	{
+	case kPrAudioChannelType_Mono:
+		channelLayout = AV_CH_LAYOUT_MONO;
+		break;
+	case kPrAudioChannelType_51:
+		channelLayout = AV_CH_LAYOUT_5POINT1;
+		break;
+	default:
+		channelLayout = AV_CH_LAYOUT_STEREO;
+		break;
+	}
+
+	// Get the selected encoders
+	const std::string videoEncoder = vCodec["name"].get<std::string>();
+	const std::string audioEncoder = aCodec["name"].get<std::string>();
+
+	// Configure an encoder instance
+	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }); // den,num framerate -> timebase
+	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue);
+	
+	return result;
+}
+
+prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
+{
+	prMALError result = malNoError;
+
+	csSDK_uint32 exID = exportInfoP->exporterPluginID;
+
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
+
+	// Get render parameter values
+	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, ticksPerFrame, channelType, audioSampleRate;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
+
+	// Make audio renderer
+	PrTime ticksPerSample;
+	instRec->timeSuite->GetTicksPerAudioSample(audioSampleRate.value.floatValue, &ticksPerSample);
+	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &instRec->audioRenderID);
+	
+	// Get the audio frame size we need to send to the encoder
+	instRec->sequenceAudioSuite->GetMaxBlip(instRec->audioRenderID, ticksPerFrame.value.timeValue, &instRec->maxBlip);
+
+	PrTime exportDuration = exportInfoP->endTime - exportInfoP->startTime;
+	PrTime audioSamplesLeft = exportDuration / ticksPerSample;
+
+	// Make video renderer
+	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
+
+	// Use a lossless pixel format for converstion to libav
+	const PrPixelFormat pixelFormats[] = { PrPixelFormat_ARGB_4444_8u };
+
+	// Define the render params
+	SequenceRender_ParamsRec renderParms;
+	renderParms.inRequestedPixelFormatArray = pixelFormats;
+	renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	renderParms.inWidth = videoWidth.value.intValue;
+	renderParms.inHeight = videoHeight.value.intValue;
+	renderParms.inPixelAspectRatioNumerator = pixelAspectRatio.value.ratioValue.numerator;
+	renderParms.inPixelAspectRatioDenominator = pixelAspectRatio.value.ratioValue.denominator;
+	renderParms.inRenderQuality = kPrRenderQuality_High;
+	renderParms.inFieldType = fieldType.value.intValue;
+	renderParms.inDeinterlace = kPrFalse;
+	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
+	renderParms.inCompositeOnBlack = kPrFalse;
+
+	// Export loop
+	PrTime videoTime = exportInfoP->startTime;
+	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
+	{
+		FrameType frameType = encoder->getNextFrameType();
+		if (FrameType::VideoFrame == frameType)
+		{
+			// Render the uncompressed frame
+			SequenceRender_GetFrameReturnRec renderResult;
+			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, pixelFormats[0], &renderResult);
+
+			char *pixels;
+			result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+
+			// Send raw data to the encoder
+			if (encoder->writeVideoFrame(pixels) != S_OK)
+			{
+				result = malUnknownError;
+				break;
+			}
+
+			// Dispose the rendered frame
+			result = instRec->ppixSuite->Dispose(renderResult.outFrame);
+
+			videoTime += ticksPerFrame.value.timeValue;
+		}
+		else if (FrameType::AudioFrame == frameType)
+		{
+			int chunk = audioSamplesLeft;
+
+			// Set chunk size
+			if (chunk > instRec->maxBlip)
+			{
+				chunk = instRec->maxBlip;
+			}
+
+			// Allocate output buffer
+			float *audioBuffer[MAX_AUDIO_CHANNELS];
+
+			for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
+			{
+				audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
+			}
+
+			// Get the sample data
+			result = instRec->sequenceAudioSuite->GetAudio(instRec->audioRenderID, chunk, audioBuffer, kPrFalse);
+
+			// Send raw data to the encoder
+			if (encoder->writeAudioFrame((const uint8_t**)audioBuffer, chunk) != S_OK)
+			{
+				result = malUnknownError;
+				break;
+			}
+
+			audioSamplesLeft -= chunk;
+
+			// Free output buffer
+			for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
+			{
+				instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
+			}
+		}
+
+		// Update progress & handle export cancellation
+		float progress = static_cast<float>(videoTime - exportInfoP->startTime) / static_cast<float>(exportDuration);
+		result = instRec->exportProgressSuite->UpdateProgressPercent(exID, progress);
+		if (result == suiteError_ExporterSuspended)
+		{
+			instRec->exportProgressSuite->WaitForResume(exID);
+		}
+		else if (result == exportReturn_Abort)
+		{
+			exportDuration = videoTime + ticksPerFrame.value.timeValue - exportInfoP->startTime < exportDuration ? videoTime + ticksPerFrame.value.timeValue - exportInfoP->startTime : exportDuration;
+			break;
+		}
+	}
+
+	// Release renderers
+	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, instRec->videoRenderID);
+	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, instRec->audioRenderID);
+
+	return result;
+}

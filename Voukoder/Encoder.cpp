@@ -90,7 +90,7 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 	videoContext->codecContext->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 }
 
-void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate, csSDK_int32 frame_size)
+void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate)
 {
 	audioContext = new AVContext;
 	audioContext->configuration = configuration;
@@ -401,4 +401,14 @@ int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame)
 	}
 
 	return S_OK;
+}
+
+FrameType Encoder::getNextFrameType()
+{
+	if (av_compare_ts(videoContext->next_pts, videoContext->codecContext->time_base, audioContext->next_pts, audioContext->codecContext->time_base) <= 0)
+	{
+		return FrameType::VideoFrame;
+	}
+
+	return FrameType::AudioFrame;
 }

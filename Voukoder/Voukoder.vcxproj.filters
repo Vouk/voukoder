@@ -285,9 +285,6 @@
     <ClInclude Include="ExporterX264.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExporterX264Settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Encoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -309,9 +306,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ExporterX264.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExporterX264Settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Encoder.cpp">
