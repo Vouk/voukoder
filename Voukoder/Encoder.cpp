@@ -10,7 +10,7 @@ static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
 	OutputDebugStringA(logbuf);
 }
 
-Encoder::Encoder(const char *filename)
+Encoder::Encoder(const char *short_name, const char *filename)
 {
 	av_register_all();
 	avfilter_register_all();
@@ -19,7 +19,7 @@ Encoder::Encoder(const char *filename)
 	
 	/* Create the container format */
 	formatContext = avformat_alloc_context();
-	formatContext->oformat = av_guess_format(NULL, filename, NULL);
+	formatContext->oformat = av_guess_format(short_name, filename, NULL);
 
 	av_log_set_level(AV_LOG_DEBUG);
 	av_log_set_callback(avlog_cb);
@@ -31,7 +31,7 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(const std::string codec, const std::string configuration, csSDK_int32 width, csSDK_int32 height, AVRational timebase)
+void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase)
 {
 	videoContext = new AVContext;
 	videoContext->configuration = configuration;
@@ -168,15 +168,18 @@ int Encoder::open()
 	}
 
 	// Open the target file
-	if ((ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE)) != S_OK)
+	if (filename != NULL)
 	{
-		return ret;
-	}
-	
-	// Check muxer/codec combination and write header
-	if ((ret = avformat_write_header(formatContext, NULL)) != S_OK)
-	{
-		return ret;
+		if ((ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE)) != S_OK)
+		{
+			return ret;
+		}
+
+		// Check muxer/codec combination and write header
+		if ((ret = avformat_write_header(formatContext, NULL)) != S_OK)
+		{
+			return ret;
+		}
 	}
 
 	return S_OK;
@@ -185,14 +188,15 @@ int Encoder::open()
 void Encoder::close()
 {
 	/* Write trailer */
-	av_write_trailer(formatContext);
+	if (formatContext->pb != NULL)
+	{
+		av_write_trailer(formatContext);
+	}
 
 	if (videoContext->frameFilter != NULL)
 	{
 		videoContext->frameFilter->~FrameFilter();
 	}
-
-	avcodec_close(videoContext->codecContext);
 
 	if (audioContext->frameFilter != NULL)
 	{
@@ -203,7 +207,10 @@ void Encoder::close()
 	avcodec_close(audioContext->codecContext);
 
 	/* Close the file */
-	avio_close(formatContext->pb);
+	if (formatContext->pb != NULL)
+	{
+		avio_close(formatContext->pb);
+	}
 }
 
 int Encoder::openStream(AVContext *context, std::string configuration)

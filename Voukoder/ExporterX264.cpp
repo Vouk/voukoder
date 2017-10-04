@@ -263,7 +263,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
 
 	// Create encoder instance
-	Encoder *encoder = new Encoder(filename);
+	Encoder *encoder = new Encoder(NULL, filename);
 	result = SetupEncoderInstance(instRec, exID, encoder);
 
 	// Open the encoder
@@ -946,11 +946,39 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	csSDK_uint32 exID = validateOutputSettingsRec->exporterPluginID;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
+	Settings *settings = instRec->settings;
 
-	//result = CreateEncoderInstance(instRec, exID);
+	// Get the users multiplexer choice
+	exParamValues multiplexer;
+	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
 
-	//encoder->close();
-	//encoder->~Encoder();
+	// Get selected muxer
+	const json muxers = settings->getMuxers();
+	const json muxer = Settings::filterArrayById(muxers, multiplexer.value.intValue);
+
+	// Set the right extension
+	if (muxer.empty())
+	{
+		return malUnknownError;
+	}
+
+	const std::string name = muxer["name"].get<std::string>();
+
+	// Create encoder instance
+	Encoder *encoder = new Encoder(name.c_str(), NULL);
+	result = SetupEncoderInstance(instRec, exID, encoder);
+
+	// Open the encoder
+	if (encoder->open() != S_OK)
+	{
+		result = exportReturn_ErrLastErrorSet;
+	}
+	else
+	{
+		encoder->close();
+	}
+
+	encoder->~Encoder();
 
 	return result;
 }
@@ -1145,13 +1173,28 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	std::vector<std::string> videoEncoderOptions;
 	createEncoderConfiguration(instRec, exID, 0, vCodec["options"], &videoEncoderOptions);
 
+	// Add field order for interlaced output
+	if (fieldType.value.intValue == prFieldsUpperFirst)
+	{
+		videoEncoderOptions.push_back("tff");
+	}
+	else if (fieldType.value.intValue == prFieldsLowerFirst)
+	{
+		videoEncoderOptions.push_back("bff");
+	}
+
 	// Convert vector to string
 	std::stringstream videoEncoderStream;
 	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
 	{
 		if (i != 0)
+		{
 			videoEncoderStream << ':';
-		videoEncoderStream << videoEncoderOptions[i];
+		}
+
+		std::string option = videoEncoderOptions[i];
+		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
+		videoEncoderStream << option;
 	}
 
 	const std::string videoEncoderConfig = videoEncoderStream.str();
@@ -1175,8 +1218,13 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
 	{
 		if (i != 0)
+		{
 			audioEncoderStream << ':';
-		audioEncoderStream << audioEncoderOptions[i];
+		}
+
+		std::string option = audioEncoderOptions[i];
+		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
+		audioEncoderStream << option;
 	}
 
 	const std::string audioEncoderConfig = audioEncoderStream.str();
@@ -1203,7 +1251,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	const std::string audioEncoder = aCodec["name"].get<std::string>();
 
 	// Configure an encoder instance
-	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }); // den,num framerate -> timebase
+	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num });
 	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue);
 	
 	return result;

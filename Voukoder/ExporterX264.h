@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include "ExporterX264Common.h"
 
 extern "C" DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParms, void *param1, void *param2);

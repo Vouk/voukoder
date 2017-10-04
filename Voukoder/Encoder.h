@@ -23,9 +23,9 @@ typedef struct AVContext
 class Encoder
 {
 public:
-	Encoder(const char *filename);
+	Encoder(const char *short_name, const char *filename);
 	~Encoder();
-	void Encoder::setVideoCodec(const std::string codec, const std::string configuration, csSDK_int32 width, csSDK_int32 height, AVRational timebase);
+	void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase);
 	void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channellayout, int sampleRate);
 	int Encoder::open();
 	void Encoder::close();
