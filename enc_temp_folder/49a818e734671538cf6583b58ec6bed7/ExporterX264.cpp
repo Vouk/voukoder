@@ -1158,7 +1158,6 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
 
-	// Find the correct fps ratio
 	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
 	int num = 254016000000 / c;
 	int den = ticksPerFrame.value.timeValue / c;

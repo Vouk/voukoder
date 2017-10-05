@@ -4,7 +4,7 @@
 PrTime gcd(PrTime a, PrTime b)
 {
 	if (a == 0) return b;
-	return gcd(b%a, a);
+	return gcd(b % a, a);
 }
 
 void populateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders)

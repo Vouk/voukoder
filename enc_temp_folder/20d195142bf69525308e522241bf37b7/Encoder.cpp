@@ -193,7 +193,7 @@ int Encoder::open()
 
 void Encoder::close(bool writeTrailer)
 {
-	// Write trailer
+	/* Write trailer */
 	if (writeTrailer)
 	{
 		av_write_trailer(formatContext);

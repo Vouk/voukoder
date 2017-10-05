@@ -28,7 +28,7 @@ public:
 	void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase);
 	void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channellayout, int sampleRate);
 	int Encoder::open();
-	void Encoder::close();
+	void Encoder::close(bool writeTrailer);
 	int Encoder::writeVideoFrame(char *data);
 	int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount);
 	FrameType Encoder::getNextFrameType();
@@ -38,7 +38,6 @@ private:
 	AVFormatContext *formatContext;
 	AVContext *videoContext;
 	AVContext *audioContext;
-	const char *filename;
 	AVAudioFifo *fifo = NULL;
 };
 
