@@ -1,37 +1,35 @@
 #include "Encoder.h"
 #include "ExporterX264Common.h"
 
-static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
-{
-	char logbuf[2000];
-	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
-	logbuf[sizeof(logbuf) - 1] = '\0';
-
-	OutputDebugStringA(logbuf);
-}
-
 Encoder::Encoder(const char *short_name, const char *filename)
 {
-	av_register_all();
-	avfilter_register_all();
+	this->filename = filename;
 
 	/* Create the container format */
 	formatContext = avformat_alloc_context();
-	formatContext->oformat = av_guess_format(short_name, filename, NULL);
+	formatContext->oformat = av_guess_format(short_name, this->filename, NULL);
 
-	av_log_set_level(AV_LOG_DEBUG);
-	av_log_set_callback(avlog_cb);
+	videoContext = new AVContext();
+	videoContext->frameFilter = new FrameFilter();
+
+	audioContext = new AVContext();
+	audioContext->frameFilter = new FrameFilter();
 }
 
 Encoder::~Encoder()
-{
-	/* Free the muxer */
+{	
+	videoContext->frameFilter->~FrameFilter();
+	videoContext->frameFilter = NULL;
+
+	audioContext->frameFilter->~FrameFilter();
+	audioContext->frameFilter = NULL;
+	
+	// Free the muxer
 	avformat_free_context(formatContext);
 }
 
 void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase)
 {
-	videoContext = new AVContext;
 	videoContext->configuration = configuration;
 
 	/* Find codec */
@@ -53,7 +51,7 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 	videoContext->codecContext->height = height;
 	videoContext->codecContext->bit_rate = 0; // dummy
 	videoContext->codecContext->time_base = timebase;
-	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV422P;
+	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV422P; // TODO: Support yuv444p too
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{
@@ -74,11 +72,10 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 
 	/* Get pixel format name */
 	char filterString[256];
-	const char *pixFmtName = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P);
+	const char *pixFmtName = av_get_pix_fmt_name(videoContext->codecContext->pix_fmt);
 	sprintf_s(filterString, "vflip,format=pix_fmts=%s", pixFmtName);
 
 	/* Configure video frame filter output format */
-	videoContext->frameFilter = new FrameFilter();
 	videoContext->frameFilter->configure(options, filterString);
 
 	/* Set colorspace and -range */
@@ -90,7 +87,6 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 
 void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate)
 {
-	audioContext = new AVContext;
 	audioContext->configuration = configuration;
 
 	/* Find codec */
@@ -139,7 +135,6 @@ void Encoder::setAudioCodec(const std::string codec, const std::string configura
 	sprintf_s(filterConfig, "aformat=channel_layouts=stereo:sample_fmts=%s:sample_rates=%d", av_get_sample_fmt_name(audioContext->codecContext->sample_fmt), audioContext->codecContext->sample_rate);
 
 	/* Create the audio filter */
-	audioContext->frameFilter = new FrameFilter();
 	audioContext->frameFilter->configure(options, filterConfig);
 }
 
@@ -150,26 +145,35 @@ int Encoder::open()
 	// Open video stream
 	if ((ret = openStream(videoContext, videoContext->configuration)) < 0)
 	{
+		close(false);
+
 		return ret;
 	}
 
 	// Open audio stream
 	if ((ret = openStream(audioContext, audioContext->configuration)) > 0)
 	{
+		close(false);
+
 		return ret;
 	}
 
 	// Create audio fifo buffer
 	if (!(fifo = av_audio_fifo_alloc(audioContext->codecContext->sample_fmt, audioContext->codecContext->channels, 1))) 
 	{
+		close(false);
+
 		return AVERROR_EXIT;
 	}
 
-	if (strlen(formatContext->filename) > 0)
+	// Encoder to file or to memory?
+	if (strlen(this->filename) > 0)
 	{
 		// Open the target file
-		if ((ret = avio_open(&formatContext->pb, formatContext->filename, AVIO_FLAG_WRITE)) != S_OK)
+		if ((ret = avio_open(&formatContext->pb, this->filename, AVIO_FLAG_WRITE)) != S_OK)
 		{
+			close(false);
+
 			return ret;
 		}
 	}
@@ -178,6 +182,8 @@ int Encoder::open()
 		// Open a memory stream just to test muxer settings
 		if ((ret = avio_open_dyn_buf(&formatContext->pb)) != S_OK)
 		{
+			close(false);
+
 			return ret;
 		}
 	}
@@ -185,6 +191,8 @@ int Encoder::open()
 	// Check muxer/codec combination and write header
 	if ((ret = avformat_write_header(formatContext, NULL)) != S_OK)
 	{
+		close(false);
+
 		return ret;
 	}
 
@@ -199,21 +207,17 @@ void Encoder::close(bool writeTrailer)
 		av_write_trailer(formatContext);
 	}
 
-	if (videoContext->frameFilter != NULL)
+	if (videoContext->codecContext->internal != NULL)
 	{
-		videoContext->frameFilter->~FrameFilter();
+		avcodec_close(videoContext->codecContext);
 	}
-
-	if (audioContext->frameFilter != NULL)
+	if (audioContext->codecContext->internal != NULL)
 	{
-		audioContext->frameFilter->~FrameFilter();
+		avcodec_close(audioContext->codecContext);
 	}
-
-	avcodec_close(videoContext->codecContext);
-	avcodec_close(audioContext->codecContext);
 
 	/* Close the file */
-	if (strlen(formatContext->filename) > 0)
+	if (strlen(this->filename) > 0)
 	{
 		avio_close(formatContext->pb);
 	}

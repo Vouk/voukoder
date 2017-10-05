@@ -5,6 +5,15 @@
 #include "resource.h"
 #include <chrono>
 
+static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
+{
+	char logbuf[2000];
+	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+	logbuf[sizeof(logbuf) - 1] = '\0';
+
+	OutputDebugStringA(logbuf);
+}
+
 DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParmsP, void *param1, void	*param2)
 {
 	switch (selector)
@@ -29,6 +38,9 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 {
+	av_log_set_level(AV_LOG_INFO);
+	av_log_set_callback(avlog_cb);
+
 	av_register_all();
 	avfilter_register_all();
 	
@@ -280,6 +292,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	}
 
 	encoder->~Encoder();
+	encoder = NULL;
 
 	return result;
 }
@@ -970,16 +983,21 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	result = SetupEncoderInstance(instRec, exID, encoder);
 
 	// Open the encoder
-	if (encoder->open() != S_OK)
+	if (encoder->open() == S_OK)
 	{
+		// Test successful
+		encoder->close(false);
+	}
+	else
+	{
+		// Show an error message to the user
 		MessageBox(GetLastActivePopup(mainWnd), PLUGIN_ERR_COMBINATION_NOT_SUPPORTED, PLUGIN_APPNAME, MB_OK);
 
 		result = exportReturn_ErrLastErrorSet;
 	}
 
-	encoder->close(result == S_OK);
-
 	encoder->~Encoder();
+	encoder = NULL;
 
 	return result;
 }
@@ -1313,7 +1331,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
 	{
 		FrameType frameType = encoder->getNextFrameType();
-		if (FrameType::VideoFrame == frameType)
+		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;

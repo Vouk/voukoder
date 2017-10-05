@@ -35,6 +35,7 @@ public:
 private:
 	int Encoder::openStream(AVContext *context, std::string configuration);
 	int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame);
+	const char *filename;
 	AVFormatContext *formatContext;
 	AVContext *videoContext;
 	AVContext *audioContext;
