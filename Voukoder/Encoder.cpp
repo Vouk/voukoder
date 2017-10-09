@@ -28,7 +28,7 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase)
+void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic)
 {
 	videoContext->configuration = configuration;
 
@@ -51,7 +51,7 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 	videoContext->codecContext->height = height;
 	videoContext->codecContext->bit_rate = 0; // dummy
 	videoContext->codecContext->time_base = timebase;
-	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV422P; // TODO: Support yuv444p too
+	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV420P; // TODO: Support high422 and high444 profiles
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{
@@ -60,29 +60,28 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 
 	int error = avcodec_parameters_from_context(videoContext->stream->codecpar, videoContext->codecContext);
 
-	/* Set up RGB -> YUV converter */
+	/* Set up RGB -> YUV converter source format */
 	FrameFilterOptions options;
 	options.media_type = AVMEDIA_TYPE_VIDEO;
 	options.width = width;
 	options.height = height;
-	options.pix_fmt = PLUGIN_VIDEO_PIX_FORMAT;
+	options.pix_fmt = videoContext->codecContext->pix_fmt;
 	options.time_base = timebase;
 	options.sar.den = 1;
 	options.sar.num = 1;
 
 	/* Get pixel format name */
 	char filterString[256];
-	const char *pixFmtName = av_get_pix_fmt_name(videoContext->codecContext->pix_fmt);
-	sprintf_s(filterString, "vflip,format=pix_fmts=%s", pixFmtName);
+	sprintf_s(filterString, "null", this->getPixelFormat());
 
 	/* Configure video frame filter output format */
 	videoContext->frameFilter->configure(options, filterString);
 
-	/* Set colorspace and -range */
-	videoContext->codecContext->colorspace = AVColorSpace::AVCOL_SPC_BT709;
-	videoContext->codecContext->color_range = AVColorRange::AVCOL_RANGE_MPEG;
-	videoContext->codecContext->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
-	videoContext->codecContext->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+	// Set color settings
+	videoContext->codecContext->colorspace = colorSpace;
+	videoContext->codecContext->color_range = colorRange;
+	videoContext->codecContext->color_primaries = colorPrimaries;
+	videoContext->codecContext->color_trc = colorTransferCharateristic;
 }
 
 void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate)
@@ -167,7 +166,7 @@ int Encoder::open()
 	}
 
 	// Encoder to file or to memory?
-	if (strlen(this->filename) > 0)
+	if (this->filename != NULL)
 	{
 		// Open the target file
 		if ((ret = avio_open(&formatContext->pb, this->filename, AVIO_FLAG_WRITE)) != S_OK)
@@ -217,7 +216,7 @@ void Encoder::close(bool writeTrailer)
 	}
 
 	/* Close the file */
-	if (strlen(this->filename) > 0)
+	if (this->filename != NULL)
 	{
 		avio_close(formatContext->pb);
 	}
@@ -254,12 +253,12 @@ int Encoder::openStream(AVContext *context, std::string configuration)
 	return S_OK;
 }
 
-int Encoder::writeVideoFrame(char *data)
+int Encoder::writeVideoFrame(EncodingData *encodingData)
 {
 	int ret;
 
 	/* Do we just want to flush the encoder? */
-	if (data == NULL)
+	if (encodingData == NULL)
 	{
 		/* Send the frame to the encoder */
 		if ((ret = encodeAndWriteFrame(videoContext, NULL)) < 0)
@@ -274,7 +273,7 @@ int Encoder::writeVideoFrame(char *data)
 	AVFrame *frame = av_frame_alloc();
 	frame->width = videoContext->codecContext->width;
 	frame->height = videoContext->codecContext->height;
-	frame->format = PLUGIN_VIDEO_PIX_FORMAT;
+	frame->format = videoContext->codecContext->pix_fmt;
 
 	/* Reserve buffer space */
 	if ((ret = av_frame_get_buffer(frame, 32)) < 0)
@@ -282,8 +281,13 @@ int Encoder::writeVideoFrame(char *data)
 		return ret;
 	}
 
-	/* Fill the source frame */
-	frame->data[0] = (uint8_t*)data;
+	// Fill the source frame
+	frame->data[0] = (uint8_t*)encodingData->plane[0];
+	frame->data[1] = (uint8_t*)encodingData->plane[1];
+	frame->data[2] = (uint8_t*)encodingData->plane[2];
+	frame->linesize[0] = encodingData->stride[0];
+	frame->linesize[1] = encodingData->stride[1];
+	frame->linesize[2] = encodingData->stride[2];
 
 	/* Presentation timestamp */
 	frame->pts = videoContext->next_pts++;
@@ -434,4 +438,9 @@ FrameType Encoder::getNextFrameType()
 	}
 
 	return FrameType::AudioFrame;
+}
+
+const char* Encoder::getPixelFormat()
+{
+	return av_get_pix_fmt_name(videoContext->codecContext->pix_fmt);
 }

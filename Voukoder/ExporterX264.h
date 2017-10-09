@@ -19,3 +19,4 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration);
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder);
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder);
+PrPixelFormat GetPremierePixelFormats(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);

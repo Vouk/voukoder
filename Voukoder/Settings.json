@@ -82,7 +82,7 @@
 		]
 	},
 	"defaults" : {
-		"muxer" : 1,
+		"muxer" : 0,
 		"videoEncoder" : 0,
 		"audioEncoder" : 0
 	},
@@ -187,7 +187,7 @@
 						{
 							"id" : 2,
 							"name" : "High",
-							"param" : "profile=high422"
+							"param" : "profile=high"
 						}
 					]
 				},
@@ -313,7 +313,7 @@
 									"type" : "int",
 									"flags" : "slider",
 									"defaultValue": 23,
-									"minValue" : 0,
+									"minValue" : 1,
 									"maxValue" : 51,
 									"param" : "crf=%d",
 									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
@@ -330,12 +330,17 @@
 									"type" : "int",
 									"flags" : "slider",
 									"defaultValue": 23,
-									"minValue" : 0,
+									"minValue" : 1,
 									"maxValue" : 69,
 									"param" : "qp=%d",
 									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
 								}			
 							]
+						},
+						{
+							"id" : 3,
+							"name" : "Lossless (todo)",
+							"param" : "qp=0:profile=high422"
 						}
 					]
 				}

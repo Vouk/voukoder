@@ -94,6 +94,7 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKSequenceRenderSuite, kPrSDKSequenceRenderSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->sequenceRenderSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportFileSuite, kPrSDKExportFileSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportFileSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppixSuite))));
+			spError = spBasic->AcquireSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppix2Suite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
 		}
@@ -149,6 +150,11 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 		if (instRec->ppixSuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion);
+		}
+
+		if (instRec->ppix2Suite)
+		{
+			result = spBasic->ReleaseSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion);
 		}
 
 		if (instRec->exportProgressSuite)
@@ -444,6 +450,51 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	::lstrcpyA(fieldOrderParam.identifier, ADBEVideoFieldType);
 	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &fieldOrderParam);
 
+	// Pixel format
+	exParamValues pixFmtValues;
+	pixFmtValues.structVersion = 1;
+	pixFmtValues.value.intValue = 0;
+	pixFmtValues.disabled = kPrFalse;
+	pixFmtValues.hidden = kPrFalse;
+	pixFmtValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo pixFmtParam;
+	pixFmtParam.structVersion = 1;
+	pixFmtParam.flags = exParamFlag_none;
+	pixFmtParam.paramType = exParamType_int;
+	pixFmtParam.paramValues = pixFmtValues;
+	::lstrcpyA(pixFmtParam.identifier, VKDRPixelFormat);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &pixFmtParam);
+
+	// Color space
+	exParamValues colorSpaceValues;
+	colorSpaceValues.structVersion = 1;
+	colorSpaceValues.value.intValue = vkdrBT709;
+	colorSpaceValues.disabled = kPrFalse;
+	colorSpaceValues.hidden = kPrFalse;
+	colorSpaceValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo colorSpaceParam;
+	colorSpaceParam.structVersion = 1;
+	colorSpaceParam.flags = exParamFlag_none;
+	colorSpaceParam.paramType = exParamType_int;
+	colorSpaceParam.paramValues = colorSpaceValues;
+	::lstrcpyA(colorSpaceParam.identifier, VKDRColorSpace);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &colorSpaceParam);
+
+	// Color range
+	exParamValues colorRangeValues;
+	colorRangeValues.structVersion = 1;
+	colorRangeValues.value.intValue = vkdrLimitedColorRange;
+	colorRangeValues.disabled = kPrFalse;
+	colorRangeValues.hidden = kPrFalse;
+	colorRangeValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo colorRangeParam;
+	colorRangeParam.structVersion = 1;
+	colorRangeParam.flags = exParamFlag_none;
+	colorRangeParam.paramType = exParamType_bool;
+	colorRangeParam.paramValues = colorRangeValues;
+	::lstrcpyA(colorRangeParam.identifier, VKDRColorRange);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &colorRangeParam);
+
 #pragma endregion
 
 #pragma region Group: Video Encoder Options
@@ -613,6 +664,9 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoAspect, L"Pixel Aspect Ratio");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFPS, L"Frame Rate");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFieldType, L"Field Order");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRPixelFormat, L"Pixel Format");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorSpace, L"Color Space");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorRange, L"Use full color range");
 
 	// Populate video encoder dropdown
 	populateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, videoEncoders);
@@ -654,12 +708,29 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	// Field orders
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEVideoFieldType);
 	exOneParamValueRec tempOrder;
-	for (csSDK_int32 i = 0; i < 3; i++)
+	for (csSDK_int32 i = 0; i < sizeof(fieldOrders) / sizeof(fieldOrders[0]); i++)
 	{
 		tempOrder.intValue = fieldOrders[i];
 		swprintf(paramString, kPrMaxName, L"%s", fieldOrderStrings[i]);
 		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoFieldType, &tempOrder, paramString);
 	}
+
+	// Pixel formats
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, VKDRPixelFormat);
+	exOneParamValueRec tempPixFmt;
+	tempPixFmt.intValue = 0;
+	swprintf(paramString, kPrMaxName, L"%s", L"YUV 4:2:0");
+	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, VKDRPixelFormat, &tempPixFmt, paramString);
+
+	// Color Space
+	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, VKDRColorSpace);
+	exOneParamValueRec tempcolorSpace;
+	tempcolorSpace.intValue = vkdrBT601;
+	swprintf(paramString, kPrMaxName, L"%s", L"BT.601 (SD)");
+	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, VKDRColorSpace, &tempcolorSpace, paramString);
+	tempcolorSpace.intValue = vkdrBT709;
+	swprintf(paramString, kPrMaxName, L"%s", L"BT.709 (HD)");
+	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, VKDRColorSpace, &tempcolorSpace, paramString);
 
 #pragma endregion
 
@@ -1164,13 +1235,15 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	Settings *settings = instRec->settings;
 
 	// Export video params
-	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
+	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, vkdrColorSpace, vkdrColorRange, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &vkdrColorSpace);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &vkdrColorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
@@ -1270,8 +1343,27 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	const std::string videoEncoder = vCodec["name"].get<std::string>();
 	const std::string audioEncoder = aCodec["name"].get<std::string>();
 
+	AVColorRange colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
+
+	AVColorSpace colorSpace;
+	AVColorPrimaries colorPrimaries;
+	AVColorTransferCharacteristic colorTransferCharacteristic;
+
+	if (vkdrColorSpace.value.intValue == vkdrBT601)
+	{
+		colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
+		colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
+		colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
+	}
+	else if (vkdrColorSpace.value.intValue == vkdrBT709)
+	{
+		colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+		colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+		colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+	}
+
 	// Configure an encoder instance
-	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num });
+	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic);
 	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue);
 	
 	return result;
@@ -1286,12 +1378,15 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
 
 	// Get render parameter values
-	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, ticksPerFrame, channelType, audioSampleRate;
+	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, pixFmt, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRPixelFormat, &pixFmt);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
@@ -1309,8 +1404,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	// Make video renderer
 	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
 
-	// Use a lossless pixel format for converstion to libav
-	const PrPixelFormat pixelFormats[] = { PrPixelFormat_ARGB_4444_8u };
+	// Find the right pixel format
+	const char* libavPixelFormat = encoder->getPixelFormat();
+	PrPixelFormat pixelFormat = GetPremierePixelFormats(libavPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
+	const PrPixelFormat pixelFormats[] = { pixelFormat };
 
 	// Define the render params
 	SequenceRender_ParamsRec renderParms;
@@ -1326,6 +1423,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
 	renderParms.inCompositeOnBlack = kPrFalse;
 
+	EncodingData encodingData = {};
+
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
@@ -1335,17 +1434,41 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
-			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, pixelFormats[0], &renderResult);
+			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, &renderResult);
+
+			/*
+			PrPixelFormat format;
+			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
 
 			char *pixels;
 			result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
 			// Send raw data to the encoder
-			if (encoder->writeVideoFrame(pixels) != S_OK)
+			if (encoder->writeVideoFrame(pixels, NULL, NULL) != S_OK)
 			{
 				result = malUnknownError;
 				break;
 			}
+			*/
+
+			result = instRec->ppix2Suite->GetYUV420PlanarBuffers(
+				renderResult.outFrame,
+				PrPPixBufferAccess_ReadOnly,
+				&encodingData.plane[0],
+				&encodingData.stride[0],
+				&encodingData.plane[1],
+				&encodingData.stride[1],
+				&encodingData.plane[2],
+				&encodingData.stride[2]);
+
+			if (encoder->writeVideoFrame(&encodingData) != S_OK)
+			{
+				result = malUnknownError;
+				break;
+			}
+
+
+
 
 			// Dispose the rendered frame
 			result = instRec->ppixSuite->Dispose(renderResult.outFrame);
@@ -1406,6 +1529,65 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	// Release renderers
 	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, instRec->videoRenderID);
 	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, instRec->audioRenderID);
-
+	
 	return result;
+}
+
+PrPixelFormat GetPremierePixelFormats(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
+{
+	if (strcmp(format, "yuv420p") == 0)
+	{
+		if (fieldType == prFieldsNone)
+		{
+			if (colorRange == vkdrLimitedColorRange)
+			{
+				switch (colorSpace)
+				{
+				case vkdrBT601:
+					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
+
+				case vkdrBT709:
+					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709;
+				}
+			}
+			else if (colorRange == vkdrFullColorRange)
+			{
+				switch (colorSpace)
+				{
+				case vkdrBT601:
+					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange;
+
+				case vkdrBT709:
+					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange;
+				}
+			}
+		}
+		else
+		{
+			if (colorRange == vkdrLimitedColorRange)
+			{
+				switch (colorSpace)
+				{
+				case vkdrBT601:
+					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
+
+				case vkdrBT709:
+					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709;
+				}
+			}
+			else if (colorRange == vkdrFullColorRange)
+			{
+				switch (colorSpace)
+				{
+				case vkdrBT601:
+					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange;
+
+				case vkdrBT709:
+					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange;
+				}
+			}
+		}
+	}
+
+	return PrPixelFormat_Any;
 }
