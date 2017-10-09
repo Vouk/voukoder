@@ -48,18 +48,18 @@ extern "C" {
 #pragma comment(lib, "libavresample.lib")
 #pragma comment(lib, "libx264.lib")
 
-#define PLUGIN_APPNAME							L"Voukoder 0.2.2"
+#define PLUGIN_APPNAME							L"Voukoder 0.2.3"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported.\n\nNOTE: MP4 supports AAC audio only."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000
 #define MAX_AUDIO_CHANNELS						6
-
 #define VKDRPixelFormat							"VKDRPixelFormat"
+#define VKDRTVStandard							"VKDRTVStandard"
 #define VKDRColorSpace							"VKDRColorSpace"
 #define VKDRColorRange							"VKDRColorRange"
 #define FFMultiplexerTabGroup					"MultiplexerTab"
-#define FFMultiplexerBasicGroup			"MultiplexerBasicGroup"
-#define FFMultiplexer					"Multiplexer"
+#define FFMultiplexerBasicGroup					"MultiplexerBasicGroup"
+#define FFMultiplexer							"Multiplexer"
 
 using json = nlohmann::json;
 
@@ -91,6 +91,10 @@ typedef struct InstanceRec
 	csSDK_int32 maxBlip;
 } InstanceRec;
 
+typedef csSDK_int32 vkdrTvStandard;
+#define vkdrPAL			0
+#define vkdrNTSC		1
+
 typedef csSDK_int32 vkdrColorSpace;
 #define vkdrBT601		0		// SD
 #define vkdrBT709		1		// HD
@@ -106,3 +110,4 @@ void createEncoderOptionElements(PrSDKExportParamSuite *exportParamSuite, csSDK_
 exNewParamInfo createGUIElement(json option, prBool hidden);
 void populateEncoderOptionValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
 void configureEncoderOption(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
+prBool IsPixelFormatYUV420(PrPixelFormat pixelformat);
