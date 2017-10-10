@@ -38,7 +38,7 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 {
-	av_log_set_level(AV_LOG_INFO);
+	av_log_set_level(AV_LOG_DEBUG);
 	av_log_set_callback(avlog_cb);
 
 	av_register_all();
@@ -1295,11 +1295,11 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	// Add field order for interlaced output
 	if (fieldType.value.intValue == prFieldsUpperFirst)
 	{
-		videoEncoderOptions.push_back("tff");
+		videoEncoderOptions.push_back("tff=1");
 	}
 	else if (fieldType.value.intValue == prFieldsLowerFirst)
 	{
-		videoEncoderOptions.push_back("bff");
+		videoEncoderOptions.push_back("bff=1");
 	}
 
 	// Convert vector to string
@@ -1372,9 +1372,9 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	// Get the right color range
 	AVColorRange colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
 
-	AVColorSpace colorSpace;
-	AVColorPrimaries colorPrimaries;
-	AVColorTransferCharacteristic colorTransferCharacteristic;
+	AVColorSpace colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
+	AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
+	AVColorTransferCharacteristic colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 
 	// Color conversion values
 	if (vkdrColorSpace.value.intValue == vkdrBT601)

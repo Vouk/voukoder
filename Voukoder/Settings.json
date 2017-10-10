@@ -315,8 +315,7 @@
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 51,
-									"param" : "crf=%d",
-									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
+									"param" : "crf=%d"
 								}			
 							]
 						},
@@ -332,15 +331,15 @@
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 69,
-									"param" : "qp=%d",
-									"disableFieldOnZero" : [ "x264Profile", "x264Level" ]
+									"param" : "qp=%d"
 								}			
 							]
 						},
 						{
 							"id" : 3,
 							"name" : "Lossless (todo)",
-							"param" : "qp=0:profile=high422"
+							"param" : "qp=0:profile=high422",
+							"disableField" : [ "x264Profile", "x264Level" ]
 						}
 					]
 				}
