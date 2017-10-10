@@ -211,3 +211,10 @@ void configureEncoderOption(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_i
 		}
 	}
 }
+
+void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
+{
+	HWND mainWnd = instRec->windowSuite->GetMainWindow();
+
+	MessageBox(GetLastActivePopup(mainWnd), lpText, lpCaption, uType);
+}

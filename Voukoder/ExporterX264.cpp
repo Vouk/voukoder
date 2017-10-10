@@ -1,6 +1,7 @@
 #include "Encoder.h"
 #include "ExporterX264.h"
 #include "ExporterX264Common.h"
+#include "Utils.h"
 #include <windows.h>
 #include "resource.h"
 #include <chrono>
@@ -435,21 +436,6 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	::lstrcpyA(frameRateParam.identifier, ADBEVideoFPS);
 	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &frameRateParam);
 
-	// TV standard
-	exParamValues tvStandardValues;
-	tvStandardValues.structVersion = 1;
-	tvStandardValues.value.intValue = seqFieldOrder.mInt32;
-	tvStandardValues.disabled = kPrFalse;
-	tvStandardValues.hidden = kPrFalse;
-	tvStandardValues.optionalParamEnabled = kPrFalse;
-	exNewParamInfo tvStandardParam;
-	tvStandardParam.structVersion = 1;
-	tvStandardParam.flags = exParamFlag_none;
-	tvStandardParam.paramType = exParamType_int;
-	tvStandardParam.paramValues = tvStandardValues;
-	::lstrcpyA(tvStandardParam.identifier, VKDRTVStandard);
-	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &tvStandardParam);
-
 	// Field order
 	exParamValues fieldOrderValues;
 	fieldOrderValues.structVersion = 1;
@@ -479,6 +465,21 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	pixFmtParam.paramValues = pixFmtValues;
 	::lstrcpyA(pixFmtParam.identifier, VKDRPixelFormat);
 	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &pixFmtParam);
+
+	// TV standard
+	exParamValues tvStandardValues;
+	tvStandardValues.structVersion = 1;
+	tvStandardValues.value.intValue = seqFieldOrder.mInt32;
+	tvStandardValues.disabled = kPrFalse;
+	tvStandardValues.hidden = kPrFalse;
+	tvStandardValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo tvStandardParam;
+	tvStandardParam.structVersion = 1;
+	tvStandardParam.flags = exParamFlag_none;
+	tvStandardParam.paramType = exParamType_int;
+	tvStandardParam.paramValues = tvStandardValues;
+	::lstrcpyA(tvStandardParam.identifier, VKDRTVStandard);
+	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &tvStandardParam);
 
 	// Color space
 	exParamValues colorSpaceValues;
@@ -1056,7 +1057,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	csSDK_uint32 exID = validateOutputSettingsRec->exporterPluginID;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
-	HWND mainWnd = instRec->windowSuite->GetMainWindow();
 	Settings *settings = instRec->settings;
 
 	// Get the users multiplexer choice
@@ -1088,7 +1088,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	else
 	{
 		// Show an error message to the user
-		MessageBox(GetLastActivePopup(mainWnd), PLUGIN_ERR_COMBINATION_NOT_SUPPORTED, PLUGIN_APPNAME, MB_OK);
+		ShowMessageBox(instRec, PLUGIN_ERR_COMBINATION_NOT_SUPPORTED, PLUGIN_APPNAME, MB_OK);
 
 		result = exportReturn_ErrLastErrorSet;
 	}
@@ -1370,12 +1370,14 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	const std::string videoEncoder = vCodec["name"].get<std::string>();
 	const std::string audioEncoder = aCodec["name"].get<std::string>();
 
+	// Get the right color range
 	AVColorRange colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
 
 	AVColorSpace colorSpace;
 	AVColorPrimaries colorPrimaries;
 	AVColorTransferCharacteristic colorTransferCharacteristic;
 
+	// Color conversion values
 	if (vkdrColorSpace.value.intValue == vkdrBT601)
 	{
 		if (tvStandard.value.intValue == vkdrPAL)
@@ -1443,7 +1445,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	// Find the right pixel format
 	const char* libavPixelFormat = encoder->getPixelFormat();
 	PrPixelFormat pixelFormat = GetPremierePixelFormats(libavPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
-	const PrPixelFormat pixelFormats[] = { pixelFormat };
+	const PrPixelFormat pixelFormats[] = { pixelFormat, PrPixelFormat_BGRA_4444_8u, PrPixelFormat_Any };
 
 	// Define the render params
 	SequenceRender_ParamsRec renderParms;
@@ -1470,20 +1472,22 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
-			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, &renderResult);
+			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, pixelFormat, &renderResult);
+			if (result != malNoError)
+			{
+				ShowMessageBox(instRec, L"Error: Required pixel format has not been requested in render params.", PLUGIN_APPNAME, MB_OK);
 
+				return result;
+			}
+
+			// Get pixel format
 			PrPixelFormat format;
 			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
-
-
-
-			/*
-
-			*/
 
 			// YUV 4:2:0
 			if (IsPixelFormatYUV420(format))
 			{
+				// Get planar buffers
 				result = instRec->ppix2Suite->GetYUV420PlanarBuffers(
 					renderResult.outFrame,
 					PrPPixBufferAccess_ReadOnly,
@@ -1494,6 +1498,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
 
+				// Encode YUV data
 				if (encoder->writeVideoFrame(&encodingData) != S_OK)
 				{
 					result = malUnknownError;
@@ -1502,24 +1507,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 			}
 			else
 			{
-				//test
-				char *pixels;
-				result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+				ShowMessageBox(instRec, L"Error: Converted frame is not in YUV420 format. This should never happen.", PLUGIN_APPNAME, MB_OK);
 
-				encodingData.plane[0] = pixels;
-				encodingData.plane[1] = NULL;
-				encodingData.plane[2] = NULL;
-
-				// Send raw data to the encoder
-				if (encoder->writeVideoFrame(&encodingData) != S_OK)
-				{
-					result = malUnknownError;
-					break;
-				}
+				result = malUnknownError;
+				break;
 			}
-
-
-
 
 			// Dispose the rendered frame
 			result = instRec->ppixSuite->Dispose(renderResult.outFrame);

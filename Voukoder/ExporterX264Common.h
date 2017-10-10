@@ -111,3 +111,4 @@ exNewParamInfo createGUIElement(json option, prBool hidden);
 void populateEncoderOptionValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
 void configureEncoderOption(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
 prBool IsPixelFormatYUV420(PrPixelFormat pixelformat);
+void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
