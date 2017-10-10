@@ -1,7 +1,6 @@
 #include "Encoder.h"
 #include "ExporterX264.h"
 #include "ExporterX264Common.h"
-#include "Utils.h"
 #include <windows.h>
 #include "resource.h"
 #include <chrono>

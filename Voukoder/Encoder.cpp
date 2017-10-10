@@ -72,7 +72,7 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 
 	/* Get pixel format name */
 	char filterString[256];
-	sprintf_s(filterString, "null", this->getPixelFormat());
+	sprintf_s(filterString, "null");// , this->getPixelFormat());
 
 	/* Configure video frame filter output format */
 	videoContext->frameFilter->configure(options, filterString);
