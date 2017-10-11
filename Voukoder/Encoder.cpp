@@ -452,3 +452,18 @@ const char* Encoder::getPixelFormat()
 {
 	return av_get_pix_fmt_name(videoContext->codecContext->pix_fmt);
 }
+
+const char* Encoder::dumpConfiguration()
+{
+	char buffer[1024];
+	sprintf_s(
+		buffer,
+		"Muxer: %s\nVideo: %s(%s)\nAudio: %s(%s)",
+		formatContext->oformat->name,
+		videoContext->codec->name,
+		videoContext->configuration.c_str(),
+		audioContext->codec->name,
+		audioContext->configuration.c_str());
+
+	return buffer;
+}

@@ -33,6 +33,7 @@ public:
 	int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount);
 	FrameType Encoder::getNextFrameType();
 	const char* Encoder::getPixelFormat();
+	const char* Encoder::dumpConfiguration();
 private:
 	int Encoder::openStream(AVContext *context, std::string configuration);
 	int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame);

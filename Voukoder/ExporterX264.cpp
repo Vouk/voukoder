@@ -1086,8 +1086,13 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	}
 	else
 	{
+		wchar_t buffer[4096];
+		swprintf_s(buffer, L"%s\n\n%S",
+			PLUGIN_ERR_COMBINATION_NOT_SUPPORTED,
+			encoder->dumpConfiguration());
+
 		// Show an error message to the user
-		ShowMessageBox(instRec, PLUGIN_ERR_COMBINATION_NOT_SUPPORTED, PLUGIN_APPNAME, MB_OK);
+		ShowMessageBox(instRec, buffer, PLUGIN_APPNAME, MB_OK);
 
 		result = exportReturn_ErrLastErrorSet;
 	}
