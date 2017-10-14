@@ -519,7 +519,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 
 	// Populate video encoder options
 	json videoCodecs = settings->getVideoEncoders();
-	createEncoderOptionElements(exportParamSuite, exID, groupIndex, ADBEVideoCodecGroup, videoCodecs, videoCodecValues.value.intValue);
+	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, videoCodecs, videoCodecValues.value.intValue);
 
 #pragma endregion
 
@@ -585,7 +585,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 
 	// Populate audio encoder options
 	json audioCodecs = settings->getAudioEncoders();
-	createEncoderOptionElements(exportParamSuite, exID, groupIndex, ADBEAudioCodecGroup, audioCodecs, audioCodecValues.value.intValue);
+	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, audioCodecs, audioCodecValues.value.intValue);
 
 #pragma endregion
 
@@ -685,7 +685,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorRange, L"Use full color range");
 
 	// Populate video encoder dropdown
-	populateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, videoEncoders);
+	PopulateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, videoEncoders);
 
 	// Pixel aspect ratio
 	instRec->exportParamSuite->ClearConstrainedValues(exID, 0, ADBEVideoAspect);
@@ -764,7 +764,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 
 	instRec->exportParamSuite->SetParamName(exID, 0, ADBEVideoCodecGroup, L"Codec settings");
 
-	populateEncoderOptionValues(instRec, exID, groupIndex, videoEncoders);
+	PopulateParamValues(instRec, exID, groupIndex, videoEncoders);
 
 #pragma endregion
 
@@ -777,7 +777,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioNumChannels, L"Channels");
 
 	// Populate audio encoder dropdown
-	populateEncoders(instRec, exID, groupIndex, ADBEAudioCodec, audioEncoders);
+	PopulateEncoders(instRec, exID, groupIndex, ADBEAudioCodec, audioEncoders);
 
 	// Clear the samplerate dropdown
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioRatePerSecond);
@@ -819,7 +819,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, 0, ADBEAudioCodecGroup, L"Codec settings");
 
 	// Populate audio encoder dropdown
-	populateEncoderOptionValues(instRec, exID, groupIndex, audioEncoders);
+	PopulateParamValues(instRec, exID, groupIndex, audioEncoders);
 
 #pragma endregion
 
@@ -865,175 +865,118 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 	csSDK_uint32 exID = validateParamChangedRecP->exporterPluginID;
 	csSDK_uint32 groupIndex = validateParamChangedRecP->multiGroupIndex;
 
-	if (instRec->exportParamSuite)
+	// Get the changed value
+	exParamValues changedValue;
+	instRec->exportParamSuite->GetParamValue(exID, groupIndex, validateParamChangedRecP->changedParamIdentifier, &changedValue);
+
+	// What has changed?
+	const char* paramName = validateParamChangedRecP->changedParamIdentifier;
+
+	// Is it a encoder selection element?
+	if (strcmp(paramName, ADBEVideoCodec) == 0 || strcmp(paramName, ADBEAudioCodec) == 0)
 	{
-		// Get the changed value
-		exParamValues changedValue;
-		instRec->exportParamSuite->GetParamValue(exID, groupIndex, validateParamChangedRecP->changedParamIdentifier, &changedValue);
+		json encoders;
 
-		// What has changed?
-		const char* optionName = validateParamChangedRecP->changedParamIdentifier;
-
-		// Is it a encoder selection element?
-		if (strcmp(optionName, ADBEVideoCodec) == 0 || strcmp(optionName, ADBEAudioCodec) == 0)
+		// Get the encoders
+		if (strcmp(paramName, ADBEVideoCodec) == 0)
 		{
-			json encoders;
+			encoders = settings->getVideoEncoders();
+		}
+		else if (strcmp(paramName, ADBEAudioCodec) == 0)
+		{
+			encoders = settings->getAudioEncoders();
+		}
 
-			// Get the encoders
-			if (strcmp(optionName, ADBEVideoCodec) == 0)
+		// Iterate all encoders
+		for (auto itEncoder = encoders.begin(); itEncoder != encoders.end(); ++itEncoder)
+		{
+			const json encoder = *itEncoder;
+
+			// Should these options be hidden?
+			const bool isSelected = encoder["id"].get<int>() == changedValue.value.intValue;
+
+			for (auto itParam = encoder["params"].begin(); itParam != encoder["params"].end(); ++itParam)
 			{
-				encoders = settings->getVideoEncoders();
-			}
-			else if (strcmp(optionName, ADBEAudioCodec) == 0)
-			{
-				encoders = settings->getAudioEncoders();
-			}
+				const json param = *itParam;
 
-			// Iterate all encoders
-			for (auto iterator = encoders.begin(); iterator != encoders.end(); ++iterator)
-			{
-				const json encoder = *iterator;
+				const std::string name = param["name"].get<std::string>();
 
-				// Should these options be hidden?
-				const bool isSelected = encoder["id"].get<int>() == changedValue.value.intValue;
+				// Change the visibility of an element
+				instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+				tempValue.hidden = isSelected ? kPrFalse : kPrTrue;
+				instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
 
-				for (auto iterator2 = encoder["options"].begin(); iterator2 != encoder["options"].end(); ++iterator2)
+				// Is this a normal dropdown element? (TODO: Improve this check)
+				if (param["flags"].size() == 0 && param.find("values") != param.end())
 				{
-					const json option = *iterator2;
+					int selectedId = tempValue.value.intValue;
 
-					const std::string name = option["name"].get<std::string>();
-					const std::string flags = option["flags"].get<std::string>();
+					// Handle the elements suboptions
+					for (auto itValue = param["values"].begin(); itValue != param["values"].end(); ++itValue)
+					{
+						const json value = *itValue;
 
-					// Change the visibility of an element
+						// Do we have suboptions at all?
+						if (value.find("subvalues") != value.end())
+						{
+							// Should this suboption be visible
+							const bool isValueSelected = isSelected && value["id"].get<int>() == selectedId;
+
+							// Iterate these suboptions
+							for (auto itSubvalues = value["subvalues"].begin(); itSubvalues != value["subvalues"].end(); ++itSubvalues)
+							{
+								const json suboption = *itSubvalues;
+
+								const std::string name = suboption["name"].get<std::string>();
+
+								// Change the elements visibility
+								instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+								tempValue.hidden = isValueSelected ? kPrFalse : kPrTrue;
+								instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else // Dynamic created elements
+	{
+		// Try to find the selection in one option of the codecs
+		json param = Settings::find(settings->getVideoEncoders(), "name", paramName);
+		if (param.empty())
+		{
+			param = Settings::find(settings->getAudioEncoders(), "name", paramName);
+			if (param.empty())
+			{
+				return result;
+			}
+		}
+
+		// Iterate these options
+		for (auto itValue = param["values"].begin(); itValue != param["values"].end(); ++itValue)
+		{
+			const json value = *itValue;
+
+			if (value.find("subvalues") != value.end())
+			{
+				// Should this suboption be visible
+				const bool isSelected = value["id"].get<int>() == changedValue.value.intValue;
+
+				// Iterate these suboptions
+				for (auto itSubvalue = value["subvalues"].begin(); itSubvalue != value["subvalues"].end(); ++itSubvalue)
+				{
+					const json subvalue = *itSubvalue;
+
+					const std::string name = subvalue["name"].get<std::string>();
+
+					// Change the elements visibility
 					instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
 					tempValue.hidden = isSelected ? kPrFalse : kPrTrue;
 					instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
-
-					if (flags == "none" && option.find("values") != option.end())
-					{
-						int selectedId = tempValue.value.intValue;
-
-						// Handle the elements suboptions
-						for (auto iterator = option["values"].begin(); iterator != option["values"].end(); ++iterator)
-						{
-							const json value = *iterator;
-
-							// Do we have suboptions at all?
-							if (value.find("suboptions") != value.end())
-							{
-								// Should this suboption be visible
-								const bool isValueSelected = isSelected && value["id"].get<int>() == selectedId;
-
-								// Iterate these suboptions
-								for (auto iterator2 = value["suboptions"].begin(); iterator2 != value["suboptions"].end(); ++iterator2)
-								{
-									const json suboption = *iterator2;
-
-									const std::string name = suboption["name"].get<std::string>();
-
-									// Change the elements visibility
-									instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
-									tempValue.hidden = isValueSelected ? kPrFalse : kPrTrue;
-									instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
-								}
-							}
-						}
-					}
 				}
 			}
 		}
-		else // Dynamic created elements
-		{
-			// Try to find the selection in one option of the codecs
-			json option = Settings::find(settings->getVideoEncoders(), "name", optionName);
-			if (option.empty())
-			{
-				option = Settings::find(settings->getAudioEncoders(), "name", optionName);
-				if (option.empty())
-				{
-					return result;
-				}
-			}
-
-			// What type of element do we have?
-			const std::string flags = option["flags"].get<std::string>();
-
-			// Process the different cases
-			if (flags == "slider")
-			{
-				if (option.find("disableFieldOnZero") != option.end())
-				{
-					json fields = option["disableFieldOnZero"];
-
-					// Iterate all mentioned fields
-					for (json::iterator iterator = fields.begin(); iterator != fields.end(); ++iterator)
-					{
-						const std::string field = (*iterator).get<std::string>();
-
-						// Change the elements visibility
-						instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-						tempValue.disabled = changedValue.value.intValue == 0 ? kPrTrue : kPrFalse;
-						instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-					}
-				}
-			}
-			else
-			{
-				// Iterate these options
-				for (auto iterator = option["values"].begin(); iterator != option["values"].end(); ++iterator)
-				{
-					const json value = *iterator;
-
-					if (value.find("suboptions") != value.end())
-					{
-						// Should this suboption be visible
-						const bool isSelected = value["id"].get<int>() == changedValue.value.intValue;
-
-						// Iterate these suboptions
-						for (auto iterator2 = value["suboptions"].begin(); iterator2 != value["suboptions"].end(); ++iterator2)
-						{
-							const json suboption = *iterator2;
-
-							const std::string name = suboption["name"].get<std::string>();
-
-							// Change the elements visibility
-							instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
-							tempValue.hidden = isSelected ? kPrFalse : kPrTrue;
-							instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, name.c_str(), &tempValue);
-
-							// Disable one field on zero value?
-							if (isSelected && suboption.find("disableFieldOnZero") != suboption.end())
-							{
-								const std::string name = suboption["name"].get<std::string>();
-
-								json fields = option["disableFieldOnZero"];
-
-								// Get current suboption value
-								exParamValues suboptionValue;
-								instRec->exportParamSuite->GetParamValue(exID, groupIndex, name.c_str(), &suboptionValue);
-
-								// Iterate all mentioned fields
-								for (json::iterator iterator3 = fields.begin(); iterator3 != fields.end(); ++iterator)
-								{
-									const std::string field = (*iterator3).get<std::string>();
-
-									// Change the elements visibility
-									instRec->exportParamSuite->GetParamValue(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-									tempValue.disabled = suboptionValue.value.intValue == 0 ? kPrTrue : kPrFalse;
-									instRec->exportParamSuite->ChangeParam(exID, validateParamChangedRecP->multiGroupIndex, field.c_str(), &tempValue);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// Here
-	}
-	else
-	{
-		result = exportReturn_ErrMemory;
 	}
 
 	return result;
@@ -1103,7 +1046,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	return result;
 }
 
-void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration)
+void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params, std::vector<std::string> *encoderConfiguration)
 {
 	std::map<std::string, std::string> optionMap;
 
@@ -1112,18 +1055,49 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 	int length;
 
 	// Iterate all encoder options
-	for (auto iterator = options.begin(); iterator != options.end(); ++iterator)
+	for (auto itParam = params.begin(); itParam != params.end(); ++itParam)
 	{
-		const json option = *iterator;
+		const json param = *itParam;
 
-		const std::string name = option["name"].get<std::string>();
-		const std::string flags = option["flags"].get<std::string>();
+		const std::string name = param["name"].get<std::string>();
+		const std::string type = param["type"].get<std::string>();
 
-		// What element type is it?
-		if (flags == "slider")
+		if (type == "string")
 		{
-			const std::string type = option["type"].get<std::string>();
-			const std::string param = option["param"].get<std::string>();  
+			// Get the selection
+			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
+			const std::wstring wide = std::wstring(paramValues.paramString);
+			const std::string value = std::string(wide.begin(), wide.end()); // Maybe with char conversion?
+
+			// Add to options if not empty
+			if (!value.empty())
+			{
+				optionMap.insert(std::pair<std::string, std::string>(name, value));
+			}
+
+			continue;
+		}
+
+		bool isSlider = false;
+
+		// Flags
+		if (param["flags"].is_array())
+		{
+			for (auto itFlag = param["flags"].begin(); itFlag != param["flags"].end(); ++itFlag)
+			{
+				const std::string flag = (*itFlag).get<std::string>();
+
+				if (flag == "slider")
+				{
+					isSlider = true;
+					break;
+				}
+			}
+		}
+
+		if (isSlider)
+		{
+			const std::string value = param["value"].get<std::string>();
 
 			// Get the suboptions selected value
 			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
@@ -1131,13 +1105,11 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 			// Format according to datatype
 			if (type == "float")
 			{
-				const double value = paramValues.value.floatValue;
-				length = sprintf_s(buffer, param.c_str(), value);
+				length = sprintf_s(buffer, value.c_str(), paramValues.value.floatValue);
 			}
 			else
 			{
-				const int value = paramValues.value.intValue;
-				length = sprintf_s(buffer, param.c_str(), value);
+				length = sprintf_s(buffer, value.c_str(), paramValues.value.intValue);
 			}
 
 			// Get the parameter
@@ -1153,56 +1125,35 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 		{
 			// Get the selection
 			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-			const int selectionId = paramValues.value.intValue;
 
 			// Get the selected value
-			const json value = Settings::filterArrayById(option["values"], selectionId);
+			const json selectedValue = Settings::filterArrayById(param["values"], paramValues.value.intValue);
 
 			// Do we have suboptions?
-			if (value.find("suboptions") != value.end())
+			if (selectedValue.find("subvalues") != selectedValue.end())
 			{
 				// Iterate all suboptions
-				for (auto iterator2 = value["suboptions"].begin(); iterator2 != value["suboptions"].end(); ++iterator2)
+				for (auto itSubvalue = selectedValue["subvalues"].begin(); itSubvalue != selectedValue["subvalues"].end(); ++itSubvalue)
 				{
-					const json suboption = *iterator2;
+					const json subvalue = *itSubvalue;
 
-					const std::string subname = suboption["name"].get<std::string>();
-					const std::string subtype = suboption["type"].get<std::string>();
-					const std::string subparam = suboption["param"].get<std::string>();
+					const std::string subname = subvalue["name"].get<std::string>();
+					const std::string subtype = subvalue["type"].get<std::string>();
+					const std::string subpattern = subvalue["value"].get<std::string>();
 
 					// Get the suboptions selected value
 					instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, subname.c_str(), &paramValues);
-				
-					bool isZero = false;
 
 					// Format according to datatype
 					if (subtype == "float")
 					{
 						const double value = paramValues.value.floatValue;
-						isZero = value == 0.0;
-						length = sprintf_s(buffer, subparam.c_str(), value);
+						length = sprintf_s(buffer, subpattern.c_str(), value);
 					}
 					else
 					{
 						const int value = paramValues.value.intValue;
-						isZero = value == 0;
-						length = sprintf_s(buffer, subparam.c_str(), value);
-					}
-
-					// TODO: This works only for suboptions, and only if the field that should be disabled has been already processed!
-					if (isZero && suboption.find("disableFieldOnZero") != suboption.end())
-					{
-						const std::string name = suboption["name"].get<std::string>();
-
-						json fields = suboption["disableFieldOnZero"];
-
-						// Iterate all mentioned fields
-						for (json::iterator iterator3 = fields.begin(); iterator3 != fields.end(); ++iterator3)
-						{
-							const std::string field = (*iterator3).get<std::string>();
-
-							optionMap.erase(field);
-						} //TODO
+						length = sprintf_s(buffer, subpattern.c_str(), value);
 					}
 
 					// Get the parameter
@@ -1218,19 +1169,19 @@ void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 			else
 			{
 				// Get the parameter
-				const std::string param = value["param"].get<std::string>();
+				const std::string valueval = selectedValue["value"].get<std::string>();
 
 				// Add to options if not empty
-				if (!param.empty())
+				if (!valueval.empty())
 				{
-					optionMap.insert(std::pair<std::string, std::string>(name, param));
+					optionMap.insert(std::pair<std::string, std::string>(name, valueval));
 				}
 			}
 		}
 	}
 
 	// Copy remaining values to vector
-	for (std::map<std::string, std::string>::iterator it = optionMap.begin(); it != optionMap.end(); ++it)
+	for (auto it = optionMap.begin(); it != optionMap.end(); ++it)
 	{
 		encoderConfiguration->push_back(it->second);
 	}
@@ -1295,7 +1246,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 
 	// Go through all codec options
 	std::vector<std::string> videoEncoderOptions;
-	createEncoderConfiguration(instRec, exID, 0, vCodec["options"], &videoEncoderOptions);
+	CreateEncoderConfiguration(instRec, exID, 0, vCodec["params"], &videoEncoderOptions);
 
 	// Add field order for interlaced output
 	if (fieldType.value.intValue == prFieldsUpperFirst)
@@ -1335,7 +1286,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 
 	// Go through all codec options
 	std::vector<std::string> audioEncoderOptions;
-	createEncoderConfiguration(instRec, exID, 0, aCodec["options"], &audioEncoderOptions);
+	CreateEncoderConfiguration(instRec, exID, 0, aCodec["params"], &audioEncoderOptions);
 
 	// Convert vector to string
 	std::stringstream audioEncoderStream;

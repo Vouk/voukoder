@@ -16,7 +16,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec	*validateParamChangedRecP);
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP);
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec);
-void createEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration);
+void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json options, std::vector<std::string> *encoderConfiguration);
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder);
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder);
 PrPixelFormat GetPremierePixelFormats(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);

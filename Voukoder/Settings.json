@@ -107,241 +107,329 @@
 		{
 		    "id" : 0,
 			"name" : "libx264",
-			"options" : [
+			"params" : [
 				{
 					"name" : "x264Preset",
 					"label" : "Preset",
+					"group" : "ADBEVideoCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 5,
 					"values" : [
 						{
 							"id" : 0,
 							"name" : "Ultra fast",
-							"param" : "preset=ultrafast"
+							"value" : "preset=ultrafast"
 						},
 						{
 							"id" : 1,
 							"name" : "Super fast",
-							"param" : "preset=superfast"
+							"value" : "preset=superfast"
 						},
 						{
 							"id" : 2,
 							"name" : "Very fast",
-							"param" : "preset=veryfast"
+							"value" : "preset=veryfast"
 						},
 						{
 							"id" : 3,
 							"name" : "Faster",
-							"param" : "preset=faster"
+							"value" : "preset=faster"
 						},
 						{
 							"id" : 4,
 							"name" : "Fast",
-							"param" : "preset=fast"
+							"value" : "preset=fast"
 						},
 						{
 							"id" : 5,
 							"name" : "Medium",
-							"param" : "preset=medium"
+							"value" : "preset=medium"
 						},
 						{
 							"id" : 6,
 							"name" : "Slow",
-							"param" : "preset=slow"
+							"value" : "preset=slow"
 						},
 						{
 							"id" : 7,
 							"name" : "Slower",
-							"param" : "preset=slower"
+							"value" : "preset=slower"
 						},
 						{
 							"id" : 8,
 							"name" : "Very slow",
-							"param" : "preset=veryslow"
+							"value" : "preset=veryslow"
 						},
 						{
 							"id" : 9,
 							"name" : "Placebo",
-							"param" : "preset=placebo"
+							"value" : "preset=placebo"
 						}
 					]
 				},
 				{
 					"name" : "x264Profile",
 					"label" : "Profile",
+					"group" : "ADBEVideoCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 2,
 					"values" : [
 						{
 							"id" : 0,
 							"name" : "Baseline",
-							"param" : "profile=baseline"
+							"value" : "profile=baseline"
 						},
 						{
 							"id" : 1,
 							"name" : "Main",
-							"param" : "profile=main"
+							"value" : "profile=main"
 						},
 						{
 							"id" : 2,
 							"name" : "High",
-							"param" : "profile=high"
+							"value" : "profile=high"
 						}
 					]
 				},
 				{
 					"name" : "x264Level",
 					"label" : "Level",
+					"group" : "ADBEVideoCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 0,
 					"values" : [
 						{
 							"id" : 0,
 							"name" : "(Automatic)",
-							"param" : ""
+							"value" : ""
 						},
 						{
 							"id" : 1,
 							"name" : "1",
-							"param" : "level=1"
+							"value" : "level=1"
 						},
 						{
 							"id" : 2,
 							"name" : "1.1",
-							"param" : "level=1.1"
+							"value" : "level=1.1"
 						},
 						{
 							"id" : 3,
 							"name" : "1.2",
-							"param" : "level=1.2"
+							"value" : "level=1.2"
 						},
 						{
 							"id" : 4,
 							"name" : "1.3",
-							"param" : "level=1.3"
+							"value" : "level=1.3"
 						},
 						{
 							"id" : 5,
 							"name" : "2",
-							"param" : "level=2"
+							"value" : "level=2"
 						},
 						{
 							"id" : 6,
 							"name" : "2.1",
-							"param" : "level=2.1"
+							"value" : "level=2.1"
 						},
 						{
 							"id" : 7,
 							"name" : "2.2",
-							"param" : "level=2.2"
+							"value" : "level=2.2"
 						},
 						{
 							"id" : 8,
 							"name" : "3",
-							"param" : "level=3"
+							"value" : "level=3"
 						},
 						{
 							"id" : 9,
 							"name" : "3.1",
-							"param" : "level=3.1"
+							"value" : "level=3.1"
 						},
 						{
 							"id" : 10,
 							"name" : "3.2",
-							"param" : "level=3.2"
+							"value" : "level=3.2"
 						},
 						{
 							"id" : 11,
 							"name" : "4",
-							"param" : "level=4"
+							"value" : "level=4"
 						},
 						{
 							"id" : 12,
 							"name" : "4.1",
-							"param" : "level=4.1"
+							"value" : "level=4.1"
 						},
 						{
 							"id" : 13,
 							"name" : "4.2",
-							"param" : "level=4.2"
+							"value" : "level=4.2"
 						},
 						{
 							"id" : 14,
 							"name" : "5",
-							"param" : "level=5"
+							"value" : "level=5"
 						},
 						{
 							"id" : 15,
 							"name" : "5.1",
-							"param" : "level=5.1"
+							"value" : "level=5.1"
 						}
 					]
 				},
 				{
 					"name" : "x264Strategy",
 					"label" : "Strategy",
+					"group" : "ADBEVideoCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 1,
 					"values" : [
 						{
 							"id" : 0,
 							"name" : "Average Bitrate (ARB)",
-							"suboptions" : [
+							"subvalues" : [
 								{
 									"name" : "x264StrategyARB",
 									"label" : "Average Bitrate (Mbps)",
 									"type" : "float",
-									"flags" : "slider",
+									"flags" : [ "slider" ],
 									"defaultValue": 15,
 									"minValue" : 1,
 									"maxValue" : 100,
-									"param" : "bitrate=%0.f"
+									"value" : "bitrate=%0.f"
 								}			
 							]
 						},
 						{
 							"id" : 1,
 							"name" : "Constant Rate Factor (CRF)",
-							"suboptions" : [
+							"subvalues" : [
 								{
 									"name" : "x264StrategyCRF",
 									"label" : "Constant Rate Factor",
 									"type" : "int",
-									"flags" : "slider",
+									"flags" : [ "slider" ],
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 51,
-									"param" : "crf=%d"
+									"value" : "crf=%d"
 								}			
 							]
 						},
 						{
 							"id" : 2,
 							"name" : "Constant Quantizer (QP)",
-							"suboptions" : [
+							"subvalues" : [
 								{
 									"name" : "x264StrategyQP",
 									"label" : "Constant Quantizer",
 									"type" : "int",
-									"flags" : "slider",
+									"flags" : [ "slider" ],
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 69,
-									"param" : "qp=%d"
+									"value" : "qp=%d"
 								}			
 							]
 						},
 						{
 							"id" : 3,
-							"name" : "Lossless (todo)",
+							"name" : "Lossless",
 							"param" : "qp=0:profile=high422",
 							"disableField" : [ "x264Profile", "x264Level" ]
 						}
 					]
+				},
+				{
+					"name" : "x264CustomParams",
+					"label" : "Custom codec parameters\n(param1=value:param2=value)",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "string",
+					"flags" : [ "multiline" ],
+					"value" : "%s",
+					"defaultValue": ""
+				}
+			]
+		},
+		{
+		    "id" : 1,
+			"name" : "libx265",
+			"params" : [
+							{
+					"name" : "x265Preset",
+					"label" : "Preset",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 5,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Ultra fast",
+							"value" : "preset=ultrafast"
+						},
+						{
+							"id" : 1,
+							"name" : "Super fast",
+							"value" : "preset=superfast"
+						},
+						{
+							"id" : 2,
+							"name" : "Very fast",
+							"value" : "preset=veryfast"
+						},
+						{
+							"id" : 3,
+							"name" : "Faster",
+							"value" : "preset=faster"
+						},
+						{
+							"id" : 4,
+							"name" : "Fast",
+							"value" : "preset=fast"
+						},
+						{
+							"id" : 5,
+							"name" : "Medium",
+							"value" : "preset=medium"
+						},
+						{
+							"id" : 6,
+							"name" : "Slow",
+							"value" : "preset=slow"
+						},
+						{
+							"id" : 7,
+							"name" : "Slower",
+							"value" : "preset=slower"
+						},
+						{
+							"id" : 8,
+							"name" : "Very slow",
+							"value" : "preset=veryslow"
+						},
+						{
+							"id" : 9,
+							"name" : "Placebo",
+							"value" : "preset=placebo"
+						}
+					]
+				},
+				{
+					"name" : "x265CustomParams",
+					"label" : "Custom codec parameters\n(param1=value:param2=value)",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "string",
+					"flags" : [ "multiline" ],
+					"value" : "%s",
+					"defaultValue": ""
 				}
 			]
 		}
@@ -350,77 +438,79 @@
 		{
 			"id" : 0,
 			"name" : "aac",
-			"options" : [
+			"params" : [
 				{
 					"name" : "aacPreset",
 					"label" : "Preset",
+					"group" : "ADBEAudioCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 0,
 					"values" : [
 						{
 							"id" : 0,
 							"name" : "Low-complexity",
-							"param" : "preset=aac_low"
+							"value" : "preset=aac_low"
 						},
 						{
 							"id" : 1,
 							"name" : "MPEG2 Low-complexity",
-							"param" : "preset=mpeg2_aac_low"
+							"value" : "preset=mpeg2_aac_low"
 						},
 						{
 							"id" : 2,
 							"name" : "Long term prediction",
-							"param" : "preset=aac_ltp"
+							"value" : "preset=aac_ltp"
 						},
 						{
 							"id" : 3,
 							"name" : "Main",
-							"param" : "preset=aac_main"
+							"value" : "preset=aac_main"
 						}
 					]
 				},
 				{
 					"name" : "ADBEAudioBitrate",
 					"label" : "Bitrate (Kbps)",
+					"group" : "ADBEAudioCodecGroup",
 					"type" : "int",
-					"flags" : "none",
+					"flags" : [],
 					"defaultValue": 128,
 					"values" : [
 						{
 							"id" : 64,
 							"name" : "64",
-							"param" : "b=65536"
+							"value" : "b=65536"
 						},
 						{
 							"id" : 96,
 							"name" : "96",
-							"param" : "b=98304"
+							"value" : "b=98304"
 						},
 						{
 							"id" : 128,
 							"name" : "128",
-							"param" : "b=131072"
+							"value" : "b=131072"
 						},
 						{
 							"id" : 192,
 							"name" : "192",
-							"param" : "b=196608"
+							"value" : "b=196608"
 						},
 						{
 							"id" : 256,
 							"name" : "256",
-							"param" : "b=262144"
+							"value" : "b=262144"
 						},
 						{
 							"id" : 320,
 							"name" : "320",
-							"param" : "b=327680"
+							"value" : "b=327680"
 						},
 						{
 							"id" : 384,
 							"name" : "384",
-							"param" : "b=393216"
+							"value" : "b=393216"
 						}
 					]
 				}
@@ -429,21 +519,22 @@
 		{
 			"id" : 1,
 			"name" : "ac3",
-			"options" : []
+			"params" : []
 		},
 		{
 			"id" : 2,
 			"name" : "flac",
-			"options" : [
+			"params" : [
 				{
 					"name" : "flacCompressionLevel",
 					"label" : "Compression Level",
+					"group" : "ADBEAudioCodecGroup",
 					"type" : "int",
-					"flags" : "slider",
+					"flags" : [ "slider" ],
 					"defaultValue": 5,
 					"minValue" : 0,
 					"maxValue" : 12,
-					"param" : "compression_level=%d"
+					"value" : "compression_level=%d"
 				}
 			]
 		}

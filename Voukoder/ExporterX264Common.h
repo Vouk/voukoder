@@ -47,8 +47,9 @@ extern "C" {
 #pragma comment(lib, "libswscale.lib")
 #pragma comment(lib, "libavresample.lib")
 #pragma comment(lib, "libx264.lib")
+#pragma comment(lib, "x265.lib")
 
-#define PLUGIN_APPNAME							L"Voukoder 0.2.4"
+#define PLUGIN_APPNAME							L"Voukoder 0.3.0"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000
@@ -105,10 +106,10 @@ typedef csSDK_int32 vkdrColorRange;
 #define vkdrLimitedColorRange	kPrFalse
 
 PrTime gcd(PrTime a, PrTime b);
-void populateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders);
-void createEncoderOptionElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *groupIdentifier, json encoders, int selectedId);
-exNewParamInfo createGUIElement(json option, prBool hidden);
-void populateEncoderOptionValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
-void configureEncoderOption(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
+void PopulateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders);
+void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders, int selectedId);
+exNewParamInfo CreateParamElement(json param, bool hidden);
+void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
+void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
 prBool IsPixelFormatYUV420(PrPixelFormat pixelformat);
 void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);

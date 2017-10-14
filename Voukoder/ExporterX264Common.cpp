@@ -7,7 +7,14 @@ PrTime gcd(PrTime a, PrTime b)
 	return gcd(b % a, a);
 }
 
-void populateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders)
+void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
+{
+	HWND mainWnd = instRec->windowSuite->GetMainWindow();
+
+	MessageBox(GetLastActivePopup(mainWnd), lpText, lpCaption, uType);
+}
+
+void PopulateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders)
 {
 	exOneParamValueRec oneParamValueRec;
 	prUTF16Char tempString[kPrMaxName];
@@ -16,57 +23,62 @@ void populateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 g
 	instRec->exportParamSuite->ClearConstrainedValues(pluginId, groupIndex, elementIdentifier);
 
 	// Populate encoders
-	for (auto iterator = encoders.begin(); iterator != encoders.end(); ++iterator)
+	for (auto itEncoder = encoders.begin(); itEncoder != encoders.end(); ++itEncoder)
 	{
-		json encoder = *iterator;
+		json encoder = *itEncoder;
 
 		std::string name = encoder["name"].get<std::string>();
 
 		AVCodec *codec = avcodec_find_encoder_by_name(name.c_str());
-		oneParamValueRec.intValue = encoder["id"].get<int>();
-		swprintf(tempString, kPrMaxName, L"%hs", codec->long_name);
-		instRec->exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, elementIdentifier, &oneParamValueRec, tempString);
+		if (codec != NULL)
+		{
+			oneParamValueRec.intValue = encoder["id"].get<int>();
+			swprintf(tempString, kPrMaxName, L"%hs", codec->long_name);
+			instRec->exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, elementIdentifier, &oneParamValueRec, tempString);
+		}
 	}
 }
 
-void createEncoderOptionElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *groupIdentifier, json encoders, int selectedId)
+void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders, int selectedId)
 {
 	bool isSelected;
 	exNewParamInfo paramInfo;
 
 	// Iterate encoders
-	for (auto iterator = encoders.begin(); iterator != encoders.end(); ++iterator)
+	for (auto itEncoder = encoders.begin(); itEncoder != encoders.end(); ++itEncoder)
 	{
-		json encoder = *iterator;
+		json encoder = *itEncoder;
 
-		// Should these options be hidden?
+		// Should these params be hidden?
 		isSelected = encoder["id"].get<int>() == selectedId;
 
-		// Iterate encoder options
-		for (auto iterator2 = encoder["options"].begin(); iterator2 != encoder["options"].end(); ++iterator2)
+		// Iterate encoder params
+		for (auto itParam = encoder["params"].begin(); itParam != encoder["params"].end(); ++itParam)
 		{
-			json option = *iterator2;
+			json param = *itParam;
 
-			paramInfo = createGUIElement(option, isSelected ? kPrFalse : kPrTrue);
-			exportParamSuite->AddParam(pluginId, groupIndex, groupIdentifier, &paramInfo);
+			std::string group = param["group"].get<std::string>();
 
-			// Add possible existing suboptions
-			for (auto iterator3 = option["values"].begin(); iterator3 != option["values"].end(); ++iterator3)
+			paramInfo = CreateParamElement(param, !isSelected);
+
+			exportParamSuite->AddParam(pluginId, groupIndex, group.c_str(), &paramInfo);
+
+			// Add possible existing subvalues
+			for (auto itValue = param["values"].begin(); itValue != param["values"].end(); ++itValue)
 			{
-				json value = *iterator3;
+				json value = *itValue;
 
-				bool isDefault = option["defaultValue"].get<int>() == value["id"].get<int>();
+				bool isDefault = param["defaultValue"].get<int>() == value["id"].get<int>();
 
-				// Are there suboptions?
-				if (value.find("suboptions") != value.end())
+				// Are there subvalues?
+				if (value.find("subvalues") != value.end())
 				{
-					// Iterate all suboptions
-					for (auto iterator4 = value["suboptions"].begin(); iterator4 != value["suboptions"].end(); ++iterator4)
+					// Iterate all subvalues
+					for (auto itSubvalue = value["subvalues"].begin(); itSubvalue != value["subvalues"].end(); ++itSubvalue)
 					{
-						json suboption = *iterator4;
+						paramInfo = CreateParamElement(*itSubvalue, !isDefault);
 
-						paramInfo = createGUIElement(suboption, isDefault ? kPrFalse : kPrTrue);
-						exportParamSuite->AddParam(pluginId, groupIndex, groupIdentifier, &paramInfo);
+						exportParamSuite->AddParam(pluginId, groupIndex, group.c_str(), &paramInfo);
 					}
 				}
 			}
@@ -74,23 +86,11 @@ void createEncoderOptionElements(PrSDKExportParamSuite *exportParamSuite, csSDK_
 	}
 }
 
-exNewParamInfo createGUIElement(json option, prBool hidden)
+exNewParamInfo CreateParamElement(json param, bool hidden)
 {
-	const std::string type = option["type"].get<std::string>();
-	const std::string name = option["name"].get<std::string>();
-	const std::string flags = option["flags"].get<std::string>();
-
-	// Fill paramInfo
-	exNewParamInfo paramInfo;
-	paramInfo.structVersion = 1;
-	if (type == "float")
-	{
-		paramInfo.paramType = exParamType_float;
-	}
-	else if (type == "int")
-	{
-		paramInfo.paramType = exParamType_int;
-	}
+	// Get param type
+	const std::string type = param["type"].get<std::string>();
+	const std::string name = param["name"].get<std::string>();
 
 	// Fill param values
 	exParamValues paramValues;
@@ -98,123 +98,145 @@ exNewParamInfo createGUIElement(json option, prBool hidden)
 	paramValues.disabled = kPrFalse;
 	paramValues.hidden = hidden;
 	paramValues.optionalParamEnabled = kPrFalse;
+
+	// Fill paramInfo
+	exNewParamInfo paramInfo;
+	paramInfo.structVersion = 1;
+	paramInfo.flags = exParamFlag_none;
+	paramInfo.paramType = exParamType_undefined;	
+	::lstrcpyA(paramInfo.identifier, name.c_str());
+	
+	// Data types
 	if (type == "float")
 	{
-		paramValues.value.floatValue = option["defaultValue"].get<float>();
+		paramInfo.paramType = exParamType_float;
+		paramValues.value.floatValue = param["defaultValue"].get<float>();
 	}
 	else if (type == "int")
 	{
-		paramValues.value.intValue = option["defaultValue"].get<int>();
+		paramInfo.paramType = exParamType_int;
+		paramValues.value.intValue = param["defaultValue"].get<int>();
+	}
+	else if (type == "string")
+	{
+		paramInfo.paramType = exParamType_string;
+		const std::string defaultValue = param["defaultValue"].get<std::string>();
+		::lstrcpyW(paramValues.paramString, string2wchar_t(defaultValue));
 	}
 
-	// Set up element depending on flags
-	if (flags == "slider")
+	// Flags
+	if (param["flags"].is_array())
 	{
-		paramInfo.flags = exParamFlag_slider;
+		for (auto itFlag = param["flags"].begin(); itFlag != param["flags"].end(); ++itFlag)
+		{
+			const std::string flag = (*itFlag).get<std::string>();
 
-		if (type == "float")
-		{
-			paramValues.rangeMin.floatValue = option["minValue"].get<float>();
-			paramValues.rangeMax.floatValue = option["maxValue"].get<float>();
+			if (flag == "slider")
+			{
+				paramInfo.flags = exParamFlag_slider;
+
+				if (type == "float")
+				{
+					paramValues.rangeMin.floatValue = param["minValue"].get<float>();
+					paramValues.rangeMax.floatValue = param["maxValue"].get<float>();
+				}
+				else if (type == "int")
+				{
+					paramValues.rangeMin.intValue = param["minValue"].get<int>();
+					paramValues.rangeMax.intValue = param["maxValue"].get<int>();
+				}
+			}
+			else if (flag == "multiline")
+			{
+				paramInfo.flags = exParamFlag_multiLine;
+			}
 		}
-		else if (type == "int")
-		{
-			paramValues.rangeMin.intValue = option["minValue"].get<int>();
-			paramValues.rangeMax.intValue = option["maxValue"].get<int>();
-		}
-	}
-	else
-	{
-		paramInfo.flags = exParamFlag_none;
 	}
 
 	paramInfo.paramValues = paramValues;
 
-	::lstrcpyA(paramInfo.identifier, name.c_str());
-
 	return paramInfo;
 }
 
-void populateEncoderOptionValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders)
+void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders)
 {
 	// Iterate all encoders
-	for (auto iterator = encoders.begin(); iterator != encoders.end(); ++iterator)
+	for (auto itEncoder = encoders.begin(); itEncoder != encoders.end(); ++itEncoder)
 	{
-		json encoder = *iterator;
+		json encoder = *itEncoder;
 
 		// Iterate all encoder options
-		for (auto iterator2 = encoder["options"].begin(); iterator2 != encoder["options"].end(); ++iterator2)
+		for (auto itParam = encoder["params"].begin(); itParam != encoder["params"].end(); ++itParam)
 		{
-			json option = *iterator2;
-
-			configureEncoderOption(instRec, pluginId, groupIndex, option);
+			ConfigureEncoderParam(instRec, pluginId, groupIndex, *itParam);
 		}
 	}
 }
 
-void configureEncoderOption(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option)
+void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json param)
 {
 	prUTF16Char tempString[kPrMaxName];
 	exParamValues paramValues;
 
-	const std::string name = option["name"].get<std::string>();
-	const std::string label = option["label"].get<std::string>();
-	const std::string flags = option["flags"].get<std::string>();
+	const std::string name = param["name"].get<std::string>();
+	const std::string label = param["label"].get<std::string>();
+	const std::string type = param["type"].get<std::string>();
 
-	// Prepare GUI element
+	// Assign a param label
 	instRec->exportParamSuite->SetParamName(pluginId, groupIndex, name.c_str(), string2wchar_t(label));
 
-	if (flags == "slider")
+	// Flags
+	if (param["flags"].is_array())
 	{
-		instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-
-		const std::string type = option["type"].get<std::string>();
-
-		if (type == "float")
+		for (auto itFlag = param["flags"].begin(); itFlag != param["flags"].end(); ++itFlag)
 		{
-			paramValues.rangeMin.floatValue = option["minValue"].get<float>();
-			paramValues.rangeMax.floatValue = option["maxValue"].get<float>();
-		}
-		else if (type == "int")
-		{
-			paramValues.rangeMin.intValue = option["minValue"].get<int>();
-			paramValues.rangeMax.intValue = option["maxValue"].get<int>();
-		}
+			const std::string flag = (*itFlag).get<std::string>();
 
-		instRec->exportParamSuite->ChangeParam(pluginId, groupIndex, name.c_str(), &paramValues);
-	}
-	else if (flags == "none" && option.find("values") != option.end())
-	{
-		// Clear values
-		instRec->exportParamSuite->ClearConstrainedValues(pluginId, groupIndex, name.c_str());
-
-		exOneParamValueRec oneParamValueRec;
-		for (auto iterator3 = option["values"].begin(); iterator3 != option["values"].end(); ++iterator3)
-		{
-			json value = *iterator3;
-
-			oneParamValueRec.intValue = value["id"].get<int>();
-
-			swprintf(tempString, kPrMaxName, L"%hs", value["name"].get<std::string>().c_str());
-			instRec->exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, name.c_str(), &oneParamValueRec, tempString);
-
-			if (value.find("suboptions") != value.end())
+			if (flag == "slider")
 			{
-				// Iterate all suboptions
-				for (auto iterator4 = value["suboptions"].begin(); iterator4 != value["suboptions"].end(); ++iterator4)
-				{
-					json suboption = *iterator4;
+				instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
 
-					configureEncoderOption(instRec, pluginId, groupIndex, suboption);
+				if (type == "float")
+				{
+					paramValues.rangeMin.floatValue = param["minValue"].get<float>();
+					paramValues.rangeMax.floatValue = param["maxValue"].get<float>();
+				}
+				else if (type == "int")
+				{
+					paramValues.rangeMin.intValue = param["minValue"].get<int>();
+					paramValues.rangeMax.intValue = param["maxValue"].get<int>();
+				}
+
+				instRec->exportParamSuite->ChangeParam(pluginId, groupIndex, name.c_str(), &paramValues);
+			}
+		}
+		
+		// It is a simple dropdown (TODO: maybe make a better check here)
+		if (param["flags"].size() == 0 && param.find("values") != param.end())
+		{
+			// Clear values
+			instRec->exportParamSuite->ClearConstrainedValues(pluginId, groupIndex, name.c_str());
+
+			// Populate new values
+			exOneParamValueRec oneParamValueRec;
+			for (auto itValue = param["values"].begin(); itValue != param["values"].end(); ++itValue)
+			{
+				json value = *itValue;
+
+				// Add value
+				oneParamValueRec.intValue = value["id"].get<int>();
+				swprintf(tempString, kPrMaxName, L"%hs", value["name"].get<std::string>().c_str());
+				instRec->exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, name.c_str(), &oneParamValueRec, tempString);
+
+				// Are there subvalues
+				if (value.find("subvalues") != value.end())
+				{
+					for (auto itSubvalue = value["subvalues"].begin(); itSubvalue != value["subvalues"].end(); ++itSubvalue)
+					{
+						ConfigureEncoderParam(instRec, pluginId, groupIndex, *itSubvalue);
+					}
 				}
 			}
 		}
-	}
-}
-
-void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
-{
-	HWND mainWnd = instRec->windowSuite->GetMainWindow();
-
-	MessageBox(GetLastActivePopup(mainWnd), lpText, lpCaption, uType);
+	}	
 }
