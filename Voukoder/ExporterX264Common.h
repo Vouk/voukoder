@@ -38,6 +38,8 @@ extern "C" {
 #include "libavutil\fifo.h"
 #include "libavutil\log.h"
 #include "libavutil\mathematics.h"
+#include "x264.h"
+#include "x265.h"
 }
 
 #pragma comment(lib, "libavformat.lib")
@@ -49,7 +51,7 @@ extern "C" {
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
 
-#define PLUGIN_APPNAME							L"Voukoder 0.3.0"
+#define PLUGIN_APPNAME							L"Voukoder 0.3.1"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000

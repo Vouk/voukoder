@@ -1,9 +1,12 @@
+#include <windows.h>
+#include <chrono>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/locale.hpp>
+#include <boost/spirit/include/qi.hpp>
 #include "Encoder.h"
 #include "ExporterX264.h"
 #include "ExporterX264Common.h"
-#include <windows.h>
 #include "resource.h"
-#include <chrono>
 
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
 {
@@ -1062,23 +1065,8 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 		const std::string name = param["name"].get<std::string>();
 		const std::string type = param["type"].get<std::string>();
 
-		if (type == "string")
-		{
-			// Get the selection
-			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-			const std::wstring wide = std::wstring(paramValues.paramString);
-			const std::string value = std::string(wide.begin(), wide.end()); // Maybe with char conversion?
-
-			// Add to options if not empty
-			if (!value.empty())
-			{
-				optionMap.insert(std::pair<std::string, std::string>(name, value));
-			}
-
-			continue;
-		}
-
 		bool isSlider = false;
+		bool isCodecParams = false;
 
 		// Flags
 		if (param["flags"].is_array())
@@ -1092,7 +1080,54 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 					isSlider = true;
 					break;
 				}
+				else if (flag == "codec_params")
+				{
+					isCodecParams = true;
+					break;
+				}
 			}
+		}
+
+		if (type == "string")
+		{
+			// Get the selection
+			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
+			std::string value = boost::locale::conv::utf_to_utf<char>(paramValues.paramString);
+
+			// Do some special conversion if there are codec params
+			if (isCodecParams)
+			{
+				// Support params separated by newline
+				boost::replace_all(value, "\r\n", ":");
+
+				/*
+				using namespace boost::spirit;
+
+				std::map<std::string, std::string> params;
+
+				const bool result = boost::spirit::qi::phrase_parse(
+					value.begin(),
+					value.end(),
+					*(*(qi::char_ - "=") >> qi::lit("=") >> *(qi::char_ - ":") >> -qi::lit(":")),
+					ascii::space, params);
+
+				for (auto const &param : params)
+				{
+					if (param.second.empty())
+					{
+						params.emplace()
+					}
+				}
+				*/
+			}
+
+			// Add to options if not empty
+			if (!value.empty())
+			{
+				optionMap.insert(std::pair<std::string, std::string>(name, value));
+			}
+
+			continue;
 		}
 
 		if (isSlider)

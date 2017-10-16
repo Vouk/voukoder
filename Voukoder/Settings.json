@@ -349,10 +349,10 @@
 				},
 				{
 					"name" : "x264CustomParams",
-					"label" : "Custom codec parameters\n(param1=value:param2=value)",
+					"label" : "x264-params\n(param1=value:param2=value)",
 					"group" : "ADBEVideoCodecGroup",
 					"type" : "string",
-					"flags" : [ "multiline" ],
+					"flags" : [ "multiline", "codec_params" ],
 					"value" : "%s",
 					"defaultValue": ""
 				}
@@ -423,11 +423,75 @@
 					]
 				},
 				{
+					"name" : "x265Strategy",
+					"label" : "Strategy",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Average Bitrate (ARB)",
+							"subvalues" : [
+								{
+									"name" : "x265StrategyARB",
+									"label" : "Average Bitrate (Mbps)",
+									"type" : "float",
+									"flags" : [ "slider" ],
+									"defaultValue": 15,
+									"minValue" : 1,
+									"maxValue" : 100,
+									"value" : "bitrate=%0.f"
+								}			
+							]
+						},
+						{
+							"id" : 1,
+							"name" : "Constant Rate Factor (CRF)",
+							"subvalues" : [
+								{
+									"name" : "x265StrategyCRF",
+									"label" : "Constant Rate Factor",
+									"type" : "int",
+									"flags" : [ "slider" ],
+									"defaultValue": 28,
+									"minValue" : 1,
+									"maxValue" : 51,
+									"value" : "crf=%d"
+								}			
+							]
+						},
+						{
+							"id" : 2,
+							"name" : "Constant Quantizer (QP)",
+							"subvalues" : [
+								{
+									"name" : "x265StrategyQP",
+									"label" : "Constant Quantizer",
+									"type" : "int",
+									"flags" : [ "slider" ],
+									"defaultValue": 23,
+									"minValue" : 1,
+									"maxValue" : 51,
+									"value" : "qp=%d"
+								}			
+							]
+						},
+						{
+							"id" : 3,
+							"name" : "Lossless",
+							"param" : "lossless=1",
+							"disableField" : [ "x264Profile", "x264Level" ]
+						}
+					]
+				},
+				{
 					"name" : "x265CustomParams",
-					"label" : "Custom codec parameters\n(param1=value:param2=value)",
+					"label" : "x265-params\n(param1=value:param2=value)",
 					"group" : "ADBEVideoCodecGroup",
 					"type" : "string",
-					"flags" : [ "multiline" ],
+					"flags" : [ "multiline", "codec_params" ],
 					"value" : "%s",
 					"defaultValue": ""
 				}

@@ -48,14 +48,14 @@
     <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <TargetExt>.prm</TargetExt>
     <SourcePath>$(SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib_debug;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1\stage\lib;$(LibraryPath)</LibraryPath>
     <CustomBuildAfterTargets />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib_release;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1\stage\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.prm</TargetExt>
     <CustomBuildAfterTargets />
     <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
