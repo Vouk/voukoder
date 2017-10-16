@@ -76,7 +76,7 @@ void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_u
 					// Iterate all subvalues
 					for (auto itSubvalue = value["subvalues"].begin(); itSubvalue != value["subvalues"].end(); ++itSubvalue)
 					{
-						paramInfo = CreateParamElement(*itSubvalue, !isDefault);
+						paramInfo = CreateParamElement(*itSubvalue, !isDefault || !isSelected);
 
 						exportParamSuite->AddParam(pluginId, groupIndex, group.c_str(), &paramInfo);
 					}

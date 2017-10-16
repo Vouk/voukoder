@@ -342,7 +342,7 @@
 						{
 							"id" : 3,
 							"name" : "Lossless",
-							"param" : "qp=0:profile=high422",
+							"value" : "qp=0:profile=high422",
 							"disableField" : [ "x264Profile", "x264Level" ]
 						}
 					]
@@ -481,8 +481,8 @@
 						{
 							"id" : 3,
 							"name" : "Lossless",
-							"param" : "lossless=1",
-							"disableField" : [ "x264Profile", "x264Level" ]
+							"value" : "lossless=1",
+							"disableField" : [ "x265Profile", "x265Level" ]
 						}
 					]
 				},
