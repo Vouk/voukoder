@@ -1,5 +1,5 @@
 # voukoder
-Use x264 and x265 from the libav library directly in Adobe Premiere (Elements).
+Use x264 and x265 from the libav library directly in Adobe Premiere (Pro and Elements).
 
 This plugin is under heavy development and not yet ready for prodction use.
 
