@@ -111,47 +111,47 @@
 				{
 					"name" : "VKDRx264QuantizerGroup",
 					"label" : "Quantizers",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264GOPGroup",
 					"label" : "GOP",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264SlicingGroup",
 					"label" : "Slicing",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264BFramesGroup",
 					"label" : "B-Frames",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264RateControlGroup",
 					"label" : "Rate Control",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264MotionEstimationGroup",
 					"label" : "Motion Estimation",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264AnalysisGroup",
 					"label" : "Analysis",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264BluRayGroup",
 					"label" : "Blu-Ray",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				},
 				{
 					"name" : "VKDRx264MiscGroup",
 					"label" : "Miscellaneous",
-					"parent" : "ADBEVideoTabGroup"
+					"parent" : "VKDRAdvVideoCodecTabGroup"
 				}
 			],
 			"params" : [

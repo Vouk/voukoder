@@ -516,6 +516,9 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 
 #pragma endregion
 
+	// Advanced video codec tab
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced Video", kPrFalse, kPrFalse, kPrFalse);
+
 #pragma region Group: Video Encoder Options
 
 	// Basic settings group
