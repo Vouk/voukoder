@@ -60,6 +60,7 @@ extern "C" {
 #define VKDRTVStandard							"VKDRTVStandard"
 #define VKDRColorSpace							"VKDRColorSpace"
 #define VKDRColorRange							"VKDRColorRange"
+#define VKDRAdvancedTab							"VKDRAdvancedTab"
 #define FFMultiplexerTabGroup					"MultiplexerTab"
 #define FFMultiplexerBasicGroup					"MultiplexerBasicGroup"
 #define FFMultiplexer							"Multiplexer"

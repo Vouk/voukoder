@@ -107,6 +107,53 @@
 		{
 		    "id" : 0,
 			"name" : "libx264",
+			"groups" : [
+				{
+					"name" : "VKDRx264QuantizerGroup",
+					"label" : "Quantizers",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264GOPGroup",
+					"label" : "GOP",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264SlicingGroup",
+					"label" : "Slicing",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264BFramesGroup",
+					"label" : "B-Frames",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264RateControlGroup",
+					"label" : "Rate Control",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264MotionEstimationGroup",
+					"label" : "Motion Estimation",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264AnalysisGroup",
+					"label" : "Analysis",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264BluRayGroup",
+					"label" : "Blu-Ray",
+					"parent" : "ADBEVideoTabGroup"
+				},
+				{
+					"name" : "VKDRx264MiscGroup",
+					"label" : "Miscellaneous",
+					"parent" : "ADBEVideoTabGroup"
+				}
+			],
 			"params" : [
 				{
 					"name" : "x264Preset",
@@ -175,7 +222,13 @@
 					"type" : "int",
 					"flags" : [],
 					"defaultValue": 2,
+					"useDefaultValue" : true,
 					"values" : [
+						{
+							"id" : 3,
+							"name" : "(None)",
+							"value" : ""
+						},
 						{
 							"id" : 0,
 							"name" : "Baseline",
@@ -190,6 +243,61 @@
 							"id" : 2,
 							"name" : "High",
 							"value" : "profile=high"
+						}
+					]
+				},
+				{
+					"name" : "x264Tune",
+					"label" : "Tuning",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 0,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "(None)",
+							"value" : ""
+						},
+						{
+							"id" : 1,
+							"name" : "Film",
+							"value" : "tune=film"
+						},
+						{
+							"id" : 2,
+							"name" : "Animation",
+							"value" : "tune=animation"
+						},
+						{
+							"id" : 3,
+							"name" : "Grain",
+							"value" : "tune=grain"
+						},
+						{
+							"id" : 4,
+							"name" : "Still Image",
+							"value" : "tune=stillimage"
+						},
+						{
+							"id" : 5,
+							"name" : "PSNR",
+							"value" : "tune=psnr"
+						},
+						{
+							"id" : 6,
+							"name" : "SSIM",
+							"value" : "tune=ssim"
+						},
+						{
+							"id" : 7,
+							"name" : "Fast Decode",
+							"value" : "tune=fastdecode"
+						},
+						{
+							"id" : 8,
+							"name" : "Zero Latency",
+							"value" : "tune=zerolatency"
 						}
 					]
 				},
@@ -290,6 +398,7 @@
 					"type" : "int",
 					"flags" : [],
 					"defaultValue": 1,
+					"useDefaultValue" : true,
 					"values" : [
 						{
 							"id" : 0,
@@ -342,15 +451,638 @@
 						{
 							"id" : 3,
 							"name" : "Lossless",
-							"value" : "qp=0:profile=high422",
+							"value" : "qp=0",
 							"disableField" : [ "x264Profile", "x264Level" ]
 						}
 					]
 				},
 				{
+					"name" : "x264KeyInt",
+					"label" : "Max. GOP Size",
+					"group" : "VKDRx264GOPGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 250,
+					"minValue" : 0,
+					"maxValue" : 999,
+					"value" : "keyint=%d"
+				},
+				{
+					"name" : "x264MinKeyInt",
+					"label" : "Max. GOP Size",
+					"group" : "VKDRx264GOPGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 25,
+					"minValue" : 0,
+					"maxValue" : 999,
+					"value" : "min-keyint=%d"
+				},
+				{
+					"name" : "x264OpenGop",
+					"label" : "Enable Open GOP",
+					"group" : "VKDRx264GOPGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "open-gop=1"
+				},
+				{
+					"name" : "x264Slices",
+					"label" : "Slices per Frame",
+					"group" : "VKDRx264SlicingGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 100,
+					"value" : "slices=%d"
+				},
+				{
+					"name" : "x264SlicesMax",
+					"label" : "Max. Slices per Frame",
+					"group" : "VKDRx264SlicingGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 100,
+					"value" : "slices-max=%d"
+				},
+				{
+					"name" : "x264SliceMax",
+					"label" : "Max. Size of Slice",
+					"group" : "VKDRx264SlicingGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 250,
+					"value" : "slice-max-size=%d"
+				},
+				{
+					"name" : "x264SliceMinMbs",
+					"label" : "Min. Size of Slice (in Macroblocks)",
+					"group" : "VKDRx264SlicingGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 100,
+					"value" : "slices-min-mbs=%d"
+				},
+				{
+					"name" : "x264SliceMaxMbs",
+					"label" : "Max. Size of Slice (in Macroblocks)",
+					"group" : "VKDRx264SlicingGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 100,
+					"value" : "slices-max-mbs=%d"
+				},
+				{
+					"name" : "x264BFrames",
+					"label" : "Number of B-Frames",
+					"group" : "VKDRx264BFramesGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 3,
+					"minValue" : 0,
+					"maxValue" : 16,
+					"value" : "bframes=%d"
+				},
+				{
+					"name" : "x264BFrameBias",
+					"label" : "B-Frames Bias",
+					"group" : "VKDRx264BFramesGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : -90,
+					"maxValue" : 100,
+					"value" : "b-bias=%d"
+				},
+				{
+					"name" : "x264BAdapt",
+					"label" : "Adaptive B-Frames",
+					"group" : "VKDRx264BFramesGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "(Disabled)",
+							"value" : "b-adapt=0"
+						},
+						{
+							"id" : 1,
+							"name" : "Fast",
+							"value" : "b-adapt=1"
+						},
+						{
+							"id" : 2,
+							"name" : "Optimal",
+							"value" : "b-adapt=2"
+						}
+					]
+				},
+				{
+					"name" : "x264BPyramid",
+					"label" : "B-Pyramid",
+					"group" : "VKDRx264BFramesGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "(Disabled)",
+							"value" : "b-pyramid=0"
+						},
+						{
+							"id" : 1,
+							"name" : "Strict",
+							"value" : "b-pyramid=1"
+						},
+						{
+							"id" : 2,
+							"name" : "Normal",
+							"value" : "b-pyramid=2"
+						}
+					]
+				},
+				{
+					"name" : "x264NoWeightB",
+					"label" : "Disable weighted B-Frame prediction",
+					"group" : "VKDRx264BFramesGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-weightb=1"
+				},
+				{
+					"name" : "x264QPMin",
+					"label" : "Min. Quantizer",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 69,
+					"value" : "qpmin=%d"
+				},
+				{
+					"name" : "x264QPMax",
+					"label" : "Max. Quantizer",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 69,
+					"minValue" : 0,
+					"maxValue" : 69,
+					"value" : "qpmax=%d"
+				},
+				{
+					"name" : "x264QPStep",
+					"label" : "Quantizer Delta",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 4,
+					"minValue" : 1,
+					"maxValue" : 51,
+					"value" : "qpstep=%d"
+				},
+				{
+					"name" : "x264IPRatio",
+					"label" : "I:P Ratio",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 1.4,
+					"minValue" : 1,
+					"maxValue" : 10,
+					"value" : "ipratio=%0.f"
+				},
+				{
+					"name" : "x264PBRatio",
+					"label" : "P:B Ratio",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 1.4,
+					"minValue" : 1,
+					"maxValue" : 10,
+					"value" : "pbratio=%0.f"
+				},
+				{
+					"name" : "x264ChromaQPOffset",
+					"label" : "Chroma QP Offset",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": -12,
+					"minValue" : 0,
+					"maxValue" : 12,
+					"value" : "chroma-qp-offset=%d"
+				},
+				{
+					"name" : "x264CreditsQuantizer",
+					"label" : "Credits Quantizer",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [ "slider" ],
+					"defaultValue": 40,
+					"minValue" : 1,
+					"maxValue" : 51,
+					"value" : ""
+				},
+				{
+					"name" : "x264AdaptiveQuantizer",
+					"label" : "Adaptive Quantizers Mode",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Off",
+							"value" : "aq-mode=0"
+						},
+						{
+							"id" : 1,
+							"name" : "Variance AQ",
+							"value" : "aq-mode=1"
+						},
+						{
+							"id" : 2,
+							"name" : "Auto VAQ",
+							"value" : "aq-mode=2"
+						}
+					]
+				},
+				{
+					"name" : "x264AQStrength",
+					"label" : "Adaptive Quantizer Strength",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 1,
+					"minValue" : 0,
+					"maxValue" : 2,
+					"value" : "aq-strength=%0.f"
+				},
+				{
+					"name" : "x264VBVBufferSize",
+					"label" : "VBV Buffer Size",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 512000,
+					"value" : "vbv-bufsize=%d"
+				},
+				{
+					"name" : "x264VBVMaxBitrate",
+					"label" : "VBV Max. Bitrate",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 512000,
+					"value" : "vbv-maxrate=%d"
+				},
+				{
+					"name" : "x264VBVInitBuffer",
+					"label" : "VBV Initial Buffer",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 0.9,
+					"minValue" : 0,
+					"maxValue" : 1,
+					"value" : "vbv-init=%0.f"
+				},
+				{
+					"name" : "x264QuantizerCompression",
+					"label" : "QuantizerCompression",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 0.6,
+					"minValue" : 0,
+					"maxValue" : 1,
+					"value" : "qcomp=%0.f"
+				},
+				{
+					"name" : "x264RCLookahead",
+					"label" : "Frame lookahead",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 40,
+					"minValue" : 0,
+					"maxValue" : 250,
+					"value" : "rc-lookahead=%d"
+				},
+				{
+					"name" : "x264NoMBTree",
+					"label" : "Disable MB-Tree",
+					"group" : "VKDRx264RateControlGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-mbtree=1"
+				},
+				{
+					"name" : "x264NalHrd",
+					"label" : "NAL HRD Mode",
+					"group" : "VKDRx264BluRayGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 0,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Off",
+							"value" : "nal-hrd=none"
+						},
+						{
+							"id" : 1,
+							"name" : "CBR",
+							"value" : "nal-hrd=cbr"
+						},
+						{
+							"id" : 2,
+							"name" : "VBR",
+							"value" : "nal-hrd=vbr"
+						}
+					]
+				},
+				{
+					"name" : "x264BlurayCompat",
+					"label" : "Enable Blu-Ray Compatibility Mode",
+					"group" : "VKDRx264BluRayGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "bluray-compat=1"
+				},
+				{
+					"name" : "x264AUD",
+					"label" : "Enable Access Unit Delimiters",
+					"group" : "VKDRx264BluRayGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "aud=1"
+				},
+				{
+					"name" : "x264FakeInterlaced",
+					"label" : "Fake Interlaced",
+					"group" : "VKDRx264BluRayGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "fake-interlaced=1"
+				},
+				{
+					"name" : "x264ME",
+					"label" : "Algorithm",
+					"group" : "VKDRx264MotionEstimationGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Diamond",
+							"value" : "me=dia"
+						},
+						{
+							"id" : 1,
+							"name" : "Hexagon",
+							"value" : "me=hex"
+						},
+						{
+							"id" : 2,
+							"name" : "Multi-Hex",
+							"value" : "me=umh"
+						},
+						{
+							"id" : 3,
+							"name" : "Exhaustive",
+							"value" : "me=esa"
+						},
+						{
+							"id" : 4,
+							"name" : "Exhaustive Hadamard",
+							"value" : "me=tesa"
+						}
+					]
+				},
+				{
+					"name" : "x264MERange",
+					"label" : "Range",
+					"group" : "VKDRx264MotionEstimationGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 16,
+					"minValue" : 4,
+					"maxValue" : 64,
+					"value" : "merange=%d"
+				},
+				{
+					"name" : "x264SubME",
+					"label" : "Sub-Pixel Refinement",
+					"group" : "VKDRx264MotionEstimationGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 7,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "Fullpel only",
+							"value" : "subme=0"
+						},
+						{
+							"id" : 1,
+							"name" : "SAD mode decision, one qpel iteration",
+							"value" : "subme=1"
+						},
+						{
+							"id" : 2,
+							"name" : "SATD mode decision",
+							"value" : "subme=2"
+						},
+						{
+							"id" : 3,
+							"name" : "HPel on MB then QPel",
+							"value" : "subme=3"
+						},
+						{
+							"id" : 4,
+							"name" : "Always QPel",
+							"value" : "subme=4"
+						},
+						{
+							"id" : 5,
+							"name" : "QPel & Bi-Directional ME",
+							"value" : "subme=5"
+						},
+						{
+							"id" : 6,
+							"name" : "RD mode decision for I/P-frames",
+							"value" : "subme=6"
+						},
+						{
+							"id" : 7,
+							"name" : "RD mode decision for all frames",
+							"value" : "subme=7"
+						},
+						{
+							"id" : 8,
+							"name" : "RD refinement for I/P-frames",
+							"value" : "subme=8"
+						},
+						{
+							"id" : 9,
+							"name" : "RD refinement for all frames",
+							"value" : "subme=9"
+						},
+						{
+							"id" : 10,
+							"name" : "QP-RD - requires trellis=2, aq-mode>0",
+							"value" : "subme=10"
+						},
+						{
+							"id" : 11,
+							"name" : "Full RD: disable all early terminations",
+							"value" : "subme=11"
+						}
+					]
+				},
+				{
+					"name" : "x264NoChromaME",
+					"label" : "Disable Chroma Motion Estimation",
+					"group" : "VKDRx264MotionEstimationGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-chroma-me=1"
+				},
+				{
+					"name" : "x264Direct",
+					"label" : "Direct MV prediction mode",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "None",
+							"value" : "direct=none"
+						},
+						{
+							"id" : 1,
+							"name" : "Spatial",
+							"value" : "direct=spatial"
+						},
+						{
+							"id" : 2,
+							"name" : "Temporal",
+							"value" : "direct=temporal"
+						},
+						{
+							"id" : 3,
+							"name" : "Auto",
+							"value" : "direct=auto"
+						}
+					]
+				},
+				{
+					"name" : "x264Trellis",
+					"label" : "Trellis",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "int",
+					"flags" : [],
+					"defaultValue": 1,
+					"values" : [
+						{
+							"id" : 0,
+							"name" : "None",
+							"value" : "trellis=0"
+						},
+						{
+							"id" : 1,
+							"name" : "Final MB",
+							"value" : "trellis=1"
+						},
+						{
+							"id" : 2,
+							"name" : "Auto",
+							"value" : "trellis=2"
+						}
+					]
+				},
+				{
+					"name" : "x264Nr",
+					"label" : "Noise Reduction",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "int",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"minValue" : 0,
+					"maxValue" : 10000,
+					"value" : "nr=%d"
+				},
+				{
+					"name" : "x264NoMixedRefs",
+					"label" : "Disable Mixed Reference Frames",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-mixed-refs=1"
+				},
+				{
+					"name" : "x264No",
+					"label" : "Disable DCT Decimation",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-dct-decimate-=1"
+				},
+				{
+					"name" : "x264NoFastPSkip",
+					"label" : "Disable Fast P-Skip",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-fast-pskip=1"
+				},
+				{
+					"name" : "x264NoPsy",
+					"label" : "Disable Psychovisual Enhancements",
+					"group" : "VKDRx264AnalysisGroup",
+					"type" : "bool",
+					"flags" : [ ],
+					"defaultValue": 0,
+					"value" : "no-psy=1"
+				},
+				{
 					"name" : "x264CustomParams",
 					"label" : "x264-params\n(param1=value:param2=value)",
-					"group" : "ADBEVideoCodecGroup",
+					"group" : "VKDRx264MiscGroup",
 					"type" : "string",
 					"flags" : [ "multiline", "codec_params" ],
 					"value" : "%s",
@@ -429,6 +1161,7 @@
 					"type" : "int",
 					"flags" : [],
 					"defaultValue": 1,
+					"useDefaultValue" : true,
 					"values" : [
 						{
 							"id" : 0,
@@ -514,22 +1247,22 @@
 						{
 							"id" : 0,
 							"name" : "Low-complexity",
-							"value" : "preset=aac_low"
+							"value" : "profile=aac_low"
 						},
 						{
 							"id" : 1,
 							"name" : "MPEG2 Low-complexity",
-							"value" : "preset=mpeg2_aac_low"
+							"value" : "profile=mpeg2_aac_low"
 						},
 						{
 							"id" : 2,
 							"name" : "Long term prediction",
-							"value" : "preset=aac_ltp"
+							"value" : "profile=aac_ltp"
 						},
 						{
 							"id" : 3,
 							"name" : "Main",
-							"value" : "preset=aac_main"
+							"value" : "profile=aac_main"
 						}
 					]
 				},
@@ -540,6 +1273,7 @@
 					"type" : "int",
 					"flags" : [],
 					"defaultValue": 128,
+					"useDefaultValue" : true,
 					"values" : [
 						{
 							"id" : 64,

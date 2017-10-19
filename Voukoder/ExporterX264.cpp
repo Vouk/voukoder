@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <chrono>
+#include <cmath>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/locale.hpp>
 #include <boost/spirit/include/qi.hpp>
@@ -1051,7 +1052,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 
 void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params, std::vector<std::string> *encoderConfiguration)
 {
-	std::map<std::string, std::string> optionMap;
+	std::map<std::string, std::string> paramMap;
 
 	exParamValues paramValues;
 	char buffer[50];
@@ -1061,6 +1062,12 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 	for (auto itParam = params.begin(); itParam != params.end(); ++itParam)
 	{
 		const json param = *itParam;
+
+		// Is the current value equal to the default value?
+		bool isDefaultValue = true;
+
+		// Use the param even if it is set to the default value?
+		bool useDefaultValue = param.find("useDefaultValue") != param.end() && param["useDefaultValue"].get<bool>();
 
 		const std::string name = param["name"].get<std::string>();
 		const std::string type = param["type"].get<std::string>();
@@ -1099,64 +1106,19 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 			{
 				// Support params separated by newline
 				boost::replace_all(value, "\r\n", ":");
-
-				/*
-				using namespace boost::spirit;
-
-				std::map<std::string, std::string> params;
-
-				const bool result = boost::spirit::qi::phrase_parse(
-					value.begin(),
-					value.end(),
-					*(*(qi::char_ - "=") >> qi::lit("=") >> *(qi::char_ - ":") >> -qi::lit(":")),
-					ascii::space, params);
-
-				for (auto const &param : params)
-				{
-					if (param.second.empty())
-					{
-						params.emplace()
-					}
-				}
-				*/
 			}
 
 			// Add to options if not empty
 			if (!value.empty())
 			{
-				optionMap.insert(std::pair<std::string, std::string>(name, value));
+				paramMap.insert(std::pair<std::string, std::string>(name, value));
 			}
 
 			continue;
 		}
 
-		if (isSlider)
-		{
-			const std::string value = param["value"].get<std::string>();
-
-			// Get the suboptions selected value
-			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-
-			// Format according to datatype
-			if (type == "float")
-			{
-				length = sprintf_s(buffer, value.c_str(), paramValues.value.floatValue);
-			}
-			else
-			{
-				length = sprintf_s(buffer, value.c_str(), paramValues.value.intValue);
-			}
-
-			// Get the parameter
-			const std::string config = std::string(buffer, length + 1);
-
-			// Add to options if not empty
-			if (!config.empty())
-			{
-				optionMap.insert(std::pair<std::string, std::string>(name, config));
-			}
-		}
-		else
+		// Is this a dropdown element?
+		if (param.find("values") != param.end() && param["values"].is_array())
 		{
 			// Get the selection
 			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
@@ -1164,59 +1126,104 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 			// Get the selected value
 			const json selectedValue = Settings::filterArrayById(param["values"], paramValues.value.intValue);
 
-			// Do we have suboptions?
-			if (selectedValue.find("subvalues") != selectedValue.end())
+			// Process only non-default values
+			if (param["defaultValue"].get<int>() != selectedValue["id"].get<int>() || useDefaultValue)
 			{
-				// Iterate all suboptions
-				for (auto itSubvalue = selectedValue["subvalues"].begin(); itSubvalue != selectedValue["subvalues"].end(); ++itSubvalue)
+				// Do we have suboptions?
+				if (selectedValue.find("subvalues") != selectedValue.end())
 				{
-					const json subvalue = *itSubvalue;
-
-					const std::string subname = subvalue["name"].get<std::string>();
-					const std::string subtype = subvalue["type"].get<std::string>();
-					const std::string subpattern = subvalue["value"].get<std::string>();
-
-					// Get the suboptions selected value
-					instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, subname.c_str(), &paramValues);
-
-					// Format according to datatype
-					if (subtype == "float")
+					// Iterate all suboptions
+					for (auto itSubvalue = selectedValue["subvalues"].begin(); itSubvalue != selectedValue["subvalues"].end(); ++itSubvalue)
 					{
-						const double value = paramValues.value.floatValue;
-						length = sprintf_s(buffer, subpattern.c_str(), value);
-					}
-					else
-					{
-						const int value = paramValues.value.intValue;
-						length = sprintf_s(buffer, subpattern.c_str(), value);
-					}
+						const json subvalue = *itSubvalue;
 
+						const std::string subname = subvalue["name"].get<std::string>();
+						const std::string subtype = subvalue["type"].get<std::string>();
+						const std::string subpattern = subvalue["value"].get<std::string>();
+
+						// Get the suboptions selected value
+						instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, subname.c_str(), &paramValues);
+
+						// Format according to datatype
+						if (subtype == "float")
+						{
+							const double value = paramValues.value.floatValue;
+							length = sprintf_s(buffer, subpattern.c_str(), value);
+						}
+						else
+						{
+							const int value = paramValues.value.intValue;
+							length = sprintf_s(buffer, subpattern.c_str(), value);
+						}
+
+						// Get the parameter
+						const std::string param = std::string(buffer, length + 1);
+
+						// Add to options if not empty
+						if (!param.empty())
+						{
+							paramMap.insert(std::pair<std::string, std::string>(name, param));
+						}
+					}
+				}
+				else // No subvalues
+				{
 					// Get the parameter
-					const std::string param = std::string(buffer, length + 1);
+					const std::string valueval = selectedValue["value"].get<std::string>();
 
 					// Add to options if not empty
-					if (!param.empty())
+					if (!valueval.empty())
 					{
-						optionMap.insert(std::pair<std::string, std::string>(name, param));
+						paramMap.insert(std::pair<std::string, std::string>(name, valueval));
 					}
 				}
 			}
+		}
+		else // Not a dropdown element
+		{
+			// Get the pattern used for sprintf_s
+			const std::string pattern = param["value"].get<std::string>();
+
+			// Get the selected value
+			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
+
+			// Format param according to datatype
+			if (type == "float")
+			{
+				const float defValue = param["defaultValue"].get<float>();
+
+				isDefaultValue = std::fabs(defValue - paramValues.value.floatValue) < 1e-2;
+				length = sprintf_s(buffer, pattern.c_str(), paramValues.value.floatValue);
+			}
+			else if (type == "int" || type == "bool")
+			{
+				const int defValue = param["defaultValue"].get<int>();
+
+				isDefaultValue = defValue == paramValues.value.intValue;
+				length = sprintf_s(buffer, pattern.c_str(), paramValues.value.intValue);
+			}
 			else
 			{
+				continue;
+			}
+
+			// Use only if it is not the default value
+			if (!isDefaultValue || useDefaultValue)
+			{
 				// Get the parameter
-				const std::string valueval = selectedValue["value"].get<std::string>();
+				const std::string param = std::string(buffer, length + 1);
 
 				// Add to options if not empty
-				if (!valueval.empty())
+				if (!param.empty())
 				{
-					optionMap.insert(std::pair<std::string, std::string>(name, valueval));
+					paramMap.insert(std::pair<std::string, std::string>(name, param));
 				}
 			}
 		}
 	}
 
 	// Copy remaining values to vector
-	for (auto it = optionMap.begin(); it != optionMap.end(); ++it)
+	for (auto it = paramMap.begin(); it != paramMap.end(); ++it)
 	{
 		encoderConfiguration->push_back(it->second);
 	}

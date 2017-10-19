@@ -236,8 +236,13 @@ int Encoder::openStream(AVContext *context, std::string configuration)
 	AVDictionary *options = NULL;
 	if (strcmp(context->codec->name, "libx264") == 0)
 	{
-		// Bug in x264: Key w/o values are not accepted otherwise (like bff or tff)
+		// This overwrites all other settings
 		av_dict_set(&options, "x264-params", configuration.c_str(), 0);
+	}
+	else if (strcmp(context->codec->name, "libx265") == 0)
+	{
+		// This overwrites all other settings
+		av_dict_set(&options, "x265-params", configuration.c_str(), 0);
 	}
 	else
 	{
