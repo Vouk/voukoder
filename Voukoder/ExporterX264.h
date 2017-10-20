@@ -20,3 +20,5 @@ void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csS
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder);
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder);
 PrPixelFormat GetPremierePixelFormats(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);
+std::string getVideoConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params);
+std::string getAudioConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params);

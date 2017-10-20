@@ -676,6 +676,8 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	json audioEncoders = settings->getAudioEncoders();
 	json muxers = settings->getMuxers();
 
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRAdvVideoCodecTabGroup, L"Advanced Video");
+
 #pragma region Group: Video settings
 
 	// Label elements
@@ -991,10 +993,46 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP)
 {
-	// TODO
-	prUTF16CharCopy(summaryRecP->videoSummary, L"videosummaryTODO");
-	prUTF16CharCopy(summaryRecP->audioSummary, L"audioSummaryTODO");
-	prUTF16CharCopy(summaryRecP->bitrateSummary, L"bitrateSummaryTODO");
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(summaryRecP->privateData);
+	Settings *settings = instRec->settings;
+
+	std::string name;
+
+#pragma region Video Summary
+
+	// What video codec is selected?
+	exParamValues videoCodec;
+	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEVideoCodec, &videoCodec);
+
+	// Get the selected codec
+	json videoEncoders = settings->getVideoEncoders();
+	json videoEncoder = settings->filterArrayById(videoEncoders, videoCodec.value.intValue);
+
+	name = videoEncoder["name"].get<std::string>();
+
+	std::string videoSummary = name + " (" + getVideoConfiguration(instRec, summaryRecP->exporterPluginID, 0, videoEncoder["params"]) + ")";
+	prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
+
+#pragma endregion
+
+#pragma region Audio Summary
+
+	// What audio codec is selected?
+	exParamValues audioCodec;
+	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEAudioCodec, &audioCodec);
+
+	// Get the selected codec
+	json audioEncoders = settings->getAudioEncoders();
+	json audioEncoder = settings->filterArrayById(audioEncoders, audioCodec.value.intValue);
+
+	name = audioEncoder["name"].get<std::string>();
+
+	std::string audioSummary = name + " (" + getAudioConfiguration(instRec, summaryRecP->exporterPluginID, 0, audioEncoder["params"]) + ")";
+	prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
+
+#pragma endregion
+
+	prUTF16CharCopy(summaryRecP->bitrateSummary, L"");
 
 	return malNoError;
 }
@@ -1289,35 +1327,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	json videoCodecs = settings->getVideoEncoders();
 	json vCodec = settings->filterArrayById(videoCodecs, videoCodecId);
 
-	// Go through all codec options
-	std::vector<std::string> videoEncoderOptions;
-	CreateEncoderConfiguration(instRec, exID, 0, vCodec["params"], &videoEncoderOptions);
-
-	// Add field order for interlaced output
-	if (fieldType.value.intValue == prFieldsUpperFirst)
-	{
-		videoEncoderOptions.push_back("tff=1");
-	}
-	else if (fieldType.value.intValue == prFieldsLowerFirst)
-	{
-		videoEncoderOptions.push_back("bff=1");
-	}
-
-	// Convert vector to string
-	std::stringstream videoEncoderStream;
-	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-		{
-			videoEncoderStream << ':';
-		}
-
-		std::string option = videoEncoderOptions[i];
-		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
-		videoEncoderStream << option;
-	}
-
-	const std::string videoEncoderConfig = videoEncoderStream.str();
+	const std::string videoEncoderConfig = getVideoConfiguration(instRec, exID, 0, vCodec["params"]);
 
 #pragma endregion
 
@@ -1329,25 +1339,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	json audioCodecs = settings->getAudioEncoders();
 	json aCodec = settings->filterArrayById(audioCodecs, audioCodecId);
 
-	// Go through all codec options
-	std::vector<std::string> audioEncoderOptions;
-	CreateEncoderConfiguration(instRec, exID, 0, aCodec["params"], &audioEncoderOptions);
-
-	// Convert vector to string
-	std::stringstream audioEncoderStream;
-	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-		{
-			audioEncoderStream << ':';
-		}
-
-		std::string option = audioEncoderOptions[i];
-		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
-		audioEncoderStream << option;
-	}
-
-	const std::string audioEncoderConfig = audioEncoderStream.str();
+	const std::string audioEncoderConfig = getAudioConfiguration(instRec, exID, 0, aCodec["params"]);
 
 #pragma endregion
 
@@ -1653,4 +1645,63 @@ prBool IsPixelFormatYUV420(PrPixelFormat pixelformat)
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange) ? kPrTrue : kPrFalse;
+}
+
+std::string getVideoConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params)
+{
+	exParamValues fieldType;
+	instRec->exportParamSuite->GetParamValue(pluginId, 0, ADBEVideoFieldType, &fieldType);
+
+	// Go through all codec options
+	std::vector<std::string> videoEncoderOptions;
+	CreateEncoderConfiguration(instRec, pluginId, groupIndex, params, &videoEncoderOptions);
+
+	// Add field order for interlaced output
+	if (fieldType.value.intValue == prFieldsUpperFirst)
+	{
+		videoEncoderOptions.push_back("tff=1");
+	}
+	else if (fieldType.value.intValue == prFieldsLowerFirst)
+	{
+		videoEncoderOptions.push_back("bff=1");
+	}
+
+	// Convert vector to string
+	std::stringstream videoEncoderStream;
+	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
+	{
+		if (i != 0)
+		{
+			videoEncoderStream << ':';
+		}
+
+		std::string option = videoEncoderOptions[i];
+		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
+		videoEncoderStream << option;
+	}
+
+	return videoEncoderStream.str();
+}
+
+std::string getAudioConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params)
+{
+	// Go through all codec options
+	std::vector<std::string> audioEncoderOptions;
+	CreateEncoderConfiguration(instRec, pluginId, groupIndex, params, &audioEncoderOptions);
+
+	// Convert vector to string
+	std::stringstream audioEncoderStream;
+	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
+	{
+		if (i != 0)
+		{
+			audioEncoderStream << ':';
+		}
+
+		std::string option = audioEncoderOptions[i];
+		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
+		audioEncoderStream << option;
+	}
+
+	return audioEncoderStream.str();
 }
