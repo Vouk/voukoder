@@ -1,4 +1,4 @@
-#include "ExporterX264Common.h"
+#include "Common.h"
 #include "json.hpp"
 
 PrTime gcd(PrTime a, PrTime b)
@@ -162,6 +162,10 @@ exNewParamInfo CreateParamElement(json param, bool hidden)
 		paramInfo.paramType = exParamType_string;
 		const std::string defaultValue = param["defaultValue"].get<std::string>();
 		::lstrcpyW(paramValues.paramString, string2wchar_t(defaultValue));
+	}
+	else if (type == "button")
+	{
+		paramInfo.paramType = exParamType_button;
 	}
 
 	// Flags

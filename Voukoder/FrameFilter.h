@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ExporterX264Common.h"
+#include "Common.h"
 
 struct FrameFilterOptions
 {

@@ -9,7 +9,7 @@ using json = nlohmann::json;
 class Settings
 {
 public:
-	Settings();
+	Settings(HMODULE hModule);
 	~Settings();
 	json getConfiguration();
 	json getDefaultAudioCodecId();
@@ -26,5 +26,5 @@ public:
 
 private:
 	json settings;
+	json Settings::loadResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName);
 };
-

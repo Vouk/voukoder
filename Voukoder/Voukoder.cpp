@@ -5,9 +5,11 @@
 #include <boost/locale.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include "Encoder.h"
-#include "ExporterX264.h"
-#include "ExporterX264Common.h"
+#include "Voukoder.h"
+#include "Common.h"
 #include "resource.h"
+#include "x264.h"
+#include "ConfigImportDialog.h"
 
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
 {
@@ -35,6 +37,7 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		//case exSelQueryOutputFileList
 		case exSelQueryOutputSettings:		return exQueryOutputSettings(stdParmsP, reinterpret_cast<exQueryOutputSettingsRec*>(param1));
 		case exSelValidateOutputSettings:   return exValidateOutputSettings(stdParmsP, reinterpret_cast<exValidateOutputSettingsRec*>(param1));
+		case exSelParamButton:				return exParamButton(stdParmsP, reinterpret_cast<exParamButtonRec*>(param1));
 	}
 
 	return exportReturn_Unsupported;
@@ -87,7 +90,6 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 		InstanceRec *instRec = reinterpret_cast<InstanceRec *>(memorySuite->NewPtrClear(sizeof(InstanceRec)));
 		if (instRec)
 		{
-			instRec->settings = new Settings();
 			instRec->spBasic = spBasic;
 			instRec->memorySuite = memorySuite;
 
@@ -101,6 +103,16 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppix2Suite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
+
+			// Get the DLL module handle
+			MEMORY_BASIC_INFORMATION mbi;
+			static int dummy;
+			VirtualQuery(&dummy, &mbi, sizeof(mbi));
+			instRec->hInstance = reinterpret_cast<HMODULE>(mbi.AllocationBase);
+
+			instRec->settings = new Settings(instRec->hInstance);
+			instRec->videoConfig = new EncoderConfig(instRec->exportParamSuite, instanceRecP->exporterPluginID);
+			instRec->audioConfig = new EncoderConfig(instRec->exportParamSuite, instanceRecP->exporterPluginID);
 		}
 
 		instanceRecP->privateData = reinterpret_cast<void*>(instRec);
@@ -177,6 +189,12 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 			result = spBasic->ReleaseSuite(kPrSDKMemoryManagerSuite, kPrSDKMemoryManagerSuiteVersion);
 		}
 		
+		instRec->videoConfig->~EncoderConfig();
+		instRec->videoConfig = NULL;
+
+		instRec->audioConfig->~EncoderConfig();
+		instRec->audioConfig = NULL;
+
 		instRec->settings->~Settings();
 		instRec->settings = NULL;
 	}
@@ -283,26 +301,31 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	instRec->exportFileSuite->GetPlatformPath(exportInfoP->fileObject, &prFilenameLength, prFilename);
 	char *filename = (char*)malloc(kPrMaxPath);
 	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
-
-	// Create encoder instance
-	Encoder *encoder = new Encoder(NULL, filename);
-	result = SetupEncoderInstance(instRec, exID, encoder);
-
-	// Open the encoder
-	if (encoder->open() == S_OK)
+		
+	// Do encoding loops
+	instRec->maxPasses = instRec->videoConfig->getMaxPasses();
+	for (instRec->currentPass = 1; instRec->currentPass <= instRec->maxPasses; instRec->currentPass++)
 	{
-		// Render and write all video and audio frames
-		result = RenderAndWriteAllFrames(exportInfoP, encoder);
+		// Create encoder instance
+		Encoder *encoder = new Encoder(NULL, filename);
+		result = SetupEncoderInstance(instRec, exID, encoder);
 		
-		// Flush the encoders
-		encoder->writeVideoFrame(NULL);
-		encoder->writeAudioFrame(NULL, 0);
-		
-		encoder->close(true);
-	}
+		// Open the encoder
+		if (encoder->open() == S_OK)
+		{
+			// Render and write all video and audio frames
+			result = RenderAndWriteAllFrames(exportInfoP, encoder);
 
-	encoder->~Encoder();
-	encoder = NULL;
+			// Flush the encoders
+			encoder->writeVideoFrame(NULL);
+			encoder->writeAudioFrame(NULL, 0);
+
+			encoder->close(true);
+		}
+
+		encoder->~Encoder();
+		encoder = NULL;
+	}
 
 	return result;
 }
@@ -517,7 +540,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 #pragma endregion
 
 	// Advanced video codec tab
-	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced Video", kPrFalse, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(exID, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced", kPrFalse, kPrFalse, kPrFalse);
 
 #pragma region Group: Video Encoder Options
 
@@ -676,7 +699,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	json audioEncoders = settings->getAudioEncoders();
 	json muxers = settings->getMuxers();
 
-	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRAdvVideoCodecTabGroup, L"Advanced Video");
+	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRAdvVideoCodecTabGroup, L"Advanced");
 
 #pragma region Group: Video settings
 
@@ -995,39 +1018,35 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 {
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(summaryRecP->privateData);
 	Settings *settings = instRec->settings;
-
-	std::string name;
-
+	
 #pragma region Video Summary
 
-	// What video codec is selected?
 	exParamValues videoCodec;
 	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEVideoCodec, &videoCodec);
 
-	// Get the selected codec
-	json videoEncoders = settings->getVideoEncoders();
-	json videoEncoder = settings->filterArrayById(videoEncoders, videoCodec.value.intValue);
+	// Init video encoder configuration
+	json videoEncoders = instRec->settings->getVideoEncoders();
+	json videoEncoder = instRec->settings->filterArrayById(videoEncoders, videoCodec.value.intValue);
+	instRec->videoConfig->initFromSettings(videoEncoder);
 
-	name = videoEncoder["name"].get<std::string>();
-
-	std::string videoSummary = name + " (" + getVideoConfiguration(instRec, summaryRecP->exporterPluginID, 0, videoEncoder["params"]) + ")";
+	std::string videoName = videoEncoder["name"].get<std::string>();
+	std::string videoSummary = videoName + " (" + instRec->videoConfig->getConfigAsParamString("-") + ")";
 	prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
 
 #pragma endregion
 
 #pragma region Audio Summary
 
-	// What audio codec is selected?
 	exParamValues audioCodec;
 	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEAudioCodec, &audioCodec);
 
-	// Get the selected codec
-	json audioEncoders = settings->getAudioEncoders();
-	json audioEncoder = settings->filterArrayById(audioEncoders, audioCodec.value.intValue);
+	// Init audio encoder configuration
+	json audioEncoders = instRec->settings->getAudioEncoders();
+	json audioEncoder = instRec->settings->filterArrayById(audioEncoders, audioCodec.value.intValue);
+	instRec->audioConfig->initFromSettings(audioEncoder);
 
-	name = audioEncoder["name"].get<std::string>();
-
-	std::string audioSummary = name + " (" + getAudioConfiguration(instRec, summaryRecP->exporterPluginID, 0, audioEncoder["params"]) + ")";
+	std::string audioName = audioEncoder["name"].get<std::string>();
+	std::string audioSummary = audioName + " (" + instRec->audioConfig->getConfigAsParamString("-") + ")";
 	prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
 
 #pragma endregion
@@ -1091,183 +1110,57 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	return result;
 }
 
-void CreateEncoderConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params, std::vector<std::string> *encoderConfiguration)
+std::string result;
+
+INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-	std::map<std::string, std::string> paramMap;
+	char *buffer;
+	int len;
 
-	exParamValues paramValues;
-	char buffer[50];
-	int length;
-
-	// Iterate all encoder options
-	for (auto itParam = params.begin(); itParam != params.end(); ++itParam)
+	switch (Msg)
 	{
-		const json param = *itParam;
+	case WM_INITDIALOG:
+		return TRUE;
 
-		// Is the current value equal to the default value?
-		bool isDefaultValue = true;
-
-		// Use the param even if it is set to the default value?
-		bool useDefaultValue = param.find("useDefaultValue") != param.end() && param["useDefaultValue"].get<bool>();
-
-		const std::string name = param["name"].get<std::string>();
-		const std::string type = param["type"].get<std::string>();
-
-		bool isSlider = false;
-		bool isCodecParams = false;
-
-		// Flags
-		if (param["flags"].is_array())
+	case WM_COMMAND:
+		switch (wParam)
 		{
-			for (auto itFlag = param["flags"].begin(); itFlag != param["flags"].end(); ++itFlag)
-			{
-				const std::string flag = (*itFlag).get<std::string>();
+		case IDC_IMPORT:
+			EndDialog(hWndDlg, 0);
+			len = SendMessage(hWndDlg, WM_GETTEXTLENGTH, 0, 0);
+			buffer = new char[len];
+			SendMessage(hWndDlg, WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
+			result.assign(buffer, len);
+			return TRUE;
 
-				if (flag == "slider")
-				{
-					isSlider = true;
-					break;
-				}
-				else if (flag == "codec_params")
-				{
-					isCodecParams = true;
-					break;
-				}
-			}
+		case IDC_CANCEL:
+			EndDialog(hWndDlg, 0);
+			return TRUE;
 		}
-
-		if (type == "string")
-		{
-			// Get the selection
-			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-			std::string value = boost::locale::conv::utf_to_utf<char>(paramValues.paramString);
-
-			// Do some special conversion if there are codec params
-			if (isCodecParams)
-			{
-				// Support params separated by newline
-				boost::replace_all(value, "\r\n", ":");
-			}
-
-			// Add to options if not empty
-			if (!value.empty())
-			{
-				paramMap.insert(std::pair<std::string, std::string>(name, value));
-			}
-
-			continue;
-		}
-
-		// Is this a dropdown element?
-		if (param.find("values") != param.end() && param["values"].is_array())
-		{
-			// Get the selection
-			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-
-			// Get the selected value
-			const json selectedValue = Settings::filterArrayById(param["values"], paramValues.value.intValue);
-
-			// Process only non-default values
-			if (param["defaultValue"].get<int>() != selectedValue["id"].get<int>() || useDefaultValue)
-			{
-				// Do we have suboptions?
-				if (selectedValue.find("subvalues") != selectedValue.end())
-				{
-					// Iterate all suboptions
-					for (auto itSubvalue = selectedValue["subvalues"].begin(); itSubvalue != selectedValue["subvalues"].end(); ++itSubvalue)
-					{
-						const json subvalue = *itSubvalue;
-
-						const std::string subname = subvalue["name"].get<std::string>();
-						const std::string subtype = subvalue["type"].get<std::string>();
-						const std::string subpattern = subvalue["value"].get<std::string>();
-
-						// Get the suboptions selected value
-						instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, subname.c_str(), &paramValues);
-
-						// Format according to datatype
-						if (subtype == "float")
-						{
-							const double value = paramValues.value.floatValue;
-							length = sprintf_s(buffer, subpattern.c_str(), value);
-						}
-						else
-						{
-							const int value = paramValues.value.intValue;
-							length = sprintf_s(buffer, subpattern.c_str(), value);
-						}
-
-						// Get the parameter
-						const std::string param = std::string(buffer, length + 1);
-
-						// Add to options if not empty
-						if (!param.empty())
-						{
-							paramMap.insert(std::pair<std::string, std::string>(name, param));
-						}
-					}
-				}
-				else // No subvalues
-				{
-					// Get the parameter
-					const std::string valueval = selectedValue["value"].get<std::string>();
-
-					// Add to options if not empty
-					if (!valueval.empty())
-					{
-						paramMap.insert(std::pair<std::string, std::string>(name, valueval));
-					}
-				}
-			}
-		}
-		else // Not a dropdown element
-		{
-			// Get the pattern used for sprintf_s
-			const std::string pattern = param["value"].get<std::string>();
-
-			// Get the selected value
-			instRec->exportParamSuite->GetParamValue(pluginId, groupIndex, name.c_str(), &paramValues);
-
-			// Format param according to datatype
-			if (type == "float")
-			{
-				const float defValue = param["defaultValue"].get<float>();
-
-				isDefaultValue = std::fabs(defValue - paramValues.value.floatValue) < 1e-2;
-				length = sprintf_s(buffer, pattern.c_str(), paramValues.value.floatValue);
-			}
-			else if (type == "int" || type == "bool")
-			{
-				const int defValue = param["defaultValue"].get<int>();
-
-				isDefaultValue = defValue == paramValues.value.intValue;
-				length = sprintf_s(buffer, pattern.c_str(), paramValues.value.intValue);
-			}
-			else
-			{
-				continue;
-			}
-
-			// Use only if it is not the default value
-			if (!isDefaultValue || useDefaultValue)
-			{
-				// Get the parameter
-				const std::string param = std::string(buffer, length + 1);
-
-				// Add to options if not empty
-				if (!param.empty())
-				{
-					paramMap.insert(std::pair<std::string, std::string>(name, param));
-				}
-			}
-		}
+		break;
+	case WM_CLOSE:
+		EndDialog(hWndDlg, 0);
+		return TRUE;
 	}
 
-	// Copy remaining values to vector
-	for (auto it = paramMap.begin(); it != paramMap.end(); ++it)
+	return FALSE;
+}
+
+prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePrefsRecP)
+{
+	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(getFilePrefsRecP->privateData);
+	
+	HWND mainWnd = instRec->windowSuite->GetMainWindow();
+
+	ConfigImportDialog dialog;
+	if (dialog.show(instRec->hInstance, mainWnd))
 	{
-		encoderConfiguration->push_back(it->second);
+		std::string commandLine = dialog.getValue();
+
+
 	}
+
+	return malNoError;
 }
 
 void loadSettings(json *settings)
@@ -1297,6 +1190,8 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	prMALError result = malNoError;
 
 	Settings *settings = instRec->settings;
+	EncoderConfig *videoConfig = instRec->videoConfig;
+	EncoderConfig *audioConfig = instRec->audioConfig;
 
 	// Export video params
 	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
@@ -1325,9 +1220,11 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 
 	// Get the selected codec
 	json videoCodecs = settings->getVideoEncoders();
-	json vCodec = settings->filterArrayById(videoCodecs, videoCodecId);
+	json vEncoder = settings->filterArrayById(videoCodecs, videoCodecId);
 
-	const std::string videoEncoderConfig = getVideoConfiguration(instRec, exID, 0, vCodec["params"]);
+	videoConfig->initFromSettings(vEncoder);
+	AVDictionary *videoEncoderConfig = NULL;
+	videoConfig->getConfig(&videoEncoderConfig, instRec->maxPasses, instRec->currentPass);
 
 #pragma endregion
 
@@ -1337,9 +1234,11 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 
 	// Get the selected codec
 	json audioCodecs = settings->getAudioEncoders();
-	json aCodec = settings->filterArrayById(audioCodecs, audioCodecId);
+	json aEncoder = settings->filterArrayById(audioCodecs, audioCodecId);
 
-	const std::string audioEncoderConfig = getAudioConfiguration(instRec, exID, 0, aCodec["params"]);
+	audioConfig->initFromSettings(aEncoder);
+	AVDictionary *audioEncoderConfig = NULL;
+	audioConfig->getConfig(&audioEncoderConfig);
 
 #pragma endregion
 
@@ -1359,8 +1258,8 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	}
 
 	// Get the selected encoders
-	const std::string videoEncoder = vCodec["name"].get<std::string>();
-	const std::string audioEncoder = aCodec["name"].get<std::string>();
+	const std::string videoEncoder = vEncoder["name"].get<std::string>();
+	const std::string audioEncoder = aEncoder["name"].get<std::string>();
 
 	// Get the right color range
 	AVColorRange colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
@@ -1453,7 +1352,12 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
 	renderParms.inCompositeOnBlack = kPrFalse;
 
+	// Cache the rendered frames when using multipass
+	const PrRenderCacheType cacheType = instRec->maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
+
 	EncodingData encodingData = {};
+
+	instRec->sequenceAudioSuite->ResetAudioToBeginning(instRec->audioRenderID);
 
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
@@ -1464,7 +1368,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
-			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, kRenderCacheType_None, pixelFormat, &renderResult);
+			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, cacheType, pixelFormat, &renderResult);
 			if (result != malNoError)
 			{
 				ShowMessageBox(instRec, L"Error: Required pixel format has not been requested in render params.", PLUGIN_APPNAME, MB_OK);
@@ -1548,7 +1452,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 		}
 
 		// Update progress & handle export cancellation
-		float progress = static_cast<float>(videoTime - exportInfoP->startTime) / static_cast<float>(exportDuration);
+		float offset = (1.0f / static_cast<float>(instRec->maxPasses)) * (static_cast<float>(instRec->currentPass) - 1);
+		float progress = offset + static_cast<float>(videoTime - exportInfoP->startTime) / static_cast<float>(exportDuration) / static_cast<float>(instRec->maxPasses);
 		result = instRec->exportProgressSuite->UpdateProgressPercent(exID, progress);
 		if (result == suiteError_ExporterSuspended)
 		{
@@ -1645,63 +1550,4 @@ prBool IsPixelFormatYUV420(PrPixelFormat pixelformat)
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
 		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange) ? kPrTrue : kPrFalse;
-}
-
-std::string getVideoConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params)
-{
-	exParamValues fieldType;
-	instRec->exportParamSuite->GetParamValue(pluginId, 0, ADBEVideoFieldType, &fieldType);
-
-	// Go through all codec options
-	std::vector<std::string> videoEncoderOptions;
-	CreateEncoderConfiguration(instRec, pluginId, groupIndex, params, &videoEncoderOptions);
-
-	// Add field order for interlaced output
-	if (fieldType.value.intValue == prFieldsUpperFirst)
-	{
-		videoEncoderOptions.push_back("tff=1");
-	}
-	else if (fieldType.value.intValue == prFieldsLowerFirst)
-	{
-		videoEncoderOptions.push_back("bff=1");
-	}
-
-	// Convert vector to string
-	std::stringstream videoEncoderStream;
-	for (size_t i = 0; i < videoEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-		{
-			videoEncoderStream << ':';
-		}
-
-		std::string option = videoEncoderOptions[i];
-		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
-		videoEncoderStream << option;
-	}
-
-	return videoEncoderStream.str();
-}
-
-std::string getAudioConfiguration(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json params)
-{
-	// Go through all codec options
-	std::vector<std::string> audioEncoderOptions;
-	CreateEncoderConfiguration(instRec, pluginId, groupIndex, params, &audioEncoderOptions);
-
-	// Convert vector to string
-	std::stringstream audioEncoderStream;
-	for (size_t i = 0; i < audioEncoderOptions.size(); ++i)
-	{
-		if (i != 0)
-		{
-			audioEncoderStream << ':';
-		}
-
-		std::string option = audioEncoderOptions[i];
-		option.erase(std::remove(option.begin(), option.end(), '\0'), option.end());
-		audioEncoderStream << option;
-	}
-
-	return audioEncoderStream.str();
 }

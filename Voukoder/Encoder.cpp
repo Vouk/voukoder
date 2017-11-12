@@ -1,5 +1,5 @@
 #include "Encoder.h"
-#include "ExporterX264Common.h"
+#include "Common.h"
 
 Encoder::Encoder(const char *short_name, const char *filename)
 {
@@ -28,9 +28,9 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic)
+void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic)
 {
-	videoContext->configuration = configuration;
+	av_dict_copy(&videoContext->options, configuration, 0);
 
 	/* Find codec */
 	videoContext->codec = avcodec_find_encoder_by_name(codec.c_str());
@@ -84,9 +84,9 @@ void Encoder::setVideoCodec(const std::string codec, const std::string configura
 	videoContext->codecContext->color_trc = colorTransferCharateristic;
 }
 
-void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channelLayout, int sampleRate)
+void Encoder::setAudioCodec(const std::string codec, AVDictionary *configuration, csSDK_int64 channelLayout, int sampleRate)
 {
-	audioContext->configuration = configuration;
+	av_dict_copy(&audioContext->options, configuration, 0);
 
 	/* Find codec */
 	audioContext->codec = avcodec_find_encoder_by_name(codec.c_str());
@@ -142,7 +142,7 @@ int Encoder::open()
 	int ret;
 
 	// Open video stream
-	if ((ret = openStream(videoContext, videoContext->configuration)) < 0)
+	if ((ret = openStream(videoContext)) < 0)
 	{
 		close(false);
 
@@ -150,7 +150,7 @@ int Encoder::open()
 	}
 
 	// Open audio stream
-	if ((ret = openStream(audioContext, audioContext->configuration)) > 0)
+	if ((ret = openStream(audioContext)) > 0)
 	{
 		close(false);
 
@@ -228,31 +228,14 @@ void Encoder::close(bool writeTrailer)
 	}
 }
 
-int Encoder::openStream(AVContext *context, std::string configuration)
+int Encoder::openStream(AVContext *context)
 {
 	int ret;
-
-	// Parse consiguration to an av dictionary
-	AVDictionary *options = NULL;
-	if (strcmp(context->codec->name, "libx264") == 0)
-	{
-		// This overwrites all other settings
-		av_dict_set(&options, "x264-params", configuration.c_str(), 0);
-	}
-	else if (strcmp(context->codec->name, "libx265") == 0)
-	{
-		// This overwrites all other settings
-		av_dict_set(&options, "x265-params", configuration.c_str(), 0);
-	}
-	else
-	{
-		av_dict_parse_string(&options, configuration.c_str(), "=", ":", 0);
-	}
 	
 	context->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
-	/* Open the codec */
-	if ((ret = avcodec_open2(context->codecContext, context->codec, &options)) < 0)
+	// Open the codec
+	if ((ret = avcodec_open2(context->codecContext, context->codec, &context->options)) < 0)
 	{
 		return ret ;
 	}
@@ -345,7 +328,15 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 	{
 		AVFrame *frame;
 
-		const int frame_size = FFMIN(av_audio_fifo_size(fifo), audioContext->codecContext->frame_size);
+		int frame_size = FFMIN(av_audio_fifo_size(fifo), audioContext->codecContext->frame_size);
+		/* ugly hack for PCM codecs (will be removed ASAP with new PCM
+		   support to compute the input frame size in samples */
+		if (frame_size <= 1) {
+			frame_size = 10000 / 2;
+frame_size >>= 1;
+
+			}
+
 
 		frame = av_frame_alloc();
 		frame->nb_samples = frame_size;
@@ -466,9 +457,9 @@ const char* Encoder::dumpConfiguration()
 		"Muxer: %s\nVideo: %s(%s)\nAudio: %s(%s)",
 		formatContext->oformat->name,
 		videoContext->codec->name,
-		videoContext->configuration.c_str(),
+		"opt",
 		audioContext->codec->name,
-		audioContext->configuration.c_str());
+		"opt");
 
 	return buffer;
 }

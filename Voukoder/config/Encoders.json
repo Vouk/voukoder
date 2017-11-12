@@ -1,109 +1,5 @@
 {
-	"configuration" : {
-		"videoFramerates" : [
-			{
-				"num" : 10,
-				"den" : 1,
-				"name" : "10"
-			},
-			{
-				"num" : 15,
-				"den" : 1,
-				"name" : "15"
-			},
-			{
-				"num" : 24000,
-				"den" : 1001,
-				"name" : "23.976"
-			},
-			{
-				"num" : 24,
-				"den" : 1,
-				"name" : "24"
-			},
-			{
-				"num" : 25,
-				"den" : 1,
-				"name" : "25 (PAL)"
-			},
-			{
-				"num" : 30000,
-				"den" : 1001,
-				"name" : "29.97 (NTSC)"
-			},
-			{
-				"num" : 30,
-				"den" : 1,
-				"name" : "30"
-			},
-			{
-				"num" : 50,
-				"den" : 1,
-				"name" : "50"
-			},
-			{
-				"num" : 60000,
-				"den" : 1001,
-				"name" : "59.94"
-			},
-			{
-				"num" : 60,
-				"den" : 1,
-				"name" : "60"
-			}
-		],
-		"audioSampleRates" : [
-			{
-				"id" : 44100,
-				"name" : "44100 Hz"
-			},
-			{
-				"id" : 48000,
-				"name" : "48000 Hz"
-			},
-			{
-				"id" : 96000,
-				"name" : "96000 Hz"
-			}
-		],
-		"audioChannels" : [
-			{
-				"id" : 1,
-				"name" : "Mono"
-			},
-			{
-				"id" : 2,
-				"name" : "Stereo"
-			},
-			{
-				"id" : 3,
-				"name" : "5.1"
-			}
-		]
-	},
-	"defaults" : {
-		"muxer" : 0,
-		"videoEncoder" : 0,
-		"audioEncoder" : 0
-	},
-	"muxers" : [
-		{
-			"id" : 0,
-			"name" : "mp4",
-			"extension" : "mp4"
-		},
-		{
-			"id" : 1,
-			"name" : "matroska",
-			"extension" : "mkv"
-		},
-		{
-			"id" : 2,
-			"name" : "mov",
-			"extension" : "mov"
-		}
-	],
-	"videoEncoders" : [
+	"video" : [
 		{
 		    "id" : 0,
 			"name" : "libx264",
@@ -154,7 +50,42 @@
 					"parent" : "VKDRAdvVideoCodecTabGroup"
 				}
 			],
+			"interlaced": {
+				"tffParameters" : {
+					"tff" : ""
+				},
+				"bffParameters" : {
+					"bff" : ""
+				}
+			},
+			"multipass" : {
+				"name" : "x264Passes",
+				"firstParameters" : { "pass" : "1" },
+				"lastParameters" : { "pass" : "2" },
+				"nthParameters" : {	"pass" : "3" }
+			},
+			"parameterGroups" : {
+				"x264-params" : {
+					"delimiter" : "=",
+					"separator" : ":",
+					"noValueReplacement" : "1",
+					"parameters": [ 
+						"bff", "keyint", "min-keyint", "open-gop", "slices", "slices-max", "slice-max-size", "slices-min-mbs", "slices-max-mbs",
+						"bframes", "b-bias", "b-adapt", "b-pyramid", "no-weightb", "qpmin", "qpmax", "qpstep", "ipratio", "pbratio", "chroma-qp-offset",
+						"aq-mode", "aq-strength", "qcomp", "vbv-bufsize", "vbv-maxrate", "vbv-init", "rc-lookahead", "no-mbtree", "nal-hrd",
+						"bluray-compat", "aud", "fake-interlaced", "me", "merange", "subme", "no-chroma-me", "direct", "trellis", "nr", "no-mixed-refs",
+						"no-dct-decimate", "no-psy", "me", "merange", "subme", "no-chroma-me", "direct", "trellis", "nr", "no-mixed-refs", 
+						"no-dct-decimate", "no-psy" ]
+				}
+			},
 			"params" : [
+				{
+					"name" : "x264ImportConfig",
+					"label" : "Import command line configuration",
+					"group" : "ADBEVideoCodecGroup",
+					"type" : "button",
+					"flags" : [ "configImporter" ]
+				},
 				{
 					"name" : "x264Preset",
 					"label" : "Preset",
@@ -166,52 +97,72 @@
 						{
 							"id" : 0,
 							"name" : "Ultra fast",
-							"value" : "preset=ultrafast"
+							"parameters" : {
+								"preset" : "ultrafast"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Super fast",
-							"value" : "preset=superfast"
+							"parameters" : {
+								"preset" : "superfast"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Very fast",
-							"value" : "preset=veryfast"
+							"parameters" : {
+								"preset" : "veryfast"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Faster",
-							"value" : "preset=faster"
+							"parameters" : {
+								"preset" : "faster"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "Fast",
-							"value" : "preset=fast"
+							"parameters" : {
+								"preset" : "fast"
+							}
 						},
 						{
 							"id" : 5,
 							"name" : "Medium",
-							"value" : "preset=medium"
+							"parameters" : {
+								"preset" : "medium"
+							}
 						},
 						{
 							"id" : 6,
 							"name" : "Slow",
-							"value" : "preset=slow"
+							"parameters" : {
+								"preset" : "slow"
+							}
 						},
 						{
 							"id" : 7,
 							"name" : "Slower",
-							"value" : "preset=slower"
+							"parameters" : {
+								"preset" : "slower"
+							}
 						},
 						{
 							"id" : 8,
 							"name" : "Very slow",
-							"value" : "preset=veryslow"
+							"parameters" : {
+								"preset" : "veryslow"
+							}
 						},
 						{
 							"id" : 9,
 							"name" : "Placebo",
-							"value" : "preset=placebo"
+							"parameters" : {
+								"preset" : "placebo"
+							}
 						}
 					]
 				},
@@ -221,28 +172,34 @@
 					"group" : "ADBEVideoCodecGroup",
 					"type" : "int",
 					"flags" : [],
-					"defaultValue": 2,
-					"useDefaultValue" : true,
+					"defaultValue": 0,
 					"values" : [
 						{
-							"id" : 3,
-							"name" : "(None)",
-							"value" : ""
-						},
-						{
 							"id" : 0,
-							"name" : "Baseline",
-							"value" : "profile=baseline"
+							"name" : "(None)",
+							"parameters" : {}
+
 						},
 						{
 							"id" : 1,
-							"name" : "Main",
-							"value" : "profile=main"
+							"name" : "Baseline",
+							"parameters" : {
+								"profile" : "baseline"
+							}
 						},
 						{
 							"id" : 2,
+							"name" : "Main",
+							"parameters" : {
+								"profile" : "main"
+							}
+						},
+						{
+							"id" : 3,
 							"name" : "High",
-							"value" : "profile=high"
+							"parameters" : {
+								"profile" : "high"
+							}
 						}
 					]
 				},
@@ -257,47 +214,63 @@
 						{
 							"id" : 0,
 							"name" : "(None)",
-							"value" : ""
+							"parameters" : {}
 						},
 						{
 							"id" : 1,
 							"name" : "Film",
-							"value" : "tune=film"
+							"parameters" : {
+								"tune" : "film"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Animation",
-							"value" : "tune=animation"
+							"parameters" : {
+								"tune" : "animation"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Grain",
-							"value" : "tune=grain"
+							"parameters" : {
+								"tune" : "grain"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "Still Image",
-							"value" : "tune=stillimage"
+							"parameters" : {
+								"tune" : "stillimage"
+							}
 						},
 						{
 							"id" : 5,
 							"name" : "PSNR",
-							"value" : "tune=psnr"
+							"parameters" : {
+								"tune" : "psnr"
+							}
 						},
 						{
 							"id" : 6,
 							"name" : "SSIM",
-							"value" : "tune=ssim"
+							"parameters" : {
+								"tune" : "ssim"
+							}
 						},
 						{
 							"id" : 7,
 							"name" : "Fast Decode",
-							"value" : "tune=fastdecode"
+							"parameters" : {
+								"tune" : "fastdecode"
+							}
 						},
 						{
 							"id" : 8,
 							"name" : "Zero Latency",
-							"value" : "tune=zerolatency"
+							"parameters" : {
+								"tune" : "zerolatency"
+							}
 						}
 					]
 				},
@@ -312,82 +285,112 @@
 						{
 							"id" : 0,
 							"name" : "(Automatic)",
-							"value" : ""
+							"parameters" : {}
 						},
 						{
 							"id" : 1,
 							"name" : "1",
-							"value" : "level=1"
+							"parameters" : {
+								"level" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "1.1",
-							"value" : "level=1.1"
+							"parameters" : {
+								"level" : "11"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "1.2",
-							"value" : "level=1.2"
+							"parameters" : {
+								"level" : "12"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "1.3",
-							"value" : "level=1.3"
+							"parameters" : {
+								"level" : "13"
+							}
 						},
 						{
 							"id" : 5,
 							"name" : "2",
-							"value" : "level=2"
+							"parameters" : {
+								"level" : "2"
+							}
 						},
 						{
 							"id" : 6,
 							"name" : "2.1",
-							"value" : "level=2.1"
+							"parameters" : {
+								"level" : "21"
+							}
 						},
 						{
 							"id" : 7,
 							"name" : "2.2",
-							"value" : "level=2.2"
+							"parameters" : {
+								"level" : "22"
+							}
 						},
 						{
 							"id" : 8,
 							"name" : "3",
-							"value" : "level=3"
+							"parameters" : {
+								"level" : "3"
+							}
 						},
 						{
 							"id" : 9,
 							"name" : "3.1",
-							"value" : "level=3.1"
+							"parameters" : {
+								"level" : "31"
+							}
 						},
 						{
 							"id" : 10,
 							"name" : "3.2",
-							"value" : "level=3.2"
+							"parameters" : {
+								"level" : "32"
+							}
 						},
 						{
 							"id" : 11,
 							"name" : "4",
-							"value" : "level=4"
+							"parameters" : {
+								"level" : "4"
+							}
 						},
 						{
 							"id" : 12,
 							"name" : "4.1",
-							"value" : "level=4.1"
+							"parameters" : {
+								"level" : "41"
+							}
 						},
 						{
 							"id" : 13,
 							"name" : "4.2",
-							"value" : "level=4.2"
+							"parameters" : {
+								"level" : "42"
+							}
 						},
 						{
 							"id" : 14,
 							"name" : "5",
-							"value" : "level=5"
+							"parameters" : {
+								"level" : "5"
+							}
 						},
 						{
 							"id" : 15,
 							"name" : "5.1",
-							"value" : "level=5.1"
+							"parameters" : {
+								"level" : "51"
+							}
 						}
 					]
 				},
@@ -406,14 +409,36 @@
 							"subvalues" : [
 								{
 									"name" : "x264StrategyARB",
-									"label" : "Average Bitrate (Mbps)",
-									"type" : "float",
+									"label" : "Average Bitrate (kbit)",
+									"type" : "int",
 									"flags" : [ "slider" ],
-									"defaultValue": 15,
+									"defaultValue": 15000,
+									"minValue" : 100,
+									"maxValue" : 100000,
+									"parameters" : {
+										"b" : "%d000"
+									}
+								},
+								{
+									"name" : "x264Passes",
+									"label" : "Passes",
+									"type" : "int",
+									"flags" : [ "slider" ],
+									"defaultValue": 1,
 									"minValue" : 1,
-									"maxValue" : 100,
-									"value" : "bitrate=%0.f"
-								}			
+									"maxValue" : 5,
+									"parameters" : {}
+								},
+								{
+									"name" : "x264SlowFirstPass",
+									"label" : "Slow first pass",
+									"type" : "bool",
+									"flags" : [ ],
+									"defaultValue": 0,
+									"parameters" : {
+										"slow-firstpass" : ""
+									}
+								}
 							]
 						},
 						{
@@ -428,7 +453,9 @@
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 51,
-									"value" : "crf=%d"
+									"parameters" : {
+										"crf" : "%d"
+									}
 								}			
 							]
 						},
@@ -444,15 +471,18 @@
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 69,
-									"value" : "qp=%d"
+									"parameters" : {
+										"qp" : "%d"
+									}
 								}			
 							]
 						},
 						{
 							"id" : 3,
 							"name" : "Lossless",
-							"value" : "qp=0",
-							"disableField" : [ "x264Profile", "x264Level" ]
+							"parameters" : {
+								"qp" : "0"
+							}
 						}
 					]
 				},
@@ -465,7 +495,9 @@
 					"defaultValue": 250,
 					"minValue" : 0,
 					"maxValue" : 999,
-					"value" : "keyint=%d"
+					"parameters" : {
+						"keyint" : "%d"
+					}
 				},
 				{
 					"name" : "x264MinKeyInt",
@@ -476,7 +508,9 @@
 					"defaultValue": 25,
 					"minValue" : 0,
 					"maxValue" : 999,
-					"value" : "min-keyint=%d"
+					"parameters" : {
+						"min-keyint" : "%d"
+					}
 				},
 				{
 					"name" : "x264OpenGop",
@@ -485,7 +519,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "open-gop=1"
+					"parameters" : {
+						"open-gop" : ""
+					}
 				},
 				{
 					"name" : "x264Slices",
@@ -496,7 +532,9 @@
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 100,
-					"value" : "slices=%d"
+					"parameters" : {
+						"slices" : "%d"
+					}
 				},
 				{
 					"name" : "x264SlicesMax",
@@ -507,7 +545,9 @@
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 100,
-					"value" : "slices-max=%d"
+					"parameters" : {
+						"slices-max" : "%d"
+					}
 				},
 				{
 					"name" : "x264SliceMax",
@@ -518,29 +558,9 @@
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 250,
-					"value" : "slice-max-size=%d"
-				},
-				{
-					"name" : "x264SliceMinMbs",
-					"label" : "Min. Size of Slice (in Macroblocks)",
-					"group" : "VKDRx264SlicingGroup",
-					"type" : "int",
-					"flags" : [ "slider" ],
-					"defaultValue": 0,
-					"minValue" : 0,
-					"maxValue" : 100,
-					"value" : "slices-min-mbs=%d"
-				},
-				{
-					"name" : "x264SliceMaxMbs",
-					"label" : "Max. Size of Slice (in Macroblocks)",
-					"group" : "VKDRx264SlicingGroup",
-					"type" : "int",
-					"flags" : [ "slider" ],
-					"defaultValue": 0,
-					"minValue" : 0,
-					"maxValue" : 100,
-					"value" : "slices-max-mbs=%d"
+					"parameters" : {
+						"slice-max-size" : "%d"
+					}
 				},
 				{
 					"name" : "x264BFrames",
@@ -551,7 +571,9 @@
 					"defaultValue": 3,
 					"minValue" : 0,
 					"maxValue" : 16,
-					"value" : "bframes=%d"
+					"parameters" : {
+						"bframes" : "%d"
+					}
 				},
 				{
 					"name" : "x264BFrameBias",
@@ -562,7 +584,9 @@
 					"defaultValue": 0,
 					"minValue" : -90,
 					"maxValue" : 100,
-					"value" : "b-bias=%d"
+					"parameters" : {
+						"b-bias" : "%d"
+					}
 				},
 				{
 					"name" : "x264BAdapt",
@@ -575,17 +599,23 @@
 						{
 							"id" : 0,
 							"name" : "(Disabled)",
-							"value" : "b-adapt=0"
+							"parameters" : {
+								"b-adapt" : "0"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Fast",
-							"value" : "b-adapt=1"
+							"parameters" : {
+								"b-adapt" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Optimal",
-							"value" : "b-adapt=2"
+							"parameters" : {
+								"b-adapt" : "2"
+							}
 						}
 					]
 				},
@@ -600,17 +630,23 @@
 						{
 							"id" : 0,
 							"name" : "(Disabled)",
-							"value" : "b-pyramid=0"
+							"parameters" : {
+								"b-pyramid" : "0"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Strict",
-							"value" : "b-pyramid=1"
+							"parameters" : {
+								"b-pyramid" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Normal",
-							"value" : "b-pyramid=2"
+							"parameters" : {
+								"b-pyramid" : "2"
+							}
 						}
 					]
 				},
@@ -621,7 +657,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-weightb=1"
+					"parameters" : {
+						"no-weightb" : ""
+					}
 				},
 				{
 					"name" : "x264QPMin",
@@ -632,7 +670,9 @@
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 69,
-					"value" : "qpmin=%d"
+					"parameters" : {
+						"qpmin" : "%d"
+					}
 				},
 				{
 					"name" : "x264QPMax",
@@ -643,7 +683,9 @@
 					"defaultValue": 69,
 					"minValue" : 0,
 					"maxValue" : 69,
-					"value" : "qpmax=%d"
+					"parameters" : {
+						"qpmax" : "%d"
+					}
 				},
 				{
 					"name" : "x264QPStep",
@@ -654,7 +696,9 @@
 					"defaultValue": 4,
 					"minValue" : 1,
 					"maxValue" : 51,
-					"value" : "qpstep=%d"
+					"parameters" : {
+						"qpstep" : "%d"
+					}
 				},
 				{
 					"name" : "x264IPRatio",
@@ -665,7 +709,9 @@
 					"defaultValue": 1.4,
 					"minValue" : 1,
 					"maxValue" : 10,
-					"value" : "ipratio=%0.f"
+					"parameters" : {
+						"ipratio" : "%.2f"
+					}
 				},
 				{
 					"name" : "x264PBRatio",
@@ -676,7 +722,9 @@
 					"defaultValue": 1.4,
 					"minValue" : 1,
 					"maxValue" : 10,
-					"value" : "pbratio=%0.f"
+					"parameters" : {
+						"pbratio" : "%.2f"
+					}
 				},
 				{
 					"name" : "x264ChromaQPOffset",
@@ -687,18 +735,9 @@
 					"defaultValue": -12,
 					"minValue" : 0,
 					"maxValue" : 12,
-					"value" : "chroma-qp-offset=%d"
-				},
-				{
-					"name" : "x264CreditsQuantizer",
-					"label" : "Credits Quantizer",
-					"group" : "VKDRx264QuantizerGroup",
-					"type" : "int",
-					"flags" : [ "slider" ],
-					"defaultValue": 40,
-					"minValue" : 1,
-					"maxValue" : 51,
-					"value" : ""
+					"parameters" : {
+						"chroma-qp-offset" : "%d"
+					}
 				},
 				{
 					"name" : "x264AdaptiveQuantizer",
@@ -711,17 +750,23 @@
 						{
 							"id" : 0,
 							"name" : "Off",
-							"value" : "aq-mode=0"
+							"parameters" : {
+								"aq-mode" : "0"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Variance AQ",
-							"value" : "aq-mode=1"
+							"parameters" : {
+								"aq-mode" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Auto VAQ",
-							"value" : "aq-mode=2"
+							"parameters" : {
+								"aq-mode" : "2"
+							}
 						}
 					]
 				},
@@ -734,29 +779,48 @@
 					"defaultValue": 1,
 					"minValue" : 0,
 					"maxValue" : 2,
-					"value" : "aq-strength=%0.f"
+					"parameters" : {
+						"aq-strength" : "%.1f"
+					}
+				},
+				{
+					"name" : "x264QuantizerCompression",
+					"label" : "QuantizerCompression",
+					"group" : "VKDRx264QuantizerGroup",
+					"type" : "float",
+					"flags" : [ "slider" ],
+					"defaultValue": 0.6,
+					"minValue" : 0,
+					"maxValue" : 1,
+					"parameters" : {
+						"qcomp" : "%.1f"
+					}
 				},
 				{
 					"name" : "x264VBVBufferSize",
-					"label" : "VBV Buffer Size",
+					"label" : "VBV Buffer Size (kbit)",
 					"group" : "VKDRx264RateControlGroup",
 					"type" : "int",
-					"flags" : [ ],
+					"flags" : [ "slider" ],
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 512000,
-					"value" : "vbv-bufsize=%d"
+					"parameters" : {
+						"vbv-bufsize" : "%d000"
+					}
 				},
 				{
 					"name" : "x264VBVMaxBitrate",
-					"label" : "VBV Max. Bitrate",
+					"label" : "VBV Max. Bitrate (kbit)",
 					"group" : "VKDRx264RateControlGroup",
 					"type" : "int",
-					"flags" : [ ],
+					"flags" : [ "slider" ],
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 512000,
-					"value" : "vbv-maxrate=%d"
+					"parameters" : {
+						"vbv-maxrate" : "%d000"
+					}
 				},
 				{
 					"name" : "x264VBVInitBuffer",
@@ -767,18 +831,9 @@
 					"defaultValue": 0.9,
 					"minValue" : 0,
 					"maxValue" : 1,
-					"value" : "vbv-init=%0.f"
-				},
-				{
-					"name" : "x264QuantizerCompression",
-					"label" : "QuantizerCompression",
-					"group" : "VKDRx264RateControlGroup",
-					"type" : "float",
-					"flags" : [ "slider" ],
-					"defaultValue": 0.6,
-					"minValue" : 0,
-					"maxValue" : 1,
-					"value" : "qcomp=%0.f"
+					"parameters" : {
+						"vbv-init" : "%.1f"
+					}
 				},
 				{
 					"name" : "x264RCLookahead",
@@ -789,7 +844,9 @@
 					"defaultValue": 40,
 					"minValue" : 0,
 					"maxValue" : 250,
-					"value" : "rc-lookahead=%d"
+					"parameters" : {
+						"rc-lookahead" : "%d"
+					}
 				},
 				{
 					"name" : "x264NoMBTree",
@@ -798,7 +855,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-mbtree=1"
+					"parameters" : {
+						"no-mbtree" : ""
+					}
 				},
 				{
 					"name" : "x264NalHrd",
@@ -811,17 +870,23 @@
 						{
 							"id" : 0,
 							"name" : "Off",
-							"value" : "nal-hrd=none"
+							"parameters" : {
+								"nal-hrd" : "none"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "CBR",
-							"value" : "nal-hrd=cbr"
+							"parameters" : {
+								"nal-hrd" : "cbr"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "VBR",
-							"value" : "nal-hrd=vbr"
+							"parameters" : {
+								"nal-hrd" : "vbr"
+							}
 						}
 					]
 				},
@@ -832,7 +897,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "bluray-compat=1"
+					"parameters" : {
+						"bluray-compat" : ""
+					}
 				},
 				{
 					"name" : "x264AUD",
@@ -841,7 +908,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "aud=1"
+					"parameters" : {
+						"aud" : ""
+					}
 				},
 				{
 					"name" : "x264FakeInterlaced",
@@ -850,7 +919,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "fake-interlaced=1"
+					"parameters" : {
+						"fake-interlaced" : ""
+					}
 				},
 				{
 					"name" : "x264ME",
@@ -863,27 +934,37 @@
 						{
 							"id" : 0,
 							"name" : "Diamond",
-							"value" : "me=dia"
+							"parameters" : {
+								"me" : "dia"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Hexagon",
-							"value" : "me=hex"
+							"parameters" : {
+								"me" : "hex"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Multi-Hex",
-							"value" : "me=umh"
+							"parameters" : {
+								"me" : "umh"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Exhaustive",
-							"value" : "me=esa"
+							"parameters" : {
+								"me" : "esa"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "Exhaustive Hadamard",
-							"value" : "me=tesa"
+							"parameters" : {
+								"me" : "tesa"
+							}
 						}
 					]
 				},
@@ -896,7 +977,9 @@
 					"defaultValue": 16,
 					"minValue" : 4,
 					"maxValue" : 64,
-					"value" : "merange=%d"
+					"parameters" : {
+						"merange" : "%d"
+					}
 				},
 				{
 					"name" : "x264SubME",
@@ -909,62 +992,86 @@
 						{
 							"id" : 0,
 							"name" : "Fullpel only",
-							"value" : "subme=0"
+							"parameters" : {
+								"subme" : "0"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "SAD mode decision, one qpel iteration",
-							"value" : "subme=1"
+							"parameters" : {
+								"subme" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "SATD mode decision",
-							"value" : "subme=2"
+							"parameters" : {
+								"subme" : "2"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "HPel on MB then QPel",
-							"value" : "subme=3"
+							"parameters" : {
+								"subme" : "3"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "Always QPel",
-							"value" : "subme=4"
+							"parameters" : {
+								"subme" : "4"
+							}
 						},
 						{
 							"id" : 5,
 							"name" : "QPel & Bi-Directional ME",
-							"value" : "subme=5"
+							"parameters" : {
+								"subme" : "5"
+							}
 						},
 						{
 							"id" : 6,
 							"name" : "RD mode decision for I/P-frames",
-							"value" : "subme=6"
+							"parameters" : {
+								"subme" : "6"
+							}
 						},
 						{
 							"id" : 7,
 							"name" : "RD mode decision for all frames",
-							"value" : "subme=7"
+							"parameters" : {
+								"subme" : "7"
+							}
 						},
 						{
 							"id" : 8,
 							"name" : "RD refinement for I/P-frames",
-							"value" : "subme=8"
+							"parameters" : {
+								"subme" : "8"
+							}
 						},
 						{
 							"id" : 9,
 							"name" : "RD refinement for all frames",
-							"value" : "subme=9"
+							"parameters" : {
+								"subme" : "9"
+							}
 						},
 						{
 							"id" : 10,
 							"name" : "QP-RD - requires trellis=2, aq-mode>0",
-							"value" : "subme=10"
+							"parameters" : {
+								"subme" : "10"
+							}
 						},
 						{
 							"id" : 11,
 							"name" : "Full RD: disable all early terminations",
-							"value" : "subme=11"
+							"parameters" : {
+								"subme" : "11"
+							}
 						}
 					]
 				},
@@ -975,7 +1082,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-chroma-me=1"
+					"parameters" : {
+						"no-chroma-me" : ""
+					}
 				},
 				{
 					"name" : "x264Direct",
@@ -988,22 +1097,30 @@
 						{
 							"id" : 0,
 							"name" : "None",
-							"value" : "direct=none"
+							"parameters" : {
+								"direct" : "none"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Spatial",
-							"value" : "direct=spatial"
+							"parameters" : {
+								"direct" : "spatial"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Temporal",
-							"value" : "direct=temporal"
+							"parameters" : {
+								"direct" : "temporal"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Auto",
-							"value" : "direct=auto"
+							"parameters" : {
+								"direct" : "auto"
+							}
 						}
 					]
 				},
@@ -1018,17 +1135,23 @@
 						{
 							"id" : 0,
 							"name" : "None",
-							"value" : "trellis=0"
+							"parameters" : {
+								"trellis" : "0"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Final MB",
-							"value" : "trellis=1"
+							"parameters" : {
+								"trellis" : "1"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Auto",
-							"value" : "trellis=2"
+							"parameters" : {
+								"trellis" : "2"
+							}
 						}
 					]
 				},
@@ -1041,7 +1164,9 @@
 					"defaultValue": 0,
 					"minValue" : 0,
 					"maxValue" : 10000,
-					"value" : "nr=%d"
+					"parameters" : {
+						"nr" : "%d"
+					}
 				},
 				{
 					"name" : "x264NoMixedRefs",
@@ -1050,7 +1175,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-mixed-refs=1"
+					"parameters" : {
+						"no-mixed-refs" : ""
+					}
 				},
 				{
 					"name" : "x264No",
@@ -1059,7 +1186,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-dct-decimate-=1"
+					"parameters" : {
+						"no-dct-decimate" : ""
+					}
 				},
 				{
 					"name" : "x264NoFastPSkip",
@@ -1068,7 +1197,9 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-fast-pskip=1"
+					"parameters" : {
+						"no-fast-pskip" : ""
+					}
 				},
 				{
 					"name" : "x264NoPsy",
@@ -1077,24 +1208,40 @@
 					"type" : "bool",
 					"flags" : [ ],
 					"defaultValue": 0,
-					"value" : "no-psy=1"
-				},
-				{
-					"name" : "x264CustomParams",
-					"label" : "x264-params\n(param1=value:param2=value)",
-					"group" : "VKDRx264MiscGroup",
-					"type" : "string",
-					"flags" : [ "multiline", "codec_params" ],
-					"value" : "%s",
-					"defaultValue": ""
+					"parameters" : {
+						"no-psy" : ""
+					}
 				}
 			]
 		},
 		{
 		    "id" : 1,
 			"name" : "libx265",
+			"groups" : [ ],
+			"interlaced": {
+				"tffParameters" : {
+					"interlace " : "tff"
+				},
+				"bffParameters" : {
+					"interlace " : "bff"
+				}
+			},
+			"multipass" : {
+				"name" : "x265Passes",
+				"firstParameters" : { "pass" : "1" },
+				"lastParameters" : { "pass" : "2" },
+				"nthParameters" : {	"pass" : "3" }
+			},
+			"parameterGroups" : {
+				"x265-params" : {
+					"delimiter" : "=",
+					"separator" : ":",
+					"noValueReplacement" : "1",
+					"parameters": [ "interlace" ]
+				}
+			},
 			"params" : [
-							{
+				{
 					"name" : "x265Preset",
 					"label" : "Preset",
 					"group" : "ADBEVideoCodecGroup",
@@ -1105,52 +1252,72 @@
 						{
 							"id" : 0,
 							"name" : "Ultra fast",
-							"value" : "preset=ultrafast"
+							"parameters" : {
+								"preset" : "ultrafast"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "Super fast",
-							"value" : "preset=superfast"
+							"parameters" : {
+								"preset" : "superfast"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Very fast",
-							"value" : "preset=veryfast"
+							"parameters" : {
+								"preset" : "veryfast"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Faster",
-							"value" : "preset=faster"
+							"parameters" : {
+								"preset" : "faster"
+							}
 						},
 						{
 							"id" : 4,
 							"name" : "Fast",
-							"value" : "preset=fast"
+							"parameters" : {
+								"preset" : "fast"
+							}
 						},
 						{
 							"id" : 5,
 							"name" : "Medium",
-							"value" : "preset=medium"
+							"parameters" : {
+								"preset" : "medium"
+							}
 						},
 						{
 							"id" : 6,
 							"name" : "Slow",
-							"value" : "preset=slow"
+							"parameters" : {
+								"preset" : "slow"
+							}
 						},
 						{
 							"id" : 7,
 							"name" : "Slower",
-							"value" : "preset=slower"
+							"parameters" : {
+								"preset" : "slower"
+							}
 						},
 						{
 							"id" : 8,
 							"name" : "Very slow",
-							"value" : "preset=veryslow"
+							"parameters" : {
+								"preset" : "veryslow"
+							}
 						},
 						{
 							"id" : 9,
 							"name" : "Placebo",
-							"value" : "preset=placebo"
+							"parameters" : {
+								"preset" : "placebo"
+							}
 						}
 					]
 				},
@@ -1169,14 +1336,36 @@
 							"subvalues" : [
 								{
 									"name" : "x265StrategyARB",
-									"label" : "Average Bitrate (Mbps)",
-									"type" : "float",
+									"label" : "Average Bitrate (kbit)",
+									"type" : "int",
 									"flags" : [ "slider" ],
-									"defaultValue": 15,
+									"defaultValue": 15000,
+									"minValue" : 100,
+									"maxValue" : 100000,
+									"parameters" : {
+										"b" : "%d000"
+									}
+								},
+								{
+									"name" : "x265Passes",
+									"label" : "Passes",
+									"type" : "int",
+									"flags" : [ "slider" ],
+									"defaultValue": 1,
 									"minValue" : 1,
-									"maxValue" : 100,
-									"value" : "bitrate=%0.f"
-								}			
+									"maxValue" : 5,
+									"parameters" : {}
+								},
+								{
+									"name" : "x264SlowFirstPass",
+									"label" : "Slow first pass",
+									"type" : "bool",
+									"flags" : [ ],
+									"defaultValue": 0,
+									"parameters" : {
+										"slow-firstpass" : ""
+									}
+								}
 							]
 						},
 						{
@@ -1191,7 +1380,9 @@
 									"defaultValue": 28,
 									"minValue" : 1,
 									"maxValue" : 51,
-									"value" : "crf=%d"
+									"parameters" : {
+										"crf" : "%d"
+									}
 								}			
 							]
 						},
@@ -1207,31 +1398,25 @@
 									"defaultValue": 23,
 									"minValue" : 1,
 									"maxValue" : 51,
-									"value" : "qp=%d"
+									"parameters" : {
+										"qp" : "%d"
+									}
 								}			
 							]
 						},
 						{
 							"id" : 3,
 							"name" : "Lossless",
-							"value" : "lossless=1",
-							"disableField" : [ "x265Profile", "x265Level" ]
+							"parameters" : {
+								"lossless" : ""
+							}
 						}
 					]
-				},
-				{
-					"name" : "x265CustomParams",
-					"label" : "x265-params\n(param1=value:param2=value)",
-					"group" : "ADBEVideoCodecGroup",
-					"type" : "string",
-					"flags" : [ "multiline", "codec_params" ],
-					"value" : "%s",
-					"defaultValue": ""
 				}
 			]
 		}
 	],
-	"audioEncoders" : [
+	"audio" : [
 		{
 			"id" : 0,
 			"name" : "aac",
@@ -1247,22 +1432,30 @@
 						{
 							"id" : 0,
 							"name" : "Low-complexity",
-							"value" : "profile=aac_low"
+							"parameters" : {
+								"profile" : "aac_low"
+							}
 						},
 						{
 							"id" : 1,
 							"name" : "MPEG2 Low-complexity",
-							"value" : "profile=mpeg2_aac_low"
+							"parameters" : {
+								"profile" : "mpeg2_aac_low"
+							}
 						},
 						{
 							"id" : 2,
 							"name" : "Long term prediction",
-							"value" : "profile=aac_ltp"
+							"parameters" : {
+								"profile" : "aac_ltp"
+							}
 						},
 						{
 							"id" : 3,
 							"name" : "Main",
-							"value" : "profile=aac_main"
+							"parameters" : {
+								"profile" : "aac_main"
+							}
 						}
 					]
 				},
@@ -1272,43 +1465,57 @@
 					"group" : "ADBEAudioCodecGroup",
 					"type" : "int",
 					"flags" : [],
-					"defaultValue": 128,
+					"defaultValue": 2,
 					"useDefaultValue" : true,
 					"values" : [
 						{
-							"id" : 64,
+							"id" : 0,
 							"name" : "64",
-							"value" : "b=65536"
+							"parameters" : {
+								"b" : "64000"
+							}
 						},
 						{
-							"id" : 96,
+							"id" : 1,
 							"name" : "96",
-							"value" : "b=98304"
+							"parameters" : {
+								"b" : "96000"
+							}
 						},
 						{
-							"id" : 128,
+							"id" : 2,
 							"name" : "128",
-							"value" : "b=131072"
+							"parameters" : {
+								"b" : "128000"
+							}
 						},
 						{
-							"id" : 192,
+							"id" : 3,
 							"name" : "192",
-							"value" : "b=196608"
+							"parameters" : {
+								"b" : "192000"
+							}
 						},
 						{
-							"id" : 256,
+							"id" : 4,
 							"name" : "256",
-							"value" : "b=262144"
+							"parameters" : {
+								"b" : "256000"
+							}
 						},
 						{
-							"id" : 320,
+							"id" : 5,
 							"name" : "320",
-							"value" : "b=327680"
+							"parameters" : {
+								"b" : "320000"
+							}
 						},
 						{
-							"id" : 384,
+							"id" : 6,
 							"name" : "384",
-							"value" : "b=393216"
+							"parameters" : {
+								"b" : "384000"
+							}
 						}
 					]
 				}
@@ -1332,7 +1539,9 @@
 					"defaultValue": 5,
 					"minValue" : 0,
 					"maxValue" : 12,
-					"value" : "compression_level=%d"
+					"parameters" : {
+						"compression_level" : "%d"
+					}
 				}
 			]
 		}

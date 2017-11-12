@@ -282,9 +282,6 @@
     <ClInclude Include="sdkheaders\SPTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExporterX264.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Encoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -294,30 +291,45 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExporterX264Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EncoderConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voukoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigImportDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ExporterX264.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Encoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExporterX264Common.cpp">
+    <ClCompile Include="Settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Settings.cpp">
+    <ClCompile Include="EncoderConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voukoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigImportDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -328,10 +340,12 @@
     <None Include="id_text1.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Settings.json" />
+    <None Include="config\Encoders.json" />
+    <None Include="config\Muxers.json" />
+    <None Include="config\General.json" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ExporterX264.rc">
+    <ResourceCompile Include="Voukoder.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

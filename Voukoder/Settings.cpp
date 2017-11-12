@@ -1,28 +1,11 @@
 #include "Settings.h"
 
-Settings::Settings()
+Settings::Settings(HMODULE hModule)
 {
-	// Get the DLL module handle
-	MEMORY_BASIC_INFORMATION mbi;
-	static int dummy;
-	VirtualQuery(&dummy, &mbi, sizeof(mbi));
-	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
-
 	// Load the JSON resource file
-	HRSRC hRes = FindResourceEx(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
-	if (NULL != hRes)
-	{
-		HGLOBAL hData = LoadResource(hModule, hRes);
-		if (NULL != hData)
-		{
-			const DWORD dataSize = SizeofResource(hModule, hRes);
-			char *resource = new char[dataSize + 1];
-			memcpy(resource, LockResource(hData), dataSize);
-			resource[dataSize] = 0;
-
-			this->settings = json::parse(resource);
-		}
-	}
+	this->settings["encoders"] = this->loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1));
+	this->settings["muxers"] = this->loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT2));
+	this->settings["general"] = this->loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT3));
 }
 
 Settings::~Settings()
@@ -32,22 +15,22 @@ Settings::~Settings()
 
 json Settings::getConfiguration()
 {
-	return this->settings["configuration"];
+	return this->settings["general"];
 }
 
 json Settings::getDefaultAudioCodecId()
 {
-	return this->settings["defaults"]["audioEncoder"].get<int>();
+	return 0;
 }
 
 json Settings::getDefaultMuxerId()
 {
-	return this->settings["defaults"]["muxer"].get<int>();
+	return 0;
 }
 
 json Settings::getDefaultVideoCodecId()
 {
-	return this->settings["defaults"]["videoEncoder"].get<int>();
+	return 0;
 }
 
 json Settings::getMuxers()
@@ -57,12 +40,12 @@ json Settings::getMuxers()
 
 json Settings::getVideoEncoders()
 {
-	return this->settings["videoEncoders"];
+	return this->settings["encoders"]["video"];
 }
 
 json Settings::getAudioEncoders()
 {
-	return this->settings["audioEncoders"];
+	return this->settings["encoders"]["audio"];
 }
 
 json Settings::filterArrayById(json array, int id)
@@ -153,4 +136,24 @@ json Settings::find(json obj, std::string field, std::string value)
 	}
 
 	return json::object();
+}
+
+json Settings::loadResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName)
+{
+	const HRSRC hRes = FindResourceEx(hModule, lpType, lpName, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+	if (NULL != hRes)
+	{
+		HGLOBAL hData = LoadResource(hModule, hRes);
+		if (NULL != hData)
+		{
+			const DWORD dataSize = SizeofResource(hModule, hRes);
+			char *resource = new char[dataSize + 1];
+			memcpy(resource, LockResource(hData), dataSize);
+			resource[dataSize] = 0;
+
+			return json::parse(resource);
+		}
+	}
+
+	return NULL;
 }

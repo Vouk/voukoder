@@ -1,0 +1,82 @@
+{
+	"videoFramerates" : [
+		{
+			"num" : 10,
+			"den" : 1,
+			"name" : "10"
+		},
+		{
+			"num" : 15,
+			"den" : 1,
+			"name" : "15"
+		},
+		{
+			"num" : 24000,
+			"den" : 1001,
+			"name" : "23.976"
+		},
+		{
+			"num" : 24,
+			"den" : 1,
+			"name" : "24"
+		},
+		{
+			"num" : 25,
+			"den" : 1,
+			"name" : "25 (PAL)"
+		},
+		{
+			"num" : 30000,
+			"den" : 1001,
+			"name" : "29.97 (NTSC)"
+		},
+		{
+			"num" : 30,
+			"den" : 1,
+			"name" : "30"
+		},
+		{
+			"num" : 50,
+			"den" : 1,
+			"name" : "50"
+		},
+		{
+			"num" : 60000,
+			"den" : 1001,
+			"name" : "59.94"
+		},
+		{
+			"num" : 60,
+			"den" : 1,
+			"name" : "60"
+		}
+	],
+	"audioSampleRates" : [
+		{
+			"id" : 44100,
+			"name" : "44100 Hz"
+		},
+		{
+			"id" : 48000,
+			"name" : "48000 Hz"
+		},
+		{
+			"id" : 96000,
+			"name" : "96000 Hz"
+		}
+	],
+	"audioChannels" : [
+		{
+			"id" : 1,
+			"name" : "Mono"
+		},
+		{
+			"id" : 2,
+			"name" : "Stereo"
+		},
+		{
+			"id" : 3,
+			"name" : "5.1"
+		}
+	]
+}

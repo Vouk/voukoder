@@ -22,6 +22,7 @@
 #include "PrSDKMemoryManagerSuite.h"
 #include "PrSDKWindowSuite.h"
 #include "Settings.h"
+#include "EncoderConfig.h"
 
 extern "C" {
 #include "libavformat\avformat.h"
@@ -51,7 +52,7 @@ extern "C" {
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
 
-#define PLUGIN_APPNAME							L"Voukoder 0.3.3"
+#define PLUGIN_APPNAME							L"Voukoder 0.3.4"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000
@@ -89,10 +90,15 @@ typedef struct InstanceRec
 	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
+	HMODULE hInstance;
 	Settings *settings;
+	EncoderConfig *videoConfig;
+	EncoderConfig *audioConfig;
 	csSDK_uint32 videoRenderID;
 	csSDK_uint32 audioRenderID;
 	csSDK_int32 maxBlip;
+	csSDK_uint32 maxPasses;
+	csSDK_uint32 currentPass;
 } InstanceRec;
 
 typedef csSDK_int32 vkdrTvStandard;

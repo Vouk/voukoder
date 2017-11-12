@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ExporterX264Common.h"
+#include "Common.h"
 #include "FrameFilter.h"
 
 enum FrameType {
@@ -17,7 +17,6 @@ typedef struct AVContext
 	int64_t sampleCount = 0;
 	int64_t next_pts = 0;
 	FrameFilter *frameFilter;
-	std::string configuration;
 } AVContext;
 
 class Encoder
@@ -25,8 +24,8 @@ class Encoder
 public:
 	Encoder(const char *short_name, const char *filename);
 	~Encoder();
-	void Encoder::setVideoCodec(const std::string codec, const std::string configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic);
-	void Encoder::setAudioCodec(const std::string codec, const std::string configuration, csSDK_int64 channellayout, int sampleRate);
+	void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic);
+	void Encoder::setAudioCodec(const std::string codec, AVDictionary *configuration, csSDK_int64 channellayout, int sampleRate);
 	int Encoder::open();
 	void Encoder::close(bool writeTrailer);
 	int Encoder::writeVideoFrame(EncodingData *encodingData);
@@ -35,7 +34,7 @@ public:
 	const char* Encoder::getPixelFormat();
 	const char* Encoder::dumpConfiguration();
 private:
-	int Encoder::openStream(AVContext *context, std::string configuration);
+	int Encoder::openStream(AVContext *context);
 	int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame);
 	const char *filename;
 	AVFormatContext *formatContext;
