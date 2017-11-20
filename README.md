@@ -13,7 +13,7 @@ Copy the file Voukoder.prm to your plugins directory.
     C:\Program Files\Adobe\Adobe Media Encoder CS6\Plug-ins\Common      // Available to Media Encoder CS6
     C:\Program Files\Adobe\Common\Plug-ins\CS6\MediaCore                // Available to both Premiere CS6 and Media Encoder CS6
 
-### Premiere CC 2017
+### Premiere CC 2017 / 2018
 
     C:\Program Files\Adobe\Adobe Premiere Pro CC 2017\Plug-Ins\Common   // Available to Premiere CC 2017
     C:\Program Files\Adobe\Adobe Media Encoder CC 2017\Plug-Ins\Common  // Available to Media Encoder CC 2017
@@ -43,6 +43,3 @@ A static build of libav (incl. x264 and x265)
 - 3rdparty\libav
 
 You also need the boost library.
-
-
-
