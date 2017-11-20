@@ -28,12 +28,13 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic)
+void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic, int codecFlags = 0)
 {
 	av_dict_copy(&videoContext->options, configuration, 0);
 
 	/* Find codec */
 	videoContext->codec = avcodec_find_encoder_by_name(codec.c_str());
+
 	if (videoContext->codec == NULL)
 	{
 		return;
@@ -52,6 +53,7 @@ void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration
 	videoContext->codecContext->bit_rate = 0; // dummy
 	videoContext->codecContext->time_base = timebase;
 	videoContext->codecContext->pix_fmt = AV_PIX_FMT_YUV420P; // TODO: Support high422 and high444 profiles
+	videoContext->codecContext->flags |= codecFlags;
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{

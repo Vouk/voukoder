@@ -60,9 +60,9 @@
 			},
 			"multipass" : {
 				"name" : "x264Passes",
-				"firstParameters" : { "pass" : "1" },
-				"lastParameters" : { "pass" : "2" },
-				"nthParameters" : {	"pass" : "3" }
+        "firstParameters": {},
+        "lastParameters": {},
+        "nthParameters": {}
 			},
 			"parameterGroups" : {
 				"x264-params" : {
@@ -426,7 +426,7 @@
 									"flags" : [ "slider" ],
 									"defaultValue": 1,
 									"minValue" : 1,
-									"maxValue" : 5,
+									"maxValue" : 2,
 									"parameters" : {}
 								},
 								{

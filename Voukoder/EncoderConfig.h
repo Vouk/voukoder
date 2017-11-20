@@ -5,8 +5,8 @@
 #include <map>
 #include "json.hpp"
 #include "Settings.h"
-#include "PrSDKTypes.h"
-#include "PrSDKExportParamSuite.h"
+#include "premiere_cs6\PrSDKTypes.h"
+#include "premiere_cs6\PrSDKExportParamSuite.h"
 extern "C" {
 #include "libavutil\avutil.h"
 #include "libavutil\opt.h"

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -14,21 +14,21 @@
     <ProjectGuid>{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Voukoder</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>Voukoder</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -49,14 +49,14 @@
     <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <TargetExt>.prm</TargetExt>
     <SourcePath>$(SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1;C:\Users\nuc\Source\Repos\voukoder\3rdparty\winlamb;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib_debug;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\source\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\nuc\source\external\lib\debug;$(LibraryPath)</LibraryPath>
     <CustomBuildAfterTargets />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\include;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1;C:\Users\nuc\Source\Repos\voukoder\3rdparty\winlamb;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\nuc\Source\Repos\voukoder\3rdparty\libav\lib_release;C:\Users\nuc\Source\Repos\voukoder\3rdparty\boost_1_65_1\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdparty\Premiere Pro CS6 r2 Win SDK\Examples\Headers;C:\Users\nuc\source\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\nuc\source\external\lib\release;$(LibraryPath)</LibraryPath>
     <TargetExt>.prm</TargetExt>
     <CustomBuildAfterTargets />
     <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
@@ -70,6 +70,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/DLIB_LIBAV %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,6 +93,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/DLIB_LIBAV %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

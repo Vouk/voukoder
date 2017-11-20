@@ -227,7 +227,7 @@ void EncoderConfig::setParam(std::string key, std::string value)
 
 void EncoderConfig::parseCommandLine(std::string input)
 {
-	int g = input.length();
+	//int g = input.length();
 }
 
 void EncoderConfig::getConfig(AVDictionary **options)

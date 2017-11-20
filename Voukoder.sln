@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Voukoder", "Voukoder\Voukoder.vcxproj", "{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{549BE5F7-5EE6-4719-8CB1-BEBEC53E897E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,12 +19,11 @@ Global
 		{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}.Release|x64.ActiveCfg = Release|x64
 		{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}.Release|x64.Build.0 = Release|x64
 		{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}.Release|x86.ActiveCfg = Release|x64
-		{549BE5F7-5EE6-4719-8CB1-BEBEC53E897E}.Debug|x64.ActiveCfg = Debug
-		{549BE5F7-5EE6-4719-8CB1-BEBEC53E897E}.Debug|x86.ActiveCfg = Debug
-		{549BE5F7-5EE6-4719-8CB1-BEBEC53E897E}.Release|x64.ActiveCfg = Release
-		{549BE5F7-5EE6-4719-8CB1-BEBEC53E897E}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E37E9CD-3D66-4A65-B3A2-C90C3167F376}
 	EndGlobalSection
 EndGlobal

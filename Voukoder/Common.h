@@ -3,24 +3,24 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "PrSDKStructs.h"
-#include "PrSDKImport.h"
-#include "PrSDKExport.h"
-#include "PrSDKExportFileSuite.h"
-#include "PrSDKExportInfoSuite.h"
-#include "PrSDKExportParamSuite.h"
-#include "PrSDKExportProgressSuite.h"
-#include "PrSDKErrorSuite.h"
-#include "PrSDKMALErrors.h"
-#include "PrSDKMarkerSuite.h"
-#include "PrSDKSequenceRenderSuite.h"
-#include "PrSDKSequenceAudioSuite.h"
-#include "PrSDKClipRenderSuite.h"
-#include "PrSDKPPixCreatorSuite.h"
-#include "PrSDKPPixCacheSuite.h"
-#include "PrSDKPPix2Suite.h"
-#include "PrSDKMemoryManagerSuite.h"
-#include "PrSDKWindowSuite.h"
+#include "premiere_cs6\PrSDKStructs.h"
+#include "premiere_cs6\PrSDKImport.h"
+#include "premiere_cs6\PrSDKExport.h"
+#include "premiere_cs6\PrSDKExportFileSuite.h"
+#include "premiere_cs6\PrSDKExportInfoSuite.h"
+#include "premiere_cs6\PrSDKExportParamSuite.h"
+#include "premiere_cs6\PrSDKExportProgressSuite.h"
+#include "premiere_cs6\PrSDKErrorSuite.h"
+#include "premiere_cs6\PrSDKMALErrors.h"
+#include "premiere_cs6\PrSDKMarkerSuite.h"
+#include "premiere_cs6\PrSDKSequenceRenderSuite.h"
+#include "premiere_cs6\PrSDKSequenceAudioSuite.h"
+#include "premiere_cs6\PrSDKClipRenderSuite.h"
+#include "premiere_cs6\PrSDKPPixCreatorSuite.h"
+#include "premiere_cs6\PrSDKPPixCacheSuite.h"
+#include "premiere_cs6\PrSDKPPix2Suite.h"
+#include "premiere_cs6\PrSDKMemoryManagerSuite.h"
+#include "premiere_cs6\PrSDKWindowSuite.h"
 #include "Settings.h"
 #include "EncoderConfig.h"
 
@@ -52,7 +52,7 @@ extern "C" {
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
 
-#define PLUGIN_APPNAME							L"Voukoder 0.3.4"
+#define PLUGIN_APPNAME							L"Voukoder 0.3.5"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000

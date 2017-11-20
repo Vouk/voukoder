@@ -1152,6 +1152,7 @@ prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePre
 	
 	HWND mainWnd = instRec->windowSuite->GetMainWindow();
 
+	/*
 	ConfigImportDialog dialog;
 	if (dialog.show(instRec->hInstance, mainWnd))
 	{
@@ -1159,6 +1160,7 @@ prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePre
 
 
 	}
+	*/
 
 	return malNoError;
 }
@@ -1194,7 +1196,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	EncoderConfig *audioConfig = instRec->audioConfig;
 
 	// Export video params
-	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate;
+	exParamValues videoCodec, videoWidth, videoHeight, pixelAspectRatio, fieldType, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, audioCodec, channelType, audioSampleRate, audioBitrate, multipass;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
@@ -1207,6 +1209,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
 
 	// Find the correct fps ratio
@@ -1291,8 +1294,25 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 		colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 	}
 
+	int flags = 0;
+
+	// Multipass encoding
+	if (instRec->maxPasses > 1)
+	{
+		json parameters;
+
+		if (instRec->currentPass == 1)
+		{
+			flags = AV_CODEC_FLAG_PASS1;
+		}
+		else
+		{
+			flags = AV_CODEC_FLAG_PASS2;
+		}
+	}
+
 	// Configure an encoder instance
-	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic);
+	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic, flags);
 	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue);
 	
 	return result;
