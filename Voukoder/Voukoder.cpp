@@ -1110,8 +1110,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	return result;
 }
 
-std::string result;
-
 INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	char *buffer;
@@ -1130,7 +1128,7 @@ INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam
 			len = SendMessage(hWndDlg, WM_GETTEXTLENGTH, 0, 0);
 			buffer = new char[len];
 			SendMessage(hWndDlg, WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
-			result.assign(buffer, len);
+			//result.assign(buffer, len);
 			return TRUE;
 
 		case IDC_CANCEL:

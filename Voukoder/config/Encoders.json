@@ -80,13 +80,6 @@
 			},
 			"params" : [
 				{
-					"name" : "x264ImportConfig",
-					"label" : "Import command line configuration",
-					"group" : "ADBEVideoCodecGroup",
-					"type" : "button",
-					"flags" : [ "configImporter" ]
-				},
-				{
 					"name" : "x264Preset",
 					"label" : "Preset",
 					"group" : "ADBEVideoCodecGroup",
@@ -1228,9 +1221,9 @@
 			},
 			"multipass" : {
 				"name" : "x265Passes",
-				"firstParameters" : { "pass" : "1" },
-				"lastParameters" : { "pass" : "2" },
-				"nthParameters" : {	"pass" : "3" }
+				"firstParameters" : {},
+				"lastParameters" : {},
+				"nthParameters" : {}
 			},
 			"parameterGroups" : {
 				"x265-params" : {
@@ -1353,11 +1346,11 @@
 									"flags" : [ "slider" ],
 									"defaultValue": 1,
 									"minValue" : 1,
-									"maxValue" : 5,
+									"maxValue" : 2,
 									"parameters" : {}
 								},
 								{
-									"name" : "x264SlowFirstPass",
+									"name" : "x265SlowFirstPass",
 									"label" : "Slow first pass",
 									"type" : "bool",
 									"flags" : [ ],

@@ -5,7 +5,6 @@ Encoder::Encoder(const char *short_name, const char *filename)
 {
 	this->filename = filename;
 
-	/* Create the container format */
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(short_name, this->filename, NULL);
 
@@ -62,23 +61,6 @@ void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration
 
 	int error = avcodec_parameters_from_context(videoContext->stream->codecpar, videoContext->codecContext);
 
-	/* Set up RGB -> YUV converter source format */
-	FrameFilterOptions options;
-	options.media_type = AVMEDIA_TYPE_VIDEO;
-	options.width = width;
-	options.height = height;
-	options.pix_fmt = videoContext->codecContext->pix_fmt;
-	options.time_base = timebase;
-	options.sar.den = 1;
-	options.sar.num = 1;
-
-	/* Get pixel format name */
-	char filterString[256];
-	sprintf_s(filterString, "null");// , this->getPixelFormat());
-
-	/* Configure video frame filter output format */
-	videoContext->frameFilter->configure(options, filterString);
-
 	// Set color settings
 	videoContext->codecContext->colorspace = colorSpace;
 	videoContext->codecContext->color_range = colorRange;
@@ -124,19 +106,6 @@ void Encoder::setAudioCodec(const std::string codec, AVDictionary *configuration
 	}
 
 	int error = avcodec_parameters_from_context(audioContext->stream->codecpar, audioContext->codecContext);
-
-	/* Set up audio filters */
-	FrameFilterOptions options;
-	options.media_type = AVMEDIA_TYPE_AUDIO;
-	options.channel_layout = channelLayout;
-	options.sample_fmt = PLUGIN_AUDIO_SAMPLE_FORMAT;
-	options.time_base = { 1, audioContext->codecContext->sample_rate };
-
-	char filterConfig[256];
-	sprintf_s(filterConfig, "aformat=channel_layouts=stereo:sample_fmts=%s:sample_rates=%d", av_get_sample_fmt_name(audioContext->codecContext->sample_fmt), audioContext->codecContext->sample_rate);
-
-	/* Create the audio filter */
-	audioContext->frameFilter->configure(options, filterConfig);
 }
 
 int Encoder::open()
@@ -217,7 +186,7 @@ void Encoder::close(bool writeTrailer)
 		avcodec_close(audioContext->codecContext);
 	}
 
-	/* Close the file */
+	// Close the file
 	if (this->filename != NULL)
 	{
 		avio_close(formatContext->pb);
@@ -242,11 +211,39 @@ int Encoder::openStream(AVContext *context)
 		return ret ;
 	}
 
-	/* Copy the stream parameters to the context */
+	// Copy the stream parameters to the context
 	if ((ret = avcodec_parameters_from_context(context->stream->codecpar, context->codecContext)) < 0)
 	{
 		return ret;
 	}
+
+	// Configure frame filters
+	FrameFilterOptions options;
+	options.media_type = context->codec->type;
+
+	char filterConfig[256];
+
+	if (context->codec->type == AVMEDIA_TYPE_VIDEO)
+	{
+		options.width = context->codecContext->width;
+		options.height = context->codecContext->height;
+		options.pix_fmt = videoContext->codecContext->pix_fmt;
+		options.time_base = context->codecContext->time_base;
+		options.sar.den = 1;
+		options.sar.num = 1;
+
+		sprintf_s(filterConfig, "null");// , this->getPixelFormat());
+	}
+	else if (context->codec->type == AVMEDIA_TYPE_AUDIO)
+	{
+		options.channel_layout = context->codecContext->channel_layout;
+		options.sample_fmt = PLUGIN_AUDIO_SAMPLE_FORMAT;
+		options.time_base = { 1, context->codecContext->sample_rate };
+
+		sprintf_s(filterConfig, "aformat=channel_layouts=stereo:sample_fmts=%s:sample_rates=%d", av_get_sample_fmt_name(context->codecContext->sample_fmt), context->codecContext->sample_rate);
+	}
+
+	context->frameFilter->configure(options, filterConfig);
 
 	return S_OK;
 }
