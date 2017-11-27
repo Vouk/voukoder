@@ -39,15 +39,15 @@ This project makes use of:
 
 ### Paths
 
-All directories are relatice to the checkout directory.
+All directories are relative to the checkout directory.
 
 #### ../../external/include/
 
-* "boost" - Boost headers
+* "boost" - Directory containing boost headers
 * "lib*" - LibAV or ffmpeg directories containing headers
-* "premiere_cs6" - Premiere SDK
-* "x264.h", "x264_config-h"
-* "x265.h", "x265_config-h"
+* "premiere_cs6" - Premiere SDK directory
+* "x264.h", "x264_config.h"
+* "x265.h", "x265_config.h"
 
 #### ../../external/lib/[debug|release]
 
