@@ -2,6 +2,7 @@
 #include <chrono>
 #include <cmath>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/clamp.hpp>
 #include <boost/locale.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include "Encoder.h"
@@ -477,21 +478,6 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	::lstrcpyA(fieldOrderParam.identifier, ADBEVideoFieldType);
 	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &fieldOrderParam);
 
-	// Pixel format
-	exParamValues pixFmtValues;
-	pixFmtValues.structVersion = 1;
-	pixFmtValues.value.intValue = 0;
-	pixFmtValues.disabled = kPrFalse;
-	pixFmtValues.hidden = kPrFalse;
-	pixFmtValues.optionalParamEnabled = kPrFalse;
-	exNewParamInfo pixFmtParam;
-	pixFmtParam.structVersion = 1;
-	pixFmtParam.flags = exParamFlag_none;
-	pixFmtParam.paramType = exParamType_int;
-	pixFmtParam.paramValues = pixFmtValues;
-	::lstrcpyA(pixFmtParam.identifier, VKDRPixelFormat);
-	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &pixFmtParam);
-
 	// TV standard
 	exParamValues tvStandardValues;
 	tvStandardValues.structVersion = 1;
@@ -712,7 +698,6 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFPS, L"Frame Rate");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRTVStandard, L"TV Standard");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEVideoFieldType, L"Field Order");
-	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRPixelFormat, L"Pixel Format");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorSpace, L"Color Space");
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorRange, L"Use full color range");
 
@@ -772,13 +757,6 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 		swprintf(paramString, kPrMaxName, L"%s", fieldOrderStrings[i]);
 		instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, ADBEVideoFieldType, &tempOrder, paramString);
 	}
-
-	// Pixel formats
-	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, VKDRPixelFormat);
-	exOneParamValueRec tempPixFmt;
-	tempPixFmt.intValue = 0;
-	swprintf(paramString, kPrMaxName, L"%s", L"YUV 4:2:0");
-	instRec->exportParamSuite->AddConstrainedValuePair(exID, groupIndex, VKDRPixelFormat, &tempPixFmt, paramString);
 
 	// Color Space
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, VKDRColorSpace);
@@ -1224,8 +1202,6 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	json vEncoder = settings->filterArrayById(videoCodecs, videoCodecId);
 
 	videoConfig->initFromSettings(vEncoder);
-	AVDictionary *videoEncoderConfig = NULL;
-	videoConfig->getConfig(&videoEncoderConfig, instRec->maxPasses, instRec->currentPass);
 
 #pragma endregion
 
@@ -1238,8 +1214,6 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	json aEncoder = settings->filterArrayById(audioCodecs, audioCodecId);
 
 	audioConfig->initFromSettings(aEncoder);
-	AVDictionary *audioEncoderConfig = NULL;
-	audioConfig->getConfig(&audioEncoderConfig);
 
 #pragma endregion
 
@@ -1310,8 +1284,8 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	}
 
 	// Configure an encoder instance
-	encoder->setVideoCodec(videoEncoder, videoEncoderConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic, flags);
-	encoder->setAudioCodec(audioEncoder, audioEncoderConfig, channelLayout, (int)audioSampleRate.value.floatValue);
+	encoder->setVideoCodec(videoEncoder, videoConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic, flags);
+	encoder->setAudioCodec(audioEncoder, audioConfig, channelLayout, (int)audioSampleRate.value.floatValue);
 	
 	return result;
 }
@@ -1323,15 +1297,15 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
+	EncoderConfig *videoConfig = instRec->videoConfig;
 
 	// Get render parameter values
-	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, pixFmt, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
+	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRPixelFormat, &pixFmt);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
@@ -1352,8 +1326,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
 
 	// Find the right pixel format
-	const char* libavPixelFormat = encoder->getPixelFormat();
-	PrPixelFormat pixelFormat = GetPremierePixelFormats(libavPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
+	const char* encPixelFormat = videoConfig->getPixelFormat();
+	PrPixelFormat pixelFormat = GetPremierePixelFormat(encPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
 	const PrPixelFormat pixelFormats[] = { pixelFormat, PrPixelFormat_BGRA_4444_8u, PrPixelFormat_Any };
 
 	// Define the render params
@@ -1386,6 +1360,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
+			//result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
 			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, cacheType, pixelFormat, &renderResult);
 			if (result != malNoError)
 			{
@@ -1398,9 +1373,18 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 			PrPixelFormat format;
 			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
 
-			// YUV 4:2:0
-			if (IsPixelFormatYUV420(format))
+			// Planar YUV 4:2:0 8bit formats
+			if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
+				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
 			{
+				encodingData.pix_fmt = "yuv420p";
+
 				// Get planar buffers
 				result = instRec->ppix2Suite->GetYUV420PlanarBuffers(
 					renderResult.outFrame,
@@ -1412,16 +1396,93 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
 
-				// Encode YUV data
+				// Send to encoder
 				if (encoder->writeVideoFrame(&encodingData) != S_OK)
 				{
 					result = malUnknownError;
 					break;
 				}
 			}
+			else if (format == PrPixelFormat_VUYA_4444_32f ||
+				format == PrPixelFormat_VUYA_4444_32f_709)
+			{
+				// Pixel format planes
+				const csSDK_int32 planes = 4;
+
+				// Prepare encoding data
+				encodingData.pix_fmt = "yuva444p16le";
+				for (int i = 0; i < planes; i++)
+				{
+					encodingData.stride[i] = videoWidth.value.intValue * sizeof(uint16_t);
+					encodingData.plane[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * encodingData.stride[i]);
+				}
+
+				// Get premiere rowsize
+				csSDK_int32 rowBytes;
+				instRec->ppixSuite->GetRowBytes(renderResult.outFrame, &rowBytes);
+
+				// Get pixels from the renderer
+				char *pixels;
+				instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+
+				float *frameBuffer = (float*)pixels;
+
+				// VUYA to YUVA mapping
+				const int map[4] = { 2, 1, 0, 3 };
+
+				// Scaling factors
+				const float yuv[4][4] = {
+					{ -0.07306f, 1.09132f,  0.00000f, 1.00000f }, // Y
+					{ -0.57143f, 0.57143f, -0.50000f, 0.50000f }, // U
+					{ -0.57143f, 0.57143f, -0.50000f, 0.50000f }, // V
+					{  0.00000f, 1.00000f,  0.00000f, 1.00000f }  // A
+				};
+
+				// Full color range or limited color range?
+				//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
+
+				// Convert 
+				for (int r = 0; r < videoHeight.value.intValue; r++)
+				{
+					for (int c = 0; c < videoWidth.value.intValue; c++)
+					{
+						for (int plane = 0; plane < planes; plane++)
+						{
+							const int pos = (videoHeight.value.intValue - r) * (rowBytes / sizeof(float)) + c * planes + plane;
+							const float floatValue = frameBuffer[pos];
+
+							const int dplane = map[plane];
+							const float min = yuv[dplane][0];
+							const float max = yuv[dplane][1];
+
+							// Convert float value to uint16_t
+							boost::algorithm::clamp(floatValue, min, max);
+							const uint16_t intValue = (uint16_t)((floatValue + abs(min)) / (abs(min) + abs(max)) * 65535.0f);
+
+							// Write to plane buffers
+							int dpos = r * encodingData.stride[dplane] + c * sizeof(uint16_t);
+							encodingData.plane[dplane][dpos + 0] = intValue & 0xff;
+							encodingData.plane[dplane][dpos + 1] = intValue >> 8;
+						}
+					}
+				}
+
+				// Send to encoder
+				if (encoder->writeVideoFrame(&encodingData) != S_OK)
+				{
+					result = malUnknownError;
+					break;
+				}
+
+				// Free buffers
+				for (int i = 0; i < planes; i++)
+				{
+					instRec->memorySuite->PrDisposePtr((char *)encodingData.plane[i]);
+				}
+			}
 			else
 			{
-				ShowMessageBox(instRec, L"Error: Converted frame is not in YUV420 format. This should never happen.", PLUGIN_APPNAME, MB_OK);
+				ShowMessageBox(instRec, L"Error: Rendered frame is not in a supported pixel format. This should never happen.", PLUGIN_APPNAME, MB_OK);
 
 				result = malUnknownError;
 				break;
@@ -1491,9 +1552,21 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 	return result;
 }
 
-PrPixelFormat GetPremierePixelFormats(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
+PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
 {
-	if (strcmp(format, "yuv420p") == 0)
+	if (strcmp(format, "yuv422p10le") == 0 ||
+		strcmp(format, "yuv444p10le") == 0)
+	{
+		switch (colorSpace)
+		{
+		case vkdrBT601:
+			return PrPixelFormat_VUYA_4444_32f;
+
+		case vkdrBT709:
+			return PrPixelFormat_VUYA_4444_32f_709;
+		}
+	}
+	else if (strcmp(format, "yuv420p") == 0)
 	{
 		if (fieldType == prFieldsNone)
 		{
@@ -1548,24 +1621,4 @@ PrPixelFormat GetPremierePixelFormats(const char *format, prFieldType fieldType,
 	}
 
 	return PrPixelFormat_Any;
-}
-
-prBool IsPixelFormatYUV420(PrPixelFormat pixelformat)
-{
-	return (pixelformat == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_601 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-		pixelformat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange) ? kPrTrue : kPrFalse;
 }

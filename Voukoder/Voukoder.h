@@ -19,4 +19,4 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePrefsRecP);
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder);
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder);
-PrPixelFormat GetPremierePixelFormats(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);
+PrPixelFormat GetPremierePixelFormat(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);

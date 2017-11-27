@@ -11,6 +11,7 @@ enum FrameType {
 typedef struct AVContext
 {
 	AVCodec *codec;
+	EncoderConfig *config;
 	AVCodecContext *codecContext;
 	AVStream *stream;
 	AVDictionary *options = NULL;
@@ -24,8 +25,8 @@ class Encoder
 public:
 	Encoder(const char *short_name, const char *filename);
 	~Encoder();
-	void Encoder::setVideoCodec(const std::string codec, AVDictionary *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic, int codecFlags);
-	void Encoder::setAudioCodec(const std::string codec, AVDictionary *configuration, csSDK_int64 channellayout, int sampleRate);
+	void Encoder::setVideoCodec(const std::string codec, EncoderConfig *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic, int codecFlags);
+	void Encoder::setAudioCodec(const std::string codec, EncoderConfig *configuration, csSDK_int64 channellayout, int sampleRate);
 	int Encoder::open();
 	void Encoder::close(bool writeTrailer);
 	int Encoder::writeVideoFrame(EncodingData *encodingData);

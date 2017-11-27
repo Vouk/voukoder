@@ -70,7 +70,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalOptions>/DLIB_LIBAV %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,7 +93,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/DLIB_LIBAV %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

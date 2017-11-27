@@ -1,74 +1,75 @@
 {
-	"video" : [
-		{
-		    "id" : 0,
-			"name" : "libx264",
-			"groups" : [
-				{
-					"name" : "VKDRx264QuantizerGroup",
-					"label" : "Quantizers",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264GOPGroup",
-					"label" : "GOP",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264SlicingGroup",
-					"label" : "Slicing",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264BFramesGroup",
-					"label" : "B-Frames",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264RateControlGroup",
-					"label" : "Rate Control",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264MotionEstimationGroup",
-					"label" : "Motion Estimation",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264AnalysisGroup",
-					"label" : "Analysis",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264BluRayGroup",
-					"label" : "Blu-Ray",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				},
-				{
-					"name" : "VKDRx264MiscGroup",
-					"label" : "Miscellaneous",
-					"parent" : "VKDRAdvVideoCodecTabGroup"
-				}
-			],
-			"interlaced": {
-				"tffParameters" : {
-					"tff" : ""
-				},
-				"bffParameters" : {
-					"bff" : ""
-				}
-			},
-			"multipass" : {
-				"name" : "x264Passes",
+  "video": [
+    {
+      "id": 0,
+      "name": "libx264",
+      "defaultPixelFormat": "yuv420p",
+      "groups": [
+        {
+          "name": "VKDRx264QuantizerGroup",
+          "label": "Quantizers",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264GOPGroup",
+          "label": "GOP",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264SlicingGroup",
+          "label": "Slicing",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264BFramesGroup",
+          "label": "B-Frames",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264RateControlGroup",
+          "label": "Rate Control",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264MotionEstimationGroup",
+          "label": "Motion Estimation",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264AnalysisGroup",
+          "label": "Analysis",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264BluRayGroup",
+          "label": "Blu-Ray",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRx264MiscGroup",
+          "label": "Miscellaneous",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        }
+      ],
+      "interlaced": {
+        "tffParameters": {
+          "tff": ""
+        },
+        "bffParameters": {
+          "bff": ""
+        }
+      },
+      "multipass": {
+        "name": "x264Passes",
         "firstParameters": {},
         "lastParameters": {},
         "nthParameters": {}
-			},
-			"parameterGroups" : {
-				"x264-params" : {
-					"delimiter" : "=",
-					"separator" : ":",
-					"noValueReplacement" : "1",
+      },
+      "parameterGroups": {
+        "x264-params": {
+          "delimiter": "=",
+          "separator": ":",
+          "noValueReplacement": "1",
           "parameters": [
             "bff",
             "keyint",
@@ -124,8 +125,8 @@
             "no-psy",
             "no-cabac"
           ]
-				}
-			},
+        }
+      },
       "params": [
         {
           "name": "x264Preset",
@@ -1265,209 +1266,270 @@
           }
         }
       ]
-		},
-		{
-		    "id" : 1,
-			"name" : "libx265",
-			"groups" : [ ],
-			"interlaced": {
-				"tffParameters" : {
-					"interlace " : "tff"
-				},
-				"bffParameters" : {
-					"interlace " : "bff"
-				}
-			},
-			"multipass" : {
-				"name" : "x265Passes",
-				"firstParameters" : {},
-				"lastParameters" : {},
-				"nthParameters" : {}
-			},
-			"parameterGroups" : {
-				"x265-params" : {
-					"delimiter" : "=",
-					"separator" : ":",
-					"noValueReplacement" : "1",
-					"parameters": [ "interlace" ]
-				}
-			},
-			"params" : [
-				{
-					"name" : "x265Preset",
-					"label" : "Preset",
-					"group" : "ADBEVideoCodecGroup",
-					"type" : "int",
-					"flags" : [],
-					"defaultValue": 5,
-					"values" : [
-						{
-							"id" : 0,
-							"name" : "Ultra fast",
-							"parameters" : {
-								"preset" : "ultrafast"
-							}
-						},
-						{
-							"id" : 1,
-							"name" : "Super fast",
-							"parameters" : {
-								"preset" : "superfast"
-							}
-						},
-						{
-							"id" : 2,
-							"name" : "Very fast",
-							"parameters" : {
-								"preset" : "veryfast"
-							}
-						},
-						{
-							"id" : 3,
-							"name" : "Faster",
-							"parameters" : {
-								"preset" : "faster"
-							}
-						},
-						{
-							"id" : 4,
-							"name" : "Fast",
-							"parameters" : {
-								"preset" : "fast"
-							}
-						},
-						{
-							"id" : 5,
-							"name" : "Medium",
-							"parameters" : {
-								"preset" : "medium"
-							}
-						},
-						{
-							"id" : 6,
-							"name" : "Slow",
-							"parameters" : {
-								"preset" : "slow"
-							}
-						},
-						{
-							"id" : 7,
-							"name" : "Slower",
-							"parameters" : {
-								"preset" : "slower"
-							}
-						},
-						{
-							"id" : 8,
-							"name" : "Very slow",
-							"parameters" : {
-								"preset" : "veryslow"
-							}
-						},
-						{
-							"id" : 9,
-							"name" : "Placebo",
-							"parameters" : {
-								"preset" : "placebo"
-							}
-						}
-					]
-				},
-				{
-					"name" : "x265Strategy",
-					"label" : "Strategy",
-					"group" : "ADBEVideoCodecGroup",
-					"type" : "int",
-					"flags" : [],
-					"defaultValue": 1,
-					"useDefaultValue" : true,
-					"values" : [
-						{
-							"id" : 0,
-							"name" : "Average Bitrate (ARB)",
-							"subvalues" : [
-								{
-									"name" : "x265StrategyARB",
-									"label" : "Average Bitrate (kbit)",
-									"type" : "int",
-									"flags" : [ "slider" ],
-									"defaultValue": 15000,
-									"minValue" : 100,
-									"maxValue" : 100000,
-									"parameters" : {
-										"b" : "%d000"
-									}
-								},
-								{
-									"name" : "x265Passes",
-									"label" : "Passes",
-									"type" : "int",
-									"flags" : [ "slider" ],
-									"defaultValue": 1,
-									"minValue" : 1,
-									"maxValue" : 2,
-									"parameters" : {}
-								},
-								{
-									"name" : "x265SlowFirstPass",
-									"label" : "Slow first pass",
-									"type" : "bool",
-									"flags" : [ ],
-									"defaultValue": 0,
-									"parameters" : {
-										"slow-firstpass" : ""
-									}
-								}
-							]
-						},
-						{
-							"id" : 1,
-							"name" : "Constant Rate Factor (CRF)",
-							"subvalues" : [
-								{
-									"name" : "x265StrategyCRF",
-									"label" : "Constant Rate Factor",
-									"type" : "int",
-									"flags" : [ "slider" ],
-									"defaultValue": 28,
-									"minValue" : 1,
-									"maxValue" : 51,
-									"parameters" : {
-										"crf" : "%d"
-									}
-								}			
-							]
-						},
-						{
-							"id" : 2,
-							"name" : "Constant Quantizer (QP)",
-							"subvalues" : [
-								{
-									"name" : "x265StrategyQP",
-									"label" : "Constant Quantizer",
-									"type" : "int",
-									"flags" : [ "slider" ],
-									"defaultValue": 23,
-									"minValue" : 1,
-									"maxValue" : 51,
-									"parameters" : {
-										"qp" : "%d"
-									}
-								}			
-							]
-						},
-						{
-							"id" : 3,
-							"name" : "Lossless",
-							"parameters" : {
-								"lossless" : ""
-							}
-						}
-					]
-				}
-			]
-		}
-	],
+    },
+    {
+      "id": 1,
+      "name": "libx265",
+      "defaultPixelFormat": "yuv420p",
+      "groups": [],
+      "interlaced": {
+        "tffParameters": {
+          "interlace ": "tff"
+        },
+        "bffParameters": {
+          "interlace ": "bff"
+        }
+      },
+      "multipass": {
+        "name": "x265Passes",
+        "firstParameters": {},
+        "lastParameters": {},
+        "nthParameters": {}
+      },
+      "parameterGroups": {
+        "x265-params": {
+          "delimiter": "=",
+          "separator": ":",
+          "noValueReplacement": "1",
+          "parameters": [ "interlace" ]
+        }
+      },
+      "params": [
+        {
+          "name": "x265Preset",
+          "label": "Preset",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 5,
+          "values": [
+            {
+              "id": 0,
+              "name": "Ultra fast",
+              "parameters": {
+                "preset": "ultrafast"
+              }
+            },
+            {
+              "id": 1,
+              "name": "Super fast",
+              "parameters": {
+                "preset": "superfast"
+              }
+            },
+            {
+              "id": 2,
+              "name": "Very fast",
+              "parameters": {
+                "preset": "veryfast"
+              }
+            },
+            {
+              "id": 3,
+              "name": "Faster",
+              "parameters": {
+                "preset": "faster"
+              }
+            },
+            {
+              "id": 4,
+              "name": "Fast",
+              "parameters": {
+                "preset": "fast"
+              }
+            },
+            {
+              "id": 5,
+              "name": "Medium",
+              "parameters": {
+                "preset": "medium"
+              }
+            },
+            {
+              "id": 6,
+              "name": "Slow",
+              "parameters": {
+                "preset": "slow"
+              }
+            },
+            {
+              "id": 7,
+              "name": "Slower",
+              "parameters": {
+                "preset": "slower"
+              }
+            },
+            {
+              "id": 8,
+              "name": "Very slow",
+              "parameters": {
+                "preset": "veryslow"
+              }
+            },
+            {
+              "id": 9,
+              "name": "Placebo",
+              "parameters": {
+                "preset": "placebo"
+              }
+            }
+          ]
+        },
+        {
+          "name": "x265Strategy",
+          "label": "Strategy",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 1,
+          "useDefaultValue": true,
+          "values": [
+            {
+              "id": 0,
+              "name": "Average Bitrate (ARB)",
+              "subvalues": [
+                {
+                  "name": "x265StrategyARB",
+                  "label": "Average Bitrate (kbit)",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 15000,
+                  "minValue": 100,
+                  "maxValue": 100000,
+                  "parameters": {
+                    "b": "%d000"
+                  }
+                },
+                {
+                  "name": "x265Passes",
+                  "label": "Passes",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 1,
+                  "minValue": 1,
+                  "maxValue": 2,
+                  "parameters": {}
+                },
+                {
+                  "name": "x265SlowFirstPass",
+                  "label": "Slow first pass",
+                  "type": "bool",
+                  "flags": [],
+                  "defaultValue": 0,
+                  "parameters": {
+                    "slow-firstpass": ""
+                  }
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "name": "Constant Rate Factor (CRF)",
+              "subvalues": [
+                {
+                  "name": "x265StrategyCRF",
+                  "label": "Constant Rate Factor",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 28,
+                  "minValue": 1,
+                  "maxValue": 51,
+                  "parameters": {
+                    "crf": "%d"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "Constant Quantizer (QP)",
+              "subvalues": [
+                {
+                  "name": "x265StrategyQP",
+                  "label": "Constant Quantizer",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 23,
+                  "minValue": 1,
+                  "maxValue": 51,
+                  "parameters": {
+                    "qp": "%d"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "Lossless",
+              "parameters": {
+                "lossless": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "prores_ks",
+      "defaultPixelFormat": "yuv422p10le",
+      "groups": [],
+      "interlaced": {
+        "tffParameters": {},
+        "bffParameters": {}
+      },
+      "parameterGroups": {},
+      "params": [
+        {
+          "name": "proresProfile",
+          "label": "Profile",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 2,
+          "useDefaultValue": true,
+          "values": [
+            {
+              "id": 0,
+              "name": "Proxy",
+              "parameters": {
+                "profile": "proxy"
+              }
+            },
+            {
+              "id": 1,
+              "name": "LT",
+              "parameters": {
+                "profile": "lt"
+              }
+            },
+            {
+              "id": 2,
+              "name": "Standard",
+              "parameters": {
+                "profile": "standard"
+              }
+            },
+            {
+              "id": 3,
+              "name": "HQ",
+              "parameters": {
+                "profile": "hq"
+              }
+            },
+            {
+              "id": 4,
+              "name": "4444",
+              "pixelFormat": "yuv444p10le",
+              "parameters": {
+                "profile": "4444"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
 	"audio" : [
 		{
 			"id" : 0,

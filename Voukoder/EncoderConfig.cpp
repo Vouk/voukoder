@@ -18,6 +18,12 @@ void EncoderConfig::initFromSettings(json encoder)
 {
 	this->rawConfig = encoder;
 
+	// Set default pixel format
+	if (encoder.find("defaultPixelFormat") != encoder.end())
+	{
+		this->pixelFormat = encoder["defaultPixelFormat"].get<std::string>();
+	}
+
 	// Start from scratch
 	this->config.clear();
 
@@ -112,6 +118,12 @@ void EncoderConfig::initFromSettings(json encoder)
 					{
 						const json subvalue = *itSubvalue;
 
+						// Does the element has a pixel format set?
+						if (subvalue.find("pixelFormat") != subvalue.end())
+						{
+							this->pixelFormat = subvalue["pixelFormat"].get<std::string>();
+						}
+
 						const std::string subname = subvalue["name"].get<std::string>();
 						const std::string subtype = subvalue["type"].get<std::string>();
 
@@ -159,11 +171,23 @@ void EncoderConfig::initFromSettings(json encoder)
 				else // No subvalues
 				{
 					this->addParameters(selectedValue["parameters"]);
+
+					// Does the element has a pixel format set?
+					if (selectedValue.find("pixelFormat") != selectedValue.end())
+					{
+						this->pixelFormat = selectedValue["pixelFormat"].get<std::string>();
+					}
 				}
 			}
 		}
 		else // Not a dropdown element
 		{
+			// Does the element has a pixel format set?
+			if (param.find("pixelFormat") != param.end())
+			{
+				this->pixelFormat = param["pixelFormat"].get<std::string>();
+			}
+
 			// Get the selected value
 			exParamValues paramValue;
 			exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, name.c_str(), &paramValue);
@@ -232,7 +256,7 @@ void EncoderConfig::parseCommandLine(std::string input)
 
 void EncoderConfig::getConfig(AVDictionary **options)
 {
-	return this->getConfig(options, 0, 0);
+	return this->getConfig(options, 1, 1);
 }
 
 void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass)
@@ -241,7 +265,7 @@ void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass)
 	AddParametersToDictionary(options, this->config);
 
 	// Multipass encoding
-	if (maxPasses > 0)
+	if (maxPasses > 1)
 	{
 		json parameters;
 
@@ -314,6 +338,11 @@ int EncoderConfig::getMaxPasses()
 	}
 
 	return passes;
+}
+
+const char* EncoderConfig::getPixelFormat()
+{
+	return this->pixelFormat.c_str();
 }
 
 void EncoderConfig::addParameters(json parameters)

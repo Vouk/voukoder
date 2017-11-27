@@ -48,16 +48,23 @@ extern "C" {
 #pragma comment(lib, "libavfilter.lib")
 #pragma comment(lib, "libavutil.lib")
 #pragma comment(lib, "libswscale.lib")
-#pragma comment(lib, "libavresample.lib")
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
+
+#if defined(LIB_LIBAV) 
+	#pragma comment(lib, "libavresample.lib")
+#endif  
+
+#if defined(LIB_FFMPEG) 
+	#pragma comment(lib, "libpostproc.lib")
+	#pragma comment(lib, "libswresample.lib")
+#endif  
 
 #define PLUGIN_APPNAME							L"Voukoder 0.3.6"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000
 #define MAX_AUDIO_CHANNELS						6
-#define VKDRPixelFormat							"VKDRPixelFormat"
 #define VKDRTVStandard							"VKDRTVStandard"
 #define VKDRColorSpace							"VKDRColorSpace"
 #define VKDRColorRange							"VKDRColorRange"
@@ -72,8 +79,9 @@ using json = nlohmann::json;
 
 typedef struct EncodingData
 {
-	char *plane[3] = {};
-	csSDK_uint32 stride[3];
+	char *pix_fmt;
+	char *plane[4] = {};
+	csSDK_uint32 stride[4];
 } EncodingData;
 
 typedef struct InstanceRec
@@ -120,5 +128,4 @@ void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_u
 exNewParamInfo CreateParamElement(json param, bool hidden);
 void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
 void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
-prBool IsPixelFormatYUV420(PrPixelFormat pixelformat);
 void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);

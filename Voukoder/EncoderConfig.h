@@ -35,6 +35,7 @@ public:
 	void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass);
 	std::string EncoderConfig::getConfigAsParamString(std::string dashes);
 	int EncoderConfig::getMaxPasses();
+	const char* EncoderConfig::getPixelFormat();
 
 private:
 	PrSDKExportParamSuite *exportParamSuite;
@@ -43,6 +44,7 @@ private:
 	json rawConfig;
 	std::map<std::string, std::string> config;
 	std::map<std::string, ParamGroup> groups;
+	std::string pixelFormat;
 	void EncoderConfig::addParameters(json parameters);
 	template<class T> void addParameters(json parameters, T value);
 	ParamGroup* EncoderConfig::getGroupFromParameter(std::string name);
