@@ -1,7 +1,7 @@
 # voukoder
-Use x264 and x265 from the libav library directly in Adobe Premiere (Pro and Elements).
+Use x264, x265 and other encoders of the libav or ffmpeg library directly in Adobe Premiere (Pro and Elements).
 
-This plugin is under heavy development and not yet ready for prodction use.
+This plugin is under heavy development and not yet ready for production use.
 
 ## Installation
 
@@ -24,25 +24,37 @@ Copy the file Voukoder.prm to your plugins directory.
     
 ## Deinstallation
 
-Just delete the Voukoder.prm file again.
+Just delete the Voukoder.prm file.
 
 ## Compilation
 
 This project makes use of:
 
-* x264 - http://www.videolan.org/developers/x264.html
-* x265 - http://x265.org/
-* libav - https://libav.org/
+* x264 - http://x264.org
+* x265 - http://x265.org
+* libav - https://libav.org
+* ffmpeg - https://ffmpeg.org
+* boost - http://www.boost.org
+* Adobe Premiere SDK
 
-To compile this you need to create one folder "3rdparty" and copy some packages there:
+### Paths
 
-The official SDK
-- 3rdparty\Premiere Pro CS6 r2 Win SDK
+All directories are relatice to the checkout directory.
 
-A static build of libav (incl. x264 and x265)
-- 3rdparty\libav
+#### ../../external/include/
 
-You also need the boost library.
+* "boost" - Boost headers
+* "lib*" - LibAV or ffmpeg directories containing headers
+* "premiere_cs6" - Premiere SDK
+* "x264.h", "x264_config-h"
+* "x265.h", "x265_config-h"
+
+#### ../../external/lib/[debug|release]
+
+* LibAV or ffmpeg static libs
+* Boost static libs
+* libx264.lib
+* x265.lib
 
 ## Donations
 
