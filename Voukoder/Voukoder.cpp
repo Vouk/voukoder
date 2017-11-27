@@ -1555,7 +1555,9 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
 {
 	if (strcmp(format, "yuv422p10le") == 0 ||
-		strcmp(format, "yuv444p10le") == 0)
+		strcmp(format, "yuv422p12le") == 0 ||
+		strcmp(format, "yuv444p10le") == 0 ||
+		strcmp(format, "yuv444p12le") == 0)
 	{
 		switch (colorSpace)
 		{
