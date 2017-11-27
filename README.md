@@ -43,3 +43,12 @@ A static build of libav (incl. x264 and x265)
 - 3rdparty\libav
 
 You also need the boost library.
+
+## Donations
+
+At this point please contact me directly if you want to support my work on this project.
+
+What i currently need:
+- The book "Digital Video and HD, Second Edition: Algorithms and Interfaces" by Charles Poynton
+- Better hardware. I currently compile, develop and test on a Intel NUC Core i3
+- Compensation for software licenses (At this moment my CC plan is only for developing this plugin, not using it on actual video projects)
