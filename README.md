@@ -56,6 +56,10 @@ All directories are relatice to the checkout directory.
 * libx264.lib
 * x265.lib
 
+### Preprocessor
+
+Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV).
+
 ## Donations
 
 At this point please contact me directly if you want to support my work on this project.
