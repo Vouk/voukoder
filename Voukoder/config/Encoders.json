@@ -1524,6 +1524,97 @@
               "parameters": {
                 "profile": "4444"
               }
+            },
+            {
+              "id": 5,
+              "name": "4444 XQ",
+              "pixelFormat": "yuv444p10le",
+              "parameters": {
+                "profile": "4444xq"
+              }
+            }
+          ]
+        },
+        {
+          "name": "proresQuantMat",
+          "label": "Quantization Matrix",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 1,
+          "values": [
+            {
+              "id": 0,
+              "name": "(Automatic)",
+              "parameters": {
+                "quant_mat": "auto"
+              }
+            },
+            {
+              "id": 1,
+              "name": "Default",
+              "parameters": {
+                "quant_mat": "default"
+              }
+            },
+            {
+              "id": 2,
+              "name": "Proxy",
+              "parameters": {
+                "quant_mat": "proxy"
+              }
+            },
+            {
+              "id": 3,
+              "name": "LT",
+              "parameters": {
+                "quant_mat": "lt"
+              }
+            },
+            {
+              "id": 4,
+              "name": "Standard",
+              "parameters": {
+                "quant_mat": "standard"
+              }
+            },
+            {
+              "id": 5,
+              "name": "HQ",
+              "parameters": {
+                "quant_mat": "hq"
+              }
+            }
+          ]
+        },
+        {
+          "name": "proresAlphaBits",
+          "label": "Alpha Component",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "No alpha component",
+              "parameters": {
+                "alpha_bits": "0"
+              }
+            },
+            {
+              "id": 1,
+              "name": "8 bits",
+              "parameters": {
+                "alpha_bits": "8"
+              }
+            },
+            {
+              "id": 2,
+              "name": "16 bits",
+              "parameters": {
+                "alpha_bits": "16"
+              }
             }
           ]
         }
