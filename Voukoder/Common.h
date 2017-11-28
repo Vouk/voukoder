@@ -60,7 +60,7 @@ extern "C" {
 	#pragma comment(lib, "libswresample.lib")
 #endif  
 
-#define PLUGIN_APPNAME							L"Voukoder 0.3.7"
+#define PLUGIN_APPNAME							L"Voukoder 0.3.8"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
 #define PLUGIN_AUDIO_SAMPLE_FORMAT				AV_SAMPLE_FMT_FLTP
 //#define PLUGIN_AUDIO_SAMPLE_RATE				48000

@@ -397,7 +397,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	widthValues.structVersion = 1;
 	widthValues.value.intValue = seqWidth.mInt32;
 	widthValues.rangeMin.intValue = 16;
-	widthValues.rangeMax.intValue = 4096;
+	widthValues.rangeMax.intValue = 5120;
 	widthValues.disabled = kPrFalse;
 	widthValues.hidden = kPrFalse;
 	widthValues.optionalParamEnabled = kPrFalse;
@@ -414,7 +414,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	heightValues.structVersion = 1;
 	heightValues.value.intValue = seqHeight.mInt32;
 	heightValues.rangeMin.intValue = 16;
-	heightValues.rangeMax.intValue = 4096;
+	heightValues.rangeMax.intValue = 5120;
 	heightValues.disabled = kPrFalse;
 	heightValues.hidden = kPrFalse;
 	heightValues.optionalParamEnabled = kPrFalse;
