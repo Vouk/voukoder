@@ -1419,11 +1419,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 
 				// Get premiere rowsize
 				csSDK_int32 rowBytes;
-				instRec->ppixSuite->GetRowBytes(renderResult.outFrame, &rowBytes);
+				result = instRec->ppixSuite->GetRowBytes(renderResult.outFrame, &rowBytes);
 
 				// Get pixels from the renderer
 				char *pixels;
-				instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+				result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
 				float *frameBuffer = (float*)pixels;
 
@@ -1446,10 +1446,12 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder)
 				{
 					for (int c = 0; c < videoWidth.value.intValue; c++)
 					{
+						// Get beginning of next block
+						const int pos = ((videoHeight.value.intValue - 1) - r) * videoWidth.value.intValue * planes + c * planes;
+
 						for (int plane = 0; plane < planes; plane++)
 						{
-							const int pos = (videoHeight.value.intValue - r) * (rowBytes / sizeof(float)) + c * planes + plane;
-							const float floatValue = frameBuffer[pos];
+							const float floatValue = frameBuffer[pos + plane];
 
 							const int dplane = map[plane];
 							const float min = yuv[dplane][0];
