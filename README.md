@@ -65,6 +65,5 @@ Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV
 At this point please contact me directly if you want to support my work on this project.
 
 What i currently need:
-- The book "Digital Video and HD, Second Edition: Algorithms and Interfaces" by Charles Poynton
 - Better hardware. I currently compile, develop and test on a Intel NUC Core i3
 - Compensation for software licenses (At this moment my CC plan is only for developing this plugin, not using it on actual video projects)
