@@ -20,6 +20,7 @@ typedef struct AVContext
 	FrameFilter *frameFilter;
 } AVContext;
 
+// reviewed 0.3.8
 class Encoder
 {
 public:
@@ -32,7 +33,6 @@ public:
 	int Encoder::writeVideoFrame(EncodingData *encodingData);
 	int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount);
 	FrameType Encoder::getNextFrameType();
-	const char* Encoder::getPixelFormat();
 	const char* Encoder::dumpConfiguration();
 private:
 	int Encoder::openStream(AVContext *context);

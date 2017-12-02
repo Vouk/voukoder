@@ -1,6 +1,7 @@
 #include "Encoder.h"
 #include "Common.h"
 
+// reviewed 0.3.8
 Encoder::Encoder(const char *short_name, const char *filename)
 {
 	this->filename = filename;
@@ -12,11 +13,13 @@ Encoder::Encoder(const char *short_name, const char *filename)
 	audioContext = new AVContext();
 }
 
+// reviewed 0.3.8
 Encoder::~Encoder()
 {	
 	avformat_free_context(formatContext);
 }
 
+// reviewed 0.3.8
 void Encoder::setVideoCodec(const std::string codec, EncoderConfig *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic, int codecFlags = 0)
 {
 	AVDictionary *options = NULL;
@@ -59,6 +62,7 @@ void Encoder::setVideoCodec(const std::string codec, EncoderConfig *configuratio
 	videoContext->codecContext->color_trc = colorTransferCharateristic;
 }
 
+// reviewed 0.3.8
 void Encoder::setAudioCodec(const std::string codec, EncoderConfig *configuration, csSDK_int64 channelLayout, int sampleRate)
 {
 	AVDictionary *options = NULL;
@@ -95,6 +99,7 @@ void Encoder::setAudioCodec(const std::string codec, EncoderConfig *configuratio
 	int error = avcodec_parameters_from_context(audioContext->stream->codecpar, audioContext->codecContext);
 }
 
+// reviewed 0.3.8
 int Encoder::open()
 {
 	int ret;
@@ -156,6 +161,7 @@ int Encoder::open()
 	return S_OK;
 }
 
+// reviewed 0.3.8
 void Encoder::close(bool writeTrailer)
 {
 	// Write trailer
@@ -186,6 +192,7 @@ void Encoder::close(bool writeTrailer)
 	}
 }
 
+// reviewed 0.3.8
 int Encoder::openStream(AVContext *context)
 {
 	// Find the right pixel/sample format
@@ -223,6 +230,7 @@ int Encoder::openStream(AVContext *context)
 	return S_OK;
 }
 
+// reviewed 0.3.8
 int Encoder::writeVideoFrame(EncodingData *encodingData)
 {
 	int ret;
@@ -301,6 +309,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	return S_OK;
 }
 
+// reviewed 0.3.8
 int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 {
 	// Set up frame filter
@@ -348,14 +357,6 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		AVFrame *frame;
 
 		int frame_size = FFMIN(av_audio_fifo_size(fifo), audioContext->codecContext->frame_size);
-		/* ugly hack for PCM codecs (will be removed ASAP with new PCM
-		   support to compute the input frame size in samples */
-		if (frame_size <= 1) {
-			frame_size = 10000 / 2;
-frame_size >>= 1;
-
-			}
-
 
 		frame = av_frame_alloc();
 		frame->nb_samples = frame_size;
@@ -406,6 +407,7 @@ frame_size >>= 1;
 	return ret;
 }
 
+// reviewed 0.3.8
 int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame)
 {
 	int ret;
@@ -459,6 +461,7 @@ int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame)
 	return S_OK;
 }
 
+// reviewed 0.3.8
 FrameType Encoder::getNextFrameType()
 {
 	if (av_compare_ts(videoContext->next_pts, videoContext->codecContext->time_base, audioContext->next_pts, audioContext->codecContext->time_base) <= 0)
@@ -467,11 +470,6 @@ FrameType Encoder::getNextFrameType()
 	}
 
 	return FrameType::AudioFrame;
-}
-
-const char* Encoder::getPixelFormat()
-{
-	return av_get_pix_fmt_name(videoContext->codecContext->pix_fmt);
 }
 
 const char* Encoder::dumpConfiguration()

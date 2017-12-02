@@ -105,7 +105,7 @@ typedef struct InstanceRec
 	csSDK_uint32 videoRenderID;
 	csSDK_uint32 audioRenderID;
 	csSDK_int32 maxBlip;
-	csSDK_uint32 maxPasses;
+	//csSDK_uint32 maxPasses;
 	csSDK_uint32 currentPass;
 } InstanceRec;
 
@@ -123,9 +123,9 @@ typedef csSDK_int32 vkdrColorRange;
 #define vkdrLimitedColorRange	kPrFalse
 
 PrTime gcd(PrTime a, PrTime b);
-void PopulateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, json encoders);
-void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders, int selectedId);
-exNewParamInfo CreateParamElement(json param, bool hidden);
-void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json encoders);
-void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, json option);
+void PopulateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, vector<EncoderInfo> encoderInfos);
+void CreateEncoderParamElements(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 pluginId, csSDK_int32 groupIndex, vector<EncoderInfo> encoderInfos, int selectedId);
+exNewParamInfo CreateParamElement(ParamInfo *info, bool hidden);
+void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, vector<EncoderInfo> encoderInfos);
+void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, ParamInfo *info);
 void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);

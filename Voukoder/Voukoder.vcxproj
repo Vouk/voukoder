@@ -106,7 +106,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ConfigImportDialog.h" />
+    <ClInclude Include="EncoderInfo.h" />
     <ClInclude Include="EncoderConfig.h" />
+    <ClInclude Include="EncoderUtils.h" />
+    <ClInclude Include="MuxerInfo.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Encoder.h" />
@@ -206,8 +209,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConfigImportDialog.cpp" />
+    <ClCompile Include="EncoderInfo.cpp" />
     <ClCompile Include="EncoderConfig.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="MuxerInfo.cpp" />
     <ClCompile Include="Voukoder.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="FrameFilter.cpp" />

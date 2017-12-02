@@ -17,6 +17,6 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec	*
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP);
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec);
 prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePrefsRecP);
-prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder);
-prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder);
+prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderInfo *videoEncoderInfo, EncoderInfo *audioEncoderInfo, int maxPasses);
+prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, int maxPasses);
 PrPixelFormat GetPremierePixelFormat(const char* format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange);

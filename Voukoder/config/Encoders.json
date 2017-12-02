@@ -51,19 +51,8 @@
           "parent": "VKDRAdvVideoCodecTabGroup"
         }
       ],
-      "interlaced": {
-        "tffParameters": {
-          "tff": ""
-        },
-        "bffParameters": {
-          "bff": ""
-        }
-      },
       "multipass": {
-        "name": "x264Passes",
-        "firstParameters": {},
-        "lastParameters": {},
-        "nthParameters": {}
+        "name": "x264Passes"
       },
       "parameterGroups": {
         "x264-params": {
@@ -455,6 +444,7 @@
                   "type": "int",
                   "flags": [ "slider" ],
                   "defaultValue": 15000,
+                  "useDefaultValue": true,
                   "minValue": 100,
                   "maxValue": 100000,
                   "parameters": {
@@ -492,6 +482,7 @@
                   "label": "Constant Rate Factor",
                   "type": "int",
                   "flags": [ "slider" ],
+                  "useDefaultValue": true,
                   "defaultValue": 23,
                   "minValue": 1,
                   "maxValue": 51,
@@ -510,6 +501,7 @@
                   "label": "Constant Quantizer",
                   "type": "int",
                   "flags": [ "slider" ],
+                  "useDefaultValue": true,
                   "defaultValue": 23,
                   "minValue": 1,
                   "maxValue": 69,
@@ -543,7 +535,7 @@
         },
         {
           "name": "x264MinKeyInt",
-          "label": "Max. GOP Size",
+          "label": "Min. GOP Size",
           "group": "VKDRx264GOPGroup",
           "type": "int",
           "flags": [],
@@ -1272,19 +1264,8 @@
       "name": "libx265",
       "defaultPixelFormat": "yuv420p",
       "groups": [],
-      "interlaced": {
-        "tffParameters": {
-          "interlace ": "tff"
-        },
-        "bffParameters": {
-          "interlace ": "bff"
-        }
-      },
       "multipass": {
-        "name": "x265Passes",
-        "firstParameters": {},
-        "lastParameters": {},
-        "nthParameters": {}
+        "name": "x265Passes"
       },
       "parameterGroups": {
         "x265-params": {
@@ -1382,7 +1363,6 @@
           "type": "int",
           "flags": [],
           "defaultValue": 1,
-          "useDefaultValue": true,
           "values": [
             {
               "id": 0,
@@ -1393,6 +1373,7 @@
                   "label": "Average Bitrate (kbit)",
                   "type": "int",
                   "flags": [ "slider" ],
+                  "useDefaultValue": true,
                   "defaultValue": 15000,
                   "minValue": 100,
                   "maxValue": 100000,
@@ -1431,6 +1412,7 @@
                   "label": "Constant Rate Factor",
                   "type": "int",
                   "flags": [ "slider" ],
+                  "useDefaultValue": true,
                   "defaultValue": 28,
                   "minValue": 1,
                   "maxValue": 51,
@@ -1449,6 +1431,7 @@
                   "label": "Constant Quantizer",
                   "type": "int",
                   "flags": [ "slider" ],
+                  "useDefaultValue": true,
                   "defaultValue": 23,
                   "minValue": 1,
                   "maxValue": 51,
@@ -1474,10 +1457,6 @@
       "name": "prores_ks",
       "defaultPixelFormat": "yuv422p10le",
       "groups": [],
-      "interlaced": {
-        "tffParameters": {},
-        "bffParameters": {}
-      },
       "parameterGroups": {},
       "params": [
         {
@@ -1542,10 +1521,6 @@
       "name": "ffv1",
       "defaultPixelFormat": "yuv422p10le",
       "groups": [],
-      "interlaced": {
-        "tffParameters": {},
-        "bffParameters": {}
-      },
       "parameterGroups": {},
       "params": []
     }

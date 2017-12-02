@@ -12,41 +12,31 @@ extern "C" {
 #include "libavutil\opt.h"
 }
 
+using namespace std;
 using json = nlohmann::json;
 
-typedef struct ParamGroup
-{
-	std::string name;
-	std::string delimiter;
-	std::string separator;
-	std::string noValueReplacement;
-	std::vector<std::string> parameters;
-} ParamGroup;
-
+// reviewed 0.3.8
 class EncoderConfig
 {
 public:
 	EncoderConfig(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 exporterPluginID);
-	~EncoderConfig();
-	void initFromSettings(json settings);
-	void setParam(std::string key, std::string value);
-	void parseCommandLine(std::string input);
+	void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo);
+	void parseCommandLine(string input);
 	void EncoderConfig::getConfig(AVDictionary **options);
 	void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass);
-	std::string EncoderConfig::getConfigAsParamString(std::string dashes);
-	int EncoderConfig::getMaxPasses();
+	string EncoderConfig::getConfigAsParamString(string dashes);
 	const char* EncoderConfig::getPixelFormat();
 
 private:
 	PrSDKExportParamSuite *exportParamSuite;
 	csSDK_uint32 exporterPluginID;
 	csSDK_int32 multiGroupIndex;
-	json rawConfig;
-	std::map<std::string, std::string> config;
-	std::map<std::string, ParamGroup> groups;
-	std::string pixelFormat;
-	void EncoderConfig::addParameters(json parameters);
-	template<class T> void addParameters(json parameters, T value);
-	ParamGroup* EncoderConfig::getGroupFromParameter(std::string name);
-	static void AddParametersToDictionary(AVDictionary **options, std::map<std::string, std::string> parameters);
+	EncoderInfo *encoderInfo;
+	map<string, string> config;
+	map<string, ParamGroup> groups;
+	string pixelFormat;
+	void addParameters(map<string, string> parameters);
+	template<class T> void addParameters(map<string, string> parameters, T value);
+	bool EncoderConfig::getGroupFromParameter(string name, ParamGroup &retGroup);
+	static void AddParametersToDictionary(AVDictionary **options, map<string, string> parameters);
 };
