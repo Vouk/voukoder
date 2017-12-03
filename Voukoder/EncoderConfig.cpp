@@ -20,6 +20,8 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 	// Set default pixel format
 	pixelFormat = encoderInfo->defaultPixelFormat;
 
+	multipassParameter.clear();
+
 	// Start from scratch
 	config.clear();
 
@@ -64,78 +66,91 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 				parameterValueInfo = FilterTypeVectorById(parameterInfo.values, parameterInfo.default.intValue);
 			}
 
-			// Why does CRF get the multipass parameter?
-
-			// Process only non-default values
-			if (parameterInfo.default.intValue != parameterValueInfo.id || 
-				parameterInfo.useDefaultValue)
+			// Do we have suboptions?
+			if (parameterValueInfo.subValues.size() > 0)
 			{
-				// Do we have suboptions?
-				if (parameterValueInfo.subValues.size() > 0)
+				// Iterate all suboptions
+				for (ParameterSubValue parameterSubValue: parameterValueInfo.subValues)
 				{
-					// Iterate all suboptions
-					for (ParameterSubValue parameterSubValue: parameterValueInfo.subValues)
+					if (parameterSubValue.pixelFormat.size() > 0)
 					{
-						if (parameterSubValue.pixelFormat.size() > 0)
-						{
-							pixelFormat = parameterSubValue.pixelFormat;
-						}
+						pixelFormat = parameterSubValue.pixelFormat;
+					}
 
-						// Get the selected value
-						exParamValues paramValue;
-						exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, parameterSubValue.name.c_str(), &paramValue);
+					// Set multipass parameter
+					if (parameterSubValue.name == encoderInfo->multipassParameter)
+					{
+						multipassParameter = parameterSubValue.name;
+					}
+
+					// Get the selected value
+					exParamValues paramValue;
+					exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, parameterSubValue.name.c_str(), &paramValue);
 						
-						// Format param according to datatype
-						if (parameterSubValue.type == "float")
-						{
-							const bool isDefaultValue = std::fabs(parameterSubValue.default.floatValue - paramValue.value.floatValue) < 1e-2;
+					// Format param according to datatype
+					if (parameterSubValue.type == "float")
+					{
+						const bool isDefaultValue = std::fabs(parameterSubValue.default.floatValue - paramValue.value.floatValue) < 1e-2;
 
-							if (!isDefaultValue || parameterSubValue.useDefaultValue)
-							{
-								this->addParameters(parameterSubValue.parameters, paramValue.value.floatValue);
-							}
-						}
-						else if (parameterSubValue.type == "int")
+						if (!isDefaultValue || parameterSubValue.useDefaultValue)
 						{
-							const bool isDefaultValue = parameterSubValue.default.intValue == paramValue.value.intValue;
-
-							if (!isDefaultValue || parameterSubValue.useDefaultValue)
-							{
-								this->addParameters(parameterSubValue.parameters, paramValue.value.intValue);
-							}
-						}
-						else if (parameterSubValue.type == "bool")
-						{
-							const bool isDefaultValue = parameterSubValue.default.intValue == paramValue.value.intValue;
-
-							if ((!isDefaultValue || parameterSubValue.useDefaultValue) && paramValue.value.intValue == 1)
-							{
-								this->addParameters(parameterSubValue.parameters);
-							}
-						}
-						else
-						{
-							continue;
+							this->addParameters(parameterSubValue.parameters, paramValue.value.floatValue);
 						}
 					}
-				}
-				else // No subvalues
-				{
-					this->addParameters(parameterValueInfo.parameters);
-
-					// Does the element has a pixel format set?
-					if (parameterValueInfo.pixelFormat.size() > 0)
+					else if (parameterSubValue.type == "int")
 					{
-						pixelFormat = parameterValueInfo.pixelFormat;
+						const bool isDefaultValue = parameterSubValue.default.intValue == paramValue.value.intValue;
+
+						if (!isDefaultValue || parameterSubValue.useDefaultValue)
+						{
+							this->addParameters(parameterSubValue.parameters, paramValue.value.intValue);
+						}
+					}
+					else if (parameterSubValue.type == "bool")
+					{
+						const bool isDefaultValue = parameterSubValue.default.intValue == paramValue.value.intValue;
+
+						if ((!isDefaultValue || parameterSubValue.useDefaultValue) && paramValue.value.intValue == 1)
+						{
+							this->addParameters(parameterSubValue.parameters);
+						}
+					}
+					else
+					{
+						continue;
 					}
 				}
 			}
+			else if (parameterInfo.default.intValue != parameterValueInfo.id || parameterInfo.useDefaultValue)
+			{
+				this->addParameters(parameterValueInfo.parameters);
+
+				// Does the element has a pixel format set?
+				if (parameterValueInfo.pixelFormat.size() > 0)
+				{
+					pixelFormat = parameterValueInfo.pixelFormat;
+				}
+
+				// Set multipass parameter
+				if (parameterValueInfo.name == encoderInfo->multipassParameter)
+				{
+					multipassParameter = parameterValueInfo.name;
+				}
+
+			}
+
 		}
 		else // Not a dropdown element
 		{
 			// Get the selected value
 			exParamValues paramValue;
 			exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, parameterInfo.name.c_str(), &paramValue);
+
+			// Set multipass parameter
+			if (parameterInfo.name == encoderInfo->multipassParameter)
+			{
+				multipassParameter = parameterInfo.name;
+			}
 
 			// Format param according to datatype
 			if (parameterInfo.type == "float")
@@ -171,6 +186,23 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 			}
 		}
 	}
+}
+
+// reviewed 0.3.8
+int EncoderConfig::getMaxPasses()
+{
+	int passes = 1;
+
+	if (multipassParameter.size() > 0)
+	{
+		// Get max passes setting
+		exParamValues maxPasses;
+		this->exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, multipassParameter.c_str(), &maxPasses);
+
+		passes = maxPasses.value.intValue;
+	}
+
+	return passes;
 }
 
 // reviewed 0.3.8

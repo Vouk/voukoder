@@ -116,8 +116,6 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			instRec->hInstance = reinterpret_cast<HMODULE>(mbi.AllocationBase);
 
 			instRec->settings = new Settings(instRec->hInstance);
-			instRec->videoConfig = new EncoderConfig(instRec->exportParamSuite, instanceRecP->exporterPluginID);
-			instRec->audioConfig = new EncoderConfig(instRec->exportParamSuite, instanceRecP->exporterPluginID);
 		}
 
 		instanceRecP->privateData = reinterpret_cast<void*>(instRec);
@@ -321,6 +319,10 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
 	EncoderInfo videoEncoderInfo = FilterTypeVectorById(videoEncoderInfos, videoCodec.value.intValue);
 
+	// Create config
+	EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	videoEncoderConfig->initFromSettings(&videoEncoderInfo);
+
 #pragma endregion
 
 #pragma region Create audio encoder config
@@ -331,38 +333,42 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 	// Get the selected encoder
 	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, videoCodec.value.intValue);
+	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
+
+	// Create config
+	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
 
 #pragma endregion
 
-	int passes = 1;
-
-	// Find out what maximum passes we want to go
-	if (videoEncoderInfo.multipassParameter.size() > 0)
-	{
-		exParamValues maxPasses;
-		instRec->exportParamSuite->GetParamValue(exID, 0, videoEncoderInfo.multipassParameter.c_str(), &maxPasses);
-
-		passes = maxPasses.value.intValue;
-	}
+	const csSDK_int32 maxPasses = videoEncoderConfig->getMaxPasses();
 
 	// Do encoding loops
-	for (instRec->currentPass = 1; instRec->currentPass <= passes; instRec->currentPass++)
+	for (csSDK_int32 pass = 1; pass <= maxPasses; pass++)
 	{
 		// Create encoder instance
 		Encoder *encoder = new Encoder(NULL, filename);
 
-		result = SetupEncoderInstance(instRec, exID, encoder, &videoEncoderInfo, &audioEncoderInfo, passes);
+		result = SetupEncoderInstance(instRec, exID, encoder, videoEncoderConfig, audioEncoderConfig);
+
+		// Multipass encoding
+		if (maxPasses > 1)
+		{
+			if (pass == 1)
+			{
+				encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS1);
+			}
+			else
+			{
+				encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS2);
+			}
+		}
 		
 		// Open the encoder
 		if (encoder->open() == S_OK)
 		{
 			// Render and write all video and audio frames
-			result = RenderAndWriteAllFrames(exportInfoP, encoder, passes);
-
-			// Flush the encoders
-			encoder->writeVideoFrame(NULL);
-			encoder->writeAudioFrame(NULL, 0);
+			result = RenderAndWriteAllFrames(exportInfoP, encoder, pass, maxPasses);
 
 			encoder->close(true);
 		}
@@ -370,6 +376,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 		encoder->~Encoder();
 		encoder = NULL;
 	}
+
 
 	return result;
 }
@@ -423,17 +430,10 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Basic Video Settings", kPrFalse, kPrFalse, kPrFalse);
 
 	// Video Encoder
-	exParamValues videoCodecValues;
-	videoCodecValues.structVersion = 1;
-	videoCodecValues.value.intValue = settings->defaultVideoEncoder;
-	videoCodecValues.disabled = kPrFalse;
-	videoCodecValues.hidden = kPrFalse;
-	videoCodecValues.optionalParamEnabled = kPrFalse;
-	exNewParamInfo videoCodecParam;
-	videoCodecParam.structVersion = 1;
-	videoCodecParam.flags = exParamFlag_none;
-	videoCodecParam.paramType = exParamType_int;
-	videoCodecParam.paramValues = videoCodecValues;
+	ParamInfo paramInfo;
+	paramInfo.default.intValue = settings->defaultVideoEncoder;
+	paramInfo.type = "int";
+	exNewParamInfo videoCodecParam = CreateParamElement(&paramInfo, false);
 	::lstrcpyA(videoCodecParam.identifier, ADBEVideoCodec);
 	exportParamSuite->AddParam(exID, groupIndex, ADBEBasicVideoGroup, &videoCodecParam);
 
@@ -580,7 +580,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 
 	// Populate video encoder options
 	vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, encoderInfos, videoCodecValues.value.intValue);
+	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, encoderInfos, settings->defaultVideoEncoder);
 
 #pragma endregion
 
@@ -1053,10 +1053,12 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	EncoderInfo encoderInfo = FilterTypeVectorById(encoderInfos, videoCodec.value.intValue);
 	if (encoderInfo.id > -1)
 	{
-		instRec->videoConfig->initFromSettings(&encoderInfo);
+		// Create config
+		EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
+		videoEncoderConfig->initFromSettings(&encoderInfo);
 
 		//Create summary string
-		string videoSummary = encoderInfo.name + " (" + instRec->videoConfig->getConfigAsParamString("-") + ")";
+		string videoSummary = encoderInfo.name + " (" + videoEncoderConfig->getConfigAsParamString("-") + ")";
 		prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
 	}
 
@@ -1072,10 +1074,12 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	encoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
 	if (encoderInfo.id > -1)
 	{
-		instRec->audioConfig->initFromSettings(&encoderInfo);
+		// Create config
+		EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
+		audioEncoderConfig->initFromSettings(&encoderInfo);
 
 		//Create summary string
-		string audioSummary = encoderInfo.name + " (" + instRec->audioConfig->getConfigAsParamString("-") + ")";
+		string audioSummary = encoderInfo.name + " (" + audioEncoderConfig->getConfigAsParamString("-") + ")";
 		prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
 	}
 
@@ -1111,6 +1115,10 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 		return malUnknownError;
 	}
 
+	// Create config
+	EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	videoEncoderConfig->initFromSettings(&videoEncoderInfo);
+
 #pragma endregion
 
 #pragma region Create audio encoder info
@@ -1121,11 +1129,15 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 
 	// Get the selected encoder
 	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, videoCodec.value.intValue);
-	if (videoEncoderInfo.id == -1)
+	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
+	if (audioEncoderInfo.id == -1)
 	{
 		return malUnknownError;
 	}
+
+	// Create config
+	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
 
 #pragma endregion
 
@@ -1147,7 +1159,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 
 	// Create encoder instance
 	Encoder *encoder = new Encoder(muxerInfo.name.c_str(), NULL);
-	result = SetupEncoderInstance(instRec, exID, encoder, &videoEncoderInfo, &audioEncoderInfo, 1);
+	result = SetupEncoderInstance(instRec, exID, encoder, videoEncoderConfig, audioEncoderConfig);
 
 	// Open the encoder
 	if (encoder->open() == S_OK)
@@ -1158,9 +1170,10 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	else
 	{
 		wchar_t buffer[4096];
-		swprintf_s(buffer, L"%s\n\n%S",
+		swprintf_s(buffer, L"%s\n\n%S\n%S",
 			PLUGIN_ERR_COMBINATION_NOT_SUPPORTED,
-			encoder->dumpConfiguration());
+			videoEncoderConfig->getConfigAsParamString("-"),
+			audioEncoderConfig->getConfigAsParamString("-"));
 
 		// Show an error message to the user
 		ShowMessageBox(instRec, buffer, PLUGIN_APPNAME, MB_OK);
@@ -1251,7 +1264,7 @@ void loadSettings(json *settings)
 }
 
 // reviewed 0.3.8
-prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderInfo *videoEncoderInfo, EncoderInfo *audioEncoderInfo, int maxPasses)
+prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderConfig *videoConfig, EncoderConfig *audioConfig)
 {
 	prMALError result = malNoError;
 
@@ -1277,88 +1290,77 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	int num = 254016000000 / c;
 	int den = ticksPerFrame.value.timeValue / c;
 
+	// Create audio context information
+	EncoderContextInfo audioContextInfo;
+	audioContextInfo.name = audioConfig->encoderInfo->name;
+	audioContextInfo.timebase.den = (int)audioSampleRate.value.floatValue;
+	audioContextInfo.timebase.num = 1;
+
 	// Translate the channel layout to AVLib
-	csSDK_int64 channelLayout;
 	switch (channelType.value.intValue)
 	{
 	case kPrAudioChannelType_Mono:
-		channelLayout = AV_CH_LAYOUT_MONO;
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_MONO;
 		break;
+
 	case kPrAudioChannelType_51:
-		channelLayout = AV_CH_LAYOUT_5POINT1;
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1;
 		break;
+
 	default:
-		channelLayout = AV_CH_LAYOUT_STEREO;
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_STEREO;
 		break;
 	}
-
+	
+	encoder->audioContext->setCodec(audioContextInfo, audioConfig);
+	
+	// Create video context information
+	EncoderContextInfo videoContextInfo;
+	videoContextInfo.name = videoConfig->encoderInfo->name;
+	videoContextInfo.width = videoWidth.value.intValue;
+	videoContextInfo.height = videoHeight.value.intValue;
+	videoContextInfo.timebase = { den, num };
+	
 	// Get the right color range
-	AVColorRange colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
-
-	AVColorSpace colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
-	AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
-	AVColorTransferCharacteristic colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
+	videoContextInfo.colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
 
 	// Color conversion values
 	if (vkdrColorSpace.value.intValue == vkdrBT601)
 	{
 		if (tvStandard.value.intValue == vkdrPAL)
 		{
-			colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
-			colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG; 
-			colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
+			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG; 
+			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
 		}
 		else if (tvStandard.value.intValue == vkdrNTSC)
 		{
-			colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-			colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-			colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
 		}
 	}
 	else if (vkdrColorSpace.value.intValue == vkdrBT709)
 	{
-		colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-		colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-		colorTransferCharacteristic = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+		videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+		videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+		videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 	}
-
-	int flags = 0;
-
-	// Multipass encoding
-	if (maxPasses > 1)
-	{
-		json parameters;
-
-		if (instRec->currentPass == 1)
-		{
-			flags = AV_CODEC_FLAG_PASS1;
-		}
-		else
-		{
-			flags = AV_CODEC_FLAG_PASS2;
-		}
-	}
-
-	// Init encoder configs
-	instRec->videoConfig->initFromSettings(videoEncoderInfo);
-	instRec->audioConfig->initFromSettings(audioEncoderInfo);
-
-	// Configure an encoder instance
-	encoder->setVideoCodec(videoEncoderInfo->name, instRec->videoConfig, videoWidth.value.intValue, videoHeight.value.intValue, { den, num }, colorSpace, colorRange, colorPrimaries, colorTransferCharacteristic, flags);
-	encoder->setAudioCodec(audioEncoderInfo->name, instRec->audioConfig, channelLayout, (int)audioSampleRate.value.floatValue);
+	
+	encoder->videoContext->setCodec(videoContextInfo, videoConfig);
 	
 	return result;
 }
 
 // reviewed 0.3.8
-prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, int maxPasses)
+prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, csSDK_int32 pass, csSDK_int32 maxPasses)
 {
 	prMALError result = malNoError;
 
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
-	EncoderConfig *videoConfig = instRec->videoConfig;
+	EncoderConfig *videoConfig = NULL;
 
 	// Get render parameter values
 	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
@@ -1387,7 +1389,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
 
 	// Find the right pixel format
-	const char* encPixelFormat = videoConfig->getPixelFormat();
+	const char* encPixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
 	PrPixelFormat pixelFormat = GetPremierePixelFormat(encPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
 	const PrPixelFormat pixelFormats[] = { pixelFormat, PrPixelFormat_BGRA_4444_8u, PrPixelFormat_Any }; //TODO: no conversion from RGB yet, but its converted to yuv anyway (not clean)
 
@@ -1594,7 +1596,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		}
 
 		// Update progress & handle export cancellation
-		float offset = (1.0f / static_cast<float>(maxPasses)) * (static_cast<float>(instRec->currentPass) - 1);
+		float offset = (1.0f / static_cast<float>(maxPasses)) * (static_cast<float>(pass) - 1);
 		float progress = offset + static_cast<float>(videoTime - exportInfoP->startTime) / static_cast<float>(exportDuration) / static_cast<float>(maxPasses);
 		result = instRec->exportProgressSuite->UpdateProgressPercent(exID, progress);
 		if (result == suiteError_ExporterSuspended)
@@ -1683,17 +1685,6 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange;
 				}
 			}
-		}
-	}
-	else // Everything (YUV) else needs conversion 
-	{
-		switch (colorSpace)
-		{
-		case vkdrBT601:
-			return PrPixelFormat_VUYA_4444_32f;
-
-		case vkdrBT709:
-			return PrPixelFormat_VUYA_4444_32f_709;
 		}
 	}
 

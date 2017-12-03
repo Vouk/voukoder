@@ -9,8 +9,8 @@ Encoder::Encoder(const char *short_name, const char *filename)
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(short_name, this->filename, NULL);
 
-	videoContext = new AVContext();
-	audioContext = new AVContext();
+	videoContext = new EncoderContext(formatContext);
+	audioContext = new EncoderContext(formatContext);
 }
 
 // reviewed 0.3.8
@@ -20,92 +20,12 @@ Encoder::~Encoder()
 }
 
 // reviewed 0.3.8
-void Encoder::setVideoCodec(const std::string codec, EncoderConfig *configuration, int width, int height, AVRational timebase, AVColorSpace colorSpace, AVColorRange colorRange, AVColorPrimaries colorPrimaries, AVColorTransferCharacteristic colorTransferCharateristic, int codecFlags = 0)
-{
-	AVDictionary *options = NULL;
-	configuration->getConfig(&videoContext->options, 1, 1); //TODO
-	videoContext->config = configuration;
-
-	// Find codec
-	videoContext->codec = avcodec_find_encoder_by_name(codec.c_str());
-	if (videoContext->codec == NULL)
-	{
-		return;
-	}
-
-	// Create the stream
-	videoContext->stream = avformat_new_stream(formatContext, NULL);
-	videoContext->stream->id = formatContext->nb_streams - 1;
-	videoContext->stream->time_base = timebase;
-
-	// Allocate the codec context
-	videoContext->codecContext = avcodec_alloc_context3(videoContext->codec);
-	videoContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
-	videoContext->codecContext->codec_id = videoContext->codec->id;
-	videoContext->codecContext->width = width;
-	videoContext->codecContext->height = height;
-	videoContext->codecContext->time_base = timebase;
-	videoContext->codecContext->pix_fmt = videoContext->codec->pix_fmts ? videoContext->codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
-	videoContext->codecContext->flags |= codecFlags;
-
-	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
-	{
-		videoContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-	}
-
-	int error = avcodec_parameters_from_context(videoContext->stream->codecpar, videoContext->codecContext);
-
-	// Set color settings
-	videoContext->codecContext->colorspace = colorSpace;
-	videoContext->codecContext->color_range = colorRange;
-	videoContext->codecContext->color_primaries = colorPrimaries;
-	videoContext->codecContext->color_trc = colorTransferCharateristic;
-}
-
-// reviewed 0.3.8
-void Encoder::setAudioCodec(const std::string codec, EncoderConfig *configuration, csSDK_int64 channelLayout, int sampleRate)
-{
-	AVDictionary *options = NULL;
-	configuration->getConfig(&audioContext->options);
-	audioContext->config = configuration;
-
-	// Find codec
-	audioContext->codec = avcodec_find_encoder_by_name(codec.c_str());
-	if (audioContext->codec == NULL)
-	{
-		return;
-	}
-
-	/* Configure the audio encoder */
-	audioContext->codecContext = avcodec_alloc_context3(audioContext->codec);
-	audioContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
-	audioContext->codecContext->channels = av_get_channel_layout_nb_channels(channelLayout);
-	audioContext->codecContext->channel_layout = channelLayout;
-	audioContext->codecContext->sample_rate = sampleRate;
-	audioContext->codecContext->sample_fmt = audioContext->codec->sample_fmts ? audioContext->codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-	audioContext->codecContext->bit_rate = 0;
-
-	/* Create the stream */
-	audioContext->stream = avformat_new_stream(formatContext, NULL);
-	audioContext->stream->id = formatContext->nb_streams - 1;
-	audioContext->stream->time_base.den = audioContext->codecContext->sample_rate;
-	audioContext->stream->time_base.num = 1;
-	
-	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
-	{
-		audioContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-	}
-
-	int error = avcodec_parameters_from_context(audioContext->stream->codecpar, audioContext->codecContext);
-}
-
-// reviewed 0.3.8
 int Encoder::open()
 {
 	int ret;
 
 	// Open video stream
-	if ((ret = openStream(videoContext)) < 0)
+	if ((ret = videoContext->openCodec()) > 0)
 	{
 		close(false);
 
@@ -113,19 +33,22 @@ int Encoder::open()
 	}
 
 	// Open audio stream
-	if ((ret = openStream(audioContext)) > 0)
+	if ((ret = audioContext->openCodec()) > 0)
 	{
 		close(false);
 
 		return ret;
 	}
 
-	// Create audio fifo buffer
-	if (!(fifo = av_audio_fifo_alloc(audioContext->codecContext->sample_fmt, audioContext->codecContext->channels, 1))) 
+	if (audioContext->codec->type == AVMEDIA_TYPE_AUDIO)
 	{
-		close(false);
+		// Create audio fifo buffer
+		if (!(fifo = av_audio_fifo_alloc(audioContext->codecContext->sample_fmt, audioContext->codecContext->channels, 1)))
+		{
+			close(false);
 
-		return AVERROR_EXIT;
+			return AVERROR_EXIT;
+		}
 	}
 
 	// Encoder to file or to memory?
@@ -167,17 +90,15 @@ void Encoder::close(bool writeTrailer)
 	// Write trailer
 	if (writeTrailer)
 	{
+		// Flush the encoders
+		writeVideoFrame(NULL);
+		writeAudioFrame(NULL, 0);
+
 		av_write_trailer(formatContext);
 	}
 
-	if (videoContext->codecContext->internal != NULL)
-	{
-		avcodec_close(videoContext->codecContext);
-	}
-	if (audioContext->codecContext->internal != NULL)
-	{
-		avcodec_close(audioContext->codecContext);
-	}
+	videoContext->closeCodec();
+	audioContext->closeCodec();
 
 	// Close the file
 	if (this->filename != NULL)
@@ -190,44 +111,6 @@ void Encoder::close(bool writeTrailer)
 		avio_close_dyn_buf(formatContext->pb, &buffer);
 		av_free(buffer);
 	}
-}
-
-// reviewed 0.3.8
-int Encoder::openStream(AVContext *context)
-{
-	// Find the right pixel/sample format
-	if (context->codec->type == AVMEDIA_TYPE_VIDEO)
-	{
-		const char* pix_fmt = context->config->getPixelFormat();
-		context->codecContext->pix_fmt = av_get_pix_fmt(pix_fmt);
-
-		/*
-		const int len = sizeof(context->codec->pix_fmts) / sizeof(context->codec->pix_fmts[0]);
-		for (int i = 0; i < len; i++)
-		{
-			AVPixelFormat format = context->codec->pix_fmts[i];
-			const char *name = av_get_pix_fmt_name(format);
-			OutputDebugStringA(name);
-			OutputDebugStringA("\r\n");
-		}
-		*/
-	}
-
-	int ret;
-
-	// Open the codec
-	if ((ret = avcodec_open2(context->codecContext, context->codec, &context->options)) < 0)
-	{
-		return ret ;
-	}
-
-	// Copy the stream parameters to the context
-	if ((ret = avcodec_parameters_from_context(context->stream->codecpar, context->codecContext)) < 0)
-	{
-		return ret;
-	}
-
-	return S_OK;
 }
 
 // reviewed 0.3.8
@@ -250,7 +133,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 
 		// Set target format
 		char filterConfig[256];
-		sprintf_s(filterConfig, "format=pix_fmts=%s", videoContext->config->getPixelFormat());
+		sprintf_s(filterConfig, "format=pix_fmts=%s", videoContext->encoderConfig->getPixelFormat());
 
 		videoContext->frameFilter = new FrameFilter();
 		videoContext->frameFilter->configure(options, filterConfig);
@@ -408,7 +291,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 }
 
 // reviewed 0.3.8
-int Encoder::encodeAndWriteFrame(AVContext *context, AVFrame *frame)
+int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 {
 	int ret;
 
@@ -470,19 +353,4 @@ FrameType Encoder::getNextFrameType()
 	}
 
 	return FrameType::AudioFrame;
-}
-
-const char* Encoder::dumpConfiguration()
-{
-	char buffer[1024];
-	sprintf_s(
-		buffer,
-		"Muxer: %s\nVideo: %s(%s)\nAudio: %s(%s)",
-		formatContext->oformat->name,
-		videoContext->codec->name,
-		"opt",
-		audioContext->codec->name,
-		"opt");
-
-	return buffer;
 }

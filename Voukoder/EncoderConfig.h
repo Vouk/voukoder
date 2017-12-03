@@ -19,8 +19,10 @@ using json = nlohmann::json;
 class EncoderConfig
 {
 public:
+	EncoderInfo *encoderInfo;
 	EncoderConfig(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 exporterPluginID);
-	void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo);
+	void initFromSettings(EncoderInfo *encoderInfo);
+	int getMaxPasses();
 	void parseCommandLine(string input);
 	void EncoderConfig::getConfig(AVDictionary **options);
 	void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass);
@@ -31,10 +33,10 @@ private:
 	PrSDKExportParamSuite *exportParamSuite;
 	csSDK_uint32 exporterPluginID;
 	csSDK_int32 multiGroupIndex;
-	EncoderInfo *encoderInfo;
 	map<string, string> config;
 	map<string, ParamGroup> groups;
 	string pixelFormat;
+	string multipassParameter;
 	void addParameters(map<string, string> parameters);
 	template<class T> void addParameters(map<string, string> parameters, T value);
 	bool EncoderConfig::getGroupFromParameter(string name, ParamGroup &retGroup);

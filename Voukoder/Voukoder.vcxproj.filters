@@ -318,6 +318,12 @@
     <ClInclude Include="MuxerInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EncoderContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lavf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Encoder.cpp">
@@ -345,6 +351,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MuxerInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

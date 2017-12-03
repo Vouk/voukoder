@@ -23,42 +23,7 @@
 #include "premiere_cs6\PrSDKWindowSuite.h"
 #include "Settings.h"
 #include "EncoderConfig.h"
-
-extern "C" {
-#include "libavformat\avformat.h"
-#include "libavcodec\avcodec.h"
-#include "libavfilter\avfilter.h"
-#include "libavutil\avutil.h"
-#include "libavutil\channel_layout.h"
-#include "libswscale\swscale.h"
-#include "libavfilter\buffersrc.h"
-#include "libavfilter\buffersink.h"
-#include "libavutil\audio_fifo.h"
-#include "libavutil\opt.h"
-#include "libavutil\imgutils.h"
-#include "libavutil\fifo.h"
-#include "libavutil\log.h"
-#include "libavutil\mathematics.h"
-#include "x264.h"
-#include "x265.h"
-}
-
-#pragma comment(lib, "libavformat.lib")
-#pragma comment(lib, "libavcodec.lib")
-#pragma comment(lib, "libavfilter.lib")
-#pragma comment(lib, "libavutil.lib")
-#pragma comment(lib, "libswscale.lib")
-#pragma comment(lib, "libx264.lib")
-#pragma comment(lib, "x265.lib")
-
-#if defined(LIB_LIBAV) 
-	#pragma comment(lib, "libavresample.lib")
-#endif  
-
-#if defined(LIB_FFMPEG) 
-	#pragma comment(lib, "libpostproc.lib")
-	#pragma comment(lib, "libswresample.lib")
-#endif  
+#include "lavf.h"
 
 #define PLUGIN_APPNAME							L"Voukoder 0.3.8"
 #define PLUGIN_ERR_COMBINATION_NOT_SUPPORTED	L"This combination of muxer, codecs and parameters is not supported."
@@ -100,13 +65,9 @@ typedef struct InstanceRec
 	PrSDKWindowSuite *windowSuite;
 	HMODULE hInstance;
 	Settings *settings;
-	EncoderConfig *videoConfig;
-	EncoderConfig *audioConfig;
 	csSDK_uint32 videoRenderID;
 	csSDK_uint32 audioRenderID;
 	csSDK_int32 maxBlip;
-	//csSDK_uint32 maxPasses;
-	csSDK_uint32 currentPass;
 } InstanceRec;
 
 typedef csSDK_int32 vkdrTvStandard;
