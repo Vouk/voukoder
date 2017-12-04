@@ -1468,7 +1468,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
 
 				// Convert 
-				for (int r = videoHeight.value.intValue, p = 0; r >= 0; --r)
+				for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
 				{
 					for (int c = 0; c < videoWidth.value.intValue; c++)
 					{
