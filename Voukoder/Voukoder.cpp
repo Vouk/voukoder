@@ -1418,6 +1418,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	PrTime videoTime = exportInfoP->startTime;
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
 	{
+		auto start = chrono::high_resolution_clock::now();
+
 		FrameType frameType = encoder->getNextFrameType();
 		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
 		{
@@ -1493,42 +1495,35 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				// VUYA to YUVA mapping
 				const int map[4] = { 2, 1, 0, 3 };
 
-				// Scaling factors
+				// Scaling factors (note min. values are actually negative)
 				const float yuv[4][4] = {
-					{ -0.07306f, 1.09132f,  0.00000f, 1.00000f }, // Y
-					{ -0.57143f, 0.57143f, -0.50000f, 0.50000f }, // U
-					{ -0.57143f, 0.57143f, -0.50000f, 0.50000f }, // V
-					{  0.00000f, 1.00000f,  0.00000f, 1.00000f }  // A
+					{ 0.07306f, 1.09132f, 0.00000f, 1.00000f }, // Y
+					{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // U
+					{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // V
+					{ 0.00000f, 1.00000f, 0.00000f, 1.00000f }  // A
 				};
 
 				// TODO: Full color range or limited color range?
 				//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
 
 				// Convert 
-				for (int r = 0; r < videoHeight.value.intValue; r++)
+				for (int r = videoHeight.value.intValue, p = 0; r >= 0; --r)
 				{
 					for (int c = 0; c < videoWidth.value.intValue; c++)
 					{
 						// Get beginning of next block
-						const int pos = ((videoHeight.value.intValue - 1) - r) * videoWidth.value.intValue * planes + c * planes;
+						const int pos = r * videoWidth.value.intValue * planes + c * planes;
 
 						for (int plane = 0; plane < planes; plane++)
 						{
-							const float floatValue = frameBuffer[pos + plane];
-
-							const int dplane = map[plane];
-							const float min = yuv[dplane][0];
-							const float max = yuv[dplane][1];
-
-							// Convert float value to uint16_t
-							boost::algorithm::clamp(floatValue, min, max);
-							const uint16_t intValue = (uint16_t)((floatValue + abs(min)) / (abs(min) + abs(max)) * 65535.0f);
-
-							// Write to plane buffers
-							int dpos = r * encodingData.stride[dplane] + c * sizeof(uint16_t);
-							encodingData.plane[dplane][dpos + 0] = intValue & 0xff;
-							encodingData.plane[dplane][dpos + 1] = intValue >> 8;
+							/* Convert float value to uint16_t.
+							 * Optimized for speed and removed all
+							 * abs and min/max checks.
+							 */
+							((uint16_t*)(encodingData.plane[map[plane]]))[p] = (uint16_t)((frameBuffer[pos + plane] + yuv[map[plane]][0]) / (yuv[map[plane]][0] + yuv[map[plane]][1]) * 65535.0f);
 						}
+
+						p++;
 					}
 				}
 
@@ -1620,21 +1615,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 // reviewed 0.3.8
 PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
 {
-	if (strcmp(format, "yuv422p10le") == 0 ||
-		strcmp(format, "yuv422p12le") == 0 ||
-		strcmp(format, "yuv444p10le") == 0 ||
-		strcmp(format, "yuv444p12le") == 0)
-	{
-		switch (colorSpace)
-		{
-		case vkdrBT601:
-			return PrPixelFormat_VUYA_4444_32f;
-
-		case vkdrBT709:
-			return PrPixelFormat_VUYA_4444_32f_709;
-		}
-	}
-	else if (strcmp(format, "yuv420p") == 0)
+	// Planar YUV 4:2:0
+	if (strcmp(format, "yuv420p") == 0)
 	{
 		if (fieldType == prFieldsNone)
 		{
@@ -1688,6 +1670,17 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 		}
 	}
 
-	// Should never been called
-	return PrPixelFormat_Any;
+	// Packed formats
+	switch (colorSpace)
+	{
+	case vkdrBT601:
+		return PrPixelFormat_VUYA_4444_32f;
+
+	case vkdrBT709:
+		return PrPixelFormat_VUYA_4444_32f_709;
+
+	default:
+		// Should never been called
+		return PrPixelFormat_Any;
+	}
 }
