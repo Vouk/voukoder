@@ -1522,7 +1522,21 @@
       "defaultPixelFormat": "yuv422p10le",
       "groups": [],
       "parameterGroups": {},
-      "params": []
+      "params": [
+        {
+          "name": "ffv1",
+          "label": "Threads",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 12,
+          "minValue": 1,
+          "maxValue": 64,
+          "parameters": {
+            "threads": "%d"
+          }
+        }
+      ]
     }
   ],
   "audio": [
