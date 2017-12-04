@@ -1097,7 +1097,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	prMALError result = malNoError;
 
 	csSDK_uint32 exID = validateOutputSettingsRec->exporterPluginID;
-
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
 	Settings *settings = instRec->settings;
 
@@ -1187,6 +1186,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	return result;
 }
 
+// TBD
 INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	char *buffer;
@@ -1221,6 +1221,7 @@ INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam
 	return FALSE;
 }
 
+// TBD
 prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePrefsRecP)
 {
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(getFilePrefsRecP->privateData);
@@ -1241,49 +1242,22 @@ prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePre
 }
 
 // reviewed 0.3.8
-void loadSettings(json *settings)
-{
-	MEMORY_BASIC_INFORMATION mbi;
-	static int dummy;
-	VirtualQuery(&dummy, &mbi, sizeof(mbi));
-	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
-	HRSRC hRes = FindResourceEx(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
-	if (NULL != hRes)
-	{
-		HGLOBAL hData = LoadResource(hModule, hRes);
-		if (NULL != hData)
-		{
-			const DWORD dataSize = SizeofResource(hModule, hRes);
-			char *resource = new char[dataSize + 1];
-			memcpy(resource, LockResource(hData), dataSize);
-			resource[dataSize] = 0;
-
-			*settings = json::parse(resource);
-		}
-	}
-}
-
-// reviewed 0.3.8
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderConfig *videoConfig, EncoderConfig *audioConfig)
 {
 	prMALError result = malNoError;
 
 	Settings *settings = instRec->settings;
 
-	// Export video params
-	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, channelType, audioSampleRate, audioBitrate, multipass;
+	// Get export video params
+	exParamValues videoWidth, videoHeight, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRTVStandard, &tvStandard);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &vkdrColorSpace);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &vkdrColorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioBitrate, &audioBitrate);
 
 	// Find the correct fps ratio
 	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
@@ -1312,6 +1286,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 		break;
 	}
 	
+	// Set and configure audio codec
 	encoder->audioContext->setCodec(audioContextInfo, audioConfig);
 	
 	// Create video context information
@@ -1347,6 +1322,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 		videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 	}
 	
+	// Set and configure video codec
 	encoder->videoContext->setCodec(videoContextInfo, videoConfig);
 	
 	return result;
@@ -1356,11 +1332,8 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, csSDK_int32 pass, csSDK_int32 maxPasses)
 {
 	prMALError result = malNoError;
-
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
-
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
-	EncoderConfig *videoConfig = NULL;
 
 	// Get render parameter values
 	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
@@ -1378,7 +1351,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	PrTime ticksPerSample;
 	instRec->timeSuite->GetTicksPerAudioSample(audioSampleRate.value.floatValue, &ticksPerSample);
 	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &instRec->audioRenderID);
-	
+	instRec->sequenceAudioSuite->ResetAudioToBeginning(instRec->audioRenderID);
+
 	// Get the audio frame size we need to send to the encoder
 	instRec->sequenceAudioSuite->GetMaxBlip(instRec->audioRenderID, ticksPerFrame.value.timeValue, &instRec->maxBlip);
 
@@ -1410,9 +1384,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	// Cache the rendered frames when using multipass
 	const PrRenderCacheType cacheType = maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
 
-	EncodingData encodingData = {};
-
-	instRec->sequenceAudioSuite->ResetAudioToBeginning(instRec->audioRenderID);
+	EncodingData encodingData;
 
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
@@ -1492,17 +1464,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 				float *frameBuffer = (float*)pixels;
 
-				// VUYA to YUVA mapping
-				const int map[4] = { 2, 1, 0, 3 };
-
-				// Scaling factors (note min. values are actually negative)
-				const float yuv[4][4] = {
-					{ 0.07306f, 1.09132f, 0.00000f, 1.00000f }, // Y
-					{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // U
-					{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // V
-					{ 0.00000f, 1.00000f, 0.00000f, 1.00000f }  // A
-				};
-
 				// TODO: Full color range or limited color range?
 				//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
 
@@ -1520,7 +1481,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 							 * Optimized for speed and removed all
 							 * abs and min/max checks.
 							 */
-							((uint16_t*)(encodingData.plane[map[plane]]))[p] = (uint16_t)((frameBuffer[pos + plane] + yuv[map[plane]][0]) / (yuv[map[plane]][0] + yuv[map[plane]][1]) * 65535.0f);
+							((uint16_t*)(encodingData.plane[vuya_2_yuva[plane]]))[p] = 
+								(uint16_t)((frameBuffer[pos + plane] + yuva_factors[vuya_2_yuva[plane]][0]) / (yuva_factors[vuya_2_yuva[plane]][0] + yuva_factors[vuya_2_yuva[plane]][1]) * 65535.0f);
 						}
 
 						p++;

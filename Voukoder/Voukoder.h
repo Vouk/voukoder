@@ -2,6 +2,17 @@
 #include <algorithm>
 #include "Common.h"
 
+// VUYA to YUVA mapping
+const int vuya_2_yuva[4] = { 2, 1, 0, 3 };
+
+// Scaling factors (note min. values are actually negative)
+const float yuva_factors[4][4] = {
+	{ 0.07306f, 1.09132f, 0.00000f, 1.00000f }, // Y
+	{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // U
+	{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // V
+	{ 0.00000f, 1.00000f, 0.00000f, 1.00000f }  // A
+};
+
 extern "C" DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParms, void *param1, void *param2);
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP);
