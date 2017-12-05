@@ -1,5 +1,9 @@
 # voukoder
-Use x264, x265 and other encoders of the libav or ffmpeg library directly in Adobe Premiere (Pro and Elements).
+Use x264, x265 and other encoders of the libav or ffmpeg library directly in Adobe Premiere (Pro and Elements). Currently supporting:
+- x264 (8 bit only)
+- x265 (8, 10 and 12bit)
+- ProRes (experimental)
+- FFV1 (experimental)
 
 This plugin is under heavy development and not yet ready for production use.
 
