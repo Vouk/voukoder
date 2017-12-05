@@ -1279,6 +1279,70 @@
       },
       "params": [
         {
+          "name": "x265PixelFormat",
+          "label": "Output format",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "YUV 4:2:0",
+              "pixelFormat": "yuv420p",
+              "parameters": {}
+            },
+            {
+              "id": 1,
+              "name": "YUV 4:2:2",
+              "pixelFormat": "yuv422p",
+              "parameters": {}
+            },
+            {
+              "id": 2,
+              "name": "YUV 4:4:4",
+              "pixelFormat": "yuv444p",
+              "parameters": {}
+            },
+            {
+              "id": 3,
+              "name": "YUV 4:2:0 (10 bit)",
+              "pixelFormat": "yuv420p10le",
+              "parameters": {}
+            },
+            {
+              "id": 4,
+              "name": "YUV 4:2:2 (10 bit)",
+              "pixelFormat": "yuv422p10le",
+              "parameters": {}
+            },
+            {
+              "id": 5,
+              "name": "YUV 4:4:4 (10 bit)",
+              "pixelFormat": "yuv444p10le",
+              "parameters": {}
+            },
+            {
+              "id": 6,
+              "name": "YUV 4:2:0 (12 bit)",
+              "pixelFormat": "yuv420p12le",
+              "parameters": {}
+            },
+            {
+              "id": 7,
+              "name": "YUV 4:2:2 (12 bit)",
+              "pixelFormat": "yuv422p12le",
+              "parameters": {}
+            },
+            {
+              "id": 8,
+              "name": "YUV 4:4:4 (12 bit)",
+              "pixelFormat": "yuv444p12le",
+              "parameters": {}
+            }
+          ]
+        },
+        {
           "name": "x265Preset",
           "label": "Preset",
           "group": "ADBEVideoCodecGroup",
@@ -1453,96 +1517,96 @@
           ]
         }
       ]
-    },
-    {
-      "id": 2,
-      "name": "prores_ks",
-      "defaultPixelFormat": "yuv422p10le",
-      "threads": 0,
-      "groups": [],
-      "parameterGroups": {},
-      "params": [
+        },
         {
-          "name": "proresProfile",
-          "label": "Profile",
-          "group": "ADBEVideoCodecGroup",
-          "type": "int",
-          "flags": [],
-          "defaultValue": 2,
-          "useDefaultValue": true,
-          "values": [
+          "id": 2,
+          "name": "prores_ks",
+          "defaultPixelFormat": "yuv422p10le",
+          "threads": 0,
+          "groups": [],
+          "parameterGroups": {},
+          "params": [
             {
-              "id": 0,
-              "name": "Proxy",
-              "parameters": {
-                "profile": "proxy"
-              }
-            },
+              "name": "proresProfile",
+              "label": "Profile",
+              "group": "ADBEVideoCodecGroup",
+              "type": "int",
+              "flags": [],
+              "defaultValue": 2,
+              "useDefaultValue": true,
+              "values": [
+                {
+                  "id": 0,
+                  "name": "Proxy",
+                  "parameters": {
+                    "profile": "proxy"
+                  }
+                },
+                {
+                  "id": 1,
+                  "name": "LT",
+                  "parameters": {
+                    "profile": "lt"
+                  }
+                },
+                {
+                  "id": 2,
+                  "name": "Standard",
+                  "parameters": {
+                    "profile": "standard"
+                  }
+                },
+                {
+                  "id": 3,
+                  "name": "HQ",
+                  "parameters": {
+                    "profile": "hq"
+                  }
+                },
+                {
+                  "id": 4,
+                  "name": "4444",
+                  "pixelFormat": "yuv444p10le",
+                  "parameters": {
+                    "profile": "4444"
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "4444 XQ",
+                  "pixelFormat": "yuv444p10le",
+                  "parameters": {
+                    "profile": "4444xq"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "ffv1",
+          "defaultPixelFormat": "yuv422p10le",
+          "threads": 0,
+          "groups": [],
+          "parameterGroups": {},
+          "params": [
             {
-              "id": 1,
-              "name": "LT",
+              "name": "ffv1",
+              "label": "Threads",
+              "group": "ADBEVideoCodecGroup",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 12,
+              "minValue": 1,
+              "maxValue": 64,
               "parameters": {
-                "profile": "lt"
-              }
-            },
-            {
-              "id": 2,
-              "name": "Standard",
-              "parameters": {
-                "profile": "standard"
-              }
-            },
-            {
-              "id": 3,
-              "name": "HQ",
-              "parameters": {
-                "profile": "hq"
-              }
-            },
-            {
-              "id": 4,
-              "name": "4444",
-              "pixelFormat": "yuv444p10le",
-              "parameters": {
-                "profile": "4444"
-              }
-            },
-            {
-              "id": 5,
-              "name": "4444 XQ",
-              "pixelFormat": "yuv444p10le",
-              "parameters": {
-                "profile": "4444xq"
+                "threads": "%d"
               }
             }
           ]
         }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "ffv1",
-      "defaultPixelFormat": "yuv422p10le",
-      "threads": 0,
-      "groups": [],
-      "parameterGroups": {},
-      "params": [
-        {
-          "name": "ffv1",
-          "label": "Threads",
-          "group": "ADBEVideoCodecGroup",
-          "type": "int",
-          "flags": [ "slider" ],
-          "defaultValue": 12,
-          "minValue": 1,
-          "maxValue": 64,
-          "parameters": {
-            "threads": "%d"
-          }
-        }
-      ]
-    }
-  ],
+      ],
   "audio": [
     {
       "id": 0,
