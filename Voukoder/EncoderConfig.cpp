@@ -1,9 +1,6 @@
 #include "EncoderConfig.h"
 #include "EncoderUtils.h"
 #include <sstream>
-#include <boost/format.hpp>
-#include <boost/locale.hpp>
-#include <boost/algorithm/string/replace.hpp>
 
 // reviewed 0.3.8
 EncoderConfig::EncoderConfig(PrSDKExportParamSuite *exportParamSuite, csSDK_uint32 exporterPluginID)
@@ -24,7 +21,6 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 
 	// Start from scratch
 	config.clear();
-	//config.insert(pair<string, string>("threads", "0"));
 
 	// Iterate all encoder parameters
 	for (ParameterInfo parameterInfo: encoderInfo->params)
@@ -32,24 +28,6 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 		// Skip some element types
 		if (parameterInfo.type == "button")
 		{
-			continue;
-		}
-		else if (parameterInfo.type == "string")
-		{
-			// Get the selection
-			exParamValues paramValues;
-			exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, parameterInfo.name.c_str(), &paramValues);
-			string value = boost::locale::conv::utf_to_utf<char>(paramValues.paramString);
-
-			// Support params separated by newline
-			boost::replace_all(value, "\r\n", ":");
-
-			// Add to options if not empty
-			if (!value.empty())
-			{
-				this->addParameters(parameterInfo.parameters, value.c_str());
-			}
-
 			continue;
 		}
 

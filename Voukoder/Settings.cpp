@@ -29,7 +29,15 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 	vector<EncoderInfo> encoderInfos;
 	for (json encoder: encoders)
 	{
-		encoderInfos.push_back(EncoderInfo(encoder));
+		EncoderInfo encoderInfo = EncoderInfo(encoder);
+#if defined(_NDEBUG) 
+		if (!encoderInfo.experimental)
+		{
+#endif
+			encoderInfos.push_back(encoderInfo);
+#if defined(_NDEBUG) 
+		}
+#endif
 	}
 
 	return encoderInfos;

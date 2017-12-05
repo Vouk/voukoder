@@ -13,6 +13,7 @@ class EncoderInfo
 public:
 	int id;
 	string name;
+	bool experimental = false;
 	string defaultPixelFormat;
 	vector<ElementGroup> groups;
 	string multipassParameter;

@@ -4,7 +4,7 @@
       "id": 0,
       "name": "libx264",
       "defaultPixelFormat": "yuv420p",
-      "threads" : 0,
+      "threads": 0,
       "groups": [
         {
           "name": "VKDRx264QuantizerGroup",
@@ -1517,66 +1517,305 @@
           ]
         }
       ]
+    },
+    {
+      "id": 2,
+      "name": "prores_ks",
+      "defaultPixelFormat": "yuv422p10le",
+      "threads": 0,
+      "groups": [],
+      "parameterGroups": {},
+      "params": [
+        {
+          "name": "proresProfile",
+          "label": "Profile",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 2,
+          "useDefaultValue": true,
+          "values": [
+            {
+              "id": 0,
+              "name": "Proxy",
+              "parameters": {
+                "profile": "proxy"
+              }
+            },
+            {
+              "id": 1,
+              "name": "LT",
+              "parameters": {
+                "profile": "lt"
+              }
+            },
+            {
+              "id": 2,
+              "name": "Standard",
+              "parameters": {
+                "profile": "standard"
+              }
+            },
+            {
+              "id": 3,
+              "name": "HQ",
+              "parameters": {
+                "profile": "hq"
+              }
+            },
+            {
+              "id": 4,
+              "name": "4444",
+              "pixelFormat": "yuv444p10le",
+              "parameters": {
+                "profile": "4444"
+              }
+            },
+            {
+              "id": 5,
+              "name": "4444 XQ",
+              "pixelFormat": "yuv444p10le",
+              "parameters": {
+                "profile": "4444xq"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "ffv1",
+      "defaultPixelFormat": "yuv422p10le",
+      "threads": 0,
+      "groups": [],
+      "parameterGroups": {},
+      "params": [
+        {
+          "name": "ffv1",
+          "label": "Threads",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 12,
+          "minValue": 1,
+          "maxValue": 64,
+          "parameters": {
+            "threads": "%d"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "experimental" : true,
+      "name": "h264_nvenc",
+      "description" : "Added by Schauerland",
+      "defaultPixelFormat": "yuv420p",
+      "groups": [],
+      "parameterGroups": {},
+      "params": [
+        {
+          "name": "h264_nvencPreset",
+          "label": "Preset",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 1,
+          "values": [
+            {
+              "id": 0,
+              "name": "Default",
+              "parameters": {
+                "preset": "default"
+              }
+            },
+            {
+              "id": 1,
+              "name": "hq (High Quality)",
+              "parameters": {
+                "preset": "hq"
+              }
+            },
+            {
+              "id": 2,
+              "name": "hp (High Performance)",
+              "parameters": {
+                "preset": "hp"
+              }
+            },
+            {
+              "id": 3,
+              "name": "bd (Blu-Ray)",
+              "parameters": {
+                "preset": "bd"
+              }
+            },
+            {
+              "id": 4,
+              "name": "ll (Low Latency)",
+              "parameters": {
+                "preset": "ll"
+              }
+            },
+            {
+              "id": 5,
+              "name": "llhq (Low Latency High Quality)",
+              "parameters": {
+                "preset": "llhq"
+              }
+            },
+            {
+              "id": 6,
+              "name": "llhp (Low Latency High Performance)",
+              "parameters": {
+                "preset": "llhp"
+              }
+            },
+            {
+              "id": 7,
+              "name": "Lossless",
+              "parameters": {
+                "preset": "lossless"
+              }
+            },
+            {
+              "id": 8,
+              "name": "Lossless High Performance",
+              "parameters": {
+                "preset": "losslesshp"
+              }
+            }
+          ]
         },
         {
-          "id": 2,
-          "name": "prores_ks",
-          "defaultPixelFormat": "yuv422p10le",
-          "threads": 0,
-          "groups": [],
-          "parameterGroups": {},
-          "params": [
+          "name": "h264_nvencProfile",
+          "label": "Profile",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 2,
+          "values": [
             {
-              "name": "proresProfile",
-              "label": "Profile",
-              "group": "ADBEVideoCodecGroup",
-              "type": "int",
-              "flags": [],
-              "defaultValue": 2,
-              "useDefaultValue": true,
-              "values": [
+              "id": 0,
+              "name": "Baseline",
+              "parameters": {
+                "profile": "baseline"
+              }
+            },
+            {
+              "id": 1,
+              "name": "Main",
+              "parameters": {
+                "profile": "main"
+              }
+            },
+            {
+              "id": 2,
+              "name": "High",
+              "parameters": {
+                "profile": "high"
+              }
+            },
+            {
+              "id": 3,
+              "name": "High444",
+              "parameters": {
+                "profile": "high444"
+              }
+            }
+          ]
+        },
+        {
+          "name": "h264_nvencStrategy",
+          "label": "Strategy",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "Constant Quantizer Parameter (CQP)",
+              "subvalues": [
                 {
-                  "id": 0,
-                  "name": "Proxy",
+                  "name": "h264_nvencStrategyCQP",
+                  "label": "CQP",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "useDefaultValue": true,
+                  "defaultValue": 23,
+                  "minValue": 1,
+                  "maxValue": 50,
                   "parameters": {
-                    "profile": "proxy"
+                    "rc": "constqp",
+                    "qp": "%d"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "name": "Variable Bitrate (VBR)",
+              "subvalues": [
+                {
+                  "name": "h264_nvencStrategyVBR",
+                  "label": "Target Bitrate (kbit)",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "useDefaultValue": true,
+                  "defaultValue": 15000,
+                  "minValue": 100,
+                  "maxValue": 288000,
+                  "parameters": {
+                    "rc": "vbr",
+                    "b": "%d000"
                   }
                 },
                 {
-                  "id": 1,
-                  "name": "LT",
+                  "name": "h264_nvencStrategyVBRBuffer",
+                  "label": "Buffer Size (kbit)",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "useDefaultValue": true,
+                  "defaultValue": 0,
+                  "minValue": 0,
+                  "maxValue": 288000,
                   "parameters": {
-                    "profile": "lt"
+                    "buffsize": "%d000"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "name": "Constant Bitrate (CBR)",
+              "subvalues": [
+                {
+                  "name": "h264_nvencStrategyCBR",
+                  "label": "Bitrate (kbit)",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "useDefaultValue": true,
+                  "defaultValue": 15000,
+                  "minValue": 100,
+                  "maxValue": 288000,
+                  "parameters": {
+                    "rc": "cbr",
+                    "b": "%d000"
                   }
                 },
                 {
-                  "id": 2,
-                  "name": "Standard",
+                  "name": "h264_nvencStrategyCBRBuffer",
+                  "label": "Buffer Size (kbit)",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "useDefaultValue": true,
+                  "defaultValue": 0,
+                  "minValue": 0,
+                  "maxValue": 288000,
                   "parameters": {
-                    "profile": "standard"
-                  }
-                },
-                {
-                  "id": 3,
-                  "name": "HQ",
-                  "parameters": {
-                    "profile": "hq"
-                  }
-                },
-                {
-                  "id": 4,
-                  "name": "4444",
-                  "pixelFormat": "yuv444p10le",
-                  "parameters": {
-                    "profile": "4444"
-                  }
-                },
-                {
-                  "id": 5,
-                  "name": "4444 XQ",
-                  "pixelFormat": "yuv444p10le",
-                  "parameters": {
-                    "profile": "4444xq"
+                    "buffsize": "%d000"
                   }
                 }
               ]
@@ -1584,29 +1823,167 @@
           ]
         },
         {
-          "id": 3,
-          "name": "ffv1",
-          "defaultPixelFormat": "yuv422p10le",
-          "threads": 0,
-          "groups": [],
-          "parameterGroups": {},
-          "params": [
+          "name": "h264_nvencKeyInt",
+          "label": "Max. GOP Size",
+          "group": "VKDRx264GOPGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 250,
+          "minValue": 1,
+          "maxValue": 999,
+          "parameters": {
+            "g": "%d"
+          }
+        },
+        {
+          "name": "h264_nvencBFrames",
+          "label": "B-Frames",
+          "group": "VKDRx264GOPGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 2,
+          "minValue": 0,
+          "maxValue": 4,
+          "parameters": {
+            "bf": "%d"
+          }
+        },
+        {
+          "name": "h264_nvenc2Pass",
+          "label": "2pass Encoding",
+          "group": "VKDRx264GOPGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": true,
+          "parameters": {
+            "2pass": ""
+          }
+        },
+        {
+          "name": "h264_nvencLevel",
+          "label": "Level",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
             {
-              "name": "ffv1",
-              "label": "Threads",
-              "group": "ADBEVideoCodecGroup",
-              "type": "int",
-              "flags": [ "slider" ],
-              "defaultValue": 12,
-              "minValue": 1,
-              "maxValue": 64,
+              "id": 0,
+              "name": "(Automatic)",
               "parameters": {
-                "threads": "%d"
+                "level": "0"
+              }
+            },
+            {
+              "id": 1,
+              "name": "1",
+              "parameters": {
+                "level": "1"
+              }
+            },
+            {
+              "id": 2,
+              "name": "1.1",
+              "parameters": {
+                "level": "11"
+              }
+            },
+            {
+              "id": 3,
+              "name": "1.2",
+              "parameters": {
+                "level": "12"
+              }
+            },
+            {
+              "id": 4,
+              "name": "1.3",
+              "parameters": {
+                "level": "13"
+              }
+            },
+            {
+              "id": 5,
+              "name": "2",
+              "parameters": {
+                "level": "2"
+              }
+            },
+            {
+              "id": 6,
+              "name": "2.1",
+              "parameters": {
+                "level": "21"
+              }
+            },
+            {
+              "id": 7,
+              "name": "2.2",
+              "parameters": {
+                "level": "22"
+              }
+            },
+            {
+              "id": 8,
+              "name": "3",
+              "parameters": {
+                "level": "3"
+              }
+            },
+            {
+              "id": 9,
+              "name": "3.1",
+              "parameters": {
+                "level": "31"
+              }
+            },
+            {
+              "id": 10,
+              "name": "3.2",
+              "parameters": {
+                "level": "32"
+              }
+            },
+            {
+              "id": 11,
+              "name": "4",
+              "parameters": {
+                "level": "4"
+              }
+            },
+            {
+              "id": 12,
+              "name": "4.1",
+              "parameters": {
+                "level": "41"
+              }
+            },
+            {
+              "id": 13,
+              "name": "4.2",
+              "parameters": {
+                "level": "42"
+              }
+            },
+            {
+              "id": 14,
+              "name": "5",
+              "parameters": {
+                "level": "5"
+              }
+            },
+            {
+              "id": 15,
+              "name": "5.1",
+              "parameters": {
+                "level": "51"
               }
             }
           ]
         }
-      ],
+      ]
+    }
+  ],
   "audio": [
     {
       "id": 0,

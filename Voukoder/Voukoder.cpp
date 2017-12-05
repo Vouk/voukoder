@@ -1,10 +1,6 @@
 #include <windows.h>
 #include <chrono>
 #include <cmath>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/clamp.hpp>
-#include <boost/locale.hpp>
-#include <boost/spirit/include/qi.hpp>
 #include "Encoder.h"
 #include "Voukoder.h"
 #include "Common.h"
