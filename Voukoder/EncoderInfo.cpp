@@ -97,6 +97,10 @@ ParameterInfo EncoderInfo::createParamInfo(json json)
 			paramInfo.max.floatValue = json["maxValue"].get<float>();
 		}
 	}
+	else if (paramInfo.type == "bool")
+	{
+		paramInfo.default.intValue = json["defaultValue"].get<int>();
+	}
 
 	// Are the values?
 	if (json.find("values") != json.end())
@@ -215,6 +219,10 @@ ParameterSubValue EncoderInfo::createSubValue(json json)
 		{
 			paramSubValueInfo.max.floatValue = json["maxValue"].get<float>();
 		}
+	}
+	else if (paramSubValueInfo.type == "bool")
+	{
+		paramSubValueInfo.default.intValue = json["defaultValue"].get<int>();
 	}
 
 	// Parameters
