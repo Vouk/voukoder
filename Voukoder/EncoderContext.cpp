@@ -70,6 +70,7 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 	// Create codec context
 	codecContext = avcodec_alloc_context3(codec);
 	codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+	codecContext->thread_count = encoderConfig->encoderInfo->threadCount;
 
 	// Type specific codec context settings
 	if (codec->type == AVMEDIA_TYPE_VIDEO)

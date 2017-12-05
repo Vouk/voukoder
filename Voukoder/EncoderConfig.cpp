@@ -24,7 +24,7 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 
 	// Start from scratch
 	config.clear();
-	config.insert(pair<string, string>("threads", "0"));
+	//config.insert(pair<string, string>("threads", "0"));
 
 	// Iterate all encoder parameters
 	for (ParameterInfo parameterInfo: encoderInfo->params)

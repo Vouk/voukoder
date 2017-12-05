@@ -73,8 +73,11 @@ int Encoder::open()
 		}
 	}
 
+	AVDictionary *options = NULL;
+	//av_dict_set(&options, "movflags", "faststart", 0);
+
 	// Check muxer/codec combination and write header
-	if ((ret = avformat_write_header(formatContext, NULL)) != S_OK)
+	if ((ret = avformat_write_header(formatContext, &options)) != S_OK)
 	{
 		close(false);
 

@@ -13,6 +13,7 @@ public:
 	int id;
 	string name;
 	string extension;
+	bool movFastStart = false;
 	MuxerInfo(json muxer);
 
 private:

@@ -4,6 +4,7 @@
       "id": 0,
       "name": "libx264",
       "defaultPixelFormat": "yuv420p",
+      "threads" : 0,
       "groups": [
         {
           "name": "VKDRx264QuantizerGroup",
@@ -1263,6 +1264,7 @@
       "id": 1,
       "name": "libx265",
       "defaultPixelFormat": "yuv420p",
+      "threads": 0,
       "groups": [],
       "multipass": {
         "name": "x265Passes"
@@ -1456,6 +1458,7 @@
       "id": 2,
       "name": "prores_ks",
       "defaultPixelFormat": "yuv422p10le",
+      "threads": 0,
       "groups": [],
       "parameterGroups": {},
       "params": [
@@ -1520,6 +1523,7 @@
       "id": 3,
       "name": "ffv1",
       "defaultPixelFormat": "yuv422p10le",
+      "threads": 0,
       "groups": [],
       "parameterGroups": {},
       "params": [
@@ -1547,6 +1551,7 @@
         {
           "name": "aacPreset",
           "label": "Preset",
+          "threads": 0,
           "group": "ADBEAudioCodecGroup",
           "type": "int",
           "flags": [],
@@ -1647,11 +1652,13 @@
     {
       "id": 1,
       "name": "ac3",
+      "threads": 0,
       "params": []
     },
     {
       "id": 2,
       "name": "flac",
+      "threads": 0,
       "params": [
         {
           "name": "flacCompressionLevel",
