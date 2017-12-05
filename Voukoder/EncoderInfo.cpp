@@ -7,7 +7,12 @@ EncoderInfo::EncoderInfo(json encoder)
 
 	id = encoder["id"].get<int>();
 	name = encoder["name"].get<string>();
-	experimental = encoder["experimental"].get<bool>();
+
+	// Hide experimetal endcoders in releases
+	if (encoder.find("experimental") != encoder.end())
+	{
+		experimental = encoder["experimental"].get<bool>();
+	}
 
 	// Not used for audio codecs
 	if (encoder.find("defaultPixelFormat") != encoder.end())
