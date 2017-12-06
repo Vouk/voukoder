@@ -38,8 +38,7 @@ This project makes use of:
 * x265 - http://x265.org
 * libav - https://libav.org
 * ffmpeg - https://ffmpeg.org
-* boost - http://www.boost.org
-* Adobe Premiere SDK
+* Adobe Premiere SDK - http://download.macromedia.com/pub/developer/premiere/sdk/premiere_pro_cs6_r2_sdk_win.zip
 
 ### Paths
 
@@ -47,7 +46,6 @@ All directories are relative to the checkout directory.
 
 #### ../../external/include/
 
-* "boost" - Directory containing boost headers
 * "lib*" - LibAV or ffmpeg directories containing headers
 * "premiere_cs6" - Premiere SDK directory
 * "x264.h", "x264_config.h"
@@ -56,9 +54,10 @@ All directories are relative to the checkout directory.
 #### ../../external/lib/[debug|release]
 
 * LibAV or ffmpeg static libs
-* Boost static libs
 * libx264.lib
 * x265.lib
+
+Note: These libs are created by ffmpeg or libav build scripts.
 
 ### Preprocessor
 
@@ -66,8 +65,8 @@ Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV
 
 ## Donations
 
-At this point please contact me directly if you want to support my work on this project.
+### Paypal
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
 
-What i currently need:
-- Better hardware. I currently compile, develop and test on a Intel NUC Core i3
-- Compensation for software licenses (At this moment my CC plan is only for developing this plugin, not using it on actual video projects)
+### Non-monetary support
+I really need good hardware with high performance on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3. If you want to support me with this please get in direct contact with me.
