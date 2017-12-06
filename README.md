@@ -38,8 +38,7 @@ This project makes use of:
 * x265 - http://x265.org
 * libav - https://libav.org
 * ffmpeg - https://ffmpeg.org
-* boost - http://www.boost.org
-* Adobe Premiere SDK
+* Adobe Premiere SDK - http://download.macromedia.com/pub/developer/premiere/sdk/premiere_pro_cs6_r2_sdk_win.zip
 
 ### Paths
 
@@ -47,7 +46,6 @@ All directories are relative to the checkout directory.
 
 #### ../../external/include/
 
-* "boost" - Directory containing boost headers
 * "lib*" - LibAV or ffmpeg directories containing headers
 * "premiere_cs6" - Premiere SDK directory
 * "x264.h", "x264_config.h"
@@ -56,9 +54,10 @@ All directories are relative to the checkout directory.
 #### ../../external/lib/[debug|release]
 
 * LibAV or ffmpeg static libs
-* Boost static libs
 * libx264.lib
 * x265.lib
+
+Note: These libs are created by ffmpeg or libav build scripts.
 
 ### Preprocessor
 
