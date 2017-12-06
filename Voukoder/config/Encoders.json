@@ -1622,8 +1622,7 @@
       "id": 4,
       "name": "h264_nvenc",
       "authors": [
-        "Schauerland",
-        "Daniel Stankewitz"
+        "Schauerland"
       ],
       "experimental": true,
       "defaultPixelFormat": "yuv420p",
@@ -2004,6 +2003,9 @@
     {
       "id": 0,
       "name": "aac",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "params": [
         {
           "name": "aacPreset",
@@ -2109,12 +2111,18 @@
     {
       "id": 1,
       "name": "ac3",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "threads": 0,
       "params": []
     },
     {
       "id": 2,
       "name": "flac",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "threads": 0,
       "params": [
         {
