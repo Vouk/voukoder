@@ -66,7 +66,7 @@ Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV
 ## Donations
 
 ### Paypal
-[![Donate](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
 
 ### Non-monetary support
 I really need good hardware with high performance on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3. If you want to support me with this please get in direct contact with me.
