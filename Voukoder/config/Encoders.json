@@ -754,7 +754,7 @@
           "group": "VKDRx264QuantizerGroup",
           "type": "float",
           "flags": [ "slider" ],
-          "defaultValue": 1.4,
+          "defaultValue": 1.3,
           "minValue": 1,
           "maxValue": 10,
           "parameters": {
