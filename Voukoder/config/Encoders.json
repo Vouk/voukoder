@@ -3,6 +3,9 @@
     {
       "id": 0,
       "name": "libx264",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "defaultPixelFormat": "yuv420p",
       "threads": 0,
       "groups": [
@@ -1263,6 +1266,9 @@
     {
       "id": 1,
       "name": "libx265",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "defaultPixelFormat": "yuv420p",
       "threads": 0,
       "groups": [],
@@ -1521,6 +1527,9 @@
     {
       "id": 2,
       "name": "prores_ks",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "defaultPixelFormat": "yuv422p10le",
       "threads": 0,
       "groups": [],
@@ -1586,6 +1595,9 @@
     {
       "id": 3,
       "name": "ffv1",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
       "defaultPixelFormat": "yuv422p10le",
       "threads": 0,
       "groups": [],
@@ -1608,12 +1620,16 @@
     },
     {
       "id": 4,
-      "experimental" : true,
       "name": "h264_nvenc",
-      "description" : "Added by Schauerland",
+      "authors": [
+        "Schauerland",
+        "Daniel Stankewitz"
+      ],
+      "experimental": true,
       "defaultPixelFormat": "yuv420p",
       "groups": [],
       "parameterGroups": {},
+      "libraryDependencies": [ "nvcuda.dll" ],
       "params": [
         {
           "name": "h264_nvencPreset",

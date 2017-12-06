@@ -27,14 +27,17 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 
 	// Create EncoderInfo list
 	vector<EncoderInfo> encoderInfos;
-	for (json encoder: encoders)
+	for (json encoder : encoders)
 	{
 		EncoderInfo encoderInfo = EncoderInfo(encoder);
 #if defined(_NDEBUG) 
 		if (!encoderInfo.experimental)
 		{
 #endif
-			encoderInfos.push_back(encoderInfo);
+			if (encoderInfo.dependencies)
+			{
+				encoderInfos.push_back(encoderInfo);
+			}
 #if defined(_NDEBUG) 
 		}
 #endif

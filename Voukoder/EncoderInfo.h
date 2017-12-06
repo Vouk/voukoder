@@ -14,6 +14,7 @@ public:
 	int id;
 	string name;
 	bool experimental = false;
+	bool dependencies = true;
 	string defaultPixelFormat;
 	vector<ElementGroup> groups;
 	string multipassParameter;

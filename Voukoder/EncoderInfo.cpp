@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "EncoderInfo.h"
 
 // reviewed 0.3.8
@@ -14,6 +15,21 @@ EncoderInfo::EncoderInfo(json encoder)
 		experimental = encoder["experimental"].get<bool>();
 	}
 
+	// Hide experimetal endcoders in releases
+	if (encoder.find("libraryDependencies") != encoder.end() && 
+		encoder["libraryDependencies"].is_array())
+	{
+		for (string library : encoder["libraryDependencies"])
+		{
+			HMODULE hMod = LoadLibraryA(library.c_str());
+			if (hMod == NULL)
+			{
+				dependencies = false;
+				break;
+			}
+		}
+	}
+	
 	// Not used for audio codecs
 	if (encoder.find("defaultPixelFormat") != encoder.end())
 	{
