@@ -65,8 +65,8 @@ Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV
 
 ## Donations
 
-At this point please contact me directly if you want to support my work on this project.
+### Paypal
+[![Donate](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
 
-What i currently need:
-- Better hardware. I currently compile, develop and test on a Intel NUC Core i3
-- Compensation for software licenses (At this moment my CC plan is only for developing this plugin, not using it on actual video projects)
+### Non-monetary support
+I really need good hardware with high performance on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3. If you want to support me with this please get in direct contact with me.
