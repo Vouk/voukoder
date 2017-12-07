@@ -65,6 +65,7 @@
           "noValueReplacement": "1",
           "parameters": [
             "bff",
+            "tff",
             "keyint",
             "min-keyint",
             "open-gop",
@@ -96,16 +97,6 @@
             "bluray-compat",
             "aud",
             "fake-interlaced",
-            "me",
-            "merange",
-            "subme",
-            "no-chroma-me",
-            "direct",
-            "trellis",
-            "nr",
-            "no-mixed-refs",
-            "no-dct-decimate",
-            "no-psy",
             "me",
             "merange",
             "subme",
@@ -234,6 +225,22 @@
               "name": "High",
               "parameters": {
                 "profile": "high"
+              }
+            },
+            {
+              "id": 4,
+              "name": "High 4:2:2",
+              "pixelFormat": "yuv422p",
+              "parameters": {
+                "profile": "high422"
+              }
+            },
+            {
+              "id": 5,
+              "name": "High 4:4:4",
+              "pixelFormat": "yuv444p",
+              "parameters": {
+                "profile": "high444"
               }
             }
           ]
@@ -518,6 +525,7 @@
             {
               "id": 3,
               "name": "Lossless",
+              "pixelFormat": "yuv444p",
               "parameters": {
                 "qp": "0"
               }
