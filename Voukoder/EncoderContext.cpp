@@ -1,9 +1,16 @@
 #include "EncoderContext.h"
 
-// reviewed 0.3.8
+// reviewed 0.4.1
 EncoderContext::EncoderContext(AVFormatContext *formatContext):
 	formatContext(formatContext)
 {
+	frame = av_frame_alloc();
+}
+
+// reviewed 0.4.1
+EncoderContext::~EncoderContext()
+{
+	av_frame_free(&frame);
 }
 
 // reviewed 0.3.8
@@ -67,6 +74,9 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 		return;
 	}
 
+	// Create a new frame
+	frame = av_frame_alloc();
+
 	// Create codec context
 	codecContext = avcodec_alloc_context3(codec);
 	codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
@@ -85,6 +95,13 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 		codecContext->color_range = encoderContestInfo.colorRange;
 		codecContext->color_primaries = encoderContestInfo.colorPrimaries;
 		codecContext->color_trc = encoderContestInfo.colorTRC;
+
+		// Init frame
+		frame->width = codecContext->width;
+		frame->height = codecContext->height;
+		frame->format = codecContext->pix_fmt;
+
+		int ret = av_frame_get_buffer(frame, 32);
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
@@ -93,6 +110,9 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 		codecContext->sample_rate = encoderContestInfo.timebase.den;
 		codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 		codecContext->bit_rate = 0;
+
+		// Init frame
+		// TODO: Frame for audio
 	}
 
 	// Create the stream

@@ -26,8 +26,10 @@ public:
 	AVStream *stream;
 	FrameFilter *frameFilter;
 	EncoderConfig *encoderConfig;
+	AVFrame *frame;
 	int64_t next_pts = 0;
 	EncoderContext(AVFormatContext *formatContext);
+	~EncoderContext();
 	int openCodec();
 	void closeCodec();
 	void setCodec(EncoderContextInfo encoderContestInfo, EncoderConfig *encoderConfig);

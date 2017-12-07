@@ -16,6 +16,8 @@ Encoder::Encoder(const char *short_name, const char *filename)
 // reviewed 0.3.8
 Encoder::~Encoder()
 {	
+	videoContext->~EncoderContext();
+	audioContext->~EncoderContext();
 	avformat_free_context(formatContext);
 }
 
