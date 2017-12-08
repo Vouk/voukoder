@@ -1540,7 +1540,23 @@
       ],
       "defaultPixelFormat": "yuv422p10le",
       "threads": 0,
-      "groups": [],
+      "groups": [
+        {
+          "name": "VKDRproresQuantizerGroup",
+          "label": "Quantizers",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRproresFrameTypeGroup",
+          "label": "Frame type",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRproresMiscGroup",
+          "label": "Miscellaneous",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        }
+      ],
       "parameterGroups": {},
       "params": [
         {
@@ -1549,54 +1565,151 @@
           "group": "ADBEVideoCodecGroup",
           "type": "int",
           "flags": [],
-          "defaultValue": 2,
-          "useDefaultValue": true,
+          "defaultValue": 0,
           "values": [
             {
               "id": 0,
+              "name": "(Auto)",
+              "parameters": {
+                "profile": "auto"
+              }
+            },
+            {
+              "id": 1,
               "name": "Proxy",
               "parameters": {
                 "profile": "proxy"
               }
             },
             {
-              "id": 1,
+              "id": 2,
               "name": "LT",
               "parameters": {
                 "profile": "lt"
               }
             },
             {
-              "id": 2,
+              "id": 3,
               "name": "Standard",
               "parameters": {
                 "profile": "standard"
               }
             },
             {
-              "id": 3,
+              "id": 4,
               "name": "HQ",
               "parameters": {
                 "profile": "hq"
               }
             },
             {
-              "id": 4,
+              "id": 5,
               "name": "4444",
-              "pixelFormat": "yuv444p10le",
+              "pixelFormat": "yuva444p10le",
               "parameters": {
                 "profile": "4444"
               }
             },
             {
-              "id": 5,
+              "id": 6,
               "name": "4444 XQ",
-              "pixelFormat": "yuv444p10le",
+              "pixelFormat": "yuva444p10le",
               "parameters": {
                 "profile": "4444xq"
               }
             }
           ]
+        },
+        {
+          "name": "proresQuantMat",
+          "label": "Quantizer matrix",
+          "group": "VKDRproresQuantizerGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "(Auto)",
+              "parameters": {
+                "quant_mat": "auto"
+              }
+            },
+            {
+              "id": 1,
+              "name": "Proxy",
+              "parameters": {
+                "quant_mat": "proxy"
+              }
+            },
+            {
+              "id": 2,
+              "name": "LT",
+              "parameters": {
+                "quant_mat": "lt"
+              }
+            },
+            {
+              "id": 3,
+              "name": "Standard",
+              "parameters": {
+                "quant_mat": "standard"
+              }
+            },
+            {
+              "id": 4,
+              "name": "High Quality",
+              "parameters": {
+                "quant_mat": "hq"
+              }
+            },
+            {
+              "id": 5,
+              "name": "Default",
+              "parameters": {
+                "quant_mat": "default"
+              }
+            }
+          ]
+        },
+        {
+          "name": "proresMbsPerSlice",
+          "label": "Macroblocks per slice",
+          "group": "VKDRproresFrameTypeGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 8,
+          "minValue": 1,
+          "maxValue": 8,
+          "parameters": {
+            "mbs_per_slice": "%d"
+          }
+        },
+        {
+          "name": "proresBitsPerMb",
+          "label": "Bits per macroblock",
+          "group": "VKDRproresFrameTypeGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
+          "maxValue": 8192,
+          "parameters": {
+            "bits_per_mb": "%d"
+          }
+        },
+        {
+          "name": "proresAlphaBits",
+          "label": "Bits for alpha channel",
+          "group": "VKDRproresMiscGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 16,
+          "minValue": 0,
+          "maxValue": 16,
+          "parameters": {
+            "alpha_bits": "%d"
+          }
         }
       ]
     },
@@ -1606,6 +1719,7 @@
       "authors": [
         "Daniel Stankewitz"
       ],
+      "experimental": true,
       "defaultPixelFormat": "yuv422p10le",
       "threads": 0,
       "groups": [],
