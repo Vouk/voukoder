@@ -30,7 +30,7 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 	for (json encoder : encoders)
 	{
 		EncoderInfo encoderInfo = EncoderInfo(encoder);
-#if defined(_NDEBUG) 
+#if !defined(_DEBUG) 
 		if (!encoderInfo.experimental)
 		{
 #endif
@@ -38,7 +38,7 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 			{
 				encoderInfos.push_back(encoderInfo);
 			}
-#if defined(_NDEBUG) 
+#if !defined(_DEBUG) 
 		}
 #endif
 	}
