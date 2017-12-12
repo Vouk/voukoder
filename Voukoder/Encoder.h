@@ -4,6 +4,14 @@
 #include "EncoderContext.h"
 #include "FrameFilter.h"
 
+typedef struct EncodingData
+{
+	int planes;
+	const char *pix_fmt;
+	char *plane[8] = {};
+	unsigned int stride[8];
+} EncodingData;
+
 enum FrameType {
 	VideoFrame,
 	AudioFrame
@@ -24,7 +32,7 @@ public:
 	FrameType getNextFrameType();
 
 private:
-	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
+	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
 	const char *filename;
 	AVFormatContext *formatContext;
 	AVAudioFifo *fifo = NULL;

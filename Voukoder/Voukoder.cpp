@@ -2,11 +2,51 @@
 #include <chrono>
 #include <cmath>
 #include "Encoder.h"
+#include "Decoder.h"
 #include "Voukoder.h"
 #include "Common.h"
 #include "resource.h"
 #include "x264.h"
 #include "ConfigImportDialog.h"
+#include "utils.h"
+
+const PrPixelFormat SupportedPixelFormats420[] = {
+	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709, // highest priority
+	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange,
+	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601,
+	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange,
+	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709,
+	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709_FullRange,
+	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601,
+	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601_FullRange
+};
+
+// These pixelformats are used for NVENC chromatformatIDC = NV12
+//   (These are only used if YUV420 planar was attempted and failed.)
+const PrPixelFormat SupportedPixelFormats422[] = {
+	PrPixelFormat_YUYV_422_8u_709, // highest priority
+	PrPixelFormat_UYVY_422_8u_709,
+	PrPixelFormat_YUYV_422_8u_601,
+	PrPixelFormat_UYVY_422_8u_601
+};
+
+
+// These pixelformats are used for NVENC chromaformatIDC = YUV444
+//  (requires NV_ENC_CAPS_SUPPORT_YUV444_ENCODE == 1)
+const PrPixelFormat SupportedPixelFormats444[] = {
+	PrPixelFormat_VUYX_4444_8u_709, // highest priority
+	PrPixelFormat_VUYA_4444_8u_709,
+	PrPixelFormat_VUYX_4444_8u,
+	PrPixelFormat_VUYA_4444_8u
+};
+
+// These pixelformats are used for NVENC chromaformatIDC = RGB
+//  nvenc_export must convert this RGB to YUV444
+//  (requires NV_ENC_CAPS_SUPPORT_YUV444_ENCODE == 1)
+const PrPixelFormat SupportedPixelFormatsRGB[] = {
+	PrPixelFormat_BGRX_4444_32f, // highest priority
+	PrPixelFormat_BGRA_4444_32f
+};
 
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
@@ -1360,8 +1400,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 	// Find the right pixel format
 	const char* encPixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
-	PrPixelFormat pixelFormat = GetPremierePixelFormat(encPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
-	const PrPixelFormat pixelFormats[] = { pixelFormat, PrPixelFormat_BGRA_4444_8u, PrPixelFormat_Any }; //TODO: no conversion from RGB yet, but its converted to yuv anyway (not clean)
+	PrPixelFormat *pixelFormats = GetPremierePixelFormat(encPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
 
 	// Define the render params
 	SequenceRender_ParamsRec renderParms;
@@ -1380,21 +1419,38 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	// Cache the rendered frames when using multipass
 	const PrRenderCacheType cacheType = maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
 
-	EncodingData encodingData;
+	EncodingData encodingData, vuyaData;
+
+	// Prepare encoding data
+	vuyaData.planes = 4;
+	vuyaData.pix_fmt = "yuva444p16le";
+	for (int i = 0; i < encodingData.planes; i++)
+	{
+		vuyaData.stride[i] = videoWidth.value.intValue * sizeof(uint16_t);
+		vuyaData.plane[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * encodingData.stride[i]);
+	}
+	
+	// ffmpeg treats v210 as a decoder, not a pixel format
+	Decoder *v210decoder = NULL;
+
+	// Allocate audio output buffer
+	float *audioBuffer[MAX_AUDIO_CHANNELS];
+
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
+	{
+		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
+	}
 
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
 	{
-		auto start = chrono::high_resolution_clock::now();
-
 		FrameType frameType = encoder->getNextFrameType();
 		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
 		{
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
-			//result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
-			result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, cacheType, pixelFormat, &renderResult);
+			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
 			if (result != malNoError)
 			{
 				ShowMessageBox(instRec, L"Error: Required pixel format has not been requested in render params.", PLUGIN_APPNAME, MB_OK);
@@ -1416,6 +1472,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
 				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
 			{
+				encodingData.planes = 3;
 				encodingData.pix_fmt = "yuv420p";
 
 				// Get planar buffers
@@ -1428,28 +1485,9 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					&encodingData.stride[1],
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
-
-				// Send to encoder
-				if (encoder->writeVideoFrame(&encodingData) != S_OK)
-				{
-					result = malUnknownError;
-					break;
-				}
 			}
-			else if (format == PrPixelFormat_VUYA_4444_32f ||
-				format == PrPixelFormat_VUYA_4444_32f_709)
+			else // Other (packet) formats
 			{
-				// Pixel format planes
-				const csSDK_int32 planes = 4;
-
-				// Prepare encoding data
-				encodingData.pix_fmt = "yuva444p16le";
-				for (int i = 0; i < planes; i++)
-				{
-					encodingData.stride[i] = videoWidth.value.intValue * sizeof(uint16_t);
-					encodingData.plane[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * encodingData.stride[i]);
-				}
-
 				// Get premiere rowsize
 				csSDK_int32 rowBytes;
 				result = instRec->ppixSuite->GetRowBytes(renderResult.outFrame, &rowBytes);
@@ -1458,50 +1496,88 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				char *pixels;
 				result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
-				float *frameBuffer = (float*)pixels;
-
-				// TODO: Full color range or limited color range?
-				//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
-
-				// Convert 
-				for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+				// Handle packed formats
+				if (format == PrPixelFormat_UYVY_422_8u_709 || // Lossless
+					format == PrPixelFormat_UYVY_422_8u_601)
 				{
-					for (int c = 0; c < videoWidth.value.intValue; c++)
+					encodingData.planes = 1;
+					encodingData.pix_fmt = "uyvy422";
+					encodingData.plane[0] = pixels;
+					encodingData.stride[0] = rowBytes;
+				}
+				else if (format == PrPixelFormat_V210_422_10u_709 || //Lossless
+					format == PrPixelFormat_V210_422_10u_601)
+				{
+					// Is a decoder instance open?
+					if (v210decoder == NULL)
 					{
-						// Get beginning of next block
-						const int pos = r * videoWidth.value.intValue * planes + c * planes;
+						v210decoder = new Decoder();
+						v210decoder->open(AV_CODEC_ID_V210, videoWidth.value.intValue, videoHeight.value.intValue);
+					}
 
-						for (int plane = 0; plane < planes; plane++)
+					// Send encoded data to decoder
+					AVFrame *frame = v210decoder->decodeData((uint8_t*)pixels, rowBytes * videoHeight.value.intValue);
+					if (frame != NULL)
+					{
+						encodingData.planes = 3;
+						encodingData.pix_fmt = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P10LE);
+						for (int p = 0; p < encodingData.planes; p++)
 						{
-							/* Convert float value to uint16_t.
-							 * Optimized for speed and removed all
-							 * abs and min/max checks.
-							 */
-							((uint16_t*)(encodingData.plane[vuya_2_yuva[plane]]))[p] = 
-								(uint16_t)((frameBuffer[pos + plane] + yuva_factors[vuya_2_yuva[plane]][0]) / (yuva_factors[vuya_2_yuva[plane]][0] + yuva_factors[vuya_2_yuva[plane]][1]) * 65535.0f);
+							encodingData.plane[p] = (char*)frame->data[p];
+							encodingData.stride[p] = frame->linesize[p];
 						}
-
-						p++;
 					}
 				}
-
-				// Send to encoder
-				if (encoder->writeVideoFrame(&encodingData) != S_OK)
+				else if (format == PrPixelFormat_VUYA_4444_32f ||
+					format == PrPixelFormat_VUYA_4444_32f_709)
 				{
-					result = malUnknownError;
-					break;
+					// TODO: Full color range or limited color range?
+					//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
+
+					// Convert
+					for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+					{
+						for (int c = 0; c < videoWidth.value.intValue; c++)
+						{
+							// Get beginning of next block
+							const int pos = r * videoWidth.value.intValue * encodingData.planes + c * encodingData.planes;
+
+							for (int plane = 0; plane < encodingData.planes; plane++)
+							{
+								((uint16_t*)(encodingData.plane[vuya_2_yuva[plane]]))[p] =
+									(uint16_t)((((float*)pixels)[pos + plane] + yuva_factors[vuya_2_yuva[plane]][0]) / (yuva_factors[vuya_2_yuva[plane]][0] + yuva_factors[vuya_2_yuva[plane]][1]) * 65535.0f);
+							}
+
+							p++;
+						}
+					}
 				}
-
-				// Free buffers
-				for (int i = 0; i < planes; i++)
+				else if (format == PrPixelFormat_BGRA_4444_8u) // Default RGBA format (not used so far)
 				{
-					instRec->memorySuite->PrDisposePtr((char *)encodingData.plane[i]);
+					encodingData.planes = 1;
+					encodingData.pix_fmt = "bgra";
+					encodingData.plane[0] = pixels;
+					encodingData.stride[0] = rowBytes;
+				}
+				else if (format == PrPixelFormat_Invalid)
+				{
+					ShowMessageBox(instRec, L"Error: Pixel format is invalid.", PLUGIN_APPNAME, MB_OK);
+
+				//	result = malUnknownError;
+				//	break;
+				}
+				else
+				{
+					ShowMessageBox(instRec, L"Error: Pixel Format is unknown.", PLUGIN_APPNAME, MB_OK);
+
+						result = malUnknownError;
+						break;
 				}
 			}
-			else
-			{
-				ShowMessageBox(instRec, L"Error: Rendered frame is not in a supported pixel format. This should never happen.", PLUGIN_APPNAME, MB_OK);
 
+			// Send to encoder
+			if (encoder->writeVideoFrame(&encodingData) != S_OK)
+			{
 				result = malUnknownError;
 				break;
 			}
@@ -1521,14 +1597,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				chunk = instRec->maxBlip;
 			}
 
-			// Allocate output buffer
-			float *audioBuffer[MAX_AUDIO_CHANNELS];
-
-			for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
-			{
-				audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
-			}
-
 			// Get the sample data
 			result = instRec->sequenceAudioSuite->GetAudio(instRec->audioRenderID, chunk, audioBuffer, kPrFalse);
 
@@ -1540,12 +1608,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			}
 
 			audioSamplesLeft -= chunk;
-
-			// Free output buffer
-			for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
-			{
-				instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
-			}
 		}
 
 		// Update progress & handle export cancellation
@@ -1563,6 +1625,25 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		}
 	}
 
+	// Free audio output buffer
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
+	{
+		instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
+	}
+
+	// Dispose vuya buffers
+	for (int i = 0; i < vuyaData.planes; i++)
+	{
+		instRec->memorySuite->PrDisposePtr(vuyaData.plane[i]);
+	}
+
+	// Close decoder if open
+	if (v210decoder != NULL)
+	{
+		v210decoder->close();
+		v210decoder = NULL;
+	}
+
 	// Release renderers
 	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, instRec->videoRenderID);
 	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, instRec->audioRenderID);
@@ -1571,11 +1652,14 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 }
 
 // reviewed 0.3.8
-PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
+PrPixelFormat* GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
 {
-	// Planar YUV 4:2:0
+	vector<PrPixelFormat> formats;
+
 	if (strcmp(format, "yuv420p") == 0)
 	{
+
+		// Support YUV420 planar formats
 		if (fieldType == prFieldsNone)
 		{
 			if (colorRange == vkdrLimitedColorRange)
@@ -1583,10 +1667,12 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 				switch (colorSpace)
 				{
 				case vkdrBT601:
-					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601);
+					break;
 
 				case vkdrBT709:
-					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709);
+					break;
 				}
 			}
 			else if (colorRange == vkdrFullColorRange)
@@ -1594,10 +1680,12 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 				switch (colorSpace)
 				{
 				case vkdrBT601:
-					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange);
+					break;
 
 				case vkdrBT709:
-					return PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange);
+					break;
 				}
 			}
 		}
@@ -1608,10 +1696,12 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 				switch (colorSpace)
 				{
 				case vkdrBT601:
-					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601);
+					break;
 
 				case vkdrBT709:
-					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709);
+					break;
 				}
 			}
 			else if (colorRange == vkdrFullColorRange)
@@ -1619,26 +1709,72 @@ PrPixelFormat GetPremierePixelFormat(const char *format, prFieldType fieldType, 
 				switch (colorSpace)
 				{
 				case vkdrBT601:
-					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange);
+					break;
 
 				case vkdrBT709:
-					return PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange;
+					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
+					break;
 				}
 			}
 		}
+
+		//
+		switch (colorSpace)
+		{
+		case vkdrBT601:
+			formats.push_back(PrPixelFormat_UYVY_422_8u_601);
+			break;
+
+		case vkdrBT709:
+			formats.push_back(PrPixelFormat_UYVY_422_8u_709);
+			break;
+		}
+	}
+	else if (strcmp(format, "yuv422p") == 0)
+	{
+		//
+		switch (colorSpace)
+		{
+		case vkdrBT601:
+			formats.push_back(PrPixelFormat_UYVY_422_8u_601);
+			break;
+
+		case vkdrBT709:
+			formats.push_back(PrPixelFormat_UYVY_422_8u_709);
+			break;
+		}
+	}
+	else if (strcmp(format, "yuv444p") == 0)
+	{
+		//
+		switch (colorSpace)
+		{
+		case vkdrBT601:
+			formats.push_back(PrPixelFormat_VUYA_4444_8u);
+			break;
+
+		case vkdrBT709:
+			formats.push_back(PrPixelFormat_VUYA_4444_8u_709);
+			break;
+		}
 	}
 
-	// Packed formats
+	// Fallback to float (can cover all formats)
 	switch (colorSpace)
 	{
 	case vkdrBT601:
-		return PrPixelFormat_VUYA_4444_32f;
+		formats.push_back(PrPixelFormat_VUYA_4444_32f);
+		break;
 
 	case vkdrBT709:
-		return PrPixelFormat_VUYA_4444_32f_709;
-
-	default:
-		// Should never been called
-		return PrPixelFormat_Any;
+		formats.push_back(PrPixelFormat_VUYA_4444_32f_709);
+		break;
 	}
+
+	// Convert to array
+	PrPixelFormat fmts[10];
+	copy(formats.begin(), formats.end(), fmts);
+
+	return fmts;
 }

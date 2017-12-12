@@ -123,8 +123,10 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 {
 	int ret;
 
+	FrameFilter *frameFilter;
+
 	// Set up frame filter
-	if (videoContext->frameFilter == NULL)
+	if (videoContext->frameFilters.find(encodingData->pix_fmt) == videoContext->frameFilters.end())
 	{
 		// Configure source format
 		FrameFilterOptions options;
@@ -140,22 +142,34 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 		char filterConfig[256];
 		sprintf_s(filterConfig, "format=pix_fmts=%s", videoContext->encoderConfig->getPixelFormat());
 
-		videoContext->frameFilter = new FrameFilter();
-		videoContext->frameFilter->configure(options, filterConfig);
+		frameFilter = new FrameFilter();
+		frameFilter->configure(options, filterConfig);
+
+		videoContext->frameFilters.insert(pair<string, FrameFilter*>(encodingData->pix_fmt, frameFilter));
+	}
+	else
+	{
+		frameFilter = videoContext->frameFilters.at(encodingData->pix_fmt);
 	}
 
 	// Do we just want to flush the encoder?
 	if (encodingData == NULL)
 	{
 		// Send the frame to the encoder
-		if ((ret = encodeAndWriteFrame(videoContext, NULL)) < 0)
+		if ((ret = encodeAndWriteFrame(videoContext, NULL, frameFilter)) < 0)
 		{
 			return ret;
 		}
 
-		// Destroy frame filter
-		videoContext->frameFilter->~FrameFilter();
-		videoContext->frameFilter = NULL;
+		// Destroy frame filters
+		for (auto items : videoContext->frameFilters)
+		{
+			items.second->~FrameFilter();
+			items.second = NULL;
+		}
+
+		// Clear filter map
+		videoContext->frameFilters.clear();
 
 		return S_OK;
 	}
@@ -173,20 +187,17 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	}
 
 	// Fill the source frame
-	frame->data[0] = (uint8_t*)encodingData->plane[0];
-	frame->data[1] = (uint8_t*)encodingData->plane[1];
-	frame->data[2] = (uint8_t*)encodingData->plane[2];
-	frame->data[3] = (uint8_t*)encodingData->plane[3];
-	frame->linesize[0] = encodingData->stride[0];
-	frame->linesize[1] = encodingData->stride[1];
-	frame->linesize[2] = encodingData->stride[2];
-	frame->linesize[3] = encodingData->stride[3];
+	for (int i = 0; i < encodingData->planes; i++)
+	{
+		frame->data[i] = (uint8_t*)encodingData->plane[i];
+		frame->linesize[i] = encodingData->stride[i];
+	}
 
 	// Presentation timestamp
 	frame->pts = videoContext->next_pts++;
 	
 	// Send the frame to the encoder
-	if ((ret = encodeAndWriteFrame(videoContext, frame)) < 0)
+	if ((ret = encodeAndWriteFrame(videoContext, frame, frameFilter)) < 0)
 	{
 		av_frame_free(&frame);
 		return ret;
@@ -200,8 +211,10 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 // reviewed 0.3.8
 int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 {
+	FrameFilter *frameFilter;
+
 	// Set up frame filter
-	if (audioContext->frameFilter == NULL)
+	if (audioContext->frameFilters.size() == 0)
 	{
 		// Configure source format
 		FrameFilterOptions options;
@@ -214,8 +227,14 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		char filterConfig[256];
 		sprintf_s(filterConfig, "aformat=channel_layouts=stereo:sample_fmts=%s:sample_rates=%d", av_get_sample_fmt_name(audioContext->codecContext->sample_fmt), audioContext->codecContext->sample_rate);
 
-		audioContext->frameFilter = new FrameFilter();
-		audioContext->frameFilter->configure(options, filterConfig);
+		frameFilter = new FrameFilter();
+		frameFilter->configure(options, filterConfig);
+
+		audioContext->frameFilters.insert(pair<string, FrameFilter*>("default", frameFilter));
+	}
+	else
+	{
+		frameFilter = audioContext->frameFilters.begin()->second;
 	}
 
 	int ret = S_OK, err;
@@ -270,7 +289,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		audioContext->next_pts += frame->nb_samples;
 
 		/* Send the frame to the encoder */
-		if ((ret = encodeAndWriteFrame(audioContext, frame)) < 0)
+		if ((ret = encodeAndWriteFrame(audioContext, frame, frameFilter)) < 0)
 		{
 			av_frame_free(&frame);
 			return ret;
@@ -282,21 +301,27 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 	if (finished) 
 	{
 		// Flush the encoder
-		if ((ret = encodeAndWriteFrame(audioContext, NULL)) < 0)
+		if ((ret = encodeAndWriteFrame(audioContext, NULL, frameFilter)) < 0)
 		{
 			return ret;
 		}
 
-		// Destroy frame filter
-		audioContext->frameFilter->~FrameFilter();
-		audioContext->frameFilter = NULL;
+		// Destroy frame filters
+		for (auto items : audioContext->frameFilters)
+		{
+			items.second->~FrameFilter();
+			items.second = NULL;
+		}
+
+		// Clear filter map
+		audioContext->frameFilters.clear();
 	}
 
 	return ret;
 }
 
 // reviewed 0.3.8
-int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
+int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter)
 {
 	int ret;
 
@@ -311,7 +336,7 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	else
 	{
 		// Send the uncompressed frame to frame filter
-		if ((ret = context->frameFilter->sendFrame(frame)) != S_OK)
+		if ((ret = frameFilter->sendFrame(frame)) != S_OK)
 		{
 			return AVERROR_UNKNOWN;
 		}
@@ -321,7 +346,7 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	tmp_frame = av_frame_alloc();
 
 	// Receive frames from the rame filter
-	while ((ret = context->frameFilter->receiveFrame(tmp_frame)) >= 0)
+	while ((ret = frameFilter->receiveFrame(tmp_frame)) >= 0)
 	{
 		// Send the frame to the encoder
 		if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) != S_OK)

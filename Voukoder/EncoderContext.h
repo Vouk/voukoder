@@ -24,7 +24,7 @@ public:
 	AVCodec *codec;
 	AVCodecContext *codecContext;
 	AVStream *stream;
-	FrameFilter *frameFilter;
+	map<string, FrameFilter*> frameFilters;
 	EncoderConfig *encoderConfig;
 	AVFrame *frame;
 	int64_t next_pts = 0;
