@@ -123,6 +123,28 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 {
 	int ret;
 
+	// Do we just want to flush the encoder?
+	if (encodingData == NULL)
+	{
+		// Send the frame to the encoder
+		if ((ret = encodeAndWriteFrame(videoContext, NULL, NULL)) < 0)
+		{
+			return ret;
+		}
+
+		// Destroy frame filters
+		for (auto items : videoContext->frameFilters)
+		{
+			items.second->~FrameFilter();
+			items.second = NULL;
+		}
+
+		// Clear filter map
+		videoContext->frameFilters.clear();
+
+		return S_OK;
+	}
+
 	FrameFilter *frameFilter;
 
 	// Set up frame filter
@@ -150,28 +172,6 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	else
 	{
 		frameFilter = videoContext->frameFilters.at(encodingData->pix_fmt);
-	}
-
-	// Do we just want to flush the encoder?
-	if (encodingData == NULL)
-	{
-		// Send the frame to the encoder
-		if ((ret = encodeAndWriteFrame(videoContext, NULL, frameFilter)) < 0)
-		{
-			return ret;
-		}
-
-		// Destroy frame filters
-		for (auto items : videoContext->frameFilters)
-		{
-			items.second->~FrameFilter();
-			items.second = NULL;
-		}
-
-		// Clear filter map
-		videoContext->frameFilters.clear();
-
-		return S_OK;
 	}
 
 	// Create a new frame
@@ -301,7 +301,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 	if (finished) 
 	{
 		// Flush the encoder
-		if ((ret = encodeAndWriteFrame(audioContext, NULL, frameFilter)) < 0)
+		if ((ret = encodeAndWriteFrame(audioContext, NULL, NULL)) < 0)
 		{
 			return ret;
 		}
@@ -328,18 +328,20 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 	// In case we want to flush the encoder
 	if (frame == NULL)
 	{
+		// Send NULL frame
 		if ((ret = avcodec_send_frame(context->codecContext, frame)) != S_OK)
 		{
 			return AVERROR_UNKNOWN;
 		}
+
+		// Flush receiver
+		goto receive_packets;
 	}
-	else
+	
+	// Send the uncompressed frame to frame filter
+	if ((ret = frameFilter->sendFrame(frame)) != S_OK)
 	{
-		// Send the uncompressed frame to frame filter
-		if ((ret = frameFilter->sendFrame(frame)) != S_OK)
-		{
-			return AVERROR_UNKNOWN;
-		}
+		return AVERROR_UNKNOWN;
 	}
 
 	AVFrame *tmp_frame;
@@ -359,6 +361,8 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 	}
 
 	av_frame_free(&tmp_frame);
+
+receive_packets:	
 
 	AVPacket *packet = av_packet_alloc();
 

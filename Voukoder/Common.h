@@ -84,3 +84,4 @@ exNewParamInfo CreateParamElement(ParamInfo *info, bool hidden);
 void PopulateParamValues(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, vector<EncoderInfo> encoderInfos);
 void ConfigureEncoderParam(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, ParamInfo *info);
 void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
+void ShowMessageBox(InstanceRec *instRec, LPCSTR lpText, LPCSTR lpCaption, UINT uType);

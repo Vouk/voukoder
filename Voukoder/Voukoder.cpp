@@ -10,44 +10,6 @@
 #include "ConfigImportDialog.h"
 #include "utils.h"
 
-const PrPixelFormat SupportedPixelFormats420[] = {
-	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709, // highest priority
-	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange,
-	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601,
-	PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange,
-	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709,
-	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709_FullRange,
-	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601,
-	PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_601_FullRange
-};
-
-// These pixelformats are used for NVENC chromatformatIDC = NV12
-//   (These are only used if YUV420 planar was attempted and failed.)
-const PrPixelFormat SupportedPixelFormats422[] = {
-	PrPixelFormat_YUYV_422_8u_709, // highest priority
-	PrPixelFormat_UYVY_422_8u_709,
-	PrPixelFormat_YUYV_422_8u_601,
-	PrPixelFormat_UYVY_422_8u_601
-};
-
-
-// These pixelformats are used for NVENC chromaformatIDC = YUV444
-//  (requires NV_ENC_CAPS_SUPPORT_YUV444_ENCODE == 1)
-const PrPixelFormat SupportedPixelFormats444[] = {
-	PrPixelFormat_VUYX_4444_8u_709, // highest priority
-	PrPixelFormat_VUYA_4444_8u_709,
-	PrPixelFormat_VUYX_4444_8u,
-	PrPixelFormat_VUYA_4444_8u
-};
-
-// These pixelformats are used for NVENC chromaformatIDC = RGB
-//  nvenc_export must convert this RGB to YUV444
-//  (requires NV_ENC_CAPS_SUPPORT_YUV444_ENCODE == 1)
-const PrPixelFormat SupportedPixelFormatsRGB[] = {
-	PrPixelFormat_BGRX_4444_32f, // highest priority
-	PrPixelFormat_BGRA_4444_32f
-};
-
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
 {
@@ -76,7 +38,6 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		//case exSelQueryOutputFileList
 		case exSelQueryOutputSettings:		return exQueryOutputSettings(stdParmsP, reinterpret_cast<exQueryOutputSettingsRec*>(param1));
 		case exSelValidateOutputSettings:   return exValidateOutputSettings(stdParmsP, reinterpret_cast<exValidateOutputSettingsRec*>(param1));
-		case exSelParamButton:				return exParamButton(stdParmsP, reinterpret_cast<exParamButtonRec*>(param1));
 	}
 
 	return exportReturn_Unsupported;
@@ -302,23 +263,8 @@ prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSetting
 		outputSettingsP->outAudioChannelType = (PrAudioChannelType)channelType.value.intValue;
 	}
 
-	// Calculate bitrate
-	PrTime ticksPerSecond = 0;
-	csSDK_uint32 videoBitrate = 0, audioBitrate = 0;
-	if (outputSettingsP->inExportVideo)
-	{
-		instRec->timeSuite->GetTicksPerSecond(&ticksPerSecond);
-		fps = static_cast<float>(ticksPerSecond) / frameRate.value.timeValue;
-		paramSuite->GetParamValue(exID, mgroupIndex, ADBEVideoCodec, &codec);
-		videoBitrate = static_cast<csSDK_uint32>(width.value.intValue * height.value.intValue * 4 * fps); //TODO
-	}
-	if (outputSettingsP->inExportAudio)
-	{
-		audioBitrate = static_cast<csSDK_uint32>(sampleRate.value.floatValue * 4 * 2); //TODO
-	}
-	outputSettingsP->outBitratePerSecond = (videoBitrate + audioBitrate) * 8 / 1000;
-
-	//TODO: Add proper bitrate calculation if possible
+	// Bitrate calculation is not possible for not-constant-bitrate encoders
+	outputSettingsP->outBitratePerSecond = 0;
 
 	return result;
 }
@@ -1127,7 +1073,7 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	return malNoError;
 }
 
-// reviewed 0.3.8
+// reviewed 0.4.1
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec)
 {
 	prMALError result = malNoError;
@@ -1204,14 +1150,27 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	}
 	else
 	{
-		wchar_t buffer[4096];
-		swprintf_s(buffer, L"%s\n\n%S\n%S",
-			PLUGIN_ERR_COMBINATION_NOT_SUPPORTED,
-			videoEncoderConfig->getConfigAsParamString("-"),
-			audioEncoderConfig->getConfigAsParamString("-"));
+		string errmsg = "";
+
+		// Add an error text fo most common errors
+		if (muxerInfo.name == "mp4" &&
+			audioEncoderInfo.name == "flac")
+		{
+			errmsg = "Error: The FLAC codec can not be used in a mp4 container.\n\n";
+		}
+
+		// Build the error message string
+		char buffer[4096];
+		sprintf_s(buffer, "This configuration is not supported by FFMpeg:\n\n%s- Multiplexer: %s\n- Video encoder: %s (%s)\n- Audio encoder: %s (%s)\n\n(Press CTRL+C to copy this information to the clipboard.)",
+			errmsg.c_str(),
+			muxerInfo.name.c_str(),
+			videoEncoderInfo.name.c_str(),
+			videoEncoderConfig->getConfigAsParamString("-").c_str(),
+			audioEncoderInfo.name.c_str(),
+			audioEncoderConfig->getConfigAsParamString("-").c_str());
 
 		// Show an error message to the user
-		ShowMessageBox(instRec, buffer, PLUGIN_APPNAME, MB_OK);
+		ShowMessageBox(instRec, buffer, "Error", MB_OK);
 
 		result = exportReturn_ErrLastErrorSet;
 	}
@@ -1220,61 +1179,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	encoder = NULL;
 
 	return result;
-}
-
-// TBD
-INT_PTR CALLBACK DialogProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
-{
-	char *buffer;
-	int len;
-
-	switch (Msg)
-	{
-	case WM_INITDIALOG:
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (wParam)
-		{
-		case IDC_IMPORT:
-			EndDialog(hWndDlg, 0);
-			len = SendMessage(hWndDlg, WM_GETTEXTLENGTH, 0, 0);
-			buffer = new char[len];
-			SendMessage(hWndDlg, WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
-			//result.assign(buffer, len);
-			return TRUE;
-
-		case IDC_CANCEL:
-			EndDialog(hWndDlg, 0);
-			return TRUE;
-		}
-		break;
-	case WM_CLOSE:
-		EndDialog(hWndDlg, 0);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-// TBD
-prMALError exParamButton(exportStdParms *stdParmsP, exParamButtonRec *getFilePrefsRecP)
-{
-	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(getFilePrefsRecP->privateData);
-	
-	HWND mainWnd = instRec->windowSuite->GetMainWindow();
-
-	/*
-	ConfigImportDialog dialog;
-	if (dialog.show(instRec->hInstance, mainWnd))
-	{
-		std::string commandLine = dialog.getValue();
-
-
-	}
-	*/
-
-	return malNoError;
 }
 
 // reviewed 0.3.8
@@ -1397,15 +1301,63 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 	// Make video renderer
 	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
-
+	
 	// Find the right pixel format
-	const char* encPixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
-	PrPixelFormat *pixelFormats = GetPremierePixelFormat(encPixelFormat, fieldType.value.intValue, colorSpace.value.intValue, colorRange.value.intValue);
+	const char* pixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
 
 	// Define the render params
 	SequenceRender_ParamsRec renderParms;
-	renderParms.inRequestedPixelFormatArray = pixelFormats;
-	renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+
+	if (strcmp(pixelFormat, "yuv420p") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = { 
+			PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709,
+			PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange,
+			PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709,
+			PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange,
+			PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601,
+			PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange,
+			PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601,
+			PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange,
+			PrPixelFormat_UYVY_422_8u_709,
+			PrPixelFormat_UYVY_422_8u_601,
+			PrPixelFormat_YUYV_422_8u_709,
+			PrPixelFormat_YUYV_422_8u_601,
+			PrPixelFormat_VUYA_4444_8u_709,
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
+	else if (strcmp(pixelFormat, "yuv422p") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = {
+			PrPixelFormat_UYVY_422_8u_709,
+			PrPixelFormat_UYVY_422_8u_601,
+			PrPixelFormat_YUYV_422_8u_709,
+			PrPixelFormat_YUYV_422_8u_601,
+			PrPixelFormat_VUYA_4444_8u_709,
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
+	else if (strcmp(pixelFormat, "yuv444p") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = {
+			PrPixelFormat_VUYA_4444_8u_709,
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
+
 	renderParms.inWidth = videoWidth.value.intValue;
 	renderParms.inHeight = videoHeight.value.intValue;
 	renderParms.inPixelAspectRatioNumerator = pixelAspectRatio.value.ratioValue.numerator;
@@ -1419,15 +1371,13 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	// Cache the rendered frames when using multipass
 	const PrRenderCacheType cacheType = maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
 
-	EncodingData encodingData, vuyaData;
+	EncodingData encodingData;
 
-	// Prepare encoding data
-	vuyaData.planes = 4;
-	vuyaData.pix_fmt = "yuva444p16le";
-	for (int i = 0; i < encodingData.planes; i++)
+	// Prepare plane buffers
+	char *planeBuffer[8];
+	for (int i = 0; i < 8; i++)
 	{
-		vuyaData.stride[i] = videoWidth.value.intValue * sizeof(uint16_t);
-		vuyaData.plane[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * encodingData.stride[i]);
+		planeBuffer[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * videoWidth.value.intValue * 8); // max. 4 components / 16 bit
 	}
 	
 	// ffmpeg treats v210 as a decoder, not a pixel format
@@ -1461,9 +1411,18 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			// Get pixel format
 			PrPixelFormat format;
 			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
+			
+			// Skip invalid frames
+			if (format == PrPixelFormat_Invalid)
+			{
+				OutputDebugStringA("Warning: Received an invalid pixel format. Skipping this frame ...");
 
+				videoTime += ticksPerFrame.value.timeValue;
+
+				continue;
+			}
 			// Planar YUV 4:2:0 8bit formats
-			if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
+			else if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
 				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
 				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
 				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
@@ -1497,7 +1456,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
 				// Handle packed formats
-				if (format == PrPixelFormat_UYVY_422_8u_709 || // Lossless
+				if (format == PrPixelFormat_UYVY_422_8u_709 ||
 					format == PrPixelFormat_UYVY_422_8u_601)
 				{
 					encodingData.planes = 1;
@@ -1505,7 +1464,15 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
 				}
-				else if (format == PrPixelFormat_V210_422_10u_709 || //Lossless
+				else if (format == PrPixelFormat_YUYV_422_8u_601 ||
+					format == PrPixelFormat_YUYV_422_8u_709)
+				{
+					encodingData.planes = 1;
+					encodingData.pix_fmt = "yuyv422";
+					encodingData.plane[0] = pixels;
+					encodingData.stride[0] = rowBytes;
+				}
+				else if (format == PrPixelFormat_V210_422_10u_709 ||
 					format == PrPixelFormat_V210_422_10u_601)
 				{
 					// Is a decoder instance open?
@@ -1528,13 +1495,41 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 						}
 					}
 				}
+				else if (format == PrPixelFormat_VUYA_4444_8u ||
+					format == PrPixelFormat_VUYA_4444_8u_709)
+				{
+					// Define target pixel format
+					encodingData.planes = 3;
+					encodingData.pix_fmt = "yuv444p";
+					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = videoWidth.value.intValue;
+
+					// De-Interleave source buffer
+					for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+					{
+						for (int c = 0; c < videoWidth.value.intValue; c++)
+						{
+							for (int plane = 0; plane < 4; plane++)
+							{
+								planeBuffer[plane][p] = pixels[r * rowBytes + c * 4 + plane];
+							}
+							p++;
+						}
+					}
+
+					// Copy plane pointers
+					encodingData.plane[0] = planeBuffer[2];
+					encodingData.plane[1] = planeBuffer[1];
+					encodingData.plane[2] = planeBuffer[0];
+				}
 				else if (format == PrPixelFormat_VUYA_4444_32f ||
 					format == PrPixelFormat_VUYA_4444_32f_709)
 				{
-					// TODO: Full color range or limited color range?
-					//int fullColorOffset = (colorRange.value.intValue == vkdrFullColorRange) ? 2 : 0;
+					// Define target pixel format
+					encodingData.planes = 4;
+					encodingData.pix_fmt = "yuva444p16le";
+					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = videoWidth.value.intValue * 2;
 
-					// Convert
+					// De-Interleave and convert source buffer
 					for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
 					{
 						for (int c = 0; c < videoWidth.value.intValue; c++)
@@ -1544,13 +1539,19 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 							for (int plane = 0; plane < encodingData.planes; plane++)
 							{
-								((uint16_t*)(encodingData.plane[vuya_2_yuva[plane]]))[p] =
-									(uint16_t)((((float*)pixels)[pos + plane] + yuva_factors[vuya_2_yuva[plane]][0]) / (yuva_factors[vuya_2_yuva[plane]][0] + yuva_factors[vuya_2_yuva[plane]][1]) * 65535.0f);
+								((uint16_t*)(planeBuffer[plane]))[p] =
+									(uint16_t)((((float*)pixels)[pos + plane] + yuva_factors[plane][0]) / (yuva_factors[plane][0] + yuva_factors[plane][1]) * 65535.0f);
 							}
 
 							p++;
 						}
 					}
+
+					// Copy plane pointers
+					encodingData.plane[0] = planeBuffer[2];
+					encodingData.plane[1] = planeBuffer[1];
+					encodingData.plane[2] = planeBuffer[0];
+					encodingData.plane[3] = planeBuffer[3];
 				}
 				else if (format == PrPixelFormat_BGRA_4444_8u) // Default RGBA format (not used so far)
 				{
@@ -1559,19 +1560,12 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
 				}
-				else if (format == PrPixelFormat_Invalid)
-				{
-					ShowMessageBox(instRec, L"Error: Pixel format is invalid.", PLUGIN_APPNAME, MB_OK);
-
-				//	result = malUnknownError;
-				//	break;
-				}
 				else
 				{
 					ShowMessageBox(instRec, L"Error: Pixel Format is unknown.", PLUGIN_APPNAME, MB_OK);
 
-						result = malUnknownError;
-						break;
+					result = malUnknownError;
+					break;
 				}
 			}
 
@@ -1631,10 +1625,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
 	}
 
-	// Dispose vuya buffers
-	for (int i = 0; i < vuyaData.planes; i++)
+	// Free plane buffers
+	for (int i = 0; i < 8; i++)
 	{
-		instRec->memorySuite->PrDisposePtr(vuyaData.plane[i]);
+		instRec->memorySuite->PrDisposePtr((char *)planeBuffer[i]);
 	}
 
 	// Close decoder if open
@@ -1649,132 +1643,4 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, instRec->audioRenderID);
 	
 	return result;
-}
-
-// reviewed 0.3.8
-PrPixelFormat* GetPremierePixelFormat(const char *format, prFieldType fieldType, vkdrColorSpace colorSpace, vkdrColorRange colorRange)
-{
-	vector<PrPixelFormat> formats;
-
-	if (strcmp(format, "yuv420p") == 0)
-	{
-
-		// Support YUV420 planar formats
-		if (fieldType == prFieldsNone)
-		{
-			if (colorRange == vkdrLimitedColorRange)
-			{
-				switch (colorSpace)
-				{
-				case vkdrBT601:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601);
-					break;
-
-				case vkdrBT709:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709);
-					break;
-				}
-			}
-			else if (colorRange == vkdrFullColorRange)
-			{
-				switch (colorSpace)
-				{
-				case vkdrBT601:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange);
-					break;
-
-				case vkdrBT709:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange);
-					break;
-				}
-			}
-		}
-		else
-		{
-			if (colorRange == vkdrLimitedColorRange)
-			{
-				switch (colorSpace)
-				{
-				case vkdrBT601:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601);
-					break;
-
-				case vkdrBT709:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709);
-					break;
-				}
-			}
-			else if (colorRange == vkdrFullColorRange)
-			{
-				switch (colorSpace)
-				{
-				case vkdrBT601:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange);
-					break;
-
-				case vkdrBT709:
-					formats.push_back(PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
-					break;
-				}
-			}
-		}
-
-		//
-		switch (colorSpace)
-		{
-		case vkdrBT601:
-			formats.push_back(PrPixelFormat_UYVY_422_8u_601);
-			break;
-
-		case vkdrBT709:
-			formats.push_back(PrPixelFormat_UYVY_422_8u_709);
-			break;
-		}
-	}
-	else if (strcmp(format, "yuv422p") == 0)
-	{
-		//
-		switch (colorSpace)
-		{
-		case vkdrBT601:
-			formats.push_back(PrPixelFormat_UYVY_422_8u_601);
-			break;
-
-		case vkdrBT709:
-			formats.push_back(PrPixelFormat_UYVY_422_8u_709);
-			break;
-		}
-	}
-	else if (strcmp(format, "yuv444p") == 0)
-	{
-		//
-		switch (colorSpace)
-		{
-		case vkdrBT601:
-			formats.push_back(PrPixelFormat_VUYA_4444_8u);
-			break;
-
-		case vkdrBT709:
-			formats.push_back(PrPixelFormat_VUYA_4444_8u_709);
-			break;
-		}
-	}
-
-	// Fallback to float (can cover all formats)
-	switch (colorSpace)
-	{
-	case vkdrBT601:
-		formats.push_back(PrPixelFormat_VUYA_4444_32f);
-		break;
-
-	case vkdrBT709:
-		formats.push_back(PrPixelFormat_VUYA_4444_32f_709);
-		break;
-	}
-
-	// Convert to array
-	PrPixelFormat fmts[10];
-	copy(formats.begin(), formats.end(), fmts);
-
-	return fmts;
 }

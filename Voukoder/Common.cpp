@@ -15,6 +15,14 @@ void ShowMessageBox(InstanceRec *instRec, LPCWSTR lpText, LPCWSTR lpCaption, UIN
 	MessageBox(GetLastActivePopup(mainWnd), lpText, lpCaption, uType);
 }
 
+// reviewed 0.4.1
+void ShowMessageBox(InstanceRec *instRec, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
+{
+	HWND mainWnd = instRec->windowSuite->GetMainWindow();
+
+	MessageBoxA(GetLastActivePopup(mainWnd), lpText, lpCaption, uType);
+}
+
 // reviewed 0.3.8
 void PopulateEncoders(InstanceRec *instRec, csSDK_uint32 pluginId, csSDK_int32 groupIndex, const char *elementIdentifier, vector<EncoderInfo> encoderInfos)
 {
