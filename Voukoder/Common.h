@@ -22,6 +22,7 @@
 #include "premiere_cs6\PrSDKPPix2Suite.h"
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
 #include "premiere_cs6\PrSDKWindowSuite.h"
+#include "premiere_cs6\PrSDKExporterUtilitySuite.h"
 #include "Settings.h"
 #include "EncoderConfig.h"
 #include "lavf.h"
@@ -57,6 +58,7 @@ typedef struct InstanceRec
 	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
+	PrSDKExporterUtilitySuite *exporterUtilitySuite;
 	HMODULE hInstance;
 	Settings *settings;
 	csSDK_uint32 videoRenderID;

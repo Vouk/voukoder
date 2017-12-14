@@ -8,7 +8,8 @@
 #include "resource.h"
 #include "x264.h"
 #include "ConfigImportDialog.h"
-#include "utils.h"
+
+using namespace std::chrono;
 
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
@@ -105,6 +106,7 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppix2Suite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
+			spError = spBasic->AcquireSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exporterUtilitySuite))));
 
 			// Get the DLL module handle
 			MEMORY_BASIC_INFORMATION mbi;
@@ -182,6 +184,11 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 		if (instRec->windowSuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion);
+		}
+
+		if (instRec->exporterUtilitySuite)
+		{
+			result = spBasic->ReleaseSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion);
 		}
 
 		if (instRec->memorySuite)
@@ -1357,6 +1364,37 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
 	}
+	else if (strcmp(pixelFormat, "yuv420p10le") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = {
+			PrPixelFormat_V210_422_10u_601,
+			PrPixelFormat_V210_422_10u_709,
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
+	else if (strcmp(pixelFormat, "yuv422p10le") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = {
+			PrPixelFormat_V210_422_10u_601,
+			PrPixelFormat_V210_422_10u_709,
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
+	else if (strcmp(pixelFormat, "yuv444p10le") == 0)
+	{
+		const PrPixelFormat pixelFormats[] = {
+			PrPixelFormat_VUYA_4444_32f_709,
+			PrPixelFormat_VUYA_4444_32f
+		};
+		renderParms.inRequestedPixelFormatArray = pixelFormats;
+		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
+	}
 
 	renderParms.inWidth = videoWidth.value.intValue;
 	renderParms.inHeight = videoHeight.value.intValue;
@@ -1391,6 +1429,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
 	}
 
+	char buff[1024];
+
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
@@ -1398,6 +1438,9 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		FrameType frameType = encoder->getNextFrameType();
 		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
 		{
+			// Performance measurement
+			milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
 			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
@@ -1407,6 +1450,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 				return result;
 			}
+
+			milliseconds ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+			sprintf_s(buff, "\nPerformance measurement:\n- Rendering frame: %dms\n", ms2 - ms);
+			OutputDebugStringA(buff);
 
 			// Get pixel format
 			PrPixelFormat format;
@@ -1508,9 +1555,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					{
 						for (int c = 0; c < videoWidth.value.intValue; c++)
 						{
+							int pp = r * rowBytes + c * 4;
+
 							for (int plane = 0; plane < 4; plane++)
 							{
-								planeBuffer[plane][p] = pixels[r * rowBytes + c * 4 + plane];
+								planeBuffer[plane][p] = pixels[pp + plane];
 							}
 							p++;
 						}
@@ -1552,6 +1601,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[1] = planeBuffer[1];
 					encodingData.plane[2] = planeBuffer[0];
 					encodingData.plane[3] = planeBuffer[3];
+
+					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+					sprintf_s(buff, "- Converting pixel format from float to int16: %dms\n", ms2 - ms);
+					OutputDebugStringA(buff);
 				}
 				else if (format == PrPixelFormat_BGRA_4444_8u) // Default RGBA format (not used so far)
 				{
@@ -1575,6 +1628,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				result = malUnknownError;
 				break;
 			}
+
+			ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+			sprintf_s(buff, "- Send frame to encoder: %dms\n", ms - ms2);
+			OutputDebugStringA(buff);
 
 			// Dispose the rendered frame
 			result = instRec->ppixSuite->Dispose(renderResult.outFrame);

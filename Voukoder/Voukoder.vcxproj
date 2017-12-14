@@ -71,6 +71,8 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -94,6 +96,8 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,7 +115,6 @@
     <ClInclude Include="EncoderInfo.h" />
     <ClInclude Include="EncoderConfig.h" />
     <ClInclude Include="EncoderUtils.h" />
-    <ClInclude Include="utils.h" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="MuxerInfo.h" />
     <ClInclude Include="Voukoder.h" />
