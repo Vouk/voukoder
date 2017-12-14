@@ -8,6 +8,7 @@
 #include "resource.h"
 #include "x264.h"
 #include "ConfigImportDialog.h"
+#include "InstructionSet.h"
 
 using namespace std::chrono;
 
@@ -1331,9 +1332,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_YUYV_422_8u_709,
 			PrPixelFormat_YUYV_422_8u_601,
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u,
-			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1346,9 +1345,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_YUYV_422_8u_709,
 			PrPixelFormat_YUYV_422_8u_601,
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u,
-			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1357,9 +1354,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u,
-			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1491,6 +1486,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					&encodingData.stride[1],
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
+
+				ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+				sprintf_s(buff, "- Passthrough pixel format yuv420p: %dms\n", ms2 - ms);
+				OutputDebugStringA(buff);
 			}
 			else // Other (packet) formats
 			{
@@ -1510,6 +1509,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "uyvy422";
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
+
+					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+					sprintf_s(buff, "- Passthrough pixel format uyvy422: %dms\n", ms2 - ms);
+					OutputDebugStringA(buff);
 				}
 				else if (format == PrPixelFormat_YUYV_422_8u_601 ||
 					format == PrPixelFormat_YUYV_422_8u_709)
@@ -1518,6 +1521,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "yuyv422";
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
+
+					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+					sprintf_s(buff, "- Passthrough pixel format yuyv422: %dms\n", ms2 - ms);
+					OutputDebugStringA(buff);
 				}
 				else if (format == PrPixelFormat_V210_422_10u_709 ||
 					format == PrPixelFormat_V210_422_10u_601)
@@ -1541,6 +1548,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 							encodingData.stride[p] = frame->linesize[p];
 						}
 					}
+
+					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+					sprintf_s(buff, "- Converting pixel format from v210 to yuv420p10le: %dms\n", ms2 - ms);
+					OutputDebugStringA(buff);
 				}
 				else if (format == PrPixelFormat_VUYA_4444_8u ||
 					format == PrPixelFormat_VUYA_4444_8u_709)
@@ -1550,25 +1561,64 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "yuv444p";
 					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = videoWidth.value.intValue;
 
-					// De-Interleave source buffer
-					for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+					// Using SSSE3 is 10 times faster ....
+					if (InstructionSet::SSSE3())
 					{
-						for (int c = 0; c < videoWidth.value.intValue; c++)
-						{
-							int pp = r * rowBytes + c * 4;
+						__m128i mask = _mm_set_epi8(
+							12,  8, 4, 0, 
+							13,  9, 5, 1, 
+							14, 10, 6, 2, 
+							15, 11, 7, 3
+						);
 
-							for (int plane = 0; plane < 4; plane++)
+						M128 dest;
+
+						// De-Interleave source buffer
+						for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+						{
+							for (int c = 0; c < rowBytes; c += 16)
 							{
-								planeBuffer[plane][p] = pixels[pp + plane];
+								dest.i128 = _mm_shuffle_epi8(
+									_mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]), mask);
+								memcpy(planeBuffer[0] + p, dest.plane.y, 4);
+								memcpy(planeBuffer[1] + p, dest.plane.u, 4);
+								memcpy(planeBuffer[2] + p, dest.plane.v, 4);
+								memcpy(planeBuffer[3] + p, dest.plane.a, 4);
+								p += 4;
 							}
-							p++;
 						}
+
+						// Copy plane pointers
+						encodingData.plane[0] = planeBuffer[0];
+						encodingData.plane[1] = planeBuffer[1];
+						encodingData.plane[2] = planeBuffer[2];
+					}
+					else
+					{
+						for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
+						{
+							for (int c = 0; c < videoWidth.value.intValue; c++)
+							{
+								int pp = r * rowBytes + c * 4;
+
+								for (int plane = 0; plane < 4; plane++)
+								{
+									planeBuffer[plane][p] = pixels[pp + plane];
+								}
+								p++;
+							}
+						}
+
+						// Copy plane pointers
+						encodingData.plane[0] = planeBuffer[2];
+						encodingData.plane[1] = planeBuffer[1];
+						encodingData.plane[2] = planeBuffer[0];
 					}
 
-					// Copy plane pointers
-					encodingData.plane[0] = planeBuffer[2];
-					encodingData.plane[1] = planeBuffer[1];
-					encodingData.plane[2] = planeBuffer[0];
+					// Output performance information
+					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+					sprintf_s(buff, "- Converting pixel format from y444 to yuv444p: %dms\n", ms2 - ms);
+					OutputDebugStringA(buff);
 				}
 				else if (format == PrPixelFormat_VUYA_4444_32f ||
 					format == PrPixelFormat_VUYA_4444_32f_709)

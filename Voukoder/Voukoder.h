@@ -2,8 +2,12 @@
 #include <algorithm>
 #include "Common.h"
 
-// VUYA to YUVA mapping
-const int vuya_2_yuva[4] = { 2, 1, 0, 3 };
+typedef char fourchars[4];
+
+union M128 {
+	struct plane { fourchars a, y, u, v; } plane;
+	__m128i i128;
+};
 
 // Scaling factors (note min. values are actually negative)
 const float yuva_factors[4][4] = {
