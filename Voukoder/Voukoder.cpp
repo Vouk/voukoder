@@ -1,16 +1,9 @@
 #include <windows.h>
-#include <chrono>
-#include <cmath>
 #include "Encoder.h"
 #include "Decoder.h"
 #include "Voukoder.h"
 #include "Common.h"
-#include "resource.h"
-#include "x264.h"
-#include "ConfigImportDialog.h"
-#include "InstructionSet.h"
-
-using namespace std::chrono;
+#include "Utils.h"
 
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
@@ -240,7 +233,7 @@ prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSetting
 
 	csSDK_uint32 exID = outputSettingsP->exporterPluginID;
 	csSDK_int32 mgroupIndex = 0;
-	exParamValues width, height, frameRate, pixelAspectRatio, fieldType, codec, sampleRate, channelType;
+	exParamValues width, height, frameRate, pixelAspectRatio, fieldType, sampleRate, channelType;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(outputSettingsP->privateData);
 	Settings *settings = instRec->settings;
@@ -1424,8 +1417,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
 	}
 
-	char buff[1024];
-
 	// Export loop
 	PrTime videoTime = exportInfoP->startTime;
 	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
@@ -1433,9 +1424,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		FrameType frameType = encoder->getNextFrameType();
 		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
 		{
-			// Performance measurement
-			milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-
 			// Render the uncompressed frame
 			SequenceRender_GetFrameReturnRec renderResult;
 			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
@@ -1445,12 +1433,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 				return result;
 			}
-
-#if defined(_DEBUG) 
-			milliseconds ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-			sprintf_s(buff, "\nPerformance measurement:\n- Rendering frame: %dms\n", ms2 - ms);
-			OutputDebugStringA(buff);
-#endif
 
 			// Get pixel format
 			PrPixelFormat format;
@@ -1488,12 +1470,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					&encodingData.stride[1],
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
-
-#if defined(_DEBUG) 
-				ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-				sprintf_s(buff, "- Passthrough pixel format yuv420p: %dms\n", ms2 - ms);
-				OutputDebugStringA(buff);
-#endif
 			}
 			else // Other (packet) formats
 			{
@@ -1513,12 +1489,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "uyvy422";
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
-
-#if defined(_DEBUG) 
-					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-					sprintf_s(buff, "- Passthrough pixel format uyvy422: %dms\n", ms2 - ms);
-					OutputDebugStringA(buff);
-#endif
 				}
 				else if (format == PrPixelFormat_YUYV_422_8u_601 ||
 					format == PrPixelFormat_YUYV_422_8u_709)
@@ -1527,12 +1497,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "yuyv422";
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
-
-#if defined(_DEBUG) 
-					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-					sprintf_s(buff, "- Passthrough pixel format yuyv422: %dms\n", ms2 - ms);
-					OutputDebugStringA(buff);
-#endif
 				}
 				else if (format == PrPixelFormat_V210_422_10u_709 ||
 					format == PrPixelFormat_V210_422_10u_601)
@@ -1556,12 +1520,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 							encodingData.stride[p] = frame->linesize[p];
 						}
 					}
-
-#if defined(_DEBUG) 
-					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-					sprintf_s(buff, "- Converting pixel format from v210 to yuv420p10le: %dms\n", ms2 - ms);
-					OutputDebugStringA(buff);
-#endif
 				}
 				else if (format == PrPixelFormat_VUYA_4444_8u ||
 					format == PrPixelFormat_VUYA_4444_8u_709)
@@ -1571,71 +1529,13 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "yuv444p";
 					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = videoWidth.value.intValue;
 
-					// Using SSSE3 is 10 times faster ....
-					if (InstructionSet::SSSE3())
-					{
-						// Shuffle mask
-						__m128i mask = _mm_set_epi8(
-							12,  8, 4, 0, 
-							13,  9, 5, 1, 
-							14, 10, 6, 2, 
-							15, 11, 7, 3
-						);
+					// Convert ayuv to yuv444p
+					Utils::ConvertVUYA4444_8uToYUV444(pixels, videoWidth.value.intValue, videoHeight.value.intValue, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
 
-						M128 dest;
-
-						// De-Interleave source buffer
-						for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
-						{
-							for (int c = 0; c < rowBytes; c += 16)
-							{
-								dest.i128 = _mm_shuffle_epi8(_mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]), mask);
-								memcpy(planeBuffer[0] + p, dest.plane.y, 4);
-								memcpy(planeBuffer[1] + p, dest.plane.u, 4);
-								memcpy(planeBuffer[2] + p, dest.plane.v, 4);
-								memcpy(planeBuffer[3] + p, dest.plane.a, 4);
-								p += 4;
-							}
-						}
-
-						// Copy plane pointers
-						encodingData.plane[0] = planeBuffer[0];
-						encodingData.plane[1] = planeBuffer[1];
-						encodingData.plane[2] = planeBuffer[2];
-
-#if defined(_DEBUG) 
-						ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-						sprintf_s(buff, "- Converting pixel format from y444 to yuv444p (SSSE3): %dms\n", ms2 - ms);
-						OutputDebugStringA(buff);
-#endif
-					}
-					else
-					{
-						for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
-						{
-							for (int c = 0; c < videoWidth.value.intValue; c++)
-							{
-								int pp = r * rowBytes + c * 4;
-
-								for (int plane = 0; plane < 4; plane++)
-								{
-									planeBuffer[plane][p] = pixels[pp + plane];
-								}
-								p++;
-							}
-						}
-
-						// Copy plane pointers
-						encodingData.plane[0] = planeBuffer[2];
-						encodingData.plane[1] = planeBuffer[1];
-						encodingData.plane[2] = planeBuffer[0];
-
-#if defined(_DEBUG) 
-						ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-						sprintf_s(buff, "- Converting pixel format from y444 to yuv444p: %dms\n", ms2 - ms);
-						OutputDebugStringA(buff);
-#endif
-					}
+					// Copy plane pointers
+					encodingData.plane[0] = planeBuffer[0];
+					encodingData.plane[1] = planeBuffer[1];
+					encodingData.plane[2] = planeBuffer[2];
 				}
 				else if (format == PrPixelFormat_VUYA_4444_32f ||
 					format == PrPixelFormat_VUYA_4444_32f_709)
@@ -1645,35 +1545,14 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.pix_fmt = "yuva444p16le";
 					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = videoWidth.value.intValue * 2;
 
-					// De-Interleave and convert source buffer
-					for (int r = videoHeight.value.intValue - 1, p = 0; r >= 0; r--)
-					{
-						for (int c = 0; c < videoWidth.value.intValue; c++)
-						{
-							// Get beginning of next block
-							const int pos = r * videoWidth.value.intValue * encodingData.planes + c * encodingData.planes;
-
-							for (int plane = 0; plane < encodingData.planes; plane++)
-							{
-								((uint16_t*)(planeBuffer[plane]))[p] =
-									(uint16_t)((((float*)pixels)[pos + plane] + yuva_factors[plane][0]) / (yuva_factors[plane][0] + yuva_factors[plane][1]) * 65535.0f);
-							}
-
-							p++;
-						}
-					}
+					// Convert float to int16
+					Utils::ConvertVUYA4444_32fToYUVA444p16(pixels, videoWidth.value.intValue, videoHeight.value.intValue, planeBuffer[0], planeBuffer[1], planeBuffer[2], planeBuffer[3]);
 
 					// Copy plane pointers
-					encodingData.plane[0] = planeBuffer[2];
+					encodingData.plane[0] = planeBuffer[0];
 					encodingData.plane[1] = planeBuffer[1];
-					encodingData.plane[2] = planeBuffer[0];
+					encodingData.plane[2] = planeBuffer[2];
 					encodingData.plane[3] = planeBuffer[3];
-
-#if defined(_DEBUG) 
-					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-					sprintf_s(buff, "- Converting pixel format from float to int16: %dms\n", ms2 - ms);
-					OutputDebugStringA(buff);
-#endif
 				}
 				else if (format == PrPixelFormat_BGRA_4444_8u) // Default RGBA format (not used so far)
 				{

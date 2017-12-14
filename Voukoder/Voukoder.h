@@ -2,21 +2,6 @@
 #include <algorithm>
 #include "Common.h"
 
-typedef char fourchars[4];
-
-union M128 {
-	struct plane { fourchars a, y, u, v; } plane;
-	__m128i i128;
-};
-
-// Scaling factors (note min. values are actually negative)
-const float yuva_factors[4][4] = {
-	{ 0.07306f, 1.09132f, 0.00000f, 1.00000f }, // Y
-	{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // U
-	{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // V
-	{ 0.00000f, 1.00000f, 0.00000f, 1.00000f }  // A
-};
-
 extern "C" DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParms, void *param1, void *param2);
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP);
