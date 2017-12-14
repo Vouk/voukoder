@@ -1446,9 +1446,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				return result;
 			}
 
+#if defined(_DEBUG) 
 			milliseconds ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 			sprintf_s(buff, "\nPerformance measurement:\n- Rendering frame: %dms\n", ms2 - ms);
 			OutputDebugStringA(buff);
+#endif
 
 			// Get pixel format
 			PrPixelFormat format;
@@ -1487,9 +1489,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					&encodingData.plane[2],
 					&encodingData.stride[2]);
 
+#if defined(_DEBUG) 
 				ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 				sprintf_s(buff, "- Passthrough pixel format yuv420p: %dms\n", ms2 - ms);
 				OutputDebugStringA(buff);
+#endif
 			}
 			else // Other (packet) formats
 			{
@@ -1510,9 +1514,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
 
+#if defined(_DEBUG) 
 					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 					sprintf_s(buff, "- Passthrough pixel format uyvy422: %dms\n", ms2 - ms);
 					OutputDebugStringA(buff);
+#endif
 				}
 				else if (format == PrPixelFormat_YUYV_422_8u_601 ||
 					format == PrPixelFormat_YUYV_422_8u_709)
@@ -1522,9 +1528,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
 
+#if defined(_DEBUG) 
 					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 					sprintf_s(buff, "- Passthrough pixel format yuyv422: %dms\n", ms2 - ms);
 					OutputDebugStringA(buff);
+#endif
 				}
 				else if (format == PrPixelFormat_V210_422_10u_709 ||
 					format == PrPixelFormat_V210_422_10u_601)
@@ -1549,9 +1557,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 						}
 					}
 
+#if defined(_DEBUG) 
 					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 					sprintf_s(buff, "- Converting pixel format from v210 to yuv420p10le: %dms\n", ms2 - ms);
 					OutputDebugStringA(buff);
+#endif
 				}
 				else if (format == PrPixelFormat_VUYA_4444_8u ||
 					format == PrPixelFormat_VUYA_4444_8u_709)
@@ -1564,6 +1574,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					// Using SSSE3 is 10 times faster ....
 					if (InstructionSet::SSSE3())
 					{
+						// Shuffle mask
 						__m128i mask = _mm_set_epi8(
 							12,  8, 4, 0, 
 							13,  9, 5, 1, 
@@ -1578,8 +1589,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 						{
 							for (int c = 0; c < rowBytes; c += 16)
 							{
-								dest.i128 = _mm_shuffle_epi8(
-									_mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]), mask);
+								dest.i128 = _mm_shuffle_epi8(_mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]), mask);
 								memcpy(planeBuffer[0] + p, dest.plane.y, 4);
 								memcpy(planeBuffer[1] + p, dest.plane.u, 4);
 								memcpy(planeBuffer[2] + p, dest.plane.v, 4);
@@ -1592,6 +1602,12 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 						encodingData.plane[0] = planeBuffer[0];
 						encodingData.plane[1] = planeBuffer[1];
 						encodingData.plane[2] = planeBuffer[2];
+
+#if defined(_DEBUG) 
+						ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+						sprintf_s(buff, "- Converting pixel format from y444 to yuv444p (SSSE3): %dms\n", ms2 - ms);
+						OutputDebugStringA(buff);
+#endif
 					}
 					else
 					{
@@ -1613,12 +1629,13 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 						encodingData.plane[0] = planeBuffer[2];
 						encodingData.plane[1] = planeBuffer[1];
 						encodingData.plane[2] = planeBuffer[0];
-					}
 
-					// Output performance information
-					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-					sprintf_s(buff, "- Converting pixel format from y444 to yuv444p: %dms\n", ms2 - ms);
-					OutputDebugStringA(buff);
+#if defined(_DEBUG) 
+						ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+						sprintf_s(buff, "- Converting pixel format from y444 to yuv444p: %dms\n", ms2 - ms);
+						OutputDebugStringA(buff);
+#endif
+					}
 				}
 				else if (format == PrPixelFormat_VUYA_4444_32f ||
 					format == PrPixelFormat_VUYA_4444_32f_709)
@@ -1652,9 +1669,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					encodingData.plane[2] = planeBuffer[0];
 					encodingData.plane[3] = planeBuffer[3];
 
+#if defined(_DEBUG) 
 					ms2 = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
 					sprintf_s(buff, "- Converting pixel format from float to int16: %dms\n", ms2 - ms);
 					OutputDebugStringA(buff);
+#endif
 				}
 				else if (format == PrPixelFormat_BGRA_4444_8u) // Default RGBA format (not used so far)
 				{
@@ -1678,10 +1697,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				result = malUnknownError;
 				break;
 			}
-
-			ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-			sprintf_s(buff, "- Send frame to encoder: %dms\n", ms - ms2);
-			OutputDebugStringA(buff);
 
 			// Dispose the rendered frame
 			result = instRec->ppixSuite->Dispose(renderResult.outFrame);
