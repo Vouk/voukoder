@@ -38,10 +38,10 @@ void Utils::ConvertVUYA4444_8uToYUV444(char *pixels, int width, int height, char
 	{
 		// Shuffle mask
 		__m128i mask = _mm_set_epi8(
-			12, 8, 4, 0,
-			13, 9, 5, 1,
-			14, 10, 6, 2,
-			15, 11, 7, 3
+			12, 8,  4, 0, // Y
+			13, 9,  5, 1, // U
+			14, 10, 6, 2, // V
+			15, 11, 7, 3  // A
 		);
 
 		M128 dest;
@@ -86,12 +86,12 @@ void Utils::ConvertVUYA4444_8uToYUV444(char *pixels, int width, int height, char
 
 void Utils::ConvertVUYA4444_32fToYUVA444p16(char *pixels, int width, int height, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
 {
-	// Scaling factors (note min. values are actually negative)
-	const float yuva_factors[4][4] = {
-		{ 0.07306f, 1.09132f, 0.00000f, 1.00000f }, // Y
-		{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // U
-		{ 0.57143f, 0.57143f, 0.50000f, 0.50000f }, // V
-		{ 0.00000f, 1.00000f, 0.00000f, 1.00000f }  // A
+	// Scaling factors (note min. values are actually negative) (limited range)
+	const float yuva_factors[4][2] = {
+		{ 0.07306f, 1.09132f }, // Y
+		{ 0.57143f, 0.57143f }, // U
+		{ 0.57143f, 0.57143f }, // V
+		{ 0.00000f, 1.00000f }  // A
 	};
 
 	const int rowBytes = width * 4;
@@ -107,7 +107,7 @@ void Utils::ConvertVUYA4444_32fToYUVA444p16(char *pixels, int width, int height,
 	else
 	*/
 	{
-		//TODO: Colors are not right
+		float *frameBuffer = (float*)pixels;
 
 		// De-Interleave and convert source buffer
 		for (int r = height - 1, p = 0; r >= 0; r--)
@@ -117,10 +117,11 @@ void Utils::ConvertVUYA4444_32fToYUVA444p16(char *pixels, int width, int height,
 				// Get beginning of next block
 				const int pos = r * width * 4 + c * 4;
 
-				((uint16_t*)bufferY)[p] = (uint16_t)((((float*)pixels)[pos + 0] + yuva_factors[0][0]) / (yuva_factors[0][0] + yuva_factors[0][1]) * 65535.0f);
-				((uint16_t*)bufferU)[p] = (uint16_t)((((float*)pixels)[pos + 1] + yuva_factors[1][0]) / (yuva_factors[1][0] + yuva_factors[1][1]) * 65535.0f);
-				((uint16_t*)bufferV)[p] = (uint16_t)((((float*)pixels)[pos + 2] + yuva_factors[2][0]) / (yuva_factors[2][0] + yuva_factors[2][1]) * 65535.0f);
-				((uint16_t*)bufferA)[p] = (uint16_t)((((float*)pixels)[pos + 3] + yuva_factors[3][0]) / (yuva_factors[3][0] + yuva_factors[3][1]) * 65535.0f);
+				// VUYA -> YUVA
+				((uint16_t*)bufferY)[p] = (uint16_t)((frameBuffer[pos + 2] + yuva_factors[0][0]) / (yuva_factors[0][0] + yuva_factors[0][1]) * 65535.0f);
+				((uint16_t*)bufferU)[p] = (uint16_t)((frameBuffer[pos + 1] + yuva_factors[1][0]) / (yuva_factors[1][0] + yuva_factors[1][1]) * 65535.0f);
+				((uint16_t*)bufferV)[p] = (uint16_t)((frameBuffer[pos + 0] + yuva_factors[2][0]) / (yuva_factors[2][0] + yuva_factors[2][1]) * 65535.0f);
+				((uint16_t*)bufferA)[p] = (uint16_t)((frameBuffer[pos + 3] + yuva_factors[3][0]) / (yuva_factors[3][0] + yuva_factors[3][1]) * 65535.0f);
 
 				p++;
 			}
