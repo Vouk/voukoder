@@ -1,6 +1,6 @@
 #include <tmmintrin.h>
 #include <Windows.h>
-#include "Utils.h"
+#include "Converter.h"
 
 milliseconds _getTimestamp()
 {
@@ -26,7 +26,21 @@ void _log(const char *text)
 	OutputDebugStringA(text);
 }
 
-void Utils::ConvertVUYA4444_8uToYUV444(char *pixels, int width, int height, char *bufferY, char *bufferU, char *bufferV)
+Converter::Converter(int width, int height):
+	width(width),
+	height(height)
+{}
+
+Converter::~Converter()
+{
+	if (v210decoder != NULL)
+	{
+		v210decoder->close();
+		v210decoder = NULL;
+	}
+}
+
+void Converter::convertVUYA4444_8uToYUV444(char *pixels, char *bufferY, char *bufferU, char *bufferV)
 {
 	const int rowBytes = width * 4;
 
@@ -59,7 +73,7 @@ void Utils::ConvertVUYA4444_8uToYUV444(char *pixels, int width, int height, char
 	_printPerformance("pixel format conversion (yuva4444_8u to yuv444p using SSSE3)", ms);
 }
 
-void Utils::ConvertVUYA4444_32fToYUVA444p16(char *pixels, int width, int height, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
+void Converter::convertVUYA4444_32fToYUVA444p16(char *pixels, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
 {
 	// Scaling factors (note min. values are actually negative) (limited range)
 	const float yuva_factors[4][2] = {
@@ -95,4 +109,28 @@ void Utils::ConvertVUYA4444_32fToYUVA444p16(char *pixels, int width, int height,
 
 	// Add to performance log
 	_printPerformance("pixel format conversion (yuva4444_32f to yuv444p16le)", ms);
+}
+
+void Converter::decodeV210ToYUV422p10(char *pixels, int rowBytes, char *bufferY, char *bufferU, char *bufferV)
+{
+	milliseconds ms = _getTimestamp();
+
+	// Is a decoder instance open?
+	if (v210decoder == NULL)
+	{
+		v210decoder = new Decoder();
+		v210decoder->open(AV_CODEC_ID_V210, width, height);
+	}
+
+	// Send encoded data to decoder
+	AVFrame *frame = v210decoder->decodeData((uint8_t*)pixels, rowBytes * height);
+	if (frame != NULL)
+	{
+		bufferY = (char*)frame->data[0];
+		bufferU = (char*)frame->data[1];
+		bufferV = (char*)frame->data[2];
+	}
+
+	// Add to performance log
+	_printPerformance("pixel format conversion (v210 to yuv422p10le)", ms);
 }

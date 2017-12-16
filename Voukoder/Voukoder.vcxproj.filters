@@ -330,7 +330,7 @@
     <ClInclude Include="InstructionSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="Converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -371,7 +371,7 @@
     <ClCompile Include="InstructionSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="Converter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

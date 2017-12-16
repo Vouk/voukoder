@@ -3,7 +3,7 @@
 #include "Decoder.h"
 #include "Voukoder.h"
 #include "Common.h"
-#include "Utils.h"
+#include "Converter.h"
 #include "InstructionSet.h"
 
 // reviewed 0.3.8
@@ -1365,8 +1365,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	else if (strcmp(pixelFormat, "yuv420p10le") == 0)
 	{
 		const PrPixelFormat pixelFormats[] = {
-			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_V210_422_10u_709,
+			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_VUYA_4444_32f_709,
 			PrPixelFormat_VUYA_4444_32f
 		};
@@ -1376,8 +1376,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	else if (strcmp(pixelFormat, "yuv422p10le") == 0)
 	{
 		const PrPixelFormat pixelFormats[] = {
-			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_V210_422_10u_709,
+			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_VUYA_4444_32f_709,
 			PrPixelFormat_VUYA_4444_32f
 		};
@@ -1436,6 +1436,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 	EncodingData encodingData;
 
+	Converter *converter = new Converter(videoWidth.value.intValue, videoHeight.value.intValue);
+
 	// Prepare plane buffers
 	char *planeBuffer[8];
 	for (int i = 0; i < 8; i++)
@@ -1443,9 +1445,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		planeBuffer[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * videoWidth.value.intValue * 8); // max. 4 components / 16 bit
 	}
 	
-	// ffmpeg treats v210 as a decoder, not a pixel format
-	Decoder *v210decoder = NULL;
-
 	// Allocate audio output buffer
 	float *audioBuffer[MAX_AUDIO_CHANNELS];
 
@@ -1538,31 +1537,22 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				else if (format == PrPixelFormat_V210_422_10u_709 ||
 					format == PrPixelFormat_V210_422_10u_601)
 				{
-					// Is a decoder instance open?
-					if (v210decoder == NULL)
-					{
-						v210decoder = new Decoder();
-						v210decoder->open(AV_CODEC_ID_V210, videoWidth.value.intValue, videoHeight.value.intValue);
-					}
+					// Decode v210 to yuv444p
+					converter->decodeV210ToYUV422p10(pixels, rowBytes, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
 
-					// Send encoded data to decoder
-					AVFrame *frame = v210decoder->decodeData((uint8_t*)pixels, rowBytes * videoHeight.value.intValue);
-					if (frame != NULL)
-					{
-						encodingData.planes = 3;
-						encodingData.pix_fmt = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P10LE);
-						for (int p = 0; p < encodingData.planes; p++)
-						{
-							encodingData.plane[p] = (char*)frame->data[p];
-							encodingData.stride[p] = frame->linesize[p];
-						}
-					}
+					encodingData.planes = 3;
+					encodingData.pix_fmt = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P10LE);
+					encodingData.plane[0] = planeBuffer[0];
+					encodingData.plane[1] = planeBuffer[1];
+					encodingData.plane[2] = planeBuffer[2];
+					encodingData.stride[0] = videoWidth.value.intValue * 2;
+					encodingData.stride[1] = encodingData.stride[2] = videoWidth.value.intValue;
 				}
 				else if (format == PrPixelFormat_VUYA_4444_8u ||
 					format == PrPixelFormat_VUYA_4444_8u_709)
 				{
 					// Convert ayuv to yuv444p
-					Utils::ConvertVUYA4444_8uToYUV444(pixels, videoWidth.value.intValue, videoHeight.value.intValue, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
+					converter->convertVUYA4444_8uToYUV444(pixels, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
 
 					// Fill encoding data
 					encodingData.planes = 3;
@@ -1576,7 +1566,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 					format == PrPixelFormat_VUYA_4444_32f_709)
 				{
 					// Convert float to int16
-					Utils::ConvertVUYA4444_32fToYUVA444p16(pixels, videoWidth.value.intValue, videoHeight.value.intValue, planeBuffer[0], planeBuffer[1], planeBuffer[2], planeBuffer[3]);
+					converter->convertVUYA4444_32fToYUVA444p16(pixels, planeBuffer[0], planeBuffer[1], planeBuffer[2], planeBuffer[3]);
 
 					// Fill encoding data
 					encodingData.planes = 4;
@@ -1665,12 +1655,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 		instRec->memorySuite->PrDisposePtr((char *)planeBuffer[i]);
 	}
 
-	// Close decoder if open
-	if (v210decoder != NULL)
-	{
-		v210decoder->close();
-		v210decoder = NULL;
-	}
+	converter->~Converter();
+	converter = NULL;
 
 	// Release renderers
 	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, instRec->videoRenderID);
