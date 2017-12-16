@@ -4,6 +4,7 @@
 #include "Voukoder.h"
 #include "Common.h"
 #include "Utils.h"
+#include "InstructionSet.h"
 
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
@@ -41,6 +42,15 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 // reviewed 0.3.8
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 {
+	// Check for required processor
+	if (!InstructionSet::SSSE3())
+	{
+		// Show an error message to the user
+		MessageBoxA(NULL, "This plugin requires a processor supporting SSSE3!\n\n(https://de.wikipedia.org/wiki/Supplemental_Streaming_SIMD_Extensions_3)", "Attention!", MB_OK);
+
+		return malUnknownError;
+	}
+
 	av_log_set_level(AV_LOG_DEBUG);
 	av_log_set_callback(avlog_cb);
 
