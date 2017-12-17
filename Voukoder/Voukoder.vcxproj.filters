@@ -306,9 +306,6 @@
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigImportDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EncoderInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -351,9 +348,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigImportDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EncoderInfo.cpp">
