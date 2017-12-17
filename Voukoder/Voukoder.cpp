@@ -1335,7 +1335,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_YUYV_422_8u_709,
 			PrPixelFormat_YUYV_422_8u_601,
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1348,7 +1349,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_YUYV_422_8u_709,
 			PrPixelFormat_YUYV_422_8u_601,
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1357,7 +1359,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_8u_709,
-			PrPixelFormat_VUYA_4444_8u
+			PrPixelFormat_VUYA_4444_8u,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1368,7 +1371,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_V210_422_10u_709,
 			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1379,7 +1383,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			PrPixelFormat_V210_422_10u_709,
 			PrPixelFormat_V210_422_10u_601,
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1388,7 +1393,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1397,7 +1403,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1406,7 +1413,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
@@ -1415,7 +1423,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	{
 		const PrPixelFormat pixelFormats[] = {
 			PrPixelFormat_VUYA_4444_32f_709,
-			PrPixelFormat_VUYA_4444_32f
+			PrPixelFormat_VUYA_4444_32f,
+			PrPixelFormat_BGRA_4444_8u
 		};
 		renderParms.inRequestedPixelFormatArray = pixelFormats;
 		renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
