@@ -1590,6 +1590,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				{
 					encodingData.planes = 1;
 					encodingData.pix_fmt = "bgra";
+					encodingData.filters.push_back("vflip");
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
 				}

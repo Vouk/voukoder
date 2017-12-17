@@ -160,9 +160,13 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 		options.sar.den = 1;
 		options.sar.num = 1;
 
+		// Add additional filters
+		ostringstream imploded;
+		copy(encodingData->filters.begin(), encodingData->filters.end(), ostream_iterator<string>(imploded, ","));
+
 		// Set target format
 		char filterConfig[256];
-		sprintf_s(filterConfig, "format=pix_fmts=%s", videoContext->encoderConfig->getPixelFormat());
+		sprintf_s(filterConfig, "%sformat=pix_fmts=%s", imploded.str().c_str(), videoContext->encoderConfig->getPixelFormat());
 
 		frameFilter = new FrameFilter();
 		frameFilter->configure(options, filterConfig);
