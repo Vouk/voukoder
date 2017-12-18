@@ -10,7 +10,10 @@ typedef struct EncodingData
 	const char *pix_fmt;
 	char *plane[8] = {};
 	unsigned int stride[8];
-	vector<string> filters;
+	struct filters
+	{
+		bool vflip = false;
+	} filters;
 } EncodingData;
 
 enum FrameType {
