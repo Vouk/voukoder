@@ -1595,7 +1595,10 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				}
 				else
 				{
-					ShowMessageBox(instRec, L"Error: Pixel Format is unknown.", PLUGIN_APPNAME, MB_OK);
+					char buf[256];
+					sprintf_s(buf, "Error: Pixel Format #%d is not implemented!", format);
+
+					ShowMessageBox(instRec, buf, "Error", MB_OK);
 
 					result = malUnknownError;
 					break;
