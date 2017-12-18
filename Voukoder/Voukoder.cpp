@@ -1310,15 +1310,11 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	PrTime exportDuration = exportInfoP->endTime - exportInfoP->startTime;
 	PrTime audioSamplesLeft = exportDuration / ticksPerSample;
 
-	// Make video renderer
-	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
-	
-	// Find the right pixel format
-	const char* pixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
-
 	// Define the render params
 	SequenceRender_ParamsRec renderParms;
 
+	// Find the right pixel format
+	const char* pixelFormat = encoder->videoContext->encoderConfig->getPixelFormat();
 	if (strcmp(pixelFormat, "yuv420p") == 0)
 	{
 		const PrPixelFormat pixelFormats[] = { 
@@ -1440,11 +1436,13 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
 	renderParms.inCompositeOnBlack = kPrFalse;
 
+	// Make video renderer
+	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
+
 	// Cache the rendered frames when using multipass
 	const PrRenderCacheType cacheType = maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
 
 	EncodingData encodingData;
-
 	Converter *converter = new Converter(videoWidth.value.intValue, videoHeight.value.intValue);
 
 	// Prepare plane buffers
@@ -1493,14 +1491,15 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				continue;
 			}
 			// Planar YUV 4:2:0 8bit formats
-			else if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
+			else if (
 				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
 				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
 				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange ||
+				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
+				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
+				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange)
 			{
 				encodingData.planes = 3;
 				encodingData.pix_fmt = "yuv420p";
@@ -1590,9 +1589,9 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				{
 					encodingData.planes = 1;
 					encodingData.pix_fmt = "bgra";
-					encodingData.filters.push_back("vflip");
 					encodingData.plane[0] = pixels;
 					encodingData.stride[0] = rowBytes;
+					encodingData.filters.push_back("vflip");
 				}
 				else
 				{
