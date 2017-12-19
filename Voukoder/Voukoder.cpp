@@ -1480,7 +1480,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			// Get pixel format
 			PrPixelFormat format;
 			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
-			
+
 			// Skip invalid frames
 			if (format == PrPixelFormat_Invalid)
 			{
@@ -1595,13 +1595,30 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				}
 				else
 				{
-					char buf[256];
-					sprintf_s(buf, "Error: Pixel Format #%d is not implemented!", format);
+					// Fallback for unsupported pixel format error
+					result = instRec->sequenceRenderSuite->RenderVideoFrameAndConformToPixelFormat(instRec->videoRenderID, videoTime, &renderParms, cacheType, PrPixelFormat_VUYA_4444_32f_709, &renderResult);
+					if (result != malNoError)
+					{
 
-					ShowMessageBox(instRec, buf, "Error", MB_OK);
+						char buf[256];
+						sprintf_s(buf, "Error: Pixel Format #%d is not implemented!", format);
 
-					result = malUnknownError;
-					break;
+						ShowMessageBox(instRec, buf, "Error", MB_OK);
+
+						return result;
+					}
+
+					// Convert float to int16
+					converter->convertVUYA4444_32fToYUVA444p16(pixels, planeBuffer[0], planeBuffer[1], planeBuffer[2], planeBuffer[3]);
+
+					// Fill encoding data
+					encodingData.planes = 4;
+					encodingData.pix_fmt = "yuva444p16le";
+					encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = videoWidth.value.intValue * 2;
+					encodingData.plane[0] = planeBuffer[0];
+					encodingData.plane[1] = planeBuffer[1];
+					encodingData.plane[2] = planeBuffer[2];
+					encodingData.plane[3] = planeBuffer[3];
 				}
 			}
 
