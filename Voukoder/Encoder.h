@@ -13,6 +13,7 @@ typedef struct EncodingData
 	struct filters
 	{
 		bool vflip = false;
+		string scale = "";
 	} filters;
 } EncodingData;
 

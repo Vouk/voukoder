@@ -166,6 +166,12 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 		{
 			filters << "vflip,";
 		}
+		if (!encodingData->filters.scale.empty())
+		{
+			filters << "scale=";
+			filters << encodingData->filters.scale;
+			filters << ",";
+		}
 
 		// Set target format
 		char filterConfig[256];
@@ -197,7 +203,6 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	for (int i = 0; i < encodingData->planes; i++)
 	{
 		frame->data[i] = (uint8_t*)encodingData->plane[i];
-		frame->linesize[i] = encodingData->stride[i];
 	}
 
 	// Presentation timestamp
