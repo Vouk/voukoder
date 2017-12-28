@@ -41,7 +41,7 @@ prSuiteError VideoRenderer::deinterleave(PPixHand renderedFrame, char *bufferY, 
 		12, 8, 4, 0, // Y
 		13, 9, 5, 1, // U
 		14, 10, 6, 2, // V
-		15, 11, 7, 3  // A
+		15, 11, 7, 3  // A (not needed)
 	);
 
 	M128 dest;
@@ -149,7 +149,7 @@ prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK
 	return error;
 }
 
-prSuiteError VideoRenderer::renderFrames(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
+prSuiteError VideoRenderer::render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
 {
 	this->callback = callback;
 

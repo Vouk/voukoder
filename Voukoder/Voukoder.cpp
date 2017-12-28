@@ -1192,7 +1192,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	return result;
 }
 
-// reviewed 0.4.2
+// reviewed 0.5.0
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 {
 	prMALError result = malNoError;
@@ -1302,7 +1302,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	int maxPasses = videoEncoderConfig->getMaxPasses();
 
 	// Start the rendering loop
-	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
+	videoRenderer->render(exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
 	{
 		// Handle multiple passes
 		if (currentPass == 0 || (maxPasses > 1 && encodingData.pass > currentPass))
