@@ -68,7 +68,7 @@ Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV
 ## Donations
 
 ### Paypal
-Although you can use this plugin for i would appreciate getting donations. Working on the plugin consumes alot of time and i am constantly working on improvements and new features.
+Although you can use this plugin for free i do appreciate getting donations. Working on the plugin consumes alot of time after my regular work. Press the button below to donate.
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
 
