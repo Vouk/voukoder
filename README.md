@@ -74,3 +74,7 @@ Although you can use this plugin for free i do appreciate getting donations. Wor
 
 ### Non-monetary support
 I really need good **hardware with high performance** on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3. I could also use some video equipment like an **Elgato Cam Link** and a **DSLM (GH4/5 or similar)**. If you want to support me with this please get in direct contact with me (daniel dot stankewitz at gmail dot com).
+
+## Contact ##
+
+Contact me on github, by email (daniel dot stankewitz at gmail dot com) or you can even follow me on twitter: https://twitter.com/LordVouk
