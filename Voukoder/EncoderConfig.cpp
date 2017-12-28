@@ -237,9 +237,9 @@ string EncoderConfig::getConfigAsParamString(string dashes)
 }
 
 // reviewed 0.3.8
-const char* EncoderConfig::getPixelFormat()
+string EncoderConfig::getPixelFormat()
 {
-	return pixelFormat.c_str();
+	return pixelFormat;
 }
 
 // reviewed 0.3.8

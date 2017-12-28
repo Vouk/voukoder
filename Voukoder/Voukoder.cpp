@@ -1318,7 +1318,6 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 	// Allocate audio output buffer
 	float *audioBuffer[MAX_AUDIO_CHANNELS];
-
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
 	{
 		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * maxBlip);
@@ -1328,15 +1327,28 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	csSDK_int32 chunk;
 
 	// Target pixel format
-	PrPixelFormat format = colorSpace.value.intValue == vkdrBT709 ? PrPixelFormat_VUYA_4444_8u_709 : PrPixelFormat_VUYA_4444_8u;
+	PrPixelFormat format;
+	string pixfmt = encoder->videoContext->encoderConfig->getPixelFormat();
+	if (pixfmt == "yuv420p" ||
+		pixfmt == "yuv422p" ||
+		pixfmt == "yuv444p")
+	{
+		// 8bit color depth
+		format = colorSpace.value.intValue == vkdrBT709 ? PrPixelFormat_VUYA_4444_8u_709 : PrPixelFormat_VUYA_4444_8u;
+	}
+	else
+	{
+		// > 8bit color depth
+		format = colorSpace.value.intValue == vkdrBT709 ? PrPixelFormat_VUYA_4444_32f_709 : PrPixelFormat_VUYA_4444_32f;
+	}
 
 	// Create renderer instance
 	VideoRenderer *videoRenderer = new VideoRenderer(exID, videoWidth.value.intValue, videoHeight.value.intValue, format, instRec->ppixSuite,
 		instRec->memorySuite, instRec->exporterUtilitySuite);
-	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, [&](EncodingData data)
+	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, 1, [&](EncodingData encodingData)
 	{
 		// Encode and write the rendered video frame
-		encoder->writeVideoFrame(&data);
+		encoder->writeVideoFrame(&encodingData);
 
 		// Write all audio samples for that video frame
 		while (encoder->getNextFrameType() == FrameType::AudioFrame &&
@@ -1358,8 +1370,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			// Send raw data to the encoder
 			if (encoder->writeAudioFrame((const uint8_t**)audioBuffer, chunk) != S_OK)
 			{
-				result = malUnknownError;
-				break;
+				return false;
 			}
 
 			audioSamplesLeft -= chunk;
@@ -1373,6 +1384,8 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 				}
 			}
 		}
+
+		return true;
 	});
 	videoRenderer->~VideoRenderer();
 	

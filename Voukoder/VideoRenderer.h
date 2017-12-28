@@ -25,14 +25,17 @@ public:
 	PrSDKMemoryManagerSuite *memorySuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
 	EncodingData encodingData;
-	function<void(EncodingData)> callback;
+	function<bool(EncodingData)> callback;
 	VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite);
 	~VideoRenderer();
-	prSuiteError renderFrames(PrTime startTime, PrTime endTime, function<void(EncodingData)> callback);
+	prSuiteError renderFrames(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
 	prSuiteError deinterleave(PPixHand frame, char *bufferY, char *bufferU, char *bufferV);
+	prSuiteError deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
 
 private:
 	csSDK_uint32 videoRenderID;
 	PrPixelFormat pixelFormat;
+	csSDK_uint32 width;
+	csSDK_uint32 height;
 	
 };

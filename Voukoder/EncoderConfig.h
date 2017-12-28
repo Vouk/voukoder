@@ -24,10 +24,10 @@ public:
 	void initFromSettings(EncoderInfo *encoderInfo);
 	int getMaxPasses();
 	void parseCommandLine(string input);
-	void EncoderConfig::getConfig(AVDictionary **options);
-	void EncoderConfig::getConfig(AVDictionary **options, int maxPasses, int pass);
-	string EncoderConfig::getConfigAsParamString(string dashes);
-	const char* EncoderConfig::getPixelFormat();
+	void getConfig(AVDictionary **options);
+	void getConfig(AVDictionary **options, int maxPasses, int pass);
+	string getConfigAsParamString(string dashes);
+	string getPixelFormat();
 
 private:
 	PrSDKExportParamSuite *exportParamSuite;
@@ -39,6 +39,6 @@ private:
 	string multipassParameter;
 	void addParameters(map<string, string> parameters);
 	template<class T> void addParameters(map<string, string> parameters, T value);
-	bool EncoderConfig::getGroupFromParameter(string name, ParamGroup &retGroup);
+	bool getGroupFromParameter(string name, ParamGroup &retGroup);
 	static void AddParametersToDictionary(AVDictionary **options, map<string, string> parameters);
 };

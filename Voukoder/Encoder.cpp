@@ -175,7 +175,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 
 		// Set target format
 		char filterConfig[256];
-		sprintf_s(filterConfig, "%sformat=pix_fmts=%s", filters.str().c_str(), videoContext->encoderConfig->getPixelFormat());
+		sprintf_s(filterConfig, "%sformat=pix_fmts=%s", filters.str().c_str(), videoContext->encoderConfig->getPixelFormat().c_str());
 
 		frameFilter = new FrameFilter();
 		frameFilter->configure(options, filterConfig);

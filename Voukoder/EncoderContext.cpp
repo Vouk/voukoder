@@ -21,8 +21,8 @@ int EncoderContext::openCodec()
 	// Find the right pixel/sample format
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
-		const char* pix_fmt = encoderConfig->getPixelFormat();
-		codecContext->pix_fmt = av_get_pix_fmt(pix_fmt);
+		string pix_fmt = encoderConfig->getPixelFormat();
+		codecContext->pix_fmt = av_get_pix_fmt(pix_fmt.c_str());
 
 		/*
 		const int len = sizeof(context->codec->pix_fmts) / sizeof(context->codec->pix_fmts[0]);
