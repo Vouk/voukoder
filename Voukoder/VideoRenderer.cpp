@@ -113,6 +113,9 @@ prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK
 	PrPixelFormat format;
 	error = renderer->ppixSuite->GetPixelFormat(inRenderedFrame, &format);
 
+	// Store pass information
+	renderer->encodingData.pass = inWhichPass + 1;
+
 	// Is really everything VUYA_4444 ?
 	if (format == PrPixelFormat_VUYA_4444_8u ||
 		format == PrPixelFormat_VUYA_4444_8u_709)

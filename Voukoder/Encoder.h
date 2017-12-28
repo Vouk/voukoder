@@ -10,6 +10,7 @@ typedef struct EncodingData
 	const char *pix_fmt;
 	char *plane[8] = {};
 	unsigned int stride[8];
+	int pass;
 	struct filters
 	{
 		bool vflip = false;

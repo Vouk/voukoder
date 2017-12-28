@@ -288,100 +288,6 @@ prMALError exQueryOutputSettings(exportStdParms *stdParmsP, exQueryOutputSetting
 }
 
 // reviewed 0.3.8
-// TODO: Cleanup loop
-prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
-{
-	prMALError result = malNoError;
-
-	csSDK_uint32 exID = exportInfoP->exporterPluginID;
-	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
-	Settings *settings = instRec->settings;
-
-#pragma region Get filename
-
-	// Get the file name 
-	prUTF16Char prFilename[kPrMaxPath];
-	csSDK_int32 prFilenameLength = kPrMaxPath;
-	size_t i;
-	instRec->exportFileSuite->GetPlatformPath(exportInfoP->fileObject, &prFilenameLength, prFilename);
-	char *filename = (char*)malloc(kPrMaxPath);
-	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
-
-#pragma endregion
-
-#pragma region Create video encoder config
-
-	// Get selected video encoder
-	exParamValues videoCodec;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
-
-	// Get the selected encoder
-	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	EncoderInfo videoEncoderInfo = FilterTypeVectorById(videoEncoderInfos, videoCodec.value.intValue);
-
-	// Create config
-	EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
-	videoEncoderConfig->initFromSettings(&videoEncoderInfo);
-
-#pragma endregion
-
-#pragma region Create audio encoder config
-
-	// Get selected audio encoder
-	exParamValues audioCodec;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
-
-	// Get the selected encoder
-	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
-
-	// Create config
-	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
-	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
-
-#pragma endregion
-
-	const csSDK_int32 maxPasses = videoEncoderConfig->getMaxPasses();
-
-	// Do encoding loops
-	for (csSDK_int32 pass = 1; pass <= maxPasses; pass++)
-	{
-		// Create encoder instance
-		Encoder *encoder = new Encoder(NULL, filename);
-
-		result = SetupEncoderInstance(instRec, exID, encoder, videoEncoderConfig, audioEncoderConfig);
-
-		// Multipass encoding
-		if (maxPasses > 1)
-		{
-			if (pass == 1)
-			{
-				encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS1);
-			}
-			else
-			{
-				encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS2);
-			}
-		}
-		
-		// Open the encoder
-		if (encoder->open() == S_OK)
-		{
-			// Render and write all video and audio frames
-			result = RenderAndWriteAllFrames(exportInfoP, encoder, pass, maxPasses);
-
-			encoder->close(true);
-		}
-
-		encoder->~Encoder();
-		encoder = NULL;
-	}
-
-
-	return result;
-}
-
-// reviewed 0.3.8
 // TODO: Use element creation function here
 prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultParamRec *generateDefaultParamRec)
 {
@@ -1287,12 +1193,58 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 }
 
 // reviewed 0.4.2
-prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, csSDK_int32 pass, csSDK_int32 maxPasses)
+prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 {
 	prMALError result = malNoError;
 
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
+	Settings *settings = instRec->settings;
+	Encoder *encoder;
+
+#pragma region Get filename
+
+	// Get the file name 
+	prUTF16Char prFilename[kPrMaxPath];
+	csSDK_int32 prFilenameLength = kPrMaxPath;
+	size_t i;
+	instRec->exportFileSuite->GetPlatformPath(exportInfoP->fileObject, &prFilenameLength, prFilename);
+	char *filename = (char*)malloc(kPrMaxPath);
+	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
+
+#pragma endregion
+
+#pragma region Create video encoder config
+
+	// Get selected video encoder
+	exParamValues videoCodec;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
+
+	// Get the selected encoder
+	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
+	EncoderInfo videoEncoderInfo = FilterTypeVectorById(videoEncoderInfos, videoCodec.value.intValue);
+
+	// Create config
+	EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	videoEncoderConfig->initFromSettings(&videoEncoderInfo);
+
+#pragma endregion
+
+#pragma region Create audio encoder config
+
+	// Get selected audio encoder
+	exParamValues audioCodec;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
+
+	// Get the selected encoder
+	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
+	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
+
+	// Create config
+	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
+	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
+
+#pragma endregion
 
 	// Get render parameter values
 	exParamValues videoWidth, videoHeight, ticksPerFrame, colorSpace, channelType, audioSampleRate;
@@ -1328,7 +1280,7 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 
 	// Target pixel format
 	PrPixelFormat format;
-	string pixfmt = encoder->videoContext->encoderConfig->getPixelFormat();
+	string pixfmt = videoEncoderConfig->getPixelFormat();
 	if (pixfmt == "yuv420p" ||
 		pixfmt == "yuv422p" ||
 		pixfmt == "yuv444p")
@@ -1345,14 +1297,56 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	// Create renderer instance
 	VideoRenderer *videoRenderer = new VideoRenderer(exID, videoWidth.value.intValue, videoHeight.value.intValue, format, instRec->ppixSuite,
 		instRec->memorySuite, instRec->exporterUtilitySuite);
-	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, 1, [&](EncodingData encodingData)
+
+	int currentPass = 0;
+	int maxPasses = videoEncoderConfig->getMaxPasses();
+
+	// Start the rendering loop
+	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
 	{
+		// Handle multiple passes
+		if (currentPass == 0 || (maxPasses > 1 && encodingData.pass > currentPass))
+		{
+			// Close current encoder instance
+			if (currentPass > 0)
+			{
+				encoder->close(true);
+				encoder->~Encoder();
+			}
+
+			// Start next pass
+			currentPass = encodingData.pass;
+
+			// Create encoder instance
+			encoder = new Encoder(NULL, filename);
+
+			result = SetupEncoderInstance(instRec, exID, encoder, videoEncoderConfig, audioEncoderConfig);
+
+			// Multipass encoding
+			if (maxPasses > 1)
+			{
+				if (currentPass == 1)
+				{
+					encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS1);
+				}
+				else
+				{
+					encoder->videoContext->setCodecFlags(AV_CODEC_FLAG_PASS2);
+				}
+			}
+
+			// Open the encoder
+			if (encoder->open() != S_OK)
+			{
+				return false;
+			}
+		}
+
 		// Encode and write the rendered video frame
 		encoder->writeVideoFrame(&encodingData);
 
 		// Write all audio samples for that video frame
-		while (encoder->getNextFrameType() == FrameType::AudioFrame &&
-			audioSamplesLeft > 0)
+		while (encoder->getNextFrameType() == FrameType::AudioFrame && audioSamplesLeft > 0)
 		{
 			// Set chunk size
 			if (audioSamplesLeft > maxBlip)
@@ -1389,5 +1383,9 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 	});
 	videoRenderer->~VideoRenderer();
 	
-	return result;
+	encoder->close(true);
+	encoder->~Encoder();
+	encoder = NULL;
+
+	return malNoError;
 }
