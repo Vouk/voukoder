@@ -3,8 +3,9 @@
 #include "Decoder.h"
 #include "Voukoder.h"
 #include "Common.h"
-#include "Converter.h"
 #include "InstructionSet.h"
+#include "VideoRenderer.h"
+#include <functional>
 
 // reviewed 0.3.8
 static void avlog_cb(void *, int level, const char * szFmt, va_list varg)
@@ -111,6 +112,7 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exporterUtilitySuite))));
+			spError = spBasic->AcquireSuite(kPrSDKImageProcessingSuite, kPrSDKImageProcessingSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->imageProcessingSuite))));
 
 			// Get the DLL module handle
 			MEMORY_BASIC_INFORMATION mbi;
@@ -193,6 +195,11 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 		if (instRec->exporterUtilitySuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion);
+		}
+
+		if (instRec->imageProcessingSuite)
+		{
+			result = spBasic->ReleaseSuite(kPrSDKImageProcessingSuite, kPrSDKImageProcessingSuiteVersion);
 		}
 
 		if (instRec->memorySuite)
@@ -1279,298 +1286,74 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	return result;
 }
 
-// reviewed 0.3.8
+// reviewed 0.4.2
 prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder, csSDK_int32 pass, csSDK_int32 maxPasses)
 {
 	prMALError result = malNoError;
+
 	csSDK_uint32 exID = exportInfoP->exporterPluginID;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(exportInfoP->privateData);
 
 	// Get render parameter values
-	exParamValues videoWidth, videoHeight, pixelAspectRatio, fieldType, colorSpace, colorRange, ticksPerFrame, channelType, audioSampleRate;
+	exParamValues videoWidth, videoHeight, ticksPerFrame, colorSpace, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoAspect, &pixelAspectRatio);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
-	// Make audio renderer
 	PrTime ticksPerSample;
 	instRec->timeSuite->GetTicksPerAudioSample(audioSampleRate.value.floatValue, &ticksPerSample);
-	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &instRec->audioRenderID);
-	instRec->sequenceAudioSuite->ResetAudioToBeginning(instRec->audioRenderID);
+
+	// Make audio renderer
+	csSDK_uint32 audioRendererID;
+	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, 
+		kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &audioRendererID);
+	instRec->sequenceAudioSuite->ResetAudioToBeginning(audioRendererID);
 
 	// Get the audio frame size we need to send to the encoder
-	instRec->sequenceAudioSuite->GetMaxBlip(instRec->audioRenderID, ticksPerFrame.value.timeValue, &instRec->maxBlip);
+	csSDK_int32 maxBlip;
+	instRec->sequenceAudioSuite->GetMaxBlip(audioRendererID, ticksPerFrame.value.timeValue, &maxBlip);
 
-	PrTime exportDuration = exportInfoP->endTime - exportInfoP->startTime;
-	PrTime audioSamplesLeft = exportDuration / ticksPerSample;
-
-	// Define the render params
-	SequenceRender_ParamsRec renderParms;
-
-	// Find the right pixel format
-	const PrPixelFormat pixelFormats[] = {
-		PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709,
-		PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange,
-		PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709,
-		PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange,
-		PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601,
-		PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange,
-		PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601,
-		PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange,
-		PrPixelFormat_UYVY_422_8u_709,
-		PrPixelFormat_UYVY_422_8u_601,
-		PrPixelFormat_YUYV_422_8u_709,
-		PrPixelFormat_YUYV_422_8u_601,
-//		PrPixelFormat_V210_422_10u_709,
-//		PrPixelFormat_V210_422_10u_601,
-		PrPixelFormat_VUYA_4444_8u_709,
-		PrPixelFormat_VUYA_4444_8u,
-		PrPixelFormat_VUYA_4444_32f_709,
-		PrPixelFormat_VUYA_4444_32f,
-		PrPixelFormat_BGRA_4444_8u
-	};
-	renderParms.inRequestedPixelFormatArray = pixelFormats;
-	renderParms.inRequestedPixelFormatArrayCount = sizeof(pixelFormats) / sizeof(pixelFormats[0]);
-	renderParms.inWidth = videoWidth.value.intValue;
-	renderParms.inHeight = videoHeight.value.intValue;
-	renderParms.inPixelAspectRatioNumerator = pixelAspectRatio.value.ratioValue.numerator;
-	renderParms.inPixelAspectRatioDenominator = pixelAspectRatio.value.ratioValue.denominator;
-	renderParms.inRenderQuality = kPrRenderQuality_Max;
-	renderParms.inFieldType = fieldType.value.intValue;
-	renderParms.inDeinterlace = kPrFalse;
-	renderParms.inDeinterlaceQuality = kPrRenderQuality_High;
-	renderParms.inCompositeOnBlack = kPrFalse;
-
-	// Make video renderer
-	instRec->sequenceRenderSuite->MakeVideoRenderer(exID, &instRec->videoRenderID, ticksPerFrame.value.timeValue);
-
-	// Cache the rendered frames when using multipass
-	const PrRenderCacheType cacheType = maxPasses > 1 ? kRenderCacheType_RenderedStillFrames : kRenderCacheType_None;
-
-	// Set colorspace and color range
-	stringstream rgbScale;
-	rgbScale << "out_color_matrix=";
-	if (colorSpace.value.intValue == vkdrBT709)
-	{
-		rgbScale << "bt709";
-	}
-	else
-	{
-		rgbScale << "bt601";
-	}
-	rgbScale << ":out_range=";
-	if (colorRange.value.intValue == vkdrFullColorRange)
-	{
-		rgbScale << "jpeg";
-	}
-	else
-	{
-		rgbScale << "mpeg";
-	}
-
-	EncodingData encodingData;
-	
-	Converter *converter = new Converter(videoWidth.value.intValue, videoHeight.value.intValue);
-
-	// Prepare plane buffers
-	char *planeBuffer[8];
-	for (int i = 0; i < 8; i++)
-	{
-		planeBuffer[i] = (char *)instRec->memorySuite->NewPtr(videoHeight.value.intValue * videoWidth.value.intValue * 8); // max. 4 components / 16 bit
-	}
-	
 	// Allocate audio output buffer
 	float *audioBuffer[MAX_AUDIO_CHANNELS];
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
 	{
-		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * instRec->maxBlip);
+		audioBuffer[i] = (float *)instRec->memorySuite->NewPtr(sizeof(float) * maxBlip);
 	}
 
-	// Export loop
-	PrTime videoTime = exportInfoP->startTime;
-	while (videoTime <= (exportInfoP->endTime - ticksPerFrame.value.timeValue))
+	PrTime audioSamplesLeft = (exportInfoP->endTime - exportInfoP->startTime) / ticksPerSample;
+	csSDK_int32 chunk;
+
+	// Target pixel format
+	PrPixelFormat format = colorSpace.value.intValue == vkdrBT709 ? PrPixelFormat_VUYA_4444_8u_709 : PrPixelFormat_VUYA_4444_8u;
+
+	// Create renderer instance
+	VideoRenderer *videoRenderer = new VideoRenderer(exID, videoWidth.value.intValue, videoHeight.value.intValue, format, instRec->ppixSuite,
+		instRec->memorySuite, instRec->exporterUtilitySuite);
+	videoRenderer->renderFrames(exportInfoP->startTime, exportInfoP->endTime, [&](EncodingData data)
 	{
-		FrameType frameType = encoder->getNextFrameType();
-		if (FrameType::VideoFrame == frameType || audioSamplesLeft <= 0)
+		// Encode and write the rendered video frame
+		encoder->writeVideoFrame(&data);
+
+		// Write all audio samples for that video frame
+		while (encoder->getNextFrameType() == FrameType::AudioFrame &&
+			audioSamplesLeft > 0)
 		{
-			// Render the uncompressed frame
-			SequenceRender_GetFrameReturnRec renderResult;
-			result = instRec->sequenceRenderSuite->RenderVideoFrame(instRec->videoRenderID, videoTime, &renderParms, cacheType, &renderResult);
-			if (result != malNoError)
-			{
-				ShowMessageBox(instRec, L"Error: Required pixel format has not been requested in render params.", PLUGIN_APPNAME, MB_OK);
-
-				break;
-			}
-
-			// Get pixel format
-			PrPixelFormat format;
-			result = instRec->ppixSuite->GetPixelFormat(renderResult.outFrame, &format);
-
-			// Skip invalid frames
-			if (format == PrPixelFormat_Invalid)
-			{
-				OutputDebugStringA("Warning: Received an invalid pixel format. Skipping this frame ...");
-			}
-			// Planar YUV 4:2:0 8bit formats
-			else if (
-				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange ||
-				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
-				format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
-				format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange)
-			{
-				encodingData.planes = 3;
-				encodingData.pix_fmt = "yuv420p";
-
-				// Get planar buffers
-				result = instRec->ppix2Suite->GetYUV420PlanarBuffers(
-					renderResult.outFrame,
-					PrPPixBufferAccess_ReadOnly,
-					&encodingData.plane[0],
-					&encodingData.stride[0],
-					&encodingData.plane[1],
-					&encodingData.stride[1],
-					&encodingData.plane[2],
-					&encodingData.stride[2]);
-			}
-			else // Other (packet) formats
-			{
-				// Get packed rowsize
-				csSDK_int32 rowBytes;
-				result = instRec->ppixSuite->GetRowBytes(renderResult.outFrame, &rowBytes);
-
-				// Get pixels from the renderer
-				char *pixels;
-				result = instRec->ppixSuite->GetPixels(renderResult.outFrame, PrPPixBufferAccess_ReadOnly, &pixels);
-
-				// Handle packed formats
-				if (format == PrPixelFormat_UYVY_422_8u_709 ||
-					format == PrPixelFormat_UYVY_422_8u_601)
-				{
-					encodingData.planes = 1;
-					encodingData.pix_fmt = "uyvy422";
-					encodingData.plane[0] = pixels;
-					encodingData.filters.vflip = false;
-					encodingData.filters.scale = "";
-				}
-				else if (format == PrPixelFormat_YUYV_422_8u_601 ||
-					format == PrPixelFormat_YUYV_422_8u_709)
-				{
-					encodingData.planes = 1;
-					encodingData.pix_fmt = "yuyv422";
-					encodingData.plane[0] = pixels;
-					encodingData.filters.vflip = false;
-					encodingData.filters.scale = "";
-				}
-				else if (format == PrPixelFormat_V210_422_10u_709 ||
-					format == PrPixelFormat_V210_422_10u_601)
-				{
-					// Decode v210 to yuv444p
-					converter->decodeV210ToYUV422p10(pixels, rowBytes, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
-
-					encodingData.planes = 3;
-					encodingData.pix_fmt = av_get_pix_fmt_name(AV_PIX_FMT_YUV422P10LE);
-					encodingData.plane[0] = planeBuffer[0];
-					encodingData.plane[1] = planeBuffer[1];
-					encodingData.plane[2] = planeBuffer[2];
-					encodingData.filters.vflip = false;
-					encodingData.filters.scale = "";
-				}
-				else if (format == PrPixelFormat_VUYA_4444_8u ||
-					format == PrPixelFormat_VUYA_4444_8u_709)
-				{
-					// Convert ayuv to yuv444p
-					converter->convertVUYA4444_8uToYUV444(pixels, planeBuffer[0], planeBuffer[1], planeBuffer[2]);
-
-					// Fill encoding data
-					encodingData.planes = 3;
-					encodingData.pix_fmt = "yuv444p";
-					encodingData.plane[0] = planeBuffer[0];
-					encodingData.plane[1] = planeBuffer[1];
-					encodingData.plane[2] = planeBuffer[2];
-					encodingData.filters.vflip = false;
-					encodingData.filters.scale = "";
-				}
-				else if (format == PrPixelFormat_VUYA_4444_32f ||
-					format == PrPixelFormat_VUYA_4444_32f_709)
-				{
-					// Convert float to int16
-					converter->convertVUYA4444_32fToYUVA444p16(pixels, planeBuffer[0], planeBuffer[1], planeBuffer[2], planeBuffer[3]);
-
-					// Fill encoding data
-					encodingData.planes = 4;
-					encodingData.pix_fmt = "yuva444p16le";
-					encodingData.plane[0] = planeBuffer[0];
-					encodingData.plane[1] = planeBuffer[1];
-					encodingData.plane[2] = planeBuffer[2];
-					encodingData.plane[3] = planeBuffer[3];
-					encodingData.filters.vflip = false;
-					encodingData.filters.scale = "";
-				}
-				else if (format == PrPixelFormat_BGRA_4444_8u) // Default BGRA format
-				{
-					encodingData.planes = 1;
-					encodingData.pix_fmt = "bgra";
-					encodingData.plane[0] = pixels;
-					encodingData.stride[0] = rowBytes;
-					encodingData.filters.vflip = true;
-					encodingData.filters.scale = rgbScale.str();
-				}
-				else if (format == PrPixelFormat_BGRA_4444_16u) 
-				{
-					encodingData.planes = 1;
-					encodingData.pix_fmt = "bgra64le";
-					encodingData.plane[0] = pixels;
-					encodingData.filters.vflip = true;
-					encodingData.filters.scale = rgbScale.str();
-				}
-				else
-				{
-					char buf[256];
-					sprintf_s(buf, "Error: Pixel Format #%d is not implemented!", format);
-
-					ShowMessageBox(instRec, buf, "Not Implemented Exception", MB_OK);
-
-					result = malUnknownError;
-					break;
-				}
-			}
-
-			// Send to encoder
-			if (encoder->writeVideoFrame(&encodingData) != S_OK)
-			{
-				result = malUnknownError;
-				break;
-			}
-
-			// Dispose the rendered frame
-			result = instRec->ppixSuite->Dispose(renderResult.outFrame);
-
-			videoTime += ticksPerFrame.value.timeValue;
-		}
-		else if (FrameType::AudioFrame == frameType)
-		{
-			int chunk = audioSamplesLeft;
-
 			// Set chunk size
-			if (chunk > instRec->maxBlip)
+			if (audioSamplesLeft > maxBlip)
 			{
-				chunk = instRec->maxBlip;
+				chunk = maxBlip;
+			}
+			else
+			{
+				chunk = (csSDK_int32)audioSamplesLeft;
 			}
 
 			// Get the sample data
-			result = instRec->sequenceAudioSuite->GetAudio(instRec->audioRenderID, chunk, audioBuffer, kPrFalse);
+			result = instRec->sequenceAudioSuite->GetAudio(audioRendererID, chunk, audioBuffer, kPrFalse);
 
 			// Send raw data to the encoder
 			if (encoder->writeAudioFrame((const uint8_t**)audioBuffer, chunk) != S_OK)
@@ -1580,46 +1363,18 @@ prMALError RenderAndWriteAllFrames(exDoExportRec *exportInfoP, Encoder *encoder,
 			}
 
 			audioSamplesLeft -= chunk;
+
+			// Free audio buffers when not needed anymore
+			if (audioSamplesLeft <= 0)
+			{
+				for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
+				{
+					instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
+				}
+			}
 		}
-
-		// Update progress & handle export cancellation
-		float offset = (1.0f / static_cast<float>(maxPasses)) * (static_cast<float>(pass) - 1);
-		float progress = offset + static_cast<float>(videoTime - exportInfoP->startTime) / static_cast<float>(exportDuration) / static_cast<float>(maxPasses);
-		result = instRec->exportProgressSuite->UpdateProgressPercent(exID, progress);
-		if (result == suiteError_ExporterSuspended)
-		{
-			instRec->exportProgressSuite->WaitForResume(exID);
-		}
-		else if (result == exportReturn_Abort)
-		{
-			exportDuration = videoTime + ticksPerFrame.value.timeValue - exportInfoP->startTime < exportDuration ? videoTime + ticksPerFrame.value.timeValue - exportInfoP->startTime : exportDuration;
-			break;
-		}
-	}
-
-	// Free audio output buffer
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; i++)
-	{
-		instRec->memorySuite->PrDisposePtr((char *)audioBuffer[i]);
-	}
-
-	// Free plane buffers
-	for (int i = 0; i < 8; i++)
-	{
-		instRec->memorySuite->PrDisposePtr((char *)planeBuffer[i]);
-	}
-
-	converter->~Converter();
-	converter = NULL;
-
-	// Release renderers
-	instRec->sequenceRenderSuite->ReleaseVideoRenderer(exID, instRec->videoRenderID);
-	instRec->sequenceAudioSuite->ReleaseAudioRenderer(exID, instRec->audioRenderID);
+	});
+	videoRenderer->~VideoRenderer();
 	
 	return result;
-}
-
-Voukoder::Voukoder()
-{
-	// Build this as a class sometime
 }

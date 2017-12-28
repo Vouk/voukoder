@@ -327,7 +327,7 @@
     <ClInclude Include="InstructionSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Converter.h">
+    <ClInclude Include="VideoRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -365,7 +365,7 @@
     <ClCompile Include="InstructionSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Converter.cpp">
+    <ClCompile Include="VideoRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

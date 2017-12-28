@@ -23,6 +23,7 @@
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
 #include "premiere_cs6\PrSDKWindowSuite.h"
 #include "premiere_cs6\PrSDKExporterUtilitySuite.h"
+#include "premiere_cs6\PrSDKImageProcessingSuite.h"
 #include "Settings.h"
 #include "EncoderConfig.h"
 #include "lavf.h"
@@ -59,11 +60,9 @@ typedef struct InstanceRec
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
+	PrSDKImageProcessingSuite *imageProcessingSuite;
 	HMODULE hInstance;
 	Settings *settings;
-	csSDK_uint32 videoRenderID;
-	csSDK_uint32 audioRenderID;
-	csSDK_int32 maxBlip;
 } InstanceRec;
 
 typedef csSDK_int32 vkdrTvStandard;

@@ -117,7 +117,7 @@
     <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="MuxerInfo.h" />
-    <ClInclude Include="Converter.h" />
+    <ClInclude Include="VideoRenderer.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Encoder.h" />
@@ -223,7 +223,7 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="InstructionSet.cpp" />
     <ClCompile Include="MuxerInfo.cpp" />
-    <ClCompile Include="Converter.cpp" />
+    <ClCompile Include="VideoRenderer.cpp" />
     <ClCompile Include="Voukoder.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
