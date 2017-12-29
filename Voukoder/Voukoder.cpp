@@ -208,8 +208,7 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 			result = spBasic->ReleaseSuite(kPrSDKMemoryManagerSuite, kPrSDKMemoryManagerSuiteVersion);
 		}
 		
-		instRec->settings->~Settings();
-		instRec->settings = NULL;
+		delete(instRec->settings);
 	}
 
 	return malNoError;
@@ -943,7 +942,7 @@ processValues:
 	return result;
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.0
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP)
 {
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(summaryRecP->privateData);
@@ -966,6 +965,8 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 		//Create summary string
 		string videoSummary = encoderInfo.name + " (" + videoEncoderConfig->getConfigAsParamString("-") + ")";
 		prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
+
+		delete(videoEncoderConfig);
 	}
 
 #pragma endregion
@@ -987,6 +988,8 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 		//Create summary string
 		string audioSummary = encoderInfo.name + " (" + audioEncoderConfig->getConfigAsParamString("-") + ")";
 		prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
+
+		delete(audioEncoderConfig);
 	}
 
 #pragma endregion
@@ -997,7 +1000,7 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	return malNoError;
 }
 
-// reviewed 0.4.1
+// reviewed 0.5.0
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec)
 {
 	prMALError result = malNoError;
@@ -1006,11 +1009,13 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
 	Settings *settings = instRec->settings;
 
-#pragma region Create video encoder info
-
 	// Get selected video encoder
-	exParamValues videoCodec;
+	exParamValues videoCodec, audioCodec, multiplexer;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
+
+#pragma region Create video encoder info
 
 	// Get the selected encoder
 	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
@@ -1028,10 +1033,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 
 #pragma region Create audio encoder info
 
-	// Get selected audio encoder
-	exParamValues audioCodec;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
-
 	// Get the selected encoder
 	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
 	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
@@ -1047,10 +1048,6 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 #pragma endregion
 
 #pragma region Create muxer info
-
-	// Get the users multiplexer choice
-	exParamValues multiplexer;
-	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
 
 	// Get selected muxer
 	vector<MuxerInfo> muxerInfos = settings->getMuxers();
@@ -1099,13 +1096,14 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 		result = exportReturn_ErrLastErrorSet;
 	}
 
-	encoder->~Encoder();
-	encoder = NULL;
+	delete(encoder);
+	delete(videoEncoderConfig);
+	delete(audioEncoderConfig);
 
 	return result;
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.0
 prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderConfig *videoConfig, EncoderConfig *audioConfig)
 {
 	prMALError result = malNoError;
@@ -1125,8 +1123,8 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 
 	// Find the correct fps ratio
 	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
-	int num = 254016000000 / c;
-	int den = ticksPerFrame.value.timeValue / c;
+	PrTime num = 254016000000 / c;
+	PrTime den = ticksPerFrame.value.timeValue / c;
 
 	// Create audio context information
 	EncoderContextInfo audioContextInfo;
@@ -1158,7 +1156,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 	videoContextInfo.name = videoConfig->encoderInfo->name;
 	videoContextInfo.width = videoWidth.value.intValue;
 	videoContextInfo.height = videoHeight.value.intValue;
-	videoContextInfo.timebase = { den, num };
+	videoContextInfo.timebase = {(int)den, (int)num };
 	
 	// Get the right color range
 	videoContextInfo.colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
@@ -1311,7 +1309,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 			if (currentPass > 0)
 			{
 				encoder->close(true);
-				encoder->~Encoder();
+				delete(encoder);
 			}
 
 			// Start next pass
@@ -1381,11 +1379,14 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 		return true;
 	});
-	videoRenderer->~VideoRenderer();
+	
+	delete (videoRenderer);
 	
 	encoder->close(true);
-	encoder->~Encoder();
-	encoder = NULL;
+	delete(encoder);
+
+	delete(audioEncoderConfig);
+	delete(videoEncoderConfig);
 
 	return malNoError;
 }

@@ -16,8 +16,8 @@ Encoder::Encoder(const char *short_name, const char *filename)
 // reviewed 0.3.8
 Encoder::~Encoder()
 {	
-	videoContext->~EncoderContext();
-	audioContext->~EncoderContext();
+	delete(videoContext);
+	delete(audioContext);
 	avformat_free_context(formatContext);
 }
 
@@ -135,8 +135,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 		// Destroy frame filters
 		for (auto items : videoContext->frameFilters)
 		{
-			items.second->~FrameFilter();
-			items.second = NULL;
+			delete(items.second);
 		}
 
 		// Clear filter map
@@ -321,8 +320,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		// Destroy frame filters
 		for (auto items : audioContext->frameFilters)
 		{
-			items.second->~FrameFilter();
-			items.second = NULL;
+			delete(items.second);
 		}
 
 		// Clear filter map
