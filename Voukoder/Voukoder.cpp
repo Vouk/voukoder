@@ -1254,12 +1254,12 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
 	PrTime ticksPerSample;
-	instRec->timeSuite->GetTicksPerAudioSample(audioSampleRate.value.floatValue, &ticksPerSample);
+	instRec->timeSuite->GetTicksPerAudioSample((float)audioSampleRate.value.floatValue, &ticksPerSample);
 
 	// Make audio renderer
 	csSDK_uint32 audioRendererID;
 	instRec->sequenceAudioSuite->MakeAudioRenderer(exID, exportInfoP->startTime, (PrAudioChannelType)channelType.value.intValue, 
-		kPrAudioSampleType_32BitFloat, audioSampleRate.value.floatValue, &audioRendererID);
+		kPrAudioSampleType_32BitFloat, (float)audioSampleRate.value.floatValue, &audioRendererID);
 	instRec->sequenceAudioSuite->ResetAudioToBeginning(audioRendererID);
 
 	// Get the audio frame size we need to send to the encoder
