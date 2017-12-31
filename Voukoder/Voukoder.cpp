@@ -1,6 +1,5 @@
 #include <windows.h>
 #include "Encoder.h"
-#include "Decoder.h"
 #include "Voukoder.h"
 #include "Common.h"
 #include "InstructionSet.h"

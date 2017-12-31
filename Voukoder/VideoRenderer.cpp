@@ -140,10 +140,15 @@ prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK
 		return suiteError_RenderInvalidPixelFormat;
 	}
 
-	// Return the frame
-	if (!renderer->callback(renderer->encodingData))
+	// Repeating frames will be rendered only once
+	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
 	{
-		error = suiteError_ExporterSuspended;
+		// Return the frame
+		if (!renderer->callback(renderer->encodingData))
+		{
+			error = suiteError_ExporterSuspended;
+			break;
+		}
 	}
 
 	return error;

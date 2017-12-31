@@ -109,7 +109,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Decoder.h" />
     <ClInclude Include="EncoderContext.h" />
     <ClInclude Include="EncoderInfo.h" />
     <ClInclude Include="EncoderConfig.h" />
@@ -216,7 +215,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Decoder.cpp" />
     <ClCompile Include="EncoderContext.cpp" />
     <ClCompile Include="EncoderInfo.cpp" />
     <ClCompile Include="EncoderConfig.cpp" />
