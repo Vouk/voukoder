@@ -524,11 +524,10 @@
             },
             {
               "id": 3,
-              "name": "Lossless (YUV 4:4:4 only)",
+              "name": "Lossless",
               "pixelFormat": "yuv444p",
               "parameters": {
-                "qp": "0",
-                "profile": "high444"
+                "qp": "0"
               }
             }
           ]

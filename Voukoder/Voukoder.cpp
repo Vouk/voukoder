@@ -104,14 +104,11 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			spError = spBasic->AcquireSuite(kPrSDKExportParamSuite, kPrSDKExportParamSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportParamSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportInfoSuite, kPrSDKExportInfoSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportInfoSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKSequenceAudioSuite, kPrSDKSequenceAudioSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->sequenceAudioSuite))));
-			spError = spBasic->AcquireSuite(kPrSDKSequenceRenderSuite, kPrSDKSequenceRenderSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->sequenceRenderSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportFileSuite, kPrSDKExportFileSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportFileSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppixSuite))));
-			spError = spBasic->AcquireSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->ppix2Suite))));
 			spError = spBasic->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exportProgressSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->windowSuite))));
 			spError = spBasic->AcquireSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->exporterUtilitySuite))));
-			spError = spBasic->AcquireSuite(kPrSDKImageProcessingSuite, kPrSDKImageProcessingSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&(instRec->imageProcessingSuite))));
 
 			// Get the DLL module handle
 			MEMORY_BASIC_INFORMATION mbi;
@@ -161,11 +158,6 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 			result = spBasic->ReleaseSuite(kPrSDKSequenceAudioSuite, kPrSDKSequenceAudioSuiteVersion);
 		}
 
-		if (instRec->sequenceRenderSuite)
-		{
-			result = spBasic->ReleaseSuite(kPrSDKSequenceRenderSuite, kPrSDKSequenceRenderSuiteVersion);
-		}
-
 		if (instRec->exportFileSuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKExportFileSuite, kPrSDKExportFileSuiteVersion);
@@ -174,11 +166,6 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 		if (instRec->ppixSuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKPPixSuite, kPrSDKPPixSuiteVersion);
-		}
-
-		if (instRec->ppix2Suite)
-		{
-			result = spBasic->ReleaseSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion);
 		}
 
 		if (instRec->exportProgressSuite)
@@ -194,11 +181,6 @@ prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *insta
 		if (instRec->exporterUtilitySuite)
 		{
 			result = spBasic->ReleaseSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion);
-		}
-
-		if (instRec->imageProcessingSuite)
-		{
-			result = spBasic->ReleaseSuite(kPrSDKImageProcessingSuite, kPrSDKImageProcessingSuiteVersion);
 		}
 
 		if (instRec->memorySuite)

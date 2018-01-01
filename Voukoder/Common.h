@@ -53,14 +53,11 @@ typedef struct InstanceRec
 	PrSDKExportParamSuite *exportParamSuite;
 	PrSDKExportInfoSuite *exportInfoSuite;
 	PrSDKSequenceAudioSuite *sequenceAudioSuite;
-	PrSDKSequenceRenderSuite *sequenceRenderSuite;
 	PrSDKExportFileSuite *exportFileSuite;
 	PrSDKPPixSuite *ppixSuite;
-	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
-	PrSDKImageProcessingSuite *imageProcessingSuite;
 	HMODULE hInstance;
 	Settings *settings;
 } InstanceRec;
