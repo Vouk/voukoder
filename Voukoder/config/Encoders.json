@@ -1288,7 +1288,7 @@
           "delimiter": "=",
           "separator": ":",
           "noValueReplacement": "1",
-          "parameters": [ "interlace" ]
+          "parameters": [ "interlace", "lossless" ]
         }
       },
       "params": [
