@@ -17,21 +17,37 @@ union M128 {
 class VideoRenderer
 {
 public:
-	PrSDKPPixSuite *ppixSuite;
-	PrSDKMemoryManagerSuite *memorySuite;
-	PrSDKExporterUtilitySuite *exporterUtilitySuite;
-	EncodingData encodingData;
-	function<bool(EncodingData)> callback;
-	VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite);
-	~VideoRenderer();
-	prSuiteError render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
-	prSuiteError deinterleave(PPixHand frame, char *bufferY, char *bufferU, char *bufferV);
-	prSuiteError deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
-
-private:
-	csSDK_uint32 videoRenderID;
 	PrPixelFormat pixelFormat;
 	csSDK_uint32 width;
 	csSDK_uint32 height;
-	
+	PrSDKPPixSuite *ppixSuite;
+	PrSDKMemoryManagerSuite *memorySuite;
+	PrSDKExporterUtilitySuite *exporterUtilitySuite;
+	PrSDKImageProcessingSuite *imageProcessingSuite;
+	char *conversionBuffer;
+	EncodingData encodingData;
+	function<bool(EncodingData)> callback;
+	csSDK_uint32 videoRenderID;
+	explicit VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
+	~VideoRenderer();
+	virtual prSuiteError render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) = 0;
+	prSuiteError deinterleave(PPixHand frame, char *bufferY, char *bufferU, char *bufferV);
+	prSuiteError deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
+
+};
+
+class StandardVideoRenderer : public VideoRenderer
+{
+	using VideoRenderer::VideoRenderer;
+
+public:
+	prSuiteError render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) override;
+};
+
+class AccurateVideoRenderer : public VideoRenderer
+{
+	using VideoRenderer::VideoRenderer;
+
+public:
+	prSuiteError render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) override;
 };

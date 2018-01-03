@@ -1,15 +1,23 @@
 #include "VideoRenderer.h"
 #include <tmmintrin.h>
 
-VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite) :
+VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite) :
 	videoRenderID(videoRenderID),
 	width(width),
 	height(height),
 	pixelFormat(pixelFormat),
 	ppixSuite(ppixSuite),
 	memorySuite(memorySuite),
-	exporterUtilitySuite(exporterUtilitySuite)
+	exporterUtilitySuite(exporterUtilitySuite),
+	imageProcessingSuite(imageProcessingSuite)
 {
+	// Get new packed rowsize
+	csSDK_int32 destRowBytes;
+	imageProcessingSuite->GetSizeForPixelBuffer(pixelFormat, width, height, &destRowBytes);
+
+	// Reserve conversion buffer
+	conversionBuffer = (char*)memorySuite->NewPtr(destRowBytes);
+
 	// Reserve max. buffers
 	for (int i = 0; i < 4; i++)
 	{
@@ -19,6 +27,9 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csS
 
 VideoRenderer::~VideoRenderer()
 {
+	// Free buffer
+	memorySuite->PrDisposePtr((char*)conversionBuffer);
+
 	// Free buffers
 	for (int i = 0; i < 4; i++)
 	{
@@ -103,7 +114,9 @@ prSuiteError VideoRenderer::deinterleave(PPixHand renderedFrame, char *bufferY, 
 	return suiteError_NoError;
 }
 
-prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
+#pragma region StandardVideoRenderer
+
+prSuiteError StandardFrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
 
@@ -143,6 +156,9 @@ prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK
 	// Repeating frames will be rendered only once
 	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
 	{
+		// Report repeating frames
+		renderer->exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(renderer->videoRenderID, 1);
+
 		// Return the frame
 		if (!renderer->callback(renderer->encodingData))
 		{
@@ -154,7 +170,7 @@ prSuiteError FrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK
 	return error;
 }
 
-prSuiteError VideoRenderer::render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
+prSuiteError StandardVideoRenderer::render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
 {
 	this->callback = callback;
 
@@ -169,5 +185,123 @@ prSuiteError VideoRenderer::render(PrTime startTime, PrTime endTime, csSDK_uint3
 	renderParams.inReservedProgressPostRender = 0;
 
 	// Start encoding loop
-	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, FrameCompletionFunction, (void *)this);
+	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, StandardFrameCompletionFunction, (void *)this);
 }
+
+#pragma endregion
+
+#pragma region AccurateVideoRenderer
+
+prSuiteError AccurateFrameCompletionFunction(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
+{
+	prSuiteError error = suiteError_NoError;
+
+	VideoRenderer *renderer = reinterpret_cast<VideoRenderer*>(inCallbackData);
+
+	// Get pixel format
+	PrPixelFormat format;
+	error = renderer->ppixSuite->GetPixelFormat(inRenderedFrame, &format);
+
+	// Get pixels from the renderer
+	char *pixels;
+	error = renderer->ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+
+	// Store pass information
+	renderer->encodingData.pass = inWhichPass + 1;
+
+	// Read lossless formats
+	if (format == PrPixelFormat_UYVY_422_8u_709 ||
+		format == PrPixelFormat_UYVY_422_8u_601)
+	{
+		renderer->encodingData.planes = 1;
+		renderer->encodingData.pix_fmt = "uyvy422";
+		renderer->encodingData.plane[0] = pixels;
+	}
+	else if (format == PrPixelFormat_YUYV_422_8u_601 ||
+		format == PrPixelFormat_YUYV_422_8u_709)
+	{
+		renderer->encodingData.planes = 1;
+		renderer->encodingData.pix_fmt = "yuyv422";
+		renderer->encodingData.plane[0] = pixels;
+	}
+	else if (format == PrPixelFormat_V210_422_10u_709 ||
+		format == PrPixelFormat_V210_422_10u_601)
+	{
+		//todo
+	}
+	else
+	{
+		// Get packed rowsize
+		csSDK_int32 rowBytes;
+		error = renderer->ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
+
+		// Get new packed rowsize
+		csSDK_int32 destRowBytes;
+		error = renderer->imageProcessingSuite->GetSizeForPixelBuffer(renderer->pixelFormat, renderer->width, 1, &destRowBytes);
+
+		// Convert frame
+		error = renderer->imageProcessingSuite->ScaleConvert(format, renderer->width, renderer->height, rowBytes, prFieldsNone, pixels,
+			renderer->pixelFormat, renderer->width, renderer->height, destRowBytes, prFieldsNone, renderer->conversionBuffer,
+			kPrRenderQuality_Max);
+
+		// 
+		if (renderer->pixelFormat == PrPixelFormat_VUYA_4444_8u ||
+			renderer->pixelFormat == PrPixelFormat_VUYA_4444_8u_709)
+		{
+			// Set output format
+			renderer->encodingData.planes = 3;
+			renderer->encodingData.pix_fmt = "yuv444p";
+
+			renderer->deinterleave(inRenderedFrame, renderer->encodingData.plane[0], renderer->encodingData.plane[1], renderer->encodingData.plane[2]);
+		}
+		else if (renderer->pixelFormat == PrPixelFormat_VUYA_4444_32f ||
+			renderer->pixelFormat == PrPixelFormat_VUYA_4444_32f_709)
+		{
+			// Set output format
+			renderer->encodingData.planes = 4;
+			renderer->encodingData.pix_fmt = "yuva444p16le";
+
+			renderer->deinterleave(inRenderedFrame, renderer->encodingData.plane[0], renderer->encodingData.plane[1], renderer->encodingData.plane[2], renderer->encodingData.plane[3]);
+		}
+		else
+		{
+			return suiteError_RenderInvalidPixelFormat;
+		}
+	}
+
+	// Repeating frames will be rendered only once
+	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
+	{
+		// Report repeating frames
+		renderer->exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(renderer->videoRenderID, 1);
+
+		// Return the frame
+		if (!renderer->callback(renderer->encodingData))
+		{
+			error = suiteError_ExporterSuspended;
+			break;
+		}
+	}
+
+	return error;
+}
+
+prSuiteError AccurateVideoRenderer::render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
+{
+	this->callback = callback;
+
+	// Set up render params
+	ExportLoopRenderParams renderParams;
+	renderParams.inStartTime = startTime;
+	renderParams.inEndTime = endTime;
+	renderParams.inFinalPixelFormat = PrPixelFormat_Any;
+	renderParams.inRenderParamsSize = sizeof(renderParams);
+	renderParams.inRenderParamsVersion = 1;
+	renderParams.inReservedProgressPreRender = 0;
+	renderParams.inReservedProgressPostRender = 0;
+
+	// Start encoding loop
+	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, AccurateFrameCompletionFunction, (void *)this);
+}
+
+#pragma endregion

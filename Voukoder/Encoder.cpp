@@ -231,7 +231,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		FrameFilterOptions options;
 		options.media_type = audioContext->codec->type;
 		options.channel_layout = audioContext->codecContext->channel_layout;
-		options.sample_fmt = PLUGIN_AUDIO_SAMPLE_FORMAT;
+		options.sample_fmt = AV_SAMPLE_FMT_FLTP;
 		options.time_base = { 1, audioContext->codecContext->sample_rate };
 
 		// Set target format
@@ -279,7 +279,7 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		frame = av_frame_alloc();
 		frame->nb_samples = frame_size;
 		frame->channel_layout = audioContext->codecContext->channel_layout;
-		frame->format = PLUGIN_AUDIO_SAMPLE_FORMAT;
+		frame->format = AV_SAMPLE_FMT_FLTP;
 		frame->sample_rate = audioContext->codecContext->sample_rate;
 
 		/* Allocate the buffer for the frame */
