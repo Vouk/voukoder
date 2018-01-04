@@ -37,7 +37,7 @@ VideoRenderer::~VideoRenderer()
 	}
 }
 
-prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV)
+void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV)
 {
 	// Shuffle mask
 	__m128i mask = _mm_set_epi8(
@@ -61,11 +61,9 @@ prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, cha
 			p += 4;
 		}
 	}
-
-	return suiteError_NoError;
 }
 
-prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
+void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
 {
 	// Scaling factors (note min. values are actually negative) (limited range)
 	const float yuva_factors[4][2] = {
@@ -94,8 +92,6 @@ prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, cha
 			p++;
 		}
 	}
-
-	return suiteError_NoError;
 }
 
 bool VideoRenderer::isBt709(PrPixelFormat format)
@@ -217,7 +213,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 
 	// Get pixels from the renderer
 	char *pixels;
-	error = ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+	ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
 	// Get packed rowsize
 	csSDK_int32 rowBytes;
@@ -225,7 +221,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 
 	// Get pixel format
 	PrPixelFormat format;
-	error = ppixSuite->GetPixelFormat(inRenderedFrame, &format);
+	ppixSuite->GetPixelFormat(inRenderedFrame, &format);
 
 	// Read lossless formats
 	if (format == PrPixelFormat_UYVY_422_8u_601)
