@@ -50,8 +50,8 @@ protected:
 	csSDK_uint32 videoRenderID;
 	
 	virtual prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData) = 0;
-	prSuiteError deinterleave(PPixHand frame, char *bufferY, char *bufferU, char *bufferV);
-	prSuiteError deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
+	prSuiteError deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV);
+	prSuiteError deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
 	static bool isBt709(PrPixelFormat format);
 };
 

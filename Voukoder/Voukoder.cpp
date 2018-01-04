@@ -1370,7 +1370,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	// Close encoder and free memory
 	encoder->close(true);
 	delete(encoder);
-	delete (videoRenderer);
+	delete(videoRenderer);
 	delete(audioEncoderConfig);
 	delete(videoEncoderConfig);
 

@@ -37,16 +37,8 @@ VideoRenderer::~VideoRenderer()
 	}
 }
 
-prSuiteError VideoRenderer::deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV)
+prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV)
 {
-	// Get packed rowsize
-	csSDK_int32 rowBytes;
-	ppixSuite->GetRowBytes(renderedFrame, &rowBytes);
-
-	// Get pixels from the renderer
-	char *pixels;
-	ppixSuite->GetPixels(renderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
-
 	// Shuffle mask
 	__m128i mask = _mm_set_epi8(
 		12, 8, 4, 0, // Y
@@ -73,16 +65,8 @@ prSuiteError VideoRenderer::deinterleave(PPixHand renderedFrame, char *bufferY, 
 	return suiteError_NoError;
 }
 
-prSuiteError VideoRenderer::deinterleave(PPixHand renderedFrame, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
+prSuiteError VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
 {
-	// Get packed rowsize
-	csSDK_int32 rowBytes;
-	ppixSuite->GetRowBytes(renderedFrame, &rowBytes);
-
-	// Get pixels from the renderer
-	char *pixels;
-	ppixSuite->GetPixels(renderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
-
 	// Scaling factors (note min. values are actually negative) (limited range)
 	const float yuva_factors[4][2] = {
 		{ 0.07306f, 1.09132f }, // Y
@@ -141,13 +125,21 @@ prSuiteError StandardVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 {
 	prSuiteError error = suiteError_NoError;
 
+    // Store pass information
+	encodingData.pass = inWhichPass + 1;
+
+	// Get pixels from the renderer
+	char *pixels;
+	error = ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
+
+	// Get packed rowsize
+	csSDK_int32 rowBytes;
+	ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
+
 	// Get pixel format
 	PrPixelFormat format;
 	error = ppixSuite->GetPixelFormat(inRenderedFrame, &format);
-
-	// Store pass information
-	encodingData.pass = inWhichPass + 1;
-
+	
 	// Is really everything VUYA_4444 ?
 	if (format == PrPixelFormat_VUYA_4444_8u ||
 		format == PrPixelFormat_VUYA_4444_8u_709)
@@ -156,7 +148,7 @@ prSuiteError StandardVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		encodingData.planes = 3;
 		encodingData.pix_fmt = "yuv444p";
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
 	}
 	else if(format == PrPixelFormat_VUYA_4444_32f ||
 		format == PrPixelFormat_VUYA_4444_32f_709)
@@ -165,7 +157,7 @@ prSuiteError StandardVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		encodingData.planes = 4;
 		encodingData.pix_fmt = "yuva444p16le";
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 	}
 	else
 	{
@@ -227,6 +219,10 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 	char *pixels;
 	error = ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
+	// Get packed rowsize
+	csSDK_int32 rowBytes;
+	ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
+
 	// Get pixel format
 	PrPixelFormat format;
 	error = ppixSuite->GetPixelFormat(inRenderedFrame, &format);
@@ -268,7 +264,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt601:out_color_matrix=bt709";
 		}
 	}
-	else if (format ==  PrPixelFormat_YUYV_422_8u_709)
+	else if (format == PrPixelFormat_YUYV_422_8u_709)
 	{
 		encodingData.planes = 1;
 		encodingData.pix_fmt = "yuyv422";
@@ -280,8 +276,8 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt709:out_color_matrix=bt601";
 		}
 	}
-	else if (pixelFormat == PrPixelFormat_VUYA_4444_8u ||
-		pixelFormat == PrPixelFormat_VUYX_4444_8u)
+	else if (format == PrPixelFormat_VUYA_4444_8u ||
+		format == PrPixelFormat_VUYX_4444_8u)
 	{
 		// Set output format
 		encodingData.planes = 3;
@@ -293,10 +289,10 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt601:out_color_matrix=bt709";
 		}
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
 	}
-	else if (pixelFormat == PrPixelFormat_VUYX_4444_8u_709 ||
-		pixelFormat == PrPixelFormat_VUYA_4444_8u_709)
+	else if (format == PrPixelFormat_VUYX_4444_8u_709 ||
+		format == PrPixelFormat_VUYA_4444_8u_709)
 	{
 		// Set output format
 		encodingData.planes = 3;
@@ -308,10 +304,10 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt709:out_color_matrix=bt601";
 		}
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
 	}
-	else if (pixelFormat == PrPixelFormat_VUYA_4444_32f ||
-		pixelFormat == PrPixelFormat_VUYX_4444_32f)
+	else if (format == PrPixelFormat_VUYA_4444_32f ||
+		format == PrPixelFormat_VUYX_4444_32f)
 	{
 		// Set output format
 		encodingData.planes = 4;
@@ -323,10 +319,10 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt601:out_color_matrix=bt709";
 		}
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 	}
-	else if (pixelFormat == PrPixelFormat_VUYA_4444_32f_709 ||
-		pixelFormat == PrPixelFormat_VUYX_4444_32f_709)
+	else if (format == PrPixelFormat_VUYA_4444_32f_709 ||
+		format == PrPixelFormat_VUYX_4444_32f_709)
 	{
 		// Set output format
 		encodingData.planes = 4;
@@ -338,22 +334,26 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.filters.scale = "in_color_matrix=bt709:out_color_matrix=bt601";
 		}
 
-		deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 	}
-	else
+	else // Fallback: This is really slow!
 	{
 		// Get packed rowsize
 		csSDK_int32 rowBytes;
-		error = ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
+		ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
 
 		// Get new packed rowsize
 		csSDK_int32 destRowBytes;
-		error = imageProcessingSuite->GetSizeForPixelBuffer(pixelFormat, width, 1, &destRowBytes);
+		imageProcessingSuite->GetSizeForPixelBuffer(pixelFormat, width, 1, &destRowBytes);
 
 		// Convert frame
 		error = imageProcessingSuite->ScaleConvert(format, width, height, rowBytes, prFieldsNone, pixels,
 			pixelFormat, width, height, destRowBytes, prFieldsNone, conversionBuffer,
 			kPrRenderQuality_Max);
+		if (error != suiteError_NoError)
+		{
+			return error;
+		}
 
 		// Handle pixel format
 		if (pixelFormat == PrPixelFormat_VUYA_4444_8u ||
@@ -363,7 +363,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.planes = 3;
 			encodingData.pix_fmt = "yuv444p";
 
-			deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
+			deinterleave(conversionBuffer, destRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
 		}
 		else if (pixelFormat == PrPixelFormat_VUYA_4444_32f ||
 			pixelFormat == PrPixelFormat_VUYA_4444_32f_709)
@@ -372,7 +372,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			encodingData.planes = 4;
 			encodingData.pix_fmt = "yuva444p16le";
 
-			deinterleave(inRenderedFrame, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+			deinterleave(conversionBuffer, destRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 		}
 		else
 		{
