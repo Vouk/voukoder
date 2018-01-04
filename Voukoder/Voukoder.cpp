@@ -1374,5 +1374,5 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	delete(audioEncoderConfig);
 	delete(videoEncoderConfig);
 
-	return malNoError;
+	return result;
 }
