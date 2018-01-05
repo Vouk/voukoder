@@ -1,0 +1,18 @@
+﻿  EncoderContext.cpp
+  EncoderInfo.cpp
+  EncoderConfig.cpp
+  Common.cpp
+  InstructionSet.cpp
+  MuxerInfo.cpp
+  VideoRenderer.cpp
+  Voukoder.cpp
+  Encoder.cpp
+  FrameFilter.cpp
+  Settings.cpp
+     Bibliothek "C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.lib" und Objekt "C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.exp" werden erstellt.
+  Code wird generiert.
+  All 2478 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Codegenerierung ist abgeschlossen.
+libavcodec.lib(libx264.o) : warning LNK4049: Lokal definiertes Symbol "x264_levels" wurde importiert.
+libavcodec.lib(libx264.o) : warning LNK4049: Lokal definiertes Symbol "x264_bit_depth" wurde importiert.
+  Premiere.vcxproj -> C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.prm
