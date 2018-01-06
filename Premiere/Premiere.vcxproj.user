@@ -6,8 +6,8 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro CC 2018\Adobe Premiere Pro.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro CC 2018</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro CS6\Adobe Premiere Pro.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro CS6</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -32,7 +32,7 @@ function<Ret(Params...)> Callback<Ret(Params...)>::func;
 class VideoRenderer
 {
 public:
-	explicit VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
+	explicit VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
 	~VideoRenderer();
 	virtual prSuiteError render(PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) = 0;
 
@@ -41,6 +41,7 @@ protected:
 	csSDK_uint32 width;
 	csSDK_uint32 height;
 	PrSDKPPixSuite *ppixSuite;
+	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKMemoryManagerSuite *memorySuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
 	PrSDKImageProcessingSuite *imageProcessingSuite;

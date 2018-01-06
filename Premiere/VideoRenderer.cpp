@@ -2,12 +2,13 @@
 #include <tmmintrin.h>
 
 // reviewed 0.5.2
-VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite) :
+VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite) :
 	videoRenderID(videoRenderID),
 	width(width),
 	height(height),
 	pixelFormat(pixelFormat),
 	ppixSuite(ppixSuite),
+	ppix2Suite(ppix2Suite),
 	memorySuite(memorySuite),
 	exporterUtilitySuite(exporterUtilitySuite),
 	imageProcessingSuite(imageProcessingSuite)
@@ -339,6 +340,56 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		}
 
 		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+	}
+	else if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange)
+	{
+		encodingData.planes = 3;
+		encodingData.pix_fmt = "yuv420p";
+
+		// Get planar buffers
+		error = ppix2Suite->GetYUV420PlanarBuffers(
+			inRenderedFrame,
+			PrPPixBufferAccess_ReadOnly,
+			&encodingData.plane[0],
+			&encodingData.stride[0],
+			&encodingData.plane[1],
+			&encodingData.stride[1],
+			&encodingData.plane[2],
+			&encodingData.stride[2]);
+
+		// Color matrix conversion
+		if (isBt709(pixelFormat))
+		{
+			encodingData.filters.scale = "in_color_matrix=bt601:out_color_matrix=bt709";
+		}
+	}
+	else if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
+	{
+		encodingData.planes = 3;
+		encodingData.pix_fmt = "yuv420p";
+
+		// Get planar buffers
+		error = ppix2Suite->GetYUV420PlanarBuffers(
+			inRenderedFrame,
+			PrPPixBufferAccess_ReadOnly,
+			&encodingData.plane[0],
+			&encodingData.stride[0],
+			&encodingData.plane[1],
+			&encodingData.stride[1],
+			&encodingData.plane[2],
+			&encodingData.stride[2]);
+
+		// Color matrix conversion
+		if (!isBt709(pixelFormat))
+		{
+			encodingData.filters.scale = "in_color_matrix=bt709:out_color_matrix=bt601";
+		}
 	}
 	else // Fallback: This is really slow!
 	{
