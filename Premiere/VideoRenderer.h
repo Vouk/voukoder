@@ -2,7 +2,6 @@
 
 #include <tmmintrin.h>
 #include <functional>
-#include <mutex>
 #include "premiere_cs6\PrSDKPPix2Suite.h"
 #include "premiere_cs6\PrSDKImageProcessingSuite.h"
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
