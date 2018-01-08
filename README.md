@@ -14,29 +14,6 @@ Currently this plugin is for **Windows only**. I do not have a Mac computer avai
 
 You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases).
 
-## Installation
-
-Copy the file Voukoder.prm to your plugins directory.
-
-### Premiere CS6
-
-    C:\Program Files\Adobe\Adobe Premiere Pro CS6\Plug-ins\Common       // Available to Premiere CS6
-    C:\Program Files\Adobe\Adobe Media Encoder CS6\Plug-ins\Common      // Available to Media Encoder CS6
-    C:\Program Files\Adobe\Common\Plug-ins\CS6\MediaCore                // Available to both Premiere CS6 and Media Encoder CS6
-
-### Premiere CC 2017 / 2018
-
-    C:\Program Files\Adobe\Adobe Premiere Pro CC 2017\Plug-Ins\Common   // Available to Premiere CC 2017
-    C:\Program Files\Adobe\Adobe Media Encoder CC 2017\Plug-Ins\Common  // Available to Media Encoder CC 2017
-    
-### Premiere Elements 15
-
-    C:\Program Files\Adobe\Adobe Premiere Elements 15\Plug-Ins\Common   // Available to Premiere Elements 15
-    
-## Deinstallation
-
-Just delete the Voukoder.prm file.
-
 ## Donations
 
 ### Paypal
