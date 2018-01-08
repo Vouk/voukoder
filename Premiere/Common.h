@@ -1,6 +1,5 @@
 #pragma once
 
-#include <tmmintrin.h>
 #include <vector>
 #include <map>
 #include <string>

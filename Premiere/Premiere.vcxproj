@@ -115,6 +115,7 @@
     <ClInclude Include="EncoderInfo.h" />
     <ClInclude Include="EncoderConfig.h" />
     <ClInclude Include="EncoderUtils.h" />
+    <ClInclude Include="EncodingData.h" />
     <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="MuxerInfo.h" />
