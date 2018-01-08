@@ -36,8 +36,8 @@ function<Ret(Params...)> Callback<Ret(Params...)>::func;
 class VideoRenderer
 {
 public:
-	explicit VideoRenderer(csSDK_uint32 pluginID, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
-	virtual prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) = 0;
+	VideoRenderer(csSDK_uint32 pluginID, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
+	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
 
 protected:
 	PrPixelFormat outFormat;
@@ -50,33 +50,10 @@ protected:
 	PrSDKImageProcessingSuite *imageProcessingSuite;
 	function<bool(EncodingData)> callback;
 	csSDK_uint32 videoRenderID;
-	mutex mtx;
 
-	virtual prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData) = 0;
+	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
 	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV);
 	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
 	static bool isBt709(PrPixelFormat format);
 	static bool isPlanar(PrPixelFormat format);
-};
-
-class StandardVideoRenderer : public VideoRenderer
-{
-	using VideoRenderer::VideoRenderer;
-
-public:
-	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) override;
-
-private:
-	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
-};
-
-class AccurateVideoRenderer : public VideoRenderer
-{
-	using VideoRenderer::VideoRenderer;
-
-public:
-	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback) override;
-
-private:
-	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
 };

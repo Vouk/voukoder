@@ -16,4 +16,5 @@ typedef struct EncodingData
 		bool vflip = false;
 		string scale = "";
 	} filters;
+	bool freeBuffers = false;
 } EncodingData;

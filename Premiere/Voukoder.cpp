@@ -1285,7 +1285,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	}
 
 	// Create renderer instance
-	VideoRenderer *videoRenderer = new AccurateVideoRenderer(exID, instRec->ppixSuite,
+	VideoRenderer videoRenderer = VideoRenderer(exID, instRec->ppixSuite,
 		instRec->ppix2Suite, instRec->memorySuite, instRec->exporterUtilitySuite, instRec->imageProcessingSuite);
 
 	int currentPass = 0;
@@ -1297,7 +1297,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
 
 	// Start the rendering loop
-	result = videoRenderer->render(videoWidth.value.intValue, videoHeight.value.intValue, format, exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
+	result = videoRenderer.render(videoWidth.value.intValue, videoHeight.value.intValue, format, exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
 	{
 		// Handle multiple passes
 		if (currentPass == 0 || (maxPasses > 1 && encodingData.pass > currentPass))
@@ -1375,8 +1375,6 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 	// Close encoder and free memory
 	encoder.close(true);
-
-	delete(videoRenderer);
 
 	return result;
 }

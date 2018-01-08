@@ -105,100 +105,9 @@ bool VideoRenderer::isPlanar(PrPixelFormat format)
 		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
 }
 
-#pragma region StandardVideoRenderer
-
-// reviewed 0.5.2
-prSuiteError StandardVideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
-{
-	prSuiteError error = suiteError_NoError;
-
-	/*
-	// Store pass information
-	encodingData.pass = inWhichPass + 1;
-
-	// Get pixels from the renderer
-	char *pixels;
-	error = ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
-
-	// Get packed rowsize
-	csSDK_int32 rowBytes;
-	ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
-
-	// Get pixel format
-	PrPixelFormat format;
-	error = ppixSuite->GetPixelFormat(inRenderedFrame, &format);
-
-	// Is really everything VUYA_4444 ?
-	if (format == PrPixelFormat_VUYA_4444_8u ||
-	format == PrPixelFormat_VUYA_4444_8u_709)
-	{
-	// Set output format
-	encodingData.planes = 3;
-	encodingData.pix_fmt = "yuv444p";
-
-	deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
-	}
-	else if(format == PrPixelFormat_VUYA_4444_32f ||
-	format == PrPixelFormat_VUYA_4444_32f_709)
-	{
-	// Set output format
-	encodingData.planes = 4;
-	encodingData.pix_fmt = "yuva444p16le";
-
-	deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
-	}
-	else
-	{
-	return suiteError_RenderInvalidPixelFormat;
-	}
-
-	// Repeating frames will be rendered only once
-	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
-	{
-	// Report repeating frames
-	exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(videoRenderID, 1);
-
-	// Return the frame
-	if (!callback(encodingData))
-	{
-	error = suiteError_ExporterSuspended;
-	break;
-	}
-	}
-	*/
-
-	return error;
-}
-
-// reviewed 0.5.2
-prSuiteError StandardVideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
-{
-	this->callback = callback;
-
-	// Set up render params
-	ExportLoopRenderParams renderParams;
-	renderParams.inStartTime = startTime;
-	renderParams.inEndTime = endTime;
-	renderParams.inFinalPixelFormat = pixelFormat;
-	renderParams.inRenderParamsSize = sizeof(renderParams);
-	renderParams.inRenderParamsVersion = 1;
-	renderParams.inReservedProgressPreRender = 0;
-	renderParams.inReservedProgressPostRender = 0;
-
-	// Create C conform callback
-	Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::func = bind(&StandardVideoRenderer::frameCompleteCallback, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4, placeholders::_5);
-	PrSDKMultipassExportLoopFrameCompletionFunction c_callback = static_cast<PrSDKMultipassExportLoopFrameCompletionFunction>(Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::callback);
-
-	// Start encoding loop
-	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, c_callback, NULL);
-}
-
-#pragma endregion
-
-#pragma region AccurateVideoRenderer
 
 // reviewed 0.5.3
-prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
+prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
 
@@ -214,12 +123,6 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 	EncodingData encodingData;
 	encodingData.pass = inWhichPass + 1;
 
-	// Reserve buffers
-	for (int i = 0; i < 4; i++)
-	{
-		encodingData.plane[i] = (char*)memorySuite->NewPtr(rowBytes * height);
-	}
-
 	// Get pixels from the renderer
 	char *pixels;
 	ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
@@ -231,7 +134,6 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		encodingData.planes = 1;
 		encodingData.pix_fmt = "uyvy422";
 		encodingData.plane[0] = pixels;
-		std::this_thread::sleep_for(10ms);
 	}
 	else if (inFormat == PrPixelFormat_YUYV_422_8u_601 ||
 		inFormat == PrPixelFormat_YUYV_422_8u_709)
@@ -247,6 +149,13 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 	{
 		encodingData.planes = 3;
 		encodingData.pix_fmt = "yuv444p";
+		encodingData.freeBuffers = true;
+
+		// Reserve buffers
+		for (int i = 0; i < encodingData.planes; i++)
+		{
+			encodingData.plane[i] = (char*)memorySuite->NewPtr(rowBytes * height);
+		}
 
 		// Deinterlave packed to planar
 		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
@@ -258,18 +167,19 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 	{
 		encodingData.planes = 4;
 		encodingData.pix_fmt = "yuva444p16le";
+		encodingData.freeBuffers = true;
+
+		// Reserve buffers
+		for (int i = 0; i < encodingData.planes; i++)
+		{
+			encodingData.plane[i] = (char*)memorySuite->NewPtr(rowBytes * height);
+		}
 
 		// Deinterlave packed to planar
 		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 	}
 	else if (isPlanar(inFormat))
 	{
-		// GetYUV420PlanarBuffers() reserves own buffers
-		for (int i = 0; i < 4; i++)
-		{
-			memorySuite->PrDisposePtr((char*)encodingData.plane[i]);
-		}
-
 		encodingData.planes = 3;
 		encodingData.pix_fmt = "yuv420p";
 
@@ -290,17 +200,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		csSDK_int32 outRowBytes;
 		imageProcessingSuite->GetSizeForPixelBuffer(outFormat, width, 1, &outRowBytes);
 
-		// Redimensionate buffers
-		for (int i = 0; i < 4; i++)
-		{
-			if (encodingData.plane[i] != NULL)
-			{
-				memorySuite->PrDisposePtr((char*)encodingData.plane[i]);
-			}
-			encodingData.plane[i] = (char*)memorySuite->NewPtr(outRowBytes * height);
-		}
-
-		// Reserve conversion buffer
+		// Reserve out buffer
 		char *outBuffer;
 		outBuffer = (char*)memorySuite->NewPtr(outRowBytes * height);
 
@@ -320,15 +220,29 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 			// Set output format
 			encodingData.planes = 3;
 			encodingData.pix_fmt = "yuv444p";
+			encodingData.freeBuffers = true;
+
+			// Reserve buffers
+			for (int i = 0; i < encodingData.planes; i++)
+			{
+				encodingData.plane[i] = (char*)memorySuite->NewPtr(outRowBytes * height);
+			}
 
 			deinterleave(outBuffer, outRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
 		}
 		else if (outFormat == PrPixelFormat_VUYA_4444_32f ||
 			outFormat == PrPixelFormat_VUYA_4444_32f_709)
-		{
+		{	
 			// Set output format
 			encodingData.planes = 4;
 			encodingData.pix_fmt = "yuva444p16le";
+			encodingData.freeBuffers = true;
+
+			// Reserve buffers
+			for (int i = 0; i < encodingData.planes; i++)
+			{
+				encodingData.plane[i] = (char*)memorySuite->NewPtr(outRowBytes * height);
+			}
 
 			deinterleave(outBuffer, outRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 		}
@@ -357,8 +271,6 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(videoRenderID, 1);
 
 		// Return the frame
-		std::lock_guard<mutex> lck(mtx);
-
 		if (!callback(encodingData))
 		{
 			error = suiteError_ExporterSuspended;
@@ -366,15 +278,12 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 		}
 	}
 
-	// Free buffers
-	if (!isPlanar(inFormat))
+	// Free memory again
+	if (encodingData.freeBuffers)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < encodingData.planes; i++)
 		{
-			if (encodingData.plane[i] != NULL)
-			{
-				memorySuite->PrDisposePtr((char*)encodingData.plane[i]);
-			}
+			memorySuite->PrDisposePtr((char*)encodingData.plane[i]);
 		}
 	}
 
@@ -382,7 +291,7 @@ prSuiteError AccurateVideoRenderer::frameCompleteCallback(const csSDK_uint32 inW
 }
 
 // reviewed 0.5.2
-prSuiteError AccurateVideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
+prSuiteError VideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
 {
 	this->width = width;
 	this->height = height;
@@ -400,11 +309,10 @@ prSuiteError AccurateVideoRenderer::render(csSDK_uint32 width, csSDK_uint32 heig
 	renderParams.inReservedProgressPostRender = 0;
 
 	// Create C conform callback
-	Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::func = bind(&AccurateVideoRenderer::frameCompleteCallback, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4, placeholders::_5);
+	Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::func = bind(&VideoRenderer::frameCompleteCallback, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4, placeholders::_5);
 	PrSDKMultipassExportLoopFrameCompletionFunction c_callback = static_cast<PrSDKMultipassExportLoopFrameCompletionFunction>(Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::callback);
 
 	// Start encoding loop
 	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, c_callback, NULL);
 }
 
-#pragma endregion
