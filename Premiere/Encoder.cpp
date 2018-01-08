@@ -27,7 +27,7 @@ int Encoder::open()
 	int ret;
 
 	// Open video stream
-	if ((ret = videoContext->openCodec()) > 0)
+	if ((ret = videoContext->openCodec()) != S_OK)
 	{
 		close(false);
 
@@ -35,7 +35,7 @@ int Encoder::open()
 	}
 
 	// Open audio stream
-	if ((ret = audioContext->openCodec()) > 0)
+	if ((ret = audioContext->openCodec()) != S_OK)
 	{
 		close(false);
 
@@ -79,14 +79,11 @@ int Encoder::open()
 	//av_dict_set(&options, "movflags", "faststart", 0);
 
 	// Check muxer/codec combination and write header
-	if ((ret = avformat_write_header(formatContext, &options)) != S_OK)
-	{
-		close(false);
+	ret = avformat_write_header(formatContext, &options);
 
-		return ret;
-	}
+	close(false);
 
-	return S_OK;
+	return ret;
 }
 
 // reviewed 0.3.8

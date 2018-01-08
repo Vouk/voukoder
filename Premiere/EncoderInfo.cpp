@@ -27,6 +27,7 @@ EncoderInfo::EncoderInfo(json encoder)
 				dependencies = false;
 				break;
 			}
+			FreeLibrary(hMod);
 		}
 	}
 	
