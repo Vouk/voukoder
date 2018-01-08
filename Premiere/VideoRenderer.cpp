@@ -71,42 +71,6 @@ void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *buffe
 }
 
 // reviewed 0.5.3
-bool VideoRenderer::isBt709(PrPixelFormat format)
-{
-	return (format == PrPixelFormat_VUYA_4444_8u_709 ||
-		format == PrPixelFormat_VUYX_4444_8u_709 ||
-		format == PrPixelFormat_VUYP_4444_8u_709 ||
-		format == PrPixelFormat_VUYA_4444_32f_709 ||
-		format == PrPixelFormat_VUYX_4444_32f_709 ||
-		format == PrPixelFormat_VUYP_4444_32f_709 ||
-		format == PrPixelFormat_YUYV_422_8u_709 ||
-		format == PrPixelFormat_UYVY_422_8u_709 ||
-		format == PrPixelFormat_V210_422_10u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
-}
-
-// reviewed 0.5.3
-bool VideoRenderer::isPlanar(PrPixelFormat format)
-{
-	return (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
-		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
-		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
-}
-
-
-// reviewed 0.5.3
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
@@ -316,3 +280,37 @@ prSuiteError VideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, PrPi
 	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, c_callback, NULL);
 }
 
+// reviewed 0.5.3
+bool VideoRenderer::isBt709(PrPixelFormat format)
+{
+	return (format == PrPixelFormat_VUYA_4444_8u_709 ||
+		format == PrPixelFormat_VUYX_4444_8u_709 ||
+		format == PrPixelFormat_VUYP_4444_8u_709 ||
+		format == PrPixelFormat_VUYA_4444_32f_709 ||
+		format == PrPixelFormat_VUYX_4444_32f_709 ||
+		format == PrPixelFormat_VUYP_4444_32f_709 ||
+		format == PrPixelFormat_YUYV_422_8u_709 ||
+		format == PrPixelFormat_UYVY_422_8u_709 ||
+		format == PrPixelFormat_V210_422_10u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG2_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG2_FIELD_PICTURE_PLANAR_8u_709_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
+}
+
+// reviewed 0.5.3
+bool VideoRenderer::isPlanar(PrPixelFormat format)
+{
+	return (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709 ||
+		format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
+		format == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange);
+}
