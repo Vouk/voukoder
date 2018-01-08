@@ -13,7 +13,7 @@ Currently this plugin is for **Windows only**. I do not have a Mac computer avai
 ## How to get it
 You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases).
 
-Please reade the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation-instructions) carefully.
+Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
 
 ## Donations
 
