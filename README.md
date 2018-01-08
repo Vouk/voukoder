@@ -37,39 +37,6 @@ Copy the file Voukoder.prm to your plugins directory.
 
 Just delete the Voukoder.prm file.
 
-## Compilation
-
-This project makes use of:
-
-* x264 - http://x264.org
-* x265 - http://x265.org
-* libav - https://libav.org
-* ffmpeg - https://ffmpeg.org
-* Adobe Premiere SDK - http://download.macromedia.com/pub/developer/premiere/sdk/premiere_pro_cs6_r2_sdk_win.zip
-
-### Paths
-
-All directories are relative to the checkout directory.
-
-#### ../../external/include/
-
-* "lib*" - LibAV or ffmpeg directories containing headers
-* "premiere_cs6" - Premiere SDK directory
-* "x264.h", "x264_config.h"
-* "x265.h", "x265_config.h"
-
-#### ../../external/lib/[debug|release]
-
-* LibAV or ffmpeg static libs
-* libx264.lib
-* x265.lib
-
-Note: These libs are created by ffmpeg or libav build scripts.
-
-### Preprocessor
-
-Tell the preprocessor to either use LibAV or ffmpeg (/DLIB_FFMPEG or /DLIB_LIBAV).
-
 ## Donations
 
 ### Paypal
