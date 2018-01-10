@@ -7,6 +7,7 @@
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
 #include "premiere_cs6\PrSDKExporterUtilitySuite.h"
 #include "EncodingData.h"
+#include "Structs.h"
 
 using namespace std;
 
@@ -36,10 +37,10 @@ class VideoRenderer
 {
 public:
 	VideoRenderer(csSDK_uint32 pluginID, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
-	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
+	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
 
 protected:
-	PrPixelFormat outFormat;
+	ColorSpace colorSpace;
 	csSDK_uint32 width;
 	csSDK_uint32 height;
 	PrSDKPPixSuite *ppixSuite;
@@ -53,6 +54,8 @@ protected:
 	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
 	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV);
 	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
+	void deinterleave_avx_fma(char* __restrict pixels, int rowBytes, char *__restrict bufferY, char *__restrict bufferU, char *__restrict bufferV, char *__restrict bufferA);
 	static bool isBt709(PrPixelFormat format);
 	static bool isPlanar(PrPixelFormat format);
+	static bool isHighBitDepth(PrPixelFormat format);
 };

@@ -119,6 +119,7 @@
     <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="MuxerInfo.h" />
+    <ClInclude Include="Structs.h" />
     <ClInclude Include="VideoRenderer.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="Common.h" />
