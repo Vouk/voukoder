@@ -12,10 +12,9 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, PrSDKPPixSuite *ppixSui
 	imageProcessingSuite(imageProcessingSuite)
 {}
 
-// reviewed 0.5.2
+// reviewed 0.5.3
 void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV)
 {
-	// Shuffle mask
 	__m128i mask = _mm_set_epi8(
 		12, 8, 4, 0, // Y
 		13, 9, 5, 1, // U
@@ -25,7 +24,6 @@ void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *buffe
 
 	M128 dest;
 
-	// De-Interleave source buffer
 	for (int r = height - 1, p = 0; r >= 0; r--)
 	{
 		for (int c = 0; c < rowBytes; c += 16)
@@ -78,7 +76,7 @@ static inline __m128i load_and_scale(const float *src)
 	return vuya;
 }
 
-// Big Thanks to Peter Cordes
+// Big thanks to Peter Cordes
 void VideoRenderer::deinterleave_avx_fma(char* __restrict pixels, int rowBytes, char *__restrict bufferY, char *__restrict bufferU, char *__restrict bufferV, char *__restrict bufferA)
 {
 
@@ -119,8 +117,8 @@ void VideoRenderer::deinterleave_avx_fma(char* __restrict pixels, int rowBytes, 
 	}
 }
 
-// reviewed 0.5.2
-void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
+// reviewed 0.5.3
+void VideoRenderer::deinterleave(float* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
 {
 	// Scaling factors (note min. values are actually negative) (limited range)
 	const float yuva_factors[4][2] = {
@@ -129,8 +127,6 @@ void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *buffe
 		{ 0.57143f, 0.57143f }, // V
 		{ 0.00000f, 1.00000f }  // A
 	};
-
-	float *frameBuffer = (float*)pixels;
 
 	// De-Interleave and convert source buffer
 	for (int r = height - 1, p = 0; r >= 0; r--)
@@ -141,10 +137,10 @@ void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *buffe
 			const int pos = r * width * 4 + c * 4;
 
 			// VUYA -> YUVA
-			((uint16_t*)bufferY)[p] = (uint16_t)((frameBuffer[pos + 2] + yuva_factors[0][0]) / (yuva_factors[0][0] + yuva_factors[0][1]) * 65535.0f);
-			((uint16_t*)bufferU)[p] = (uint16_t)((frameBuffer[pos + 1] + yuva_factors[1][0]) / (yuva_factors[1][0] + yuva_factors[1][1]) * 65535.0f);
-			((uint16_t*)bufferV)[p] = (uint16_t)((frameBuffer[pos + 0] + yuva_factors[2][0]) / (yuva_factors[2][0] + yuva_factors[2][1]) * 65535.0f);
-			((uint16_t*)bufferA)[p] = (uint16_t)((frameBuffer[pos + 3] + yuva_factors[3][0]) / (yuva_factors[3][0] + yuva_factors[3][1]) * 65535.0f);
+			((uint16_t*)bufferY)[p] = (uint16_t)((pixels[pos + 2] + yuva_factors[0][0]) / (yuva_factors[0][0] + yuva_factors[0][1]) * 65535.0f);
+			((uint16_t*)bufferU)[p] = (uint16_t)((pixels[pos + 1] + yuva_factors[1][0]) / (yuva_factors[1][0] + yuva_factors[1][1]) * 65535.0f);
+			((uint16_t*)bufferV)[p] = (uint16_t)((pixels[pos + 0] + yuva_factors[2][0]) / (yuva_factors[2][0] + yuva_factors[2][1]) * 65535.0f);
+			((uint16_t*)bufferA)[p] = (uint16_t)((pixels[pos + 3] + yuva_factors[3][0]) / (yuva_factors[3][0] + yuva_factors[3][1]) * 65535.0f);
 
 			p++;
 		}
@@ -223,7 +219,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		}
 
 		// Deinterlave packed to planar
-		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+		deinterleave((float*)pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 	}
 	else if (isPlanar(inFormat))
 	{
@@ -303,7 +299,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 				encodingData.plane[i] = (char*)memorySuite->NewPtr(outRowBytes * height);
 			}
 
-			deinterleave(outBuffer, outRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+			deinterleave((float*)outBuffer, outRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
 		}
 		else
 		{
