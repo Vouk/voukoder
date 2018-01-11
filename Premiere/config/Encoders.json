@@ -1762,7 +1762,6 @@
         }
       ],
       "parameterGroups": {},
-      "libraryDependencies": [ "nvcuda.dll" ],
       "params": [
         {
           "name": "h264_nvencPreset",
@@ -2351,7 +2350,6 @@
         }
       ],
       "parameterGroups": {},
-      "libraryDependencies": [ "nvcuda.dll" ],
       "params": [
         {
           "name": "hevc_nvencPreset",

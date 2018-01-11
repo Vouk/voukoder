@@ -3,6 +3,7 @@
 #include <string>
 #include "json.hpp"
 #include "EncoderUtils.h"
+#include "lavf.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -14,7 +15,7 @@ public:
 	int id;
 	string name;
 	bool experimental = false;
-	bool dependencies = true;
+	bool available = true;
 	string defaultPixelFormat;
 	vector<ElementGroup> groups;
 	string multipassParameter;
@@ -28,4 +29,5 @@ private:
 	ParameterInfo createParamInfo(json json);
 	ParameterValueInfo createValueInfo(json json);
 	ParameterSubValue createSubValue(json json);
+	bool testCodec();
 };

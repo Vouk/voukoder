@@ -34,7 +34,7 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 		if (!encoderInfo.experimental)
 		{
 #endif
-			if (encoderInfo.dependencies)
+			if (encoderInfo.available)
 			{
 				encoderInfos.push_back(encoderInfo);
 			}

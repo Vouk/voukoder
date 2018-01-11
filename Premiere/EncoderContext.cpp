@@ -51,12 +51,12 @@ int EncoderContext::openCodec()
 	return ret;
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.3
 void EncoderContext::closeCodec()
 {
 	if (codecContext->internal != NULL)
 	{
-		avcodec_close(codecContext);
+		avcodec_free_context(&codecContext);
 	}
 }
 
@@ -79,7 +79,6 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 
 	// Create codec context
 	codecContext = avcodec_alloc_context3(codec);
-	codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	codecContext->thread_count = encoderConfig->encoderInfo->threadCount;
 
 	// Type specific codec context settings

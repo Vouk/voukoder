@@ -1,7 +1,7 @@
 #include "Encoder.h"
 #include "Common.h"
 
-// reviewed 0.3.8
+// reviewed 0.5.3
 Encoder::Encoder(const char *short_name, const char *filename)
 {
 	this->filename = filename;
@@ -13,7 +13,7 @@ Encoder::Encoder(const char *short_name, const char *filename)
 	audioContext = new EncoderContext(formatContext);
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.3
 Encoder::~Encoder()
 {	
 	delete(videoContext);
@@ -22,7 +22,7 @@ Encoder::~Encoder()
 	avformat_free_context(formatContext);
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.3
 int Encoder::open()
 {
 	int ret;
