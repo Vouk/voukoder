@@ -1,32 +1,25 @@
 #include "Settings.h"
 
-// reviewed 0.3.8
-Settings::Settings(HMODULE hModule)
+void Settings::initFromResources(HMODULE hModule)
 {
-	// Load the JSON resource file
-	mainConfig = loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT3));
-	muxerConfig = loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT2));
-	encoderConfig = loadResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1));;
-}
+	mainConfig = LoadSingleResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT3));
 
-// reviewed 0.3.8
-vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
-{
-	// Get right encoder list
-	json encoders;
-	switch (encoderType)
+	// Create MuxerInfo list
+	const json muxerConfig = LoadSingleResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT2));
+	for (json muxer : muxerConfig)
 	{
-	case EncoderType::VIDEO:
-		encoders = encoderConfig["video"];
-		break;
-
-	case EncoderType::AUDIO:
-		encoders = encoderConfig["audio"];
-		break;
+		muxerInfos.push_back(MuxerInfo(muxer));
 	}
 
 	// Create EncoderInfo list
-	vector<EncoderInfo> encoderInfos;
+	const json encoderConfig = LoadSingleResource(hModule, MAKEINTRESOURCE(ID_TEXT), MAKEINTRESOURCE(IDR_ID_TEXT1));
+	loadEncoderInfos(encoderConfig["video"], &videoEncoderInfos);
+	loadEncoderInfos(encoderConfig["audio"], &audioEncoderInfos);
+}
+
+// reviewed 0.5.3
+void Settings::loadEncoderInfos(json encoders, vector<EncoderInfo> *encoderInfos)
+{
 	for (json encoder : encoders)
 	{
 		EncoderInfo encoderInfo = EncoderInfo(encoder);
@@ -34,40 +27,18 @@ vector<EncoderInfo> Settings::getEncoders(EncoderType encoderType)
 		if (!encoderInfo.experimental)
 		{
 #endif
-			if (encoderInfo.available)
+			if (IsEncoderAvailable(encoderInfo))
 			{
-				encoderInfos.push_back(encoderInfo);
+				encoderInfos->push_back(encoderInfo);
 			}
 #if !defined(_DEBUG) 
 		}
 #endif
 	}
-
-	return encoderInfos;
 }
 
 // reviewed 0.3.8
-vector<MuxerInfo> Settings::getMuxers()
-{
-	vector<MuxerInfo> muxersInfos;
-
-	// Create EncoderInfo list
-	for (json muxer: muxerConfig)
-	{
-		muxersInfos.push_back(MuxerInfo(muxer));
-	}
-
-	return muxersInfos;
-}
-
-// reviewed 0.3.8
-json Settings::getConfiguration()
-{
-	return mainConfig;
-}
-
-// reviewed 0.3.8
-json Settings::loadResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName)
+json Settings::LoadSingleResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName)
 {
 	const HRSRC hRes = FindResourceEx(hModule, lpType, lpName, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 	if (NULL != hRes)
@@ -85,4 +56,43 @@ json Settings::loadResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName)
 	}
 
 	return NULL;
+}
+
+// reviewed 0.5.3
+bool Settings::IsEncoderAvailable(EncoderInfo encoderinfo)
+{
+	bool ret = false;
+
+	// Find codec by name
+	AVCodec *codec = avcodec_find_encoder_by_name(encoderinfo.name.c_str());
+	if (codec != NULL)
+	{
+		// Create codec context
+		AVCodecContext *codecContext = avcodec_alloc_context3(codec);
+
+		// Type specific codec context settings
+		if (codec->type == AVMEDIA_TYPE_VIDEO)
+		{
+			codecContext->width = 1920;
+			codecContext->height = 1080;
+			codecContext->time_base = { 25 , 1 };
+			codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
+		}
+		else if (codec->type == AVMEDIA_TYPE_AUDIO)
+		{
+			codecContext->channel_layout = AV_CH_LAYOUT_STEREO;
+			codecContext->channels = 2;
+			codecContext->sample_rate = 44100;
+			codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
+			codecContext->bit_rate = 0;
+		}
+
+		// Open the codec
+		ret = (avcodec_open2(codecContext, codec, NULL) == 0);
+
+		// Close the codec
+		avcodec_free_context(&codecContext);
+	}
+
+	return ret;
 }

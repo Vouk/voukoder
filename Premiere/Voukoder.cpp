@@ -118,7 +118,8 @@ prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *ins
 			VirtualQuery(&dummy, &mbi, sizeof(mbi));
 			instRec->hInstance = reinterpret_cast<HMODULE>(mbi.AllocationBase);
 
-			instRec->settings = new Settings(instRec->hInstance);
+			instRec->settings = new Settings();
+			instRec->settings->initFromResources(instRec->hInstance);
 		}
 
 		instanceRecP->privateData = reinterpret_cast<void*>(instRec);
@@ -217,21 +218,15 @@ prMALError exFileExtension(exportStdParms *stdParmsP, exQueryExportFileExtension
 	// Get the users multiplexer choice
 	exParamValues multiplexer;
 	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
+	
+	// Find the muxer
+	vector<MuxerInfo> muxerInfos = settings->muxerInfos;
+	const int muxerIdx = FindVectorIndexById(&settings->muxerInfos, multiplexer.value.intValue, Settings::defaultMuxer);
+	const MuxerInfo muxerInfo = muxerInfos.at(muxerIdx);
+	const std::wstring widestr = std::wstring(muxerInfo.extension.begin(), muxerInfo.extension.end());
+	prUTF16CharCopy(exportFileExtensionRecP->outFileExtension, widestr.c_str());
 
-	// Get selected muxer
-	vector<MuxerInfo> muxerInfos = settings->getMuxers();
-	MuxerInfo muxerInfo = FilterTypeVectorById(muxerInfos, multiplexer.value.intValue);
-
-	// Is the muxer known?
-	if (muxerInfo.id > -1)
-	{
-		const std::wstring widestr = std::wstring(muxerInfo.extension.begin(), muxerInfo.extension.end());
-		prUTF16CharCopy(exportFileExtensionRecP->outFileExtension, widestr.c_str());
-
-		return malNoError;
-	}
-
-	return malUnknownError;
+	return malNoError;
 }
 
 // reviewed 0.3.8
@@ -477,8 +472,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Basic Encoder Settings", kPrFalse, kPrFalse, kPrFalse);
 
 	// Populate video encoder options
-	vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, encoderInfos, settings->defaultVideoEncoder);
+	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, settings->videoEncoderInfos, settings->defaultVideoEncoder);
 
 #pragma endregion
 
@@ -543,8 +537,7 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 	exportParamSuite->AddParamGroup(exID, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 
 	// Populate audio encoder options
-	encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, encoderInfos, audioCodecValues.value.intValue);
+	CreateEncoderParamElements(exportParamSuite, exID, groupIndex, settings->audioEncoderInfos, audioCodecValues.value.intValue);
 
 #pragma endregion
 
@@ -625,7 +618,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	Settings *settings = instRec->settings;
 
 	// Get various settings
-	json configuration = settings->getConfiguration();
+	json configuration = settings->mainConfig;
 
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRAdvVideoCodecTabGroup, L"Advanced");
 
@@ -644,8 +637,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, VKDRColorRange, L"Use full color range");
 
 	// Populate video encoder dropdown
-	vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	PopulateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, videoEncoderInfos);
+	PopulateEncoders(instRec, exID, groupIndex, ADBEVideoCodec, settings->videoEncoderInfos);
 
 	// Pixel aspect ratio
 	instRec->exportParamSuite->ClearConstrainedValues(exID, 0, ADBEVideoAspect);
@@ -717,7 +709,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 
 	instRec->exportParamSuite->SetParamName(exID, 0, ADBEVideoCodecGroup, L"Codec settings");
 
-	PopulateParamValues(instRec, exID, groupIndex, videoEncoderInfos);
+	PopulateParamValues(instRec, exID, groupIndex, settings->videoEncoderInfos);
 
 #pragma endregion
 
@@ -730,8 +722,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, groupIndex, ADBEAudioNumChannels, L"Channels");
 
 	// Populate audio encoder dropdown
-	vector<EncoderInfo> audioEncoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	PopulateEncoders(instRec, exID, groupIndex, ADBEAudioCodec, audioEncoderInfos);
+	PopulateEncoders(instRec, exID, groupIndex, ADBEAudioCodec, settings->audioEncoderInfos);
 
 	// Clear the samplerate dropdown
 	instRec->exportParamSuite->ClearConstrainedValues(exID, groupIndex, ADBEAudioRatePerSecond);
@@ -773,7 +764,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 	instRec->exportParamSuite->SetParamName(exID, 0, ADBEAudioCodecGroup, L"Codec settings");
 
 	// Populate audio encoder dropdown
-	PopulateParamValues(instRec, exID, groupIndex, audioEncoderInfos);
+	PopulateParamValues(instRec, exID, groupIndex, settings->audioEncoderInfos);
 
 #pragma endregion
 
@@ -789,8 +780,7 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 
 	// Populate the multiplexer dropdown
 	AVOutputFormat *format;
-	vector<MuxerInfo> muxerInfos = settings->getMuxers();
-	for (MuxerInfo const muxerInfo : muxerInfos)
+	for (MuxerInfo const muxerInfo : settings->muxerInfos)
 	{
 		format = av_guess_format(muxerInfo.name.c_str(), NULL, NULL);
 		if (format != NULL)
@@ -810,6 +800,9 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *validateParamChangedRecP)
 {
 	prMALError result = malNoError;
+
+	/*
+
 	exParamValues tempValue;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateParamChangedRecP->privateData);
@@ -833,11 +826,11 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 		vector<EncoderInfo> encoderInfos;
 		if (strcmp(changedParamName, ADBEVideoCodec) == 0)
 		{
-			encoderInfos = settings->getEncoders(EncoderType::VIDEO);
+			encoderInfos = settings->videoEncoderInfos;
 		}
 		else if (strcmp(changedParamName, ADBEAudioCodec) == 0)
 		{
-			encoderInfos = settings->getEncoders(EncoderType::AUDIO);
+			encoderInfos = settings->audioEncoderInfos;
 		}
 
 		// Iterate the encoders
@@ -882,9 +875,9 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 		vector<ParameterValueInfo> parameterValueInfos;
 
 		// Merge video and audio encoders
-		vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::VIDEO);
-		vector<EncoderInfo> audioEncoderInfos = settings->getEncoders(EncoderType::AUDIO);
-		encoderInfos.insert(encoderInfos.end(), audioEncoderInfos.begin(), audioEncoderInfos.end());
+		vector<EncoderInfo> encoderInfos;
+		encoderInfos.insert(encoderInfos.end(), settings->videoEncoderInfos.begin(), settings->videoEncoderInfos.end());
+		encoderInfos.insert(encoderInfos.end(), settings->audioEncoderInfos.begin(), settings->audioEncoderInfos.end());
 
 		// Find the changed parameter
 		for (EncoderInfo encoderInfo : encoderInfos)
@@ -931,11 +924,12 @@ processValues:
 			}
 		}
 	}
+	*/
 
 	return result;
 }
 
-// reviewed 0.5.0
+// reviewed 0.5.3
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP)
 {
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(summaryRecP->privateData);
@@ -946,21 +940,18 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	exParamValues videoCodec;
 	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEVideoCodec, &videoCodec);
 
-	// Init video encoder configuration
-	vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	EncoderInfo encoderInfo = FilterTypeVectorById(encoderInfos, videoCodec.value.intValue);
-	if (encoderInfo.id > -1)
-	{
-		// Create config
-		EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
-		videoEncoderConfig->initFromSettings(&encoderInfo);
+	// Find the encoder (and fallback to first one)
+	vector<EncoderInfo> videoEncoderInfos = settings->videoEncoderInfos;
+	int videoEncoderIdx = FindVectorIndexById(&videoEncoderInfos, videoCodec.value.intValue, 0);
+	EncoderInfo videoEncoderInfo = videoEncoderInfos.at(videoEncoderIdx);
 
-		//Create summary string
-		string videoSummary = encoderInfo.name + " (" + videoEncoderConfig->getConfigAsParamString("-") + ")";
-		prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
+	// Create config
+	EncoderConfig videoEncoderConfig = EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
+	videoEncoderConfig.initFromSettings(&videoEncoderInfo);
 
-		delete(videoEncoderConfig);
-	}
+	//Create summary string
+	string videoSummary = videoEncoderInfo.name + " (" + videoEncoderConfig.getConfigAsParamString("-") + ")";
+	prUTF16CharCopy(summaryRecP->videoSummary, string2wchar_t(videoSummary));
 
 #pragma endregion
 
@@ -969,21 +960,18 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	exParamValues audioCodec;
 	instRec->exportParamSuite->GetParamValue(summaryRecP->exporterPluginID, 0, ADBEAudioCodec, &audioCodec);
 
-	// Init audio encoder configuration
-	encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	encoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
-	if (encoderInfo.id > -1)
-	{
-		// Create config
-		EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
-		audioEncoderConfig->initFromSettings(&encoderInfo);
+	// Find the encoder (and fallback to first one)
+	vector<EncoderInfo> audioEncoderInfos = settings->audioEncoderInfos;
+	int audioEncoderIdx = FindVectorIndexById(&audioEncoderInfos, audioCodec.value.intValue, 0);
+	EncoderInfo audioEncoderInfo = audioEncoderInfos.at(audioEncoderIdx);
 
-		//Create summary string
-		string audioSummary = encoderInfo.name + " (" + audioEncoderConfig->getConfigAsParamString("-") + ")";
-		prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
+	// Create config
+	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, summaryRecP->exporterPluginID);
+	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
 
-		delete(audioEncoderConfig);
-	}
+	//Create summary string
+	string audioSummary = audioEncoderInfo.name + " (" + audioEncoderConfig->getConfigAsParamString("-") + ")";
+	prUTF16CharCopy(summaryRecP->audioSummary, string2wchar_t(audioSummary));
 
 #pragma endregion
 
@@ -1213,8 +1201,9 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
 
 	// Get the selected encoder
-	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	EncoderInfo videoEncoderInfo = FilterTypeVectorById(videoEncoderInfos, videoCodec.value.intValue);
+	vector<EncoderInfo> videoEncoderInfos = settings->videoEncoderInfos;
+	const int videoEncoderIdx = FindVectorIndexById(&videoEncoderInfos, videoCodec.value.intValue, 0);
+	EncoderInfo videoEncoderInfo = videoEncoderInfos.at(videoEncoderIdx);
 
 	// Create config
 	EncoderConfig videoEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
@@ -1229,8 +1218,9 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
 
 	// Get the selected encoder
-	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
+	vector<EncoderInfo> encoderInfos = settings->audioEncoderInfos;
+	const int audioEncoderIdx = FindVectorIndexById(&encoderInfos, audioCodec.value.intValue, 0);
+	EncoderInfo audioEncoderInfo = encoderInfos.at(audioEncoderIdx);
 
 	// Create config
 	EncoderConfig audioEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
@@ -1285,10 +1275,10 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	// Start the rendering loop
 	result = videoRenderer->render(videoWidth.value.intValue, videoHeight.value.intValue, 
 		colorSpace.value.intValue == vkdrBT601 ? ColorSpace::bt601 : ColorSpace::bt709, 
-		exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData encodingData)
+		exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData *encodingData)
 	{
 		// Handle multiple passes
-		if (currentPass == 0 || (maxPasses > 1 && encodingData.pass > currentPass))
+		if (currentPass == 0 || (maxPasses > 1 && encodingData->pass > currentPass))
 		{
 			// Close current encoder instance
 			if (currentPass > 0)
@@ -1297,7 +1287,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 			}
 
 			// Start next pass
-			currentPass = encodingData.pass;
+			currentPass = encodingData->pass;
 
 			// Multipass encoding
 			if (maxPasses > 1)
@@ -1320,7 +1310,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 		}
 
 		// Encode and write the rendered video frame
-		if (encoder.writeVideoFrame(&encodingData) != S_OK)
+		if (encoder.writeVideoFrame(encodingData) != S_OK)
 		{
 			return false;
 		}

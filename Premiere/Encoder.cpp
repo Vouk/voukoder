@@ -201,6 +201,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	for (int i = 0; i < encodingData->planes; i++)
 	{
 		frame->data[i] = (uint8_t*)encodingData->plane[i];
+		frame->linesize[i] = encodingData->stride[i];
 	}
 
 	// Presentation timestamp

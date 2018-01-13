@@ -14,8 +14,6 @@ EncoderInfo::EncoderInfo(json encoder)
 		experimental = encoder["experimental"].get<bool>();
 	}
 
-	available = testCodec();
-
 	// Not used for audio codecs
 	if (encoder.find("defaultPixelFormat") != encoder.end())
 	{
@@ -68,45 +66,6 @@ EncoderInfo::EncoderInfo(json encoder)
 		ParameterInfo paramInfo = createParamInfo(*iterator);
 		params.push_back(paramInfo);
 	}
-}
-
-// reviewed 0.5.3
-bool EncoderInfo::testCodec()
-{
-	bool ret = false;
-
-	// Find codec by name
-	AVCodec *codec = avcodec_find_encoder_by_name(name.c_str());
-	if (codec != NULL)
-	{
-		// Create codec context
-		AVCodecContext *codecContext = avcodec_alloc_context3(codec);
-
-		// Type specific codec context settings
-		if (codec->type == AVMEDIA_TYPE_VIDEO)
-		{
-			codecContext->width = 1920;
-			codecContext->height = 1080;
-			codecContext->time_base = { 25 , 1 };
-			codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
-		}
-		else if (codec->type == AVMEDIA_TYPE_AUDIO)
-		{
-			codecContext->channel_layout = AV_CH_LAYOUT_STEREO;
-			codecContext->channels = 2;
-			codecContext->sample_rate = 44100;
-			codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-			codecContext->bit_rate = 0;
-		}
-
-		// Open the codec
-		ret = (avcodec_open2(codecContext, codec, NULL) == 0);
-
-		// Close the codec
-		avcodec_free_context(&codecContext);
-	}
-
-	return ret;
 }
 
 // reviewed 0.3.8

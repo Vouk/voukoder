@@ -77,18 +77,16 @@ struct ParameterInfo : ParamInfo
 };
 
 template <typename T> 
-T FilterTypeVectorById(vector<T> vec, int id)
+int FindVectorIndexById(vector<T> *vec, int id, int default = -1)
 {
-	vector<T>::iterator it = find_if(vec.begin(), vec.end(), [id](T item)
+	for (int i = 0; i < vec->size(); i++)
 	{
-		return item.id == id;
-	});
-
-	T result = *it;
-	if (it == vec.end())
-	{
-		result.id = -1;
+		T item = (*vec).at(i);
+		if (item.id == id)
+		{
+			return i;
+		}
 	}
 
-	return result;
+	return default;
 }

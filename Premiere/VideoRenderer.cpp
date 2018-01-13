@@ -328,7 +328,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(videoRenderID, 1);
 
 		// Return the frame
-		if (!callback(encodingData))
+		if (!callback(&encodingData))
 		{
 			error = suiteError_ExporterSuspended;
 			break;
@@ -348,7 +348,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 }
 
 // reviewed 0.5.2
-prSuiteError VideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback)
+prSuiteError VideoRenderer::render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback)
 {
 	this->width = width;
 	this->height = height;

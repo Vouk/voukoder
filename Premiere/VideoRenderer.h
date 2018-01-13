@@ -37,7 +37,7 @@ class VideoRenderer
 {
 public:
 	VideoRenderer(csSDK_uint32 pluginID, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
-	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData)> callback);
+	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback);
 
 protected:
 	ColorSpace colorSpace;
@@ -48,7 +48,7 @@ protected:
 	PrSDKMemoryManagerSuite *memorySuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
 	PrSDKImageProcessingSuite *imageProcessingSuite;
-	function<bool(EncodingData)> callback;
+	function<bool(EncodingData*)> callback;
 	csSDK_uint32 videoRenderID;
 
 	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);

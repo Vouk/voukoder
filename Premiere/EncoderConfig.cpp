@@ -38,12 +38,9 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 			exParamValues paramValue;
 			exportParamSuite->GetParamValue(this->exporterPluginID, this->multiGroupIndex, parameterInfo.name.c_str(), &paramValue);
 
-			// Get the selected value
-			ParameterValueInfo parameterValueInfo = FilterTypeVectorById(parameterInfo.values, paramValue.value.intValue);
-			if (parameterValueInfo.id == -1)
-			{
-				parameterValueInfo = FilterTypeVectorById(parameterInfo.values, parameterInfo.default.intValue);
-			}
+			// Get the selected value (fallback to default value (fallback to 0))
+			const int selectedParamIdx = FindVectorIndexById(&parameterInfo.values, paramValue.value.intValue, FindVectorIndexById(&parameterInfo.values, parameterInfo.default.intValue, 0));
+			ParameterValueInfo parameterValueInfo = parameterInfo.values.at(selectedParamIdx);
 
 			// Do we have suboptions?
 			if (parameterValueInfo.subValues.size() > 0)
