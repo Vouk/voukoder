@@ -1259,8 +1259,8 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	csSDK_int32 chunk;
 
 	// Create renderer instance
-	VideoRenderer *videoRenderer = new VideoRenderer(exID, instRec->ppixSuite,
-		instRec->ppix2Suite, instRec->memorySuite, instRec->exporterUtilitySuite, instRec->imageProcessingSuite);
+	VideoRenderer *videoRenderer = new VideoRenderer(exID, videoWidth.value.intValue, videoHeight.value.intValue, 
+		instRec->ppixSuite,	instRec->ppix2Suite, instRec->memorySuite, instRec->exporterUtilitySuite, instRec->imageProcessingSuite);
 
 	int currentPass = 0;
 	int maxPasses = videoEncoderConfig.getMaxPasses();
@@ -1271,8 +1271,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
 
 	// Start the rendering loop
-	result = videoRenderer->render(videoWidth.value.intValue, videoHeight.value.intValue, 
-		colorSpace.value.intValue == vkdrBT601 ? ColorSpace::bt601 : ColorSpace::bt709, 
+	result = videoRenderer->render(colorSpace.value.intValue == vkdrBT601 ? ColorSpace::bt601 : ColorSpace::bt709, 
 		exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData *encodingData)
 	{
 		// Handle multiple passes
@@ -1351,7 +1350,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	});
 
 	// TODO: call this once both audio and video is flushed and finished!
-
+	delete(videoRenderer);
 	// Close encoder and free memory
 	encoder.close(result == suiteError_NoError);
 

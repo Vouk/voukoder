@@ -112,9 +112,7 @@ void EncoderConfig::initFromSettings(EncoderInfo *encoderInfo)
 				{
 					multipassParameter = parameterValueInfo.name;
 				}
-
 			}
-
 		}
 		else // Not a dropdown element
 		{

@@ -36,10 +36,13 @@ function<Ret(Params...)> Callback<Ret(Params...)>::func;
 class VideoRenderer
 {
 public:
-	VideoRenderer(csSDK_uint32 pluginID, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
-	prSuiteError render(csSDK_uint32 width, csSDK_uint32 height, ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback);
+	VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
+	~VideoRenderer();
+	prSuiteError render(ColorSpace colorSpace, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback);
 
-protected:
+private:
+	EncodingData encodingData;
+	char *conversionBuffer;
 	ColorSpace colorSpace;
 	csSDK_uint32 width;
 	csSDK_uint32 height;
@@ -52,6 +55,7 @@ protected:
 	csSDK_uint32 videoRenderID;
 
 	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
+	prSuiteError frameFinished(EncodingData *encodingData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount);
 	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV);
 	void deinterleave(float* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
 	void deinterleave_avx_fma(char* __restrict pixels, int rowBytes, char *__restrict bufferY, char *__restrict bufferU, char *__restrict bufferV, char *__restrict bufferA);
