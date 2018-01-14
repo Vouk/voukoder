@@ -1350,7 +1350,9 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	});
 
 	// TODO: call this once both audio and video is flushed and finished!
-	delete(videoRenderer);
+	
+	videoRenderer->~VideoRenderer();
+
 	// Close encoder and free memory
 	encoder.close(result == suiteError_NoError);
 
