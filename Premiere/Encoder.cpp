@@ -201,7 +201,10 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	for (int i = 0; i < encodingData->planes; i++)
 	{
 		frame->data[i] = (uint8_t*)encodingData->plane[i];
-		frame->linesize[i] = encodingData->stride[i];
+		if (encodingData->stride[i] > 0)
+		{
+			frame->linesize[i] = encodingData->stride[i];
+		}
 	}
 
 	// Presentation timestamp
@@ -234,10 +237,28 @@ int Encoder::writeAudioFrame(const uint8_t **data, int32_t sampleCount)
 		options.sample_fmt = AV_SAMPLE_FMT_FLTP;
 		options.time_base = { 1, audioContext->codecContext->sample_rate };
 
+		// Map audio layout
+		char *audioLayout;
+		switch (audioContext->codecContext->channel_layout)
+		{
+		case AV_CH_LAYOUT_MONO:
+			audioLayout = "mono";
+			break;
+		case AV_CH_LAYOUT_STEREO:
+			audioLayout = "stereo";
+			break;
+		case AV_CH_LAYOUT_5POINT1_BACK:
+			audioLayout = "5.1";
+			break;
+		default:
+			audioLayout = "stereo";
+		}
+
 		// Set target format
 		char filterConfig[256];
-		sprintf_s(filterConfig, "aformat=channel_layouts=stereo:sample_fmts=%s:sample_rates=%d", av_get_sample_fmt_name(audioContext->codecContext->sample_fmt), audioContext->codecContext->sample_rate);
-
+		sprintf_s(filterConfig, 
+			"aformat=channel_layouts=%s:sample_fmts=%s:sample_rates=%d", audioLayout, av_get_sample_fmt_name(audioContext->codecContext->sample_fmt), audioContext->codecContext->sample_rate);
+		
 		frameFilter = new FrameFilter();
 		frameFilter->configure(options, filterConfig);
 

@@ -1123,7 +1123,7 @@ prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder
 		break;
 
 	case kPrAudioChannelType_51:
-		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1;
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
 		break;
 
 	default:
