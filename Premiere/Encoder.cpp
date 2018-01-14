@@ -201,7 +201,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	for (int i = 0; i < encodingData->planes; i++)
 	{
 		frame->data[i] = (uint8_t*)encodingData->plane[i];
-		if (encodingData->stride[i] > 0)
+		if (encodingData->stride[i] > -1)
 		{
 			frame->linesize[i] = encodingData->stride[i];
 		}
