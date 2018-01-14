@@ -801,8 +801,6 @@ prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec *
 {
 	prMALError result = malNoError;
 
-	/*
-
 	exParamValues tempValue;
 
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateParamChangedRecP->privateData);
@@ -924,7 +922,6 @@ processValues:
 			}
 		}
 	}
-	*/
 
 	return result;
 }
