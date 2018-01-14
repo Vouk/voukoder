@@ -231,11 +231,11 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 			inRenderedFrame,
 			PrPPixBufferAccess_ReadOnly,
 			&encodingData.plane[0],
-			&encodingData.stride[0],
+			((uint32_t*)&encodingData.stride[0]),
 			&encodingData.plane[1],
-			&encodingData.stride[1],
+			((uint32_t*)&encodingData.stride[1]),
 			&encodingData.plane[2],
-			&encodingData.stride[2]);
+			((uint32_t*)&encodingData.stride[2]));
 	}
 	else
 	{

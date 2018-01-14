@@ -9,7 +9,7 @@ typedef struct EncodingData
 	int planes;
 	const char *pix_fmt;
 	char *plane[8] = {};
-	unsigned int stride[8] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+	int32_t stride[8] = { -1, -1, -1, -1, -1, -1, -1, -1 };
 	int pass;
 	struct filters
 	{
