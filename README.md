@@ -10,7 +10,7 @@ See the **Wiki** page for more details.
 This plugin is under heavy development and not yet ready for production use - ... although the results are pretty much useable already.
 Currently this plugin is for **Windows only**. I do not have a Mac computer available to develop a Mac version.
 
-## How to get it
+## Download & Installation
 You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases).
 
 Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
@@ -25,10 +25,7 @@ Although you can use this plugin for free i do appreciate getting donations. Wor
 ### Non-monetary support
 I really need good **hardware with high performance** on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3. I could also use some video equipment like an **Elgato Cam Link** and a **DSLM (GH4/5 or similar)**. 
 
-Some people asked me to develop a Mac version of this plugin. That requires a **decent iMac, MacMini or MacPro** to do so.
-
 If you want to support me with this please get in direct contact with me (see below).
 
 ## Contact ##
-
 Contact me on github, by email (daniel dot stankewitz at gmail dot com) or you can even follow me on twitter: https://twitter.com/LordVouk
