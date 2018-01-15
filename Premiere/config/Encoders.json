@@ -1747,7 +1747,6 @@
         "Schauerland",
         "Daniel Stankewitz"
       ],
-      "experimental": true,
       "defaultPixelFormat": "yuv420p",
       "groups": [
         {
@@ -1891,7 +1890,7 @@
               "name": "High444",
               "pixelFormat": "yuv444p",
               "parameters": {
-                "profile": "high444"
+                "profile": "high444p"
               }
             }
           ]
@@ -2501,100 +2500,103 @@
             },
             {
               "id": 2,
-              "name": "1.1",
-              "parameters": {
-                "level": "11"
-              }
-            },
-            {
-              "id": 3,
-              "name": "1.2",
-              "parameters": {
-                "level": "12"
-              }
-            },
-            {
-              "id": 4,
-              "name": "1.3",
-              "parameters": {
-                "level": "13"
-              }
-            },
-            {
-              "id": 5,
               "name": "2",
               "parameters": {
                 "level": "2"
               }
             },
             {
-              "id": 6,
+              "id": 3,
               "name": "2.1",
               "parameters": {
                 "level": "21"
               }
             },
             {
-              "id": 7,
-              "name": "2.2",
-              "parameters": {
-                "level": "22"
-              }
-            },
-            {
-              "id": 8,
-              "name": "3",
-              "parameters": {
-                "level": "3"
-              }
-            },
-            {
-              "id": 9,
-              "name": "3.1",
-              "parameters": {
-                "level": "31"
-              }
-            },
-            {
-              "id": 10,
-              "name": "3.2",
-              "parameters": {
-                "level": "32"
-              }
-            },
-            {
-              "id": 11,
+              "id": 4,
               "name": "4",
               "parameters": {
                 "level": "4"
               }
             },
             {
-              "id": 12,
+              "id": 5,
               "name": "4.1",
               "parameters": {
                 "level": "41"
               }
             },
             {
-              "id": 13,
-              "name": "4.2",
-              "parameters": {
-                "level": "42"
-              }
-            },
-            {
-              "id": 14,
+              "id": 6,
               "name": "5",
               "parameters": {
                 "level": "5"
               }
             },
             {
-              "id": 15,
+              "id": 7,
+              "name": "5",
+              "parameters": {
+                "level": "5"
+              }
+            },
+            {
+              "id": 8,
               "name": "5.1",
               "parameters": {
                 "level": "51"
+              }
+            },
+            {
+              "id": 9,
+              "name": "5.2",
+              "parameters": {
+                "level": "52"
+              }
+            },
+            {
+              "id": 10,
+              "name": "6",
+              "parameters": {
+                "level": "6"
+              }
+            },
+            {
+              "id": 11,
+              "name": "61",
+              "parameters": {
+                "level": "61"
+              }
+            },
+            {
+              "id": 12,
+              "name": "62",
+              "parameters": {
+                "level": "62"
+              }
+            }
+          ]
+        },
+        {
+          "name": "hevc_nvencTier",
+          "label": "Tier",
+          "group": "ADBEVideoCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "Main",
+              "parameters": {
+                "profile": "main"
+              }
+            },
+            {
+              "id": 1,
+              "name": "High",
+              "parameters": {
+                "profile": "high"
               }
             }
           ]
@@ -2820,6 +2822,33 @@
             }
           ]
         },
+        {
+          "name": "hevc_nvencRCLookahead",
+          "label": "RC Lookahead",
+          "group": "ADBEAudioCodecGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "minValue": 0,
+          "maxValue": 1024,
+          "parameters": {
+            "rc-lookahead": "%d"
+          }
+        },
+        {
+          "name": "hevc_nvencSurfaces",
+          "label": "Surfaces",
+          "group": "ADBEAudioCodecGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
+          "maxValue": 64,
+          "parameters": {
+            "surfaces": "%d"
+          }
+        },
+
         {
           "name": "hevc_nvencKeyInt",
           "label": "Max. GOP Size",
