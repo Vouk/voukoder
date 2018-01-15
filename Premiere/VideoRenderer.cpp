@@ -20,7 +20,7 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csS
 	}
 
 	// Reserve conversion buffer (max. MAX_FRAME_PLANES planes and 4 components per pixel)
-	conversionBuffer = (char*)memorySuite->NewPtr(width * height * 16);
+	conversionBuffer = (char*)memorySuite->NewPtr(width * height * MAX_FRAME_PLANES * 4);
 }
 
 // reviewed 0.5.3
