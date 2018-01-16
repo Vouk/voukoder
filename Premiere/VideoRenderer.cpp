@@ -228,6 +228,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.pix_fmt = "bgra";
 		frameData.plane[0] = pixels;
 		frameData.stride[0] = rowBytes;
+		frameData.filters.vflip = true;
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
@@ -243,7 +244,8 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.planes = 1;
 		frameData.pix_fmt = "vuya";
 		frameData.plane[0] = pixels;
-		frameData.stride[0] = -rowBytes;
+		frameData.stride[0] = rowBytes;
+		frameData.filters.vflip = true;
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
@@ -322,7 +324,8 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.planes = 1;
 		frameData.pix_fmt = "vuya";
 		frameData.plane[0] = conversionBuffer;
-		frameData.stride[0] = -rowBytes;
+		frameData.stride[0] = rowBytes;
+		frameData.filters.vflip = true;
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}

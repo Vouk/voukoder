@@ -160,6 +160,10 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 
 		// Add additional filters
 		ostringstream filters;
+		if (encodingData->filters.vflip)
+		{
+			filters << "vflip,";
+		}
 		if (!encodingData->filters.scale.empty())
 		{
 			filters << "scale=";
