@@ -198,6 +198,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.planes = 1;
 		frameData.pix_fmt = "uyvy422";
 		frameData.plane[0] = pixels;
+		frameData.stride[0] = rowBytes;
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
@@ -211,6 +212,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.planes = 1;
 		frameData.pix_fmt = "yuyv422";
 		frameData.plane[0] = pixels;
+		frameData.stride[0] = rowBytes;
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
@@ -221,13 +223,14 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		inFormat == PrPixelFormat_VUYX_4444_8u_709 ||
 		inFormat == PrPixelFormat_VUYA_4444_8u_709)
 	{
-		encodingData.planes = 3;
-		encodingData.pix_fmt = "yuv444p";
+		EncodingData frameData;
+		frameData.pass = inWhichPass + 1;
+		frameData.planes = 1;
+		frameData.pix_fmt = "vuya";
+		frameData.plane[0] = pixels;
+		frameData.stride[0] = -rowBytes;
 
-		// Deinterlave packed to planar
-		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
-
-		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
+		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
 	
 	// VUYA, VUYX, VUYP
@@ -299,13 +302,14 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	// Handle pixel format
 	if (inFormat == PrPixelFormat_VUYA_4444_8u_709)
 	{
-		// Set output format
-		encodingData.planes = 3;
-		encodingData.pix_fmt = "yuv444p";
+		EncodingData frameData;
+		frameData.pass = inWhichPass + 1;
+		frameData.planes = 1;
+		frameData.pix_fmt = "vuya";
+		frameData.plane[0] = conversionBuffer;
+		frameData.stride[0] = -rowBytes;
 
-		deinterleave(conversionBuffer, outRowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
-
-		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
+		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
 	else if (inFormat == PrPixelFormat_VUYA_4444_32f_709)
 	{	
