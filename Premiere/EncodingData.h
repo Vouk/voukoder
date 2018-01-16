@@ -15,7 +15,6 @@ typedef struct EncodingData
 	int pass;
 	struct filters
 	{
-		bool vflip = false;
 		string scale = "";
 	} filters;
 } EncodingData;

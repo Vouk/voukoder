@@ -216,8 +216,23 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
+
+	// BGRA
+	if (inFormat == PrPixelFormat_BGRA_4444_8u ||
+		inFormat == PrPixelFormat_BGRP_4444_8u ||
+		inFormat == PrPixelFormat_BGRX_4444_8u)
+	{
+		EncodingData frameData;
+		frameData.pass = inWhichPass + 1;
+		frameData.planes = 1;
+		frameData.pix_fmt = "bgra";
+		frameData.plane[0] = pixels;
+		frameData.stride[0] = rowBytes;
+
+		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
+	}
 	
-	// YUVA, VUYX
+	// YUVA, VUYX (8bit)
 	if (inFormat == PrPixelFormat_VUYA_4444_8u ||
 		inFormat == PrPixelFormat_VUYX_4444_8u ||
 		inFormat == PrPixelFormat_VUYX_4444_8u_709 ||
@@ -233,7 +248,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
 	
-	// VUYA, VUYX, VUYP
+	// VUYA, VUYX, VUYP (> 8bit)
 	if (inFormat == PrPixelFormat_VUYA_4444_32f ||
 		inFormat == PrPixelFormat_VUYX_4444_32f ||
 		inFormat == PrPixelFormat_VUYA_4444_32f_709 ||
