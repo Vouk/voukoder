@@ -292,9 +292,8 @@ prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat
 	stringstream abc;
 	abc << "Render: " << ((tp1 - tp4).count() / 1000) << "탎, ";
 	abc << "Process: " << ((tp2 - tp1).count() / 1000) << "탎, ";
-	abc << "Encoding: " << ((tp3 - tp2).count() / 1000000) << "ms, ";
-	abc << "Total: " << ((tp3 - tp4).count() / 1000000) << "ms\n";
-
+	abc << "Encoding: " << ((tp3 - tp2).count() / 1000) << "탎, ";
+	abc << "Total: " << ((tp3 - tp4).count() / 1000) << "탎\n";
 	OutputDebugStringA(abc.str().c_str());
 	
 	tp4 = high_resolution_clock::now();
