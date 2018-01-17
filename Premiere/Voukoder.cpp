@@ -1227,11 +1227,13 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 #pragma endregion
 
 	// Get render parameter values
-	exParamValues videoWidth, videoHeight, ticksPerFrame, colorSpace, channelType, audioSampleRate;
+	exParamValues videoWidth, videoHeight, ticksPerFrame, fieldType, colorSpace, colorRange, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
@@ -1270,9 +1272,21 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
 
+	// Get target render format
+	PrPixelFormat pixelFormat = VideoRenderer::GetTargetRenderFormat(
+		videoEncoderConfig.getPixelFormat(),
+		colorSpace.value.intValue == vkdrBT601 ? bt601 : bt709,
+		colorRange.value.intValue == vkdrFullColorRange ? Full : Limited,
+		fieldType.value.intValue);
+
+	// Stop if pixel format is not supported
+	if (pixelFormat == PrPixelFormat_Invalid)
+	{
+		return suiteError_RenderInvalidPixelFormat;
+	}
+
 	// Start the rendering loop
-	result = videoRenderer->render(colorSpace.value.intValue == vkdrBT601 ? ColorSpace::bt601 : ColorSpace::bt709, 
-		exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData *encodingData)
+	result = videoRenderer->render(pixelFormat, exportInfoP->startTime, exportInfoP->endTime, maxPasses, [&](EncodingData *encodingData)
 	{
 		// Handle multiple passes
 		if (currentPass == 0 || (maxPasses > 1 && encodingData->pass > currentPass))

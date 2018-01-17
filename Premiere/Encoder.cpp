@@ -143,46 +143,50 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 		return S_OK;
 	}
 
-	FrameFilter *frameFilter;
+	FrameFilter *frameFilter = NULL;
 
-	// Set up frame filter
-	if (videoContext->frameFilters.find(encodingData->pix_fmt) == videoContext->frameFilters.end())
+	// Do we need a frame filter for pixel format conversion?
+	if (av_get_pix_fmt(encodingData->pix_fmt) != videoContext->codecContext->pix_fmt)
 	{
-		// Configure source format
-		FrameFilterOptions options;
-		options.media_type = videoContext->codec->type;
-		options.width = videoContext->codecContext->width;
-		options.height = videoContext->codecContext->height;
-		options.pix_fmt = av_get_pix_fmt(encodingData->pix_fmt);
-		options.time_base = videoContext->codecContext->time_base;
-		options.sar.den = 1;
-		options.sar.num = 1;
-
-		// Add additional filters
-		ostringstream filters;
-		if (encodingData->filters.vflip)
+		// Set up frame filter
+		if (videoContext->frameFilters.find(encodingData->pix_fmt) == videoContext->frameFilters.end())
 		{
-			filters << "vflip,";
+			// Configure source format
+			FrameFilterOptions options;
+			options.media_type = videoContext->codec->type;
+			options.width = videoContext->codecContext->width;
+			options.height = videoContext->codecContext->height;
+			options.pix_fmt = av_get_pix_fmt(encodingData->pix_fmt);
+			options.time_base = videoContext->codecContext->time_base;
+			options.sar.den = 1;
+			options.sar.num = 1;
+
+			// Add additional filters
+			ostringstream filters;
+			if (encodingData->filters.vflip)
+			{
+				filters << "vflip,";
+			}
+			if (!encodingData->filters.scale.empty())
+			{
+				filters << "scale=";
+				filters << encodingData->filters.scale;
+				filters << ",";
+			}
+
+			// Set target format
+			char filterConfig[256];
+			sprintf_s(filterConfig, "%sformat=pix_fmts=%s", filters.str().c_str(), videoContext->encoderConfig->getPixelFormat().c_str());
+
+			frameFilter = new FrameFilter();
+			frameFilter->configure(options, filterConfig);
+
+			videoContext->frameFilters.insert(pair<string, FrameFilter*>(encodingData->pix_fmt, frameFilter));
 		}
-		if (!encodingData->filters.scale.empty())
+		else
 		{
-			filters << "scale=";
-			filters << encodingData->filters.scale;
-			filters << ",";
+			frameFilter = videoContext->frameFilters.at(encodingData->pix_fmt);
 		}
-
-		// Set target format
-		char filterConfig[256];
-		sprintf_s(filterConfig, "%sformat=pix_fmts=%s", filters.str().c_str(), videoContext->encoderConfig->getPixelFormat().c_str());
-
-		frameFilter = new FrameFilter();
-		frameFilter->configure(options, filterConfig);
-
-		videoContext->frameFilters.insert(pair<string, FrameFilter*>(encodingData->pix_fmt, frameFilter));
-	}
-	else
-	{
-		frameFilter = videoContext->frameFilters.at(encodingData->pix_fmt);
 	}
 
 	// Create a new frame
@@ -201,10 +205,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	for (int i = 0; i < encodingData->planes; i++)
 	{
 		frame->data[i] = (uint8_t*)encodingData->plane[i];
-		if (encodingData->stride[i] > -1)
-		{
-			frame->linesize[i] = encodingData->stride[i];
-		}
+		frame->linesize[i] = encodingData->stride[i];
 	}
 
 	// Presentation timestamp
@@ -369,30 +370,41 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 		// Flush receiver
 		goto receive_packets;
 	}
-	
-	// Send the uncompressed frame to frame filter
-	if ((ret = frameFilter->sendFrame(frame)) != S_OK)
-	{
-		return ret;
-	}
 
-	AVFrame *tmp_frame;
-	tmp_frame = av_frame_alloc();
-
-	// Receive frames from the rame filter
-	while (frameFilter->receiveFrame(tmp_frame) >= 0)
+	if (frameFilter != NULL)
 	{
-		// Send the frame to the encoder
-		if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) != S_OK)
+		// Send the uncompressed frame to frame filter
+		if ((ret = frameFilter->sendFrame(frame)) != S_OK)
 		{
-			av_frame_free(&tmp_frame);
 			return ret;
 		}
 
-		av_frame_unref(tmp_frame);
-	}
+		AVFrame *tmp_frame;
+		tmp_frame = av_frame_alloc();
 
-	av_frame_free(&tmp_frame);
+		// Receive frames from the rame filter
+		while (frameFilter->receiveFrame(tmp_frame) >= 0)
+		{
+			// Send the frame to the encoder
+			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) != S_OK)
+			{
+				av_frame_free(&tmp_frame);
+				return ret;
+			}
+
+			av_frame_unref(tmp_frame);
+		}
+
+		av_frame_free(&tmp_frame);
+	}
+	else
+	{
+		// Send the frame directly to the encoder
+		if ((ret = avcodec_send_frame(context->codecContext, frame)) != S_OK)
+		{
+			return ret;
+		}
+	}
 
 receive_packets:	
 
