@@ -7,7 +7,6 @@
         "Daniel Stankewitz"
       ],
       "defaultPixelFormat": "yuv420p",
-      "threads": 0,
       "groups": [
         {
           "name": "VKDRx264QuantizerGroup",
@@ -1277,7 +1276,6 @@
         "Daniel Stankewitz"
       ],
       "defaultPixelFormat": "yuv420p",
-      "threads": 0,
       "groups": [],
       "multipass": {
         "name": "x265Passes"
@@ -1538,7 +1536,6 @@
         "Daniel Stankewitz"
       ],
       "defaultPixelFormat": "yuv422p10le",
-      "threads": 0,
       "groups": [
         {
           "name": "VKDRproresQuantizerGroup",
@@ -1720,7 +1717,6 @@
       ],
       "experimental": true,
       "defaultPixelFormat": "yuv422p10le",
-      "threads": 0,
       "groups": [],
       "parameterGroups": {},
       "params": [
@@ -2333,7 +2329,6 @@
         "Schauerland",
         "Daniel Stankewitz"
       ],
-      "experimental": true,
       "defaultPixelFormat": "yuv420p",
       "groups": [
         {
@@ -2949,7 +2944,6 @@
         {
           "name": "aacPreset",
           "label": "Preset",
-          "threads": 0,
           "group": "ADBEAudioCodecGroup",
           "type": "int",
           "flags": [],
@@ -3053,7 +3047,6 @@
       "authors": [
         "Daniel Stankewitz"
       ],
-      "threads": 0,
       "params": []
     },
     {
@@ -3062,7 +3055,7 @@
       "authors": [
         "Daniel Stankewitz"
       ],
-      "threads": 0,
+      "experimental": true,
       "params": [
         {
           "name": "flacCompressionLevel",

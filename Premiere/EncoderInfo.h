@@ -17,7 +17,6 @@ public:
 	string defaultPixelFormat;
 	vector<ElementGroup> groups;
 	string multipassParameter;
-	int threadCount = 0;
 	vector<ParamGroup> paramGroups;
 	vector<ParameterInfo> params;
 	EncoderInfo(json encoderSettings);

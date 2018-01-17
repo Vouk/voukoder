@@ -26,12 +26,6 @@ EncoderInfo::EncoderInfo(json encoder)
 		multipassParameter = encoder["multipass"]["name"].get<string>();
 	}
 
-	// Does this codec support multipass encoding?
-	if (encoder.find("threads") != encoder.end())
-	{
-		threadCount = encoder["threads"].get<int>();
-	}
-
 	// Add ui element groups
 	for (auto iterator = encoder["groups"].begin(); iterator != encoder["groups"].end(); ++iterator)
 	{
