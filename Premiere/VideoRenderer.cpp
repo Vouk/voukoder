@@ -244,6 +244,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		encodingData.pass = inWhichPass + 1;
 		encodingData.planes = 3;
 		encodingData.pix_fmt = "yuv444p";
+		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = rowBytes / 4;
 
 		// Deinterleave vuya
 		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
@@ -255,8 +256,10 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	if (inFormat == PrPixelFormat_VUYA_4444_32f ||
 		inFormat == PrPixelFormat_VUYA_4444_32f_709)
 	{
+		encodingData.pass = inWhichPass + 1;
 		encodingData.planes = 4;
 		encodingData.pix_fmt = "yuva444p16le";
+		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = rowBytes / encodingData.planes;
 
 		// Deinterlave packed to planar
 		deinterleave((float*)pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);

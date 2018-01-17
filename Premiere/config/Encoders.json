@@ -525,7 +525,6 @@
             {
               "id": 3,
               "name": "Lossless",
-              "pixelFormat": "yuv444p",
               "parameters": {
                 "qp": "0"
               }
