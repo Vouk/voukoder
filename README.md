@@ -3,7 +3,6 @@ Use x264, x265 and other encoders of the libav or ffmpeg library directly in Ado
 - x264 (8 bit only)
 - x265 (8, 10 and 12bit)
 - ProRes (experimental)
-- FFV1 (experimental)
 
 See the **Wiki** page for more details.
 
@@ -27,5 +26,6 @@ I really need good **hardware with high performance** on compiling and rendering
 
 If you want to support me with this please get in direct contact with me (see below).
 
-## Contact ##
-Contact me on github, by email (daniel dot stankewitz at gmail dot com) or you can even follow me on twitter: https://twitter.com/LordVouk
+## Contact me ##
+Twitter (Updates and announcements): https://twitter.com/LordVouk
+Email: daniel dot stankewitz at gmail dot com
