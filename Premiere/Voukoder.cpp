@@ -982,7 +982,7 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec)
 {
 	prMALError result = malNoError;
-	/*
+
 	csSDK_uint32 exID = validateOutputSettingsRec->exporterPluginID;
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
 	Settings *settings = instRec->settings;
@@ -996,40 +996,37 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 #pragma region Create video encoder info
 
 	// Get the selected encoder
-	const vector<EncoderInfo> videoEncoderInfos = settings->getEncoders(EncoderType::VIDEO);
-	EncoderInfo videoEncoderInfo = FilterTypeVectorById(videoEncoderInfos, videoCodec.value.intValue);
+	EncoderInfo videoEncoderInfo = FilterTypeVectorById(settings->videoEncoderInfos, videoCodec.value.intValue);
 	if (videoEncoderInfo.id == -1)
 	{
 		return malUnknownError;
 	}
 
 	// Create config
-	EncoderConfig *videoEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
-	videoEncoderConfig->initFromSettings(&videoEncoderInfo);
+	EncoderConfig videoEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
+	videoEncoderConfig.initFromSettings(&videoEncoderInfo);
 
 #pragma endregion
 
 #pragma region Create audio encoder info
 
 	// Get the selected encoder
-	const vector<EncoderInfo> encoderInfos = settings->getEncoders(EncoderType::AUDIO);
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(encoderInfos, audioCodec.value.intValue);
+	EncoderInfo audioEncoderInfo = FilterTypeVectorById(settings->audioEncoderInfos, audioCodec.value.intValue);
 	if (audioEncoderInfo.id == -1)
 	{
 		return malUnknownError;
 	}
 
 	// Create config
-	EncoderConfig *audioEncoderConfig = new EncoderConfig(instRec->exportParamSuite, exID);
-	audioEncoderConfig->initFromSettings(&audioEncoderInfo);
+	EncoderConfig audioEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
+	audioEncoderConfig.initFromSettings(&audioEncoderInfo);
 
 #pragma endregion
 
 #pragma region Create muxer info
 
 	// Get selected muxer
-	vector<MuxerInfo> muxerInfos = settings->getMuxers();
-	MuxerInfo muxerInfo = FilterTypeVectorById(muxerInfos, multiplexer.value.intValue);
+	MuxerInfo muxerInfo = FilterTypeVectorById(settings->muxerInfos, multiplexer.value.intValue);
 	if (muxerInfo.id == -1)
 	{
 		return malUnknownError;
@@ -1038,14 +1035,14 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 #pragma endregion
 
 	// Create encoder instance
-	Encoder *encoder = new Encoder(muxerInfo.name.c_str(), NULL);
-	result = SetupEncoderInstance(instRec, exID, encoder, videoEncoderConfig, audioEncoderConfig);
+	Encoder encoder = Encoder(muxerInfo.name.c_str(), NULL);
+	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
 
 	// Open the encoder
-	if (encoder->open() == S_OK)
+	if (encoder.open() == S_OK)
 	{
 		// Test successful
-		encoder->close(false);
+		encoder.close(false);
 	}
 	else
 	{
@@ -1064,9 +1061,9 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 			errmsg.c_str(),
 			muxerInfo.name.c_str(),
 			videoEncoderInfo.name.c_str(),
-			videoEncoderConfig->getConfigAsParamString("-").c_str(),
+			videoEncoderConfig.getConfigAsParamString("-").c_str(),
 			audioEncoderInfo.name.c_str(),
-			audioEncoderConfig->getConfigAsParamString("-").c_str());
+			audioEncoderConfig.getConfigAsParamString("-").c_str());
 
 		// Show an error message to the user
 		ShowMessageBox(instRec, buffer, "Error", MB_OK);
@@ -1074,11 +1071,7 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 		result = exportReturn_ErrLastErrorSet;
 	}
 
-	delete(encoder);
-	delete(videoEncoderConfig);
-	delete(audioEncoderConfig);
-
-	*/
+	encoder.~Encoder();
 
 	return result;
 }
