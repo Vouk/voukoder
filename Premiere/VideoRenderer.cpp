@@ -1,11 +1,17 @@
 #include "VideoRenderer.h"
 #include <tmmintrin.h>
 #include <immintrin.h>
-#include <chrono>
 #include <sstream>
+
+#if defined(_DEBUG) 
+
+#include <chrono>
+
 using namespace std::chrono;
 
 static time_point<steady_clock> tp1, tp2, tp3, tp4, tp5;
+
+#endif
 
 // reviewed 0.5.3
 VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite) :
@@ -179,8 +185,9 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 {
 	prSuiteError error = suiteError_NoError;
 
+#if defined(_DEBUG) 
 	tp1 = high_resolution_clock::now();
-
+#endif
 	// Get pixel format
 	PrPixelFormat inFormat;
 	ppixSuite->GetPixelFormat(inRenderedFrame, &inFormat);
@@ -272,7 +279,9 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 
 prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount)
 {
+#if defined(_DEBUG) 
 	tp2 = high_resolution_clock::now();
+#endif
 
 	// Repeating frames will be rendered only once
 	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
@@ -287,6 +296,7 @@ prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat
 		}
 	}
 
+#if defined(_DEBUG) 
 	tp3 = high_resolution_clock::now();
 
 	stringstream abc;
@@ -297,6 +307,7 @@ prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat
 	OutputDebugStringA(abc.str().c_str());
 	
 	tp4 = high_resolution_clock::now();
+#endif
 
 	return suiteError_NoError;
 }
