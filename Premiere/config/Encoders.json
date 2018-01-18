@@ -2225,6 +2225,7 @@
           "label": "Number of B-Frames",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
+          "useDefaultValue": true,
           "flags": [ "slider" ],
           "defaultValue": 2,
           "minValue": 0,
