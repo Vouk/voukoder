@@ -1710,32 +1710,6 @@
       ]
     },
     {
-      "id": 3,
-      "name": "ffv1",
-      "authors": [
-        "Daniel Stankewitz"
-      ],
-      "experimental": true,
-      "defaultPixelFormat": "yuv422p10le",
-      "groups": [],
-      "parameterGroups": {},
-      "params": [
-        {
-          "name": "ffv1",
-          "label": "Threads",
-          "group": "ADBEVideoCodecGroup",
-          "type": "int",
-          "flags": [ "slider" ],
-          "defaultValue": 12,
-          "minValue": 1,
-          "maxValue": 64,
-          "parameters": {
-            "threads": "%d"
-          }
-        }
-      ]
-    },
-    {
       "id": 4,
       "name": "h264_nvenc",
       "authors": [
@@ -2238,7 +2212,7 @@
           "label": "Max. GOP Size",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
-          "flags": [],
+          "flags": [ "slider" ],
           "defaultValue": 250,
           "minValue": 1,
           "maxValue": 999,
@@ -2251,7 +2225,7 @@
           "label": "Number of B-Frames",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
-          "flags": [],
+          "flags": [ "slider" ],
           "defaultValue": 2,
           "minValue": 0,
           "maxValue": 4,
@@ -2264,9 +2238,9 @@
           "label": "QP Value For P-Frames",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpP": "%d"
@@ -2277,9 +2251,9 @@
           "label": "QP Value For B-Frames",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpB": "%d"
@@ -2290,9 +2264,9 @@
           "label": "QP Value For I-Frames",
           "group": "VKDRh264NVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpI": "%d"
@@ -2304,20 +2278,9 @@
           "group": "VKDRh264NVENCAdvGroup",
           "type": "bool",
           "flags": [],
-          "defaultValue": false,
+          "defaultValue": 0,
           "parameters": {
             "bluray-compat": ""
-          }
-        },
-        {
-          "name": "h264_nvenc2PassEncoding",
-          "label": "2 Pass Encoding",
-          "group": "VKDRh264NVENCAdvGroup",
-          "type": "bool",
-          "flags": [],
-          "defaultValue": true,
-          "parameters": {
-            "2pass": ""
           }
         }
       ]
@@ -2332,12 +2295,12 @@
       "defaultPixelFormat": "yuv420p",
       "groups": [
         {
-          "name": "VKDRh264NVENCGOPGroup",
+          "name": "VKDRhevcNVENCGOPGroup",
           "label": "GOP and QP",
           "parent": "VKDRAdvVideoCodecTabGroup"
         },
         {
-          "name": "VKDRh264NVENCAdvGroup",
+          "name": "VKDRhevcNVENCAdvGroup",
           "label": "Advanced Settings",
           "parent": "VKDRAdvVideoCodecTabGroup"
         }
@@ -2455,7 +2418,7 @@
             },
             {
               "id": 1,
-              "name": "Main (YUV 4:2:0 10 bit)",
+              "name": "Main (10 bit)",
               "pixelFormat": "yuv420p10le",
               "parameters": {
                 "profile": "main10"
@@ -2819,9 +2782,9 @@
         {
           "name": "hevc_nvencRCLookahead",
           "label": "RC Lookahead",
-          "group": "ADBEAudioCodecGroup",
+          "group": "VKDRhevcNVENCAdvGroup",
           "type": "int",
-          "flags": [],
+          "flags": [ "slider" ],
           "defaultValue": 0,
           "minValue": 0,
           "maxValue": 1024,
@@ -2832,7 +2795,7 @@
         {
           "name": "hevc_nvencSurfaces",
           "label": "Surfaces",
-          "group": "ADBEAudioCodecGroup",
+          "group": "VKDRhevcNVENCAdvGroup",
           "type": "int",
           "flags": [ "slider" ],
           "defaultValue": 0,
@@ -2842,41 +2805,14 @@
             "surfaces": "%d"
           }
         },
-
-        {
-          "name": "hevc_nvencKeyInt",
-          "label": "Max. GOP Size",
-          "group": "VKDRh264NVENCGOPGroup",
-          "type": "int",
-          "flags": [],
-          "defaultValue": 250,
-          "minValue": 1,
-          "maxValue": 999,
-          "parameters": {
-            "g": "%d"
-          }
-        },
-        {
-          "name": "hevc_nvencBFrames",
-          "label": "Number of B-Frames",
-          "group": "VKDRh264NVENCGOPGroup",
-          "type": "int",
-          "flags": [],
-          "defaultValue": 2,
-          "minValue": 0,
-          "maxValue": 4,
-          "parameters": {
-            "bf": "%d"
-          }
-        },
         {
           "name": "hevc_nvencQPP",
           "label": "QP Value For P-Frames",
-          "group": "VKDRh264NVENCGOPGroup",
+          "group": "VKDRhevcNVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpP": "%d"
@@ -2885,11 +2821,11 @@
         {
           "name": "hevc_nvencQPB",
           "label": "QP Value For B-Frames",
-          "group": "VKDRh264NVENCGOPGroup",
+          "group": "VKDRhevcNVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpB": "%d"
@@ -2898,11 +2834,11 @@
         {
           "name": "hevc_nvencQPI",
           "label": "QP Value For I-Frames",
-          "group": "VKDRh264NVENCGOPGroup",
+          "group": "VKDRhevcNVENCGOPGroup",
           "type": "int",
-          "flags": [],
-          "defaultValue": -1,
-          "minValue": -1,
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
           "maxValue": 51,
           "parameters": {
             "init_qpI": "%d"
@@ -2911,23 +2847,12 @@
         {
           "name": "hevc_nvencBDC",
           "label": "Blu-Ray Compatibility",
-          "group": "VKDRh264NVENCAdvGroup",
+          "group": "VKDRhevcNVENCAdvGroup",
           "type": "bool",
           "flags": [],
-          "defaultValue": false,
+          "defaultValue": 0,
           "parameters": {
             "bluray-compat": ""
-          }
-        },
-        {
-          "name": "hevc_nvenc2PassEncoding",
-          "label": "2 Pass Encoding",
-          "group": "VKDRh264NVENCAdvGroup",
-          "type": "bool",
-          "flags": [],
-          "defaultValue": true,
-          "parameters": {
-            "2pass": ""
           }
         }
       ]
