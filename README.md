@@ -30,6 +30,6 @@ I really need good **hardware with high performance** on compiling and rendering
 If you want to support me with this please get in direct contact with me (see below).
 
 ## Contact me ##
-Twitter (Updates and announcements): https://twitter.com/LordVouk
+Twitter: https://twitter.com/LordVouk
 
 Email: daniel dot stankewitz at gmail dot com
