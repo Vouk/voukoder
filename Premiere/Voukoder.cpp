@@ -978,7 +978,7 @@ prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summa
 	return malNoError;
 }
 
-// reviewed 0.5.0
+// reviewed 0.5.3
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec)
 {
 	prMALError result = malNoError;
@@ -987,70 +987,109 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 	InstanceRec *instRec = reinterpret_cast<InstanceRec *>(validateOutputSettingsRec->privateData);
 	Settings *settings = instRec->settings;
 
-	// Get selected video encoder
-	exParamValues videoCodec, audioCodec, multiplexer;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
-	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
-
 #pragma region Create video encoder info
 
+	// Get selected video encoder
+	exParamValues videoCodec, videoWidth, videoHeight;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
+
 	// Get the selected encoder
-	EncoderInfo videoEncoderInfo = FilterTypeVectorById(settings->videoEncoderInfos, videoCodec.value.intValue);
-	if (videoEncoderInfo.id == -1)
+	const int videoEncoderIdx = FindVectorIndexById(&settings->videoEncoderInfos, videoCodec.value.intValue, 0);
+	if (videoEncoderIdx == -1)
 	{
 		return malUnknownError;
 	}
+	EncoderInfo videoEncoderInfo = settings->videoEncoderInfos.at(videoEncoderIdx);
 
 	// Create config
 	EncoderConfig videoEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
 	videoEncoderConfig.initFromSettings(&videoEncoderInfo);
 
+	// Create video context information
+	EncoderContextInfo videoContextInfo;
+	videoContextInfo.name = videoEncoderInfo.name;
+	videoContextInfo.width = videoWidth.value.intValue;
+	videoContextInfo.height = videoHeight.value.intValue;
+	videoContextInfo.timebase.num = 1;
+	videoContextInfo.timebase.den = 30;
+	videoContextInfo.colorRange = AVColorRange::AVCOL_RANGE_MPEG;
+
 #pragma endregion
 
 #pragma region Create audio encoder info
+	
+	// Get selected audio encoder
+	exParamValues audioCodec, channelType, audioSampleRate;
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
 	// Get the selected encoder
-	EncoderInfo audioEncoderInfo = FilterTypeVectorById(settings->audioEncoderInfos, audioCodec.value.intValue);
-	if (audioEncoderInfo.id == -1)
+	const int audioEncoderIdx = FindVectorIndexById(&settings->audioEncoderInfos, audioCodec.value.intValue, 0);
+	if (audioEncoderIdx == -1)
 	{
 		return malUnknownError;
 	}
+	EncoderInfo audioEncoderInfo = settings->audioEncoderInfos.at(audioEncoderIdx);
 
 	// Create config
 	EncoderConfig audioEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
 	audioEncoderConfig.initFromSettings(&audioEncoderInfo);
 
+	// Create audio context information
+	EncoderContextInfo audioContextInfo;
+	audioContextInfo.name = audioEncoderInfo.name;
+	audioContextInfo.timebase.den = (int)audioSampleRate.value.floatValue;
+	audioContextInfo.timebase.num = 1;
+
+	// Translate the channel layout to AVLib
+	switch (channelType.value.intValue)
+	{
+	case kPrAudioChannelType_Mono:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_MONO;
+		break;
+
+	case kPrAudioChannelType_51:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+		break;
+
+	default:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_STEREO;
+		break;
+	}
+
 #pragma endregion
 
 #pragma region Create muxer info
 
-	// Get selected muxer
-	MuxerInfo muxerInfo = FilterTypeVectorById(settings->muxerInfos, multiplexer.value.intValue);
-	if (muxerInfo.id == -1)
+	// Get selected video encoder
+	exParamValues multiplexer;
+	instRec->exportParamSuite->GetParamValue(exID, 0, FFMultiplexer, &multiplexer);
+
+	// Get the selected muxer
+	const int muxerIdx = FindVectorIndexById(&settings->muxerInfos, multiplexer.value.intValue, 0);
+	if (muxerIdx == -1)
 	{
 		return malUnknownError;
 	}
+	MuxerInfo muxerInfo = settings->muxerInfos.at(muxerIdx);
 
 #pragma endregion
 
-	// Create encoder instance
+	// Create and configure encoder instance
 	Encoder encoder = Encoder(muxerInfo.name.c_str(), NULL);
-	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
+	encoder.videoContext->configure(videoContextInfo, &videoEncoderConfig);
+	encoder.audioContext->configure(audioContextInfo, &audioEncoderConfig);
 
 	// Open the encoder
-	if (encoder.open() == S_OK)
-	{
-		// Test successful
-		encoder.close(false);
-	}
-	else
+	if (encoder.open() != S_OK)
 	{
 		string errmsg = "";
 
 		// Add an error text fo most common errors
-		if (muxerInfo.name == "mp4" &&
-			audioEncoderInfo.name == "flac")
+		if (muxerInfo.name == "mp4" &&	audioEncoderInfo.name == "flac")
 		{
 			errmsg = "Error: The FLAC codec can not be used in a mp4 container.\n\n";
 		}
@@ -1070,100 +1109,16 @@ prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputS
 
 		result = exportReturn_ErrLastErrorSet;
 	}
-
-	encoder.~Encoder();
+	else
+	{
+		// Test successful
+		encoder.close(false);
+	}
 
 	return result;
 }
 
-// reviewed 0.5.2
-prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderConfig *videoConfig, EncoderConfig *audioConfig)
-{
-	prMALError result = malNoError;
-
-	Settings *settings = instRec->settings;
-
-	// Get export video params
-	exParamValues videoWidth, videoHeight, tvStandard, vkdrColorSpace, vkdrColorRange, ticksPerFrame, channelType, audioSampleRate;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRTVStandard, &tvStandard);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &vkdrColorSpace);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &vkdrColorRange);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
-
-	// Find the correct fps ratio
-	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
-	PrTime num = 254016000000 / c;
-	PrTime den = ticksPerFrame.value.timeValue / c;
-
-	// Create audio context information
-	EncoderContextInfo audioContextInfo;
-	audioContextInfo.name = audioConfig->encoderInfo->name;
-	audioContextInfo.timebase.den = (int)audioSampleRate.value.floatValue;
-	audioContextInfo.timebase.num = 1;
-
-	// Translate the channel layout to AVLib
-	switch (channelType.value.intValue)
-	{
-	case kPrAudioChannelType_Mono:
-		audioContextInfo.channelLayout = AV_CH_LAYOUT_MONO;
-		break;
-
-	case kPrAudioChannelType_51:
-		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
-		break;
-
-	default:
-		audioContextInfo.channelLayout = AV_CH_LAYOUT_STEREO;
-		break;
-	}
-	
-	// Set and configure audio codec
-	encoder->audioContext->setCodec(audioContextInfo, audioConfig);
-	
-	// Create video context information
-	EncoderContextInfo videoContextInfo;
-	videoContextInfo.name = videoConfig->encoderInfo->name;
-	videoContextInfo.width = videoWidth.value.intValue;
-	videoContextInfo.height = videoHeight.value.intValue;
-	videoContextInfo.timebase = {(int)den, (int)num };
-	
-	// Get the right color range
-	videoContextInfo.colorRange = vkdrColorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
-
-	// Color conversion values
-	if (vkdrColorSpace.value.intValue == vkdrBT601)
-	{
-		if (tvStandard.value.intValue == vkdrPAL)
-		{
-			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
-			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG; 
-			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-		}
-		else if (tvStandard.value.intValue == vkdrNTSC)
-		{
-			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-		}
-	}
-	else if (vkdrColorSpace.value.intValue == vkdrBT709)
-	{
-		videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-		videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-		videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-	}
-	
-	// Set and configure video codec
-	encoder->videoContext->setCodec(videoContextInfo, videoConfig);
-	
-	return result;
-}
-
-// reviewed 0.5.2
+// reviewed 0.5.3
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 {
 	prMALError result = malNoError;
@@ -1188,25 +1143,74 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 #pragma region Create video encoder config
 
 	// Get selected video encoder
-	exParamValues videoCodec;
+	exParamValues videoCodec, videoWidth, videoHeight, ticksPerFrame, fieldType, tvStandard, colorSpace, colorRange;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoCodec, &videoCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRTVStandard, &tvStandard);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
+	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
 
 	// Get the selected encoder
-	vector<EncoderInfo> videoEncoderInfos = settings->videoEncoderInfos;
-	const int videoEncoderIdx = FindVectorIndexById(&videoEncoderInfos, videoCodec.value.intValue, 0);
-	EncoderInfo videoEncoderInfo = videoEncoderInfos.at(videoEncoderIdx);
+	const int videoEncoderIdx = FindVectorIndexById(&settings->videoEncoderInfos, videoCodec.value.intValue, 0);
+	if (videoEncoderIdx == -1)
+	{
+		return malUnknownError;
+	}
+	EncoderInfo videoEncoderInfo = settings->videoEncoderInfos.at(videoEncoderIdx);
 
 	// Create config
 	EncoderConfig videoEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
 	videoEncoderConfig.initFromSettings(&videoEncoderInfo);
+
+	// Find the correct fps ratio
+	PrTime c = gcd(254016000000, ticksPerFrame.value.timeValue);
+	PrTime den = 254016000000 / c;
+	PrTime num = ticksPerFrame.value.timeValue / c;
+
+	// Create video context information
+	EncoderContextInfo videoContextInfo;
+	videoContextInfo.name = videoEncoderInfo.name;
+	videoContextInfo.width = videoWidth.value.intValue;
+	videoContextInfo.height = videoHeight.value.intValue;
+	videoContextInfo.timebase.num = (int)num;
+	videoContextInfo.timebase.den = (int)den;
+	videoContextInfo.colorRange = colorRange.value.intValue == vkdrFullColorRange ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
+
+	// Color conversion values
+	if (colorSpace.value.intValue == vkdrBT601)
+	{
+		if (tvStandard.value.intValue == vkdrPAL)
+		{
+			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
+			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
+			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+		}
+		else if (tvStandard.value.intValue == vkdrNTSC)
+		{
+			videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+			videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+			videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+		}
+	}
+	else if (colorSpace.value.intValue == vkdrBT709)
+	{
+		videoContextInfo.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+		videoContextInfo.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+		videoContextInfo.colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+	}
 
 #pragma endregion
 
 #pragma region Create audio encoder config
 
 	// Get selected audio encoder
-	exParamValues audioCodec;
+	exParamValues audioCodec, channelType, audioSampleRate;
 	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioCodec, &audioCodec);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
+	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
 
 	// Get the selected encoder
 	vector<EncoderInfo> encoderInfos = settings->audioEncoderInfos;
@@ -1217,18 +1221,30 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	EncoderConfig audioEncoderConfig = EncoderConfig(instRec->exportParamSuite, exID);
 	audioEncoderConfig.initFromSettings(&audioEncoderInfo);
 
-#pragma endregion
 
-	// Get render parameter values
-	exParamValues videoWidth, videoHeight, ticksPerFrame, fieldType, colorSpace, colorRange, channelType, audioSampleRate;
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoWidth, &videoWidth);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoHeight, &videoHeight);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFPS, &ticksPerFrame);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEVideoFieldType, &fieldType);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorSpace, &colorSpace);
-	instRec->exportParamSuite->GetParamValue(exID, 0, VKDRColorRange, &colorRange);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioNumChannels, &channelType);
-	instRec->exportParamSuite->GetParamValue(exID, 0, ADBEAudioRatePerSecond, &audioSampleRate);
+	// Create audio context information
+	EncoderContextInfo audioContextInfo;
+	audioContextInfo.name = audioEncoderInfo.name;
+	audioContextInfo.timebase.den = (int)audioSampleRate.value.floatValue;
+	audioContextInfo.timebase.num = 1;
+
+	// Translate the channel layout to AVLib
+	switch (channelType.value.intValue)
+	{
+	case kPrAudioChannelType_Mono:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_MONO;
+		break;
+
+	case kPrAudioChannelType_51:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+		break;
+
+	default:
+		audioContextInfo.channelLayout = AV_CH_LAYOUT_STEREO;
+		break;
+	}
+
+#pragma endregion
 
 	PrTime ticksPerSample;
 	instRec->timeSuite->GetTicksPerAudioSample((float)audioSampleRate.value.floatValue, &ticksPerSample);
@@ -1262,8 +1278,8 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 
 	// Create encoder instance
 	Encoder encoder = Encoder(NULL, filename);
-
-	result = SetupEncoderInstance(instRec, exID, &encoder, &videoEncoderConfig, &audioEncoderConfig);
+	encoder.videoContext->configure(videoContextInfo, &videoEncoderConfig);
+	encoder.audioContext->configure(audioContextInfo, &audioEncoderConfig);
 
 	// Get target render format
 	PrPixelFormat pixelFormat = VideoRenderer::GetTargetRenderFormat(

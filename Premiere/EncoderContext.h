@@ -3,6 +3,7 @@
 #include "lavf.h"
 #include "EncoderConfig.h"
 #include "FrameFilter.h"
+#include "Structs.h"
 
 struct EncoderContextInfo
 {
@@ -32,7 +33,7 @@ public:
 	~EncoderContext();
 	int openCodec();
 	void closeCodec();
-	void setCodec(EncoderContextInfo encoderContestInfo, EncoderConfig *encoderConfig);
+	void configure(EncoderContextInfo encoderContestInfo, EncoderConfig *encoderConfig);
 	void setCodecFlags(int flags);
 
 private:

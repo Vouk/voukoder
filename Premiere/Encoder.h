@@ -3,6 +3,7 @@
 #include "EncoderContext.h"
 #include "FrameFilter.h"
 #include "EncodingData.h"
+#include "Structs.h"
 
 enum FrameType {
 	VideoFrame,

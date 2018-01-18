@@ -61,7 +61,7 @@ void EncoderContext::closeCodec()
 }
 
 // reviewed 0.3.8
-void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConfig *encoderConfig)
+void EncoderContext::configure(EncoderContextInfo encoderContestInfo, EncoderConfig *encoderConfig)
 {
 	this->encoderConfig = encoderConfig;
 
@@ -79,7 +79,7 @@ void EncoderContext::setCodec(EncoderContextInfo encoderContestInfo, EncoderConf
 
 	// Create codec context
 	codecContext = avcodec_alloc_context3(codec);
-	codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+	//codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	codecContext->thread_count = 0;
 
 	// Type specific codec context settings

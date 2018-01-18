@@ -11,3 +11,9 @@ enum ColorRange
 	Limited,
 	Full
 };
+
+enum TvStandard
+{
+	Pal,
+	NTSC
+};
