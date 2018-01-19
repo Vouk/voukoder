@@ -13,12 +13,11 @@ This plugin is under heavy development and not yet ready for production use - ..
 Currently this plugin is for **Windows only**. I do not have a Mac computer available to develop a Mac version.
 
 ## Download & Installation
-You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases).
-
-Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
+You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases). Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
 
 ## Update the plugin
 Simply replace the plugin with the new version.
+
 **Note**: It might happen some strange settings appear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings.
 
 ## Donations
