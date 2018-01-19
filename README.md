@@ -17,8 +17,11 @@ You can find the latest version on the [Releases page](https://github.com/Vouk/v
 
 Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
 
-## Donations
+## Update the plugin
+Simply replace the plugin with the new version.
+**Note**: It might happen some strange settings appear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings.
 
+## Donations
 ### Paypal
 Although you can use this plugin for free i do appreciate getting donations. Working on the plugin consumes alot of time after my regular work. Press the button below to donate.
 
