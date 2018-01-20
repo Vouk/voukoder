@@ -2,8 +2,8 @@
 Use x264, x265 and other encoders of the libav or ffmpeg library directly in Adobe Premiere (Pro and Elements). Currently supporting:
 - x264 (8 bit only)
 - x265 (8, 10 and 12bit)
-- NVENC h.264 (very soon!)
-- NVENC h.265 (very soon!)
+- NVENC h.264
+- NVENC h.265
 - ProRes (experimental)
 - more to come ...
 
