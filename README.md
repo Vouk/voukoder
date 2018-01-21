@@ -10,7 +10,7 @@ Use x264, x265 and other encoders of the libav or ffmpeg library directly in Ado
 See the **Wiki** page for more details.
 
 This plugin is under heavy development and not yet ready for production use - ... although the results are pretty much useable already.
-Currently this plugin is for **Windows only**. I do not have a Mac computer available to develop a Mac version.
+Currently this plugin is for **Windows 10 only**. I do not have a Mac computer available to develop a Mac version.
 
 ## Download & Installation
 You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases). Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
