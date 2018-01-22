@@ -2,23 +2,25 @@
 Use x264, x265 and other encoders of the libav or ffmpeg library directly in Adobe Premiere (Pro and Elements). Currently supporting:
 - x264 (8 bit only)
 - x265 (8, 10 and 12bit)
-- NVENC h.264 (very soon!)
-- NVENC h.265 (very soon!)
+- NVENC h.264
+- NVENC h.265
 - ProRes (experimental)
 - more to come ...
 
 See the **Wiki** page for more details.
 
 This plugin is under heavy development and not yet ready for production use - ... although the results are pretty much useable already.
-Currently this plugin is for **Windows only**. I do not have a Mac computer available to develop a Mac version.
+Currently this plugin is for **Windows 10 only**. I do not have a Mac computer available to develop a Mac version.
 
 ## Download & Installation
-You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases).
+You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases). Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
 
-Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
+## Update the plugin
+Simply replace the plugin with the new version.
+
+**Note**: It might happen some strange settings appear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings.
 
 ## Donations
-
 ### Paypal
 Although you can use this plugin for free i do appreciate getting donations. Working on the plugin consumes alot of time after my regular work. Press the button below to donate.
 
