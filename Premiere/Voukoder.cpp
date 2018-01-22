@@ -566,7 +566,8 @@ prMALError exGenerateDefaultParams(exportStdParms *stdParms, exGenerateDefaultPa
 
 #pragma endregion
 
-	exportParamSuite->SetParamsVersion(exID, 1);
+	// Increase this with every deployment
+	exportParamSuite->SetParamsVersion(exID, PLUGIN_DEPLOYED_BUILD);
 
 	return result;
 }
