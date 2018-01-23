@@ -18,7 +18,7 @@ You can find the latest version on the [Releases page](https://github.com/Vouk/v
 ## Update the plugin
 Simply replace the plugin with the new version.
 
-**Note**: It might happen some strange settings appear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings.
+**Note**: It might happen some strange settings appear / disappear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings. Deleting your presets might also help.
 
 ## Donations
 ### Paypal
