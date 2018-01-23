@@ -1,11 +1,11 @@
 #include "VideoRenderer.h"
 #include <tmmintrin.h>
 #include <immintrin.h>
-#include <sstream>
 
 #if defined(_DEBUG) 
 
 #include <chrono>
+#include <sstream>
 
 using namespace std::chrono;
 
@@ -266,7 +266,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		encodingData.pass = inWhichPass + 1;
 		encodingData.planes = 4;
 		encodingData.pix_fmt = "yuva444p16le";
-		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = rowBytes / encodingData.planes;
+		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = rowBytes / encodingData.planes;
 
 		// Deinterlave packed to planar
 		deinterleave((float*)pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
