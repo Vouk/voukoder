@@ -2296,13 +2296,23 @@
       "defaultPixelFormat": "yuv420p",
       "groups": [
         {
-          "name": "VKDRhevcNVENCGOPGroup",
-          "label": "GOP and QP",
+          "name": "VKDRhevcNVENCFramesGroup",
+          "label": "Frames",
           "parent": "VKDRAdvVideoCodecTabGroup"
         },
         {
-          "name": "VKDRhevcNVENCAdvGroup",
-          "label": "Advanced Settings",
+          "name": "VKDRhevcNVENCQuantizerGroup",
+          "label": "Quantizers",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRhevcNVENCGOPGroup",
+          "label": "GOP",
+          "parent": "VKDRAdvVideoCodecTabGroup"
+        },
+        {
+          "name": "VKDRhevcNVENCMiscGroup",
+          "label": "Miscellaneous",
           "parent": "VKDRAdvVideoCodecTabGroup"
         }
       ],
@@ -2424,13 +2434,6 @@
               "parameters": {
                 "profile": "main10"
               }
-            },
-            {
-              "id": 2,
-              "name": "Rext",
-              "parameters": {
-                "profile": "rext"
-              }
             }
           ]
         },
@@ -2444,10 +2447,8 @@
           "values": [
             {
               "id": 0,
-              "name": "(Automatic)",
-              "parameters": {
-                "level": "0"
-              }
+              "name": "(Auto)",
+              "parameters": {}
             },
             {
               "id": 1,
@@ -2458,79 +2459,128 @@
             },
             {
               "id": 2,
+              "name": "1.0",
+              "parameters": {
+                "level": "1.0"
+              }
+            },
+            {
+              "id": 3,
               "name": "2",
               "parameters": {
                 "level": "2"
               }
             },
             {
-              "id": 3,
-              "name": "2.1",
+              "id": 4,
+              "name": "2.0",
               "parameters": {
-                "level": "21"
+                "level": "2.0"
               }
             },
             {
-              "id": 4,
+              "id": 5,
+              "name": "2.1",
+              "parameters": {
+                "level": "2.1"
+              }
+            },
+            {
+              "id": 6,
+              "name": "3",
+              "parameters": {
+                "level": "3"
+              }
+            },
+            {
+              "id": 7,
+              "name": "3.0",
+              "parameters": {
+                "level": "3.0"
+              }
+            },
+            {
+              "id": 8,
+              "name": "3.1",
+              "parameters": {
+                "level": "3.1"
+              }
+            },
+            {
+              "id": 9,
               "name": "4",
               "parameters": {
                 "level": "4"
               }
             },
             {
-              "id": 5,
+              "id": 10,
+              "name": "4.0",
+              "parameters": {
+                "level": "4.0"
+              }
+            },
+            {
+              "id": 11,
               "name": "4.1",
               "parameters": {
-                "level": "41"
+                "level": "4.1"
               }
             },
             {
-              "id": 6,
+              "id": 12,
               "name": "5",
               "parameters": {
                 "level": "5"
               }
             },
             {
-              "id": 7,
-              "name": "5",
+              "id": 13,
+              "name": "5.0",
               "parameters": {
-                "level": "5"
+                "level": "5.0"
               }
             },
             {
-              "id": 8,
+              "id": 14,
               "name": "5.1",
               "parameters": {
-                "level": "51"
+                "level": "5.1"
               }
             },
             {
-              "id": 9,
+              "id": 15,
               "name": "5.2",
               "parameters": {
-                "level": "52"
+                "level": "5.2"
               }
             },
             {
-              "id": 10,
+              "id": 16,
               "name": "6",
               "parameters": {
                 "level": "6"
               }
             },
             {
-              "id": 11,
-              "name": "61",
+              "id": 17,
+              "name": "6.0",
               "parameters": {
-                "level": "61"
+                "level": "6.0"
               }
             },
             {
-              "id": 12,
-              "name": "62",
+              "id": 18,
+              "name": "6.1",
               "parameters": {
-                "level": "62"
+                "level": "6.1"
+              }
+            },
+            {
+              "id": 19,
+              "name": "6.2",
+              "parameters": {
+                "level": "6.2"
               }
             }
           ]
@@ -2578,8 +2628,8 @@
                   "flags": [ "slider" ],
                   "useDefaultValue": true,
                   "defaultValue": 23,
-                  "minValue": 1,
-                  "maxValue": 50,
+                  "minValue": 0,
+                  "maxValue": 51,
                   "parameters": {
                     "rc": "constqp",
                     "qp": "%d"
@@ -2783,7 +2833,7 @@
         {
           "name": "hevc_nvencRCLookahead",
           "label": "RC Lookahead",
-          "group": "VKDRhevcNVENCAdvGroup",
+          "group": "ADBEVideoCodecGroup",
           "type": "int",
           "flags": [ "slider" ],
           "defaultValue": 0,
@@ -2794,24 +2844,55 @@
           }
         },
         {
-          "name": "hevc_nvencSurfaces",
-          "label": "Surfaces",
-          "group": "VKDRhevcNVENCAdvGroup",
-          "type": "int",
-          "flags": [ "slider" ],
+          "name": "hevc_nvenc2Pass",
+          "label": "Force 2-pass",
+          "group": "ADBEVideoCodecGroup",
+          "type": "bool",
+          "flags": [],
           "defaultValue": 0,
-          "minValue": 0,
-          "maxValue": 64,
           "parameters": {
-            "surfaces": "%d"
+            "2pass": ""
+          }
+        },
+        {
+          "name": "hevc_nvencNoSCut",
+          "label": "No scene cut",
+          "group": "VKDRhevcNVENCFramesGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "no-scenecut": ""
+          }
+        },
+        {
+          "name": "hevc_nvencForcedIDR",
+          "label": "Force keyframes as IDR",
+          "group": "VKDRhevcNVENCFramesGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "forced-idr ": ""
+          }
+        },
+        {
+          "name": "hevc_nvencNoRefP",
+          "label": "Blu-Ray Compatibility",
+          "group": "VKDRhevcNVENCFramesGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "nonref_p": ""
           }
         },
         {
           "name": "hevc_nvencQPP",
           "label": "QP Value For P-Frames",
-          "group": "VKDRhevcNVENCGOPGroup",
+          "group": "VKDRhevcNVENCQuantizerGroup",
           "type": "int",
-          "flags": [ "slider" ],
+          "flags": [ "slider", "checkable" ],
           "defaultValue": 0,
           "minValue": 0,
           "maxValue": 51,
@@ -2822,9 +2903,9 @@
         {
           "name": "hevc_nvencQPB",
           "label": "QP Value For B-Frames",
-          "group": "VKDRhevcNVENCGOPGroup",
+          "group": "VKDRhevcNVENCQuantizerGroup",
           "type": "int",
-          "flags": [ "slider" ],
+          "flags": [ "slider", "checkable" ],
           "defaultValue": 0,
           "minValue": 0,
           "maxValue": 51,
@@ -2835,9 +2916,9 @@
         {
           "name": "hevc_nvencQPI",
           "label": "QP Value For I-Frames",
-          "group": "VKDRhevcNVENCGOPGroup",
+          "group": "VKDRhevcNVENCQuantizerGroup",
           "type": "int",
-          "flags": [ "slider" ],
+          "flags": [ "slider", "checkable" ],
           "defaultValue": 0,
           "minValue": 0,
           "maxValue": 51,
@@ -2846,14 +2927,113 @@
           }
         },
         {
+          "name": "hevc_nvencAqMode",
+          "label": "Adaptive Quantizers Mode",
+          "group": "VKDRhevcNVENCQuantizerGroup",
+          "type": "int",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "Off",
+              "parameters": {
+              }
+            },
+            {
+              "id": 1,
+              "name": "Spatial AQ",
+              "subvalues": [
+                {
+                  "name": "hevc_nvencAqModeSpatial",
+                  "label": "AQ Strength",
+                  "type": "float",
+                  "flags": [ "slider" ],
+                  "defaultValue": 8,
+                  "minValue": 1,
+                  "maxValue": 15,
+                  "parameters": {
+                    "spatial_aq": "",
+                    "aq-strength": "%.1f"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "Temporal AQ",
+              "parameters": {
+                "temporal_aq": ""
+              }
+            }
+          ]
+        },
+        {
+          "name": "hevc_nvencStrictGop",
+          "label": "Enable strict GOP",
+          "group": "VKDRhevcNVENCGOPGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "strict-gop": ""
+          }
+        },
+        {
+          "name": "hevc_nvencZeroLat",
+          "label": "Indicate zero latency",
+          "group": "VKDRhevcNVENCMiscGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "zerolatency": ""
+          }
+        },
+        {
+          "name": "hevc_nvencWeightedPred",
+          "label": "Enable weighted prediction",
+          "group": "VKDRhevcNVENCMiscGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "weighted_pred": ""
+          }
+        },
+        {
           "name": "hevc_nvencBDC",
           "label": "Blu-Ray Compatibility",
-          "group": "VKDRhevcNVENCAdvGroup",
+          "group": "VKDRhevcNVENCMiscGroup",
           "type": "bool",
           "flags": [],
           "defaultValue": 0,
           "parameters": {
             "bluray-compat": ""
+          }
+        },
+        {
+          "name": "hevc_nvencAud",
+          "label": "Use AUD",
+          "group": "VKDRhevcNVENCMiscGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "aud": ""
+          }
+        },
+        {
+          "name": "hevc_nvencSurfaces",
+          "label": "Surfaces",
+          "group": "VKDRhevcNVENCMiscGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
+          "maxValue": 64,
+          "parameters": {
+            "surfaces": "%d"
           }
         }
       ]

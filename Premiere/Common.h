@@ -28,7 +28,7 @@
 #include "lavf.h"
 
 #define PLUGIN_APPNAME							L"Voukoder 0.5.5"
-#define PLUGIN_NUM_DEPLOYED_BUILDS              2
+#define PLUGIN_NUM_DEPLOYED_BUILDS              3
 #define MAX_AUDIO_CHANNELS						6
 #define VKDRTVStandard							"VKDRTVStandard"
 #define VKDRColorSpace							"VKDRColorSpace"
