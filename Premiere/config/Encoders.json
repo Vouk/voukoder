@@ -2609,6 +2609,7 @@
             }
           ]
         },
+
         {
           "name": "hevc_nvencStrategy",
           "label": "Strategy",
@@ -2831,6 +2832,17 @@
           ]
         },
         {
+          "name": "hevc_nvenc2Pass",
+          "label": "Force 2-pass",
+          "group": "ADBEVideoCodecGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "parameters": {
+            "2pass": ""
+          }
+        },
+        {
           "name": "hevc_nvencRCLookahead",
           "label": "RC Lookahead",
           "group": "ADBEVideoCodecGroup",
@@ -2841,17 +2853,6 @@
           "maxValue": 1024,
           "parameters": {
             "rc-lookahead": "%d"
-          }
-        },
-        {
-          "name": "hevc_nvenc2Pass",
-          "label": "Force 2-pass",
-          "group": "ADBEVideoCodecGroup",
-          "type": "bool",
-          "flags": [],
-          "defaultValue": 0,
-          "parameters": {
-            "2pass": ""
           }
         },
         {
@@ -2888,43 +2889,115 @@
           }
         },
         {
+          "name": "hevc_nvencQPI",
+          "label": "QP Value For I-Frames",
+          "group": "VKDRhevcNVENCQuantizerGroup",
+          "type": "bool",
+          "flags": [],
+          "defaultValue": 0,
+          "values": [
+            {
+              "id": 0,
+              "name": "",
+              "parameters": {
+                "init_qpI": "-1"
+              }
+            },
+            {
+              "id": 1,
+              "name": "",
+              "subvalues": [
+                {
+                  "name": "hevc_nvencQPIValue",
+                  "label": "QP Value",
+                  "group": "VKDRhevcNVENCQuantizerGroup",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 0,
+                  "useDefaultValue": true,
+                  "minValue": 0,
+                  "maxValue": 51,
+                  "parameters": {
+                    "init_qpI": "%d"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "hevc_nvencQPP",
           "label": "QP Value For P-Frames",
           "group": "VKDRhevcNVENCQuantizerGroup",
-          "type": "int",
-          "flags": [ "slider", "checkable" ],
+          "type": "bool",
+          "flags": [],
           "defaultValue": 0,
-          "minValue": 0,
-          "maxValue": 51,
-          "parameters": {
-            "init_qpP": "%d"
-          }
+          "values": [
+            {
+              "id": 0,
+              "name": "",
+              "parameters": {
+                "init_qpP": "-1"
+              }
+            },
+            {
+              "id": 1,
+              "name": "",
+              "subvalues": [
+                {
+                  "name": "hevc_nvencQPPValue",
+                  "label": "QP Value",
+                  "group": "VKDRhevcNVENCQuantizerGroup",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 0,
+                  "useDefaultValue": true,
+                  "minValue": 0,
+                  "maxValue": 51,
+                  "parameters": {
+                    "init_qpP": "%d"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "hevc_nvencQPB",
           "label": "QP Value For B-Frames",
           "group": "VKDRhevcNVENCQuantizerGroup",
-          "type": "int",
-          "flags": [ "slider", "checkable" ],
+          "type": "bool",
+          "flags": [],
           "defaultValue": 0,
-          "minValue": 0,
-          "maxValue": 51,
-          "parameters": {
-            "init_qpB": "%d"
-          }
-        },
-        {
-          "name": "hevc_nvencQPI",
-          "label": "QP Value For I-Frames",
-          "group": "VKDRhevcNVENCQuantizerGroup",
-          "type": "int",
-          "flags": [ "slider", "checkable" ],
-          "defaultValue": 0,
-          "minValue": 0,
-          "maxValue": 51,
-          "parameters": {
-            "init_qpI": "%d"
-          }
+          "values": [
+            {
+              "id": 0,
+              "name": "",
+              "parameters": {
+                "init_qpB": "-1"
+              }
+            },
+            {
+              "id": 1,
+              "name": "",
+              "subvalues": [
+                {
+                  "name": "hevc_nvencQPBValue",
+                  "label": "QP Value",
+                  "group": "VKDRhevcNVENCQuantizerGroup",
+                  "type": "int",
+                  "flags": [ "slider" ],
+                  "defaultValue": 0,
+                  "useDefaultValue": true,
+                  "minValue": 0,
+                  "maxValue": 51,
+                  "parameters": {
+                    "init_qpB": "%d"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "hevc_nvencAqMode",
@@ -2980,6 +3053,19 @@
           }
         },
         {
+          "name": "hevc_nvencSurfaces",
+          "label": "Surfaces",
+          "group": "VKDRhevcNVENCMiscGroup",
+          "type": "int",
+          "flags": [ "slider" ],
+          "defaultValue": 0,
+          "minValue": 0,
+          "maxValue": 64,
+          "parameters": {
+            "surfaces": "%d"
+          }
+        },
+        {
           "name": "hevc_nvencZeroLat",
           "label": "Indicate zero latency",
           "group": "VKDRhevcNVENCMiscGroup",
@@ -3021,19 +3107,6 @@
           "defaultValue": 0,
           "parameters": {
             "aud": ""
-          }
-        },
-        {
-          "name": "hevc_nvencSurfaces",
-          "label": "Surfaces",
-          "group": "VKDRhevcNVENCMiscGroup",
-          "type": "int",
-          "flags": [ "slider" ],
-          "defaultValue": 0,
-          "minValue": 0,
-          "maxValue": 64,
-          "parameters": {
-            "surfaces": "%d"
           }
         }
       ]
