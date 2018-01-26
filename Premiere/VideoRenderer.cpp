@@ -14,15 +14,14 @@ static time_point<steady_clock> tp1, tp2, tp3, tp4, tp5;
 #endif
 
 // reviewed 0.5.3
-VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite) :
+VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite) :
 	videoRenderID(videoRenderID),
 	width(width),
 	height(height),
 	ppixSuite(ppixSuite),
 	ppix2Suite(ppix2Suite),
 	memorySuite(memorySuite),
-	exporterUtilitySuite(exporterUtilitySuite),
-	imageProcessingSuite(imageProcessingSuite)
+	exporterUtilitySuite(exporterUtilitySuite)
 {
 	// Reserve buffers (max. MAX_FRAME_PLANES planes and 4 components per pixel)
 	for (int i = 0; i < MAX_FRAME_PLANES; i++)

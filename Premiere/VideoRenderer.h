@@ -36,7 +36,7 @@ function<Ret(Params...)> Callback<Ret(Params...)>::func;
 class VideoRenderer
 {
 public:
-	VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite, PrSDKImageProcessingSuite *imageProcessingSuite);
+	VideoRenderer(csSDK_uint32 pluginID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite);
 	~VideoRenderer();
 	prSuiteError render(PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback);
 	static PrPixelFormat GetTargetRenderFormat(const string pixfmt, ColorSpace colorSpace, ColorRange colorRange, prFieldType fieldType);
@@ -50,7 +50,6 @@ private:
 	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKMemoryManagerSuite *memorySuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
-	PrSDKImageProcessingSuite *imageProcessingSuite;
 	function<bool(EncodingData*)> callback;
 	csSDK_uint32 videoRenderID;
 
