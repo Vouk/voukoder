@@ -43,7 +43,6 @@ public:
 
 private:
 	EncodingData encodingData;
-	char *conversionBuffer;
 	ColorSpace colorSpace;
 	csSDK_uint32 width;
 	csSDK_uint32 height;
@@ -57,7 +56,7 @@ private:
 
 	prSuiteError frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData);
 	prSuiteError frameFinished(EncodingData *encodingData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount);
-	void deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV);
-	void deinterleave(float* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA);
+	void unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY, uint8_t *bufferU, uint8_t *bufferV);
+	void unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA);
 	void deinterleave_avx_fma(char* __restrict pixels, int rowBytes, char *__restrict bufferY, char *__restrict bufferU, char *__restrict bufferV, char *__restrict bufferA);
 };

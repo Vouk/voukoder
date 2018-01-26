@@ -29,16 +29,11 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csS
 	{
 		encodingData.plane[i] = (char*)memorySuite->NewPtr(width * height * 4);
 	}
-
-	// Reserve conversion buffer (max. MAX_FRAME_PLANES planes and 4 components per pixel)
-	conversionBuffer = (char*)memorySuite->NewPtr(width * height * MAX_FRAME_PLANES * 4);
 }
 
 // reviewed 0.5.3
 VideoRenderer::~VideoRenderer()
 {
-	memorySuite->PrDisposePtr(conversionBuffer);
-
 	for (int i = 0; i < MAX_FRAME_PLANES; i++)
 	{
 		memorySuite->PrDisposePtr(encodingData.plane[i]);
@@ -46,7 +41,7 @@ VideoRenderer::~VideoRenderer()
 }
 
 // reviewed 0.5.3
-void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV)
+void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY, uint8_t *bufferU, uint8_t *bufferV)
 {
 	__m128i mask = _mm_set_epi8(
 		12, 8, 4, 0, // Y
@@ -56,16 +51,30 @@ void VideoRenderer::deinterleave(char* pixels, csSDK_int32 rowBytes, char *buffe
 	);
 
 	M128 dest;
-
-	for (int r = height - 1, p = 0; r >= 0; r--)
+	for (int r = height - 1; r >= 0; r--)
 	{
 		for (int c = 0; c < rowBytes; c += 16)
 		{
 			dest.i128 = _mm_shuffle_epi8(_mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]), mask);
-			memcpy(bufferY + p, dest.plane.y, 4);
-			memcpy(bufferU + p, dest.plane.u, 4);
-			memcpy(bufferV + p, dest.plane.v, 4);
-			p += 4;
+			memcpy(bufferY += 4, dest.plane.y, 4);
+			memcpy(bufferU += 4, dest.plane.u, 4);
+			memcpy(bufferV += 4, dest.plane.v, 4);
+		}
+	}
+}
+
+// reviewed 0.5.5
+void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA)
+{
+	for (int r = height - 1; r >= 0; r--)
+	{
+		for (int c = 0; c < (int)width * 4; c += 4)
+		{
+			const int pos = r * width * 4 + c;
+			*bufferV++ = (uint16_t)((pixels[pos] + 0.57143f) * 57343.85664f);
+			*bufferU++ = (uint16_t)((pixels[pos + 1] + 0.57143f) * 57343.85664f);
+			*bufferY++ = (uint16_t)((pixels[pos + 2] + 0.07306f) * 56284.03098f);
+			*bufferA++ = (uint16_t)(pixels[pos + 3] * 65536.0f);
 		}
 	}
 }
@@ -151,36 +160,6 @@ void VideoRenderer::deinterleave_avx_fma(char* __restrict pixels, int rowBytes, 
 }
 
 // reviewed 0.5.3
-void VideoRenderer::deinterleave(float* pixels, csSDK_int32 rowBytes, char *bufferY, char *bufferU, char *bufferV, char *bufferA)
-{
-	// Scaling factors (note min. values are actually negative) (limited range)
-	const float yuva_factors[4][2] = {
-		{ 0.07306f, 1.09132f }, // Y
-		{ 0.57143f, 0.57143f }, // U
-		{ 0.57143f, 0.57143f }, // V
-		{ 0.00000f, 1.00000f }  // A
-	};
-
-	// De-Interleave and convert source buffer
-	for (int r = height - 1, p = 0; r >= 0; r--)
-	{
-		for (csSDK_uint32 c = 0; c < width; c++)
-		{
-			// Get beginning of next block
-			const int pos = r * width * 4 + c * 4;
-
-			// VUYA -> YUVA
-			((uint16_t*)bufferY)[p] = (uint16_t)((pixels[pos + 2] + yuva_factors[0][0]) / (yuva_factors[0][0] + yuva_factors[0][1]) * 65535.0f);
-			((uint16_t*)bufferU)[p] = (uint16_t)((pixels[pos + 1] + yuva_factors[1][0]) / (yuva_factors[1][0] + yuva_factors[1][1]) * 65535.0f);
-			((uint16_t*)bufferV)[p] = (uint16_t)((pixels[pos + 0] + yuva_factors[2][0]) / (yuva_factors[2][0] + yuva_factors[2][1]) * 65535.0f);
-			((uint16_t*)bufferA)[p] = (uint16_t)((pixels[pos + 3] + yuva_factors[3][0]) / (yuva_factors[3][0] + yuva_factors[3][1]) * 65535.0f);
-
-			p++;
-		}
-	}
-}
-
-// reviewed 0.5.3
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
@@ -254,7 +233,12 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = rowBytes / 4;
 
 		// Deinterleave vuya
-		deinterleave(pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2]);
+		unpackUint8(
+			(uint8_t*)pixels,
+			rowBytes,
+			(uint8_t*)encodingData.plane[0],
+			(uint8_t*)encodingData.plane[1],
+			(uint8_t*)encodingData.plane[2]);
 
 		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
 	}
@@ -266,10 +250,15 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		encodingData.pass = inWhichPass + 1;
 		encodingData.planes = 4;
 		encodingData.pix_fmt = "yuva444p16le";
-		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = rowBytes / encodingData.planes;
+		encodingData.stride[0] = encodingData.stride[1] = encodingData.stride[2] = encodingData.stride[3] = width * 2;
 
-		// Deinterlave packed to planar
-		deinterleave((float*)pixels, rowBytes, encodingData.plane[0], encodingData.plane[1], encodingData.plane[2], encodingData.plane[3]);
+		// Unpack and convert float to uint16_t
+		unpackFloatToUint16(
+			(float*)pixels,
+			(uint16_t*)encodingData.plane[0],
+			(uint16_t*)encodingData.plane[1],
+			(uint16_t*)encodingData.plane[2],
+			(uint16_t*)encodingData.plane[3]);
 
 		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
 	}
