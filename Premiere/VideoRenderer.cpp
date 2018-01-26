@@ -13,7 +13,7 @@ static time_point<steady_clock> tp1, tp2, tp3, tp4, tp5;
 
 #endif
 
-// reviewed 0.5.3
+// reviewed 0.5.5
 VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite) :
 	videoRenderID(videoRenderID),
 	width(width),
@@ -30,7 +30,7 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csS
 	}
 }
 
-// reviewed 0.5.3
+// reviewed 0.5.5
 VideoRenderer::~VideoRenderer()
 {
 	for (int i = 0; i < MAX_FRAME_PLANES; i++)
@@ -39,7 +39,7 @@ VideoRenderer::~VideoRenderer()
 	}
 }
 
-// reviewed 0.5.3
+// reviewed 0.5.5
 void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY, uint8_t *bufferU, uint8_t *bufferV)
 {
 	__m128i mask = _mm_set_epi8(
@@ -158,7 +158,7 @@ void VideoRenderer::deinterleave_avx_fma(char* __restrict pixels, int rowBytes, 
 	}
 }
 
-// reviewed 0.5.3
+// reviewed 0.5.5
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
