@@ -1310,6 +1310,13 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 			// Start next pass
 			currentPass = encodingData->pass;
 
+			// Interlaced?
+			if (fieldType.value.intValue == prFieldsLowerFirst ||
+				fieldType.value.intValue == prFieldsUpperFirst)
+			{
+				encoder.videoContext->setCodecFlags(AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME);
+			}
+
 			// Multipass encoding
 			if (maxPasses > 1)
 			{

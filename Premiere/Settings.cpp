@@ -37,7 +37,7 @@ void Settings::loadEncoderInfos(json encoders, vector<EncoderInfo> *encoderInfos
 	}
 }
 
-// reviewed 0.3.8
+// reviewed 0.5.5
 json Settings::LoadSingleResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpName)
 {
 	const HRSRC hRes = FindResourceEx(hModule, lpType, lpName, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
@@ -50,6 +50,7 @@ json Settings::LoadSingleResource(HMODULE hModule, LPCWSTR lpType, LPCWSTR lpNam
 			char *resource = new char[dataSize + 1];
 			memcpy(resource, LockResource(hData), dataSize);
 			resource[dataSize] = 0;
+			FreeResource(hData);
 
 			return json::parse(resource);
 		}
