@@ -1497,37 +1497,37 @@
             },
             {
               "id": 3,
-              "name": "YUV 4:2:0 (10 bit - experimental)",
+              "name": "YUV 4:2:0 (10 bit)",
               "pixelFormat": "yuv420p10le",
               "parameters": {}
             },
             {
               "id": 4,
-              "name": "YUV 4:2:2 (10 bit - experimental)",
+              "name": "YUV 4:2:2 (10 bit)",
               "pixelFormat": "yuv422p10le",
               "parameters": {}
             },
             {
               "id": 5,
-              "name": "YUV 4:4:4 (10 bit - experimental)",
+              "name": "YUV 4:4:4 (10 bit)",
               "pixelFormat": "yuv444p10le",
               "parameters": {}
             },
             {
               "id": 6,
-              "name": "YUV 4:2:0 (12 bit - experimental)",
+              "name": "YUV 4:2:0 (12 bit)",
               "pixelFormat": "yuv420p12le",
               "parameters": {}
             },
             {
               "id": 7,
-              "name": "YUV 4:2:2 (12 bit - experimental)",
+              "name": "YUV 4:2:2 (12 bit)",
               "pixelFormat": "yuv422p12le",
               "parameters": {}
             },
             {
               "id": 8,
-              "name": "YUV 4:4:4 (12 bit - experimental)",
+              "name": "YUV 4:4:4 (12 bit)",
               "pixelFormat": "yuv444p12le",
               "parameters": {}
             }
