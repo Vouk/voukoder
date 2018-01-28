@@ -71,10 +71,10 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 		{
 			const int pos = r * width * 4 + c;
 
-			*bufferV++ = (uint16_t)((pixels[pos] + 0.57143f) * 57343.85664f);
-			*bufferU++ = (uint16_t)((pixels[pos + 1] + 0.57143f) * 57343.85664f);
-			*bufferY++ = (uint16_t)((pixels[pos + 2] + 0.07306f) * 56284.03098f);
-			*bufferA++ = (uint16_t)(pixels[pos + 3] * 65536.0f);
+			*bufferV++ = (uint16_t)((pixels[pos] + 0.57143f) * 57342.98164f);
+			*bufferU++ = (uint16_t)((pixels[pos + 1] + 0.57143f) * 57342.98164f);
+			*bufferY++ = (uint16_t)((pixels[pos + 2] + 0.07306f) * 56283.17216f);
+			*bufferA++ = (uint16_t)(pixels[pos + 3] * 65535.0f);
 		}
 	}
 }
