@@ -62,6 +62,8 @@ void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY,
 	}
 }
 
+// reviewed 0.5.5
+// Thanks to Peter Cordes
 static inline __m128i load_and_scale(const float *src)
 {  
 	const __m128 scale_mul = _mm_setr_ps(
@@ -86,38 +88,32 @@ static inline __m128i load_and_scale(const float *src)
 }
 
 // reviewed 0.5.5
+// Thanks to Peter Cordes
 void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA)
 {
 	for (int r = height - 1; r >= 0; r--)
 	{
-		for (int c = 0; c < (int)width * 4; c += 4)
+		for (int c = 0; c < (int)width * 4; c += 16)
 		{
 			const int p = r * width * 4 + c;
-			/*
+
 			__m128i vuya0 = load_and_scale(&pixels[p]);
 			__m128i vuya1 = load_and_scale(&pixels[p] + 4);
 			__m128i vuya2 = load_and_scale(&pixels[p] + 8);
 			__m128i vuya3 = load_and_scale(&pixels[p] + 12);
 
-			__m128i vuya02 = _mm_packus_epi32(vuya0, vuya2);  // vuya0 | vuya2
-			__m128i vuya13 = _mm_packus_epi32(vuya1, vuya3);  // vuya1 | vuya3
-			__m128i vvuuyyaa01 = _mm_unpacklo_epi16(vuya02, vuya13);   // V0V1 U0U1 | Y0Y1 A0A1
-			__m128i vvuuyyaa23 = _mm_unpackhi_epi16(vuya02, vuya13);   // V2V3 U2U3 | Y2Y3 A2A3
-			__m128i vvvvuuuu = _mm_unpacklo_epi32(vvuuyyaa01, vvuuyyaa23); // v0v1v2v3 | u0u1u2u3
+			__m128i vuya02 = _mm_packus_epi32(vuya0, vuya2);
+			__m128i vuya13 = _mm_packus_epi32(vuya1, vuya3);
+			__m128i vvuuyyaa01 = _mm_unpacklo_epi16(vuya02, vuya13);
+			__m128i vvuuyyaa23 = _mm_unpackhi_epi16(vuya02, vuya13);
+			__m128i vvvvuuuu = _mm_unpacklo_epi32(vvuuyyaa01, vvuuyyaa23);
 			__m128i yyyyaaaa = _mm_unpackhi_epi32(vvuuyyaa01, vvuuyyaa23);
-
-			//_mm_storeu_si64(V+pos, vvvvuuuu);  // clang doesn't have this (AVX512?) intrinsic
-			_mm_storel_epi64((__m128i*)(bufferV += 4), vvvvuuuu);               // MOVQ
-			_mm_storeh_pi((__m64*)(bufferU += 4), _mm_castsi128_ps(vvvvuuuu));  // MOVHPS
+			
+			_mm_storel_epi64((__m128i*)(bufferV += 4), vvvvuuuu);
+			_mm_storeh_pi((__m64*)(bufferU += 4), _mm_castsi128_ps(vvvvuuuu));
 
 			_mm_storel_epi64((__m128i*)(bufferY += 4), yyyyaaaa);
 			_mm_storeh_pi((__m64*)(bufferA += 4), _mm_castsi128_ps(yyyyaaaa));
-			*/
-
-			*bufferV++ = (uint16_t)(pixels[p] * 57342.98164f) + 32767;
-			*bufferU++ = (uint16_t)(pixels[p + 1] * 57342.98164f) + 32767;
-			*bufferY++ = (uint16_t)(pixels[p + 2] * 56283.17216f) + 4112;
-			*bufferA++ = (uint16_t)(pixels[p + 3] * 65535.0f);
 		}
 	}
 }
