@@ -53,7 +53,8 @@ void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY,
 	{
 		for (int c = 0; c < rowBytes; c += 16)
 		{
-			const __m128i yuva = _mm_loadu_si128((__m128i *)&pixels[r * rowBytes + c]);
+			const __m128i* floats = (__m128i*)&pixels[r * rowBytes + c];
+			const __m128i yuva = _mm_loadu_si128(floats);
 			const __m128i out = _mm_shuffle_epi8(yuva, mask);
 			memcpy(bufferY += 4, out.m128i_u8 + 4, 4);
 			memcpy(bufferU += 4, out.m128i_u8 + 8, 4);

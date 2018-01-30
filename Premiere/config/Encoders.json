@@ -2719,7 +2719,6 @@
             {
               "id": 1,
               "name": "Main (10 bit)",
-              "pixelFormat": "yuv420p10le",
               "parameters": {
                 "profile": "main10"
               }
@@ -2886,14 +2885,14 @@
               "id": 0,
               "name": "Main",
               "parameters": {
-                "profile": "main"
+                "tier": "main"
               }
             },
             {
               "id": 1,
               "name": "High",
               "parameters": {
-                "profile": "high"
+                "tier": "high"
               }
             }
           ]
