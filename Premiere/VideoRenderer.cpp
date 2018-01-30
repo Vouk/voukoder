@@ -96,12 +96,12 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 	{
 		for (int c = 0; c < (int)width * 4; c += 16)
 		{
-			const int p = r * width * 4 + c;
+			const float* p = &pixels[r * width * 4 + c];
 
-			__m128i vuya0 = load_and_scale(&pixels[p]);
-			__m128i vuya1 = load_and_scale(&pixels[p] + 4);
-			__m128i vuya2 = load_and_scale(&pixels[p] + 8);
-			__m128i vuya3 = load_and_scale(&pixels[p] + 12);
+			__m128i vuya0 = load_and_scale(p);
+			__m128i vuya1 = load_and_scale(p + 4);
+			__m128i vuya2 = load_and_scale(p + 8);
+			__m128i vuya3 = load_and_scale(p + 12);
 
 			__m128i vuya02 = _mm_packus_epi32(vuya0, vuya2);
 			__m128i vuya13 = _mm_packus_epi32(vuya1, vuya3);

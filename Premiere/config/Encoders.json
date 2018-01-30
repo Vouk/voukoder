@@ -144,13 +144,38 @@
           "label": "Macroblocks per slice",
           "group": "VKDRproresFrameTypeGroup",
           "type": "int",
-          "flags": [ "slider" ],
-          "defaultValue": 8,
-          "minValue": 1,
-          "maxValue": 8,
-          "parameters": {
-            "mbs_per_slice": "%d"
-          }
+          "flags": [],
+          "defaultValue": 3,
+          "values": [
+            {
+              "id": 0,
+              "name": "1",
+              "parameters": {
+                "mbs_per_slice": "1"
+              }
+            },
+            {
+              "id": 1,
+              "name": "2",
+              "parameters": {
+                "mbs_per_slice": "2"
+              }
+            },
+            {
+              "id": 2,
+              "name": "4",
+              "parameters": {
+                "mbs_per_slice": "4"
+              }
+            },
+            {
+              "id": 3,
+              "name": "8",
+              "parameters": {
+                "mbs_per_slice": "8"
+              }
+            }
+          ]
         },
         {
           "name": "proresBitsPerMb",
@@ -170,13 +195,31 @@
           "label": "Bits for alpha channel",
           "group": "VKDRproresMiscGroup",
           "type": "int",
-          "flags": [ "slider" ],
-          "defaultValue": 16,
-          "minValue": 0,
-          "maxValue": 16,
-          "parameters": {
-            "alpha_bits": "%d"
-          }
+          "flags": [],
+          "defaultValue": 2,
+          "values": [
+            {
+              "id": 0,
+              "name": "1",
+              "parameters": {
+                "alpha_bits": "1"
+              }
+            },
+            {
+              "id": 1,
+              "name": "8",
+              "parameters": {
+                "alpha_bits": "8"
+              }
+            },
+            {
+              "id": 2,
+              "name": "16",
+              "parameters": {
+                "alpha_bits": "16"
+              }
+            }
+          ]
         }
       ]
     },
