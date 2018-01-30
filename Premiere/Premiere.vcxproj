@@ -231,7 +231,6 @@
     <ClCompile Include="EncoderInfo.cpp" />
     <ClCompile Include="EncoderConfig.cpp" />
     <ClCompile Include="Common.cpp" />
-    <ClCompile Include="InstructionSet.cpp" />
     <ClCompile Include="MuxerInfo.cpp" />
     <ClCompile Include="VideoRenderer.cpp" />
     <ClCompile Include="Voukoder.cpp" />
