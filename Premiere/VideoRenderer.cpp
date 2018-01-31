@@ -377,12 +377,12 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(const string pixfmt, ColorSpa
 			break;
 		}
 	}
-	else if (pixfmt == "yuv420p10le" ||
-		pixfmt == "yuv422p10le" ||
-		pixfmt == "yuv444p10le" ||
-		pixfmt == "yuv420p12le" ||
-		pixfmt == "yuv422p12le" ||
-		pixfmt == "yuv444p12le")
+	else if (pixfmt == "yuv420p10le" || pixfmt == "yuv420p12le" ||
+		pixfmt == "yuv422p10le" || pixfmt == "yuv422p12le" ||
+		pixfmt == "yuv444p10le" || pixfmt == "yuv444p12le" ||
+		pixfmt == "yuva420p10le" || pixfmt == "yuva420p12le" ||
+		pixfmt == "yuva422p10le" || pixfmt == "yuva422p12le" ||
+		pixfmt == "yuva444p10le" || pixfmt == "yuva444p12le")
 	{
 		switch (colorSpace)
 		{
