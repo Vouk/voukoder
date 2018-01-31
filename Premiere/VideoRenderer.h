@@ -35,10 +35,10 @@ public:
 	static PrPixelFormat GetTargetRenderFormat(const string pixfmt, ColorSpace colorSpace, ColorRange colorRange, prFieldType fieldType);
 
 private:
-	EncodingData encodingData;
-	ColorSpace colorSpace;
 	csSDK_uint32 width;
 	csSDK_uint32 height;
+	EncodingData encodingData;
+	ColorSpace colorSpace;
 	PrSDKPPixSuite *ppixSuite;
 	PrSDKPPix2Suite *ppix2Suite;
 	PrSDKMemoryManagerSuite *memorySuite;
