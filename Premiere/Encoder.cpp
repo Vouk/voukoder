@@ -1,5 +1,6 @@
 #include "Encoder.h"
 #include "Common.h"
+#include <Windows.h>
 
 // reviewed 0.5.3
 Encoder::Encoder(const char *short_name, const char *filename)
@@ -9,6 +10,10 @@ Encoder::Encoder(const char *short_name, const char *filename)
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(short_name, this->filename, NULL);
 
+
+	// Set metadata
+	av_dict_set(&formatContext->metadata, "encoding_tool", PLUGIN_ENCODER_TOOL, 0);
+	
 	videoContext = new EncoderContext(formatContext);
 	audioContext = new EncoderContext(formatContext);
 }
