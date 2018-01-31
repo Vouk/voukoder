@@ -51,10 +51,11 @@ void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY,
 
 	for (int r = height - 1; r >= 0; r--)
 	{
+		const uint8_t *p = &pixels[r * rowBytes];
+
 		for (int c = 0; c < rowBytes; c += 16)
 		{
-			const __m128i* floats = (__m128i*)&pixels[r * rowBytes + c];
-			const __m128i yuva = _mm_loadu_si128(floats);
+			const __m128i yuva = _mm_loadu_si128((__m128i*)(p + c));
 			const __m128i out = _mm_shuffle_epi8(yuva, mask);
 			memcpy(bufferY += 4, out.m128i_u8 + 4, 4);
 			memcpy(bufferU += 4, out.m128i_u8 + 8, 4);
@@ -94,14 +95,14 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 {
 	for (int r = height - 1; r >= 0; r--)
 	{
-		for (int c = 0; c < (int)width * 4; c += 16)
-		{
-			const float* p = &pixels[r * width * 4 + c];
+		const float* p = &pixels[r * width * 4];
 
-			__m128i vuya0 = load_and_scale(p);
-			__m128i vuya1 = load_and_scale(p + 4);
-			__m128i vuya2 = load_and_scale(p + 8);
-			__m128i vuya3 = load_and_scale(p + 12);
+		for (int c = 0; c < width * 4; c += 16)
+		{
+			__m128i vuya0 = load_and_scale(p + c);
+			__m128i vuya1 = load_and_scale(p + c + 4);
+			__m128i vuya2 = load_and_scale(p + c + 8);
+			__m128i vuya3 = load_and_scale(p + c + 12);
 
 			__m128i vuya02 = _mm_packus_epi32(vuya0, vuya2);
 			__m128i vuya13 = _mm_packus_epi32(vuya1, vuya3);
