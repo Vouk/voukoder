@@ -70,6 +70,7 @@ bool Settings::IsEncoderAvailable(EncoderInfo encoderinfo)
 	{
 		// Create codec context
 		AVCodecContext *codecContext = avcodec_alloc_context3(codec);
+		codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
 		// Type specific codec context settings
 		if (codec->type == AVMEDIA_TYPE_VIDEO)

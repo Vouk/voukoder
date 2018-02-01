@@ -3493,7 +3493,6 @@
       "authors": [
         "Daniel Stankewitz"
       ],
-      "experimental": true,
       "params": [
         {
           "name": "flacCompressionLevel",
@@ -3509,6 +3508,14 @@
           }
         }
       ]
+    },
+    {
+      "id": 3,
+      "name": "pcm_s16le",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
+      "params": []
     }
   ]
 }

@@ -21,13 +21,12 @@ public:
 	int open();
 	void close(bool writeTrailer);
 	int writeVideoFrame(EncodingData *encodingData);
-	int writeAudioFrame(const uint8_t **data, int32_t sampleCount);
+	int writeAudioFrame(float **data, int32_t sampleCount);
 	FrameType getNextFrameType();
 
 private:
 	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
 	const char *filename;
 	AVFormatContext *formatContext;
-	AVAudioFifo *fifo = NULL;
 };
 

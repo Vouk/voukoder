@@ -79,7 +79,7 @@ void EncoderContext::configure(EncoderContextInfo encoderContestInfo, EncoderCon
 
 	// Create codec context
 	codecContext = avcodec_alloc_context3(codec);
-	//codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+	codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	codecContext->thread_count = 0;
 
 	// Type specific codec context settings

@@ -1360,7 +1360,7 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 			result = instRec->sequenceAudioSuite->GetAudio(audioRendererID, chunk, audioBuffer, kPrFalse);
 
 			// Send raw data to the encoder
-			if (encoder.writeAudioFrame((const uint8_t**)audioBuffer, chunk) != S_OK)
+			if (encoder.writeAudioFrame(audioBuffer, chunk) != S_OK)
 			{
 				return false;
 			}
