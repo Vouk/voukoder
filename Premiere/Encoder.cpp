@@ -10,7 +10,6 @@ Encoder::Encoder(const char *short_name, const char *filename)
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(short_name, this->filename, NULL);
 
-
 	// Set metadata
 	av_dict_set(&formatContext->metadata, "encoding_tool", PLUGIN_ENCODER_TOOL, 0);
 	
