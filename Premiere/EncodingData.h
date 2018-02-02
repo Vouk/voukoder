@@ -13,9 +13,4 @@ typedef struct EncodingData
 	char *plane[MAX_FRAME_PLANES] = {};
 	int32_t stride[MAX_FRAME_PLANES] = { -1, -1, -1, -1 };
 	int pass;
-	struct filters
-	{
-		bool vflip = false;
-		string scale = "";
-	} filters;
 } EncodingData;

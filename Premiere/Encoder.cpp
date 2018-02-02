@@ -113,16 +113,11 @@ void Encoder::close(bool writeTrailer)
 // reviewed 0.3.8
 int Encoder::writeVideoFrame(EncodingData *encodingData)
 {
-	int ret;
-
 	// Do we just want to flush the encoder?
 	if (encodingData == NULL)
 	{
 		// Send the frame to the encoder
-		if ((ret = encodeAndWriteFrame(videoContext, NULL, NULL)) < 0)
-		{
-			return ret;
-		}
+		encodeAndWriteFrame(videoContext, NULL, NULL);
 
 		// Destroy frame filters
 		for (auto items : videoContext->frameFilters)
@@ -151,25 +146,12 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 			options.height = videoContext->codecContext->height;
 			options.pix_fmt = av_get_pix_fmt(encodingData->pix_fmt);
 			options.time_base = videoContext->codecContext->time_base;
-			options.sar.den = 1;
-			options.sar.num = 1;
-
-			// Add additional filters
-			ostringstream filters;
-			if (encodingData->filters.vflip)
-			{
-				filters << "vflip,";
-			}
-			if (!encodingData->filters.scale.empty())
-			{
-				filters << "scale=";
-				filters << encodingData->filters.scale;
-				filters << ",";
-			}
+			options.sar.den = videoContext->codecContext->sample_aspect_ratio.den;
+			options.sar.num = videoContext->codecContext->sample_aspect_ratio.num;
 
 			// Set target format
 			char filterConfig[256];
-			sprintf_s(filterConfig, "%sformat=pix_fmts=%s", filters.str().c_str(), videoContext->encoderConfig->getPixelFormat().c_str());
+			sprintf_s(filterConfig, "format=pix_fmts=%s", videoContext->encoderConfig->getPixelFormat().c_str());
 
 			frameFilter = new FrameFilter();
 			frameFilter->configure(options, filterConfig);
@@ -187,6 +169,8 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	frame->width = videoContext->codecContext->width;
 	frame->height = videoContext->codecContext->height;
 	frame->format = av_get_pix_fmt(encodingData->pix_fmt);
+	
+	int ret;
 
 	// Reserve buffer space
 	if ((ret = av_frame_get_buffer(frame, 32)) < 0)
@@ -233,6 +217,8 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 
 		// Clear filter map
 		audioContext->frameFilters.clear();
+
+		return S_OK;
 	}
 	
 	FrameFilter *frameFilter;
@@ -300,7 +286,7 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	frame->sample_rate = audioContext->codecContext->sample_rate;
 	frame->pts = audioContext->next_pts;
 
-	int ret = S_OK;
+	int ret;
 
 	// Allocate the buffer for the frame
 	if ((ret = av_frame_get_buffer(frame, 0)) == 0)

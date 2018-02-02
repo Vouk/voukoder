@@ -97,7 +97,7 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 	{
 		const float* p = &pixels[r * width * 4];
 
-		for (int c = 0; c < width * 4; c += 16)
+		for (int c = 0; c < (int)width * 4; c += 16)
 		{
 			__m128i vuya0 = load_and_scale(p + c);
 			__m128i vuya1 = load_and_scale(p + c + 4);
