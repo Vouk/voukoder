@@ -173,7 +173,7 @@ int Encoder::writeVideoFrame(EncodingData *encodingData)
 	int ret;
 
 	// Reserve buffer space
-	if ((ret = av_frame_get_buffer(frame, 32)) < 0)
+	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
 	{
 		return ret;
 	}
@@ -284,7 +284,7 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	frame->channel_layout = audioContext->codecContext->channel_layout;
 	frame->format = AV_SAMPLE_FMT_FLTP;
 	frame->sample_rate = audioContext->codecContext->sample_rate;
-	frame->pts = audioContext->next_pts;
+	frame->pts = audioContext->next_pts++;
 
 	int ret;
 

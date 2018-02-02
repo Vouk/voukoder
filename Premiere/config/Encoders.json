@@ -3551,6 +3551,14 @@
         "Daniel Stankewitz"
       ],
       "params": []
+    },
+    {
+      "id": 5,
+      "name": "vorbis",
+      "authors": [
+        "Daniel Stankewitz"
+      ],
+      "params": []
     }
   ]
 }
