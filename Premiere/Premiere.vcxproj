@@ -73,11 +73,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\nuc\source\external\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\external\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>Voukoder</TargetName>
     <TargetExt>.prm</TargetExt>
-    <LibraryPath>C:\Users\nuc\source\external\lib\debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\..\external\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -87,11 +87,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\nuc\source\external\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\external\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>Voukoder</TargetName>
     <TargetExt>.prm</TargetExt>
-    <LibraryPath>C:\Users\nuc\source\external\lib\release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\..\external\lib\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
