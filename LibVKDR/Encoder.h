@@ -7,7 +7,7 @@
 #include "ExportSettings.h"
 #include "lavf.h"
 
-#define LIB_VKDR_APPNAME "LibVKDR 0.6.0 (www.voukoder.org)"
+#define LIB_VKDR_APPNAME "LibVKDR 0.9.0 (www.voukoder.org)"
 
 using namespace std;
 

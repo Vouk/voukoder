@@ -207,6 +207,11 @@ int Encoder::check(EncoderData *encoderData, int maxBlip)
 
 		pass = encoderData->pass;
 
+		if ((ret = open()) < 0)
+		{
+			return ret;
+		}
+
 		if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
 			videoContext.codecContext->flags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
@@ -224,16 +229,11 @@ int Encoder::check(EncoderData *encoderData, int maxBlip)
 			}
 		}
 
-		if ((ret = open()) < 0)
-		{
-			return ret;
-		}
-
 		// Hack ...
-		if (audioContext.codecContext->frame_size < maxBlip)
-		{
-			maxBlip = audioContext.codecContext->frame_size;
-		}
+		//if (audioContext.codecContext->frame_size < maxBlip)
+		//{
+		//	maxBlip = audioContext.codecContext->frame_size;
+		//}
 	}
 
 	return 0;
