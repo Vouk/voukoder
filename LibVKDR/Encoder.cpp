@@ -147,27 +147,40 @@ void Encoder::close(bool writeTrailer)
 		av_write_trailer(formatContext);
 	}
 
-	avio_close(formatContext->pb);
+	if (videoContext.codecContext != NULL && videoContext.codecContext->internal != NULL)
+		avcodec_free_context(&videoContext.codecContext);
+
+	if (audioContext.codecContext != NULL && audioContext.codecContext->internal != NULL)
+		avcodec_free_context(&audioContext.codecContext);
+
+	if (exportSettings.filename.length() > 0)
+	{
+		avio_close(formatContext->pb);
+	}
+	else
+	{
+		uint8_t *buffer = NULL;
+		avio_close_dyn_buf(formatContext->pb, &buffer);
+		av_free(buffer);
+	}
 }
 
 int Encoder::testSettings()
 {
 	int ret;
 
-	EncoderContext vCtx;
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(),
 		&exportSettings.videoOptions,
-		&vCtx)) < 0)
+		&videoContext)) < 0)
 	{
 		return ret;
 	}
 
-	EncoderContext aCtx;
 	if ((ret = openCodec(
 		exportSettings.audioCodecName.c_str(),
 		&exportSettings.audioOptions,
-		&aCtx)) < 0)
+		&audioContext)) < 0)
 	{
 		return ret;
 	}
@@ -183,18 +196,14 @@ int Encoder::testSettings()
 		goto close;
 	}
 
-	ret = av_write_trailer(formatContext);
-
 close:
-	
-	uint8_t *buffer = NULL;
-	avio_close_dyn_buf(formatContext->pb, &buffer);
-	av_free(buffer);
+
+	close(false);
 
 	return ret;
 }
 
-int Encoder::check(EncoderData *encoderData)
+int Encoder::prepare(EncoderData *encoderData)
 {
 	int ret;
 

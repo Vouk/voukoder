@@ -28,7 +28,7 @@ namespace LibVKDR
 		void flushContext(EncoderContext *encoderContext);
 		int writeVideoFrame(EncoderData *encoderData);
 		int writeAudioFrame(float **data, int32_t sampleCount);
-		int check(EncoderData *encoderData);
+		int prepare(EncoderData *encoderData);
 		int testSettings();
 		FrameType getNextFrameType();
 

@@ -251,13 +251,13 @@ prMALError Plugin::getParamSummary(exParamSummaryRec *summaryRecP)
 
 prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSettingsRecP)
 {
-	int ret;
+	prMALError result = malNoError;
 
 	ExportSettings exportSettings;
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 	
 	Encoder encoder(exportSettings);
-	if ((ret = encoder.testSettings()) < 0)
+	if (encoder.testSettings() < 0)
 	{
 		stringstream buffer;
 		buffer << "FFMpeg rejected the current configuration.\n\n";
@@ -278,10 +278,10 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 			buffer.str(),
 			"Voukoder Export Error");
 
-		return malUnknownError;
+		result = malUnknownError;
 	}
 
-	return malNoError;
+	return result;
 }
 
 prMALError Plugin::doExport(exDoExportRec *exportRecP)
@@ -338,14 +338,15 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		exportSettings.passes,
 		[&](EncoderData *encoderData)
 	{
-		// 
-		if (encoder.check(encoderData) < 0)
+		// Prepare the encoder for this iteration
+		if (encoder.prepare(encoderData) < 0)
 		{
 			return false;
 		}
 
 		if (encoder.writeVideoFrame(encoderData) == 0)
 		{
+			// Let the encoder choose how many audio frames we need
 			while (encoder.getNextFrameType() == FrameType::AudioFrame && audioRenderer.samplesInBuffer())
 			{
 				csSDK_uint32 size = 0;
