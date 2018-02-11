@@ -338,7 +338,11 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		exportSettings.passes,
 		[&](EncoderData *encoderData)
 	{
-		encoder.check(encoderData, audioRenderer.getMaxBlip());
+		// 
+		if (encoder.check(encoderData) < 0)
+		{
+			return false;
+		}
 
 		if (encoder.writeVideoFrame(encoderData) == 0)
 		{

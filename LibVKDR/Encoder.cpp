@@ -194,7 +194,7 @@ close:
 	return ret;
 }
 
-int Encoder::check(EncoderData *encoderData, int maxBlip)
+int Encoder::check(EncoderData *encoderData)
 {
 	int ret;
 
@@ -228,12 +228,6 @@ int Encoder::check(EncoderData *encoderData, int maxBlip)
 				videoContext.codecContext->flags |= AV_CODEC_FLAG_PASS2;
 			}
 		}
-
-		// Hack ...
-		//if (audioContext.codecContext->frame_size < maxBlip)
-		//{
-		//	maxBlip = audioContext.codecContext->frame_size;
-		//}
 	}
 
 	return 0;

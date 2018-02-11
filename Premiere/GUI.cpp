@@ -452,6 +452,7 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRAudioSettings, L"Encoder params (r/o)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioRatePerSecond, L"Sample Rate");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioNumChannels, L"Channels");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRAdvVideoCodecTabGroup, L"Advanced");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRMultiplexerTabGroup, L"Multiplexer");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexerBasicGroup, L"Container");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexer, L"Format");
