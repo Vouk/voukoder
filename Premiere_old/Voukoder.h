@@ -5,7 +5,6 @@
 extern "C" DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParms, void *param1, void *param2);
 
 prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP);
-prMALError exShutdown();
 prMALError exBeginInstance(exportStdParms *stdParmsP, exExporterInstanceRec *instanceRecP);
 prMALError exEndInstance(exportStdParms *stdParmsP, exExporterInstanceRec *instanceRecP);
 prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP);
@@ -16,4 +15,3 @@ prMALError exPostProcessParams(exportStdParms *stdParmsP, exPostProcessParamsRec
 prMALError exValidateParamChanged(exportStdParms *stdParmsP, exParamChangedRec	*validateParamChangedRecP);
 prMALError exGetParamSummary(exportStdParms *stdParmsP, exParamSummaryRec *summaryRecP);
 prMALError exValidateOutputSettings(exportStdParms *stdParmsP, exValidateOutputSettingsRec *validateOutputSettingsRec);
-prMALError SetupEncoderInstance(InstanceRec *instRec, csSDK_uint32 exID, Encoder *encoder, EncoderConfig *videoConfig, EncoderConfig *audioConfig);

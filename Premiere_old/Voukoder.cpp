@@ -22,7 +22,6 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 	switch (selector)
 	{
 		case exSelStartup:					return exStartup(stdParmsP, reinterpret_cast<exExporterInfoRec*>(param1));
-		case exSelShutdown:					return exShutdown();
 		case exSelBeginInstance:			return exBeginInstance(stdParmsP, reinterpret_cast<exExporterInstanceRec*>(param1));
 		case exSelGenerateDefaultParams:	return exGenerateDefaultParams(stdParmsP, reinterpret_cast<exGenerateDefaultParamRec*>(param1));
 		case exSelPostProcessParams:		return exPostProcessParams(stdParmsP, reinterpret_cast<exPostProcessParamsRec*>(param1));
@@ -69,13 +68,6 @@ prMALError exStartup(exportStdParms *stdParmsP, exExporterInfoRec *infoRecP)
 	infoRecP->canExportAudio = kPrTrue;
 	infoRecP->interfaceVersion = EXPORTMOD_VERSION;
 	infoRecP->isCacheable = kPrFalse;
-
-	return malNoError;
-}
-
-prMALError exShutdown()
-{
-	// Maybe needed later
 
 	return malNoError;
 }
@@ -1281,13 +1273,6 @@ prMALError exExport(exportStdParms *stdParmsP, exDoExportRec *exportInfoP)
 	Encoder encoder = Encoder(NULL, filename);
 	encoder.videoContext->configure(videoContextInfo, &videoEncoderConfig);
 	encoder.audioContext->configure(audioContextInfo, &audioEncoderConfig);
-
-
-
-
-
-
-
 
 	// Get target render format
 	PrPixelFormat pixelFormat = VideoRenderer::GetTargetRenderFormat(
