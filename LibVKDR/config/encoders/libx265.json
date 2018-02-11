@@ -1,0 +1,300 @@
+{
+  "name": "libx265",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "groups": [
+
+  ],
+  "multipass": {
+    "name": "x265Passes"
+  },
+  "parameterGroups": {
+    "x265-params": {
+      "delimiter": "=",
+      "separator": ":",
+      "noValueReplacement": "1",
+      "parameters": [
+        "interlace",
+        "lossless"
+      ]
+    }
+  },
+  "params": [
+    {
+      "name": "x265PixelFormat",
+      "label": "Output format",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "YUV 4:2:0",
+          "pixelFormat": "yuv420p",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 1,
+          "name": "YUV 4:2:2",
+          "pixelFormat": "yuv422p",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 2,
+          "name": "YUV 4:4:4",
+          "pixelFormat": "yuv444p",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 3,
+          "name": "YUV 4:2:0 (10 bit)",
+          "pixelFormat": "yuv420p10le",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 4,
+          "name": "YUV 4:2:2 (10 bit)",
+          "pixelFormat": "yuv422p10le",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 5,
+          "name": "YUV 4:4:4 (10 bit)",
+          "pixelFormat": "yuv444p10le",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 6,
+          "name": "YUV 4:2:0 (12 bit)",
+          "pixelFormat": "yuv420p12le",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 7,
+          "name": "YUV 4:2:2 (12 bit)",
+          "pixelFormat": "yuv422p12le",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 8,
+          "name": "YUV 4:4:4 (12 bit)",
+          "pixelFormat": "yuv444p12le",
+          "parameters": {
+
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Preset",
+      "label": "Preset",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 5,
+      "values": [
+        {
+          "id": 0,
+          "name": "Ultra fast",
+          "parameters": {
+            "preset": "ultrafast"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Super fast",
+          "parameters": {
+            "preset": "superfast"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Very fast",
+          "parameters": {
+            "preset": "veryfast"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Faster",
+          "parameters": {
+            "preset": "faster"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Fast",
+          "parameters": {
+            "preset": "fast"
+          }
+        },
+        {
+          "id": 5,
+          "name": "Medium",
+          "parameters": {
+            "preset": "medium"
+          }
+        },
+        {
+          "id": 6,
+          "name": "Slow",
+          "parameters": {
+            "preset": "slow"
+          }
+        },
+        {
+          "id": 7,
+          "name": "Slower",
+          "parameters": {
+            "preset": "slower"
+          }
+        },
+        {
+          "id": 8,
+          "name": "Very slow",
+          "parameters": {
+            "preset": "veryslow"
+          }
+        },
+        {
+          "id": 9,
+          "name": "Placebo",
+          "parameters": {
+            "preset": "placebo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Strategy",
+      "label": "Strategy",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Average Bitrate (ARB)",
+          "subvalues": [
+            {
+              "name": "x265StrategyARB",
+              "label": "Average Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "x265Passes",
+              "label": "Passes",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 1,
+              "minValue": 1,
+              "maxValue": 2,
+              "parameters": {
+
+              }
+            },
+            {
+              "name": "x265SlowFirstPass",
+              "label": "Slow first pass",
+              "type": "bool",
+              "flags": [
+
+              ],
+              "defaultValue": 0,
+              "parameters": {
+                "slow-firstpass": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Constant Rate Factor (CRF)",
+          "subvalues": [
+            {
+              "name": "x265StrategyCRF",
+              "label": "Constant Rate Factor",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 28,
+              "minValue": 1,
+              "maxValue": 51,
+              "parameters": {
+                "crf": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Constant Quantizer (QP)",
+          "subvalues": [
+            {
+              "name": "x265StrategyQP",
+              "label": "Constant Quantizer",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 23,
+              "minValue": 1,
+              "maxValue": 51,
+              "parameters": {
+                "qp": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Lossless",
+          "parameters": {
+            "lossless": ""
+          }
+        }
+      ]
+    }
+  ]
+}

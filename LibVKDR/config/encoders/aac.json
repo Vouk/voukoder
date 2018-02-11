@@ -1,0 +1,110 @@
+{
+  "name": "aac",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "aacPreset",
+      "label": "Preset",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Low-complexity",
+          "parameters": {
+            "profile": "aac_low"
+          }
+        },
+        {
+          "id": 1,
+          "name": "MPEG2 Low-complexity",
+          "parameters": {
+            "profile": "mpeg2_aac_low"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Long term prediction",
+          "parameters": {
+            "profile": "aac_ltp"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Main",
+          "parameters": {
+            "profile": "aac_main"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ADBEAudioBitrate",
+      "label": "Bitrate (Kbps)",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 2,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "64",
+          "parameters": {
+            "b": "64000"
+          }
+        },
+        {
+          "id": 1,
+          "name": "96",
+          "parameters": {
+            "b": "96000"
+          }
+        },
+        {
+          "id": 2,
+          "name": "128",
+          "parameters": {
+            "b": "128000"
+          }
+        },
+        {
+          "id": 3,
+          "name": "192",
+          "parameters": {
+            "b": "192000"
+          }
+        },
+        {
+          "id": 4,
+          "name": "256",
+          "parameters": {
+            "b": "256000"
+          }
+        },
+        {
+          "id": 5,
+          "name": "320",
+          "parameters": {
+            "b": "320000"
+          }
+        },
+        {
+          "id": 6,
+          "name": "384",
+          "parameters": {
+            "b": "384000"
+          }
+        }
+      ]
+    }
+  ]
+}

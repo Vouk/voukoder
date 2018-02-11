@@ -1,0 +1,11 @@
+﻿cl : Befehlszeile warning D9025: "/sdl" wird durch "/GS-" überschrieben
+  VideoRenderer.cpp
+VideoRenderer.cpp(100): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+     Bibliothek "C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.lib" und Objekt "C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.exp" werden erstellt.
+  Code wird generiert.
+  41 of 2442 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
+  Codegenerierung ist abgeschlossen.
+libavcodec.lib(libx264.o) : warning LNK4049: Lokal definiertes Symbol "x264_levels" wurde importiert.
+  Premiere.vcxproj -> C:\Users\nuc\source\repos\voukoder\\Premiere\x64\Release\Voukoder.prm

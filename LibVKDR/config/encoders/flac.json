@@ -1,0 +1,23 @@
+{
+  "name": "flac",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "flacCompressionLevel",
+      "label": "Compression Level",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 5,
+      "minValue": 0,
+      "maxValue": 12,
+      "parameters": {
+        "compression_level": "%d"
+      }
+    }
+  ]
+}

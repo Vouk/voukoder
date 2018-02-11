@@ -1,0 +1,901 @@
+{
+  "name": "h264_nvenc",
+  "authors": [
+    "Schauerland",
+    "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "groups": [
+    {
+      "name": "VKDRh264NVENCFramesGroup",
+      "label": "Frames",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRh264NVENCQuantizerGroup",
+      "label": "Quantizers",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRh264NVENCGOPGroup",
+      "label": "GOP",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRh264NVENCMiscGroup",
+      "label": "Miscellaneous",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
+  "parameterGroups": {
+
+  },
+  "params": [
+    {
+      "name": "h264_nvencPreset",
+      "label": "Preset",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 1,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Default",
+          "parameters": {
+            "preset": "default"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Slow",
+          "parameters": {
+            "preset": "slow"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Medium",
+          "parameters": {
+            "preset": "medium"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Fast",
+          "parameters": {
+            "preset": "fast"
+          }
+        },
+        {
+          "id": 4,
+          "name": "High Quality",
+          "parameters": {
+            "preset": "hq"
+          }
+        },
+        {
+          "id": 5,
+          "name": "High Performance",
+          "parameters": {
+            "preset": "hp"
+          }
+        },
+        {
+          "id": 6,
+          "name": "Blu-Ray",
+          "parameters": {
+            "preset": "bd"
+          }
+        },
+        {
+          "id": 7,
+          "name": "Low Latency",
+          "parameters": {
+            "preset": "ll"
+          }
+        },
+        {
+          "id": 8,
+          "name": "Low Latency High Quality",
+          "parameters": {
+            "preset": "llhq"
+          }
+        },
+        {
+          "id": 9,
+          "name": "Low Latency High Performance",
+          "parameters": {
+            "preset": "llhp"
+          }
+        },
+        {
+          "id": 10,
+          "name": "Lossless",
+          "parameters": {
+            "preset": "lossless"
+          }
+        },
+        {
+          "id": 11,
+          "name": "Lossless High Performance",
+          "parameters": {
+            "preset": "losslesshp"
+          }
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencProfile",
+      "label": "Profile",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Baseline",
+          "parameters": {
+            "profile": "baseline"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Main",
+          "parameters": {
+            "profile": "main"
+          }
+        },
+        {
+          "id": 2,
+          "name": "High",
+          "parameters": {
+            "profile": "high"
+          }
+        },
+        {
+          "id": 3,
+          "name": "High444",
+          "pixelFormat": "yuv444p",
+          "parameters": {
+            "profile": "high444p"
+          }
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencLevel",
+      "label": "Level",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Automatic)",
+          "parameters": {
+            "level": "auto"
+          }
+        },
+        {
+          "id": 1,
+          "name": "1",
+          "parameters": {
+            "level": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "1b",
+          "parameters": {
+            "level": "1b"
+          }
+        },
+        {
+          "id": 3,
+          "name": "1.1",
+          "parameters": {
+            "level": "1.1"
+          }
+        },
+        {
+          "id": 4,
+          "name": "1.2",
+          "parameters": {
+            "level": "1.2"
+          }
+        },
+        {
+          "id": 5,
+          "name": "1.3",
+          "parameters": {
+            "level": "1.3"
+          }
+        },
+        {
+          "id": 6,
+          "name": "2",
+          "parameters": {
+            "level": "2"
+          }
+        },
+        {
+          "id": 7,
+          "name": "2.1",
+          "parameters": {
+            "level": "2.1"
+          }
+        },
+        {
+          "id": 8,
+          "name": "2.2",
+          "parameters": {
+            "level": "2.2"
+          }
+        },
+        {
+          "id": 9,
+          "name": "3",
+          "parameters": {
+            "level": "3"
+          }
+        },
+        {
+          "id": 10,
+          "name": "3.1",
+          "parameters": {
+            "level": "3.1"
+          }
+        },
+        {
+          "id": 11,
+          "name": "3.2",
+          "parameters": {
+            "level": "3.2"
+          }
+        },
+        {
+          "id": 12,
+          "name": "4",
+          "parameters": {
+            "level": "4"
+          }
+        },
+        {
+          "id": 13,
+          "name": "4.1",
+          "parameters": {
+            "level": "4.1"
+          }
+        },
+        {
+          "id": 14,
+          "name": "4.2",
+          "parameters": {
+            "level": "4.2"
+          }
+        },
+        {
+          "id": 15,
+          "name": "5",
+          "parameters": {
+            "level": "5"
+          }
+        },
+        {
+          "id": 16,
+          "name": "5.1",
+          "parameters": {
+            "level": "5.1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencStrategy",
+      "label": "Strategy",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Constant Quantizer (CQP)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCQP",
+              "label": "CQP",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 23,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "rc": "constqp",
+                "qp": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Variable Bitrate (VBR)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyVBR",
+              "label": "Target Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "vbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyVBRMax",
+              "label": "Max. Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "maxrate": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyVBRBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Variable Bitrate High Quality (VBR_HQ)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyVBRHQ",
+              "label": "Target Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "vbr_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyVBRHQMax",
+              "label": "Max. Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "maxrate": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyVBRHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCBR",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyCBRBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Constant Bitrate High Quality (CBR_HQ)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCBRLDHQ",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyCBRHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Constant Bitrate Low Delay High Quality (CBR_LD_HQ)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCBRLDHQ",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr_ld_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyCBRLDHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "h264_nvenc2Pass",
+      "label": "Force 2-pass",
+      "group": "ADBEVideoCodecGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "2pass": ""
+      }
+    },
+    {
+      "name": "h264_nvencRCLookahead",
+      "label": "RC Lookahead",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 1024,
+      "parameters": {
+        "rc-lookahead": "%d"
+      }
+    },
+    {
+      "name": "h264_nvencKeyInt",
+      "label": "Max. GOP Size",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 250,
+      "minValue": 1,
+      "maxValue": 999,
+      "parameters": {
+        "g": "%d"
+      }
+    },
+    {
+      "name": "h264_nvencBFrames",
+      "label": "Number of B-Frames",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "int",
+      "useDefaultValue": true,
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 2,
+      "minValue": 0,
+      "maxValue": 4,
+      "parameters": {
+        "bf": "%d"
+      }
+    },
+    {
+      "name": "h264_nvencNoSCut",
+      "label": "No scene cut",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "no-scenecut": ""
+      }
+    },
+    {
+      "name": "h264_nvencForcedIDR",
+      "label": "Force keyframes as IDR",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "forced-idr ": ""
+      }
+    },
+    {
+      "name": "h264_nvencNoRefP",
+      "label": "Auto-insert non-reference P-frames",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "nonref_p": ""
+      }
+    },
+    {
+      "name": "h264_nvencQPI",
+      "label": "QP Value For I-Frames",
+      "group": "VKDRh264NVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpI": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "h264_nvencQPIValue",
+              "label": "QP Value",
+              "group": "VKDRh264NVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpI": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencQPP",
+      "label": "QP Value For P-Frames",
+      "group": "VKDRh264NVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpP": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "h264_nvencQPPValue",
+              "label": "QP Value",
+              "group": "VKDRh264NVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpP": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencQPB",
+      "label": "QP Value For B-Frames",
+      "group": "VKDRh264NVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpB": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "h264_nvencQPBValue",
+              "label": "QP Value",
+              "group": "VKDRh264NVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpB": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencAqMode",
+      "label": "Adaptive Quantizers Mode",
+      "group": "VKDRh264NVENCQuantizerGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Off",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 1,
+          "name": "Spatial AQ",
+          "subvalues": [
+            {
+              "name": "h264_nvencAqModeSpatial",
+              "label": "AQ Strength",
+              "type": "float",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 8,
+              "minValue": 1,
+              "maxValue": 15,
+              "parameters": {
+                "spatial-aq": "",
+                "aq-strength": "%.1f"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Temporal AQ",
+          "parameters": {
+            "temporal-aq": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "h264_nvencStrictGop",
+      "label": "Enable strict GOP",
+      "group": "VKDRh264NVENCGOPGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "strict-gop": ""
+      }
+    },
+    {
+      "name": "h264_nvencSurfaces",
+      "label": "Surfaces",
+      "group": "VKDRh264NVENCMiscGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 64,
+      "parameters": {
+        "surfaces": "%d"
+      }
+    },
+    {
+      "name": "h264_nvencZeroLat",
+      "label": "Indicate zero latency",
+      "group": "VKDRh264NVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "zerolatency": ""
+      }
+    },
+    {
+      "name": "h264_nvencWeightedPred",
+      "label": "Enable weighted prediction",
+      "group": "VKDRh264NVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "weighted_pred": ""
+      }
+    },
+    {
+      "name": "h264_nvencBDC",
+      "label": "Blu-Ray Compatibility",
+      "group": "VKDRh264NVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "bluray-compat": ""
+      }
+    },
+    {
+      "name": "h264_nvencAud",
+      "label": "Use AUD",
+      "group": "VKDRh264NVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "aud": ""
+      }
+    }
+  ]
+}

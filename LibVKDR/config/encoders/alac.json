@@ -1,0 +1,38 @@
+{
+  "name": "alac",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "alacMinPredictionOrder",
+      "label": "Min. Prediction Order",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 4,
+      "minValue": 1,
+      "maxValue": 30,
+      "parameters": {
+        "min_prediction_order": "%d"
+      }
+    },
+    {
+      "name": "alacMaxPredictionOrder",
+      "label": "Max. Prediction Order",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 6,
+      "minValue": 1,
+      "maxValue": 30,
+      "parameters": {
+        "max_prediction_order": "%d"
+      }
+    }
+  ]
+}

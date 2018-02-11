@@ -142,7 +142,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		inFormat == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange ||
 		inFormat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
 	{
-		EncodingData frameData;
+		EncoderData frameData;
 		frameData.pass = inWhichPass + 1;
 		frameData.planes = 3;
 		frameData.pix_fmt = "yuv420p";
@@ -173,7 +173,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	if (inFormat == PrPixelFormat_UYVY_422_8u_601 ||
 		inFormat == PrPixelFormat_UYVY_422_8u_709)
 	{
-		EncodingData frameData;
+		EncoderData frameData;
 		frameData.pass = inWhichPass + 1;
 		frameData.planes = 1;
 		frameData.pix_fmt = "uyvy422";
@@ -227,7 +227,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	return suiteError_RenderInvalidPixelFormat;
 }
 
-prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount)
+prSuiteError VideoRenderer::frameFinished(EncoderData *frameData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount)
 {
 #if defined(_DEBUG) 
 	tp2 = high_resolution_clock::now();
@@ -263,7 +263,7 @@ prSuiteError VideoRenderer::frameFinished(EncodingData *frameData, PrPixelFormat
 }
 
 // reviewed 0.5.2
-prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncodingData*)> callback)
+prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncoderData*)> callback)
 {
 	this->width = width;
 	this->height = height;
@@ -287,113 +287,106 @@ prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, 
 	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, c_callback, NULL);
 }
 
-PrPixelFormat VideoRenderer::GetTargetRenderFormat(const string pixfmt, ColorSpace colorSpace, ColorRange colorRange, prFieldType fieldType)
+PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings)
 {
 	PrPixelFormat format = PrPixelFormat_Invalid;
 
-	if (pixfmt == "yuv420p")
+	if (exportSettings.pixelFormat == "yuv420p")
 	{
-		if (fieldType == prFieldsNone)
+		if (exportSettings.fieldOrder == AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
-			if (colorRange == Limited)
+			if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_MPEG)
 			{
-				switch (colorSpace)
+				switch (exportSettings.colorSpace)
 				{
-				case bt601:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
-					break;
-
-				case bt709:
+				case AVColorSpace::AVCOL_SPC_BT709:
 					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709;
 					break;
+
+				default:
+					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
 				}
 			}
-			else if (colorRange == Full)
+			else if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_JPEG)
 			{
-				switch (colorSpace)
+				switch (exportSettings.colorSpace)
 				{
-				case bt601:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange;
-					break;
-
-				case bt709:
+				case AVColorSpace::AVCOL_SPC_BT709:
 					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange;
 					break;
+
+				default:
+					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange;
 				}
 			}
 		}
 		else
 		{
-			if (colorRange == Limited)
+			if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_MPEG)
 			{
-				switch (colorSpace)
+				switch (exportSettings.colorSpace)
 				{
-				case bt601:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
-					break;
-
-				case bt709:
+				case AVColorSpace::AVCOL_SPC_BT709:
 					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709;
 					break;
+
+				default:
+					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
 				}
 			}
-			else if (colorRange == Limited)
+			else if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_JPEG)
 			{
-				switch (colorSpace)
+				switch (exportSettings.colorSpace)
 				{
-				case bt601:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange;
-					break;
-
-				case bt709:
+				case AVColorSpace::AVCOL_SPC_BT709:
 					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange;
 					break;
+
+				default:
+					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange;
 				}
 			}
 		}
 	}
-	else if (pixfmt == "yuv422p")
+	else if (exportSettings.pixelFormat == "yuv422p")
 	{
-		switch (colorSpace)
+		switch (exportSettings.colorSpace)
 		{
-		case bt601:
-			format = PrPixelFormat_UYVY_422_8u_601;
-			break;
-
-		case bt709:
+		case AVColorSpace::AVCOL_SPC_BT709:
 			format = PrPixelFormat_UYVY_422_8u_709;
 			break;
+
+		default:
+			format = PrPixelFormat_UYVY_422_8u_601;
 		}
 	}
-	else if (pixfmt == "yuv444p")
+	else if (exportSettings.pixelFormat == "yuv444p")
 	{
-		switch (colorSpace)
+		switch (exportSettings.colorSpace)
 		{
-		case bt601:
-			format = PrPixelFormat_VUYA_4444_8u;
-			break;
-
-		case bt709:
+		case AVColorSpace::AVCOL_SPC_BT709:
 			format = PrPixelFormat_VUYA_4444_8u_709;
 			break;
+
+		default:
+			format = PrPixelFormat_VUYA_4444_8u;
 		}
 	}
-	else if (pixfmt == "yuv420p10le" || pixfmt == "yuv420p12le" ||
-		pixfmt == "yuv422p10le" || pixfmt == "yuv422p12le" ||
-		pixfmt == "yuv444p10le" || pixfmt == "yuv444p12le" ||
-		pixfmt == "yuva420p10le" || pixfmt == "yuva420p12le" ||
-		pixfmt == "yuva422p10le" || pixfmt == "yuva422p12le" ||
-		pixfmt == "yuva444p10le" || pixfmt == "yuva444p12le")
+	else if (exportSettings.pixelFormat == "yuv420p10le" || exportSettings.pixelFormat == "yuv420p12le" ||
+		exportSettings.pixelFormat == "yuv422p10le" || exportSettings.pixelFormat == "yuv422p12le" ||
+		exportSettings.pixelFormat == "yuv444p10le" || exportSettings.pixelFormat == "yuv444p12le" ||
+		exportSettings.pixelFormat == "yuva420p10le" || exportSettings.pixelFormat == "yuva420p12le" ||
+		exportSettings.pixelFormat == "yuva422p10le" || exportSettings.pixelFormat == "yuva422p12le" ||
+		exportSettings.pixelFormat == "yuva444p10le" || exportSettings.pixelFormat == "yuva444p12le")
 	{
-		switch (colorSpace)
+		switch (exportSettings.colorSpace)
 		{
-		case bt601:
-			format = PrPixelFormat_VUYA_4444_32f;
-			break;
-
-		case bt709:
+		case AVColorSpace::AVCOL_SPC_BT709:
 			format = PrPixelFormat_VUYA_4444_32f_709;
 			break;
+
+		default:
+			format = PrPixelFormat_VUYA_4444_32f;
 		}
 	}
 

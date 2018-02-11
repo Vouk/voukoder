@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7ECEB640-2035-4AF0-AAAA-9DFD97146D0C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Voukoder</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>Premiere</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <TargetExt>.prm</TargetExt>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>..\..\..\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\external\lib\debug;$(LibraryPath)</LibraryPath>
+    <CustomBuildAfterTargets />
+    <TargetName>Voukoder</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\..\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\external\lib\release;$(LibraryPath)</LibraryPath>
+    <TargetExt>.prm</TargetExt>
+    <CustomBuildAfterTargets />
+    <OutDir>$(SolutionDir)\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <TargetName>Voukoder</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <PostBuildEvent>
+      <Command>call deploy_debug.bat "$(SolutionDir)$(ProjectName)\$(Platform)\$(Configuration)\Voukoder.prm"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;EXPORTERFFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/DLIB_FFMPEG %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="EncoderContext.h" />
+    <ClInclude Include="EncoderInfo.h" />
+    <ClInclude Include="EncoderConfig.h" />
+    <ClInclude Include="EncoderUtils.h" />
+    <ClInclude Include="EncodingData.h" />
+    <ClInclude Include="InstructionSet.h" />
+    <ClInclude Include="lavf.h" />
+    <ClInclude Include="MuxerInfo.h" />
+    <ClInclude Include="Structs.h" />
+    <ClInclude Include="VideoRenderer.h" />
+    <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Encoder.h" />
+    <ClInclude Include="FrameFilter.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="sdkheaders\AE_CacheOnLoadSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKAcceleratedRender.h" />
+    <ClInclude Include="sdkheaders\PrSDKAcceleratedRenderInvocationSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKActivationEvent.h" />
+    <ClInclude Include="sdkheaders\PrSDKAESupport.h" />
+    <ClInclude Include="sdkheaders\PrSDKAlphaTypes.h" />
+    <ClInclude Include="sdkheaders\PrSDKAppInfoSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKApplicationSettingsSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKAsyncFileReaderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKAsyncImporter.h" />
+    <ClInclude Include="sdkheaders\PrSDKAsyncOperationSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKAudioSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKCaptioningSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKClassData.h" />
+    <ClInclude Include="sdkheaders\PrSDKClipRenderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKDeferredProcessingSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKDevice.h" />
+    <ClInclude Include="sdkheaders\PrSDKEffect.h" />
+    <ClInclude Include="sdkheaders\PrSDKEntry.h" />
+    <ClInclude Include="sdkheaders\PrSDKErrorSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExport.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportController.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportControllerSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExporterUtilitySuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportFileSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportInfoSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportParamSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportProgressSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKExportStdParamSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKFileRegistrationSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKFlashCueMarkerDataSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKImageProcessingSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKImport.h" />
+    <ClInclude Include="sdkheaders\PrSDKImporterFileManagerSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKImporterShared.h" />
+    <ClInclude Include="sdkheaders\PrSDKLegacySuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKMALErrors.h" />
+    <ClInclude Include="sdkheaders\PrSDKMarkerSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKMediaAcceleratorSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKMemoryManagerSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPaletteSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPiPLVer.h" />
+    <ClInclude Include="sdkheaders\PrSDKPixelFormat.h" />
+    <ClInclude Include="sdkheaders\PrSDKPixelFormatSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlayModule.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlayModuleAudioSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlayModuleDeviceControlSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlayModuleOverlaySuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlayModuleRenderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugMemory.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugPPix.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugSuites.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugTimeline.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugUtilities.h" />
+    <ClInclude Include="sdkheaders\PrSDKPlugWindow.h" />
+    <ClInclude Include="sdkheaders\PrSDKPPix2Suite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPPixCacheSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPPixCreator2Suite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPPixCreatorSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKPPixSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKQuality.h" />
+    <ClInclude Include="sdkheaders\PrSDKRecordModule.h" />
+    <ClInclude Include="sdkheaders\PrSDKRenderCacheType.h" />
+    <ClInclude Include="sdkheaders\PrSDKRollCrawlSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKSceneMetaData.h" />
+    <ClInclude Include="sdkheaders\PrSDKScopeRenderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKSequenceAudioSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKSequenceInfoSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKSequenceRenderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKSetEnv.h" />
+    <ClInclude Include="sdkheaders\PrSDKStockImageSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKStreamLabel.h" />
+    <ClInclude Include="sdkheaders\PrSDKStreamLabelEffectSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKStringSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKStructs.h" />
+    <ClInclude Include="sdkheaders\PrSDKThreadedWorkSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKTimeSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKTransmit.h" />
+    <ClInclude Include="sdkheaders\PrSDKTransmitInvocationSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKTypes.h" />
+    <ClInclude Include="sdkheaders\PrSDKVideoSegmentProperties.h" />
+    <ClInclude Include="sdkheaders\PrSDKVideoSegmentRenderSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKVideoSegmentSuite.h" />
+    <ClInclude Include="sdkheaders\PrSDKWindowSuite.h" />
+    <ClInclude Include="sdkheaders\SPBasic.h" />
+    <ClInclude Include="sdkheaders\SPConfig.h" />
+    <ClInclude Include="sdkheaders\SPErrorCodes.h" />
+    <ClInclude Include="sdkheaders\SPTypes.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EncoderContext.cpp" />
+    <ClCompile Include="EncoderInfo.cpp" />
+    <ClCompile Include="EncoderConfig.cpp" />
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="MuxerInfo.cpp" />
+    <ClCompile Include="VideoRenderer.cpp" />
+    <ClCompile Include="Voukoder.cpp" />
+    <ClCompile Include="Encoder.cpp" />
+    <ClCompile Include="FrameFilter.cpp" />
+    <ClCompile Include="Settings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\Encoders.json">
+      <FileType>Text</FileType>
+    </None>
+    <None Include="config\General.json" />
+    <None Include="config\Muxers.json" />
+    <None Include="id_text1.bin" />
+    <None Include="sdkheaders\PrSDKPiPL.r" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Premiere.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

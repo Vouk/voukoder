@@ -1,0 +1,11 @@
+﻿  Logger.cpp
+  FrameFilter.cpp
+  Encoder.cpp
+  Config.cpp
+c:\users\nuc\source\repos\voukoder\libvkdr\config.cpp(30): warning C4312: "Typumwandlung": Konvertierung von "LONG" in größeren Typ "std::map<StringType,nlohmann::basic_json<std::map,std::vector,StringType,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer>,std::less<StringType>,std::allocator<std::pair<const StringType,nlohmann::basic_json<std::map,std::vector,StringType,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer>>>> *"
+          with
+          [
+              StringType=std::string
+          ]
+  Code wird generiert...
+  LibVKDR.vcxproj -> C:\Users\nuc\source\repos\voukoder\x64\Debug\LibVKDR.lib

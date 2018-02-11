@@ -1,0 +1,875 @@
+{
+  "name": "hevc_nvenc",
+  "authors": [
+    "Schauerland",
+    "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "groups": [
+    {
+      "name": "VKDRhevcNVENCFramesGroup",
+      "label": "Frames",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRhevcNVENCQuantizerGroup",
+      "label": "Quantizers",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRhevcNVENCGOPGroup",
+      "label": "GOP",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRhevcNVENCMiscGroup",
+      "label": "Miscellaneous",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
+  "parameterGroups": {
+
+  },
+  "params": [
+    {
+      "name": "hevc_nvencPreset",
+      "label": "Preset",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 1,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Default",
+          "parameters": {
+            "preset": "default"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Slow",
+          "parameters": {
+            "preset": "slow"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Medium",
+          "parameters": {
+            "preset": "medium"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Fast",
+          "parameters": {
+            "preset": "fast"
+          }
+        },
+        {
+          "id": 4,
+          "name": "High Quality",
+          "parameters": {
+            "preset": "hq"
+          }
+        },
+        {
+          "id": 5,
+          "name": "High Performance",
+          "parameters": {
+            "preset": "hp"
+          }
+        },
+        {
+          "id": 6,
+          "name": "Blu-Ray",
+          "parameters": {
+            "preset": "bd"
+          }
+        },
+        {
+          "id": 7,
+          "name": "Low Latency",
+          "parameters": {
+            "preset": "ll"
+          }
+        },
+        {
+          "id": 8,
+          "name": "Low Latency High Quality",
+          "parameters": {
+            "preset": "llhq"
+          }
+        },
+        {
+          "id": 9,
+          "name": "Low Latency High Performance",
+          "parameters": {
+            "preset": "llhp"
+          }
+        },
+        {
+          "id": 10,
+          "name": "Lossless",
+          "parameters": {
+            "preset": "lossless"
+          }
+        },
+        {
+          "id": 11,
+          "name": "Lossless High Performance",
+          "parameters": {
+            "preset": "losslesshp"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencProfile",
+      "label": "Profile",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Main",
+          "parameters": {
+            "profile": "main"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Main (10 bit)",
+          "parameters": {
+            "profile": "main10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencLevel",
+      "label": "Level",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Auto)",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 1,
+          "name": "1",
+          "parameters": {
+            "level": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "2",
+          "parameters": {
+            "level": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "2.1",
+          "parameters": {
+            "level": "2.1"
+          }
+        },
+        {
+          "id": 4,
+          "name": "3",
+          "parameters": {
+            "level": "3"
+          }
+        },
+        {
+          "id": 5,
+          "name": "3.1",
+          "parameters": {
+            "level": "3.1"
+          }
+        },
+        {
+          "id": 6,
+          "name": "4",
+          "parameters": {
+            "level": "4"
+          }
+        },
+        {
+          "id": 7,
+          "name": "4.1",
+          "parameters": {
+            "level": "4.1"
+          }
+        },
+        {
+          "id": 8,
+          "name": "5",
+          "parameters": {
+            "level": "5"
+          }
+        },
+        {
+          "id": 9,
+          "name": "5.1",
+          "parameters": {
+            "level": "5.1"
+          }
+        },
+        {
+          "id": 10,
+          "name": "5.2",
+          "parameters": {
+            "level": "5.2"
+          }
+        },
+        {
+          "id": 11,
+          "name": "6",
+          "parameters": {
+            "level": "6"
+          }
+        },
+        {
+          "id": 12,
+          "name": "6.1",
+          "parameters": {
+            "level": "6.1"
+          }
+        },
+        {
+          "id": 13,
+          "name": "6.2",
+          "parameters": {
+            "level": "6.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencTier",
+      "label": "Tier",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Main",
+          "parameters": {
+            "tier": "main"
+          }
+        },
+        {
+          "id": 1,
+          "name": "High",
+          "parameters": {
+            "tier": "high"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencStrategy",
+      "label": "Strategy",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Constant Quantizer (CQP)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCQP",
+              "label": "CQP",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 23,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "rc": "constqp",
+                "qp": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Variable Bitrate (VBR)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyVBR",
+              "label": "Target Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "vbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyVBRMax",
+              "label": "Max. Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "maxrate": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyVBRBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Variable Bitrate High Quality (VBR_HQ)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyVBRHQ",
+              "label": "Target Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "vbr_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyVBRHQMax",
+              "label": "Max. Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "maxrate": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyVBRHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCBR",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyCBRBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Constant Bitrate High Quality (CBR_HQ)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCBRLDHQ",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyCBRHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Constant Bitrate Low Delay High Quality (CBR_LD_HQ)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCBRLDHQ",
+              "label": "Bitrate (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr_ld_hq",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyCBRLDHQBuffer",
+              "label": "Buffer Size (kbit)",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvenc2Pass",
+      "label": "Force 2-pass",
+      "group": "ADBEVideoCodecGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "2pass": ""
+      }
+    },
+    {
+      "name": "hevc_nvencRCLookahead",
+      "label": "RC Lookahead",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 1024,
+      "parameters": {
+        "rc-lookahead": "%d"
+      }
+    },
+    {
+      "name": "hevc_nvencKeyInt",
+      "label": "Max. GOP Size",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 250,
+      "minValue": 1,
+      "maxValue": 999,
+      "parameters": {
+        "g": "%d"
+      }
+    },
+    {
+      "name": "hevc_nvencNoSCut",
+      "label": "No scene cut",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "no-scenecut": ""
+      }
+    },
+    {
+      "name": "hevc_nvencForcedIDR",
+      "label": "Force keyframes as IDR",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "forced-idr ": ""
+      }
+    },
+    {
+      "name": "hevc_nvencNoRefP",
+      "label": "Auto-insert non-reference P-frames",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "nonref_p": ""
+      }
+    },
+    {
+      "name": "hevc_nvencQPI",
+      "label": "QP Value For I-Frames",
+      "group": "VKDRhevcNVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpI": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "hevc_nvencQPIValue",
+              "label": "QP Value",
+              "group": "VKDRhevcNVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpI": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencQPP",
+      "label": "QP Value For P-Frames",
+      "group": "VKDRhevcNVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpP": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "hevc_nvencQPPValue",
+              "label": "QP Value",
+              "group": "VKDRhevcNVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpP": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencQPB",
+      "label": "QP Value For B-Frames",
+      "group": "VKDRhevcNVENCQuantizerGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "",
+          "parameters": {
+            "init_qpB": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "",
+          "subvalues": [
+            {
+              "name": "hevc_nvencQPBValue",
+              "label": "QP Value",
+              "group": "VKDRhevcNVENCQuantizerGroup",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "init_qpB": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencAqMode",
+      "label": "Adaptive Quantizers Mode",
+      "group": "VKDRhevcNVENCQuantizerGroup",
+      "type": "int",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Off",
+          "parameters": {
+
+          }
+        },
+        {
+          "id": 1,
+          "name": "Spatial AQ",
+          "subvalues": [
+            {
+              "name": "hevc_nvencAqModeSpatial",
+              "label": "AQ Strength",
+              "type": "float",
+              "flags": [
+                "slider"
+              ],
+              "defaultValue": 8,
+              "minValue": 1,
+              "maxValue": 15,
+              "parameters": {
+                "spatial_aq": "",
+                "aq-strength": "%.1f"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Temporal AQ",
+          "parameters": {
+            "temporal_aq": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "hevc_nvencStrictGop",
+      "label": "Enable strict GOP",
+      "group": "VKDRhevcNVENCGOPGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "strict-gop": ""
+      }
+    },
+    {
+      "name": "hevc_nvencSurfaces",
+      "label": "Surfaces",
+      "group": "VKDRhevcNVENCMiscGroup",
+      "type": "int",
+      "flags": [
+        "slider"
+      ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 64,
+      "parameters": {
+        "surfaces": "%d"
+      }
+    },
+    {
+      "name": "hevc_nvencZeroLat",
+      "label": "Indicate zero latency",
+      "group": "VKDRhevcNVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "zerolatency": ""
+      }
+    },
+    {
+      "name": "hevc_nvencWeightedPred",
+      "label": "Enable weighted prediction",
+      "group": "VKDRhevcNVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "weighted_pred": ""
+      }
+    },
+    {
+      "name": "hevc_nvencBDC",
+      "label": "Blu-Ray Compatibility",
+      "group": "VKDRhevcNVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "bluray-compat": ""
+      }
+    },
+    {
+      "name": "hevc_nvencAud",
+      "label": "Use AUD",
+      "group": "VKDRhevcNVENCMiscGroup",
+      "type": "bool",
+      "flags": [
+
+      ],
+      "defaultValue": 0,
+      "parameters": {
+        "aud": ""
+      }
+    }
+  ]
+}

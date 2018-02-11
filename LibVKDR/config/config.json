@@ -1,0 +1,143 @@
+{
+  "name": "config",
+  "encoders": [
+    {
+      "id": 0,
+      "name": "libx264"
+    },
+    {
+      "id": 1,
+      "name": "libx265"
+    },
+    {
+      "id": 2,
+      "name": "h264_nvenc"
+    },
+    {
+      "id": 3,
+      "name": "hevc_nvenc"
+    },
+    {
+      "id": 4,
+      "name": "prores_ks"
+    },
+    {
+      "id": 5,
+      "name": "aac"
+    },
+    {
+      "id": 6,
+      "name": "alac"
+    },
+    {
+      "id": 7,
+      "name": "ac3"
+    },
+    {
+      "id": 8,
+      "name": "flac"
+    },
+    {
+      "id": 9,
+      "name": "pcm_s16le"
+    }
+  ],
+  "multiplexers": [
+    {
+      "id": 0,
+      "name": "mp4",
+      "extension": "mp4"
+    },
+    {
+      "id": 1,
+      "name": "matroska",
+      "extension": "mkv"
+    },
+    {
+      "id": 2,
+      "name": "mov",
+      "extension": "mov"
+    }
+  ],
+
+  "videoFramerates": [
+    {
+      "num": 10,
+      "den": 1,
+      "text": "10"
+    },
+    {
+      "num": 15,
+      "den": 1,
+      "text": "15"
+    },
+    {
+      "num": 24000,
+      "den": 1001,
+      "text": "23.976"
+    },
+    {
+      "num": 24,
+      "den": 1,
+      "text": "24"
+    },
+    {
+      "num": 25,
+      "den": 1,
+      "text": "25 (PAL)"
+    },
+    {
+      "num": 30000,
+      "den": 1001,
+      "text": "29.97 (NTSC)"
+    },
+    {
+      "num": 30,
+      "den": 1,
+      "text": "30"
+    },
+    {
+      "num": 50,
+      "den": 1,
+      "text": "50"
+    },
+    {
+      "num": 60000,
+      "den": 1001,
+      "text": "59.94"
+    },
+    {
+      "num": 60,
+      "den": 1,
+      "text": "60"
+    }
+  ],
+  "audioSampleRates": [
+    {
+      "id": 44100,
+      "text": "44100 Hz"
+    },
+    {
+      "id": 48000,
+      "text": "48000 Hz"
+    },
+    {
+      "id": 96000,
+      "text": "96000 Hz"
+    }
+  ],
+  "audioChannels": [
+    {
+      "id": 1,
+      "text": "Mono"
+    },
+    {
+      "id": 2,
+      "text": "Stereo"
+    },
+    {
+      "id": 3,
+      "text": "5.1"
+    }
+  ]
+}
