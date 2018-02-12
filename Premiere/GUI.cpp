@@ -10,8 +10,7 @@ static inline PrTime gcd(PrTime a, PrTime b)
 GUI::GUI(csSDK_uint32 pluginId, Config *config) :
 	pluginId(pluginId),
 	config(config)
-{
-}
+{}
 
 prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion)
 {
@@ -863,7 +862,8 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, Enc
 									if (paramSubValueInfo.pixelFormat.size() > 0)
 										encoderSettings->pixelFormat = paramSubValueInfo.pixelFormat;
 
-									if (paramSubValueInfo.name == encoderInfo.multipassParameter)
+									if (encoderInfo.multipassParameter.length() > 0 && 
+										paramSubValueInfo.name == encoderInfo.multipassParameter)
 									{
 										encoderSettings->passes = paramValue.value.intValue;
 									}
@@ -882,7 +882,8 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, Enc
 								if (paramValueInfo.pixelFormat.size() > 0)
 									encoderSettings->pixelFormat = paramValueInfo.pixelFormat;
 
-								if (paramValueInfo.name == encoderInfo.multipassParameter)
+								if (encoderInfo.multipassParameter.length() > 0 &&
+									paramValueInfo.name == encoderInfo.multipassParameter)
 								{
 									encoderSettings->passes = paramValue.value.intValue;
 								}
@@ -900,7 +901,8 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, Enc
 				}
 				else
 				{
-					if (paramInfo.name == encoderInfo.multipassParameter)
+					if (encoderInfo.multipassParameter.length() > 0 && 
+						paramInfo.name == encoderInfo.multipassParameter)
 					{
 						encoderSettings->passes = paramValue.value.intValue;
 					}
@@ -963,11 +965,11 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 	exportSettings->videoCodecName = videoEncoderSettings.name;
 	exportSettings->videoTimebaseNum = num;
 	exportSettings->videoTimebaseDen = den;
-	exportSettings->videoOptions = videoEncoderSettings.toDictionary();
+	exportSettings->videoOptions = videoEncoderSettings.toString();
 	exportSettings->audioCodecName = audioEncoderSettings.name;
 	exportSettings->audioTimebaseNum = 1; 
 	exportSettings->audioTimebaseDen = (int)audioSampleRate.value.floatValue;
-	exportSettings->audioOptions = audioEncoderSettings.toDictionary();
+	exportSettings->audioOptions = audioEncoderSettings.toString();
 
 	switch (audioChannelType.value.intValue)
 	{
@@ -1050,7 +1052,7 @@ void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 {
 	EncoderSettings videoEncoderSettings;
 	getCurrentEncoderSettings(exportParamSuite, EncoderType::Video, &videoEncoderSettings);
-	string config = videoEncoderSettings.toSummaryString();
+	string config = videoEncoderSettings.toString();
 
 	exParamValues videoValues;
 	exportParamSuite->GetParamValue(
@@ -1069,7 +1071,7 @@ void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 
 	EncoderSettings audioEncoderSettings;
 	getCurrentEncoderSettings(exportParamSuite, EncoderType::Audio, &audioEncoderSettings);
-	config = audioEncoderSettings.toSummaryString();
+	config = audioEncoderSettings.toString();
 
 	exParamValues audioValues;
 	exportParamSuite->GetParamValue(

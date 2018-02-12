@@ -42,7 +42,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 		encoderContext->codecContext->height = exportSettings.height;
 		encoderContext->codecContext->time_base.num = exportSettings.videoTimebaseNum;
 		encoderContext->codecContext->time_base.den = exportSettings.videoTimebaseDen;
-		encoderContext->codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
+		encoderContext->codecContext->pix_fmt = av_get_pix_fmt(exportSettings.pixelFormat.c_str());
 		encoderContext->codecContext->colorspace = exportSettings.colorSpace;
 		encoderContext->codecContext->color_range = exportSettings.colorRange;
 		encoderContext->codecContext->color_primaries = exportSettings.colorPrimaries;
@@ -73,23 +73,20 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	return 0;
 }
 
-int Encoder::openCodec(const string codecName, AVDictionary** options, EncoderContext *encoderContext)
+int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext)
 {
 	int ret = 0;
 
-	if ((ret = createCodecContext(codecName.c_str(), encoderContext)) < 0)
+	if ((ret = createCodecContext(codecName.c_str(), encoderContext)) == 0)
 	{
-		return ret;
-	}
-
-	if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, options)) < 0)
-	{
-		return ret;
-	}
-
-	if ((ret = avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext)) < 0)
-	{
-		return ret;
+		AVDictionary *dictionary = NULL;
+		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
+		{
+			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
+			{
+				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
+			}
+		}
 	}
 
 	return ret;
@@ -101,7 +98,7 @@ int Encoder::open()
 
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(),
-		&exportSettings.videoOptions,
+		exportSettings.videoOptions,
 		&videoContext)) < 0)
 	{
 		return ret;
@@ -109,7 +106,7 @@ int Encoder::open()
 
 	if ((ret = openCodec(
 		exportSettings.audioCodecName.c_str(),
-		&exportSettings.audioOptions,
+		exportSettings.audioOptions,
 		&audioContext)) < 0)
 	{
 		return ret;
@@ -171,7 +168,7 @@ int Encoder::testSettings()
 
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(),
-		&exportSettings.videoOptions,
+		exportSettings.videoOptions,
 		&videoContext)) < 0)
 	{
 		return ret;
@@ -179,7 +176,7 @@ int Encoder::testSettings()
 
 	if ((ret = openCodec(
 		exportSettings.audioCodecName.c_str(),
-		&exportSettings.audioOptions,
+		exportSettings.audioOptions,
 		&audioContext)) < 0)
 	{
 		return ret;

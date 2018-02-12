@@ -39,7 +39,7 @@ namespace LibVKDR
 		EncoderContext audioContext;
 		int createCodecContext(string codecName, EncoderContext *encoderContext);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
-		int openCodec(string codecName, AVDictionary** options, EncoderContext *encoderContext);
+		int openCodec(string codecName, const string options, EncoderContext *encoderContext);
 		int pass;
 	};
 }

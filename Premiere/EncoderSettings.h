@@ -21,7 +21,7 @@ struct EncoderSettings
 
 		for (pair<string, string> parameter : parameters)
 		{
-			int l;
+			int l = 0;
 
 			if (paramInfo.type == "float")
 			{
@@ -47,6 +47,8 @@ struct EncoderSettings
 				{
 					return;
 				}
+
+				l = sprintf_s(buffer, "%d", paramValue.value.intValue);
 			}
 
 			if (l > 0)
@@ -91,7 +93,7 @@ struct EncoderSettings
 		}
 	};
 
-	string toSummaryString()
+	string toString()
 	{
 		stringstream stream;
 		for (pair<string, string> kv : params)
@@ -114,22 +116,4 @@ struct EncoderSettings
 
 		return stream.str();
 	};
-
-	AVDictionary* toDictionary()
-	{
-		AVDictionary *dict = NULL;
-		for (pair<string, string> param : params)
-		{
-			if (param.second.length() == 0)
-			{
-				av_dict_set(&dict, param.first.c_str(), "1", 0);
-			}
-			else
-			{
-				av_dict_set(&dict, param.first.c_str(), param.second.c_str(), 0);
-			}
-		}
-
-		return dict;
-	}
 };

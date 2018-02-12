@@ -23,8 +23,8 @@ namespace LibVKDR
 		int audioChannelLayout;
 		int audioTimebaseNum;
 		int audioTimebaseDen;
-		AVDictionary *videoOptions;
-		AVDictionary *audioOptions;
+		string videoOptions;
+		string audioOptions;
 		string tvStandard;
 		AVColorRange colorRange;
 		AVColorSpace colorSpace;
