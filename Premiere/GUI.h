@@ -36,7 +36,6 @@ class GUI
 {
 public:
 	GUI(csSDK_uint32 pluginId, Config *config);
-	~GUI();
 	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion);
 	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, EncoderType encoderType, EncoderSettings *encoderSettings);
 	void getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
@@ -55,4 +54,3 @@ private:
 	void updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos);
 	void updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo);
 };
-

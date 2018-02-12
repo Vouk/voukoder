@@ -13,10 +13,6 @@ GUI::GUI(csSDK_uint32 pluginId, Config *config) :
 {
 }
 
-GUI::~GUI()
-{
-}
-
 prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion)
 {
 	// Generate groups
