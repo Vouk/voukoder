@@ -23,7 +23,7 @@ namespace LibVKDR
 	public:
 		Encoder(ExportSettings exportSettings);
 		~Encoder();
-		int open();
+		int open(int videoFlags, int audioFlags);
 		void close(bool writeTrailer);
 		void flushContext(EncoderContext *encoderContext);
 		int writeVideoFrame(EncoderData *encoderData);
@@ -39,7 +39,7 @@ namespace LibVKDR
 		EncoderContext audioContext;
 		int createCodecContext(string codecName, EncoderContext *encoderContext);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
-		int openCodec(string codecName, const string options, EncoderContext *encoderContext);
+		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
 		int pass;
 	};
 }

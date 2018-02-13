@@ -73,12 +73,14 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	return 0;
 }
 
-int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext)
+int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext, int flags)
 {
 	int ret;
 
 	if ((ret = createCodecContext(codecName.c_str(), encoderContext)) == 0)
 	{
+		encoderContext->codecContext->flags |= flags;
+
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{
@@ -92,19 +94,21 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 	return ret;
 }
 
-int Encoder::open()
+int Encoder::open(int videoFlags, int audioFlags)
 {
 	int ret;
 
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(), 
 		exportSettings.videoOptions, 
-		&videoContext)) == 0)
+		&videoContext,
+		videoFlags)) == 0)
 	{
 		if ((ret = openCodec(
 			exportSettings.audioCodecName.c_str(),
 			exportSettings.audioOptions,
-			&audioContext)) == 0)
+			&audioContext,
+			audioFlags)) == 0)
 		{
 			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
@@ -163,12 +167,14 @@ int Encoder::testSettings()
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(),
 		exportSettings.videoOptions,
-		&videoContext)) == 0)
+		&videoContext,
+		0)) == 0)
 	{
 		if ((ret = openCodec(
 			exportSettings.audioCodecName.c_str(),
 			exportSettings.audioOptions,
-			&audioContext)) == 0)
+			&audioContext,
+			0)) == 0)
 		{
 			if ((ret = avio_open_dyn_buf(&formatContext->pb)) == 0)
 			{
@@ -196,26 +202,28 @@ int Encoder::prepare(EncoderData *encoderData)
 
 		pass = encoderData->pass;
 
-		if ((ret = open()) < 0)
-		{
-			return ret;
-		}
+		int vflags = 0;
 
 		if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
-			videoContext.codecContext->flags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
+			vflags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
 		}
 
 		if (exportSettings.passes > 1)
 		{
 			if (pass == 1)
 			{
-				videoContext.codecContext->flags |= AV_CODEC_FLAG_PASS1;
+				vflags |= AV_CODEC_FLAG_PASS1;
 			}
 			else
 			{
-				videoContext.codecContext->flags |= AV_CODEC_FLAG_PASS2;
+				vflags |= AV_CODEC_FLAG_PASS2;
 			}
+		}
+
+		if ((ret = open(vflags, 0)) < 0)
+		{
+			return ret;
 		}
 	}
 
