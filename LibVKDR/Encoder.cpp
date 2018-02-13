@@ -75,7 +75,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 
 int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext)
 {
-	int ret = 0;
+	int ret;
 
 	if ((ret = createCodecContext(codecName.c_str(), encoderContext)) == 0)
 	{
@@ -97,39 +97,33 @@ int Encoder::open()
 	int ret;
 
 	if ((ret = openCodec(
-		exportSettings.videoCodecName.c_str(),
-		exportSettings.videoOptions,
-		&videoContext)) < 0)
+		exportSettings.videoCodecName.c_str(), 
+		exportSettings.videoOptions, 
+		&videoContext)) == 0)
 	{
-		return ret;
+		if ((ret = openCodec(
+			exportSettings.audioCodecName.c_str(),
+			exportSettings.audioOptions,
+			&audioContext)) == 0)
+		{
+			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
+
+			if ((ret = avio_open(
+				&formatContext->pb, 
+				exportSettings.filename.c_str(), 
+				AVIO_FLAG_WRITE)) == 0)
+			{
+				AVDictionary *options = NULL;
+
+				if (exportSettings.flagFaststart)
+					av_dict_set(&options, "movflags", "faststart", 0);
+
+				return avformat_write_header(formatContext, &options);
+			}
+		}
 	}
 
-	if ((ret = openCodec(
-		exportSettings.audioCodecName.c_str(),
-		exportSettings.audioOptions,
-		&audioContext)) < 0)
-	{
-		return ret;
-	}
-
-	if ((ret = avio_open(
-		&formatContext->pb, 
-		exportSettings.filename.c_str(), 
-		AVIO_FLAG_WRITE)) < 0)
-	{
-		close(false);
-
-		return ret;
-	}
-
-	AVDictionary *options = NULL;
-	//av_dict_set(&options, "movflags", "faststart", 0);
-
-	// Check muxer/codec combination and write header
-	ret = avformat_write_header(formatContext, &options);
-
-	if (ret < 0)
-		close(false);
+	close(false);
 
 	return ret;
 }
@@ -169,31 +163,20 @@ int Encoder::testSettings()
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(),
 		exportSettings.videoOptions,
-		&videoContext)) < 0)
+		&videoContext)) == 0)
 	{
-		return ret;
+		if ((ret = openCodec(
+			exportSettings.audioCodecName.c_str(),
+			exportSettings.audioOptions,
+			&audioContext)) == 0)
+		{
+			if ((ret = avio_open_dyn_buf(&formatContext->pb)) == 0)
+			{
+				AVDictionary *options = NULL;
+				ret = avformat_write_header(formatContext, &options);
+			}
+		}
 	}
-
-	if ((ret = openCodec(
-		exportSettings.audioCodecName.c_str(),
-		exportSettings.audioOptions,
-		&audioContext)) < 0)
-	{
-		return ret;
-	}
-
-	if ((ret = avio_open_dyn_buf(&formatContext->pb)) < 0)
-	{
-		goto close;
-	}
-	
-	AVDictionary *options = NULL;
-	if ((ret = avformat_write_header(formatContext, &options)) < 0)
-	{
-		goto close;
-	}
-
-close:
 
 	close(false);
 

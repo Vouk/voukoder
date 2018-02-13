@@ -30,5 +30,6 @@ namespace LibVKDR
 		AVColorSpace colorSpace;
 		AVColorPrimaries colorPrimaries;
 		AVColorTransferCharacteristic colorTRC;
+		bool flagFaststart = true;
 	};
 }
