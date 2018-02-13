@@ -377,7 +377,9 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	frame->channel_layout = audioContext.codecContext->channel_layout;
 	frame->format = AV_SAMPLE_FMT_FLTP;
 	frame->sample_rate = audioContext.codecContext->sample_rate;
-	frame->pts = audioContext.next_pts++;
+	frame->pts = audioContext.next_pts;
+
+	audioContext.next_pts += sampleCount;
 
 	int ret;
 
