@@ -23,13 +23,12 @@ namespace LibVKDR
 	public:
 		Encoder(ExportSettings exportSettings);
 		~Encoder();
-		int open(int videoFlags, int audioFlags);
+		int open();
 		void close(bool writeTrailer);
 		void flushContext(EncoderContext *encoderContext);
+		int testSettings();
 		int writeVideoFrame(EncoderData *encoderData);
 		int writeAudioFrame(float **data, int32_t sampleCount);
-		int prepare(EncoderData *encoderData);
-		int testSettings();
 		FrameType getNextFrameType();
 
 	private:
@@ -40,6 +39,7 @@ namespace LibVKDR
 		int createCodecContext(string codecName, EncoderContext *encoderContext);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
 		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
+		int prepare(EncoderData *encoderData);
 		int pass;
 	};
 }
