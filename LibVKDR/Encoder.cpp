@@ -132,7 +132,7 @@ int Encoder::open()
 			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
 			string filename;
-			if (videoFlags & AV_CODEC_FLAG_PASS1)
+			if (vflags & AV_CODEC_FLAG_PASS1)
 				filename = "NUL";
 			else
 				filename = exportSettings.filename;
@@ -226,7 +226,7 @@ int Encoder::prepare(EncoderData *encoderData)
 		pass = encoderData->pass;
 
 		int ret;
-		if (ret = open()) < 0)
+		if ((ret = open()) < 0)
 		{
 			return ret;
 		}
