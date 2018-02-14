@@ -338,16 +338,10 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		exportSettings.passes,
 		[&](EncoderData *encoderData)
 	{
-		// Prepare the encoder for this iteration
-		if (encoder.prepare(encoderData) < 0)
-		{
-			return false;
-		}
-
 		if (encoder.writeVideoFrame(encoderData) == 0)
 		{
-			// Let the encoder choose how many audio frames we need
-			while (encoder.getNextFrameType() == FrameType::AudioFrame && audioRenderer.samplesInBuffer())
+			while (encoder.getNextFrameType() == FrameType::AudioFrame && 
+				audioRenderer.samplesInBuffer())
 			{
 				csSDK_uint32 size = 0;
 				float **samples = audioRenderer.getSamples(&size, kPrFalse);

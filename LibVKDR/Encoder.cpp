@@ -94,21 +94,40 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 	return ret;
 }
 
-int Encoder::open(int videoFlags, int audioFlags)
+int Encoder::open()
 {
+	int vflags = 0;
+
+	if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
+	{
+		vflags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
+	}
+
+	if (exportSettings.passes > 1)
+	{
+		if (pass == 1)
+		{
+			vflags |= AV_CODEC_FLAG_PASS1;
+		}
+		else
+		{
+			vflags |= AV_CODEC_FLAG_PASS2;
+		}
+	}
+
 	int ret;
 
 	if ((ret = openCodec(
 		exportSettings.videoCodecName.c_str(), 
 		exportSettings.videoOptions, 
 		&videoContext,
-		videoFlags)) == 0)
+		vflags)) == 0)
 	{
 		if ((ret = openCodec(
 			exportSettings.audioCodecName.c_str(),
 			exportSettings.audioOptions,
 			&audioContext,
-			audioFlags)) == 0)
+			0)) == 0)
 		{
 			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
@@ -197,8 +216,6 @@ int Encoder::testSettings()
 
 int Encoder::prepare(EncoderData *encoderData)
 {
-	int ret;
-
 	if (pass == 0 || (exportSettings.passes > 1 && encoderData->pass > pass))
 	{
 		if (pass > 0)
@@ -208,26 +225,8 @@ int Encoder::prepare(EncoderData *encoderData)
 
 		pass = encoderData->pass;
 
-		int vflags = 0;
-
-		if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
-		{
-			vflags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
-		}
-
-		if (exportSettings.passes > 1)
-		{
-			if (pass == 1)
-			{
-				vflags |= AV_CODEC_FLAG_PASS1;
-			}
-			else
-			{
-				vflags |= AV_CODEC_FLAG_PASS2;
-			}
-		}
-
-		if ((ret = open(vflags, 0)) < 0)
+		int ret;
+		if (ret = open()) < 0)
 		{
 			return ret;
 		}
@@ -260,6 +259,13 @@ void Encoder::flushContext(EncoderContext *encoderContext)
 
 int Encoder::writeVideoFrame(EncoderData *encoderData)
 {
+	int ret;
+
+	if ((ret = prepare(encoderData)) < 0)
+	{
+		return ret;
+	}
+
 	FrameFilter *frameFilter = NULL;
 
 	// Do we need a frame filter for pixel format conversion?
@@ -298,8 +304,6 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 	frame->width = videoContext.codecContext->width;
 	frame->height = videoContext.codecContext->height;
 	frame->format = av_get_pix_fmt(encoderData->pix_fmt);
-
-	int ret;
 
 	// Reserve buffer space
 	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
