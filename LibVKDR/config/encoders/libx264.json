@@ -51,9 +51,6 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
-  "multipass": {
-    "name": "x264Passes"
-  },
   "parameterGroups": {
     "x264-params": {
       "delimiter": "=",
@@ -473,32 +470,6 @@
               "maxValue": 100000,
               "parameters": {
                 "b": "%d000"
-              }
-            },
-            {
-              "name": "x264Passes",
-              "label": "Passes",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "defaultValue": 1,
-              "minValue": 1,
-              "maxValue": 2,
-              "parameters": {
-
-              }
-            },
-            {
-              "name": "x264SlowFirstPass",
-              "label": "Slow first pass",
-              "type": "bool",
-              "flags": [
-
-              ],
-              "defaultValue": 0,
-              "parameters": {
-                "slow-firstpass": ""
               }
             }
           ]

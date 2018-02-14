@@ -216,32 +216,6 @@
               "parameters": {
                 "b": "%d000"
               }
-            },
-            {
-              "name": "x265Passes",
-              "label": "Passes",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "defaultValue": 1,
-              "minValue": 1,
-              "maxValue": 2,
-              "parameters": {
-
-              }
-            },
-            {
-              "name": "x265SlowFirstPass",
-              "label": "Slow first pass",
-              "type": "bool",
-              "flags": [
-
-              ],
-              "defaultValue": 0,
-              "parameters": {
-                "slow-firstpass": ""
-              }
             }
           ]
         },

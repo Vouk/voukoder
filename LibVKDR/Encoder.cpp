@@ -112,9 +112,15 @@ int Encoder::open(int videoFlags, int audioFlags)
 		{
 			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
+			string filename;
+			if (videoFlags & AV_CODEC_FLAG_PASS1)
+				filename = "NUL";
+			else
+				filename = exportSettings.filename;
+
 			if ((ret = avio_open(
 				&formatContext->pb, 
-				exportSettings.filename.c_str(), 
+				filename.c_str(), 
 				AVIO_FLAG_WRITE)) == 0)
 			{
 				AVDictionary *options = NULL;
