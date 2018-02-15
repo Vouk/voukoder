@@ -13,7 +13,6 @@ static time_point<steady_clock> tp1, tp2, tp3, tp4, tp5;
 
 #endif
 
-// reviewed 0.5.5
 VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite) :
 	videoRenderID(videoRenderID),
 	width(width),
@@ -23,14 +22,12 @@ VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csS
 	memorySuite(memorySuite),
 	exporterUtilitySuite(exporterUtilitySuite)
 {
-	// Reserve buffers (max. MAX_FRAME_PLANES planes and 4 components per pixel)
 	for (int i = 0; i < MAX_FRAME_PLANES; i++)
 	{
 		encodingData.plane[i] = (char*)memorySuite->NewPtr(width * height * 4);
 	}
 }
 
-// reviewed 0.5.5
 VideoRenderer::~VideoRenderer()
 {
 	for (int i = 0; i < MAX_FRAME_PLANES; i++)
@@ -39,7 +36,6 @@ VideoRenderer::~VideoRenderer()
 	}
 }
 
-// reviewed 0.5.5
 void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY, uint8_t *bufferU, uint8_t *bufferV)
 {
 	__m128i mask = _mm_set_epi8(
@@ -64,7 +60,6 @@ void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY,
 	}
 }
 
-// reviewed 0.5.5
 // Thanks to Peter Cordes
 static inline __m128i load_and_scale(const float *src)
 {  
@@ -89,7 +84,6 @@ static inline __m128i load_and_scale(const float *src)
 	return vuya;
 }
 
-// reviewed 0.5.5
 // Thanks to Peter Cordes
 void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA)
 {
@@ -120,7 +114,6 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 	}
 }
 
-// reviewed 0.5.5
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
@@ -128,7 +121,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 #if defined(_DEBUG) 
 	tp1 = high_resolution_clock::now();
 #endif
-	// Get pixel format
+
 	PrPixelFormat inFormat;
 	ppixSuite->GetPixelFormat(inRenderedFrame, &inFormat);
 
@@ -147,7 +140,6 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		frameData.planes = 3;
 		frameData.pix_fmt = "yuv420p";
 
-		// Get planar buffers
 		ppix2Suite->GetYUV420PlanarBuffers(
 			inRenderedFrame,
 			PrPPixBufferAccess_ReadOnly,
@@ -161,11 +153,9 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
 
-	// Get packed rowsize
 	csSDK_int32 rowBytes;
 	ppixSuite->GetRowBytes(inRenderedFrame, &rowBytes);
 
-	// Get pixels from the renderer
 	char *pixels;
 	ppixSuite->GetPixels(inRenderedFrame, PrPPixBufferAccess_ReadOnly, &pixels);
 
@@ -233,13 +223,10 @@ prSuiteError VideoRenderer::frameFinished(EncoderData *frameData, PrPixelFormat 
 	tp2 = high_resolution_clock::now();
 #endif
 
-	// Repeating frames will be rendered only once
 	for (csSDK_uint32 i = 0; i < inFrameRepeatCount; i++)
 	{
-		// Report repeating frames
 		exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(videoRenderID, 1);
 
-		// Return the frame
 		if (!callback(frameData))
 		{
 			return suiteError_ExporterSuspended;
@@ -262,14 +249,12 @@ prSuiteError VideoRenderer::frameFinished(EncoderData *frameData, PrPixelFormat 
 	return suiteError_NoError;
 }
 
-// reviewed 0.5.2
 prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, PrTime endTime, csSDK_uint32 passes, function<bool(EncoderData*)> callback)
 {
 	this->width = width;
 	this->height = height;
 	this->callback = callback;
 
-	// Set up render params
 	ExportLoopRenderParams renderParams;
 	renderParams.inStartTime = startTime;
 	renderParams.inEndTime = endTime;
@@ -283,7 +268,6 @@ prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, 
 	Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::func = bind(&VideoRenderer::frameCompleteCallback, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4, placeholders::_5);
 	PrSDKMultipassExportLoopFrameCompletionFunction c_callback = static_cast<PrSDKMultipassExportLoopFrameCompletionFunction>(Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::callback);
 
-	// Start encoding loop
 	return exporterUtilitySuite->DoMultiPassExportLoop(videoRenderID, &renderParams, passes, c_callback, NULL);
 }
 
