@@ -7,7 +7,7 @@
 #include "ExportSettings.h"
 #include "lavf.h"
 
-#define LIB_VKDR_APPNAME "LibVKDR 0.9.0 (www.voukoder.org)"
+#define LIB_VKDR_APPNAME "LibVKDR 0.9.1 (www.voukoder.org)"
 
 using namespace std;
 
@@ -26,6 +26,7 @@ namespace LibVKDR
 		int open();
 		void close(bool writeTrailer);
 		void flushContext(EncoderContext *encoderContext);
+		int getAudioFrameSize();
 		int testSettings();
 		int writeVideoFrame(EncoderData *encoderData);
 		int writeAudioFrame(float **data, int32_t sampleCount);
@@ -41,5 +42,6 @@ namespace LibVKDR
 		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
 		int prepare(EncoderData *encoderData);
 		int pass;
+		int audioFrameSize;
 	};
 }

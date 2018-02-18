@@ -38,21 +38,13 @@ AudioRenderer::~AudioRenderer()
 	sequenceAudioSuite->ReleaseAudioRenderer(pluginId, rendererId);
 }
 
-csSDK_int32 AudioRenderer::getMaxBlip()
-{
-	return maxBlip;
-}
-
 float** AudioRenderer::getSamples(csSDK_uint32 *size, prBool clip)
 {
-	if (samplesRemaining > maxBlip)
-	{
+	if (*size > maxBlip)
 		*size = maxBlip;
-	}
-	else
-	{
+
+	if (*size > (csSDK_uint32)samplesRemaining)
 		*size = (csSDK_uint32)samplesRemaining;
-	}
 
 	sequenceAudioSuite->GetAudio(rendererId, *size, buffer, clip);
 

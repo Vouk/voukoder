@@ -129,6 +129,11 @@ int Encoder::open()
 			&audioContext,
 			0)) == 0)
 		{
+			// Find the right sample size (for variable frame size codecs (PCM) we use a constant value)
+			audioFrameSize = audioContext.codecContext->frame_size;
+			if (audioFrameSize == 0)
+				audioFrameSize = 5000 / audioContext.codecContext->channels;
+
 			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
 			string filename;
@@ -257,6 +262,11 @@ void Encoder::flushContext(EncoderContext *encoderContext)
 	encoderContext->frameFilters.clear();
 }
 
+int Encoder::getAudioFrameSize()
+{
+	return audioFrameSize;
+}
+
 int Encoder::writeVideoFrame(EncoderData *encoderData)
 {
 	int ret;
@@ -361,13 +371,6 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 			audioLayout = "stereo";
 		}
 
-		// Find the right sample size (for PCM we take what we get from the host)
-		int frame_size = audioContext.codecContext->frame_size;
-		if (frame_size == 0)
-		{
-			frame_size = sampleCount;
-		}
-
 		// Set target format
 		char filterConfig[256];
 		sprintf_s(filterConfig,
@@ -375,7 +378,7 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 			audioLayout,
 			av_get_sample_fmt_name(audioContext.codecContext->sample_fmt),
 			audioContext.codecContext->sample_rate,
-			frame_size);
+			audioFrameSize);
 
 		frameFilter = new FrameFilter();
 		frameFilter->configure(options, filterConfig);
