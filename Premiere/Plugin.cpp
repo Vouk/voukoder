@@ -290,11 +290,10 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 	csSDK_int32 prFilenameLength = kPrMaxPath;
 	suites->exportFileSuite->GetPlatformPath(exportRecP->fileObject, &prFilenameLength, prFilename);
 
-	// -------------------- TODO: UTF16 support
-	size_t i;
-	char *filename = (char*)malloc(kPrMaxPath);
-	wcstombs_s(&i, filename, (size_t)kPrMaxPath, prFilename, (size_t)kPrMaxPath);
-	// ----------------------------------------
+	wstring wstr(prFilename);
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+	std::string filename(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &filename[0], size_needed, NULL, NULL);
 
 	ExportSettings exportSettings;
 	exportSettings.filename = filename;
