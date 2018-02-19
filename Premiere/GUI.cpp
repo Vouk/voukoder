@@ -841,7 +841,7 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prF
 			encoderSettings->pixelFormat = encoderInfo.defaultPixelFormat;
 
 			ParamInfo ilaceParamInfo;
-			ilaceParamInfo.type = "bool";
+			ilaceParamInfo.type = "int";
 			ilaceParamInfo.default.intValue = 0;
 			ilaceParamInfo.useDefaultValue = true;
 

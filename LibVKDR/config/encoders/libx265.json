@@ -21,6 +21,18 @@
       ]
     }
   },
+  "interlaced": {
+    "bottomFrameFirst": {
+      "interlace": "bff",
+      "top": "0"
+    },
+    "topFrameFirst": {
+      "interlace": "tff",
+      "top": "1"
+    },
+    "progressive": {
+    }
+  },
   "params": [
     {
       "name": "x265PixelFormat",

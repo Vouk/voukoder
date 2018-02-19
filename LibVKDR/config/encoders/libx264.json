@@ -106,10 +106,12 @@
   },
   "interlaced": {
     "bottomFrameFirst": {
-      "bff": "" 
+      "bff": "1",
+      "top": "0"
     },
     "topFrameFirst": {
-      "tff": "" 
+      "tff": "1",
+      "top": "1"
     },
     "progressive": {
     }
