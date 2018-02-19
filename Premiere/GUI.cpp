@@ -840,24 +840,40 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prF
 			encoderSettings->text = encoderInfo.text;
 			encoderSettings->pixelFormat = encoderInfo.defaultPixelFormat;
 
+			ParamInfo ilaceParamInfo;
+			ilaceParamInfo.type = "bool";
+			ilaceParamInfo.default.intValue = 0;
+			ilaceParamInfo.useDefaultValue = true;
+
+			exParamValues boolValue;
+			boolValue.value.intValue = 1;
+
 			if (fieldType == prFieldsLowerFirst)
 			{
-
-
 				encoderSettings->addParams(
-					NULL,
+					ilaceParamInfo,
 					encoderInfo.interlaced.bottomFrameFirst,
-					"",
+					boolValue,
 					encoderInfo.paramGroups
 				);
 			}
 			else if (fieldType == prFieldsUpperFirst)
 			{
-				encoderSettings->addMap(encoderInfo.interlaced.topFrameFirst);
+				encoderSettings->addParams(
+					ilaceParamInfo,
+					encoderInfo.interlaced.topFrameFirst,
+					boolValue,
+					encoderInfo.paramGroups
+				);
 			}
 			else if (fieldType == prFieldsNone)
 			{
-				encoderSettings->addMap(encoderInfo.interlaced.progressive);
+				encoderSettings->addParams(
+					ilaceParamInfo,
+					encoderInfo.interlaced.progressive,
+					boolValue,
+					encoderInfo.paramGroups
+				);
 			}
 
 			for (ParamInfo paramInfo : encoderInfo.params)
@@ -951,13 +967,14 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prF
 
 void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings)
 {
-	exParamValues videoWidth, videoHeight, audioChannelType, audioSampleRate, ticksPerFrame, fieldType, multiplexer, tvStandard, colorSpace, colorRange;
+	exParamValues videoWidth, videoHeight, pixelAspect, audioChannelType, audioSampleRate, ticksPerFrame, fieldType, multiplexer, tvStandard, colorSpace, colorRange;
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoWidth, &videoWidth);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoHeight, &videoHeight);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioNumChannels, &audioChannelType);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioRatePerSecond, &audioSampleRate);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoFPS, &ticksPerFrame);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoFieldType, &fieldType);
+	exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoAspect, &pixelAspect);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, FFMultiplexer, &multiplexer);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRTVStandard, &tvStandard);
 	exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRColorSpace, &colorSpace);
@@ -972,7 +989,7 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 	getCurrentEncoderSettings(exportParamSuite, (prFieldType)fieldType.value.intValue, EncoderType::Video, &videoEncoderSettings);
 
 	EncoderSettings audioEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Audio, &audioEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Audio, &audioEncoderSettings);
 
 	string multiplexerName;
 	for (MultiplexerInfo multiplexerInfo : config->Multiplexers)
@@ -990,12 +1007,14 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 	exportSettings->muxerName = multiplexerName;
 	exportSettings->passes = videoEncoderSettings.passes;
 	exportSettings->videoCodecName = videoEncoderSettings.name;
-	exportSettings->videoTimebaseNum = num;
-	exportSettings->videoTimebaseDen = den;
+	exportSettings->videoTimebase.num = num;
+	exportSettings->videoTimebase.den = den;
+	exportSettings->videoSar.num = pixelAspect.value.ratioValue.numerator;
+	exportSettings->videoSar.den = pixelAspect.value.ratioValue.denominator;
 	exportSettings->videoOptions = videoEncoderSettings.toString();
 	exportSettings->audioCodecName = audioEncoderSettings.name;
-	exportSettings->audioTimebaseNum = 1; 
-	exportSettings->audioTimebaseDen = (int)audioSampleRate.value.floatValue;
+	exportSettings->audioTimebase.num = 1; 
+	exportSettings->audioTimebase.den = (int)audioSampleRate.value.floatValue;
 	exportSettings->audioOptions = audioEncoderSettings.toString();
 
 	switch (audioChannelType.value.intValue)
@@ -1078,7 +1097,7 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 {
 	EncoderSettings videoEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Video, &videoEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Video, &videoEncoderSettings);
 	string config = videoEncoderSettings.toString();
 
 	exParamValues videoValues;
@@ -1097,7 +1116,7 @@ void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 		&videoValues);
 
 	EncoderSettings audioEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Audio, &audioEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Audio, &audioEncoderSettings);
 	config = audioEncoderSettings.toString();
 
 	exParamValues audioValues;

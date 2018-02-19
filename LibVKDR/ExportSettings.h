@@ -18,11 +18,10 @@ namespace LibVKDR
 		int passes;
 		AVFieldOrder fieldOrder;
 		string pixelFormat;
-		int videoTimebaseNum;
-		int videoTimebaseDen;
+		AVRational videoTimebase;
+		AVRational videoSar;
 		int audioChannelLayout;
-		int audioTimebaseNum;
-		int audioTimebaseDen;
+		AVRational audioTimebase;
 		string videoOptions;
 		string audioOptions;
 		string tvStandard;

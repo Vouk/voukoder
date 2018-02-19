@@ -40,21 +40,20 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	{
 		encoderContext->codecContext->width = exportSettings.width;
 		encoderContext->codecContext->height = exportSettings.height;
-		encoderContext->codecContext->time_base.num = exportSettings.videoTimebaseNum;
-		encoderContext->codecContext->time_base.den = exportSettings.videoTimebaseDen;
+		encoderContext->codecContext->time_base = exportSettings.videoTimebase;
 		encoderContext->codecContext->pix_fmt = av_get_pix_fmt(exportSettings.pixelFormat.c_str());
 		encoderContext->codecContext->colorspace = exportSettings.colorSpace;
 		encoderContext->codecContext->color_range = exportSettings.colorRange;
 		encoderContext->codecContext->color_primaries = exportSettings.colorPrimaries;
 		encoderContext->codecContext->color_trc = exportSettings.colorTRC;
+		encoderContext->codecContext->sample_aspect_ratio = exportSettings.videoSar;
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
 		encoderContext->codecContext->channels = av_get_channel_layout_nb_channels(exportSettings.audioChannelLayout);
 		encoderContext->codecContext->channel_layout = exportSettings.audioChannelLayout;
-		encoderContext->codecContext->time_base.num = exportSettings.audioTimebaseNum;
-		encoderContext->codecContext->time_base.den = exportSettings.audioTimebaseDen;
-		encoderContext->codecContext->sample_rate = exportSettings.audioTimebaseDen;
+		encoderContext->codecContext->time_base = exportSettings.audioTimebase;
+		encoderContext->codecContext->sample_rate = exportSettings.audioTimebase.den;
 		encoderContext->codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 		encoderContext->codecContext->bit_rate = 0;
 	}
