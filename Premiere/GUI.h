@@ -37,7 +37,7 @@ class GUI
 public:
 	GUI(csSDK_uint32 pluginId, Config *config);
 	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion);
-	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, EncoderType encoderType, EncoderSettings *encoderSettings);
+	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings);
 	void getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	prMALError update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *timeSuite);
 	prMALError onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamChangedRec *paramRecP);

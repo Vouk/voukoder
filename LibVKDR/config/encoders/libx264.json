@@ -104,6 +104,16 @@
       ]
     }
   },
+  "interlaced": {
+    "bottomFrameFirst": {
+      "bff": "" 
+    },
+    "topFrameFirst": {
+      "tff": "" 
+    },
+    "progressive": {
+    }
+  },
   "params": [
     {
       "name": "x264Preset",

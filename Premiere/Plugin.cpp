@@ -237,11 +237,11 @@ prMALError Plugin::validateParamChanged(exParamChangedRec *paramRecP)
 prMALError Plugin::getParamSummary(exParamSummaryRec *summaryRecP)
 {
 	EncoderSettings videoEncoderSettings;
-	gui->getCurrentEncoderSettings(suites->exportParamSuite, EncoderType::Video, &videoEncoderSettings);
+	gui->getCurrentEncoderSettings(suites->exportParamSuite, prFieldsNone, EncoderType::Video, &videoEncoderSettings);
 	prUTF16CharCopy(summaryRecP->videoSummary, wstring(videoEncoderSettings.text.begin(), videoEncoderSettings.text.end()).c_str());
 
 	EncoderSettings audioEncoderSettings;
-	gui->getCurrentEncoderSettings(suites->exportParamSuite, EncoderType::Audio, &audioEncoderSettings);
+	gui->getCurrentEncoderSettings(suites->exportParamSuite, prFieldsNone, EncoderType::Audio, &audioEncoderSettings);
 	prUTF16CharCopy(summaryRecP->audioSummary, wstring(audioEncoderSettings.text.begin(), audioEncoderSettings.text.end()).c_str());
 
 	prUTF16CharCopy(summaryRecP->bitrateSummary, L"");

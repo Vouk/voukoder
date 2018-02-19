@@ -807,7 +807,7 @@ finish:
 	return malNoError;
 }
 
-bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, EncoderType encoderType, EncoderSettings *encoderSettings)
+bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings)
 {
 	exParamValues encoderValue;
 	if (encoderType == EncoderType::Video)
@@ -839,6 +839,26 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, Enc
 			encoderSettings->name = encoderInfo.name;
 			encoderSettings->text = encoderInfo.text;
 			encoderSettings->pixelFormat = encoderInfo.defaultPixelFormat;
+
+			if (fieldType == prFieldsLowerFirst)
+			{
+
+
+				encoderSettings->addParams(
+					NULL,
+					encoderInfo.interlaced.bottomFrameFirst,
+					"",
+					encoderInfo.paramGroups
+				);
+			}
+			else if (fieldType == prFieldsUpperFirst)
+			{
+				encoderSettings->addMap(encoderInfo.interlaced.topFrameFirst);
+			}
+			else if (fieldType == prFieldsNone)
+			{
+				encoderSettings->addMap(encoderInfo.interlaced.progressive);
+			}
 
 			for (ParamInfo paramInfo : encoderInfo.params)
 			{
@@ -949,10 +969,10 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 	int num = (int)(ticksPerFrame.value.timeValue / c);
 
 	EncoderSettings videoEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, EncoderType::Video, &videoEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, (prFieldType)fieldType.value.intValue, EncoderType::Video, &videoEncoderSettings);
 
 	EncoderSettings audioEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, EncoderType::Audio, &audioEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Audio, &audioEncoderSettings);
 
 	string multiplexerName;
 	for (MultiplexerInfo multiplexerInfo : config->Multiplexers)
@@ -1058,7 +1078,7 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 {
 	EncoderSettings videoEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, EncoderType::Video, &videoEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Video, &videoEncoderSettings);
 	string config = videoEncoderSettings.toString();
 
 	exParamValues videoValues;
@@ -1077,7 +1097,7 @@ void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 		&videoValues);
 
 	EncoderSettings audioEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, EncoderType::Audio, &audioEncoderSettings);
+	getCurrentEncoderSettings(exportParamSuite, prFieldsNone, EncoderType::Audio, &audioEncoderSettings);
 	config = audioEncoderSettings.toString();
 
 	exParamValues audioValues;

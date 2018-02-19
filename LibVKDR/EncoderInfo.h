@@ -91,5 +91,10 @@ namespace LibVKDR
 		vector<ParamGroupInfo> groups;
 		vector<EncoderParameterGroup> paramGroups;
 		vector<ParamInfo> params;
+		struct {
+			map<string, string> bottomFrameFirst;
+			map<string, string> topFrameFirst;
+			map<string, string> progressive;
+		} interlaced;
 	} EncoderInfo;
 }

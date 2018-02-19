@@ -139,6 +139,13 @@ bool Config::initEncoders(const json resources)
 				encoderInfo.name = encoder["name"].get<string>();
 				encoderInfo.text = codec->long_name;
 
+				if (encoder.find("interlaced") != encoder.end())
+				{
+					encoderInfo.interlaced.bottomFrameFirst = encoder["interlaced"]["bottomFrameFirst"].get<map<string, string>>();
+					encoderInfo.interlaced.topFrameFirst = encoder["interlaced"]["topFrameFirst"].get<map<string, string>>();
+					encoderInfo.interlaced.progressive = encoder["interlaced"]["progressive"].get<map<string, string>>();
+				}
+
 				if (codec->type == AVMEDIA_TYPE_VIDEO)
 				{
 					encoderInfo.encoderType = EncoderType::Video;
