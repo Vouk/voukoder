@@ -1,7 +1,8 @@
 #include "GUI.h"
 #include <Windows.h>
 
-static inline PrTime gcd(PrTime a, PrTime b)
+template <class T>
+static inline T gcd(T a, T b)
 {
 	if (a == 0) return b;
 	return gcd(b % a, a);
