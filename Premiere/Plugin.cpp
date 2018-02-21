@@ -297,6 +297,7 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 	ExportSettings exportSettings;
 	exportSettings.filename = filename;
+	exportSettings.exportAudio = exportRecP->exportAudio == kPrTrue;
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 
 	VideoRenderer videoRenderer(
@@ -339,17 +340,20 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 	{
 		if (encoder.writeVideoFrame(encoderData) == 0)
 		{
-			csSDK_uint32 size = encoder.getAudioFrameSize();
-
-			while (encoder.getNextFrameType() == FrameType::AudioFrame &&
-				audioRenderer.samplesInBuffer())
+			if (exportSettings.exportAudio)
 			{
-				float **samples = audioRenderer.getSamples(&size, kPrFalse);
-				if (size > 0)
+				csSDK_uint32 size = encoder.getAudioFrameSize();
+
+				while (encoder.getNextFrameType() == FrameType::AudioFrame &&
+					audioRenderer.samplesInBuffer())
 				{
-					if (encoder.writeAudioFrame(samples, size) < 0)
+					float **samples = audioRenderer.getSamples(&size, kPrFalse);
+					if (size > 0)
 					{
-						return false;
+						if (encoder.writeAudioFrame(samples, size) < 0)
+						{
+							return false;
+						}
 					}
 				}
 			}

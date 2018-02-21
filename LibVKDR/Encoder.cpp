@@ -122,39 +122,46 @@ int Encoder::open()
 		&videoContext,
 		vflags)) == 0)
 	{
-		if ((ret = openCodec(
-			exportSettings.audioCodecName.c_str(),
-			exportSettings.audioOptions,
-			&audioContext,
-			0)) == 0)
+		if (exportSettings.exportAudio)
 		{
+			if ((ret = openCodec(
+				exportSettings.audioCodecName.c_str(),
+				exportSettings.audioOptions,
+				&audioContext,
+				0)) < 0)
+			{
+				goto finish;
+			}
+
 			// Find the right sample size (for variable frame size codecs (PCM) we use a constant value)
 			audioFrameSize = audioContext.codecContext->frame_size;
 			if (audioFrameSize == 0)
 				audioFrameSize = 5000 / audioContext.codecContext->channels;
+		}
 
-			strcpy_s(formatContext->filename, exportSettings.filename.c_str());
+		strcpy_s(formatContext->filename, exportSettings.filename.c_str());
 
-			string filename;
-			if (vflags & AV_CODEC_FLAG_PASS1)
-				filename = "NUL";
-			else
-				filename = exportSettings.filename;
+		string filename;
+		if (vflags & AV_CODEC_FLAG_PASS1)
+			filename = "NUL";
+		else
+			filename = exportSettings.filename;
 
-			if ((ret = avio_open(
-				&formatContext->pb, 
-				filename.c_str(), 
-				AVIO_FLAG_WRITE)) == 0)
-			{
-				AVDictionary *options = NULL;
+		if ((ret = avio_open(
+			&formatContext->pb, 
+			filename.c_str(), 
+			AVIO_FLAG_WRITE)) == 0)
+		{
+			AVDictionary *options = NULL;
 
-				if (exportSettings.flagFaststart)
-					av_dict_set(&options, "movflags", "faststart", 0);
+			if (exportSettings.flagFaststart)
+				av_dict_set(&options, "movflags", "faststart", 0);
 
-				return avformat_write_header(formatContext, &options);
-			}
+			return avformat_write_header(formatContext, &options);
 		}
 	}
+
+finish:
 
 	close(false);
 
@@ -166,7 +173,9 @@ void Encoder::close(bool writeTrailer)
 	if (writeTrailer)
 	{
 		flushContext(&videoContext);
-		flushContext(&audioContext);
+		
+		if (exportSettings.exportAudio)
+			flushContext(&audioContext);
 
 		av_write_trailer(formatContext);
 	}

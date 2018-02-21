@@ -29,6 +29,7 @@ namespace LibVKDR
 		AVColorSpace colorSpace;
 		AVColorPrimaries colorPrimaries;
 		AVColorTransferCharacteristic colorTRC;
+		bool exportAudio;
 		bool flagFaststart = true;
 	};
 }
