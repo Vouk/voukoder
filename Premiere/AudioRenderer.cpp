@@ -40,8 +40,8 @@ AudioRenderer::~AudioRenderer()
 
 float** AudioRenderer::getSamples(csSDK_uint32 *size, prBool clip)
 {
-	if (*size > maxBlip)
-		*size = maxBlip;
+	if (*size > (csSDK_uint32)maxBlip)
+		*size = (csSDK_uint32)maxBlip;
 
 	if (*size > (csSDK_uint32)samplesRemaining)
 		*size = (csSDK_uint32)samplesRemaining;
