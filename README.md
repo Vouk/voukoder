@@ -13,7 +13,7 @@ Simply replace the plugin with the new version.
 ### Paypal
 Although you can use this plugin for free i do appreciate getting donations. Working on the plugin consumes alot of time after my regular work. Press the button below to donate.
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A997BF8PGLGR8)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.me/voukoder)
 
 ### Non-monetary support
 I really need good **hardware with high performance** on compiling and rendering videos. This would speed up development alot. I currently compile, develop and test on a Intel NUC Core i3 and an i7 4770. 
