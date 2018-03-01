@@ -1,13 +1,8 @@
 # WWW.VOUKODER.ORG
-Stay up-to-date and get all announcements and news at www.voukoder.org.
+Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.
 
-## Download & Installation
-You can find the latest version on the [Releases page](https://github.com/Vouk/voukoder/releases). Please read the [installation instructions](https://github.com/Vouk/voukoder/wiki/Installation) carefully.
-
-## Update the plugin
-Simply replace the plugin with the new version.
-
-**Note**: It might happen some strange settings appear / disappear. Simply select a different exporter (i.e. AVI) and then select "Voukoder" again. This will reset the settings. Deleting your presets might also help.
+## Installation
+You can find information about installation, update and deinstallation [here](https://www.voukoder.org/article/4-installation-updates-and-deinstallation/).
 
 ## Donations
 ### Paypal
