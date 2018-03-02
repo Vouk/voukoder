@@ -20,7 +20,7 @@
 #include "..\LibVKDR\LibVKDR.h"
 #include "GUI.h"
 
-#define VKDR_APPNAME L"Voukoder 0.6.1"
+#define VKDR_APPNAME L"Voukoder 1.0.0"
 #define VKDR_PARAM_VERSION 6
 
 using namespace LibVKDR;

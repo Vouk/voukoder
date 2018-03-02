@@ -5,9 +5,8 @@
 #include "EncoderData.h"
 #include "EncoderContext.h"
 #include "ExportSettings.h"
+#include "Version.h"
 #include "lavf.h"
-
-#define LIB_VKDR_APPNAME "LibVKDR 0.9.1 (www.voukoder.org)"
 
 using namespace std;
 
