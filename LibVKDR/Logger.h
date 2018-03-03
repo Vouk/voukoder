@@ -29,6 +29,7 @@ namespace LibVKDR
 	{
 	public:
 		Logger();
+		~Logger();
 		vector<string> getLastEntries(int lines);
 		void message(const string message);
 

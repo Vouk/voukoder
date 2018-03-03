@@ -10,12 +10,11 @@ using namespace LibVKDR;
 static inline string getTimeStamp()
 {
 	time_t rawtime;
-	struct tm * timeinfo;
-	char buffer[80];
-
 	time(&rawtime);
+	struct tm * timeinfo;
 	timeinfo = localtime(&rawtime); //unsafe
 
+	char buffer[80];
 	strftime(buffer, sizeof(buffer), "[%d-%m-%Y %I:%M:%S] ", timeinfo);
 	
 	return string(buffer);
@@ -41,6 +40,12 @@ Logger::Logger()
 		ofs.open(filepath.str(), ofstream::out | ofstream::trunc);
 		ofs << LIB_VKDR_APPNAME << endl << "by Daniel Stankewitz" << endl << endl;
 	}
+}
+
+Logger::~Logger()
+{
+	ofs << "END OF LINE." << endl;
+	ofs.close();
 }
 
 vector<string> Logger::getLastEntries(int lines)
