@@ -68,10 +68,11 @@ vector<string> Logger::getLastEntries(int lines)
 void Logger::message(const string message)
 {
 	messages.push_back(message);
-
-	ofs << getTimeStamp();
-	ofs << "(" << pluginId << ") ";
-	ofs << message << endl;
+	
+	if (ofs.is_open())
+	{
+		ofs << getTimeStamp() << "(" << pluginId << ") " << message << endl;
+	}
 
 	OutputDebugStringA(message.c_str());
 }
