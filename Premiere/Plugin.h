@@ -20,7 +20,7 @@
 #include "..\LibVKDR\LibVKDR.h"
 #include "GUI.h"
 
-#define VKDR_APPNAME L"Voukoder 0.6.2"
+#define VKDR_APPNAME L"Voukoder 0.6.3"
 #define VKDR_PARAM_VERSION 6
 
 using namespace LibVKDR;
@@ -64,7 +64,7 @@ private:
 	csSDK_uint32 pluginId;
 	csSDK_int32 groupIndex = 0;
 	SPBasicSuite *spBasicSuite;
-	Logger logger;
+	Logger *logger;
 	GUI *gui;
 	Config *config;
 };

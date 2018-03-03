@@ -28,14 +28,14 @@ namespace LibVKDR
 	class Logger
 	{
 	public:
-		Logger();
+		Logger(int pluginId);
 		~Logger();
 		vector<string> getLastEntries(int lines);
 		void message(const string message);
 
 	private:
+		int pluginId;
 		vector<string> messages;
-		ofstream ofs;
 		void avCallback(void *, int level, const char * szFmt, va_list varg);
 	};
 

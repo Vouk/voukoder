@@ -1,3 +1,3 @@
 #pragma once
 
-#define LIB_VKDR_APPNAME "LibVKDR 0.9.2 (www.voukoder.org)"
+#define LIB_VKDR_APPNAME "LibVKDR 0.9.3 (www.voukoder.org)"

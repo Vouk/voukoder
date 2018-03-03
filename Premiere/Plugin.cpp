@@ -105,12 +105,14 @@ Plugin::Plugin(csSDK_uint32 pluginId):
 {
 	config = new Config();
 	gui = new GUI(pluginId, config);
+	logger = new Logger(pluginId);
 }
 
 Plugin::~Plugin()
 {
 	delete(gui);
 	delete(config);
+	delete(logger);
 }
 
 prMALError Plugin::beginInstance(SPBasicSuite *spBasicSuite, exExporterInstanceRec *instanceRecP)
@@ -262,7 +264,7 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 		stringstream buffer;
 		buffer << "FFMpeg rejected the current configuration.\n\n";
 
-		vector<string> logs = logger.getLastEntries(5);
+		vector<string> logs = logger->getLastEntries(5);
 		for (string msg : logs)
 		{
 			buffer << msg << "\n";
