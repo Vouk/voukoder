@@ -1,6 +1,9 @@
 # WWW.VOUKODER.ORG
 Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.
 
+## Support
+Please use the [forum](https://www.voukoder.org/forum) for issue reporting and support.
+
 ## Installation
 You can find information about installation, update and deinstallation [here](https://www.voukoder.org/article/4-installation-updates-and-deinstallation/).
 
