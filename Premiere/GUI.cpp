@@ -15,6 +15,9 @@ GUI::GUI(csSDK_uint32 pluginId, Config *config) :
 
 prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion)
 {
+	PrTime ticksPerSecond;
+	timeSuite->GetTicksPerSecond(&ticksPerSecond);
+
 	// Generate groups
 	exportParamSuite->AddMultiGroup(pluginId, &groupIndex);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, ADBEVideoTabGroup, L"Video", kPrFalse, kPrFalse, kPrFalse);
@@ -43,6 +46,31 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 
 	if (seqHeight.mInt32 == 0)
 		seqHeight.mInt32 = 1080;
+
+	// Find the nearest framerate (esp. important for VFR)
+	PrTime previous = ticksPerSecond / config->Framerates.front().num * config->Framerates.front().den;
+	for (FramerateInfo framerateInfo : config->Framerates)
+	{
+		PrTime timeValue = ticksPerSecond / framerateInfo.num * framerateInfo.den;
+		if (seqFrameRate.mInt64 < previous && seqFrameRate.mInt64 >= timeValue)
+		{
+			if ((previous - seqFrameRate.mInt64) < (seqFrameRate.mInt64 - timeValue))
+			{
+				seqFrameRate.mInt64 = previous;
+			}
+			else
+			{
+				seqFrameRate.mInt64 = timeValue;
+			}
+			break;
+		}
+	}
+
+	PrTime last = ticksPerSecond / config->Framerates.back().num * config->Framerates.back().den;
+	if (seqFrameRate.mInt64 < last)
+	{
+		seqFrameRate.mInt64 = last;
+	}
 
 	// Param: Video codec
 	exParamValues codecValues;
@@ -133,7 +161,6 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	frameRateValues.structVersion = 1;
 	frameRateValues.value.timeValue = seqFrameRate.mInt64;
 	frameRateValues.rangeMin.timeValue = 1;
-	timeSuite->GetTicksPerSecond(&frameRateValues.rangeMax.timeValue);
 	frameRateValues.disabled = kPrFalse;
 	frameRateValues.hidden = kPrFalse;
 	frameRateValues.optionalParamEnabled = kPrFalse;
