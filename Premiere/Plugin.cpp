@@ -263,14 +263,13 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 	Encoder encoder(exportSettings);
 	if (encoder.testSettings() < 0)
 	{
-		char *tmp;
-		size_t len;
-		if (_dupenv_s(&tmp, &len, "TMP") == NULL)
+		char charPath[MAX_PATH];
+		if (GetTempPathA(MAX_PATH, charPath))
 		{
 			stringstream buffer;
 			buffer << "FFMpeg rejected the current configuration.\n\n";
 			buffer << "Please take a look in your voukoder logfile:\n\n";
-			buffer << tmp << "\voukoder.log\n\n";
+			buffer << charPath << "voukoder.log\n\n";
 			buffer << "Muxer: " << exportSettings.muxerName << "\n";
 			buffer << "Video encoder: " << exportSettings.videoCodecName << "\n";
 			buffer << "Audio encoder: " << exportSettings.audioCodecName << "\n";
