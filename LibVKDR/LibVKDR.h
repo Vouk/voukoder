@@ -1,5 +1,6 @@
 #pragma once
 
+#include "easylogging++.h"
 #include "ChannelInfo.h"
 #include "Config.h"
 #include "Encoder.h"

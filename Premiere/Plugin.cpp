@@ -21,6 +21,8 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		infoRecP->interfaceVersion = EXPORTMOD_VERSION;
 		infoRecP->isCacheable = kPrFalse;
 
+		Logger::vkdrInit();
+
 		return malNoError;
 	}
 

@@ -4,84 +4,67 @@
 #include <Windows.h>
 #include "Version.h"
 #include "Logger.h"
+#include "easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 using namespace LibVKDR;
-
-static ofstream ofs;
-
-static inline string getTimeStamp()
-{
-	time_t rawtime;
-	time(&rawtime);
-	struct tm * timeinfo;
-	timeinfo = localtime(&rawtime); //unsafe
-
-	char buffer[80];
-	strftime(buffer, sizeof(buffer), "[%d-%m-%Y %I:%M:%S]", timeinfo);
-	
-	return string(buffer);
-}
 
 Logger::Logger(int pluginId):
 	pluginId(pluginId)
 {
-	AvCallback<void(void*, int, const char*, va_list)>::func = bind(&Logger::avCallback, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-
-	av_log_set_level(AV_LOG_DEBUG);
-	av_log_set_callback(AvCallback<void(void*, int, const char*, va_list)>::callback);
-
-	if (!ofs.is_open())
-	{
-		wstring tempPath;
-		wchar_t wcharPath[MAX_PATH];
-		if (GetTempPathW(MAX_PATH, wcharPath))
-		{
-			tempPath = wcharPath;
-
-			wstringstream filepath;
-			filepath << wstring(wcharPath);
-			filepath << "voukoder.log";
-
-			ofs.open(filepath.str(), ofstream::out | ofstream::trunc);
-			ofs << LIB_VKDR_APPNAME << endl << "by Daniel Stankewitz" << endl << endl;
-		}
-	}
+	LOG(INFO) << "(" << pluginId << ") Created plug-in instance";
 }
 
 Logger::~Logger()
 {
-	if (ofs.is_open())
-	{
-		ofs << "END OF LINE." << endl;
-		ofs.close();
-	}
+	LOG(INFO) << "(" << pluginId << ") END OF LINE.";
 }
 
-vector<string> Logger::getLastEntries(int lines)
-{
-	if (messages.size() < lines)
-		lines = (int)messages.size();
-
-	return vector<string>(messages.end() - lines, messages.end());
-}
-
-void Logger::message(const string message)
-{
-	messages.push_back(message);
-	
-	if (ofs.is_open())
-	{
-		ofs << getTimeStamp() << "(" << pluginId << ") " << message << endl;
-	}
-
-	OutputDebugStringA(message.c_str());
-}
-
-void Logger::avCallback(void *, int level, const char * szFmt, va_list varg)
+static inline void AvCallback(void *, int level, const char * szFmt, va_list varg)
 {
 	char logbuf[2000];
 	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
 	logbuf[sizeof(logbuf) - 1] = '\0';
 
-	message(trim(string(logbuf)));
+	string msg(logbuf);
+	msg.erase(0, msg.find_first_not_of("\t\n\v\f\r "));
+	msg.erase(msg.find_last_not_of("\t\n\v\f\r ") + 1);
+
+	LOG(INFO) << msg;
+}
+
+void Logger::vkdrInit()
+{
+	av_log_set_level(AV_LOG_DEBUG);
+	av_log_set_callback(AvCallback);
+
+	char charPath[MAX_PATH];
+	if (GetTempPathA(MAX_PATH, charPath))
+	{
+		stringstream filename;
+		filename << charPath << "voukoder.log";
+
+		stringstream cfg;
+		cfg << "* GLOBAL:\n FORMAT = \"[%datetime] %msg\"\n FILENAME = \"";
+		cfg << filename.str();
+		cfg << "\"\n ENABLED = true\n TO_FILE = true\n TO_STANDARD_OUTPUT = true\n SUBSECOND_PRECISION = 6\n PERFORMANCE_TRACKING = true\n";
+
+		remove(filename.str().c_str());
+
+		el::Configurations conf;
+		conf.setToDefault();
+		conf.parseFromText(cfg.str());
+		el::Loggers::reconfigureAllLoggers(conf);
+
+		LOG(INFO) << LIB_VKDR_APPNAME;
+		LOG(INFO) << "by Daniel Stankewitz";
+	}
+}
+
+vector<string> Logger::getLastEntries(int lines)
+{
+	vector<string> messages;
+
+	return vector<string>(messages.end() - lines, messages.end());
 }
