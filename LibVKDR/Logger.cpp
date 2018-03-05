@@ -46,7 +46,7 @@ void Logger::vkdrInit()
 		filename << charPath << "voukoder.log";
 
 		stringstream cfg;
-		cfg << "* GLOBAL:\n FORMAT = \"[%datetime] %msg\"\n FILENAME = \"";
+		cfg << "* GLOBAL:\n FORMAT = \"[%datetime][%level] %msg\"\n FILENAME = \"";
 		cfg << filename.str();
 		cfg << "\"\n ENABLED = true\n TO_FILE = true\n TO_STANDARD_OUTPUT = true\n SUBSECOND_PRECISION = 6\n PERFORMANCE_TRACKING = true\n";
 
