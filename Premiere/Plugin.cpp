@@ -263,24 +263,24 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 	Encoder encoder(exportSettings);
 	if (encoder.testSettings() < 0)
 	{
-		stringstream buffer;
-		buffer << "FFMpeg rejected the current configuration.\n\n";
-
-		vector<string> logs = logger->getLastEntries(5);
-		for (string msg : logs)
+		char *tmp;
+		size_t len;
+		if (_dupenv_s(&tmp, &len, "TMP") == NULL)
 		{
-			buffer << msg << "\n";
+			stringstream buffer;
+			buffer << "FFMpeg rejected the current configuration.\n\n";
+			buffer << "Please take a look in your voukoder logfile:\n\n";
+			buffer << tmp << "\voukoder.log\n\n";
+			buffer << "Muxer: " << exportSettings.muxerName << "\n";
+			buffer << "Video encoder: " << exportSettings.videoCodecName << "\n";
+			buffer << "Audio encoder: " << exportSettings.audioCodecName << "\n";
+			buffer << "\n(Press CTRL + C to copy this information to the clipboard.)";
+
+			gui->showDialog(
+				suites->windowSuite,
+				buffer.str(),
+				"Voukoder Export Error");
 		}
-
-		buffer << "\nMuxer: " << exportSettings.muxerName << "\n";
-		buffer << "Video encoder: " << exportSettings.videoCodecName << "\n";
-		buffer << "Audio encoder: " << exportSettings.audioCodecName << "\n";
-		buffer << "\n(Press CTRL + C to copy this information to the clipboard.)";
-
-		gui->showDialog(
-			suites->windowSuite,
-			buffer.str(),
-			"Voukoder Export Error");
 
 		result = malUnknownError;
 	}

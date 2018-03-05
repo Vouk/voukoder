@@ -61,10 +61,3 @@ void Logger::vkdrInit()
 		LOG(INFO) << "by Daniel Stankewitz";
 	}
 }
-
-vector<string> Logger::getLastEntries(int lines)
-{
-	vector<string> messages;
-
-	return vector<string>(messages.end() - lines, messages.end());
-}
