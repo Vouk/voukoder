@@ -196,6 +196,7 @@
     <None Include="config\encoders\libx264.json" />
     <None Include="config\encoders\libx265.json" />
     <None Include="config\encoders\pcm_s16le.json" />
+    <None Include="config\encoders\pcm_s24le.json" />
     <None Include="config\encoders\prores_ks.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -108,5 +108,6 @@
     <None Include="config\encoders\prores_ks.json" />
     <None Include="config\config.json" />
     <None Include="..\Premiere\Premiere.vcxproj" />
+    <None Include="config\encoders\pcm_s24le.json" />
   </ItemGroup>
 </Project>

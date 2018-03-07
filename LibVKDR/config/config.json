@@ -40,6 +40,10 @@
     {
       "id": 9,
       "name": "pcm_s16le"
+    },
+    {
+      "id": 10,
+      "name": "pcm_s24le"
     }
   ],
   "multiplexers": [

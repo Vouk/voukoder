@@ -13,6 +13,7 @@
 #define IDR_JSON_ENC_AC3                109
 #define IDR_JSON_ENC_FLAC               110
 #define IDR_JSON_ENC_PCM                111
+#define IDR_JSON_ENC_PCM_24             112
 
 // Nächste Standardwerte für neue Objekte
 // 
