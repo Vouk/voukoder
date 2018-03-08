@@ -2,7 +2,8 @@
   "name": "h264_nvenc",
   "authors": [
     "Schauerland",
-    "Daniel Stankewitz"
+    "Daniel Stankewitz",
+    "Daniel Steuer"
   ],
   "defaultPixelFormat": "yuv420p",
   "groups": [
@@ -34,6 +35,7 @@
     {
       "name": "h264_nvencPreset",
       "label": "Preset",
+      "description" : "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -131,6 +133,7 @@
     {
       "name": "h264_nvencProfile",
       "label": "Profile",
+      "description" : "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -172,6 +175,7 @@
     {
       "name": "h264_nvencLevel",
       "label": "Level",
+      "description" : "Constrains encoding parameters such as bitrate range and maximum frame size.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -297,12 +301,41 @@
           "parameters": {
             "level": "5.1"
           }
+        },
+        {
+          "id": 17,
+          "name": "5.2",
+          "parameters": {
+            "level": "5.2"
+          }
+        },
+        {
+          "id": 18,
+          "name": "6.0",
+          "parameters": {
+            "level": "6.0"
+          }
+        },
+        {
+          "id": 19,
+          "name": "6.1",
+          "parameters": {
+            "level": "6.1"
+          }
+        },
+        {
+          "id": 20,
+          "name": "6.2",
+          "parameters": {
+            "level": "6.2"
+          }
         }
       ]
     },
     {
       "name": "h264_nvencStrategy",
       "label": "Strategy",
+      "description" : "The encoding mode to use. Choose Constant Bitrate (CBR), Constant Quantizer (CQP) or Variable Bitrate (VBR) and if two encoding passes should be used (VBR only).",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -317,6 +350,7 @@
             {
               "name": "h264_nvencStrategyCQP",
               "label": "CQP",
+              "description" : "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
               "type": "int",
               "flags": [
                 "slider"
@@ -338,7 +372,8 @@
           "subvalues": [
             {
               "name": "h264_nvencStrategyVBR",
-              "label": "Target Bitrate (kbit)",
+              "label": "Target Bitrate [kbit]",
+              "description" : "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -354,7 +389,8 @@
             },
             {
               "name": "h264_nvencStrategyVBRMax",
-              "label": "Max. Bitrate (kbit)",
+              "label": "Max. Bitrate [kbit]",
+              "description" : "Higher value can improve maximum quality, but increases decoder requirements.",
               "type": "int",
               "flags": [
                 "slider"
@@ -369,7 +405,8 @@
             },
             {
               "name": "h264_nvencStrategyVBRBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description" : "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -381,6 +418,17 @@
               "parameters": {
                 "buffsize": "%d000"
               }
+            },
+            {
+              "name": "h264_nvenc2Pass",
+              "label": "Force 2-Pass",
+              "description" : "Enable 2-pass encoding.",
+              "type": "bool",
+              "flags": [
+                ],
+              "defaultValue": 0,
+              "parameters": {
+                "2pass": ""
             }
           ]
         },
@@ -390,7 +438,8 @@
           "subvalues": [
             {
               "name": "h264_nvencStrategyVBRHQ",
-              "label": "Target Bitrate (kbit)",
+              "label": "Target Bitrate [kbit]",
+              "description" : "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -406,7 +455,8 @@
             },
             {
               "name": "h264_nvencStrategyVBRHQMax",
-              "label": "Max. Bitrate (kbit)",
+              "label": "Max. Bitrate [kbit]",
+              "description" : "Higher value can improve maximum quality, but increases decoder requirements.",
               "type": "int",
               "flags": [
                 "slider"
@@ -421,7 +471,8 @@
             },
             {
               "name": "h264_nvencStrategyVBRHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description" : "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -433,6 +484,17 @@
               "parameters": {
                 "buffsize": "%d000"
               }
+            },
+            {
+              "name": "h264_nvenc2Pass",
+              "label": "Force 2-Pass",
+              "description" : "Enable 2-pass encoding.",
+              "type": "bool",
+              "flags": [
+                ],
+              "defaultValue": 0,
+              "parameters": {
+                "2pass": ""
             }
           ]
         },
@@ -442,7 +504,8 @@
           "subvalues": [
             {
               "name": "h264_nvencStrategyCBR",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description" : "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -458,7 +521,8 @@
             },
             {
               "name": "h264_nvencStrategyCBRBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description" : "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -479,7 +543,8 @@
           "subvalues": [
             {
               "name": "h264_nvencStrategyCBRLDHQ",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description" : "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -495,7 +560,8 @@
             },
             {
               "name": "h264_nvencStrategyCBRHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description" : "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -516,7 +582,8 @@
           "subvalues": [
             {
               "name": "h264_nvencStrategyCBRLDHQ",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description" : "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -532,7 +599,8 @@
             },
             {
               "name": "h264_nvencStrategyCBRLDHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description" : "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -550,21 +618,9 @@
       ]
     },
     {
-      "name": "h264_nvenc2Pass",
-      "label": "Force 2-pass",
-      "group": "ADBEVideoCodecGroup",
-      "type": "bool",
-      "flags": [
-
-      ],
-      "defaultValue": 0,
-      "parameters": {
-        "2pass": ""
-      }
-    },
-    {
       "name": "h264_nvencRCLookahead",
       "label": "RC Lookahead",
+      "description" : "Sets the number of frames to use for ratecontrol and lookahead. Higher value means better quality and increased precision.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -580,6 +636,7 @@
     {
       "name": "h264_nvencKeyInt",
       "label": "Max. GOP Size",
+      "description" : "Maximum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "int",
       "flags": [
@@ -595,6 +652,7 @@
     {
       "name": "h264_nvencBFrames",
       "label": "Number of B-Frames",
+      "description" : "Bipredective coded pictures contain motion-compensated difference information relative to previously decoded pictures. 0 is the best precision.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "int",
       "useDefaultValue": true,
@@ -611,6 +669,7 @@
     {
       "name": "h264_nvencNoSCut",
       "label": "No scene cut",
+      "description" : "When lookahead is enabled, set this to 1 to disable adaptive I-frame insertion at scene cuts.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -624,6 +683,7 @@
     {
       "name": "h264_nvencForcedIDR",
       "label": "Force keyframes as IDR",
+      "description" : "If forcing keyframes, force them as IDR frames.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -636,7 +696,8 @@
     },
     {
       "name": "h264_nvencNoRefP",
-      "label": "Auto-insert non-reference P-frames",
+      "label": "AI P-Frames",
+      "description" : "Enables automatic insertion of non-reference P-frames.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -773,6 +834,7 @@
     {
       "name": "h264_nvencAqMode",
       "label": "Adaptive Quantizers Mode",
+      "description" : "Choose AQ Mode how available bits should be distributed between all macroblocks in the video.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "int",
       "flags": [
@@ -793,8 +855,9 @@
           "subvalues": [
             {
               "name": "h264_nvencAqModeSpatial",
-              "label": "AQ Strength",
-              "type": "float",
+              "label": "Strength",
+              "description" : "AQ strength scale from 1 (low) - 15 (aggressive).",
+              "type": "int",
               "flags": [
                 "slider"
               ],
@@ -819,7 +882,8 @@
     },
     {
       "name": "h264_nvencStrictGop",
-      "label": "Enable strict GOP",
+      "label": "Strict GOP",
+      "description" : "Minimizes GOP-to-GOP rate fluctuations.",
       "group": "VKDRh264NVENCGOPGroup",
       "type": "bool",
       "flags": [
@@ -833,6 +897,7 @@
     {
       "name": "h264_nvencSurfaces",
       "label": "Surfaces",
+      "description" : "Blockcount of memory allocated for bitmap rendering.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "int",
       "flags": [
@@ -847,7 +912,8 @@
     },
     {
       "name": "h264_nvencZeroLat",
-      "label": "Indicate zero latency",
+      "label": "Zero Latency",
+      "description" : "Indicate zero latency operation (no reordering delay).",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
       "flags": [
@@ -860,7 +926,8 @@
     },
     {
       "name": "h264_nvencWeightedPred",
-      "label": "Enable weighted prediction",
+      "label": "Weighted Prediction",
+      "description" : "Specifies the use of a scaling and offset, when performing motion compensation. This includes implicit weighted prediction for B-frames, and explicit weighted prediction for P-frames.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
       "flags": [
