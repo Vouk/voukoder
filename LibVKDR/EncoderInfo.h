@@ -17,6 +17,7 @@ namespace LibVKDR
 	{
 		string name;
 		string label;
+		string description;
 		string type;
 		vector<string> flags;
 		bool isSubValue;

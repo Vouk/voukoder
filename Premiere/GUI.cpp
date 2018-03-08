@@ -627,6 +627,12 @@ void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, 
 		paramInfo->name.c_str(),
 		wstring(paramInfo->label.begin(), paramInfo->label.end()).c_str());
 
+	exportParamSuite->SetParamDescription(
+		pluginId,
+		groupIndex,
+		paramInfo->name.c_str(),
+		wstring(paramInfo->description.begin(), paramInfo->description.end()).c_str());
+
 	exParamValues paramValues;
 	exportParamSuite->GetParamValue(
 		pluginId,
