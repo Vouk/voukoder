@@ -7,6 +7,7 @@
     {
       "name": "aacPreset",
       "label": "Preset",
+      "description" : "Controls properties such as compression algorithm and complexity.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [
@@ -46,7 +47,8 @@
     },
     {
       "name": "ADBEAudioBitrate",
-      "label": "Bitrate (Kbps)",
+      "label": "Bitrate [kbps]",
+      "description" : "The bitrate used for encoding audio. Higher bitrate implies better quality.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [
