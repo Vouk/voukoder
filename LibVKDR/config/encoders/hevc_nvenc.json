@@ -34,6 +34,7 @@
     {
       "name": "hevc_nvencPreset",
       "label": "Preset",
+      "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -131,6 +132,7 @@
     {
       "name": "hevc_nvencProfile",
       "label": "Profile",
+      "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -147,7 +149,7 @@
         },
         {
           "id": 1,
-          "name": "Main (10 bit)",
+          "name": "Main (10 Bit)",
           "parameters": {
             "profile": "main10"
           }
@@ -157,6 +159,7 @@
     {
       "name": "hevc_nvencLevel",
       "label": "Level",
+      "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -267,6 +270,7 @@
     {
       "name": "hevc_nvencTier",
       "label": "Tier",
+      "description": "High tier increases the maximum bitrate of the chosen level.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -293,6 +297,7 @@
     {
       "name": "hevc_nvencStrategy",
       "label": "Strategy",
+      "description": "The encoding mode to use. Choose Constant Bitrate (CBR), Constant Quantizer (CQP) or Variable Bitrate (VBR) and if two encoding passes should be used (VBR only).",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -307,6 +312,7 @@
             {
               "name": "hevc_nvencStrategyCQP",
               "label": "CQP",
+              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
               "type": "int",
               "flags": [
                 "slider"
@@ -328,7 +334,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencStrategyVBR",
-              "label": "Target Bitrate (kbit)",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -344,7 +351,8 @@
             },
             {
               "name": "hevc_nvencStrategyVBRMax",
-              "label": "Max. Bitrate (kbit)",
+              "label": "Max. Bitrate [kbit]",
+              "description": "Higher value can improve maximum quality, but increases decoder requirements.",
               "type": "int",
               "flags": [
                 "slider"
@@ -359,7 +367,8 @@
             },
             {
               "name": "hevc_nvencStrategyVBRBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -371,6 +380,18 @@
               "parameters": {
                 "buffsize": "%d000"
               }
+            },
+            {
+              "name": "hevc_nvenc2Pass",
+              "label": "Force 2-Pass",
+              "description": "Enable 2-pass encoding.",
+              "type": "bool",
+              "flags": [
+                ],
+              "defaultValue": 0,
+              "parameters": {
+                "2pass": ""
+                }
             }
           ]
         },
@@ -380,7 +401,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencStrategyVBRHQ",
-              "label": "Target Bitrate (kbit)",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -396,7 +418,8 @@
             },
             {
               "name": "hevc_nvencStrategyVBRHQMax",
-              "label": "Max. Bitrate (kbit)",
+              "label": "Max. Bitrate [kbit]",
+              "description": "Higher value can improve maximum quality, but increases decoder requirements.",
               "type": "int",
               "flags": [
                 "slider"
@@ -411,7 +434,8 @@
             },
             {
               "name": "hevc_nvencStrategyVBRHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -432,7 +456,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencStrategyCBR",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description": "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -448,7 +473,8 @@
             },
             {
               "name": "hevc_nvencStrategyCBRBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -469,7 +495,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencStrategyCBRLDHQ",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description": "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -485,7 +512,8 @@
             },
             {
               "name": "hevc_nvencStrategyCBRHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -506,7 +534,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencStrategyCBRLDHQ",
-              "label": "Bitrate (kbit)",
+              "label": "Bitrate [kbit]",
+              "description": "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -522,7 +551,8 @@
             },
             {
               "name": "hevc_nvencStrategyCBRLDHQBuffer",
-              "label": "Buffer Size (kbit)",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
               "type": "int",
               "flags": [
                 "slider"
@@ -540,21 +570,9 @@
       ]
     },
     {
-      "name": "hevc_nvenc2Pass",
-      "label": "Force 2-pass",
-      "group": "ADBEVideoCodecGroup",
-      "type": "bool",
-      "flags": [
-
-      ],
-      "defaultValue": 0,
-      "parameters": {
-        "2pass": ""
-      }
-    },
-    {
       "name": "hevc_nvencRCLookahead",
       "label": "RC Lookahead",
+      "description": "Sets the number of frames to use for ratecontrol and lookahead. Higher value means better quality and increased precision.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -570,6 +588,7 @@
     {
       "name": "hevc_nvencKeyInt",
       "label": "Max. GOP Size",
+      "description": "Maximum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
       "group": "VKDRhevcNVENCFramesGroup",
       "type": "int",
       "flags": [
@@ -585,6 +604,7 @@
     {
       "name": "hevc_nvencNoSCut",
       "label": "No scene cut",
+      "description": "When lookahead is enabled, set this to 1 to disable adaptive I-frame insertion at scene cuts.",
       "group": "VKDRhevcNVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -598,6 +618,7 @@
     {
       "name": "hevc_nvencForcedIDR",
       "label": "Force keyframes as IDR",
+      "description": "If forcing keyframes, force them as IDR frames.",
       "group": "VKDRhevcNVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -610,7 +631,8 @@
     },
     {
       "name": "hevc_nvencNoRefP",
-      "label": "Auto-insert non-reference P-frames",
+      "label": "AI P-Frames",
+      "description": "Enables automatic insertion of non-reference P-frames.",
       "group": "VKDRhevcNVENCFramesGroup",
       "type": "bool",
       "flags": [
@@ -747,6 +769,7 @@
     {
       "name": "hevc_nvencAqMode",
       "label": "Adaptive Quantizers Mode",
+      "description": "Choose AQ Mode how available bits should be distributed between all macroblocks in the video.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "int",
       "flags": [
@@ -767,7 +790,8 @@
           "subvalues": [
             {
               "name": "hevc_nvencAqModeSpatial",
-              "label": "AQ Strength",
+              "label": "Strength",
+              "description": "AQ strength scale from 1 (low) - 15 (aggressive).",
               "type": "float",
               "flags": [
                 "slider"
@@ -793,7 +817,8 @@
     },
     {
       "name": "hevc_nvencStrictGop",
-      "label": "Enable strict GOP",
+      "label": "Strict GOP",
+      "description": "Minimizes GOP-to-GOP rate fluctuations.",
       "group": "VKDRhevcNVENCGOPGroup",
       "type": "bool",
       "flags": [
@@ -807,6 +832,7 @@
     {
       "name": "hevc_nvencSurfaces",
       "label": "Surfaces",
+      "description": "Blockcount of memory allocated for bitmap rendering.",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "int",
       "flags": [
@@ -821,7 +847,8 @@
     },
     {
       "name": "hevc_nvencZeroLat",
-      "label": "Indicate zero latency",
+      "label": "Zero Latency",
+      "description": "Indicate zero latency operation (no reordering delay).",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
       "flags": [
@@ -834,7 +861,8 @@
     },
     {
       "name": "hevc_nvencWeightedPred",
-      "label": "Enable weighted prediction",
+      "label": "Weighted Prediction",
+      "description": "Specifies the use of a scaling and offset, when performing motion compensation. This includes implicit weighted prediction for B-frames, and explicit weighted prediction for P-frames.",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
       "flags": [

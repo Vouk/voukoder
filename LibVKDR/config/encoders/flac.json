@@ -7,12 +7,14 @@
     {
       "name": "flacCompressionLevel",
       "label": "Compression Level",
+      "description" : "Higher values result in smaller files, but slightly longer encoding time.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [
         "slider"
       ],
-      "defaultValue": 5,
+      "defaultValue": 8,
+      "useDefaultValue": true,
       "minValue": 0,
       "maxValue": 12,
       "parameters": {

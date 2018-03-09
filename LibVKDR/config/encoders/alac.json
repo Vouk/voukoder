@@ -7,6 +7,7 @@
     {
       "name": "alacMinPredictionOrder",
       "label": "Min. Prediction Order",
+      "description": "Minimum amount of prediction order.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [
@@ -22,6 +23,7 @@
     {
       "name": "alacMaxPredictionOrder",
       "label": "Max. Prediction Order",
+      "description": "Maximum amount of prediction order.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [

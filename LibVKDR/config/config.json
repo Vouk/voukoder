@@ -43,10 +43,14 @@
     },
     {
       "id": 10,
-      "name": "h264_qsv"
+      "name": "pcm_s24le"
     },
     {
       "id": 11,
+      "name": "h264_qsv"
+    },
+    {
+      "id": 12,
       "name": "hevc_qsv"
     }
   ],

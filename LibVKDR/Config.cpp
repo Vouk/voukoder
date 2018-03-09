@@ -227,6 +227,11 @@ ParamInfo Config::createParamInfo(json param)
 	paramInfo.group = param["group"].get<string>();
 	paramInfo.flags = param["flags"].get<vector<string>>();
 
+	if (param.find("description") != param.end())
+	{
+		paramInfo.description = param["description"].get<string>();
+	}
+
 	if (param.find("useDefaultValue") != param.end())
 	{
 		paramInfo.useDefaultValue = param["useDefaultValue"].get<bool>();
