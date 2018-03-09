@@ -979,6 +979,38 @@
       }
     },
     {
+-     "name": "x264NalHrd",
+-     "label": "NAL HRD Mode",
+-     "group": "VKDRx264BluRayGroup",
+-     "type": "int",
+-     "flags": [
+-     ],
+-     "defaultValue": 0,
+-     "values": [
+-       {
+-         "id": 0,
+-         "name": "Off",
+-         "parameters": {
+-           "nal-hrd": "none"
+-         }
+-       },
+-       {
+-         "id": 1,
+-         "name": "CBR",
+-         "parameters": {
+-           "nal-hrd": "cbr"
+-         }
+-       },
+-       {
+-         "id": 2,
+-         "name": "VBR",
+-         "parameters": {
+-           "nal-hrd": "vbr"
+-         }
+-       }
+-     ]
+-   },
+    {
       "name": "x264BlurayCompat",
       "label": "Enable Blu-Ray Compatibility Mode",
       "group": "VKDRx264BluRayGroup",
