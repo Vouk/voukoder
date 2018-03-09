@@ -26,6 +26,7 @@
     {
       "name": "proresProfile",
       "label": "Profile",
+      "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -88,7 +89,8 @@
     },
     {
       "name": "proresQuantMat",
-      "label": "Quantizer matrix",
+      "label": "Quantizer Matrix",
+      "description": "Quantizer Matrices for different purposes.",
       "group": "VKDRproresQuantizerGroup",
       "type": "int",
       "flags": [
@@ -142,7 +144,8 @@
     },
     {
       "name": "proresMbsPerSlice",
-      "label": "Macroblocks per slice",
+      "label": "Macroblocks per Slice",
+      "description": "Amount of Macroblocks per slice. Higher value increases quality.",
       "group": "VKDRproresFrameTypeGroup",
       "type": "int",
       "flags": [
@@ -182,7 +185,8 @@
     },
     {
       "name": "proresBitsPerMb",
-      "label": "Bits per macroblock",
+      "label": "Bits per Macroblock",
+      "description": "Amount of bits per Macroblock.",
       "group": "VKDRproresFrameTypeGroup",
       "type": "int",
       "flags": [
@@ -197,7 +201,8 @@
     },
     {
       "name": "proresAlphaBits",
-      "label": "Bits for alpha channel",
+      "label": "Bits for Alpha Channel",
+      "description": "Amount of bits per alpha channel.",
       "group": "VKDRproresMiscGroup",
       "type": "int",
       "flags": [

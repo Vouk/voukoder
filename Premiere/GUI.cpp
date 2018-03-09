@@ -463,12 +463,12 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoSettings, L"Encoder params (r/o)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoWidth, L"Width");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoHeight, L"Height");
-	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoAspect, L"Pixel Aspect Ratio");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoFPS, L"Frame Rate");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoFieldType, L"Field Order");
+	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoAspect, L"Aspect");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRTVStandard, L"TV Standard");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRColorSpace, L"Color Space");
-	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRColorRange, L"Use full color range");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRColorRange, L"Render at Maximum Depth");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoCodecGroup, L"Encoder Options");
 
 	// Labels: Advanced

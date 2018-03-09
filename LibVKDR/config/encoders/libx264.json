@@ -120,6 +120,7 @@
     {
       "name": "x264Preset",
       "label": "Preset",
+      "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -202,6 +203,7 @@
     {
       "name": "x264Profile",
       "label": "Profile",
+      "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -258,6 +260,7 @@
     {
       "name": "x264Tune",
       "label": "Tuning",
+      "description": "Customize to fit your project encoding style.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -333,6 +336,7 @@
     {
       "name": "x264Level",
       "label": "Level",
+      "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -457,6 +461,7 @@
     {
       "name": "x264Strategy",
       "label": "Strategy",
+      "description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -471,7 +476,8 @@
           "subvalues": [
             {
               "name": "x264StrategyARB",
-              "label": "Average Bitrate (kbit)",
+              "label": "Average Bitrate [kbit]",
+              "description": "The average data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -493,6 +499,7 @@
             {
               "name": "x264StrategyCRF",
               "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
               "type": "int",
               "flags": [
                 "slider"
@@ -509,11 +516,12 @@
         },
         {
           "id": 2,
-          "name": "Constant Quantizer (QP)",
+          "name": "Constant Quantizer (CQP)",
           "subvalues": [
             {
               "name": "x264StrategyQP",
               "label": "Constant Quantizer",
+              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
               "type": "int",
               "flags": [
                 "slider"
@@ -540,6 +548,7 @@
     {
       "name": "x264KeyInt",
       "label": "Max. GOP Size",
+      "description": "Maximum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
       "group": "VKDRx264GOPGroup",
       "type": "int",
       "flags": [
@@ -555,6 +564,7 @@
     {
       "name": "x264MinKeyInt",
       "label": "Min. GOP Size",
+      "description": "Minimum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
       "group": "VKDRx264GOPGroup",
       "type": "int",
       "flags": [
@@ -569,7 +579,8 @@
     },
     {
       "name": "x264OpenGop",
-      "label": "Enable Open GOP",
+      "label": "Open GOP",
+      "description": "Open GOPs have to look at both previous and upcoming frames to create a full image. Those reduce the overall file size.",
       "group": "VKDRx264GOPGroup",
       "type": "bool",
       "flags": [
@@ -583,6 +594,7 @@
     {
       "name": "x264Slices",
       "label": "Slices per Frame",
+      "description": "The encoder divides each frame into X regions and searches for redundancies in other frames only within the respective region.",
       "group": "VKDRx264SlicingGroup",
       "type": "int",
       "flags": [
@@ -598,6 +610,7 @@
     {
       "name": "x264SlicesMax",
       "label": "Max. Slices per Frame",
+      "description": "Maxiumum amount of slices for one frame.",
       "group": "VKDRx264SlicingGroup",
       "type": "int",
       "flags": [
@@ -613,6 +626,7 @@
     {
       "name": "x264SliceMax",
       "label": "Max. Size of Slice",
+      "description": "Maxiumum size of a slice for one frame.",
       "group": "VKDRx264SlicingGroup",
       "type": "int",
       "flags": [
@@ -628,6 +642,7 @@
     {
       "name": "x264BFrames",
       "label": "Number of B-Frames",
+      "description": "Bipredective coded pictures contain motion-compensated difference information relative to previously decoded pictures. 0 is the best precision.",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
       "flags": [
@@ -643,6 +658,7 @@
     {
       "name": "x264BFrameBias",
       "label": "B-Frames Bias",
+      "description": "The encoder chooses more likely higher numbers of B-frames during the adaptive lookahead.",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
       "flags": [
@@ -658,6 +674,7 @@
     {
       "name": "x264BAdapt",
       "label": "Adaptive B-Frames",
+      "description": "The encoder determines the number of B-frames to use (within the B-frames limit).",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
       "flags": [
@@ -691,6 +708,7 @@
     {
       "name": "x264BPyramid",
       "label": "B-Pyramid",
+      "description": "Allows B-frames to be used as reference frames instead of only I or P-frames.",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
       "flags": [
@@ -874,7 +892,7 @@
     },
     {
       "name": "x264QuantizerCompression",
-      "label": "QuantizerCompression",
+      "label": "Quantizer Compression",
       "group": "VKDRx264QuantizerGroup",
       "type": "float",
       "flags": [
@@ -889,7 +907,7 @@
     },
     {
       "name": "x264VBVBufferSize",
-      "label": "VBV Buffer Size (kbit)",
+      "label": "VBV Buffer Size [kbit]",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [
@@ -904,7 +922,7 @@
     },
     {
       "name": "x264VBVMaxBitrate",
-      "label": "VBV Max. Bitrate (kbit)",
+      "label": "VBV Max. Bitrate [kbit]",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [
@@ -961,38 +979,37 @@
       }
     },
     {
-      "name": "x264NalHrd",
-      "label": "NAL HRD Mode",
-      "group": "VKDRx264BluRayGroup",
-      "type": "int",
-      "flags": [
-
-      ],
-      "defaultValue": 0,
-      "values": [
-        {
-          "id": 0,
-          "name": "Off",
-          "parameters": {
-            "nal-hrd": "none"
-          }
-        },
-        {
-          "id": 1,
-          "name": "CBR",
-          "parameters": {
-            "nal-hrd": "cbr"
-          }
-        },
-        {
-          "id": 2,
-          "name": "VBR",
-          "parameters": {
-            "nal-hrd": "vbr"
-          }
-        }
-      ]
-    },
+-     "name": "x264NalHrd",
+-     "label": "NAL HRD Mode",
+-     "group": "VKDRx264BluRayGroup",
+-     "type": "int",
+-     "flags": [
+-     ],
+-     "defaultValue": 0,
+-     "values": [
+-       {
+-         "id": 0,
+-         "name": "Off",
+-         "parameters": {
+-           "nal-hrd": "none"
+-         }
+-       },
+-       {
+-         "id": 1,
+-         "name": "CBR",
+-         "parameters": {
+-           "nal-hrd": "cbr"
+-         }
+-       },
+-       {
+-         "id": 2,
+-         "name": "VBR",
+-         "parameters": {
+-           "nal-hrd": "vbr"
+-         }
+-       }
+-     ]
+-   },
     {
       "name": "x264BlurayCompat",
       "label": "Enable Blu-Ray Compatibility Mode",
