@@ -401,6 +401,7 @@
               "defaultValue": 0,
               "parameters": {
                 "2pass": ""
+              }
             }
           ]
         },
@@ -467,6 +468,7 @@
               "defaultValue": 0,
               "parameters": {
                 "2pass": ""
+              }
             }
           ]
         },
