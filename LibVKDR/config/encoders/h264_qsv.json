@@ -1,0 +1,108 @@
+{
+  "name": "h264_qsv",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "groups": [],
+  "parameterGroups": {},
+  "params": [
+    {
+      "name": "h264_qsvPreset",
+      "label": "Preset",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 3,
+      "values": [
+        {
+          "id": 0,
+          "name": "Very slow",
+          "parameters": {
+            "preset": "veryslow"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Slower",
+          "parameters": {
+            "preset": "slower"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Slow",
+          "parameters": {
+            "preset": "slow"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Medium",
+          "parameters": {
+            "preset": "medium"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Fast",
+          "parameters": {
+            "preset": "fast"
+          }
+        },
+        {
+          "id": 5,
+          "name": "Faster",
+          "parameters": {
+            "preset": "faster"
+          }
+        },
+        {
+          "id": 6,
+          "name": "Very fast",
+          "parameters": {
+            "preset": "veryfast"
+          }
+        }
+      ]
+    },
+    {
+      "name": "h264_qsvProfile",
+      "label": "Profile",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Unknown",
+          "parameters": {
+            "profile": "unknown"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Baseline",
+          "parameters": {
+            "profile": "baseline"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Main",
+          "parameters": {
+            "profile": "main"
+          }
+        },
+        {
+          "id": 3,
+          "name": "High",
+          "parameters": {
+            "profile": "high"
+          }
+        }
+      ]
+    }
+  ]
+}

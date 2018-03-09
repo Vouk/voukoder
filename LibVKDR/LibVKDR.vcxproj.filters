@@ -108,5 +108,7 @@
     <None Include="config\encoders\prores_ks.json" />
     <None Include="config\config.json" />
     <None Include="..\Premiere\Premiere.vcxproj" />
+    <None Include="config\encoders\h264_qsv.json" />
+    <None Include="config\encoders\hevc_qsv.json" />
   </ItemGroup>
 </Project>

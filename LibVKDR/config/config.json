@@ -40,6 +40,14 @@
     {
       "id": 9,
       "name": "pcm_s16le"
+    },
+    {
+      "id": 10,
+      "name": "h264_qsv"
+    },
+    {
+      "id": 11,
+      "name": "hevc_qsv"
     }
   ],
   "multiplexers": [
