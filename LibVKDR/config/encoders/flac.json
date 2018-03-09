@@ -14,6 +14,7 @@
         "slider"
       ],
       "defaultValue": 8,
+      "useDefaultValue": true,
       "minValue": 0,
       "maxValue": 12,
       "parameters": {
