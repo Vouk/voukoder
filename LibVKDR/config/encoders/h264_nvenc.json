@@ -301,34 +301,6 @@
           "parameters": {
             "level": "5.1"
           }
-        },
-        {
-          "id": 17,
-          "name": "5.2",
-          "parameters": {
-            "level": "5.2"
-          }
-        },
-        {
-          "id": 18,
-          "name": "6.0",
-          "parameters": {
-            "level": "6.0"
-          }
-        },
-        {
-          "id": 19,
-          "name": "6.1",
-          "parameters": {
-            "level": "6.1"
-          }
-        },
-        {
-          "id": 20,
-          "name": "6.2",
-          "parameters": {
-            "level": "6.2"
-          }
         }
       ]
     },
