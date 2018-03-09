@@ -447,7 +447,7 @@
               "parameters": {
                 "buffsize": "%d000"
               }
-            },
+            }
           ]
         },
         {
