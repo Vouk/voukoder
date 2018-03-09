@@ -460,15 +460,25 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	// Labels: Video
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEBasicVideoGroup, L"Video Settings");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoCodec, L"Video Encoder");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoCodec, L"The encoder that creates the output video.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoSettings, L"Encoder params (r/o)");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRVideoSettings, L"The raw parameters supplied to the video encoder. (read only)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoWidth, L"Width");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoWidth, L"Width of the video frame.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoHeight, L"Height");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoHeight, L"Height of the video frame.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoFPS, L"Frame Rate");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoFPS, L"Frame Rate of the video.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoFieldType, L"Field Order");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoFieldType, L"Field order of interlaced sources.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoAspect, L"Aspect");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoAspect, L"PAR describes how the width of a pixel compares to the height of that pixel.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRTVStandard, L"TV Standard");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRTVStandard, L"The video format. USA and Japan use NTSC. Europe, Africa and Asia use PAL.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRColorSpace, L"Color Space");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRColorSpace, L"The range of colors used in encoding the video. BT.709 is recommended for high definition videos.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRColorRange, L"Render at Maximum Depth");
+	//exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRColorRange, L"");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoCodecGroup, L"Encoder Options");
 
 	// Labels: Advanced
@@ -477,15 +487,21 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	// Labels: Audio
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEBasicAudioGroup, L"Audio Settings");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioCodec, L"Audio Encoder");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEAudioCodec, L"The encoder that creates the output audio.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRAudioSettings, L"Encoder params (r/o)");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRAudioSettings, L"The raw parameters supplied to the audio encoder. (read only)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioRatePerSecond, L"Sample Rate");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEAudioRatePerSecond, L"The sample rate of the audio.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioNumChannels, L"Channels");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEAudioNumChannels, L"The number of channels in the output audio.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioCodecGroup, L"Encoder Options");
 
 	// Labels: Multiplexer
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRMultiplexerTabGroup, L"Multiplexer");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexerBasicGroup, L"Container");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexer, L"Format");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
+
 
 	// Encoders
 	fillEncoderDropdown(exportParamSuite, config->Encoders);
