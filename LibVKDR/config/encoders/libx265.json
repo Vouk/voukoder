@@ -36,7 +36,8 @@
   "params": [
     {
       "name": "x265PixelFormat",
-      "label": "Output format",
+      "label": "Color Format",
+      "description": "Color encoding system.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -121,6 +122,7 @@
     {
       "name": "x265Preset",
       "label": "Preset",
+      "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [
@@ -216,7 +218,8 @@
           "subvalues": [
             {
               "name": "x265StrategyARB",
-              "label": "Average Bitrate (kbit)",
+              "label": "Average Bitrate [kbit]",
+              "description": "The average data rate allowed by the encoder.",
               "type": "int",
               "flags": [
                 "slider"
@@ -238,6 +241,7 @@
             {
               "name": "x265StrategyCRF",
               "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
               "type": "int",
               "flags": [
                 "slider"
@@ -254,11 +258,12 @@
         },
         {
           "id": 2,
-          "name": "Constant Quantizer (QP)",
+          "name": "Constant Quantizer (CQP)",
           "subvalues": [
             {
               "name": "x265StrategyQP",
               "label": "Constant Quantizer",
+              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
               "type": "int",
               "flags": [
                 "slider"
