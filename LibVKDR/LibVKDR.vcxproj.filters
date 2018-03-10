@@ -111,5 +111,7 @@
     <None Include="config\encoders\pcm_s24le.json" />
     <None Include="config\encoders\h264_qsv.json" />
     <None Include="config\encoders\hevc_qsv.json" />
+    <None Include="config\encoders\h264_amf.json" />
+    <None Include="config\encoders\hevc_amf.json" />
   </ItemGroup>
 </Project>

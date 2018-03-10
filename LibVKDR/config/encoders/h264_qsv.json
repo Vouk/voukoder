@@ -3,7 +3,7 @@
   "authors": [
     "Daniel Stankewitz"
   ],
-  "defaultPixelFormat": "yuv420p",
+  "defaultPixelFormat": "nv12",
   "groups": [],
   "parameterGroups": {},
   "params": [

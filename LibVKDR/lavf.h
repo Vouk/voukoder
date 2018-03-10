@@ -28,3 +28,5 @@ extern "C" {
 #pragma comment(lib, "libswresample.lib")
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
+#pragma comment(lib, "libmfx.lib")
+

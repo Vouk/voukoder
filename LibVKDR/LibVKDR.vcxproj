@@ -191,8 +191,10 @@
     <None Include="config\encoders\ac3.json" />
     <None Include="config\encoders\alac.json" />
     <None Include="config\encoders\flac.json" />
+    <None Include="config\encoders\h264_amf.json" />
     <None Include="config\encoders\h264_nvenc.json" />
     <None Include="config\encoders\h264_qsv.json" />
+    <None Include="config\encoders\hevc_amf.json" />
     <None Include="config\encoders\hevc_nvenc.json" />
     <None Include="config\encoders\hevc_qsv.json" />
     <None Include="config\encoders\libx264.json" />

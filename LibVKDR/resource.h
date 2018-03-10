@@ -14,8 +14,8 @@
 #define IDR_JSON_ENC_FLAC               110
 #define IDR_JSON_ENC_PCM                111
 #define IDR_JSON_ENC_PCM_24             112
-#define IDR_JSON_ENC_QSV_H264           113
-#define IDR_JSON_ENC_QSV_HEVC           114
+#define IDR_JSON_ENC_AMF_H264           113
+#define IDR_JSON_ENC_AMF_HEVC           114
 
 // Nächste Standardwerte für neue Objekte
 // 

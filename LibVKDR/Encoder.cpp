@@ -5,7 +5,6 @@ using namespace LibVKDR;
 Encoder::Encoder(ExportSettings exportSettings) :
 	exportSettings(exportSettings)
 {
-	av_register_all();
 	avfilter_register_all();
 
 	formatContext = avformat_alloc_context();
@@ -139,7 +138,7 @@ int Encoder::open()
 				audioFrameSize = 5000 / audioContext.codecContext->channels;
 		}
 
-		strcpy_s(formatContext->filename, exportSettings.filename.c_str());
+		formatContext->url = av_strdup(exportSettings.filename.c_str());
 
 		string filename;
 		if (vflags & AV_CODEC_FLAG_PASS1)

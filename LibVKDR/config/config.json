@@ -47,11 +47,11 @@
     },
     {
       "id": 11,
-      "name": "h264_qsv"
+      "name": "h264_amf"
     },
     {
       "id": 12,
-      "name": "hevc_qsv"
+      "name": "hevc_amf"
     }
   ],
   "multiplexers": [

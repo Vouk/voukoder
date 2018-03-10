@@ -5,7 +5,6 @@ using namespace LibVKDR;
 
 Config::Config()
 {
-	av_register_all();
 	avfilter_register_all();
 
 	// Get the DLL module handle
