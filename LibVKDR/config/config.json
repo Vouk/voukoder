@@ -55,11 +55,11 @@
     },
     {
       "id": 13,
-      "name": "h264_qsv"
+      "name": "h264_qsv_disabled"
     },
     {
       "id": 14,
-      "name": "hevc_qsv"
+      "name": "hevc_qsv_disabled"
     }
   ],
   "multiplexers": [

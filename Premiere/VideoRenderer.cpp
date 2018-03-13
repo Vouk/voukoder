@@ -213,7 +213,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 
 		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
 	}
-	
+
 	return suiteError_RenderInvalidPixelFormat;
 }
 
@@ -280,56 +280,26 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 	{
 		if (exportSettings.fieldOrder == AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
-			if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_MPEG)
+			switch (exportSettings.colorSpace)
 			{
-				switch (exportSettings.colorSpace)
-				{
-				case AVColorSpace::AVCOL_SPC_BT709:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709;
-					break;
+			case AVColorSpace::AVCOL_SPC_BT709:
+				format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709;
+				break;
 
-				default:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
-				}
-			}
-			else if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_JPEG)
-			{
-				switch (exportSettings.colorSpace)
-				{
-				case AVColorSpace::AVCOL_SPC_BT709:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_709_FullRange;
-					break;
-
-				default:
-					format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601_FullRange;
-				}
+			default:
+				format = PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601;
 			}
 		}
 		else
 		{
-			if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_MPEG)
+			switch (exportSettings.colorSpace)
 			{
-				switch (exportSettings.colorSpace)
-				{
-				case AVColorSpace::AVCOL_SPC_BT709:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709;
-					break;
+			case AVColorSpace::AVCOL_SPC_BT709:
+				format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709;
+				break;
 
-				default:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
-				}
-			}
-			else if (exportSettings.colorRange == AVColorRange::AVCOL_RANGE_JPEG)
-			{
-				switch (exportSettings.colorSpace)
-				{
-				case AVColorSpace::AVCOL_SPC_BT709:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange;
-					break;
-
-				default:
-					format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601_FullRange;
-				}
+			default:
+				format = PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_601;
 			}
 		}
 	}

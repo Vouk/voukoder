@@ -222,7 +222,7 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	colorRangeValues.structVersion = 1;
 	colorRangeValues.value.intValue = ColorRange::Limited;
 	colorRangeValues.disabled = kPrFalse;
-	colorRangeValues.hidden = kPrFalse;
+	colorRangeValues.hidden = kPrTrue;
 	colorRangeValues.optionalParamEnabled = kPrFalse;
 	exNewParamInfo colorRangeParam;
 	colorRangeParam.structVersion = 1;
@@ -1107,19 +1107,7 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 		break;
 	}
 
-	switch (colorRange.value.intValue)
-	{
-	case ColorRange::Limited:
-		exportSettings->colorRange = AVColorRange::AVCOL_RANGE_MPEG;
-		break;
-
-	case ColorRange::Full:
-		exportSettings->colorRange = AVColorRange::AVCOL_RANGE_JPEG;
-		break;
-	
-	default:
-		exportSettings->colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
-	}
+	exportSettings->colorRange = AVColorRange::AVCOL_RANGE_MPEG;
 
 	if (colorSpace.value.intValue == ColorSpace::bt601)
 	{
