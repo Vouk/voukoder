@@ -14,7 +14,7 @@ Although you can use this plugin for free i do appreciate getting donations. Wor
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.me/voukoder)
 
 ### Non-monetary support
-I really need good **hardware with high performance** on compiling and rendering videos. This would speed up development alot. For optimizing and testing AMD GPU support i urgently need a decent AMD GPU (RX 480, RX 580, Vega, Pro, ...).
+I really need good **hardware with high performance** on compiling and rendering videos. This would speed up development alot. For optimizing and testing AMD GPU support i urgently need a decent **AMD GPU (RX 480, RX 580, Vega, Pro, ...)**.
 
 If you want to support me with this please get in direct contact with me (see below).
 
