@@ -95,34 +95,13 @@
         },
         {
           "id": 7,
-          "name": "Low Latency",
-          "parameters": {
-            "preset": "ll"
-          }
-        },
-        {
-          "id": 8,
-          "name": "Low Latency High Quality",
-          "parameters": {
-            "preset": "llhq"
-          }
-        },
-        {
-          "id": 9,
-          "name": "Low Latency High Performance",
-          "parameters": {
-            "preset": "llhp"
-          }
-        },
-        {
-          "id": 10,
           "name": "Lossless",
           "parameters": {
             "preset": "lossless"
           }
         },
         {
-          "id": 11,
+          "id": 8,
           "name": "Lossless High Performance",
           "parameters": {
             "preset": "losslesshp"
@@ -915,6 +894,7 @@
     {
       "name": "h264_nvencBDC",
       "label": "Blu-Ray Compatibility",
+      "description": "Create video files that will be compatible for Blu-Ray discs.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
       "flags": [
@@ -928,6 +908,7 @@
     {
       "name": "h264_nvencAud",
       "label": "Use AUD",
+      "description": "Access unit delimiter can be used for signaling about start of video frame.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
       "flags": [
