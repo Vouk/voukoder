@@ -287,6 +287,45 @@
       "values": [
         {
           "id": 0,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCBR",
+              "label": "Bitrate [kbit]",
+              "description": "The data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "hevc_nvencStrategyCBRBuffer",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+		{
+          "id": 1,
           "name": "Constant Quantizer (CQP)",
           "subvalues": [
             {
@@ -309,7 +348,7 @@
           ]
         },
         {
-          "id": 1,
+          "id": 2,
           "name": "Variable Bitrate (VBR)",
           "subvalues": [
             {
@@ -372,178 +411,6 @@
               "parameters": {
                 "2pass": ""
                 }
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "Variable Bitrate High Quality (VBR_HQ)",
-          "subvalues": [
-            {
-              "name": "hevc_nvencStrategyVBRHQ",
-              "label": "Target Bitrate [kbit]",
-              "description": "The target data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "vbr_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "hevc_nvencStrategyVBRHQMax",
-              "label": "Max. Bitrate [kbit]",
-              "description": "Higher value can improve maximum quality, but increases decoder requirements.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "maxrate": "%d000"
-              }
-            },
-            {
-              "name": "hevc_nvencStrategyVBRHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "name": "Constant Bitrate (CBR)",
-          "subvalues": [
-            {
-              "name": "hevc_nvencStrategyCBR",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "hevc_nvencStrategyCBRBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "name": "Constant Bitrate High Quality (CBR_HQ)",
-          "subvalues": [
-            {
-              "name": "hevc_nvencStrategyCBRLDHQ",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "hevc_nvencStrategyCBRHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
-        },
-        {
-          "id": 5,
-          "name": "Constant Bitrate Low Delay High Quality (CBR_LD_HQ)",
-          "subvalues": [
-            {
-              "name": "hevc_nvencStrategyCBRLDHQ",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr_ld_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "hevc_nvencStrategyCBRLDHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
             }
           ]
         }
@@ -626,6 +493,7 @@
     {
       "name": "hevc_nvencQPI",
       "label": "QP Value For I-Frames",
+	  "description": "Enable to change quantization parameter for I-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [
@@ -667,6 +535,7 @@
     {
       "name": "hevc_nvencQPP",
       "label": "QP Value For P-Frames",
+	  "description": "Enable to change quantization parameter for P-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [
@@ -708,6 +577,7 @@
     {
       "name": "hevc_nvencQPB",
       "label": "QP Value For B-Frames",
+	  "description": "Enable to change quantization parameter for B-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [
