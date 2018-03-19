@@ -296,6 +296,45 @@
       "values": [
         {
           "id": 0,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCBR",
+              "label": "Bitrate [kbit]",
+              "description": "The data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 15000,
+              "minValue": 100,
+              "maxValue": 288000,
+              "parameters": {
+                "rc": "cbr",
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "h264_nvencStrategyCBRBuffer",
+              "label": "Buffer Size [kbit]",
+              "description": "The decoder bitstream buffer size.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 0,
+              "minValue": 0,
+              "maxValue": 288000,
+              "parameters": {
+                "buffsize": "%d000"
+              }
+            }
+          ]
+        },
+		{
+          "id": 1,
           "name": "Constant Quantizer (CQP)",
           "subvalues": [
             {
@@ -318,7 +357,7 @@
           ]
         },
         {
-          "id": 1,
+          "id": 2,
           "name": "Variable Bitrate (VBR)",
           "subvalues": [
             {
@@ -383,190 +422,6 @@
               }
             }
           ]
-        },
-        {
-          "id": 2,
-          "name": "Variable Bitrate High Quality (VBR_HQ)",
-          "subvalues": [
-            {
-              "name": "h264_nvencStrategyVBRHQ",
-              "label": "Target Bitrate [kbit]",
-              "description": "The target data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "vbr_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvencStrategyVBRHQMax",
-              "label": "Max. Bitrate [kbit]",
-              "description": "Higher value can improve maximum quality, but increases decoder requirements.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "maxrate": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvencStrategyVBRHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvenc2Pass",
-              "label": "Force 2-Pass",
-              "description": "Enable 2-pass encoding.",
-              "type": "bool",
-              "flags": [
-                ],
-              "defaultValue": 0,
-              "parameters": {
-                "2pass": ""
-              }
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "name": "Constant Bitrate (CBR)",
-          "subvalues": [
-            {
-              "name": "h264_nvencStrategyCBR",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvencStrategyCBRBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "name": "Constant Bitrate High Quality (CBR_HQ)",
-          "subvalues": [
-            {
-              "name": "h264_nvencStrategyCBRLDHQ",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvencStrategyCBRHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
-        },
-        {
-          "id": 5,
-          "name": "Constant Bitrate Low Delay High Quality (CBR_LD_HQ)",
-          "subvalues": [
-            {
-              "name": "h264_nvencStrategyCBRLDHQ",
-              "label": "Bitrate [kbit]",
-              "description": "The data rate allowed by the encoder.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 15000,
-              "minValue": 100,
-              "maxValue": 288000,
-              "parameters": {
-                "rc": "cbr_ld_hq",
-                "b": "%d000"
-              }
-            },
-            {
-              "name": "h264_nvencStrategyCBRLDHQBuffer",
-              "label": "Buffer Size [kbit]",
-              "description": "The decoder bitstream buffer size.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 0,
-              "minValue": 0,
-              "maxValue": 288000,
-              "parameters": {
-                "buffsize": "%d000"
-              }
-            }
-          ]
         }
       ]
     },
@@ -605,16 +460,16 @@
     {
       "name": "h264_nvencBFrames",
       "label": "Number of B-Frames",
-      "description": "Bipredective coded pictures contain motion-compensated difference information relative to previously decoded pictures. 0 is the best precision.",
+      "description": "Set max number of B-frames between non-B-frames. 0 means that Bipredective coded picture frames are disabled. If a value of -1 is used, it will choose an automatic value depending on the encoder.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "int",
       "useDefaultValue": true,
       "flags": [
         "slider"
       ],
-      "defaultValue": 2,
-      "minValue": 0,
-      "maxValue": 4,
+      "defaultValue": 0,
+      "minValue": -1,
+      "maxValue": 16,
       "parameters": {
         "bf": "%d"
       }
@@ -664,6 +519,7 @@
     {
       "name": "h264_nvencQPI",
       "label": "QP Value For I-Frames",
+	  "description": "Enable quantization parameter for I-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [
@@ -705,6 +561,7 @@
     {
       "name": "h264_nvencQPP",
       "label": "QP Value For P-Frames",
+	  "description": "Enable quantization parameter for P-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [
@@ -746,6 +603,7 @@
     {
       "name": "h264_nvencQPB",
       "label": "QP Value For B-Frames",
+	  "description": "Enable quantization parameter for B-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [
