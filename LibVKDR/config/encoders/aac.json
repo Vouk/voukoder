@@ -48,7 +48,7 @@
     {
       "name": "ADBEAudioBitrate",
       "label": "Bitrate [kbps]",
-      "description" : "The bitrate used for encoding audio. Higher bitrate implies better quality.",
+      "description" : "The bitrate used for encoding audio. Higher bitrate implies better quality. 448+ kbps only supported for surround.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
       "flags": [
@@ -104,6 +104,20 @@
           "name": "384",
           "parameters": {
             "b": "384000"
+          }
+        },
+	{
+          "id": 7,
+          "name": "448",
+          "parameters": {
+            "b": "448000"
+          }
+        },
+	{
+          "id": 8,
+          "name": "512",
+          "parameters": {
+            "b": "512000"
           }
         }
       ]
