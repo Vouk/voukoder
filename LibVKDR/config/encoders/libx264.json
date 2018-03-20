@@ -370,6 +370,13 @@
           "parameters": {
             "tune": "fastdecode"
           }
+        },
+        {
+          "id": 8,
+          "name": "Zero Latency",
+          "parameters": {
+            "tune": "zerolatency"
+          }
         }
       ]
     },
@@ -948,7 +955,6 @@
     {
       "name": "x264VBVBufferSize",
       "label": "VBV Buffer Size [kbit]",
-      "description": "The Video Buffering Verifier bitstream buffer size.",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [
@@ -964,7 +970,6 @@
     {
       "name": "x264VBVMaxBitrate",
       "label": "VBV Max. Bitrate [kbit]",
-      "description": "VBV underflow signals an encoder rate buffer overflow. VBV overflow signals an encoder rate buffer underflow.",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [
@@ -980,7 +985,6 @@
     {
       "name": "x264VBVInitBuffer",
       "label": "VBV Initial Buffer",
-      "description": "The Video Buffering Verifier validates that the encoded stream doesn't overflow or underflow the decoder's buffer.",
       "group": "VKDRx264RateControlGroup",
       "type": "float",
       "flags": [
@@ -1024,7 +1028,6 @@
     {
       "name": "x264NalHrd",
       "label": "NAL HRD Mode",
-      "description": "Signal HRD information. Required for Blu-Ray streams or broadcasts.",
       "group": "VKDRx264BluRayGroup",
       "type": "int",
       "flags": [
@@ -1056,8 +1059,7 @@
     },
     {
       "name": "x264BlurayCompat",
-      "label": "Blu-Ray Compatibility",
-      "description": "Create video files that will be compatible for Blu-Ray discs.",
+      "label": "Enable Blu-Ray Compatibility Mode",
       "group": "VKDRx264BluRayGroup",
       "type": "bool",
       "flags": [
@@ -1070,8 +1072,7 @@
     },
     {
       "name": "x264AUD",
-      "label": "Use AUD",
-      "description": "Access unit delimiter can be used for signaling about start of video frame.",
+      "label": "Enable Access Unit Delimiters",
       "group": "VKDRx264BluRayGroup",
       "type": "bool",
       "flags": [
@@ -1085,7 +1086,6 @@
     {
       "name": "x264FakeInterlaced",
       "label": "Fake Interlaced",
-      "description": "Flag stream as interlaced but encode progressive. Makes it possible to encode 25p and 30p Blu-Ray.",
       "group": "VKDRx264BluRayGroup",
       "type": "bool",
       "flags": [
