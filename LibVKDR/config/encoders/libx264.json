@@ -2,7 +2,7 @@
   "name": "libx264",
   "authors": [
     "Daniel Stankewitz",
-	"Daniel Steuer"
+	  "Daniel Steuer"
   ],
   "defaultPixelFormat": "yuv420p",
   "groups": [
@@ -505,9 +505,7 @@
       "description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "useDefaultValue": true,
       "values": [
@@ -608,9 +606,7 @@
       "description": "Minimum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
       "group": "VKDRx264GOPGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 25,
       "minValue": 0,
       "maxValue": 999,
@@ -624,9 +620,7 @@
       "description": "Open GOPs have to look at both previous and upcoming frames to create a full image. Those reduce the overall file size.",
       "group": "VKDRx264GOPGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "open-gop": ""
@@ -718,9 +712,7 @@
       "description": "The encoder determines the number of B-frames to use (within the B-frames limit).",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -752,9 +744,7 @@
       "description": "Allows B-frames to be used as reference frames instead of only I or P-frames.",
       "group": "VKDRx264BFramesGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -785,9 +775,7 @@
       "label": "Disable weighted B-Frame prediction",
       "group": "VKDRx264BFramesGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-weightb": ""
@@ -894,9 +882,7 @@
       "label": "Adaptive Quantizers Mode",
       "group": "VKDRx264QuantizerGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -925,7 +911,7 @@
     {
       "name": "x264AQStrength",
       "label": "Adaptive Quantizer Strength",
-	  "description": "Selects the adaptive quantization algorithm that quantizes less detailed image areas more. The saved bits can then be used in other parts of the image for better detail.",
+	    "description": "Selects the adaptive quantization algorithm that quantizes less detailed image areas more. The saved bits can then be used in other parts of the image for better detail.",
       "group": "VKDRx264QuantizerGroup",
       "type": "float",
       "flags": [
@@ -1004,12 +990,10 @@
     {
       "name": "x264RCLookahead",
       "label": "Frame lookahead",
-	  "description": "Determines how many frames the mb-tree and VBV algorithms are allowed to look into the future. The higher the value, the more memory and computing time is required.",
+	    "description": "Determines how many frames the mb-tree and VBV algorithms are allowed to look into the future. The higher the value, the more memory and computing time is required.",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 40,
       "minValue": 0,
       "maxValue": 250,
@@ -1020,12 +1004,10 @@
     {
       "name": "x264NoMBTree",
       "label": "Disable MB-Tree",
-	  "description": "Disables the default active macroblock tree ratecontrol. Only interesting for very fast encodings at the expense of quality.",
+	    "description": "Disables the default active macroblock tree ratecontrol. Only interesting for very fast encodings at the expense of quality.",
       "group": "VKDRx264RateControlGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-mbtree": ""
@@ -1037,8 +1019,7 @@
       "description": "Signal HRD information. Required for Blu-Ray streams or broadcasts.",
       "group": "VKDRx264BluRayGroup",
       "type": "int",
-      "flags": [
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -1084,9 +1065,7 @@
       "description": "Access unit delimiter can be used for signaling about start of video frame.",
       "group": "VKDRx264BluRayGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "aud": ""
@@ -1098,9 +1077,7 @@
       "description": "Flag stream as interlaced but encode progressive. Makes it possible to encode 25p and 30p Blu-Ray.",
       "group": "VKDRx264BluRayGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "fake-interlaced": ""
@@ -1111,9 +1088,7 @@
       "label": "Algorithm",
       "group": "VKDRx264MotionEstimationGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -1156,12 +1131,10 @@
     {
       "name": "x264MERange",
       "label": "Range",
-	  "description": "Defines the size of the area in which motion is searched for.",
+	    "description": "Defines the size of the area in which motion is searched for.",
       "group": "VKDRx264MotionEstimationGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 16,
       "minValue": 4,
       "maxValue": 1024,
@@ -1175,9 +1148,7 @@
 	  "description": "Defines the quality level for the subpixel motion search and the partition decision.",
       "group": "VKDRx264MotionEstimationGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 7,
       "values": [
         {
@@ -1269,12 +1240,10 @@
     {
       "name": "x264NoChromaME",
       "label": "Disable Chroma Motion Estimation",
-	  "description": "By deactivating, the encoder uses only the luminance for motion search in the brightness information (luma).",
+	    "description": "By deactivating, the encoder uses only the luminance for motion search in the brightness information (luma).",
       "group": "VKDRx264MotionEstimationGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-chroma-me": ""
@@ -1283,7 +1252,7 @@
     {
       "name": "x264Direct",
       "label": "Direct MV prediction mode",
-	  "description": "Specifies whether temporal or spatial information is used in B-frames to compress direct blocks (i.e. blocks without their own movement vector).",
+	    "description": "Specifies whether temporal or spatial information is used in B-frames to compress direct blocks (i.e. blocks without their own movement vector).",
       "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [
@@ -1324,7 +1293,7 @@
     {
       "name": "x264Trellis",
       "label": "Trellis",
-	  "description": "Trellis weighs between detail preservation and lower data rate by rounding up or down coefficients according to certain criteria.",
+	    "description": "Trellis weighs between detail preservation and lower data rate by rounding up or down coefficients according to certain criteria.",
       "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [
@@ -1360,9 +1329,7 @@
       "label": "Noise Reduction",
       "group": "VKDRx264AnalysisGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "minValue": 0,
       "maxValue": 10000,
@@ -1373,12 +1340,10 @@
     {
       "name": "x264NoMixedRefs",
       "label": "Disable Mixed Reference Frames",
-	  "description": "Prohibits the encoder from selecting reference images not only for each macro block, but for each block partition individually.",
+	    "description": "Prohibits the encoder from selecting reference images not only for each macro block, but for each block partition individually.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-mixed-refs": ""
@@ -1387,12 +1352,10 @@
     {
       "name": "x264No",
       "label": "Disable DCT Decimation",
-	  "description": "Prevents very small coefficients from being rounded to zero in DCT.",
+  	  "description": "Prevents very small coefficients from being rounded to zero in DCT.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-dct-decimate": ""
@@ -1401,12 +1364,10 @@
     {
       "name": "x264NoFastPSkip",
       "label": "Disable Fast P-Skip",
-	  "description": "Disables accelerated processing of P-frames.",
+  	  "description": "Disables accelerated processing of P-frames.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-fast-pskip": ""
@@ -1415,12 +1376,10 @@
     {
       "name": "x264NoPsy",
       "label": "Disable Psychovisual Enhancements",
-	  "description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
+	    "description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-psy": ""
@@ -1429,12 +1388,10 @@
     {
       "name": "x264NoCabac",
       "label": "Disable CABAC",
-	  "description": "Context Adaptive Binary Arithmetic Coding is a compression method in the lossless phase of the encoding process that can significantly reduce the required bit rate, especially at high data rates."
+	    "description": "Context Adaptive Binary Arithmetic Coding is a compression method in the lossless phase of the encoding process that can significantly reduce the required bit rate, especially at high data rates.",
       "group": "VKDRx264MiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-cabac": ""

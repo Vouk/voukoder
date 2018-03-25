@@ -398,30 +398,22 @@ exNewParamInfo GUI::createParamElement(IParamInfo paramConfig, csSDK_int32 hidde
 		paramInfo.paramType = exParamType_float;
 		paramValues.value.floatValue = paramConfig.default.floatValue;
 
-		if (!isnan(paramConfig.min.floatValue))
-		{
+		if (paramConfig.minSet)
 			paramValues.rangeMin.floatValue = paramConfig.min.floatValue;
-		}
 
-		if (!isnan(paramConfig.max.floatValue))
-		{
+		if (paramConfig.maxSet)
 			paramValues.rangeMax.floatValue = paramConfig.max.floatValue;
-		}
 	}
 	else if (paramConfig.type == "int")
 	{
 		paramInfo.paramType = exParamType_int;
 		paramValues.value.intValue = paramConfig.default.intValue;
 
-		if (!isnan(paramConfig.min.floatValue)) // This is a union so float is okay
-		{
+		if (paramConfig.minSet)
 			paramValues.rangeMin.intValue = paramConfig.min.intValue;
-		}
 
-		if (!isnan(paramConfig.max.floatValue))
-		{
+		if (paramConfig.maxSet)
 			paramValues.rangeMax.intValue = paramConfig.max.intValue;
-		}
 	}
 	else if (paramConfig.type == "bool")
 	{
@@ -656,7 +648,7 @@ void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, 
 		paramInfo->name.c_str(),
 		&paramValues);
 
-	if (!isnan(paramInfo->min.floatValue))
+	if (paramInfo->minSet)
 	{
 		if (paramInfo->type == "float")
 		{
@@ -668,7 +660,7 @@ void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, 
 		}
 	}
 
-	if (!isnan(paramInfo->max.floatValue))
+	if (paramInfo->maxSet)
 	{
 		if (paramInfo->type == "float")
 		{

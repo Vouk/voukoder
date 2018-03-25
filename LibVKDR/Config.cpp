@@ -247,10 +247,12 @@ ParamInfo Config::createParamInfo(json param)
 		if (param.find("minValue") != param.end())
 		{
 			paramInfo.min.intValue = param["minValue"].get<int>();
+			paramInfo.minSet = true;
 		}
 		if (param.find("maxValue") != param.end())
 		{
 			paramInfo.max.intValue = param["maxValue"].get<int>();
+			paramInfo.maxSet = true;
 		}
 	}
 	else if (paramInfo.type == "float")
@@ -259,10 +261,12 @@ ParamInfo Config::createParamInfo(json param)
 		if (param.find("minValue") != param.end())
 		{
 			paramInfo.min.floatValue = param["minValue"].get<float>();
+			paramInfo.minSet = true;
 		}
 		if (param.find("maxValue") != param.end())
 		{
 			paramInfo.max.floatValue = param["maxValue"].get<float>();
+			paramInfo.maxSet = true;
 		}
 	}
 	else if (paramInfo.type == "bool")
@@ -365,11 +369,13 @@ ParamSubValueInfo Config::createSubValue(json json)
 		if (json.find("minValue") != json.end())
 		{
 			paramSubValueInfo.min.intValue = json["minValue"].get<int>();
+			paramSubValueInfo.minSet = true;
 		}
 
 		if (json.find("maxValue") != json.end())
 		{
 			paramSubValueInfo.max.intValue = json["maxValue"].get<int>();
+			paramSubValueInfo.maxSet = true;
 		}
 	}
 	else if (paramSubValueInfo.type == "float")
@@ -379,11 +385,13 @@ ParamSubValueInfo Config::createSubValue(json json)
 		if (json.find("minValue") != json.end())
 		{
 			paramSubValueInfo.min.floatValue = json["minValue"].get<float>();
+			paramSubValueInfo.minSet = true;
 		}
 
 		if (json.find("maxValue") != json.end())
 		{
 			paramSubValueInfo.max.floatValue = json["maxValue"].get<float>();
+			paramSubValueInfo.maxSet = true;
 		}
 	}
 	else if (paramSubValueInfo.type == "bool")

@@ -25,20 +25,22 @@ namespace LibVKDR
 		union
 		{
 			int intValue;
-			float floatValue = NAN;
+			float floatValue;
 		} default;
 
 		union
 		{
 			int intValue;
-			float floatValue = NAN;
+			float floatValue;
 		} min;
+		bool minSet = false;
 
 		union
 		{
 			int intValue;
-			float floatValue = NAN;
+			float floatValue;
 		} max;
+		bool maxSet = false;
 	};
 
 	struct ParamSubValueInfo : IParamInfo

@@ -28,9 +28,7 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
-  "parameterGroups": {
-
-  },
+  "parameterGroups": {},
   "params": [
     {
       "name": "hevc_nvencPreset",
@@ -38,9 +36,7 @@
       "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "useDefaultValue": true,
       "values": [
@@ -94,14 +90,14 @@
           }
         },
         {
-          "id": 7,
+          "id": 10,
           "name": "Lossless",
           "parameters": {
             "preset": "lossless"
           }
         },
         {
-          "id": 8,
+          "id": 11,
           "name": "Lossless High Performance",
           "parameters": {
             "preset": "losslesshp"
@@ -115,9 +111,7 @@
       "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -142,17 +136,13 @@
       "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "(Auto)",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -253,9 +243,7 @@
       "description": "High tier increases the maximum bitrate of the chosen level.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -280,18 +268,39 @@
       "description": "The encoding mode to use. Choose Constant Bitrate (CBR), Constant Quantizer (CQP) or Variable Bitrate (VBR) and if two encoding passes should be used (VBR only).",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
+          "name": "Constant Quantizer (CQP)",
+          "subvalues": [
+            {
+              "name": "hevc_nvencStrategyCQP",
+              "label": "CQP",
+              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 23,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "rc": "constqp",
+                "qp": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
           "name": "Constant Bitrate (CBR)",
           "subvalues": [
             {
               "name": "hevc_nvencStrategyCBR",
-              "label": "Bitrate [kbit]",
+              "label": "Bitrate [kbit/s]",
               "description": "The data rate allowed by the encoder.",
               "type": "int",
               "flags": [
@@ -324,36 +333,14 @@
             }
           ]
         },
-		{
-          "id": 1,
-          "name": "Constant Quantizer (CQP)",
-          "subvalues": [
-            {
-              "name": "hevc_nvencStrategyCQP",
-              "label": "CQP",
-              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 23,
-              "minValue": 0,
-              "maxValue": 51,
-              "parameters": {
-                "rc": "constqp",
-                "qp": "%d"
-              }
-            }
-          ]
-        },
+
         {
           "id": 2,
           "name": "Variable Bitrate (VBR)",
           "subvalues": [
             {
               "name": "hevc_nvencStrategyVBR",
-              "label": "Target Bitrate [kbit]",
+              "label": "Target Bitrate [kbit/s]",
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [
@@ -406,11 +393,11 @@
               "description": "Enable 2-pass encoding.",
               "type": "bool",
               "flags": [
-                ],
+              ],
               "defaultValue": 0,
               "parameters": {
                 "2pass": ""
-			  }
+              }
             }
           ]
         }
@@ -493,12 +480,10 @@
     {
       "name": "hevc_nvencQPI",
       "label": "QP Value For I-Frames",
-	  "description": "Enable to change quantization parameter for I-frames.",
+	    "description": "Enable to change quantization parameter for I-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -535,12 +520,10 @@
     {
       "name": "hevc_nvencQPP",
       "label": "QP Value For P-Frames",
-	  "description": "Enable to change quantization parameter for P-frames.",
+	    "description": "Enable to change quantization parameter for P-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -577,12 +560,10 @@
     {
       "name": "hevc_nvencQPB",
       "label": "QP Value For B-Frames",
-	  "description": "Enable to change quantization parameter for B-frames.",
+	    "description": "Enable to change quantization parameter for B-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -622,17 +603,13 @@
       "description": "Choose AQ Mode how available bits should be distributed between all macroblocks in the video.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "Off",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -671,9 +648,7 @@
       "description": "Minimizes GOP-to-GOP rate fluctuations.",
       "group": "VKDRhevcNVENCGOPGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "strict-gop": ""
@@ -701,9 +676,7 @@
       "description": "Indicate zero latency operation (no reordering delay).",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "zerolatency": ""
@@ -715,9 +688,7 @@
       "description": "Specifies the use of a scaling and offset, when performing motion compensation. This includes implicit weighted prediction for B-frames, and explicit weighted prediction for P-frames.",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "weighted_pred": ""
@@ -729,9 +700,7 @@
       "description": "Create video files that will be compatible for Blu-Ray discs.",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "bluray-compat": ""
@@ -743,9 +712,7 @@
       "description": "Access unit delimiter can be used for signaling about start of video frame.",
       "group": "VKDRhevcNVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "aud": ""

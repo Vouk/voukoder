@@ -28,9 +28,7 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
-  "parameterGroups": {
-
-  },
+  "parameterGroups": {},
   "params": [
     {
       "name": "h264_nvencPreset",
@@ -38,9 +36,7 @@
       "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "useDefaultValue": true,
       "values": [
@@ -94,14 +90,14 @@
           }
         },
         {
-          "id": 7,
+          "id": 10,
           "name": "Lossless",
           "parameters": {
             "preset": "lossless"
           }
         },
         {
-          "id": 8,
+          "id": 11,
           "name": "Lossless High Performance",
           "parameters": {
             "preset": "losslesshp"
@@ -115,9 +111,7 @@
       "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -157,9 +151,7 @@
       "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -467,9 +459,9 @@
       "flags": [
         "slider"
       ],
-      "defaultValue": 0,
+      "defaultValue": 2,
       "minValue": -1,
-      "maxValue": 16,
+      "maxValue": 4,
       "parameters": {
         "bf": "%d"
       }
@@ -480,9 +472,7 @@
       "description": "When lookahead is enabled, set this to 1 to disable adaptive I-frame insertion at scene cuts.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "no-scenecut": ""
@@ -494,9 +484,7 @@
       "description": "If forcing keyframes, force them as IDR frames.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "forced-idr ": ""
@@ -508,9 +496,7 @@
       "description": "Enables automatic insertion of non-reference P-frames.",
       "group": "VKDRh264NVENCFramesGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "nonref_p": ""
@@ -519,12 +505,10 @@
     {
       "name": "h264_nvencQPI",
       "label": "QP Value For I-Frames",
-	  "description": "Enable to change quantization parameter for I-frames.",
+	    "description": "Enable to change quantization parameter for I-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -561,12 +545,10 @@
     {
       "name": "h264_nvencQPP",
       "label": "QP Value For P-Frames",
-	  "description": "Enable to change quantization parameter for P-frames.",
+	    "description": "Enable to change quantization parameter for P-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -603,12 +585,10 @@
     {
       "name": "h264_nvencQPB",
       "label": "QP Value For B-Frames",
-	  "description": "Enable to change quantization parameter for B-frames.",
+	    "description": "Enable to change quantization parameter for B-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -648,17 +628,13 @@
       "description": "Choose AQ Mode how available bits should be distributed between all macroblocks in the video.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "Off",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -697,9 +673,7 @@
       "description": "Minimizes GOP-to-GOP rate fluctuations.",
       "group": "VKDRh264NVENCGOPGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "strict-gop": ""
@@ -727,9 +701,7 @@
       "description": "Indicate zero latency operation (no reordering delay).",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "zerolatency": ""
@@ -741,9 +713,7 @@
       "description": "Specifies the use of a scaling and offset, when performing motion compensation. This includes implicit weighted prediction for B-frames, and explicit weighted prediction for P-frames.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "weighted_pred": ""
@@ -755,9 +725,7 @@
       "description": "Create video files that will be compatible for Blu-Ray discs.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "bluray-compat": ""
@@ -769,9 +737,7 @@
       "description": "Access unit delimiter can be used for signaling about start of video frame.",
       "group": "VKDRh264NVENCMiscGroup",
       "type": "bool",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "parameters": {
         "aud": ""
