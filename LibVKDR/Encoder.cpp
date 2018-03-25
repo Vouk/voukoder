@@ -46,6 +46,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 		encoderContext->codecContext->color_primaries = exportSettings.colorPrimaries;
 		encoderContext->codecContext->color_trc = exportSettings.colorTRC;
 		encoderContext->codecContext->sample_aspect_ratio = exportSettings.videoSar;
+		encoderContext->codecContext->field_order = exportSettings.fieldOrder;
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
@@ -321,6 +322,7 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 	frame->width = videoContext.codecContext->width;
 	frame->height = videoContext.codecContext->height;
 	frame->format = av_get_pix_fmt(encoderData->pix_fmt);
+	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
 
 	// Reserve buffer space
 	if ((ret = av_frame_get_buffer(frame, 0)) < 0)

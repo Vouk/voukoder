@@ -281,13 +281,34 @@
       "description": "The encoding mode to use. Choose Constant Bitrate (CBR), Constant Quantizer (CQP) or Variable Bitrate (VBR) and if two encoding passes should be used (VBR only).",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
+          "name": "Constant Quantizer (CQP)",
+          "subvalues": [
+            {
+              "name": "h264_nvencStrategyCQP",
+              "label": "CQP",
+              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
+              "type": "int",
+              "flags": [
+                "slider"
+              ],
+              "useDefaultValue": true,
+              "defaultValue": 23,
+              "minValue": 0,
+              "maxValue": 51,
+              "parameters": {
+                "rc": "constqp",
+                "qp": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
           "name": "Constant Bitrate (CBR)",
           "subvalues": [
             {
@@ -325,31 +346,8 @@
             }
           ]
         },
-		{
-          "id": 1,
-          "name": "Constant Quantizer (CQP)",
-          "subvalues": [
-            {
-              "name": "h264_nvencStrategyCQP",
-              "label": "CQP",
-              "description": "Quality level of the video. Lower values mean better quality but increase file size and processing time.",
-              "type": "int",
-              "flags": [
-                "slider"
-              ],
-              "useDefaultValue": true,
-              "defaultValue": 23,
-              "minValue": 0,
-              "maxValue": 51,
-              "parameters": {
-                "rc": "constqp",
-                "qp": "%d"
-              }
-            }
-          ]
-        },
         {
-          "id": 2,
+          "id": 1,
           "name": "Variable Bitrate (VBR)",
           "subvalues": [
             {
@@ -407,11 +405,11 @@
               "description": "Enable 2-pass encoding.",
               "type": "bool",
               "flags": [
-                ],
+              ],
               "defaultValue": 0,
               "parameters": {
                 "2pass": ""
-			  }
+              }
             }
           ]
         }
