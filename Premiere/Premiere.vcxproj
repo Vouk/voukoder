@@ -23,7 +23,7 @@
     <ProjectGuid>{4A8A8121-8648-4A0E-AB2C-30254DDB73E9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Premiere</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>Premiere</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

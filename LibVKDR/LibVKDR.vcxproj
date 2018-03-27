@@ -23,7 +23,7 @@
     <ProjectGuid>{4F950CA6-3ED0-4AC0-BA05-FE65E10EEFC0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LibVKDR</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
