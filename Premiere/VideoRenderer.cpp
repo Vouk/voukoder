@@ -85,9 +85,8 @@ static inline __m128i load_and_scale(const float *src)
 		scaled = _mm_fmadd_ps(srcv, scale_mul, scale_add);
 	else
 		scaled = _mm_add_ps(_mm_mul_ps(srcv, scale_mul), scale_add);
-	__m128i vuya = _mm_cvttps_epi32(scaled); 
 
-	return vuya;
+	return _mm_cvttps_epi32(scaled);;
 }
 
 // Thanks to Peter Cordes
