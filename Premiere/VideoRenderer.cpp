@@ -14,6 +14,20 @@ static time_point<steady_clock> tp1, tp2, tp3, tp4, tp5;
 
 #endif
 
+static const __m128 scale_mul = _mm_setr_ps(
+	57342.98164f,
+	57342.98164f,
+	56283.17216f,
+	65535.0f
+);
+
+static const __m128 scale_add = _mm_setr_ps(
+	32767.0f,
+	32767.0f,
+	4112.04855f,
+	0.0f
+);
+
 VideoRenderer::VideoRenderer(csSDK_uint32 videoRenderID, csSDK_uint32 width, csSDK_uint32 height, PrSDKPPixSuite *ppixSuite, PrSDKPPix2Suite *ppix2Suite, PrSDKMemoryManagerSuite *memorySuite, PrSDKExporterUtilitySuite *exporterUtilitySuite) :
 	videoRenderID(videoRenderID),
 	width(width),
@@ -62,46 +76,31 @@ void VideoRenderer::unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY,
 }
 
 // Thanks to Peter Cordes
-static inline __m128i load_and_scale(const float *src)
+static inline __m128i load_and_scale(const float *src, const bool useFMA)
 {  
-	const __m128 scale_mul = _mm_setr_ps(
-		57342.98164f,
-		57342.98164f,
-		56283.17216f,
-		65535.0f
-	);
-
-	const __m128 scale_add = _mm_setr_ps(
-		32767.0f,
-		32767.0f,
-		4112.04855f,
-		0.0f
-	);
-
 	__m128 srcv = _mm_loadu_ps(src);
+	__m128 scaled = useFMA ?
+		_mm_fmadd_ps(srcv, scale_mul, scale_add) : 
+		_mm_add_ps(_mm_mul_ps(srcv, scale_mul), scale_add);
 
-	__m128 scaled;
-	if (InstructionSet::FMA())
-		scaled = _mm_fmadd_ps(srcv, scale_mul, scale_add);
-	else
-		scaled = _mm_add_ps(_mm_mul_ps(srcv, scale_mul), scale_add);
-
-	return _mm_cvttps_epi32(scaled);;
+	return _mm_cvttps_epi32(scaled);
 }
 
 // Thanks to Peter Cordes
 void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA)
 {
+	bool useFMA = InstructionSet::FMA();
+
 	for (int r = height - 1; r >= 0; r--)
 	{
 		const float* p = &pixels[r * width * 4];
 
 		for (int c = 0; c < (int)width * 4; c += 16)
 		{
-			__m128i vuya0 = load_and_scale(p + c);
-			__m128i vuya1 = load_and_scale(p + c + 4);
-			__m128i vuya2 = load_and_scale(p + c + 8);
-			__m128i vuya3 = load_and_scale(p + c + 12);
+			__m128i vuya0 = load_and_scale(p + c, useFMA);
+			__m128i vuya1 = load_and_scale(p + c + 4, useFMA);
+			__m128i vuya2 = load_and_scale(p + c + 8, useFMA);
+			__m128i vuya3 = load_and_scale(p + c + 12, useFMA);
 
 			__m128i vuya02 = _mm_packus_epi32(vuya0, vuya2);
 			__m128i vuya13 = _mm_packus_epi32(vuya1, vuya3);
