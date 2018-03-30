@@ -186,6 +186,12 @@ void Encoder::close(bool writeTrailer)
 	if (audioContext.codecContext != NULL && audioContext.codecContext->internal != NULL)
 		avcodec_free_context(&audioContext.codecContext);
 
+	if (audioContext.frame != NULL)
+		av_frame_free(&audioContext.frame);
+
+	if (videoContext.frame != NULL)
+		av_frame_free(&videoContext.frame);
+
 	if (exportSettings.filename.length() > 0)
 	{
 		avio_close(formatContext->pb);
@@ -317,39 +323,31 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 		}
 	}
 
-	// Create a new frame
-	AVFrame *frame = av_frame_alloc();
-	frame->width = videoContext.codecContext->width;
-	frame->height = videoContext.codecContext->height;
-	frame->format = av_get_pix_fmt(encoderData->pix_fmt);
-	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
-
-	// Reserve buffer space
-	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
+	// Initially create a frame (and reuse it)
+	if (videoContext.frame == NULL)
 	{
-		return ret;
+		videoContext.frame = av_frame_alloc();
+		videoContext.frame->width = videoContext.codecContext->width;
+		videoContext.frame->height = videoContext.codecContext->height;
+		videoContext.frame->format = av_get_pix_fmt(encoderData->pix_fmt);
+		videoContext.frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
+
+		if ((ret = av_frame_get_buffer(videoContext.frame, 0)) < 0)
+		{
+			return ret;
+		}
 	}
 
-	// Fill the source frame
+	// Fill the frame with data
 	for (int i = 0; i < encoderData->planes; i++)
 	{
-		frame->data[i] = (uint8_t*)encoderData->plane[i];
-		frame->linesize[i] = encoderData->stride[i];
+		videoContext.frame->data[i] = (uint8_t*)encoderData->plane[i];
+		videoContext.frame->linesize[i] = encoderData->stride[i];
 	}
 
-	// Presentation timestamp
-	frame->pts = videoContext.next_pts++;
+	videoContext.frame->pts = videoContext.next_pts++;
 
-	// Send the frame to the encoder
-	if ((ret = encodeAndWriteFrame(&videoContext, frame, frameFilter)) < 0)
-	{
-		av_frame_free(&frame);
-		return ret;
-	}
-
-	av_frame_free(&frame);
-
-	return 0;
+	return encodeAndWriteFrame(&videoContext, videoContext.frame, frameFilter);
 }
 
 int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
@@ -364,27 +362,11 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 		options.sample_fmt = AV_SAMPLE_FMT_FLTP;
 		options.time_base = { 1, audioContext.codecContext->sample_rate };
 
-		char *audioLayout;
-		switch (audioContext.codecContext->channel_layout)
-		{
-		case AV_CH_LAYOUT_MONO:
-			audioLayout = "mono";
-			break;
-		case AV_CH_LAYOUT_STEREO:
-			audioLayout = "stereo";
-			break;
-		case AV_CH_LAYOUT_5POINT1_BACK:
-			audioLayout = "5.1";
-			break;
-		default:
-			audioLayout = "stereo";
-		}
-
 		// Set target format
 		char filterConfig[256];
 		sprintf_s(filterConfig,
-			"aformat=channel_layouts=%s:sample_fmts=%s:sample_rates=%d,asetnsamples=n=%d:p=0",
-			audioLayout,
+			"aformat=channel_layouts=%dc:sample_fmts=%s:sample_rates=%d,asetnsamples=n=%d:p=0",
+			audioContext.codecContext->channels,
 			av_get_sample_fmt_name(audioContext.codecContext->sample_fmt),
 			audioContext.codecContext->sample_rate,
 			audioFrameSize);
@@ -400,92 +382,62 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 		frameFilter = audioContext.frameFilters.begin()->second;
 	}
 
-	// Create the source frame
-	AVFrame *frame;
-	frame = av_frame_alloc();
-	frame->nb_samples = sampleCount;
-	frame->channel_layout = audioContext.codecContext->channel_layout;
-	frame->format = AV_SAMPLE_FMT_FLTP;
-	frame->sample_rate = audioContext.codecContext->sample_rate;
-	frame->pts = audioContext.next_pts;
+	int ret = 0;
 
-	audioContext.next_pts += sampleCount;
-
-	int ret;
-
-	// Allocate the buffer for the frame
-	if ((ret = av_frame_get_buffer(frame, 0)) == 0)
+	// Initially create a frame (and reuse it)
+	if (audioContext.frame == NULL)
 	{
-		// Assign the audio plane pointer
-		for (int c = 0; c < audioContext.codecContext->channels; c++)
-		{
-			frame->data[c] = (uint8_t*)data[c];
-		}
+		audioContext.frame = av_frame_alloc();
+		audioContext.frame->nb_samples = sampleCount;
+		audioContext.frame->channel_layout = audioContext.codecContext->channel_layout;
+		audioContext.frame->format = AV_SAMPLE_FMT_FLTP;
+		audioContext.frame->sample_rate = audioContext.codecContext->sample_rate;
 
-		// Send the frame to the encoder
-		ret = encodeAndWriteFrame(&audioContext, frame, frameFilter);
+		if ((ret = av_frame_get_buffer(audioContext.frame, 0)) < 0)
+		{
+			return ret;
+		}
 	}
 
-	av_frame_free(&frame);
+	audioContext.frame->pts = audioContext.next_pts;
+	audioContext.next_pts += sampleCount;
 
-	return ret;
+	// Fill the frame with data
+	for (int c = 0; c < audioContext.codecContext->channels; c++)
+	{
+		audioContext.frame->data[c] = (uint8_t*)data[c];
+	}
+
+	return encodeAndWriteFrame(&audioContext, audioContext.frame, frameFilter);
 }
 
 int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter)
 {
 	int ret = 0;
 
-	if (frame == NULL)
+	if (frameFilter == NULL || frame == NULL)
 	{
-		// Send NULL frame
 		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
 			return ret;
 		}
-
-		goto receive_packets;
 	}
-
-	if (frameFilter != NULL)
+	else
 	{
-		// Send the uncompressed frame to frame filter
 		if ((ret = frameFilter->sendFrame(frame)) < 0)
 		{
 			return ret;
 		}
 
-		AVFrame *tmp_frame;
-		tmp_frame = av_frame_alloc();
-
-		// Receive frames from the rame filter
-		while (frameFilter->receiveFrame(tmp_frame) >= 0)
+		while (frameFilter->receiveFrame() >= 0)
 		{
-			// Send the frame to the encoder
-			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
-			{
-				av_frame_free(&tmp_frame);
+			ret = avcodec_send_frame(context->codecContext, frameFilter->frame);
+			
+			if (ret < 0)
 				return ret;
-			}
-
-			av_frame_unref(tmp_frame);
-		}
-
-		av_frame_free(&tmp_frame);
-	}
-	else
-	{
-		// Send the frame directly to the encoder
-		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
-		{
-			return ret;
 		}
 	}
-
-receive_packets:
-
 	AVPacket *packet = av_packet_alloc();
-
-	// If we receive a packet from the encoder write it to the stream
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{
 		av_packet_rescale_ts(packet, context->codecContext->time_base, context->stream->time_base);
