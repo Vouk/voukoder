@@ -40,6 +40,7 @@ namespace LibVKDR
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
 		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
 		int prepare(EncoderData *encoderData);
+		int receivePackets(EncoderContext *context);
 		int pass;
 		int audioFrameSize;
 	};

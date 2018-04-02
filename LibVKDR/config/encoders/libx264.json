@@ -7,43 +7,18 @@
   "defaultPixelFormat": "yuv420p",
   "groups": [
     {
-      "name": "VKDRx264QuantizerGroup",
-      "label": "Quantizers",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "VKDRx264GOPGroup",
-      "label": "GOP",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "VKDRx264SlicingGroup",
-      "label": "Slicing",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "VKDRx264BFramesGroup",
-      "label": "B-Frames",
+      "name": "VKDRx264FrameTypeGroup",
+      "label": "Frame Type",
       "parent": "VKDRAdvVideoCodecTabGroup"
     },
     {
       "name": "VKDRx264RateControlGroup",
-      "label": "Rate Control",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "VKDRx264MotionEstimationGroup",
-      "label": "Motion Estimation",
+      "label": "Rate control",
       "parent": "VKDRAdvVideoCodecTabGroup"
     },
     {
       "name": "VKDRx264AnalysisGroup",
       "label": "Analysis",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "VKDRx264BluRayGroup",
-      "label": "Blu-Ray",
       "parent": "VKDRAdvVideoCodecTabGroup"
     },
     {
@@ -58,11 +33,13 @@
       "separator": ":",
       "noValueReplacement": "1",
       "parameters": [
+        "interlaced",
         "bff",
         "tff",
         "keyint",
         "min-keyint",
         "open-gop",
+        "ref",
         "slices",
         "slices-max",
         "slice-max-size",
@@ -72,16 +49,24 @@
         "b-bias",
         "b-adapt",
         "b-pyramid",
+        "no-deblock",
+        "deblock",
+        "scenecut",
         "no-weightb",
         "qpmin",
         "qpmax",
         "qpstep",
+        "ratetol",
         "ipratio",
         "pbratio",
         "chroma-qp-offset",
         "aq-mode",
         "aq-strength",
         "qcomp",
+        "cplxblur",
+        "zones",
+        "qblur",
+        "partitions",
         "vbv-bufsize",
         "vbv-maxrate",
         "vbv-init",
@@ -93,11 +78,15 @@
         "fake-interlaced",
         "me",
         "merange",
+        "mvrange",
         "subme",
         "no-chroma-me",
         "direct",
+        "direct-8x8",
+        "psy-rd",
         "trellis",
         "nr",
+        "no-fast-pskip",
         "no-mixed-refs",
         "no-dct-decimate",
         "no-psy",
@@ -107,21 +96,20 @@
   },
   "interlaced": {
     "bottomFrameFirst": {
-      "bff": "1",
-      "top": "0"
+      "interlaced" : "1",
+      "bff": "1"
     },
     "topFrameFirst": {
-      "tff": "1",
-      "top": "1"
+      "interlaced" : "1",
+      "tff": "1"
     },
-    "progressive": {
-    }
+    "progressive": {}
   },
   "params": [
     {
       "name": "x264PixelFormat",
       "label": "Color Format",
-      "description": "Color encoding system.",
+      "description": "Color depth and chroma subsampling format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [],
@@ -168,12 +156,10 @@
     {
       "name": "x264Preset",
       "label": "Preset",
-      "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
+      "description": "Predefined parameter presets.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 5,
       "values": [
         {
@@ -254,17 +240,13 @@
       "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "(Auto)",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -290,7 +272,6 @@
         {
           "id": 4,
           "name": "High 4:2:2",
-          "pixelFormat": "yuv422p",
           "parameters": {
             "profile": "high422"
           }
@@ -298,7 +279,6 @@
         {
           "id": 5,
           "name": "High 4:4:4",
-          "pixelFormat": "yuv444p",
           "parameters": {
             "profile": "high444"
           }
@@ -311,17 +291,13 @@
       "description": "Customize to fit your project encoding style.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "(None)",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -377,20 +353,16 @@
     {
       "name": "x264Level",
       "label": "Level",
-      "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
+      "description": "Sets the level flag in the output bitstream (as defined by Annex A of the H.264 standard). This automatic detection is not perfect, and may underestimate the level if you are not using VBV controls to limit the max bitrate. If playback is intended on any consumer level product besides a HTPC, Level 4.1 is the maximum usually supported (Xbox 360, Playstation 3, Popcorn Hour A-100 Media Extender to name a few). The GPU-based DXVA decoders on PCs have a maximum level of 4.1 too. Blu-ray and HD DVD are Level 4.1. Note that x264 treats this setting as an output flag only. It does not take any measures to ensure compliance with the level you specify.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "(Automatic)",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
@@ -588,14 +560,12 @@
       "name": "x264KeyInt",
       "label": "Max. GOP Size",
       "description": "Maximum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
-      "group": "VKDRx264GOPGroup",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 250,
       "minValue": 0,
-      "maxValue": 999,
+      "maxValue": 600,
       "parameters": {
         "keyint": "%d"
       }
@@ -604,85 +574,37 @@
       "name": "x264MinKeyInt",
       "label": "Min. GOP Size",
       "description": "Minimum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
-      "group": "VKDRx264GOPGroup",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 25,
       "minValue": 0,
-      "maxValue": 999,
+      "maxValue": 60,
       "parameters": {
         "min-keyint": "%d"
       }
     },
     {
-      "name": "x264OpenGop",
-      "label": "Open GOP",
-      "description": "Open GOPs have to look at both previous and upcoming frames to create a full image. Those reduce the overall file size.",
-      "group": "VKDRx264GOPGroup",
-      "type": "bool",
+      "name": "x264Scenecut",
+      "label": "Scenecut",
+      "description": "Sets the threshold for IDR frame placement (read: scene change detection). x264 calculates a metric for every frame to estimate how different it is from the previous frame. If the value is lower than scenecut, an IDR frame is used. The metric is slightly more complex then, but it's a reasonable approximation. Higher values of scenecut increase the number of scenecuts detected.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
       "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "open-gop": ""
-      }
-    },
-    {
-      "name": "x264Slices",
-      "label": "Slices per Frame",
-      "description": "The encoder divides each frame into X regions and searches for redundancies in other frames only within the respective region.",
-      "group": "VKDRx264SlicingGroup",
-      "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
+      "defaultValue": 40,
       "minValue": 0,
       "maxValue": 100,
       "parameters": {
-        "slices": "%d"
-      }
-    },
-    {
-      "name": "x264SlicesMax",
-      "label": "Max. Slices per Frame",
-      "description": "Maximum amount of slices for one frame.",
-      "group": "VKDRx264SlicingGroup",
-      "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
-      "minValue": 0,
-      "maxValue": 100,
-      "parameters": {
-        "slices-max": "%d"
-      }
-    },
-    {
-      "name": "x264SliceMax",
-      "label": "Max. Size of Slice",
-      "description": "Maximum size of a slice for one frame.",
-      "group": "VKDRx264SlicingGroup",
-      "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
-      "minValue": 0,
-      "maxValue": 250,
-      "parameters": {
-        "slice-max-size": "%d"
+        "scenecut": "%d"
       }
     },
     {
       "name": "x264BFrames",
       "label": "Number of B-Frames",
       "description": "Bipredective coded pictures contain motion-compensated difference information relative to previously decoded pictures. 0 is the best precision.",
-      "group": "VKDRx264BFramesGroup",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 3,
       "minValue": 0,
       "maxValue": 16,
@@ -691,26 +613,10 @@
       }
     },
     {
-      "name": "x264BFrameBias",
-      "label": "B-Frames Bias",
-      "description": "The encoder chooses more likely higher numbers of B-frames during the adaptive lookahead.",
-      "group": "VKDRx264BFramesGroup",
-      "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
-      "minValue": -90,
-      "maxValue": 100,
-      "parameters": {
-        "b-bias": "%d"
-      }
-    },
-    {
       "name": "x264BAdapt",
       "label": "Adaptive B-Frames",
       "description": "The encoder determines the number of B-frames to use (within the B-frames limit).",
-      "group": "VKDRx264BFramesGroup",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 1,
@@ -739,10 +645,24 @@
       ]
     },
     {
+      "name": "x264BFrameBias",
+      "label": "B-Frames Bias",
+      "description": "The encoder chooses more likely higher numbers of B-frames during the adaptive lookahead.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": -90,
+      "maxValue": 100,
+      "parameters": {
+        "b-bias": "%d"
+      }
+    },
+    {
       "name": "x264BPyramid",
       "label": "B-Pyramid",
       "description": "Allows B-frames to be used as reference frames instead of only I or P-frames.",
-      "group": "VKDRx264BFramesGroup",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 1,
@@ -771,25 +691,158 @@
       ]
     },
     {
-      "name": "x264NoWeightB",
-      "label": "Disable weighted B-Frame prediction",
-      "group": "VKDRx264BFramesGroup",
+      "name": "x264Ref",
+      "label": "Ref",
+      "description": "Controls the size of the DPB (Decoded Picture Buffer). In short, this value is the number of previous frames each P-frame can use as references. B-frames can use one or two fewer, depending on if they are used as references or not.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 0,
+      "maxValue": 16,
+      "parameters": {
+        "ref": "%d"
+      }
+    },
+    {
+      "name": "x264Slices",
+      "label": "Slices per Frame",
+      "description": "The encoder divides each frame into X regions and searches for redundancies in other frames only within the respective region.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 100,
+      "parameters": {
+        "slices": "%d"
+      }
+    },
+    {
+      "name": "x264SlicesMax",
+      "label": "Max. Slices per Frame",
+      "description": "Maximum amount of slices for one frame.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 100,
+      "parameters": {
+        "slices-max": "%d"
+      }
+    },
+    {
+      "name": "x264SliceMax",
+      "label": "Max. Size of Slice",
+      "description": "Maximum size of a slice for one frame.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 250,
+      "parameters": {
+        "slice-max-size": "%d"
+      }
+    },
+    {
+      "name": "x264Deblock",
+      "label": "Deblocking",
+      "description": "Controls the loop filter (aka inloop deblocker) which is part of the h264 standard. The loop filter takes a rather large slice of decoding time for a single item, and is responsible for a similar slice of the overall quality output. It is very efficient in terms of encoding time vs. quality gained.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": "0:0",
+      "parameters": {
+        "deblock": "%s"
+      }
+    },
+    {
+      "name": "x264NoDeblock",
+      "label": "Disable deblocking",
+      "description": "Completely disables in-loop deblocking.",
+      "group": "VKDRx264FrameTypeGroup",
       "type": "bool",
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-weightb": ""
+        "no-deblock": ""
+      }
+    },
+    {
+      "name": "x264OpenGop",
+      "label": "Open GOP",
+      "description": "Open GOPs have to look at both previous and upcoming frames to create a full image. Those reduce the overall file size.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "open-gop": ""
+      }
+    },
+    {
+      "name": "x264NoCabac",
+      "label": "Disable CABAC",
+      "description": "Context Adaptive Binary Arithmetic Coding is a compression method in the lossless phase of the encoding process that can significantly reduce the required bit rate, especially at high data rates.",
+      "group": "VKDRx264FrameTypeGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "no-cabac": ""
+      }
+    },
+    {
+      "name": "x264VBVMaxBitrate",
+      "label": "VBV Max. Bitrate [kbit]",
+      "description": "VBV underflow signals an encoder rate buffer overflow. VBV overflow signals an encoder rate buffer underflow.",
+      "group": "VKDRx264RateControlGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 512000,
+      "parameters": {
+        "vbv-maxrate": "%d000"
+      }
+    },
+    {
+      "name": "x264VBVBufferSize",
+      "label": "VBV Buffer Size [kbit]",
+      "description": "The Video Buffering Verifier bitstream buffer size.",
+      "group": "VKDRx264RateControlGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 512000,
+      "parameters": {
+        "vbv-bufsize": "%d000"
+      }
+    },
+    {
+      "name": "x264VBVInitBuffer",
+      "label": "VBV Initial Buffer",
+      "description": "The Video Buffering Verifier validates that the encoded stream doesn't overflow or underflow the decoder's buffer.",
+      "group": "VKDRx264RateControlGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0.9,
+      "minValue": 0,
+      "maxValue": 1,
+      "parameters": {
+        "vbv-init": "%.1f"
       }
     },
     {
       "name": "x264QPMin",
       "label": "Min. Quantizer",
-	  "description": "The minimum frame quantizer.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "The minimum frame quantizer.",
+      "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 0,
       "minValue": 0,
       "maxValue": 69,
@@ -800,12 +853,10 @@
     {
       "name": "x264QPMax",
       "label": "Max. Quantizer",
-	  "description": "The maximum frame quantizer.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "The maximum frame quantizer.",
+      "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 69,
       "minValue": 0,
       "maxValue": 69,
@@ -816,12 +867,10 @@
     {
       "name": "x264QPStep",
       "label": "Quantizer Delta",
-	  "description": "Determines for the encoding methods 2-pass and 1-pass bitrate how much the quantizer may fluctuate from one frame to the next.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "Determines for the encoding methods 2-pass and 1-pass bitrate how much the quantizer may fluctuate from one frame to the next.",
+      "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 4,
       "minValue": 1,
       "maxValue": 51,
@@ -830,14 +879,26 @@
       }
     },
     {
+      "name": "x264Ratetol",
+      "label": "Rate tolerance",
+      "description": "Only applicable to 1pass bitrate encodes. Sets the percentage that x264 can miss the target average bitrate by. 1.0 = 1%. This means the final average bitrate (and corresponding filesize) will be within about +/- 1% of what you set.",
+      "group": "VKDRx264RateControlGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 1.0,
+      "minValue": 0,
+      "maxValue": 100,
+      "parameters": {
+        "ratetol": "%.1f"
+      }
+    },
+    {
       "name": "x264IPRatio",
       "label": "I:P Ratio",
-	  "description": "Determines by which factor a P-frame is to be quantized more than the I-frame that uses it as a reference.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "Determines by which factor a P-frame is to be quantized more than the I-frame that uses it as a reference.",
+      "group": "VKDRx264RateControlGroup",
       "type": "float",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 1.4,
       "minValue": 1,
       "maxValue": 10,
@@ -848,12 +909,10 @@
     {
       "name": "x264PBRatio",
       "label": "P:B Ratio",
-	  "description": "Determines by which factor a B-frame is to be quantized more than the P-frame that uses it as a reference.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "Determines by which factor a B-frame is to be quantized more than the P-frame that uses it as a reference.",
+      "group": "VKDRx264RateControlGroup",
       "type": "float",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 1.3,
       "minValue": 1,
       "maxValue": 10,
@@ -864,12 +923,10 @@
     {
       "name": "x264ChromaQPOffset",
       "label": "Chroma QP Offset",
-	  "description": "This quantizes the color information (chroma) of the image differently from the brightness information (luma).",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "This quantizes the color information (chroma) of the image differently from the brightness information (luma).",
+      "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 0,
       "minValue": -12,
       "maxValue": 12,
@@ -880,7 +937,7 @@
     {
       "name": "x264AdaptiveQuantizer",
       "label": "Adaptive Quantizers Mode",
-      "group": "VKDRx264QuantizerGroup",
+      "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 1,
@@ -905,18 +962,23 @@
           "parameters": {
             "aq-mode": "2"
           }
+        },
+        {
+          "id": 3,
+          "name": "Auto VAQ (biased)",
+          "parameters": {
+            "aq-mode": "3"
+          }
         }
       ]
     },
     {
       "name": "x264AQStrength",
       "label": "Adaptive Quantizer Strength",
-	    "description": "Selects the adaptive quantization algorithm that quantizes less detailed image areas more. The saved bits can then be used in other parts of the image for better detail.",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "Selects the adaptive quantization algorithm that quantizes less detailed image areas more. The saved bits can then be used in other parts of the image for better detail.",
+      "group": "VKDRx264RateControlGroup",
       "type": "float",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 1,
       "minValue": 0,
       "maxValue": 2,
@@ -927,11 +989,10 @@
     {
       "name": "x264QuantizerCompression",
       "label": "Quantizer Compression",
-      "group": "VKDRx264QuantizerGroup",
+      "description": "Quantizer curve compression factor. 0.0 => Constant Bitrate, 1.0 => Constant Quantizer. Note that adaptive quantization partially replaces the effect of qcomp and x264 will internally raise qcomp to compensate based on the adaptive quantization strength.",
+      "group": "VKDRx264RateControlGroup",
       "type": "float",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 0.6,
       "minValue": 0,
       "maxValue": 1,
@@ -940,57 +1001,49 @@
       }
     },
     {
-      "name": "x264VBVBufferSize",
-      "label": "VBV Buffer Size [kbit]",
-      "description": "The Video Buffering Verifier bitstream buffer size.",
+      "name": "x264Cplxblur",
+      "label": "CPLX blur",
+      "description": "Apply a gaussian blur with the given radius to the quantizer curve. This means that the quantizer assigned to each frame is blurred temporally with its neighbours to limit quantizer fluctuations.",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
+      "flags": [ "slider" ],
+      "defaultValue": 20,
       "minValue": 0,
-      "maxValue": 512000,
+      "maxValue": 999,
       "parameters": {
-        "vbv-bufsize": "%d000"
+        "cplxblur": "%d"
       }
     },
     {
-      "name": "x264VBVMaxBitrate",
-      "label": "VBV Max. Bitrate [kbit]",
-      "description": "VBV underflow signals an encoder rate buffer overflow. VBV overflow signals an encoder rate buffer underflow.",
-      "group": "VKDRx264RateControlGroup",
-      "type": "int",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0,
-      "minValue": 0,
-      "maxValue": 512000,
-      "parameters": {
-        "vbv-maxrate": "%d000"
-      }
-    },
-    {
-      "name": "x264VBVInitBuffer",
-      "label": "VBV Initial Buffer",
-      "description": "The Video Buffering Verifier validates that the encoded stream doesn't overflow or underflow the decoder's buffer.",
+      "name": "x264Qblur",
+      "label": "Q blur",
+      "description": "Apply a gaussian blur with the given radius to the quantizer curve, after curve compression. Not a very important setting.",
       "group": "VKDRx264RateControlGroup",
       "type": "float",
-      "flags": [
-        "slider"
-      ],
-      "defaultValue": 0.9,
+      "flags": [ "slider" ],
+      "defaultValue": 0.5,
       "minValue": 0,
-      "maxValue": 1,
+      "maxValue": 99,
       "parameters": {
-        "vbv-init": "%.1f"
+        "qblur": "%.1f"
+      }
+    },
+    {
+      "name": "x264Zones",
+      "label": "Zones",
+      "description": "With this option you can specify different CRF rates for different parts of the video. For examle you specify CRF=20 for the full length of the video but you want to use CRF=18.5 from FRAME 27000 to 35000 and CRF=16.5 from 44000 to 49000 and CRF=17.5 from 75000 to 77500 and so on. This option is based on frame numbers.",
+      "group": "VKDRx264RateControlGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": "",
+      "parameters": {
+        "zones": "%s"
       }
     },
     {
       "name": "x264RCLookahead",
       "label": "Frame lookahead",
-	    "description": "Determines how many frames the mb-tree and VBV algorithms are allowed to look into the future. The higher the value, the more memory and computing time is required.",
+      "description": "Determines how many frames the mb-tree and VBV algorithms are allowed to look into the future. The higher the value, the more memory and computing time is required.",
       "group": "VKDRx264RateControlGroup",
       "type": "int",
       "flags": [],
@@ -1004,7 +1057,7 @@
     {
       "name": "x264NoMBTree",
       "label": "Disable MB-Tree",
-	    "description": "Disables the default active macroblock tree ratecontrol. Only interesting for very fast encodings at the expense of quality.",
+      "description": "Disables the default active macroblock tree ratecontrol. Only interesting for very fast encodings at the expense of quality.",
       "group": "VKDRx264RateControlGroup",
       "type": "bool",
       "flags": [],
@@ -1014,79 +1067,103 @@
       }
     },
     {
-      "name": "x264NalHrd",
-      "label": "NAL HRD Mode",
-      "description": "Signal HRD information. Required for Blu-Ray streams or broadcasts.",
-      "group": "VKDRx264BluRayGroup",
+      "name": "x264Partitions",
+      "label": "Partitions",
+      "description": "h264 video is split up into 16x16 macroblocks during compression. These blocks can be further split up into smaller partitions, which is what this options controls. With this option, you enable individual partitions. Partitions are enabled per-frametype (ie I, P, B). The available partitions are: p8x8, p4x4, b8x8, i8x8, i4x4",
+      "group": "VKDRx264AnalysisGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": "p8x8,b8x8,i8x8,i4x4",
+      "parameters": {
+        "partitions": "%s"
+      }
+    },
+    {
+      "name": "x264Direct",
+      "label": "Direct MV prediction mode",
+      "description": "Specifies whether temporal or spatial information is used in B-frames to compress direct blocks (i.e. blocks without their own movement vector).",
+      "group": "VKDRx264AnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "None",
+          "parameters": {
+            "direct": "none"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Spatial",
+          "parameters": {
+            "direct": "spatial"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Temporal",
+          "parameters": {
+            "direct": "temporal"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Auto",
+          "parameters": {
+            "direct": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x264Direct8x8",
+      "label": "Direct prediction size",
+      "description": "Set the size of the direct prediction mode. Enabling direct-8x8 inference (on by default at most levels) may slightly improve quality when used with 8x8dct.",
+      "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
-          "name": "Off",
+          "name": "Smallest possible",
           "parameters": {
-            "nal-hrd": "none"
+            "direct-8x8": "-1"
           }
         },
         {
           "id": 1,
-          "name": "CBR",
+          "name": "4x4",
           "parameters": {
-            "nal-hrd": "cbr"
+            "direct-8x8": "0"
           }
         },
         {
           "id": 2,
-          "name": "VBR",
+          "name": "8x8",
           "parameters": {
-            "nal-hrd": "vbr"
+            "direct-8x8": "1"
           }
         }
       ]
     },
     {
-      "name": "x264BlurayCompat",
-      "label": "Blu-Ray Compatibility",
-      "description": "Create video files that will be compatible for Blu-Ray discs.",
-      "group": "VKDRx264BluRayGroup",
-      "type": "bool",
-      "flags": [
-
-      ],
-      "defaultValue": 0,
-      "parameters": {
-        "bluray-compat": ""
-      }
-    },
-    {
-      "name": "x264AUD",
-      "label": "Use AUD",
-      "description": "Access unit delimiter can be used for signaling about start of video frame.",
-      "group": "VKDRx264BluRayGroup",
+      "name": "x264NoWeightB",
+      "label": "Disable weighted B-Frame prediction",
+      "group": "VKDRx264AnalysisGroup",
       "type": "bool",
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "aud": ""
-      }
-    },
-    {
-      "name": "x264FakeInterlaced",
-      "label": "Fake Interlaced",
-      "description": "Flag stream as interlaced but encode progressive. Makes it possible to encode 25p and 30p Blu-Ray.",
-      "group": "VKDRx264BluRayGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "fake-interlaced": ""
+        "no-weightb": ""
       }
     },
     {
       "name": "x264ME",
       "label": "Algorithm",
-      "group": "VKDRx264MotionEstimationGroup",
+      "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 1,
@@ -1130,9 +1207,9 @@
     },
     {
       "name": "x264MERange",
-      "label": "Range",
-	    "description": "Defines the size of the area in which motion is searched for.",
-      "group": "VKDRx264MotionEstimationGroup",
+      "label": "ME Range",
+      "description": "Defines the size of the area in which motion is searched for.",
+      "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 16,
@@ -1143,10 +1220,24 @@
       }
     },
     {
+      "name": "x264MVRange",
+      "label": "MV Range",
+      "description": "Defines the max. length of the motion vector.",
+      "group": "VKDRx264AnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": -1,
+      "minValue": -1,
+      "maxValue": 1024,
+      "parameters": {
+        "mvrange": "%d"
+      }
+    },
+    {
       "name": "x264SubME",
       "label": "Sub-Pixel Refinement",
-	  "description": "Defines the quality level for the subpixel motion search and the partition decision.",
-      "group": "VKDRx264MotionEstimationGroup",
+      "description": "Defines the quality level for the subpixel motion search and the partition decision.",
+      "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 7,
@@ -1238,10 +1329,22 @@
       ]
     },
     {
+      "name": "x264PsyRD",
+      "label": "Psy RD",
+      "description": "First number is the strength of Psy-RDO to use (requires subme>=6 to activate). The second number is the strength of Psy-Trellis (requires trellis>=1 to activate). Note that Trellis is still considered 'experimental', and almost certainly is a Bad Thing for at least cartoons.",
+      "group": "VKDRx264AnalysisGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": "1.0:0.0",
+      "parameters": {
+        "psy-rd": "%s"
+      }
+    },
+    {
       "name": "x264NoChromaME",
       "label": "Disable Chroma Motion Estimation",
-	    "description": "By deactivating, the encoder uses only the luminance for motion search in the brightness information (luma).",
-      "group": "VKDRx264MotionEstimationGroup",
+      "description": "By deactivating, the encoder uses only the luminance for motion search in the brightness information (luma).",
+      "group": "VKDRx264AnalysisGroup",
       "type": "bool",
       "flags": [],
       "defaultValue": 0,
@@ -1250,50 +1353,21 @@
       }
     },
     {
-      "name": "x264Direct",
-      "label": "Direct MV prediction mode",
-	    "description": "Specifies whether temporal or spatial information is used in B-frames to compress direct blocks (i.e. blocks without their own movement vector).",
+      "name": "x264NoMixedRefs",
+      "label": "Disable Mixed Reference Frames",
+      "description": "Prohibits the encoder from selecting reference images not only for each macro block, but for each block partition individually.",
       "group": "VKDRx264AnalysisGroup",
-      "type": "int",
-      "flags": [
-
-      ],
-      "defaultValue": 1,
-      "values": [
-        {
-          "id": 0,
-          "name": "None",
-          "parameters": {
-            "direct": "none"
-          }
-        },
-        {
-          "id": 1,
-          "name": "Spatial",
-          "parameters": {
-            "direct": "spatial"
-          }
-        },
-        {
-          "id": 2,
-          "name": "Temporal",
-          "parameters": {
-            "direct": "temporal"
-          }
-        },
-        {
-          "id": 3,
-          "name": "Auto",
-          "parameters": {
-            "direct": "auto"
-          }
-        }
-      ]
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "no-mixed-refs": ""
+      }
     },
     {
       "name": "x264Trellis",
       "label": "Trellis",
-	    "description": "Trellis weighs between detail preservation and lower data rate by rounding up or down coefficients according to certain criteria.",
+      "description": "Trellis weighs between detail preservation and lower data rate by rounding up or down coefficients according to certain criteria.",
       "group": "VKDRx264AnalysisGroup",
       "type": "int",
       "flags": [
@@ -1325,6 +1399,18 @@
       ]
     },
     {
+      "name": "x264No",
+      "label": "Disable DCT Decimation",
+      "description": "Prevents very small coefficients from being rounded to zero in DCT.",
+      "group": "VKDRx264AnalysisGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "no-dct-decimate": ""
+      }
+    },
+    {
       "name": "x264Nr",
       "label": "Noise Reduction",
       "group": "VKDRx264AnalysisGroup",
@@ -1338,33 +1424,9 @@
       }
     },
     {
-      "name": "x264NoMixedRefs",
-      "label": "Disable Mixed Reference Frames",
-	    "description": "Prohibits the encoder from selecting reference images not only for each macro block, but for each block partition individually.",
-      "group": "VKDRx264AnalysisGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "no-mixed-refs": ""
-      }
-    },
-    {
-      "name": "x264No",
-      "label": "Disable DCT Decimation",
-  	  "description": "Prevents very small coefficients from being rounded to zero in DCT.",
-      "group": "VKDRx264AnalysisGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "no-dct-decimate": ""
-      }
-    },
-    {
       "name": "x264NoFastPSkip",
       "label": "Disable Fast P-Skip",
-  	  "description": "Disables accelerated processing of P-frames.",
+      "description": "Disables accelerated processing of P-frames.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
       "flags": [],
@@ -1376,7 +1438,7 @@
     {
       "name": "x264NoPsy",
       "label": "Disable Psychovisual Enhancements",
-	    "description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
+      "description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
       "group": "VKDRx264AnalysisGroup",
       "type": "bool",
       "flags": [],
@@ -1386,15 +1448,71 @@
       }
     },
     {
-      "name": "x264NoCabac",
-      "label": "Disable CABAC",
-	    "description": "Context Adaptive Binary Arithmetic Coding is a compression method in the lossless phase of the encoding process that can significantly reduce the required bit rate, especially at high data rates.",
+      "name": "x264NalHrd",
+      "label": "NAL HRD Mode",
+      "description": "Signal HRD information. Required for Blu-Ray streams or broadcasts.",
+      "group": "VKDRx264MiscGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Off",
+          "parameters": {
+            "nal-hrd": "none"
+          }
+        },
+        {
+          "id": 1,
+          "name": "CBR",
+          "parameters": {
+            "nal-hrd": "cbr"
+          }
+        },
+        {
+          "id": 2,
+          "name": "VBR",
+          "parameters": {
+            "nal-hrd": "vbr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x264BlurayCompat",
+      "label": "Blu-Ray Compatibility",
+      "description": "Create video files that will be compatible for Blu-Ray discs.",
       "group": "VKDRx264MiscGroup",
       "type": "bool",
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-cabac": ""
+        "bluray-compat": ""
+      }
+    },
+    {
+      "name": "x264AUD",
+      "label": "Use AUD",
+      "description": "Access unit delimiter can be used for signaling about start of video frame.",
+      "group": "VKDRx264MiscGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "aud": ""
+      }
+    },
+    {
+      "name": "x264FakeInterlaced",
+      "label": "Fake Interlaced",
+      "description": "Flag stream as interlaced but encode progressive. Makes it possible to encode 25p and 30p Blu-Ray.",
+      "group": "VKDRx264MiscGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "fake-interlaced": ""
       }
     }
   ]

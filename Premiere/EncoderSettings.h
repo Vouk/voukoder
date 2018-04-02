@@ -17,11 +17,11 @@ struct EncoderSettings
 
 	void addParams(ParamInfo paramInfo, map<string, string> parameters, exParamValues paramValue, vector<EncoderParameterGroup> paramGroups)
 	{
-		char buffer[64];
+		char buffer[256];
 
 		for (pair<string, string> parameter : parameters)
 		{
-			int l = 0;
+			size_t l = 0;
 
 			if (paramInfo.type == "float")
 			{
@@ -49,6 +49,18 @@ struct EncoderSettings
 				}
 
 				l = sprintf_s(buffer, "%d", paramValue.value.intValue);
+			}
+			else if (paramInfo.type == "string")
+			{
+				const wstring defaultValue(paramInfo.defaultStringValue.begin(), paramInfo.defaultStringValue.end());
+				const wstring currentValue(paramValue.paramString);
+
+				if (defaultValue == currentValue && !paramInfo.useDefaultValue)
+				{
+					return;
+				}
+
+				wcstombs_s(&l, buffer, sizeof(buffer), currentValue.c_str(), currentValue.length());
 			}
 
 			if (l > 0)

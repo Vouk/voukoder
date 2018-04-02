@@ -437,6 +437,14 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 				return ret;
 		}
 	}
+
+	return receivePackets(context);
+}
+
+int Encoder::receivePackets(EncoderContext *context)
+{
+	int ret = 0;
+
 	AVPacket *packet = av_packet_alloc();
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{

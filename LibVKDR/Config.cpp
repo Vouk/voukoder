@@ -273,6 +273,10 @@ ParamInfo Config::createParamInfo(json param)
 	{
 		paramInfo.default.intValue = param["defaultValue"].get<int>();
 	}
+	else if (paramInfo.type == "string")
+	{
+		paramInfo.defaultStringValue = param["defaultValue"].get<string>();
+	}
 
 	// Are the values?
 	if (param.find("values") != param.end())
@@ -397,6 +401,10 @@ ParamSubValueInfo Config::createSubValue(json json)
 	else if (paramSubValueInfo.type == "bool")
 	{
 		paramSubValueInfo.default.intValue = json["defaultValue"].get<int>();
+	}
+	else if (paramSubValueInfo.type == "string")
+	{
+		paramSubValueInfo.defaultStringValue = json["defaultValue"].get<string>();
 	}
 
 	if (json.find("parameters") != json.end())

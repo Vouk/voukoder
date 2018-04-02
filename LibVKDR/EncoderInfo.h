@@ -21,6 +21,7 @@ namespace LibVKDR
 		string type;
 		vector<string> flags;
 		bool isSubValue;
+		string defaultStringValue = "";
 
 		union
 		{

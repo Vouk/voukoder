@@ -420,9 +420,10 @@ exNewParamInfo GUI::createParamElement(IParamInfo paramConfig, csSDK_int32 hidde
 		paramInfo.paramType = exParamType_bool;
 		paramValues.value.intValue = paramConfig.default.intValue;
 	}
-	else if (paramConfig.type == "button")
+	else if (paramConfig.type == "string")
 	{
-		paramInfo.paramType = exParamType_button;
+		paramInfo.paramType = exParamType_string;
+		prUTF16CharCopy(paramValues.paramString, wstring(paramConfig.defaultStringValue.begin(), paramConfig.defaultStringValue.end()).c_str());
 	}
 
 	// Flags
