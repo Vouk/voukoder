@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <regex>
 #include <map>
 #include "..\LibVKDR\LibVKDR.h"
 
@@ -53,14 +54,19 @@ struct EncoderSettings
 			else if (paramInfo.type == "string")
 			{
 				const wstring defaultValue(paramInfo.defaultStringValue.begin(), paramInfo.defaultStringValue.end());
-				const wstring currentValue(paramValue.paramString);
+				wstring currentValue(paramValue.paramString);
 
 				if (defaultValue == currentValue && !paramInfo.useDefaultValue)
 				{
 					return;
 				}
 
+				// Make this more nice
+				currentValue = std::regex_replace(currentValue, std::wregex(L":"), L"\\\\:");
+				currentValue = std::regex_replace(currentValue, std::wregex(L"="), L"\\\\=");
+
 				wcstombs_s(&l, buffer, sizeof(buffer), currentValue.c_str(), currentValue.length());
+				l -= 1;
 			}
 
 			if (l > 0)
