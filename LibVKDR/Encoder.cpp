@@ -186,12 +186,6 @@ void Encoder::close(bool writeTrailer)
 	if (audioContext.codecContext != NULL && audioContext.codecContext->internal != NULL)
 		avcodec_free_context(&audioContext.codecContext);
 
-	if (audioContext.frame != NULL)
-		av_frame_free(&audioContext.frame);
-
-	if (videoContext.frame != NULL)
-		av_frame_free(&videoContext.frame);
-
 	if (exportSettings.filename.length() > 0)
 	{
 		avio_close(formatContext->pb);
@@ -323,31 +317,37 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 		}
 	}
 
-	// Initially create a frame (and reuse it)
-	if (videoContext.frame == NULL)
-	{
-		videoContext.frame = av_frame_alloc();
-		videoContext.frame->width = videoContext.codecContext->width;
-		videoContext.frame->height = videoContext.codecContext->height;
-		videoContext.frame->format = av_get_pix_fmt(encoderData->pix_fmt);
-		videoContext.frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
+	// Create a new frame
+	AVFrame *frame = av_frame_alloc();
+	frame->width = videoContext.codecContext->width;
+	frame->height = videoContext.codecContext->height;
+	frame->format = av_get_pix_fmt(encoderData->pix_fmt);
+	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
 
-		if ((ret = av_frame_get_buffer(videoContext.frame, 0)) < 0)
-		{
-			return ret;
-		}
+	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
+	{
+		return ret;
 	}
 
 	// Fill the frame with data
 	for (int i = 0; i < encoderData->planes; i++)
 	{
-		videoContext.frame->data[i] = (uint8_t*)encoderData->plane[i];
-		videoContext.frame->linesize[i] = encoderData->stride[i];
+		frame->data[i] = (uint8_t*)encoderData->plane[i];
+		frame->linesize[i] = encoderData->stride[i];
 	}
 
-	videoContext.frame->pts = videoContext.next_pts++;
+	frame->pts = videoContext.next_pts++;
 
-	return encodeAndWriteFrame(&videoContext, videoContext.frame, frameFilter);
+	// Send the frame to the encoder
+	if ((ret = encodeAndWriteFrame(&videoContext, frame, frameFilter)) < 0)
+	{
+		av_frame_free(&frame);
+		return ret;
+	}
+
+	av_frame_free(&frame);
+
+	return 0;
 }
 
 int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
@@ -382,70 +382,94 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 		frameFilter = audioContext.frameFilters.begin()->second;
 	}
 
+
+	// Create the source frame
+	AVFrame *frame;
+	frame = av_frame_alloc();
+	frame->nb_samples = sampleCount;
+	frame->channel_layout = audioContext.codecContext->channel_layout;
+	frame->format = AV_SAMPLE_FMT_FLTP;
+	frame->sample_rate = audioContext.codecContext->sample_rate;
+	frame->pts = audioContext.next_pts;
+
+	audioContext.next_pts += sampleCount;
+	
 	int ret = 0;
 
-	// Initially create a frame (and reuse it)
-	if (audioContext.frame == NULL)
+	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
 	{
-		audioContext.frame = av_frame_alloc();
-		audioContext.frame->nb_samples = sampleCount;
-		audioContext.frame->channel_layout = audioContext.codecContext->channel_layout;
-		audioContext.frame->format = AV_SAMPLE_FMT_FLTP;
-		audioContext.frame->sample_rate = audioContext.codecContext->sample_rate;
-
-		if ((ret = av_frame_get_buffer(audioContext.frame, 0)) < 0)
-		{
-			return ret;
-		}
+		return ret;
 	}
-
-	audioContext.frame->pts = audioContext.next_pts;
-	audioContext.next_pts += sampleCount;
 
 	// Fill the frame with data
 	for (int c = 0; c < audioContext.codecContext->channels; c++)
 	{
-		audioContext.frame->data[c] = (uint8_t*)data[c];
+		frame->data[c] = (uint8_t*)data[c];
 	}
 
-	return encodeAndWriteFrame(&audioContext, audioContext.frame, frameFilter);
+	// Send the frame to the encoder
+	ret = encodeAndWriteFrame(&audioContext, frame, frameFilter);
+
+	av_frame_free(&frame);
+
+	return ret;
 }
 
 int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter)
 {
 	int ret = 0;
 
-	if (frameFilter == NULL || frame == NULL)
+	if (frame == NULL)
 	{
+		// Send NULL frame
 		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
 			return ret;
 		}
+
+		goto receive_packets;
 	}
-	else
+
+	if (frameFilter != NULL)
 	{
+		// Send the uncompressed frame to frame filter
 		if ((ret = frameFilter->sendFrame(frame)) < 0)
 		{
 			return ret;
 		}
 
-		while (frameFilter->receiveFrame() >= 0)
+		AVFrame *tmp_frame;
+		tmp_frame = av_frame_alloc();
+
+		// Receive frames from the rame filter
+		while (frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
-			ret = avcodec_send_frame(context->codecContext, frameFilter->frame);
-			
-			if (ret < 0)
+			// Send the frame to the encoder
+			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
+			{
+				av_frame_free(&tmp_frame);
 				return ret;
+			}
+
+			av_frame_unref(tmp_frame);
+		}
+
+		av_frame_free(&tmp_frame);
+	}
+	else
+	{
+		// Send the frame directly to the encoder
+		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
+		{
+			return ret;
 		}
 	}
 
-	return receivePackets(context);
-}
+receive_packets:
 
-int Encoder::receivePackets(EncoderContext *context)
-{
-	int ret = 0;
+	AVPacket * packet = av_packet_alloc();
 
-	AVPacket *packet = av_packet_alloc();
+	// If we receive a packet from the encoder write it to the stream
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{
 		av_packet_rescale_ts(packet, context->codecContext->time_base, context->stream->time_base);

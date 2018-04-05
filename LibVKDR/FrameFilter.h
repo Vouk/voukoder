@@ -19,12 +19,11 @@ namespace LibVKDR
 	class FrameFilter
 	{
 	public:
-		AVFrame * frame;
 		FrameFilter();
 		~FrameFilter();
 		int configure(FrameFilterOptions options, const char *filters);
 		int sendFrame(AVFrame *frame);
-		int receiveFrame();
+		int receiveFrame(AVFrame *frame);
 	private:
 		AVFilterGraph *filterGraph;
 		AVFilterContext *in_ctx = NULL;

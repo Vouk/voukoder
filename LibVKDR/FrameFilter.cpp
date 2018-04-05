@@ -5,12 +5,10 @@ using namespace LibVKDR;
 FrameFilter::FrameFilter()
 {
 	filterGraph = avfilter_graph_alloc();
-	frame = av_frame_alloc();
 }
 
 FrameFilter::~FrameFilter()
 {
-	av_frame_free(&frame);
 	avfilter_graph_free(&filterGraph);
 }
 
@@ -93,10 +91,10 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 
 int FrameFilter::sendFrame(AVFrame *frame)
 {
-	return av_buffersrc_write_frame(in_ctx, frame);
+	return av_buffersrc_add_frame(in_ctx, frame);// , AV_BUFFERSRC_FLAG_KEEP_REF);
 }
 
-int FrameFilter::receiveFrame()
+int FrameFilter::receiveFrame(AVFrame *frame)
 {
 	return av_buffersink_get_frame(out_ctx, frame);
 }
