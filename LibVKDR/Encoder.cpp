@@ -1,4 +1,6 @@
+#include <sstream>
 #include "Encoder.h"
+#include "easylogging++.h"
 
 using namespace LibVKDR;
 
@@ -13,7 +15,11 @@ Encoder::Encoder(ExportSettings exportSettings) :
 		exportSettings.filename.c_str(),
 		NULL);
 
-	av_dict_set(&formatContext->metadata, "encoding_tool", LIB_VKDR_APPNAME, 0);
+	LOG(INFO) << "### ENCODER STARTED ###";
+	LOG(INFO) << "Plugin: " << exportSettings.application;
+
+	const string appId = exportSettings.application + " - www.voukoder.org";
+	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
 
 	pass = 0;
 }
@@ -21,6 +27,8 @@ Encoder::Encoder(ExportSettings exportSettings) :
 Encoder::~Encoder()
 {
 	avformat_free_context(formatContext);
+
+	LOG(INFO) << "### ENCODER ENDED ###";
 }
 
 int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext)
@@ -30,6 +38,8 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	{
 		return AVERROR_ENCODER_NOT_FOUND;
 	}
+
+	encoderContext->frameFilter = NULL;
 
 	encoderContext->codecContext = avcodec_alloc_context3(codec);
 	encoderContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
@@ -67,7 +77,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 	}
 
-	avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
+	//avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
 
 	return 0;
 }
@@ -260,14 +270,11 @@ FrameType Encoder::getNextFrameType()
 
 void Encoder::flushContext(EncoderContext *encoderContext)
 {
-	encodeAndWriteFrame(encoderContext, NULL, NULL);
+	delete(encoderContext->frameFilter);
+	encoderContext->frameFilter = NULL;
 
-	for (auto items : encoderContext->frameFilters)
-	{
-		delete(items.second);
-	}
+	encodeAndWriteFrame(encoderContext, NULL);
 
-	encoderContext->frameFilters.clear();
 }
 
 int Encoder::getAudioFrameSize()
@@ -284,37 +291,24 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 		return ret;
 	}
 
-	FrameFilter *frameFilter = NULL;
-
 	// Do we need a frame filter for pixel format conversion?
-	if (av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt)
+	if (av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt 
+		&& videoContext.frameFilter == NULL)
 	{
-		// Set up frame filter
-		if (videoContext.frameFilters.find(encoderData->pix_fmt) == videoContext.frameFilters.end())
-		{
-			// Configure source format
-			FrameFilterOptions options;
-			options.media_type = videoContext.codecContext->codec_type;
-			options.width = videoContext.codecContext->width;
-			options.height = videoContext.codecContext->height;
-			options.pix_fmt = av_get_pix_fmt(encoderData->pix_fmt);
-			options.time_base = videoContext.codecContext->time_base;
-			options.sar.den = videoContext.codecContext->sample_aspect_ratio.den;
-			options.sar.num = videoContext.codecContext->sample_aspect_ratio.num;
+		FrameFilterOptions options;
+		options.media_type = videoContext.codecContext->codec_type;
+		options.width = videoContext.codecContext->width;
+		options.height = videoContext.codecContext->height;
+		options.pix_fmt = av_get_pix_fmt(encoderData->pix_fmt);
+		options.time_base = videoContext.codecContext->time_base;
+		options.sar.den = videoContext.codecContext->sample_aspect_ratio.den;
+		options.sar.num = videoContext.codecContext->sample_aspect_ratio.num;
 
-			// Set target format
-			char filterConfig[256];
-			sprintf_s(filterConfig, "format=pix_fmts=%s", exportSettings.pixelFormat.c_str());
+		char filterConfig[256];
+		sprintf_s(filterConfig, "format=pix_fmts=%s", exportSettings.pixelFormat.c_str());
 
-			frameFilter = new FrameFilter();
-			frameFilter->configure(options, filterConfig);
-
-			videoContext.frameFilters.insert(pair<string, FrameFilter*>(encoderData->pix_fmt, frameFilter));
-		}
-		else
-		{
-			frameFilter = videoContext.frameFilters.at(encoderData->pix_fmt);
-		}
+		videoContext.frameFilter = new FrameFilter();
+		videoContext.frameFilter->configure(options, filterConfig);
 	}
 
 	// Create a new frame
@@ -339,7 +333,7 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 	frame->pts = videoContext.next_pts++;
 
 	// Send the frame to the encoder
-	if ((ret = encodeAndWriteFrame(&videoContext, frame, frameFilter)) < 0)
+	if ((ret = encodeAndWriteFrame(&videoContext, frame)) < 0)
 	{
 		av_frame_free(&frame);
 		return ret;
@@ -352,9 +346,7 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 
 int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 {
-	FrameFilter *frameFilter;
-
-	if (audioContext.frameFilters.size() == 0)
+	if (audioContext.frameFilter == NULL)
 	{
 		FrameFilterOptions options;
 		options.media_type = audioContext.codecContext->codec->type;
@@ -362,7 +354,6 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 		options.sample_fmt = AV_SAMPLE_FMT_FLTP;
 		options.time_base = { 1, audioContext.codecContext->sample_rate };
 
-		// Set target format
 		char filterConfig[256];
 		sprintf_s(filterConfig,
 			"aformat=channel_layouts=%dc:sample_fmts=%s:sample_rates=%d,asetnsamples=n=%d:p=0",
@@ -371,17 +362,9 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 			audioContext.codecContext->sample_rate,
 			audioFrameSize);
 
-		frameFilter = new FrameFilter();
-		frameFilter->configure(options, filterConfig);
-
-		audioContext.frameFilters.insert(pair<string, FrameFilter*>("default", frameFilter));
+		audioContext.frameFilter = new FrameFilter();
+		audioContext.frameFilter->configure(options, filterConfig);
 	}
-	else
-	{
-		// Take first frame filter found
-		frameFilter = audioContext.frameFilters.begin()->second;
-	}
-
 
 	// Create the source frame
 	AVFrame *frame;
@@ -408,14 +391,14 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	}
 
 	// Send the frame to the encoder
-	ret = encodeAndWriteFrame(&audioContext, frame, frameFilter);
+	ret = encodeAndWriteFrame(&audioContext, frame);
 
 	av_frame_free(&frame);
 
 	return ret;
 }
 
-int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter)
+int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 {
 	int ret = 0;
 
@@ -427,13 +410,13 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 			return ret;
 		}
 
-		goto receive_packets;
+		return receivePackets(context);
 	}
 
-	if (frameFilter != NULL)
+	if (context->frameFilter != NULL)
 	{
 		// Send the uncompressed frame to frame filter
-		if ((ret = frameFilter->sendFrame(frame)) < 0)
+		if ((ret = context->frameFilter->sendFrame(frame)) < 0)
 		{
 			return ret;
 		}
@@ -442,7 +425,7 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 		tmp_frame = av_frame_alloc();
 
 		// Receive frames from the rame filter
-		while (frameFilter->receiveFrame(tmp_frame) >= 0)
+		while (context->frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
 			// Send the frame to the encoder
 			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
@@ -465,11 +448,14 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameF
 		}
 	}
 
-receive_packets:
+	return receivePackets(context);
+}
+
+int Encoder::receivePackets(EncoderContext *context)
+{
+	int ret = 0;
 
 	AVPacket * packet = av_packet_alloc();
-
-	// If we receive a packet from the encoder write it to the stream
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{
 		av_packet_rescale_ts(packet, context->codecContext->time_base, context->stream->time_base);

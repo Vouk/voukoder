@@ -2,7 +2,6 @@
 #include <vector>
 #include <sstream>
 #include <Windows.h>
-#include "Version.h"
 #include "Logger.h"
 #include "easylogging++.h"
 
@@ -57,7 +56,7 @@ void Logger::vkdrInit()
 		conf.parseFromText(cfg.str());
 		el::Loggers::reconfigureAllLoggers(conf);
 
-		LOG(INFO) << LIB_VKDR_APPNAME;
+		LOG(INFO) <<  "LibVKDR (www.voukoder.org)";
 		LOG(INFO) << "by Daniel Stankewitz";
 	}
 }

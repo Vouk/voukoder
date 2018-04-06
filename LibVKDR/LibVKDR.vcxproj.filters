@@ -66,9 +66,6 @@
     <ClInclude Include="LibVKDR.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="easylogging++.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

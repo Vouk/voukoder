@@ -258,6 +258,7 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 	prMALError result = malNoError;
 
 	ExportSettings exportSettings;
+	exportSettings.application = "Settings validator";
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 	
 	Encoder encoder(exportSettings);
@@ -298,8 +299,11 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 	std::string filename(size_needed, 0);
 	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &filename[0], size_needed, NULL, NULL);
 
+	const wstring app(VKDR_APPNAME);
+
 	ExportSettings exportSettings;
 	exportSettings.filename = filename;
+	exportSettings.application = string(app.begin(), app.end());
 	exportSettings.exportAudio = exportRecP->exportAudio == kPrTrue;
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 

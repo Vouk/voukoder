@@ -12,7 +12,7 @@ namespace LibVKDR
 	{
 		AVCodecContext *codecContext;
 		AVStream *stream;
-		map<string, FrameFilter*> frameFilters;
+		FrameFilter* frameFilter;
 		int64_t next_pts = 0;
 	};
 }

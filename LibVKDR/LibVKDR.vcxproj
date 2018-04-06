@@ -172,7 +172,6 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SamplerateInfo.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Config.cpp" />

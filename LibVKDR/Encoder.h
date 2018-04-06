@@ -5,7 +5,6 @@
 #include "EncoderData.h"
 #include "EncoderContext.h"
 #include "ExportSettings.h"
-#include "Version.h"
 #include "lavf.h"
 
 using namespace std;
@@ -37,7 +36,7 @@ namespace LibVKDR
 		EncoderContext videoContext;
 		EncoderContext audioContext;
 		int createCodecContext(string codecName, EncoderContext *encoderContext);
-		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame, FrameFilter *frameFilter);
+		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
 		int prepare(EncoderData *encoderData);
 		int receivePackets(EncoderContext *context);

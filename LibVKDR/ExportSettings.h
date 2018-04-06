@@ -11,6 +11,7 @@ namespace LibVKDR
 	{
 		string filename;
 		string muxerName;
+		string application;
 		string videoCodecName;
 		string audioCodecName;
 		int width;
