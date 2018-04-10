@@ -7,8 +7,6 @@ using namespace LibVKDR;
 Encoder::Encoder(ExportSettings exportSettings) :
 	exportSettings(exportSettings)
 {
-	avfilter_register_all();
-
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(
 		exportSettings.muxerName.c_str(),

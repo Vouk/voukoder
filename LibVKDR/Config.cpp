@@ -5,8 +5,6 @@ using namespace LibVKDR;
 
 Config::Config()
 {
-	avfilter_register_all();
-
 	// Get the DLL module handle
 	MEMORY_BASIC_INFORMATION mbi;
 	static int dummy;
