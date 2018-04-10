@@ -16,7 +16,6 @@ Encoder::Encoder(ExportSettings exportSettings) :
 		NULL);
 
 	LOG(INFO) << "### ENCODER STARTED ###";
-	LOG(INFO) << "Plugin: " << exportSettings.application;
 
 	const string appId = exportSettings.application + " - www.voukoder.org";
 	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
@@ -70,14 +69,11 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 
 	encoderContext->stream = avformat_new_stream(formatContext, codec);
 	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 	}
-
-	//avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
 
 	return 0;
 }
@@ -156,6 +152,8 @@ int Encoder::open()
 			filename = "NUL";
 		else
 			filename = exportSettings.filename;
+
+		av_dump_format(formatContext, 0, filename.c_str(), 1);
 
 		if ((ret = avio_open(
 			&formatContext->pb, 
@@ -260,12 +258,7 @@ int Encoder::prepare(EncoderData *encoderData)
 
 FrameType Encoder::getNextFrameType()
 {
-	if (av_compare_ts(videoContext.next_pts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0)
-	{
-		return FrameType::VideoFrame;
-	}
-
-	return FrameType::AudioFrame;
+	return (av_compare_ts(videoContext.next_pts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0) ? FrameType::VideoFrame : FrameType::AudioFrame;
 }
 
 void Encoder::flushContext(EncoderContext *encoderContext)
@@ -274,7 +267,6 @@ void Encoder::flushContext(EncoderContext *encoderContext)
 	encoderContext->frameFilter = NULL;
 
 	encodeAndWriteFrame(encoderContext, NULL);
-
 }
 
 int Encoder::getAudioFrameSize()

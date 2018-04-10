@@ -109,11 +109,15 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 			__m128i vvvvuuuu = _mm_unpacklo_epi32(vvuuyyaa01, vvuuyyaa23);
 			__m128i yyyyaaaa = _mm_unpackhi_epi32(vvuuyyaa01, vvuuyyaa23);
 			
-			_mm_storel_epi64((__m128i*)(bufferV += 4), vvvvuuuu);
-			_mm_storeh_pi((__m64*)(bufferU += 4), _mm_castsi128_ps(vvvvuuuu));
+			_mm_storel_epi64((__m128i*)bufferV, vvvvuuuu);
+			_mm_storeh_pi((__m64*)bufferU, _mm_castsi128_ps(vvvvuuuu));
+			_mm_storel_epi64((__m128i*)bufferY, yyyyaaaa);
+			_mm_storeh_pi((__m64*)bufferA, _mm_castsi128_ps(yyyyaaaa));
 
-			_mm_storel_epi64((__m128i*)(bufferY += 4), yyyyaaaa);
-			_mm_storeh_pi((__m64*)(bufferA += 4), _mm_castsi128_ps(yyyyaaaa));
+			bufferV += 4;
+			bufferU += 4;
+			bufferY += 4;
+			bufferA += 4;
 		}
 	}
 }
