@@ -49,7 +49,7 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Files]
-Source: "C:\Users\Daniel\source\repos\voukoder\Premiere\x64\Release\Voukoder.prm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Premiere\x64\Release\Voukoder.prm"; DestDir: "{app}"; Flags: ignoreversion
 
 [Run]
 Filename: "https://www.paypal.me/voukoder"; Flags: shellexec runasoriginaluser postinstall; Description: "Open the Voukoder donation page. Donating a small amount with PayPal.me helps me to continue developing and improving this plugin. Thank you!"

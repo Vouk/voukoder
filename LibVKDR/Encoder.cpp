@@ -67,6 +67,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 
 	encoderContext->stream = avformat_new_stream(formatContext, codec);
 	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{
@@ -445,10 +446,14 @@ int Encoder::receivePackets(EncoderContext *context)
 {
 	int ret = 0;
 
-	AVPacket * packet = av_packet_alloc();
+	AVPacket *packet = av_packet_alloc();
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{
+		if (context->codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO)
+			packet->duration = 1;
+
 		av_packet_rescale_ts(packet, context->codecContext->time_base, context->stream->time_base);
+
 		packet->stream_index = context->stream->index;
 
 		if ((ret = av_interleaved_write_frame(formatContext, packet)) < 0)
