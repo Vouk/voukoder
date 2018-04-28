@@ -282,7 +282,8 @@ prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, 
 
 PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings)
 {
-	if (exportSettings.pixelFormat == "yuv420p")
+	if (exportSettings.pixelFormat == "yuv420p" || 
+		exportSettings.pixelFormat == "nv12")
 	{
 		if (exportSettings.fieldOrder == AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
