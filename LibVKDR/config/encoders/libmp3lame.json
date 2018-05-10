@@ -1,0 +1,123 @@
+{
+  "name": "libmp3lame",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "libmp3lameStrategy",
+      "label": "Bitrate [kbit/s]",
+      "description": "Constant encoding bitrate.",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 7,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "32 kbit/s",
+          "parameters": {
+            "b": "32k"
+          }
+        },
+        {
+          "id": 1,
+          "name": "40 kbit/s",
+          "parameters": {
+            "b": "40k"
+          }
+        },
+        {
+          "id": 2,
+          "name": "48 kbit/s",
+          "parameters": {
+            "b": "48k"
+          }
+        },
+        {
+          "id": 3,
+          "name": "64 kbit/s",
+          "parameters": {
+            "b": "64k"
+          }
+        },
+        {
+          "id": 4,
+          "name": "80 kbit/s",
+          "parameters": {
+            "b": "80k"
+          }
+        },
+        {
+          "id": 5,
+          "name": "96 kbit/s",
+          "parameters": {
+            "b": "96k"
+          }
+        },
+        {
+          "id": 6,
+          "name": "112 kbit/s",
+          "parameters": {
+            "b": "112k"
+          }
+        },
+        {
+          "id": 7,
+          "name": "128 kbit/s",
+          "parameters": {
+            "b": "128k"
+          }
+        },
+        {
+          "id": 8,
+          "name": "160 kbit/s",
+          "parameters": {
+            "b": "160k"
+          }
+        },
+        {
+          "id": 9,
+          "name": "192 kbit/s",
+          "parameters": {
+            "b": "192k"
+          }
+        },
+        {
+          "id": 10,
+          "name": "224 kbit/s",
+          "parameters": {
+            "b": "224k"
+          }
+        },
+        {
+          "id": 11,
+          "name": "256 kbit/s",
+          "parameters": {
+            "b": "256k"
+          }
+        },
+        {
+          "id": 12,
+          "name": "320 kbit/s",
+          "parameters": {
+            "b": "320k"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libmp3lameABR",
+      "label": "Enable ABR",
+      "description": "",
+      "group": "ADBEAudioCodecGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "abr": "1"
+      }
+    }
+  ]
+}

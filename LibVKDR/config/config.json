@@ -38,6 +38,10 @@
       "name": "flac"
     },
     {
+      "id": 15,
+      "name": "libmp3lame"
+    },
+    {
       "id": 9,
       "name": "pcm_s16le"
     },
@@ -79,7 +83,12 @@
       "extension": "mov"
     }
   ],
-
+  "filters": [
+    {
+      "id": 0,
+      "name": "zscale"
+    }
+  ],
   "videoFramerates": [
     {
       "num": 10,

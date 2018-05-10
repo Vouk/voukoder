@@ -29,4 +29,6 @@ extern "C" {
 #pragma comment(lib, "libx264.lib")
 #pragma comment(lib, "x265.lib")
 #pragma comment(lib, "libmfx.lib")
+#pragma comment(lib, "zimg.lib")
+#pragma comment(lib, "mp3lame.lib")
 

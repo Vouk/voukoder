@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "ParamInfo.h"
 
 using namespace std;
 
@@ -13,88 +14,13 @@ namespace LibVKDR
 		Video
 	};
 
-	struct IParamInfo
+	typedef struct EncoderInfo : IParamContainer
 	{
-		string name;
-		string label;
-		string description;
-		string type;
-		vector<string> flags;
-		bool isSubValue;
-		string defaultStringValue = "";
-
-		union
-		{
-			int intValue;
-			float floatValue;
-		} default;
-
-		union
-		{
-			int intValue;
-			float floatValue;
-		} min;
-		bool minSet = false;
-
-		union
-		{
-			int intValue;
-			float floatValue;
-		} max;
-		bool maxSet = false;
-	};
-
-	struct ParamSubValueInfo : IParamInfo
-	{
-		string pixelFormat;
-		bool useDefaultValue = false;
-		map<string, string> parameters;
-	};
-
-	struct ParamValueInfo
-	{
-		int id;
-		string name;
-		string pixelFormat;
-		vector<ParamSubValueInfo> subValues;
-		map<string, string> parameters;
-	};
-
-	struct ParamInfo : IParamInfo
-	{
-		string group;
-		bool useDefaultValue;
-		vector<ParamValueInfo> values;
-		map<string, string> parameters;
-	};
-
-	struct ParamGroupInfo
-	{
-		string name;
-		string label;
-		string parent;
-	};
-
-	struct EncoderParameterGroup
-	{
-		string name;
-		string delimiter;
-		string separator;
-		string noValueReplacement;
-		vector<string> parameters;
-	};
-
-	typedef struct EncoderInfo
-	{
-		int id;
-		string name;
 		string text;
 		string defaultPixelFormat;
 		string multipassParameter;
 		EncoderType encoderType;
-		vector<ParamGroupInfo> groups;
 		vector<EncoderParameterGroup> paramGroups;
-		vector<ParamInfo> params;
 		struct interlaced {
 			map<string, string> bottomFrameFirst;
 			map<string, string> topFrameFirst;

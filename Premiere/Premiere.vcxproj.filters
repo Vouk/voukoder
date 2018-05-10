@@ -36,6 +36,9 @@
     <ClInclude Include="InstructionSet.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="FilterSettings.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plugin.cpp">

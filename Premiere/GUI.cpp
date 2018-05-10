@@ -23,6 +23,7 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, ADBEVideoTabGroup, L"Video", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, ADBEAudioTabGroup, L"Audio", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced", kPrFalse, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, FilterTabGroup, L"Filters", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRMultiplexerTabGroup, L"Multiplexer", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Video Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
@@ -306,18 +307,9 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	multiplexerParam.paramValues = multiplexerValues;
 	::lstrcpyA(multiplexerParam.identifier, FFMultiplexer);
 	exportParamSuite->AddParam(pluginId, groupIndex, FFMultiplexerBasicGroup, &multiplexerParam);
-
+		
 	// Init encoder base dynamic params
-	initDynamicParameters(exportParamSuite, config->Encoders);
-
-	exportParamSuite->SetParamsVersion(pluginId, paramVersion);
-
-	return malNoError;
-}
-
-void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos)
-{
-	for (EncoderInfo encoderInfo : encoderInfos)
+	for (EncoderInfo encoderInfo : config->Encoders)
 	{
 		int selectedId = 0;
 		if (encoderInfo.encoderType == EncoderType::Video)
@@ -328,49 +320,61 @@ void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<
 		{
 			selectedId = config->DefaultAudioEncoder;
 		}
+		initDynamicParameters(exportParamSuite, encoderInfo, selectedId);
+	}
 
-		// Add the param groups
-		for (ParamGroupInfo paramGroup : encoderInfo.groups)
+	// Init filters
+	for (FilterInfo filterInfo : config->Filters)
+		initDynamicParameters(exportParamSuite, filterInfo, 0);
+
+	exportParamSuite->SetParamsVersion(pluginId, paramVersion);
+
+	return malNoError;
+}
+
+void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo, int selectedId)
+{
+	// Add the param groups
+	for (ParamGroupInfo paramGroup : encoderInfo.groups)
+	{
+		exportParamSuite->AddParamGroup(
+			pluginId,
+			groupIndex,
+			paramGroup.parent.c_str(),
+			paramGroup.name.c_str(),
+			wstring(paramGroup.label.begin(), paramGroup.label.end()).c_str(),
+			kPrFalse,
+			kPrFalse,
+			kPrFalse);
+	}
+
+	// Iterate encoder params
+	for (ParamInfo paramInfo : encoderInfo.params)
+	{
+		const exNewParamInfo newParamInfo = createParamElement(
+			paramInfo,
+			encoderInfo.id != selectedId);
+
+		exportParamSuite->AddParam(
+			pluginId,
+			groupIndex,
+			paramInfo.group.c_str(),
+			&newParamInfo);
+
+		// Add possible existing subvalues
+		for (ParamValueInfo paramValueInfo : paramInfo.values)
 		{
-			exportParamSuite->AddParamGroup(
-				pluginId,
-				groupIndex,
-				paramGroup.parent.c_str(),
-				paramGroup.name.c_str(),
-				wstring(paramGroup.label.begin(), paramGroup.label.end()).c_str(),
-				kPrFalse,
-				kPrFalse,
-				kPrFalse);
-		}
-
-		// Iterate encoder params
-		for (ParamInfo paramInfo : encoderInfo.params)
-		{
-			const exNewParamInfo newParamInfo = createParamElement(
-				paramInfo,
-				encoderInfo.id != selectedId);
-
-			exportParamSuite->AddParam(
-				pluginId,
-				groupIndex,
-				paramInfo.group.c_str(),
-				&newParamInfo);
-
-			// Add possible existing subvalues
-			for (ParamValueInfo paramValueInfo : paramInfo.values)
+			for (ParamSubValueInfo paramSubValue : paramValueInfo.subValues)
 			{
-				for (ParamSubValueInfo paramSubValue : paramValueInfo.subValues)
-				{
-					const exNewParamInfo newParamInfo = createParamElement(
-						paramSubValue,
-						(paramInfo.default.intValue != paramValueInfo.id) || (encoderInfo.id != selectedId));
+				const exNewParamInfo newParamInfo = createParamElement(
+					paramSubValue,
+					(paramInfo.default.intValue != paramValueInfo.id) || (encoderInfo.id != selectedId));
 
-					exportParamSuite->AddParam(
-						pluginId,
-						groupIndex,
-						paramInfo.group.c_str(),
-						&newParamInfo);
-				}
+				exportParamSuite->AddParam(
+					pluginId,
+					groupIndex,
+					paramInfo.group.c_str(),
+					&newParamInfo);
 			}
 		}
 	}
@@ -495,7 +499,6 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexer, L"Format");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
 
-
 	// Encoders
 	fillEncoderDropdown(exportParamSuite, config->Encoders);
 
@@ -600,31 +603,32 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 		exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, FFMultiplexer, &oneParamValueRec3, wstring(multiplexerInfo.text.begin(), multiplexerInfo.text.end()).c_str());
 	}
 
-	updateDynamicParameters(exportParamSuite, config->Encoders);
+	for (EncoderInfo encoderInfo : config->Encoders)
+		updateDynamicParameters(exportParamSuite, encoderInfo);
+
+	for (FilterInfo filterInfo : config->Filters)
+		updateDynamicParameters(exportParamSuite, filterInfo);
 
 	refreshEncoderSettings(exportParamSuite);
 
 	return malNoError;
 }
 
-void GUI::updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos)
+void GUI::updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo)
 {
-	for (EncoderInfo encoderInfo : encoderInfos)
+	for (ParamGroupInfo paramGroup : encoderInfo.groups)
 	{
-		for (ParamGroupInfo paramGroup : encoderInfo.groups)
-		{
-			exportParamSuite->SetParamName(
-				pluginId,
-				groupIndex,
-				paramGroup.name.c_str(),
-				wstring(paramGroup.label.begin(), paramGroup.label.end()).c_str());
-		}
+		exportParamSuite->SetParamName(
+			pluginId,
+			groupIndex,
+			paramGroup.name.c_str(),
+			wstring(paramGroup.label.begin(), paramGroup.label.end()).c_str());
+	}
 
-		// Iterate all encoder options
-		for (ParamInfo paramInfo : encoderInfo.params)
-		{
-			updateSingleDynamicParameter(exportParamSuite, &paramInfo);
-		}
+	// Iterate all encoder options
+	for (ParamInfo paramInfo : encoderInfo.params)
+	{
+		updateSingleDynamicParameter(exportParamSuite, &paramInfo);
 	}
 }
 
@@ -850,6 +854,84 @@ finish:
 	return malNoError;
 }
 
+bool GUI::getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings)
+{
+	for (const FilterInfo filterInfo : config->Filters)
+	{
+		FilterSettings filterSettings;
+		filterSettings.name = filterInfo.name;
+
+		for (ParamInfo paramInfo : filterInfo.params)
+		{
+			exParamValues paramValue;
+			exportParamSuite->GetParamValue(
+				pluginId,
+				groupIndex,
+				paramInfo.name.c_str(),
+				&paramValue);
+
+			if (paramInfo.values.size() > 0)
+			{
+				for (ParamValueInfo paramValueInfo : paramInfo.values)
+				{
+					if (paramValueInfo.id == paramValue.value.intValue)
+					{
+						if (paramValueInfo.subValues.size() > 0)
+						{
+							for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
+							{
+								exParamValues paramValue;
+								exportParamSuite->GetParamValue(
+									pluginId,
+									groupIndex,
+									paramSubValueInfo.name.c_str(),
+									&paramValue);
+
+								filterSettings.addParams(
+									paramInfo,
+									paramSubValueInfo.parameters,
+									paramValue);
+							}
+						}
+						else
+						{
+							filterSettings.addParams(
+								paramInfo,
+								paramValueInfo.parameters,
+								paramValue);
+						}
+						break;
+					}
+				}
+			}
+			else
+			{
+				filterSettings.addParams(
+					paramInfo,
+					paramInfo.parameters,
+					paramValue);
+			}
+		}
+
+		// Special filter specific handling
+		if (filterSettings.name == "zscale")
+		{
+			if (filterSettings.params.find("f") == filterSettings.params.end())
+				break;
+
+			if (filterSettings.params.find("w") != filterSettings.params.end())
+				exportSettings->resizeWidth = std::stoi(filterSettings.params["w"]);
+
+			if (filterSettings.params.find("h") != filterSettings.params.end())
+				exportSettings->resizeHeight = std::stoi(filterSettings.params["h"]);
+		}
+
+		exportSettings->videoFilters.push_back(filterSettings.toString());
+	}
+
+	return true;
+}
+
 bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings)
 {
 	exParamValues encoderValue;
@@ -982,6 +1064,7 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prF
 										encoderInfo.paramGroups);
 								}
 							}
+							break;
 						}
 					}
 				}
@@ -1033,6 +1116,8 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 
 	EncoderSettings audioEncoderSettings;
 	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Audio, &audioEncoderSettings);
+
+	getCurrentFilterSettings(exportParamSuite, exportSettings);
 
 	string multiplexerName;
 	for (MultiplexerInfo multiplexerInfo : config->Multiplexers)

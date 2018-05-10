@@ -4,6 +4,7 @@
 #include "premiere_cs6\PrSDKExportInfoSuite.h"
 #include "premiere_cs6\PrSDKWindowSuite.h"
 #include "EncoderSettings.h"
+#include "FilterSettings.h"
 
 #define VKDRAdvVideoCodecTabGroup "VKDRAdvVideoCodecTabGroup"
 #define VKDRTVStandard "VKDRTVStandard"
@@ -15,6 +16,8 @@
 #define VKDRMultiplexerSettingsGroup "MultiplexerBasicGroup"
 #define FFMultiplexer "Multiplexer"
 #define FFMultiplexerBasicGroup "MultiplexerBasicGroup"
+
+#define FilterTabGroup "FilterTabGroup"
 
 enum TVStandard {
 	NTSC,
@@ -37,6 +40,7 @@ class GUI
 public:
 	GUI(csSDK_uint32 pluginId, Config *config);
 	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion);
+	bool getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings);
 	void getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	prMALError update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *timeSuite);
@@ -49,8 +53,8 @@ private:
 	Config *config;
 	exNewParamInfo createParamElement(IParamInfo paramInfo, csSDK_int32 hidden);
 	void fillEncoderDropdown(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos);
-	void initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos);
+	void initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfos, int selectedId);
 	void refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite);
-	void updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos);
+	void updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo);
 	void updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo);
 };

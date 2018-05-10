@@ -69,6 +69,12 @@
     <ClInclude Include="easylogging++.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="FilterInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Config.cpp">
@@ -110,5 +116,7 @@
     <None Include="config\encoders\hevc_qsv.json" />
     <None Include="config\encoders\h264_amf.json" />
     <None Include="config\encoders\hevc_amf.json" />
+    <None Include="config\filters\zscale.json" />
+    <None Include="config\encoders\libmp3lame.json" />
   </ItemGroup>
 </Project>

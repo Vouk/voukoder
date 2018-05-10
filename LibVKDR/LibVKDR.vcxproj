@@ -162,6 +162,7 @@
     <ClInclude Include="EncoderData.h" />
     <ClInclude Include="EncoderInfo.h" />
     <ClInclude Include="ExportSettings.h" />
+    <ClInclude Include="FilterInfo.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="FramerateInfo.h" />
     <ClInclude Include="json.hpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="LibVKDR.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MultiplexerInfo.h" />
+    <ClInclude Include="ParamInfo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SamplerateInfo.h" />
     <ClInclude Include="targetver.h" />
@@ -196,11 +198,13 @@
     <None Include="config\encoders\hevc_amf.json" />
     <None Include="config\encoders\hevc_nvenc.json" />
     <None Include="config\encoders\hevc_qsv.json" />
+    <None Include="config\encoders\libmp3lame.json" />
     <None Include="config\encoders\libx264.json" />
     <None Include="config\encoders\libx265.json" />
     <None Include="config\encoders\pcm_s16le.json" />
     <None Include="config\encoders\pcm_s24le.json" />
     <None Include="config\encoders\prores_ks.json" />
+    <None Include="config\filters\zscale.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,6 +17,7 @@ Config::Config()
 		initEncoders(resources);
 		initFixedParams(resources);
 		initMultiplexers(resources);
+		initFilters(resources);
 	}
 }
 
@@ -95,6 +96,8 @@ bool Config::initFixedParams(const json resources)
 
 bool Config::initMultiplexers(const json resources)
 {
+	Multiplexers.clear();
+
 	for (const json multiplexer : resources["config"]["multiplexers"])
 	{
 		const string multiplexerName = multiplexer["name"].get<string>();
@@ -112,6 +115,52 @@ bool Config::initMultiplexers(const json resources)
 
 			if (DefaultMultiplexer == -1)
 				DefaultMultiplexer = multiplexerInfo.id;
+		}
+	}
+
+	return true;
+}
+
+bool Config::initFilters(const json resources)
+{
+	Filters.clear();
+
+	for (const json filterDescriptor : resources["config"]["filters"])
+	{
+		const int id = filterDescriptor["id"].get<int>();
+		const string name = filterDescriptor["name"].get<string>();
+
+		if (resources.find(name) != resources.end())
+		{
+			const json filter = resources[name];
+
+			FilterInfo filterInfo;
+			filterInfo.id = id;
+			filterInfo.name = filter["name"].get<string>();
+
+			if (filter.find("params") != filter.end())
+			{
+				for (const json param : filter["params"])
+				{
+					const ParamInfo paramInfo = createParamInfo(param);
+					filterInfo.params.push_back(paramInfo);
+				}
+			}
+
+			if (filter.find("groups") != filter.end())
+			{
+				for (const json group : filter["groups"])
+				{
+					ParamGroupInfo elementGroup;
+					elementGroup.name = group["name"].get<string>();
+					elementGroup.label = group["label"].get<string>();
+					elementGroup.parent = group["parent"].get<string>();
+
+					filterInfo.groups.push_back(elementGroup);
+				}
+			}
+
+			Filters.push_back(filterInfo);
 		}
 	}
 
@@ -330,9 +379,9 @@ ParamValueInfo Config::createValueInfo(json json)
 	// Do we have suboptions at all?
 	if (json.find("subvalues") != json.end())
 	{
-		for (auto itSubvalues = json["subvalues"].begin(); itSubvalues != json["subvalues"].end(); ++itSubvalues)
+		for (auto subValue : json["subvalues"])
 		{
-			ParamSubValueInfo paramSubValueInfo = createSubValue(*itSubvalues);
+			ParamSubValueInfo paramSubValueInfo = createSubValue(subValue);
 			paramValueInfo.subValues.push_back(paramSubValueInfo);
 		}
 	}

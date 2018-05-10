@@ -8,6 +8,7 @@
 #include "SamplerateInfo.h"
 #include "ChannelInfo.h"
 #include "MultiplexerInfo.h"
+#include "FilterInfo.h"
 
 using json = nlohmann::json;
 
@@ -27,6 +28,7 @@ namespace LibVKDR
 		vector<SamplerateInfo> Samplerates;
 		vector<ChannelInfo> Channels;
 		vector<MultiplexerInfo> Multiplexers;
+		vector<FilterInfo> Filters;
 
 	private:
 		ParamInfo createParamInfo(json json);
@@ -36,6 +38,7 @@ namespace LibVKDR
 		bool initEncoders(const json resources);
 		bool initFixedParams(const json resources);
 		bool initMultiplexers(const json resources);
+		bool initFilters(const json resources);
 		bool loadResources(HMODULE hModule, LPTSTR lpType, map<string, json> *resources);
 	};
 }

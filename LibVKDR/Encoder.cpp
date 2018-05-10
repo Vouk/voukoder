@@ -44,8 +44,8 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
-		encoderContext->codecContext->width = exportSettings.width;
-		encoderContext->codecContext->height = exportSettings.height;
+		encoderContext->codecContext->width = exportSettings.resizeWidth > 0 ? exportSettings.resizeWidth : exportSettings.width;
+		encoderContext->codecContext->height = exportSettings.resizeHeight > 0 ? exportSettings.resizeHeight : exportSettings.height;
 		encoderContext->codecContext->time_base = exportSettings.videoTimebase;
 		encoderContext->codecContext->pix_fmt = av_get_pix_fmt(exportSettings.pixelFormat.c_str());
 		encoderContext->codecContext->colorspace = exportSettings.colorSpace;
@@ -283,7 +283,7 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 	}
 
 	// Do we need a frame filter for pixel format conversion?
-	if (av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt 
+	if ((av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt || exportSettings.videoFilters.size() > 0)
 		&& videoContext.frameFilter == NULL)
 	{
 		FrameFilterOptions options;
@@ -295,8 +295,16 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 		options.sar.den = videoContext.codecContext->sample_aspect_ratio.den;
 		options.sar.num = videoContext.codecContext->sample_aspect_ratio.num;
 
+		string filters;
+		for (string filter : exportSettings.videoFilters)
+		{
+			filters += "," + filter;
+		}
+
 		char filterConfig[256];
-		sprintf_s(filterConfig, "format=pix_fmts=%s", exportSettings.pixelFormat.c_str());
+		sprintf_s(filterConfig, "format=pix_fmts=%s%s", 
+			exportSettings.pixelFormat.c_str(),
+			filters.c_str());
 
 		videoContext.frameFilter = new FrameFilter();
 		videoContext.frameFilter->configure(options, filterConfig);
@@ -304,8 +312,8 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 
 	// Create a new frame
 	AVFrame *frame = av_frame_alloc();
-	frame->width = videoContext.codecContext->width;
-	frame->height = videoContext.codecContext->height;
+	frame->width = exportSettings.width;
+	frame->height = exportSettings.height;
 	frame->format = av_get_pix_fmt(encoderData->pix_fmt);
 	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
 
