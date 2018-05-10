@@ -499,6 +499,9 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexer, L"Format");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
 
+	// Labels: Filter
+	exportParamSuite->SetParamName(pluginId, groupIndex, FilterTabGroup, L"Filters");
+
 	// Encoders
 	fillEncoderDropdown(exportParamSuite, config->Encoders);
 
