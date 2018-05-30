@@ -71,6 +71,17 @@ bool Config::initFixedParams(const json resources)
 		Framerates.push_back(framerateInfo);
 	}
 
+	// Framesizes
+	for (const json framesize : resources["config"]["videoFrameSizes"])
+	{
+		FrameSizeInfo frameSizeInfo;
+		frameSizeInfo.width = framesize["width"].get<int>();
+		frameSizeInfo.height = framesize["height"].get<int>();
+		frameSizeInfo.text = framesize["text"].get<string>();
+
+		FrameSizes.push_back(frameSizeInfo);
+	}
+
 	// Samplerates
 	for (const json samplerate : resources["config"]["audioSampleRates"])
 	{

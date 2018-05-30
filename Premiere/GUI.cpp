@@ -103,6 +103,21 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	::lstrcpyA(videoSettingsParam.identifier, VKDRVideoSettings);
 	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicVideoGroup, &videoSettingsParam);
 
+	// Param: Frame size
+	exParamValues videoSizeValues;
+	videoSizeValues.structVersion = 1;
+	videoSizeValues.value.intValue = 0;
+	videoSizeValues.disabled = kPrFalse;
+	videoSizeValues.hidden = kPrFalse;
+	videoSizeValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo videoSizeParam;
+	videoSizeParam.structVersion = 1;
+	videoSizeParam.flags = exParamFlag_none;
+	videoSizeParam.paramType = exParamType_int;
+	videoSizeParam.paramValues = videoSizeValues;
+	::lstrcpyA(videoSizeParam.identifier, VKDRVideoFrameSize);
+	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicVideoGroup, &videoSizeParam);
+
 	// Param: Video width
 	exParamValues widthValues;
 	widthValues.structVersion = 1;
@@ -460,6 +475,8 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoCodec, L"The encoder that creates the output video.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoSettings, L"Encoder params (r/o)");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRVideoSettings, L"The raw parameters supplied to the video encoder. (read only)");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoFrameSize, L"Frame size");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRVideoFrameSize, L"Width and height of the video frame.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoWidth, L"Width");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoWidth, L"Width of the video frame.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoHeight, L"Height");
@@ -501,6 +518,15 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 
 	// Labels: Filter
 	exportParamSuite->SetParamName(pluginId, groupIndex, FilterTabGroup, L"Filters");
+
+	// Param: FrameSizes
+	exportParamSuite->ClearConstrainedValues(pluginId, groupIndex, VKDRVideoFrameSize);
+	exOneParamValueRec frameSize;
+	for (FrameSizeInfo frameSizeInfo : config->FrameSizes)
+	{
+		frameSize.intValue = frameSizeInfo.width * frameSizeInfo.height;
+		exportParamSuite->AddConstrainedValuePair(pluginId, groupIndex, VKDRVideoFrameSize, &frameSize, wstring(frameSizeInfo.text.begin(), frameSizeInfo.text.end()).c_str());
+	}
 
 	// Encoders
 	fillEncoderDropdown(exportParamSuite, config->Encoders);
@@ -760,7 +786,42 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamCh
 
 	const string paramName = paramRecP->changedParamIdentifier;
 
-	if (paramName == ADBEVideoCodec || paramName == ADBEAudioCodec)
+	if (paramName == VKDRVideoFrameSize)
+	{
+		if (paramValue.value.intValue == 0)
+		{
+			exParamValues tempValue;
+			exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoWidth, &tempValue);
+			tempValue.disabled = kPrTrue;
+			exportParamSuite->ChangeParam(pluginId, groupIndex, ADBEVideoWidth, &tempValue);
+
+			exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoHeight, &tempValue);
+			tempValue.disabled = kPrTrue;
+			exportParamSuite->ChangeParam(pluginId, groupIndex, ADBEVideoHeight, &tempValue);
+		}
+		else
+		{
+			for (FrameSizeInfo frameSizeInfo : config->FrameSizes)
+			{
+				if (frameSizeInfo.width * frameSizeInfo.height == paramValue.value.intValue)
+				{
+					exParamValues tempValue;
+					exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoWidth, &tempValue);
+					tempValue.value.intValue = frameSizeInfo.width;
+					tempValue.disabled = kPrFalse;
+					exportParamSuite->ChangeParam(pluginId,	groupIndex, ADBEVideoWidth,	&tempValue);
+
+					exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoHeight, &tempValue);
+					tempValue.value.intValue = frameSizeInfo.height;
+					tempValue.disabled = kPrFalse;
+					exportParamSuite->ChangeParam(pluginId, groupIndex, ADBEVideoHeight, &tempValue);
+
+					break;
+				}
+			}
+		}
+	}
+	else if (paramName == ADBEVideoCodec || paramName == ADBEAudioCodec)
 	{
 		for (const EncoderInfo selectedEncoderInfo : config->Encoders)
 		{

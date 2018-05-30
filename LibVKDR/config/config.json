@@ -89,6 +89,43 @@
       "name": "zscale"
     }
   ],
+  "videoFrameSizes": [
+    {
+      "width": 0,
+      "height": 0,
+      "text": "(Match source)"
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "text": "1280x720 (HD, HDTV)"
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "text": "1920x1080 (Full HD, FHD)"
+    },
+    {
+      "width": 2048,
+      "height": 1152,
+      "text": "2048x1152 (QWXGA)"
+    },
+    {
+      "width": 2560,
+      "height": 1440,
+      "text": "2560x1140 (Quad HD, QHD)"
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "text": "3840x2160 (4K Ultra HD 1, 4K UHD-1)"
+    },
+    {
+      "width": 4096,
+      "height": 2160,
+      "text": "4096x2160 (DCI 4K)"
+    }
+  ],
   "videoFramerates": [
     {
       "num": 10,

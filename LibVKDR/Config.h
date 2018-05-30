@@ -9,6 +9,7 @@
 #include "ChannelInfo.h"
 #include "MultiplexerInfo.h"
 #include "FilterInfo.h"
+#include "FrameSizeInfo.h"
 
 using json = nlohmann::json;
 
@@ -29,6 +30,7 @@ namespace LibVKDR
 		vector<ChannelInfo> Channels;
 		vector<MultiplexerInfo> Multiplexers;
 		vector<FilterInfo> Filters;
+		vector<FrameSizeInfo> FrameSizes;
 
 	private:
 		ParamInfo createParamInfo(json json);

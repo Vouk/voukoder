@@ -165,6 +165,7 @@
     <ClInclude Include="FilterInfo.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="FramerateInfo.h" />
+    <ClInclude Include="FrameSizeInfo.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="LibVKDR.h" />

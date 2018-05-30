@@ -8,6 +8,7 @@
 
 #define VKDRAdvVideoCodecTabGroup "VKDRAdvVideoCodecTabGroup"
 #define VKDRTVStandard "VKDRTVStandard"
+#define VKDRVideoFrameSize "VKDRVideoFrameSize"
 #define VKDRColorSpace "VKDRColorSpace"
 #define VKDRColorRange "VKDRColorRange"
 #define VKDRVideoSettings "VKDRVideoSettings"

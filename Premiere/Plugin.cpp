@@ -303,7 +303,7 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 	ExportSettings exportSettings;
 	exportSettings.filename = filename;
-	exportSettings.application = string(app.begin(), app.end());
+	exportSettings.application = string(app.begin(), app.end()) + " (Premiere)";
 	exportSettings.exportAudio = exportRecP->exportAudio == kPrTrue;
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 
