@@ -2,7 +2,7 @@
   "name": "libx264",
   "authors": [
     "Daniel Stankewitz",
-	  "Daniel Steuer"
+    "Daniel Steuer"
   ],
   "defaultPixelFormat": "yuv420p",
   "groups": [
@@ -27,6 +27,9 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
+  "multipass": {
+    "name": "x264Passes"
+  },
   "parameterGroups": {
     "x264-params": {
       "delimiter": "=",
@@ -96,11 +99,11 @@
   },
   "interlaced": {
     "bottomFrameFirst": {
-      "interlaced" : "1",
+      "interlaced": "1",
       "bff": "1"
     },
     "topFrameFirst": {
-      "interlaced" : "1",
+      "interlaced": "1",
       "tff": "1"
     },
     "progressive": {}
@@ -499,6 +502,28 @@
               "maxValue": 100000,
               "parameters": {
                 "b": "%d000"
+              }
+            },
+            {
+              "name": "x264Passes",
+              "label": "Passes",
+              "description": "Number of encoding passes.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 1,
+              "minValue": 1,
+              "maxValue": 2,
+              "parameters": {}
+            },
+            {
+              "name": "x264SlowFirstPass",
+              "label": "Slow first pass",
+              "description": "",
+              "type": "bool",
+              "flags": [],
+              "defaultValue": 0,
+              "parameters": {
+                "slow-firstpass": ""
               }
             }
           ]

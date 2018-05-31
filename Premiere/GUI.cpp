@@ -107,8 +107,8 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	exParamValues videoSizeValues;
 	videoSizeValues.structVersion = 1;
 	videoSizeValues.value.intValue = 0;
-	videoSizeValues.disabled = kPrFalse;
-	videoSizeValues.hidden = kPrFalse;
+	videoSizeValues.disabled = kPrTrue;
+	videoSizeValues.hidden = kPrTrue;
 	videoSizeValues.optionalParamEnabled = kPrFalse;
 	exNewParamInfo videoSizeParam;
 	videoSizeParam.structVersion = 1;

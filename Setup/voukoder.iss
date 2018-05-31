@@ -1,5 +1,5 @@
 #define MyAppName "Voukoder"
-#define MyAppVersion "0.7.2"
+#define MyAppVersion "0.8.1"
 #define MyAppPublisher "Daniel Stankewitz"
 #define MyAppURL "http://www.voukoder.org"
 

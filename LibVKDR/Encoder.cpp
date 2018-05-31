@@ -161,8 +161,11 @@ int Encoder::open()
 		{
 			AVDictionary *options = NULL;
 
-			if (exportSettings.flagFaststart)
+			if ((exportSettings.passes == 1 || (exportSettings.passes > 1 && pass == exportSettings.passes))
+				&& exportSettings.flagFaststart)
+			{
 				av_dict_set(&options, "movflags", "faststart", 0);
+			}
 
 			return avformat_write_header(formatContext, &options);
 		}

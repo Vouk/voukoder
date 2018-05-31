@@ -8,6 +8,7 @@ AudioRenderer::AudioRenderer(csSDK_uint32 pluginId, PrTime startTime, PrTime end
 {
 	PrTime ticksPerSample;
 	timeSuite->GetTicksPerAudioSample(audioSampleRate, &ticksPerSample);
+	samplesTotal = (endTime - startTime) / ticksPerSample;
 
 	sequenceAudioSuite->MakeAudioRenderer(
 		pluginId,
@@ -17,15 +18,14 @@ AudioRenderer::AudioRenderer(csSDK_uint32 pluginId, PrTime startTime, PrTime end
 		audioSampleRate,
 		&rendererId);
 
-	sequenceAudioSuite->ResetAudioToBeginning(rendererId);
+	reset();
+
 	sequenceAudioSuite->GetMaxBlip(rendererId, ticksPerFrame, &maxBlip);
 
 	for (int i = 0; i < MAX_CHANNELS; i++)
 	{
 		buffer[i] = (float*)memorySuite->NewPtr(sizeof(float) * maxBlip);
 	}
-
-	samplesRemaining = (endTime - startTime) / ticksPerSample;
 }
 
 AudioRenderer::~AudioRenderer()
@@ -36,6 +36,12 @@ AudioRenderer::~AudioRenderer()
 	}
 
 	sequenceAudioSuite->ReleaseAudioRenderer(pluginId, rendererId);
+}
+
+void AudioRenderer::reset()
+{
+	sequenceAudioSuite->ResetAudioToBeginning(rendererId);
+	samplesRemaining = samplesTotal;
 }
 
 float** AudioRenderer::getSamples(csSDK_uint32 *size, prBool clip)

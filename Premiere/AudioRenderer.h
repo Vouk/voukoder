@@ -14,12 +14,14 @@ public:
 	~AudioRenderer();
 	float** getSamples(csSDK_uint32 *size, prBool clip);
 	prBool samplesInBuffer();
+	void reset();
 
 private:
 	csSDK_uint32 pluginId;
 	csSDK_uint32 rendererId;
 	csSDK_int32 maxBlip;
 	PrTime samplesRemaining;
+	PrTime samplesTotal;
 	float *buffer[MAX_CHANNELS];
 	PrSDKSequenceAudioSuite *sequenceAudioSuite;
 	PrSDKMemoryManagerSuite *memorySuite;

@@ -337,6 +337,8 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		return suiteError_RenderInvalidPixelFormat;
 
 	Encoder encoder(exportSettings);
+
+	int pass = 1;
 	
 	int ret = videoRenderer.render(
 		pixelFormat, 
@@ -345,6 +347,13 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		exportSettings.passes,
 		[&](EncoderData *encoderData)
 	{
+		// Starting a new pass
+		if (exportSettings.passes > 1 && encoderData->pass > pass)
+		{
+			pass = encoderData->pass;
+			audioRenderer.reset();
+		}
+
 		if (encoder.writeVideoFrame(encoderData) == 0)
 		{
 			if (exportSettings.exportAudio)
