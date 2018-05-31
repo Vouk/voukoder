@@ -29,6 +29,7 @@ namespace LibVKDR
 		int writeVideoFrame(EncoderData *encoderData);
 		int writeAudioFrame(float **data, int32_t sampleCount);
 		FrameType getNextFrameType();
+		int pass;
 
 	private:
 		ExportSettings exportSettings;
@@ -38,9 +39,7 @@ namespace LibVKDR
 		int createCodecContext(string codecName, EncoderContext *encoderContext);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
-		int prepare(EncoderData *encoderData);
 		int receivePackets(EncoderContext *context);
-		int pass;
 		int audioFrameSize;
 	};
 }

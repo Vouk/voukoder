@@ -237,27 +237,6 @@ int Encoder::testSettings()
 	return ret;
 }
 
-int Encoder::prepare(EncoderData *encoderData)
-{
-	if (pass == 0 || (exportSettings.passes > 1 && encoderData->pass > pass))
-	{
-		if (pass > 0)
-		{
-			close(true);
-		}
-
-		pass = encoderData->pass;
-
-		int ret;
-		if ((ret = open()) < 0)
-		{
-			return ret;
-		}
-	}
-
-	return 0;
-}
-
 FrameType Encoder::getNextFrameType()
 {
 	return (av_compare_ts(videoContext.next_pts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0) ? FrameType::VideoFrame : FrameType::AudioFrame;
@@ -279,11 +258,6 @@ int Encoder::getAudioFrameSize()
 int Encoder::writeVideoFrame(EncoderData *encoderData)
 {
 	int ret;
-
-	if ((ret = prepare(encoderData)) < 0)
-	{
-		return ret;
-	}
 
 	// Do we need a frame filter for pixel format conversion?
 	if ((av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt || exportSettings.videoFilters.size() > 0)

@@ -338,8 +338,6 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 	Encoder encoder(exportSettings);
 
-	int pass = 1;
-	
 	int ret = videoRenderer.render(
 		pixelFormat, 
 		exportRecP->startTime, 
@@ -348,9 +346,21 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		[&](EncoderData *encoderData)
 	{
 		// Starting a new pass
-		if (exportSettings.passes > 1 && encoderData->pass > pass)
+		if (encoder.pass == 0 || (exportSettings.passes > 1 && encoderData->pass > encoder.pass))
 		{
-			pass = encoderData->pass;
+			encoder.pass = encoderData->pass;
+
+			if (encoder.pass > 1)
+			{
+				encoder.close(true);
+			}
+
+			int ret;
+			if ((ret = encoder.open()) < 0)
+			{
+				return false;
+			}
+
 			audioRenderer.reset();
 		}
 

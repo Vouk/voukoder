@@ -18,8 +18,6 @@ AudioRenderer::AudioRenderer(csSDK_uint32 pluginId, PrTime startTime, PrTime end
 		audioSampleRate,
 		&rendererId);
 
-	reset();
-
 	sequenceAudioSuite->GetMaxBlip(rendererId, ticksPerFrame, &maxBlip);
 
 	for (int i = 0; i < MAX_CHANNELS; i++)
