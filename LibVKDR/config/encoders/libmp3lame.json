@@ -18,91 +18,91 @@
           "id": 0,
           "name": "32 kbit/s",
           "parameters": {
-            "b": "32k"
+            "b": "32000"
           }
         },
         {
           "id": 1,
           "name": "40 kbit/s",
           "parameters": {
-            "b": "40k"
+            "b": "40000"
           }
         },
         {
           "id": 2,
           "name": "48 kbit/s",
           "parameters": {
-            "b": "48k"
+            "b": "48000"
           }
         },
         {
           "id": 3,
           "name": "64 kbit/s",
           "parameters": {
-            "b": "64k"
+            "b": "64000"
           }
         },
         {
           "id": 4,
           "name": "80 kbit/s",
           "parameters": {
-            "b": "80k"
+            "b": "80000"
           }
         },
         {
           "id": 5,
           "name": "96 kbit/s",
           "parameters": {
-            "b": "96k"
+            "b": "96000"
           }
         },
         {
           "id": 6,
           "name": "112 kbit/s",
           "parameters": {
-            "b": "112k"
+            "b": "112000"
           }
         },
         {
           "id": 7,
           "name": "128 kbit/s",
           "parameters": {
-            "b": "128k"
+            "b": "128000"
           }
         },
         {
           "id": 8,
           "name": "160 kbit/s",
           "parameters": {
-            "b": "160k"
+            "b": "160000"
           }
         },
         {
           "id": 9,
           "name": "192 kbit/s",
           "parameters": {
-            "b": "192k"
+            "b": "192000"
           }
         },
         {
           "id": 10,
           "name": "224 kbit/s",
           "parameters": {
-            "b": "224k"
+            "b": "224000"
           }
         },
         {
           "id": 11,
           "name": "256 kbit/s",
           "parameters": {
-            "b": "256k"
+            "b": "256000"
           }
         },
         {
           "id": 12,
           "name": "320 kbit/s",
           "parameters": {
-            "b": "320k"
+            "b": "320000"
           }
         }
       ]

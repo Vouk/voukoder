@@ -171,6 +171,11 @@ prMALError Plugin::postProcessParams(exPostProcessParamsRec *instanceRecP)
 
 prMALError Plugin::queryOutputSettings(exQueryOutputSettingsRec *outputSettingsRecP)
 {
+	csSDK_uint32 bitrate = 0;
+
+	ExportSettings exportSettings;
+	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
+
 	if (outputSettingsRecP->inExportVideo)
 	{
 		exParamValues width;
@@ -193,6 +198,17 @@ prMALError Plugin::queryOutputSettings(exQueryOutputSettingsRec *outputSettingsR
 		exParamValues fieldType;
 		suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoFieldType, &fieldType);
 		outputSettingsRecP->outVideoFieldType = fieldType.value.intValue;
+
+		// Calculate video bitrate
+		AVDictionary *dictionary = NULL;
+		if (av_dict_parse_string(&dictionary, exportSettings.videoOptions.c_str(), "=", ",", 0) == 0)
+		{
+			AVDictionaryEntry *entry = av_dict_get(dictionary, "b", NULL, NULL);
+			if (entry != NULL)
+			{
+				bitrate += atoi(entry->value);
+			}
+		}
 	}
 
 	if (outputSettingsRecP->inExportAudio)
@@ -202,13 +218,37 @@ prMALError Plugin::queryOutputSettings(exQueryOutputSettingsRec *outputSettingsR
 		outputSettingsRecP->outAudioSampleRate = sampleRate.value.floatValue;
 		outputSettingsRecP->outAudioSampleType = kPrAudioSampleType_32BitFloat;
 
-		exParamValues channelType;
-		suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioNumChannels, &channelType);
-		outputSettingsRecP->outAudioChannelType = (PrAudioChannelType)channelType.value.intValue;
+		exParamValues channelNum;
+		suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioNumChannels, &channelNum);
+		outputSettingsRecP->outAudioChannelType = (PrAudioChannelType)channelNum.value.intValue;
+
+		// Calculate audio bitrate only if we have a video bitrate already
+		if (bitrate > 0)
+		{
+			if (exportSettings.audioCodecName == "pcm_s16le")
+			{
+				bitrate += channelNum.value.intValue = 16 * channelNum.value.intValue * sampleRate.value.floatValue;
+			}
+			else if (exportSettings.audioCodecName == "pcm_s24le")
+			{
+				bitrate += channelNum.value.intValue = 24 * channelNum.value.intValue * sampleRate.value.floatValue;
+			}
+			else
+			{
+				AVDictionary *dictionary = NULL;
+				if (av_dict_parse_string(&dictionary, exportSettings.audioOptions.c_str(), "=", ",", 0) == 0)
+				{
+					AVDictionaryEntry *entry = av_dict_get(dictionary, "b", NULL, NULL);
+					if (entry != NULL)
+					{
+						bitrate += atoi(entry->value);
+					}
+				}
+			}
+		}
 	}
 
-	// Do not display filesize estimation
-	outputSettingsRecP->outBitratePerSecond = 0;
+	outputSettingsRecP->outBitratePerSecond = bitrate / 1000;
 
 	return malNoError;
 }
