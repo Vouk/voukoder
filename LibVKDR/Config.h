@@ -11,12 +11,34 @@
 #include "FilterInfo.h"
 #include "FrameSizeInfo.h"
 
+#include <curl/curl.h>
+#pragma comment(lib, "libcurld.lib")
+#pragma comment(lib, "ws2_32")
+#pragma comment(lib, "crypt32.lib")
+#pragma comment(lib, "wldap32.lib")
+
 using json = nlohmann::json;
 
 using namespace std;
 
 namespace LibVKDR
 {
+	struct PluginUpdate
+	{
+		union
+		{
+			struct number
+			{
+				uint8_t major;
+				uint8_t minor;
+				uint8_t patch;
+			} number;
+			uint32_t code;
+		} version;
+
+		string url;
+	} PluginUpdate;
+
 	class Config
 	{
 	public:
@@ -42,5 +64,6 @@ namespace LibVKDR
 		bool initMultiplexers(const json resources);
 		bool initFilters(const json resources);
 		bool loadResources(HMODULE hModule, LPTSTR lpType, map<string, json> *resources);
+		int getLatestVersion();
 	};
 }

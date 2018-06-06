@@ -106,7 +106,7 @@ Plugin::Plugin(csSDK_uint32 pluginId):
 	pluginId(pluginId)
 {
 	config = new Config();
-	gui = new GUI(pluginId, config);
+	gui = new GUI(pluginId, config, VKDR_PARAM_VERSION);
 	logger = new Logger(pluginId);
 }
 
@@ -161,7 +161,7 @@ prMALError Plugin::endInstance()
 
 prMALError Plugin::generateDefaultParams(exGenerateDefaultParamRec *instanceRecP)
 {
-	return gui->init(suites->exportParamSuite, suites->exportInfoSuite, suites->timeSuite, VKDR_PARAM_VERSION);
+	return gui->init(suites->exportParamSuite, suites->exportInfoSuite, suites->timeSuite);
 }
 
 prMALError Plugin::postProcessParams(exPostProcessParamsRec *instanceRecP)

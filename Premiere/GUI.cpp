@@ -8,12 +8,13 @@ static inline T gcd(T a, T b)
 	return gcd(b % a, a);
 }
 
-GUI::GUI(csSDK_uint32 pluginId, Config *config) :
+GUI::GUI(csSDK_uint32 pluginId, Config *config, csSDK_int32 paramVersion) :
 	pluginId(pluginId),
-	config(config)
+	config(config),
+	paramVersion(paramVersion)
 {}
 
-prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion)
+prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite)
 {
 	PrTime ticksPerSecond;
 	timeSuite->GetTicksPerSecond(&ticksPerSecond);
@@ -645,6 +646,8 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 
 void GUI::updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo)
 {
+	const bool isCacheValid = exportParamSuite->GetParamsVersion(pluginId) == paramVersion;
+
 	for (ParamGroupInfo paramGroup : encoderInfo.groups)
 	{
 		exportParamSuite->SetParamName(
@@ -657,12 +660,13 @@ void GUI::updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IPara
 	// Iterate all encoder options
 	for (ParamInfo paramInfo : encoderInfo.params)
 	{
-		updateSingleDynamicParameter(exportParamSuite, &paramInfo);
+		updateSingleDynamicParameter(exportParamSuite, &paramInfo, isCacheValid);
 	}
 }
 
-void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo)
+void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo, const bool isCacheValid)
 {
+
 	exportParamSuite->SetParamName(
 		pluginId,
 		groupIndex,
@@ -735,7 +739,7 @@ void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, 
 
 				for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
 				{
-					updateSingleDynamicParameter(exportParamSuite, &paramSubValueInfo);
+					updateSingleDynamicParameter(exportParamSuite, &paramSubValueInfo, isCacheValid);
 				}
 			}
 		}

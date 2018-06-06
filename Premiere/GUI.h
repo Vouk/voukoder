@@ -39,8 +39,8 @@ enum ColorRange {
 class GUI
 {
 public:
-	GUI(csSDK_uint32 pluginId, Config *config);
-	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite, csSDK_int32 paramVersion);
+	GUI(csSDK_uint32 pluginId, Config *config, csSDK_int32 paramVersion);
+	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite);
 	bool getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings);
 	void getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
@@ -50,6 +50,7 @@ public:
 
 private:
 	csSDK_uint32 pluginId;
+	csSDK_int32 paramVersion;
 	csSDK_int32 groupIndex = 0;
 	Config *config;
 	exNewParamInfo createParamElement(IParamInfo paramInfo, csSDK_int32 hidden);
@@ -57,5 +58,5 @@ private:
 	void initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfos, int selectedId);
 	void refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite);
 	void updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo);
-	void updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo);
+	void updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo, const bool isCacheValid);
 };

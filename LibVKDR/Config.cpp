@@ -19,6 +19,10 @@ Config::Config()
 		initMultiplexers(resources);
 		initFilters(resources);
 	}
+
+	int a = getLatestVersion();
+	if (a == 1)
+		OutputDebugString(L"a");
 }
 
 #pragma region Resource loader
@@ -512,4 +516,45 @@ bool Config::checkEncoderAvailability(const string encoderName)
 	}
 
 	return ret;
+}
+
+inline static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+	((std::string*)userp)->append((char*)contents, size * nmemb);
+	return size * nmemb;
+}
+
+int Config::getLatestVersion()
+{
+	CURL *curl;
+	CURLcode res;
+	std::string readBuffer;
+
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+
+	curl = curl_easy_init();
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, "https://www.voukoder.org/version.php");
+		//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+		//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+		curl_easy_setopt(curl, CURLOPT_USERAGENT, "voukoder/1.0");
+
+		res = curl_easy_perform(curl);
+		/* Check for errors */
+		if (res != CURLE_OK)
+			fprintf(stderr, "curl_easy_perform() failed: %s\n",
+				curl_easy_strerror(res));
+
+		curl_easy_cleanup(curl);
+
+		PluginUpdate.version.Number.major = 256;
+
+		OutputDebugStringA(readBuffer.c_str());
+	}
+
+	curl_global_cleanup();
+
+	return res;
 }
