@@ -8,9 +8,10 @@ static inline T gcd(T a, T b)
 	return gcd(b % a, a);
 }
 
-GUI::GUI(csSDK_uint32 pluginId, Config *config, csSDK_int32 paramVersion) :
+GUI::GUI(csSDK_uint32 pluginId, Config *config, PluginUpdate *pluginUpdate, csSDK_int32 paramVersion) :
 	pluginId(pluginId),
 	config(config),
+	pluginUpdate(pluginUpdate),
 	paramVersion(paramVersion)
 {}
 
@@ -26,6 +27,7 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, FilterTabGroup, L"Filters", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRMultiplexerTabGroup, L"Multiplexer", kPrFalse, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, VKDRUpdateGroup, L"Voukoder update available!", pluginUpdate->isUpdateAvailable ? kPrFalse : kPrTrue, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Video Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Audio Settings", kPrFalse, kPrFalse, kPrFalse);
@@ -73,6 +75,20 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 	{
 		seqFrameRate.mInt64 = last;
 	}
+
+	// Param: Update button
+	exParamValues updateValues;
+	updateValues.structVersion = 1;
+	updateValues.disabled = kPrFalse;
+	updateValues.hidden = kPrFalse;
+	updateValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo updateParam;
+	updateParam.structVersion = 1;
+	updateParam.flags = exParamFlag_independant;
+	updateParam.paramType = exParamType_button;
+	updateParam.paramValues = updateValues;
+	::lstrcpyA(updateParam.identifier, VKDRUpdateButton);
+	exportParamSuite->AddParam(pluginId, groupIndex, VKDRUpdateGroup, &updateParam);
 
 	// Param: Video codec
 	exParamValues codecValues;
@@ -470,7 +486,15 @@ prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *
 	PrTime ticksPerSecond;
 	timeSuite->GetTicksPerSecond(&ticksPerSecond);
 
+	wchar_t text[256];
+	swprintf_s(text, L"Download Voukoder %d.%d.%d",
+		pluginUpdate->version.number.major,
+		pluginUpdate->version.number.minor,
+		pluginUpdate->version.number.patch);
+
 	// Labels: Video
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRUpdateButton, text);
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRUpdateButton, L"Go to the download website to get the latest Voukoder version.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEBasicVideoGroup, L"Video Settings");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoCodec, L"Video Encoder");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoCodec, L"The encoder that creates the output video.");

@@ -17,27 +17,32 @@
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "wldap32.lib")
 
+#define VKDR_UPDATE_CHECK_URL "https://www.voukoder.org/version.php?ver=%d.%d.%d"
+
 using json = nlohmann::json;
 
 using namespace std;
 
 namespace LibVKDR
 {
+	union Version
+	{
+		struct number
+		{
+			uint8_t build;
+			uint8_t patch;
+			uint8_t minor;
+			uint8_t major;
+		} number;
+		uint32_t code = 0;
+	};
+
 	struct PluginUpdate
 	{
-		union
-		{
-			struct number
-			{
-				uint8_t major;
-				uint8_t minor;
-				uint8_t patch;
-			} number;
-			uint32_t code;
-		} version;
-
+		Version version;
 		string url;
-	} PluginUpdate;
+		bool isUpdateAvailable;
+	};
 
 	class Config
 	{
@@ -53,6 +58,7 @@ namespace LibVKDR
 		vector<MultiplexerInfo> Multiplexers;
 		vector<FilterInfo> Filters;
 		vector<FrameSizeInfo> FrameSizes;
+		static int CheckForUpdate(Version version, PluginUpdate *pluginUpdate);
 
 	private:
 		ParamInfo createParamInfo(json json);
@@ -64,6 +70,5 @@ namespace LibVKDR
 		bool initMultiplexers(const json resources);
 		bool initFilters(const json resources);
 		bool loadResources(HMODULE hModule, LPTSTR lpType, map<string, json> *resources);
-		int getLatestVersion();
 	};
 }

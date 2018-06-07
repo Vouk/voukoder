@@ -62,11 +62,13 @@ public:
 	prMALError queryExportFileExtension(exQueryExportFileExtensionRec *exportFileExtensionRecP);
 	prMALError queryOutputSettings(exQueryOutputSettingsRec *outputSettingsRecP);
 	prMALError validateOutputSettings(exValidateOutputSettingsRec *outputSettingsRecP);
+	prMALError buttonAction(exParamButtonRec *paramButtonRecP);
 
 private:
 	csSDK_uint32 pluginId;
 	csSDK_int32 groupIndex = 0;
 	SPBasicSuite *spBasicSuite;
+	PluginUpdate *pluginUpdate;
 	Logger *logger;
 	GUI *gui;
 	Config *config;

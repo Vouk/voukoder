@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Config.h"
 #include "lavf.h"
 
@@ -19,10 +20,6 @@ Config::Config()
 		initMultiplexers(resources);
 		initFilters(resources);
 	}
-
-	int a = getLatestVersion();
-	if (a == 1)
-		OutputDebugString(L"a");
 }
 
 #pragma region Resource loader
@@ -524,34 +521,42 @@ inline static size_t WriteCallback(void *contents, size_t size, size_t nmemb, vo
 	return size * nmemb;
 }
 
-int Config::getLatestVersion()
+int Config::CheckForUpdate(const Version version, PluginUpdate *pluginUpdate)
 {
-	CURL *curl;
-	CURLcode res;
-	std::string readBuffer;
-
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 
-	curl = curl_easy_init();
-	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_URL, "https://www.voukoder.org/version.php");
-		//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-		//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	CURLcode res = CURLE_FAILED_INIT;
+
+	CURL *curl = curl_easy_init();
+	if (curl) 
+	{
+		string buffer;
+
+		char url[256];
+		sprintf_s(url, VKDR_UPDATE_CHECK_URL,
+			version.number.major,
+			version.number.minor,
+			version.number.patch);
+
+		curl_easy_setopt(curl, CURLOPT_URL, url);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
 		curl_easy_setopt(curl, CURLOPT_USERAGENT, "voukoder/1.0");
 
 		res = curl_easy_perform(curl);
-		/* Check for errors */
-		if (res != CURLE_OK)
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
-				curl_easy_strerror(res));
+		if (res == CURLE_OK)
+		{
+			const json jsonRes = json::parse(buffer);
+
+			pluginUpdate->version.number.major = jsonRes["version"]["major"].get<uint8_t>();
+			pluginUpdate->version.number.minor = jsonRes["version"]["minor"].get<uint8_t>();
+			pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
+			pluginUpdate->version.number.build = 0;
+			pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
+			pluginUpdate->url = jsonRes["url"].get<string>();
+		}
 
 		curl_easy_cleanup(curl);
-
-		PluginUpdate.version.Number.major = 256;
-
-		OutputDebugStringA(readBuffer.c_str());
 	}
 
 	curl_global_cleanup();

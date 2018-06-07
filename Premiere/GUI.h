@@ -11,6 +11,8 @@
 #define VKDRVideoFrameSize "VKDRVideoFrameSize"
 #define VKDRColorSpace "VKDRColorSpace"
 #define VKDRColorRange "VKDRColorRange"
+#define VKDRUpdateGroup "VKDRUpdateGroup"
+#define VKDRUpdateButton "VKDRUpdateButton"
 #define VKDRVideoSettings "VKDRVideoSettings"
 #define VKDRAudioSettings "VKDRAudioSettings"
 #define VKDRMultiplexerTabGroup "MultiplexerTab"
@@ -39,7 +41,7 @@ enum ColorRange {
 class GUI
 {
 public:
-	GUI(csSDK_uint32 pluginId, Config *config, csSDK_int32 paramVersion);
+	GUI(csSDK_uint32 pluginId, Config *config, PluginUpdate *pluginUpdate, csSDK_int32 paramVersion);
 	prMALError init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite);
 	bool getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings);
@@ -53,6 +55,7 @@ private:
 	csSDK_int32 paramVersion;
 	csSDK_int32 groupIndex = 0;
 	Config *config;
+	PluginUpdate *pluginUpdate;
 	exNewParamInfo createParamElement(IParamInfo paramInfo, csSDK_int32 hidden);
 	void fillEncoderDropdown(PrSDKExportParamSuite *exportParamSuite, vector<EncoderInfo> encoderInfos);
 	void initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfos, int selectedId);

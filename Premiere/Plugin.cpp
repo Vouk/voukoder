@@ -97,6 +97,9 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		exValidateOutputSettingsRec *instanceRecP = reinterpret_cast<exValidateOutputSettingsRec*>(param1);
 		return (reinterpret_cast<Plugin*>(instanceRecP->privateData))->validateOutputSettings(instanceRecP);
 	}
+	case exSelParamButton:
+		exParamButtonRec *instanceRecP = reinterpret_cast<exParamButtonRec*>(param1);
+		return (reinterpret_cast<Plugin*>(instanceRecP->privateData))->buttonAction(instanceRecP);
 	}
 
 	return exportReturn_Unsupported;
@@ -105,14 +108,23 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 Plugin::Plugin(csSDK_uint32 pluginId):
 	pluginId(pluginId)
 {
+	Version version;
+	version.number.major = VKDR_VERSION_MAJOR;
+	version.number.minor = VKDR_VERSION_MINOR;
+	version.number.patch = VKDR_VERSION_PATCH;
+	
+	pluginUpdate = new PluginUpdate;
+	Config::CheckForUpdate(version, pluginUpdate);
+
 	config = new Config();
-	gui = new GUI(pluginId, config, VKDR_PARAM_VERSION);
+	gui = new GUI(pluginId, config, pluginUpdate, VKDR_PARAM_VERSION);
 	logger = new Logger(pluginId);
 }
 
 Plugin::~Plugin()
 {
 	delete(gui);
+	delete(pluginUpdate);
 	delete(config);
 	delete(logger);
 }
@@ -431,6 +443,16 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 	});
 
 	encoder.close(ret == suiteError_NoError);
+
+	return malNoError;
+}
+
+prMALError Plugin::buttonAction(exParamButtonRec *paramButtonRecP)
+{
+	if (strcmp(paramButtonRecP->buttonParamIdentifier, VKDRUpdateButton) == 0)
+	{
+		ShellExecuteA(0, 0, pluginUpdate->url.c_str(), 0, 0, SW_SHOW);
+	}
 
 	return malNoError;
 }
