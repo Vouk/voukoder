@@ -15,7 +15,7 @@ GUI::GUI(csSDK_uint32 pluginId, Config *config, PluginUpdate *pluginUpdate, csSD
 	paramVersion(paramVersion)
 {}
 
-prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite)
+prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite)
 {
 	PrTime ticksPerSecond;
 	timeSuite->GetTicksPerSecond(&ticksPerSecond);
@@ -352,19 +352,19 @@ prMALError GUI::init(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSui
 		{
 			selectedId = config->DefaultAudioEncoder;
 		}
-		initDynamicParameters(exportParamSuite, encoderInfo, selectedId);
+		createParametersFromConfig(exportParamSuite, encoderInfo, selectedId);
 	}
 
 	// Init filters
 	for (FilterInfo filterInfo : config->Filters)
-		initDynamicParameters(exportParamSuite, filterInfo, 0);
+		createParametersFromConfig(exportParamSuite, filterInfo, 0);
 
 	exportParamSuite->SetParamsVersion(pluginId, paramVersion);
 
 	return malNoError;
 }
 
-void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo, int selectedId)
+void GUI::createParametersFromConfig(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfo, int selectedId)
 {
 	// Add the param groups
 	for (ParamGroupInfo paramGroup : encoderInfo.groups)
@@ -383,7 +383,7 @@ void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamC
 	// Iterate encoder params
 	for (ParamInfo paramInfo : encoderInfo.params)
 	{
-		const exNewParamInfo newParamInfo = createParamElement(
+		const exNewParamInfo newParamInfo = createParameter(
 			paramInfo,
 			encoderInfo.id != selectedId);
 
@@ -398,7 +398,7 @@ void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamC
 		{
 			for (ParamSubValueInfo paramSubValue : paramValueInfo.subValues)
 			{
-				const exNewParamInfo newParamInfo = createParamElement(
+				const exNewParamInfo newParamInfo = createParameter(
 					paramSubValue,
 					(paramInfo.default.intValue != paramValueInfo.id) || (encoderInfo.id != selectedId));
 
@@ -412,7 +412,7 @@ void GUI::initDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IParamC
 	}
 }
 
-exNewParamInfo GUI::createParamElement(IParamInfo paramConfig, csSDK_int32 hidden)
+exNewParamInfo GUI::createParameter(const IParamInfo paramConfig, const csSDK_int32 hidden)
 {
 	// Fill param values
 	exParamValues paramValues;
@@ -480,7 +480,7 @@ exNewParamInfo GUI::createParamElement(IParamInfo paramConfig, csSDK_int32 hidde
 	return paramInfo;
 }
 
-prMALError GUI::update(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *timeSuite)
+prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *timeSuite)
 {
 	// Get ticks per second
 	PrTime ticksPerSecond;
@@ -690,7 +690,6 @@ void GUI::updateDynamicParameters(PrSDKExportParamSuite *exportParamSuite, IPara
 
 void GUI::updateSingleDynamicParameter(PrSDKExportParamSuite *exportParamSuite, IParamInfo *paramInfo, const bool isCacheValid)
 {
-
 	exportParamSuite->SetParamName(
 		pluginId,
 		groupIndex,

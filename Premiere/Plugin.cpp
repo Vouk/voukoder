@@ -173,12 +173,12 @@ prMALError Plugin::endInstance()
 
 prMALError Plugin::generateDefaultParams(exGenerateDefaultParamRec *instanceRecP)
 {
-	return gui->init(suites->exportParamSuite, suites->exportInfoSuite, suites->timeSuite);
+	return gui->createParameters(suites->exportParamSuite, suites->exportInfoSuite, suites->timeSuite);
 }
 
 prMALError Plugin::postProcessParams(exPostProcessParamsRec *instanceRecP)
 {
-	return gui->update(suites->exportParamSuite, suites->timeSuite);
+	return gui->updateParameters(suites->exportParamSuite, suites->timeSuite);
 }
 
 prMALError Plugin::queryOutputSettings(exQueryOutputSettingsRec *outputSettingsRecP)

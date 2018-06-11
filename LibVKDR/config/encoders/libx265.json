@@ -5,7 +5,11 @@
   ],
   "defaultPixelFormat": "yuv420p",
   "groups": [
-
+    {
+      "name": "VKDRx265ModeDecisionAnalysisGroup",
+      "label": "Mode decision / Analysis",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
   ],
   "multipass": {
     "name": "x265Passes"
@@ -17,7 +21,48 @@
       "noValueReplacement": "1",
       "parameters": [
         "interlace",
-        "lossless"
+        "lossless",
+        "rd",
+        "ctu",
+        "min-cu-size",
+        "limit-refs",
+        "limit-modes",
+        "no-limit-modes",
+        "rect",
+        "no-rect",
+        "amp",
+        "no-amp",
+        "early-skip",
+        "no-early-skip",
+        "rskip",
+        "no-rskip",
+        "fast-intra",
+        "no-fast-intra",
+        "b-intra",
+        "no-b-intra",
+        "cu-lossless",
+        "no-cu-lossless",
+        "tskip-fast",
+        "no-tskip-fast",
+        "rd-refine",
+        "no-rd-refine",
+        "refine-intra",
+        "refine-inter",
+        "dynamic-refine",
+        "no-dynamic-refine",
+        "refine-mv",
+        "tu-intra-depth",
+        "tu-inter-depth",
+        "limit-tu",
+        "nr-intra",
+        "nr-inter",
+        "tskip",
+        "no-tskip",
+        "rdpenalty",
+        "max-tu-size",
+        "dynamic-rd",
+        "ssim-rd",
+        "no-ssim-rd"
       ]
     }
   },
@@ -30,8 +75,7 @@
       "interlace": "tff",
       "top": "1"
     },
-    "progressive": {
-    }
+    "progressive": {}
   },
   "params": [
     {
@@ -40,82 +84,62 @@
       "description": "Color encoding system.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
           "id": 0,
           "name": "YUV 4:2:0",
           "pixelFormat": "yuv420p",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 1,
           "name": "YUV 4:2:2",
           "pixelFormat": "yuv422p",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 2,
           "name": "YUV 4:4:4",
           "pixelFormat": "yuv444p",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 3,
           "name": "YUV 4:2:0 (10 bit)",
           "pixelFormat": "yuv420p10le",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 4,
           "name": "YUV 4:2:2 (10 bit)",
           "pixelFormat": "yuv422p10le",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 5,
           "name": "YUV 4:4:4 (10 bit)",
           "pixelFormat": "yuv444p10le",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 6,
           "name": "YUV 4:2:0 (12 bit)",
           "pixelFormat": "yuv420p12le",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 7,
           "name": "YUV 4:2:2 (12 bit)",
           "pixelFormat": "yuv422p12le",
-          "parameters": {
-
-          }
+          "parameters": {}
         },
         {
           "id": 8,
           "name": "YUV 4:4:4 (12 bit)",
           "pixelFormat": "yuv444p12le",
-          "parameters": {
-
-          }
+          "parameters": {}
         }
       ]
     },
@@ -125,9 +149,7 @@
       "description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 5,
       "values": [
         {
@@ -207,9 +229,7 @@
       "label": "Strategy",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 1,
       "values": [
         {
@@ -283,6 +303,804 @@
           "name": "Lossless",
           "parameters": {
             "lossless": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Rd",
+      "label": "RD",
+      "description": "Level of RDO in mode decision. The higher the value, the more exhaustive the analysis and the more rate distortion optimization is used. The lower the value the faster the encode, the higher the value the smaller the bitstream (in general).",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 3,
+      "values": [
+        {
+          "id": 1,
+          "name": "recon generated (better intra), RDO merge/skip selection",
+          "parameters": {
+            "rd": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "RDO splits and merge/skip selection",
+          "parameters": {
+            "rd": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "RDO mode and split decisions, chroma residual used for sa8d",
+          "parameters": {
+            "rd": "3"
+          }
+        },
+        {
+          "id": 5,
+          "name": "Adds RDO prediction decisions",
+          "parameters": {
+            "rd": "5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Ctu",
+      "label": "Coding tree unit",
+      "description": "Maximum CU size (width and height). The larger the maximum CU size, the more efficiently x265 can encode flat areas of the picture, giving large reductions in bitrate. However this comes at a loss of parallelism with fewer rows of CUs that can be encoded in parallel, and less frame parallelism as well. Because of this the faster presets use a CU size of 32.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "64",
+          "parameters": {
+            "ctu": "64"
+          }
+        },
+        {
+          "id": 2,
+          "name": "32",
+          "parameters": {
+            "ctu": "32"
+          }
+        },
+        {
+          "id": 3,
+          "name": "16",
+          "parameters": {
+            "ctu": "16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265MinCtuSize",
+      "label": "Coding tree unit (Min.)",
+      "description": "Minimum CU size (width and height). By using 16 or 32 the encoder will not analyze the cost of CUs below that minimum threshold, saving considerable amounts of compute with a predictable increase in bitrate. This setting has a large effect on performance on the faster presets.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 2,
+      "values": [
+        {
+          "id": 0,
+          "name": "32",
+          "parameters": {
+            "min-cu-size": "32"
+          }
+        },
+        {
+          "id": 1,
+          "name": "16",
+          "parameters": {
+            "min-cu-size": "16"
+          }
+        },
+        {
+          "id": 2,
+          "name": "8",
+          "parameters": {
+            "min-cu-size": "8"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265LimitRefs",
+      "label": "Limit References",
+      "description": "When set to X265_REF_LIMIT_DEPTH (1) x265 will limit the references analyzed at the current depth based on the references used to code the 4 sub-blocks at the next depth. For example, a 16x16 CU will only use the references used to code its four 8x8 CUs.\n\nWhen set to X265_REF_LIMIT_CU (2), the rectangular and asymmetrical partitions will only use references selected by the 2Nx2N motion search (including at the lowest depth which is otherwise unaffected by the depth limit).\n\nWhen set to 3 (X265_REF_LIMIT_DEPTH && X265_REF_LIMIT_CU), the 2Nx2N motion search at each depth will only use references from the split CUs and the rect/amp motion searches at that depth will only use the reference(s) selected by 2Nx2N.\n\nFor all non-zero values of limit-refs, the current depth will evaluate intra mode (in inter slices), only if intra mode was chosen as the best mode for atleast one of the 4 sub-blocks.\n\n.You can often increase the number of references you are using (within your decoder level limits) if you enable one or both of these flags.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 3,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Disabled)",
+          "parameters": {
+            "limit-refs": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Limit Depth",
+          "parameters": {
+            "limit-refs": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Limit CU",
+          "parameters": {
+            "limit-refs": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Limit Depth & Limit CU",
+          "parameters": {
+            "limit-refs": "3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265LimitModes",
+      "label": "Limit Modes",
+      "description": "When enabled, limit-modes will limit modes analyzed for each CU using cost metrics from the 4 sub-CUs. When multiple inter modes like --rect and/or --amp are enabled, this feature will use motion cost heuristics from the 4 sub-CUs to bypass modes that are unlikely to be the best choice. This can significantly improve performance when rect and/or --amp are enabled at minimal compression efficiency loss.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "limit-modes": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-limit-modes": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Rect",
+      "label": "Rect",
+      "description": "Enable analysis of rectangular motion partitions Nx2N and 2NxN (50/50 splits, two directions).",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "rect": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-rect": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Amp",
+      "label": "Amp",
+      "description": "Enable analysis of asymmetric motion partitions (75/25 splits, four directions). At RD levels 0 through 4, AMP partitions are only considered at CU sizes 32x32 and below. At RD levels 5 and 6, it will only consider AMP partitions as merge candidates (no motion search) at 64x64, and as merge or inter candidates below 64x64.\n\nThe AMP partitions which are searched are derived from the current best inter partition. If Nx2N (vertical rectangular) is the best current prediction, then left and right asymmetrical splits will be evaluated. If 2NxN (horizontal rectangular) is the best current prediction, then top and bottom asymmetrical splits will be evaluated, If 2Nx2N is the best prediction, and the block is not a merge/skip, then all four AMP partitions are evaluated.\n\nThis setting has no effect if rectangular partitions are disabled.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "amp": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-amp": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265EarlySkip",
+      "label": "Early Skip",
+      "description": "Measure 2Nx2N merge candidates first; if no residual is found, additional modes at that depth are not analysed.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "early-skip": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-early-skip": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RSkip",
+      "label": "R Skip",
+      "description": "This option determines early exit from CU depth recursion. When a skip CU is found, additional heuristics (depending on rd-level) are used to decide whether to terminate recursion. In rdlevels 5 and 6, comparison with inter2Nx2N is used, while at rdlevels 4 and neighbour costs are used to skip recursion. Provides minimal quality degradation at good performance gains when enabled.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "rskip": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-rskip": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265FastIntra",
+      "label": "Fast Intra",
+      "description": "Perform an initial scan of every fifth intra angular mode, then check modes +/- 2 distance from the best mode, then +/- 1 distance from the best mode, effectively performing a gradient descent. When enabled 10 modes in total are checked. When disabled all 33 angular modes are checked. Only applicable for --rd levels 4 and below (medium preset and faster).",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "fast-intra": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-fast-intra": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265BIntra",
+      "label": "B Intra",
+      "description": "Enables the evaluation of intra modes in B slices.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "b-intra": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-b-intra": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265CuLossless",
+      "label": "CU Lossless",
+      "description": "For each CU, evaluate lossless (transform and quant bypass) encode of the best non-lossless mode option as a potential rate distortion optimization. If the global option --lossless has been specified, all CUs will be encoded as lossless unconditionally regardless of whether this option was enabled.\n\nOnly effective at RD levels 3 and above, which perform RDO mode decisions.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "cu-lossless": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-cu-lossless": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265TSkipFast",
+      "label": "Transform Skrip Fast",
+      "description": "Only evaluate transform skip for NxN intra predictions (4x4 blocks). Only applicable if transform skip is enabled. For chroma, only evaluate if luma used tskip. Inter block tskip analysis is unmodified.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "tskip-fast": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-tskip-fast": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RDDefine",
+      "label": "RD Define",
+      "description": "For each analysed CU, calculate R-D cost on the best partition mode for a range of QP values, to find the optimal rounding effect.\n\nOnly effective at RD levels 5 and 6.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "rd-refine": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-rd-refine": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RefineIntra",
+      "label": "Refine Intra",
+      "description": "Enables refinement of intra blocks in current encode.\n\nLevel 0 - Forces both mode and depth from the save encode.\n\nLevel 1 - Evaluates all intra modes at current depth(n) and at depth (n+1) when current block size is one greater than the min-cu-size. Forces modes for larger blocks.\n\nLevel 2 - In addition to the functionality of level 1, at all depths, force (a) only depth when angular mode is chosen by the save encode. (b) depth and mode when other intra modes are chosen by the save encode.\n\nLevel 3 - Perform analysis of intra modes for depth reused from first encode.\n\nLevel 4 - Does not reuse any analysis information - redo analysis for the intra block.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Level 0",
+          "parameters": {
+            "refine-intra": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Level 1",
+          "parameters": {
+            "refine-intra": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Level 2",
+          "parameters": {
+            "refine-intra": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Level 3",
+          "parameters": {
+            "refine-intra": "3"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Level 4",
+          "parameters": {
+            "refine-intra": "4"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RefineInter",
+      "label": "Refine Inter",
+      "description": "Enables refinement of inter blocks in current encode.\n\nLevel 0 - Forces both mode and depth from the save encode.\n\nLevel 1 - Evaluates all inter modes at current depth(n) and at depth (n+1) when current block size is one greater than the min-cu-size. Forces modes for larger blocks.\n\nLevel 2 - In addition to the functionality of level 1, restricts the modes evaluated when specific modes are decided as the best mode by the save encode.\n\n2nx2n in save encode - disable re-evaluation of rect and amp.\n\nskip in save encode - re-evaluates only skip, merge and 2nx2n modes.\n\nLevel 3 - Perform analysis of inter modes while reusing depths from the save encode.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Level 0",
+          "parameters": {
+            "refine-inter": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Level 1",
+          "parameters": {
+            "refine-inter": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Level 2",
+          "parameters": {
+            "refine-inter": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Level 3",
+          "parameters": {
+            "refine-inter": "3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265DynamicRefine",
+      "label": "Dynamic Refine",
+      "description": "Dynamically switches --refine-inter levels 0-3 based on the content and the encoder settings. It is recommended to use --refine-intra 4 with dynamic refinement.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "dynamic-refine": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-dynamic-refine": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RefineMV",
+      "label": "Refine Motion Vector",
+      "description": "Enables refinement of motion vector for scaled video. Evaluates the best motion vector by searching the surrounding eight integer and subpel pixel positions.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "refine-mv": ""
+      }
+    },
+    {
+      "name": "x265TUIntraDepth",
+      "label": "TU Intra Depth",
+      "description": "The transform unit (residual) quad-tree begins with the same depth as the coding unit quad-tree, but the encoder may decide to further split the transform unit tree if it improves compression efficiency. This setting limits the number of extra recursion depth which can be attempted for intra coded units. Default: 1, which means the residual quad-tree is always at the same depth as the coded unit quad-tree\n\nNote that when the CU intra prediction is NxN (only possible with 8x8 CUs), a TU split is implied, and thus the residual quad-tree begins at 4x4 and cannot split any futhrer.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 1,
+      "maxValue": 4,
+      "parameters": {
+        "tu-intra-depth": "%d"
+      }
+    },
+    {
+      "name": "x265TUInterDepth",
+      "label": "TU Inter Depth",
+      "description": "The transform unit (residual) quad-tree begins with the same depth as the coding unit quad-tree, but the encoder may decide to further split the transform unit tree if it improves compression efficiency. This setting limits the number of extra recursion depth which can be attempted for inter coded units. Default: 1. which means the residual quad-tree is always at the same depth as the coded unit quad-tree unless the CU was coded with rectangular or AMP partitions, in which case a TU split is implied and thus the residual quad-tree begins one layer below the CU quad-tree.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 1,
+      "maxValue": 4,
+      "parameters": {
+        "tu-inter-depth": "%d"
+      }
+    },
+    {
+      "name": "x265LimitTU",
+      "label": "Limit TU",
+      "description": "Enables early exit from TU depth recursion, for inter coded blocks.\n\nLevel 1 - decides to recurse to next higher depth based on cost comparison of full size TU and split TU.\n\nLevel 2 - based on first split subTUs depth, limits recursion of other split subTUs.\n\nLevel 3 - based on the average depth of the co-located and the neighbor CUs TU depth, limits recursion of the current CU.\n\nLevel 4 - uses the depth of the neighbouring co-located CUs TU depth to limit the 1st subTU depth. The 1st subTU depth is taken as the limiting depth for the other subTUs.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Level 0",
+          "parameters": {
+            "limit-tu": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Level 1",
+          "parameters": {
+            "limit-tu": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Level 2",
+          "parameters": {
+            "limit-tu": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Level 3",
+          "parameters": {
+            "limit-tu": "3"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Level 4",
+          "parameters": {
+            "limit-tu": "4"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265NrIntra",
+      "label": "Noise Reduction (Intra)",
+      "description": "Noise reduction - an adaptive deadzone applied after DCT (subtracting from DCT coefficients), before quantization. It does no pixel-level filtering, doesnt cross DCT block boundaries, has no overlap, The higher the strength value parameter, the more aggressively it will reduce noise.\n\nEnabling noise reduction will make outputs diverge between different numbers of frame threads. Outputs will be deterministic but the outputs of -F2 will no longer match the outputs of -F3, etc.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 2000,
+      "parameters": {
+        "nr-intra": "%d"
+      }
+    },
+    {
+      "name": "x265NrInter",
+      "label": "Noise Reduction (Inter)",
+      "description": "Noise reduction - an adaptive deadzone applied after DCT (subtracting from DCT coefficients), before quantization. It does no pixel-level filtering, doesnt cross DCT block boundaries, has no overlap, The higher the strength value parameter, the more aggressively it will reduce noise.\n\nEnabling noise reduction will make outputs diverge between different numbers of frame threads. Outputs will be deterministic but the outputs of -F2 will no longer match the outputs of -F3, etc.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 2000,
+      "parameters": {
+        "nr-inter": "%d"
+      }
+    },
+    {
+      "name": "x265TSkip",
+      "label": "T Skip",
+      "description": "Enable evaluation of transform skip (bypass DCT but still use quantization) coding for 4x4 TU coded blocks.\n\nOnly effective at RD levels 3 and above, which perform RDO mode decisions.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "tskip": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-tskip": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265RDPenalty",
+      "label": "RD Penalty",
+      "description": "When set to 1, transform units of size 32x32 are given a 4x bit cost penalty compared to smaller transform units, in intra coded CUs in P or B slices.\n\nWhen set to 2, transform units of size 32x32 are not even attempted, unless otherwise required by the maximum recursion depth. For this option to be effective with 32x32 intra CUs, --tu-intra-depth must be at least 2. For it to be effective with 64x64 intra CUs, --tu-intra-depth must be at least 3.\n\nNote that in HEVC an intra transform unit (a block of the residual quad-tree) is also a prediction unit, meaning that the intra prediction signal is generated for each TU block, the residual subtracted and then coded. The coding unit simply provides the prediction modes that will be used when predicting all of the transform units within the CU. This means that when you prevent 32x32 intra transform units, you are preventing 32x32 intra predictions.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 2,
+      "parameters": {
+        "rdpenalty": "%d"
+      }
+    },
+    {
+      "name": "x265MaxTUSize",
+      "label": "Maximum TU size",
+      "description": "Maximum TU size (width and height). The residual can be more efficiently compressed by the DCT transform when the max TU size is larger, but at the expense of more computation. Transform unit quad-tree begins at the same depth of the coded tree unit, but if the maximum TU size is smaller than the CU size then transform QT begins at the depth of the max-tu-size.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "32",
+          "parameters": {
+            "max-tu-size": "32"
+          }
+        },
+        {
+          "id": 1,
+          "name": "16",
+          "parameters": {
+            "max-tu-size": "16"
+          }
+        },
+        {
+          "id": 2,
+          "name": "8",
+          "parameters": {
+            "max-tu-size": "8"
+          }
+        },
+        {
+          "id": 3,
+          "name": "4",
+          "parameters": {
+            "max-tu-size": "4"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265DynamicRD",
+      "label": "Dynamic RD",
+      "description": "Increases the RD level at points where quality drops due to VBV rate control enforcement. The number of CUs for which the RD is reconfigured is determined based on the strength. Strength 1 gives the best FPS, strength 4 gives the best SSIM. Strength 0 switches this feature off.\n\nEffective for RD levels 4 and below.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 4,
+      "parameters": {
+        "dynamic-rd": "%d"
+      }
+    },
+    {
+      "name": "x265SSimRD",
+      "label": "SSIM RD",
+      "description": "Enable/Disable SSIM RDO. SSIM is a better perceptual quality assessment method as compared to MSE. SSIM based RDO calculation is based on residual divisive normalization scheme. This normalization is consistent with the luminance and contrast masking effect of Human Visual System. It is used for mode selection during analysis of CTUs and can achieve significant gain in terms of objective quality metrics SSIM and PSNR. It only has effect on presets which use RDO-based mode decisions (--rd 3 and above).",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "ssim-rd": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-ssim-rd": ""
           }
         }
       ]
