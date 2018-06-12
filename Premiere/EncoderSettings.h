@@ -22,8 +22,6 @@ struct EncoderSettings
 
 		for (pair<string, string> parameter : parameters)
 		{
-			size_t l = 0;
-
 			if (paramInfo.type == "float")
 			{
 				if ((fabs(paramInfo.default.floatValue - paramValue.value.floatValue) < 1e-2) && !paramInfo.useDefaultValue)
@@ -31,7 +29,7 @@ struct EncoderSettings
 					return;
 				}
 
-				l = sprintf_s(buffer, parameter.second.c_str(), paramValue.value.floatValue);
+				sprintf_s(buffer, parameter.second.c_str(), paramValue.value.floatValue);
 			}
 			else if (paramInfo.type == "int")
 			{
@@ -40,7 +38,7 @@ struct EncoderSettings
 					return;
 				}
 
-				l = sprintf_s(buffer, parameter.second.c_str(), paramValue.value.intValue);
+				sprintf_s(buffer, parameter.second.c_str(), paramValue.value.intValue);
 			}
 			else if (paramInfo.type == "bool")
 			{
@@ -49,7 +47,7 @@ struct EncoderSettings
 					return;
 				}
 
-				l = sprintf_s(buffer, "%d", paramValue.value.intValue);
+				sprintf_s(buffer, "%d", paramValue.value.intValue);
 			}
 			else if (paramInfo.type == "string")
 			{
@@ -65,49 +63,48 @@ struct EncoderSettings
 				currentValue = std::regex_replace(currentValue, std::wregex(L":"), L"\\\\:");
 				currentValue = std::regex_replace(currentValue, std::wregex(L"="), L"\\\\=");
 
+				size_t l = 0;
 				wcstombs_s(&l, buffer, sizeof(buffer), currentValue.c_str(), currentValue.length());
-				l -= 1;
 			}
 
-			if (l > 0)
+			string value(buffer);
+
+			bool isInGroup = false;
+
+			for (EncoderParameterGroup group : paramGroups)
 			{
-				bool isInGroup = false;
-
-				for (EncoderParameterGroup group : paramGroups)
+				if (find(group.parameters.begin(), group.parameters.end(), parameter.first) != group.parameters.end())
 				{
-					if (find(group.parameters.begin(), group.parameters.end(), parameter.first) != group.parameters.end())
+					if (value.length() == 0 && !group.noValueReplacement.empty() && paramInfo.type != "string")
 					{
-						if (parameter.second.empty() && !group.noValueReplacement.empty())
-						{
-							parameter.second = group.noValueReplacement;
-						}
-
-						stringstream sbuffer;
-
-						map<string, string>::iterator it = params.find(group.name);
-						if (it != params.end())
-						{
-							string current = it->second;
-							current.erase(remove(current.begin(), current.end(), '\0'), current.end());
-							sbuffer << current;
-							sbuffer << group.separator;
-							params.erase(it);
-						}
-
-						sbuffer << parameter.first;
-						sbuffer << group.delimiter;
-						sbuffer << string(buffer, l + 1);
-
-						params.insert(make_pair(group.name, sbuffer.str()));
-
-						isInGroup = true;
-						break;
+						value = group.noValueReplacement;
 					}
-				}
 
-				if (!isInGroup)
-					params.insert(make_pair(parameter.first, string(buffer, l + 1)));
+					stringstream sbuffer;
+
+					map<string, string>::iterator it = params.find(group.name);
+					if (it != params.end())
+					{
+						string current = it->second;
+						current.erase(remove(current.begin(), current.end(), '\0'), current.end());
+						sbuffer << current;
+						sbuffer << group.separator;
+						params.erase(it);
+					}
+
+					sbuffer << parameter.first;
+					sbuffer << group.delimiter;
+					sbuffer << value;
+
+					params.insert(make_pair(group.name, sbuffer.str()));
+
+					isInGroup = true;
+					break;
+				}
 			}
+
+			if (!isInGroup)
+				params.insert(make_pair(parameter.first, value));
 		}
 	};
 
