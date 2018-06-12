@@ -14,6 +14,21 @@
       "name": "VKDRx265TemporalMotionSearchOptionsGroup",
       "label": "Temporal / motion search options",
       "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265SpatialIntraOptionsGroup",
+      "label": "Spatial / intra options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265PsychovisualOptionsGroup",
+      "label": "Psycho-visual options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx26SliceDecisionOptionsGroup",
+      "label": "Slice Decision Options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
   "multipass": {
@@ -79,7 +94,31 @@
         "weightb",
         "no-weightb",
         "analyze-src-pics",
-        "no-analyze-src-pics"
+        "no-analyze-src-pics",
+        "strong-intra-smoothing",
+        "no-strong-intra-smoothing",
+        "constrained-intra",
+        "no-constrained-intra",
+        "psy-rd",
+        "psy-rdoq",
+        "open-gop",
+        "no-open-gop",
+        "keyint",
+        "min-keyint",
+        "scenecut",
+        "scenecut-bias",
+        "radl",
+        "intra-refresh",
+        "rc-lookahead",
+        "gop-lookahead",
+        "lookahead-slices",
+        "lookahead-threads",
+        "b-adapt",
+        "bframes",
+        "bframe-bias",
+        "b-pyramid",
+        "no-b-pyramid",
+        "force-flush"
       ]
     }
   },
@@ -1333,6 +1372,370 @@
           "name": "Disabled",
           "parameters": {
             "no-analyze-src-pics": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265StrongIntraSmoothing",
+      "label": "Strong Intra Smoothing",
+      "description": "Enable strong intra smoothing for 32x32 intra blocks. This flag performs bi-linear interpolation of the corner reference samples for a strong smoothing effect. The purpose is to prevent blocking or banding artifacts in regions with few/zero AC coefficients.",
+      "group": "VKDRx265SpatialIntraOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "strong-intra-smoothing": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-strong-intra-smoothing": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265ConstrainedIntra",
+      "label": "Constrained Intra",
+      "description": "Constrained intra prediction. When generating intra predictions for blocks in inter slices, only intra-coded reference pixels are used. Inter-coded reference pixels are replaced with intra-coded neighbor pixels or default values. The general idea is to block the propagation of reference errors that may have resulted from lossy signals.",
+      "group": "VKDRx265SpatialIntraOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "constrained-intra": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-constrained-intra": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265PsyRD",
+      "label": "Psy RD",
+      "description": "Influence rate distortion optimizated mode decision to preserve the energy of the source image in the encoded image at the expense of compression efficiency. It only has effect on presets which use RDO-based mode decisions (--rd 3 and above). 1.0 is a typical value.",
+      "group": "VKDRx265PsychovisualOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 2,
+      "minValue": 0,
+      "maxValue": 5,
+      "parameters": {
+        "psy-rd": "%.1f"
+      }
+    },
+    {
+      "name": "x265PsyRDOQ",
+      "label": "Psy RDPQ",
+      "description": "Influence rate distortion optimized quantization by favoring higher energy in the reconstructed image. This generally improves perceived visual quality at the cost of lower quality metric scores. It only has effect when --rdoq-level is 1 or 2. High values can be beneficial in preserving high-frequency detail.",
+      "group": "VKDRx265PsychovisualOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 50,
+      "parameters": {
+        "psy-rdoq": "%.1f"
+      }
+    },
+    {
+      "name": "x265OpenGop",
+      "label": "Open GOP",
+      "description": "Enable open GOP, allow I-slices to be non-IDR.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "open-gop": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-open-gop": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265KeyInt",
+      "label": "Keyframes",
+      "description": "Max intra period in frames. A special case of infinite-gop (single keyframe at the beginning of the stream) can be triggered with argument -1. Use 1 to force all-intra. When intra-refresh is enabled it specifies the interval between which refresh sweeps happen.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 250,
+      "minValue": -1,
+      "maxValue": 1024,
+      "parameters": {
+        "keyint": "%d"
+      }
+    },
+    {
+      "name": "x265MinKeyInt",
+      "label": "Keyframes (min.)",
+      "description": "Minimum GOP size. Scenecuts beyond this interval are coded as IDR and start a new keyframe, while scenecuts closer together are coded as I or P. For fixed keyframe interval, set value to be equal to keyint. (0 = auto)",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 1024,
+      "parameters": {
+        "min-keyint": "%d"
+      }
+    },
+    {
+      "name": "x265SceneCut",
+      "label": "Scene Cut",
+      "description": "How aggressively I-frames need to be inserted. The higher the threshold value, the more aggressive the I-frame placement. --scenecut 0 or --no-scenecut disables adaptive I frame placement.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 40,
+      "minValue": 0,
+      "maxValue": 255,
+      "parameters": {
+        "scenecut": "%d"
+      }
+    },
+    {
+      "name": "x265SceneCutBias",
+      "label": "Scene Cut Bias",
+      "description": "This value represents the percentage difference between the inter cost and intra cost of a frame used in scenecut detection. For example, a value of 5 indicates, if the inter cost of a frame is greater than or equal to 95 percent of the intra cost of the frame, then detect this frame as scenecut. Values between 5 and 15 are recommended.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 5,
+      "minValue": 0,
+      "maxValue": 100,
+      "parameters": {
+        "scenecut-bias": "%d"
+      }
+    },
+    {
+      "name": "x265RADL",
+      "label": "RADL",
+      "description": "Number of RADL pictures allowed infront of IDR. Requires fixed keyframe interval. Recommended value is 2-3.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 16,
+      "parameters": {
+        "radl": "%d"
+      }
+    },
+    {
+      "name": "x265IntraRefresh",
+      "label": "Intra Refresh",
+      "description": "Enables Periodic Intra Refresh(PIR) instead of keyframe insertion. PIR can replace keyframes by inserting a column of intra blocks in non-keyframes, that move across the video from one side to the other and thereby refresh the image but over a period of multiple frames instead of a single keyframe.",
+      "group": "VKDRx265ModeDecisionAnalysisGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "intra-refresh": ""
+      }
+    },
+    {
+      "name": "x265RCLookahead",
+      "label": "RC Lookahead",
+      "description": "Number of frames for slice-type decision lookahead (a key determining factor for encoder latency). The longer the lookahead buffer the more accurate scenecut decisions will be, and the more effective cuTree will be at improving adaptive quant. Having a lookahead larger than the max keyframe interval is not helpful.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 20,
+      "minValue": 16,
+      "maxValue": 250,
+      "parameters": {
+        "rc-lookahead": "%d"
+      }
+    },
+    {
+      "name": "x265LookaheadSlices",
+      "label": "Lookahead Slices",
+      "description": "Use multiple worker threads to measure the estimated cost of each frame within the lookahead. The frame is divided into the specified number of slices, and one-thread is launched per slice. When --b-adapt is 2, most frame cost estimates will be performed in batch mode (many cost estimates at the same time) and lookahead-slices is ignored for batched estimates; it may still be used for single cost estimations. The higher this parameter, the less accurate the frame costs will be (since context is lost across slice boundaries) which will result in less accurate B-frame and scene-cut decisions. The effect on performance can be significant especially on systems with many threads.\n\nThe encoder may internally lower the number of slices or disable slicing to ensure each slice codes at least 10 16x16 rows of lowres blocks to minimize the impact on quality. For example, for 720p and 1080p videos, the number of slices is capped to 4 and 6, respectively. For resolutions lesser than 720p, slicing is auto-disabled.\n\nIf slices are used in lookahead, they are logged in the list of tools as lslices.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 8,
+      "minValue": 0,
+      "maxValue": 15,
+      "parameters": {
+        "lookahead-slices": "%d"
+      }
+    },
+    {
+      "name": "x265LookaheadThreads",
+      "label": "Lookahead Threads",
+      "description": "Use multiple worker threads dedicated to doing only lookahead instead of sharing the worker threads with frame Encoders. A dedicated lookahead threadpool is created with the specified number of worker threads. This can range from 0 upto half the hardware threads available for encoding. Using too many threads for lookahead can starve resources for frame Encoder and can harm performance.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 64,
+      "parameters": {
+        "lookahead-threads": "%d"
+      }
+    },
+    {
+      "name": "x265BAdapt",
+      "label": "B Adapt",
+      "description": "Set the level of effort in determining B frame placement.\n\nWith b-adapt 0, the GOP structure is fixed based on the values of --keyint and --bframes.\n\nWith b-adapt 1 a light lookahead is used to choose B frame placement.\n\nWith b-adapt 2 (trellis) a viterbi B path selection is performed.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 2,
+      "values": [
+        {
+          "id": 0,
+          "name": "None",
+          "parameters": {
+            "b-adapt": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Fast",
+          "parameters": {
+            "b-adapt": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Full (Trellis)",
+          "parameters": {
+            "b-adapt": "2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265BFrames",
+      "label": "B-Frames",
+      "description": "Maximum number of consecutive b-frames. Use --bframes 0 to force all P/I low-latency encodes. This parameter has a quadratic effect on the amount of memory allocated and the amount of work performed by the full trellis version of --b-adapt lookahead.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 4,
+      "minValue": 0,
+      "maxValue": 16,
+      "parameters": {
+        "bframes": "%d"
+      }
+    },
+    {
+      "name": "x265BFrameBias",
+      "label": "B-Frame Bias",
+      "description": "Bias towards B frames in slicetype decision. The higher the bias the more likely x265 is to use B frames.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": -90,
+      "maxValue": 100,
+      "parameters": {
+        "bframe-bias": "%d"
+      }
+    },
+    {
+      "name": "x265BPyramid",
+      "label": "B-Pyramid",
+      "description": "Use B-frames as references, when possible.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "b-pyramid": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-b-pyramid": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265ForceFlush",
+      "label": "Force Flush",
+      "description": "Force the encoder to flush frames.",
+      "group": "VKDRx26SliceDecisionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "When all the input pictures are over",
+          "parameters": {
+            "force-flush": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Even when the input is not over",
+          "parameters": {
+            "force-flush": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Slicetype decided frames only",
+          "parameters": {
+            "force-flush": "2"
           }
         }
       ]
