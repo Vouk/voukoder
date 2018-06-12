@@ -9,6 +9,11 @@
       "name": "VKDRx265ModeDecisionAnalysisGroup",
       "label": "Mode decision / Analysis",
       "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "label": "Temporal / motion search options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
   "multipass": {
@@ -62,7 +67,19 @@
         "max-tu-size",
         "dynamic-rd",
         "ssim-rd",
-        "no-ssim-rd"
+        "no-ssim-rd",
+        "max-merge",
+        "me",
+        "subme",
+        "merange",
+        "temporal-mvp",
+        "no-temporal-mvp",
+        "weightp",
+        "no-weightp",
+        "weightb",
+        "no-weightb",
+        "analyze-src-pics",
+        "no-analyze-src-pics"
       ]
     }
   },
@@ -1101,6 +1118,221 @@
           "name": "Disabled",
           "parameters": {
             "no-ssim-rd": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265MaxMerge",
+      "label": "Max. Merge",
+      "description": "Maximum number of neighbor (spatial and temporal) candidate blocks that the encoder may consider for merging motion predictions. If a merge candidate results in no residual, it is immediately selected as a 'skip'. Otherwise the merge candidates are tested as part of motion estimation when searching for the least cost inter option. The max candidate number is encoded in the SPS and determines the bit cost of signaling merge CUs.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 2,
+      "minValue": 1,
+      "maxValue": 5,
+      "parameters": {
+        "max-merge": "%d"
+      }
+    },
+    {
+      "name": "x265ME",
+      "label": "Motion search method",
+      "description": "Generally, the higher the number the harder the ME method will try to find an optimal match. Diamond search is the simplest. Hexagon search is a little better. Uneven Multi-Hexegon is an adaption of the search method used by x264 for slower presets. Star is a three step search adapted from the HM encoder: a star-pattern search followed by an optional radix scan followed by an optional star-search refinement. Full is an exhaustive search; an order of magnitude slower than all other searches but not much better than umh or star. SEA is similar to FULL search; a three step motion search adopted from x264: DC calculation followed by ADS calculation followed by SAD of the passed motion vector candidates, hence faster than Full search.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Diamond",
+          "parameters": {
+            "me": "dia"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Hexagon",
+          "parameters": {
+            "me": "hex"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Uneven Multi-Hexegon",
+          "parameters": {
+            "me": "umh"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Star",
+          "parameters": {
+            "me": "star"
+          }
+        },
+        {
+          "id": 4,
+          "name": "SEA",
+          "parameters": {
+            "me": "sea"
+          }
+        },
+        {
+          "id": 5,
+          "name": "Full",
+          "parameters": {
+            "me": "full"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265SubMe",
+      "label": "Subpel refinement",
+      "description": "Amount of subpel refinement to perform. The higher the number the more subpel iterations and steps are performed. At -subme values larger than 2, chroma residual cost is included in all subpel refinement steps and chroma residual is included in all motion estimation decisions (selecting the best reference picture in each list, and chosing between merge, uni-directional motion and bi-directional motion). The 'slow' preset is the first preset to enable the use of chroma residual.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 2,
+      "minValue": 0,
+      "maxValue": 7,
+      "parameters": {
+        "subme": "%d"
+      }
+    },
+    {
+      "name": "x265MeRange",
+      "label": "Motion search range",
+      "description": "The default is derived from the default CTU size (64) minus the luma interpolation half-length (4) minus maximum subpel distance (2) minus one extra pixel just in case the hex search method is used. If the search range were any larger than this, another CTU row of latency would be required for reference frames.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 57,
+      "minValue": 0,
+      "maxValue": 32768,
+      "parameters": {
+        "merange ": "%d"
+      }
+    },
+    {
+      "name": "x265TemporalMvp",
+      "label": "Temporal MVP",
+      "description": "Enable temporal motion vector predictors in P and B slices. This enables the use of the motion vector from the collocated block in the previous frame to be used as a predictor.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "temporal-mvp": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-temporal-mvp": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265WeightP",
+      "label": "Weighted Prediction",
+      "description": "Enable weighted prediction in P slices. This enables weighting analysis in the lookahead, which influences slice decisions, and enables weighting analysis in the main encoder which allows P reference samples to have a weight function applied to them prior to using them for motion compensation. In video which has lighting changes, it can give a large improvement in compression efficiency.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "weightp": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-weightp": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265WeightB",
+      "label": "Weighted Prediction (B slices)",
+      "description": "Enable weighted prediction in B slices.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "weightb": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-weightb": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265AnayzeSourcePics",
+      "label": "Analyze source pics",
+      "description": "Enable motion estimation with source frame pixels, in this mode, motion estimation can be computed independently.",
+      "group": "VKDRx265TemporalMotionSearchOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "analyze-src-pics": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-analyze-src-pics": ""
           }
         }
       ]
