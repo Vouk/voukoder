@@ -29,6 +29,11 @@
       "name": "VKDRx26SliceDecisionOptionsGroup",
       "label": "Slice Decision Options",
       "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265QualityRateDistortionOptionsGroup",
+      "label": "Quality, rate control and rate distortion options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
   "multipass": {
@@ -118,7 +123,39 @@
         "bframe-bias",
         "b-pyramid",
         "no-b-pyramid",
-        "force-flush"
+        "force-flush",
+        "crf-max",
+        "crf-min",
+        "vbv-bufsize",
+        "vbv-maxrate",
+        "vbv-init",
+        "vbv-end",
+        "aq-mode",
+        "aq-strength",
+        "aq-motion",
+        "no-aq-motion",
+        "cutree",
+        "no-cutree",
+        "multi-pass-opt-analysis",
+        "no-multi-pass-opt-analysis",
+        "multi-pass-opt-distortion",
+        "no-multi-pass-opt-distortion",
+        "strict-cbr",
+        "no-strict-cbr",
+        "cbqpoffs",
+        "crqpoffs",
+        "ipratio",
+        "pbratio",
+        "qcomp",
+        "qpstep",
+        "qpmin",
+        "qpmax",
+        "rc-grain",
+        "no-rc-grain",
+        "const-vbv",
+        "no-const-vbv",
+        "qblur",
+        "cplxblur"
       ]
     }
   },
@@ -1739,6 +1776,493 @@
           }
         }
       ]
+    },
+    {
+      "name": "x265BCrfMax",
+      "label": "CRF Max",
+      "description": "Specify an upper limit to the rate factor which may be assigned to any given frame (ensuring a max QP). This is dangerous when CRF is used in combination with VBV as it may result in buffer underruns.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 51,
+      "minValue": 0,
+      "maxValue": 51,
+      "parameters": {
+        "crf-max": "%d"
+      }
+    },
+    {
+      "name": "x265BCrfMin",
+      "label": "CRF Min",
+      "description": "Specify an lower limit to the rate factor which may be assigned to any given frame (ensuring a min compression factor).",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 51,
+      "parameters": {
+        "crf-min": "%d"
+      }
+    },
+    {
+      "name": "x265VbvBufsize",
+      "label": "VBV Buffer Size [kbit]",
+      "description": "Specify the size of the VBV buffer (kbits). Enables VBV in ABR mode. In CRF mode, --vbv-maxrate must also be specified.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 100000,
+      "parameters": {
+        "vbv-bufsize": "%d"
+      }
+    },
+    {
+      "name": "x265VbvMaxRate",
+      "label": "VBV Max Rate [kbit/s]",
+      "description": "Will be used only if vbv-bufsize is also non-zero. Both vbv-bufsize and vbv-maxrate are required to enable VBV in CRF mode.\n\nNote that when VBV is enabled (with a valid --vbv-bufsize), VBV emergency denoising is turned on. This will turn on aggressive denoising at the frame level when frame QP > QP_MAX_SPEC (51), drastically reducing bitrate and allowing ratecontrol to assign lower QPs for the following frames. The visual effect is blurring, but removes significant blocking/displacement artifacts.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 100000,
+      "parameters": {
+        "vbv-maxrate": "%d"
+      }
+    },
+    {
+      "name": "x265VbvInit",
+      "label": "VBV Init",
+      "description": "Initial buffer occupancy. The portion of the decode buffer which must be full before the decoder will begin decoding. Determines absolute maximum frame size. Must be specified as a fractional value between 0 and 1.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 1,
+      "parameters": {
+        "vbv-init": "%.1f"
+      }
+    },
+    {
+      "name": "x265VbvEnd",
+      "label": "VBV End",
+      "description": "Final buffer emptiness. The portion of the decode buffer that must be available after all the specified frames have been inserted into the decode buffer. Specified as a fractional value between 0 and 1.\n\nThis enables basic support for chunk-parallel encoding where each segment can specify the starting and ending state of the VBV buffer so that VBV compliance can be maintained when chunks are independently encoded and stitched together.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 1,
+      "parameters": {
+        "vbv-end": "%.1f"
+      }
+    },
+    {
+      "name": "x265AqMode",
+      "label": "AQ Mode",
+      "description": "Adaptive Quantization operating mode. Raise or lower per-block quantization based on complexity analysis of the source image. The more complex the block, the more quantization is used. This offsets the tendency of the encoder to spend too many bits on complex areas and not enough in flat areas.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Disabled",
+          "parameters": {
+            "aq-mode": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "AQ enabled",
+          "parameters": {
+            "aq-mode": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "AQ enabled with auto-variance",
+          "parameters": {
+            "aq-mode": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "AQ enabled with auto-variance and bias to dark scene",
+          "parameters": {
+            "aq-mode": "3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265AqStrength",
+      "label": "AQ Strength",
+      "description": "Adjust the strength of the adaptive quantization offsets. Setting --aq-strength to 0 disables AQ. At aq-modes 2 and 3, high aq-strengths will lead to high QP offsets resulting in a large difference in achieved bitrates.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 0,
+      "maxValue": 3,
+      "parameters": {
+        "aq-strength": "%.1f"
+      }
+    },
+    {
+      "name": "x265AqMotion",
+      "label": "AQ Motion",
+      "description": "Adjust the AQ offsets based on the relative motion of each block with respect to the motion of the frame. The more the relative motion of the block, the more quantization is used.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "aq-motion": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-aq-motion": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265CuTree",
+      "label": "CU Tree",
+      "description": "Enable the use of lookaheads lowres motion vector fields to determine the amount of reuse of each block to tune adaptive quantization factors. CU blocks which are heavily reused as motion reference for later frames are given a lower QP (more bits) while CU blocks which are quickly changed and are not referenced are given less bits. This tends to improve detail in the backgrounds of video with less detail in areas of high motion.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "cutree": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-cutree": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265MultiPassOptAnalysis",
+      "label": "Multi Pass Opt Analysis",
+      "description": "Enable/Disable multipass analysis refinement along with multipass ratecontrol. Based on the information stored in pass 1, in subsequent passes analysis data is refined and also redundant steps are skipped. In pass 1 analysis information like motion vector, depth, reference and prediction modes of the final best CTU partition is stored for each CTU. Multipass analysis refinement cannot be enabled when 'analysis-save/analysis-load' option is enabled and both will be disabled when enabled together. This feature requires 'pmode/pme' to be disabled and hence pmode/pme will be disabled when enabled at the same time.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "multi-pass-opt-analysis": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-multi-pass-opt-analysis": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265MultiPassOptDistortion",
+      "label": "Multi Pass Opt Distortion",
+      "description": "Enable/Disable multipass refinement of qp based on distortion data along with multipass ratecontrol. In pass 1 distortion of best CTU partition is stored. CTUs with high distortion get lower(negative)qp offsets and vice-versa for low distortion CTUs in pass 2. This helps to improve the subjective quality. Multipass refinement of qp cannot be enabled when 'analysis-save/analysis-load' option is enabled and both will be disabled when enabled together. 'multi-pass-opt-distortion' requires 'pmode/pme' to be disabled and hence pmode/pme will be disabled when enabled along with it.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "multi-pass-opt-distortion": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-multi-pass-opt-distortion": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265StrictCBR",
+      "label": "Strict CBR",
+      "description": "Enables stricter conditions to control bitrate deviance from the target bitrate in ABR mode. Bit rate adherence is prioritised over quality. Rate tolerance is reduced to 50%.\n\nThis option is for use-cases which require the final average bitrate to be within very strict limits of the target; preventing overshoots, while keeping the bit rate within 5% of the target setting, especially in short segment encodes. Typically, the encoder stays conservative, waiting until there is enough feedback in terms of encoded frames to control QP. strict-cbr allows the encoder to be more aggressive in hitting the target bitrate even for short segment videos.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "strict-cbr": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-strict-cbr": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265CbQOffs",
+      "label": "Cb QP Offset",
+      "description": "Offset of Cb chroma QP from the luma QP selected by rate control. This is a general way to spend more or less bits on the chroma channel.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": -12,
+      "maxValue": 12,
+      "parameters": {
+        "cbqpoffs": "%d"
+      }
+    },
+    {
+      "name": "x265CrQOffs",
+      "label": "Cr QP Offset",
+      "description": "Offset of Cr chroma QP from the luma QP selected by rate control. This is a general way to spend more or less bits on the chroma channel.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": -12,
+      "maxValue": 12,
+      "parameters": {
+        "crqpoffs": "%d"
+      }
+    },
+    {
+      "name": "x265IpRatio",
+      "label": "I:P Ratio",
+      "description": "QP ratio factor between I and P slices. This ratio is used in all of the rate control modes. Some --tune options may change the default value. It is not typically manually specified.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 1.4,
+      "minValue": 0,
+      "maxValue": 10,
+      "parameters": {
+        "ipratio": "%.1f"
+      }
+    },
+    {
+      "name": "x265PbRatio",
+      "label": "P:B Ratio",
+      "description": "QP ratio factor between P and B slices. This ratio is used in all of the rate control modes. Some --tune options may change the default value. It is not typically manually specified.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 1.3,
+      "minValue": 0,
+      "maxValue": 10,
+      "parameters": {
+        "pbratio": "%.1f"
+      }
+    },
+    {
+      "name": "x265QuantizerCompression",
+      "label": "Quantizer Compression",
+      "description": "qComp sets the quantizer curve compression factor. It weights the frame quantizer based on the complexity of residual (measured by lookahead). Increasing it to 1 will effectively generate CQP.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0.6,
+      "minValue": 0,
+      "maxValue": 1,
+      "parameters": {
+        "qcomp": "%.1f"
+      }
+    },
+    {
+      "name": "x265QpStep",
+      "label": "QP Step",
+      "description": "The maximum single adjustment in QP allowed to rate control.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 4,
+      "minValue": 1,
+      "maxValue": 10,
+      "parameters": {
+        "qpstep": "%d"
+      }
+    },
+    {
+      "name": "x265QpMin",
+      "label": "QP Min",
+      "description": "Sets a hard lower limit on QP allowed to ratecontrol.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 69,
+      "parameters": {
+        "qpmin": "%d"
+      }
+    },
+    {
+      "name": "x265QpMax",
+      "label": "QP Max",
+      "description": "Sets a hard upper limit on QP allowed to ratecontrol.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 69,
+      "minValue": 0,
+      "maxValue": 69,
+      "parameters": {
+        "qpmax": "%d"
+      }
+    },
+    {
+      "name": "x265RcGrain",
+      "label": "RC Grain",
+      "description": "Enables a specialised ratecontrol algorithm for film grain content. This parameter strictly minimises QP fluctuations within and across frames and removes pulsing of grain. Enabled when '-tune' grain is applied. It is highly recommended that this option is used through the tune grain feature where a combination of param options are used to improve visual quality.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "rc-grain": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-rc-grain": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265VbvConsistent",
+      "label": "VBV Consistent",
+      "description": "Enables VBV algorithm to be consistent across runs. Default disabled. Enabled when '-tune' grain is applied.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "const-vbv": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-const-vbv": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Qblur",
+      "label": "Q blur",
+      "description": "Apply a gaussian blur with the given radius to the quantizer curve, after curve compression. Not a very important setting.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 0.5,
+      "minValue": 0,
+      "maxValue": 99,
+      "parameters": {
+        "qblur": "%.1f"
+      }
+    },
+    {
+      "name": "x265CPLXblur",
+      "label": "Blur Complexity",
+      "description": "Temporally blur complexity.",
+      "group": "VKDRx265QualityRateDistortionOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 20,
+      "minValue": 0,
+      "maxValue": 99,
+      "parameters": {
+        "cplxblur": "%.1f"
+      }
     }
   ]
 }

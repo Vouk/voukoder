@@ -39,11 +39,17 @@ static inline BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName,
 			memcpy(resource, LockResource(hData), dataSize);
 			resource[dataSize] = 0;
 			FreeResource(hData);
-
-			const json jsonRes = json::parse(resource);
-			const string name = jsonRes["name"].get<string>();
-
-			resources.insert(make_pair(name, jsonRes));
+			
+			try
+			{
+				const json jsonRes = json::parse(resource);
+				const string name = jsonRes["name"].get<string>();
+				resources.insert(make_pair(name, jsonRes));
+			}
+			catch (json::parse_error p)
+			{
+				OutputDebugStringA(p.what());
+			}
 		}
 	}
 
