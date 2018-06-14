@@ -34,6 +34,16 @@
       "name": "VKDRx265QualityRateDistortionOptionsGroup",
       "label": "Quality, rate control and rate distortion options",
       "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265QuantizationOptionsGroup",
+      "label": "Quantization Options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRx265LoopFiltersGroup",
+      "label": "Quantization Options",
+      "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
   "multipass": {
@@ -155,7 +165,18 @@
         "const-vbv",
         "no-const-vbv",
         "qblur",
-        "cplxblur"
+        "cplxblur",
+        "signhide",
+        "no-signhide",
+        "max-ausize-factor",
+        "deblock",
+        "no-deblock",
+        "sao",
+        "no-sao",
+        "sao-non-deblock",
+        "no-sao-non-deblock",
+        "high-tier",
+        "no-high-tier"
       ]
     }
   },
@@ -313,6 +334,251 @@
           "name": "Placebo",
           "parameters": {
             "preset": "placebo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Profile",
+      "label": "Profile",
+      "description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Auto)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Main",
+          "parameters": { "profile": "main" }
+        },
+        {
+          "id": 2,
+          "name": "Main (8 bit) (Intra)",
+          "parameters": { "profile": "main-intra" }
+        },
+        {
+          "id": 3,
+          "name": "Main (8 bit) (Still picture)",
+          "parameters": { "profile": "mainstillpicture" }
+        },
+        {
+          "id": 4,
+          "name": "Main 4:4:4 (8 bit)",
+          "parameters": { "profile": "main444-8" }
+        },
+        {
+          "id": 5,
+          "name": "Main 4:4:4 (8 bit) (Intra)",
+          "parameters": { "profile": "main444-intra" }
+        },
+        {
+          "id": 6,
+          "name": "Main 4:4:4 (8 bit) (Still picture)",
+          "parameters": { "profile": "main444-stillpicture" }
+        },
+        {
+          "id": 7,
+          "name": "Main (10 bit)",
+          "parameters": { "profile": "main10" }
+        },
+        {
+          "id": 8,
+          "name": "Main (10 bit) (Intra)",
+          "parameters": { "profile": "main10-intra" }
+        },
+        {
+          "id": 9,
+          "name": "Main 4:2:2 (10 bit)",
+          "parameters": { "profile": "main422-10" }
+        },
+        {
+          "id": 10,
+          "name": "Main 4:2:2 (10 bit) (Intra)",
+          "parameters": { "profile": "main422-10-intra" }
+        },
+        {
+          "id": 11,
+          "name": "Main 4:4:4 (10 bit)",
+          "parameters": { "profile": "main444-10" }
+        },
+        {
+          "id": 12,
+          "name": "Main 4:4:4 (10 bit) (Intra)",
+          "parameters": { "profile": "main444-10-intra" }
+        },
+        {
+          "id": 13,
+          "name": "Main (12 bit)",
+          "parameters": { "profile": "main12" }
+        },
+        {
+          "id": 14,
+          "name": "Main (12 bit) (Intra)",
+          "parameters": { "profile": "main12-intra" }
+        },
+        {
+          "id": 15,
+          "name": "Main 4:2:2 (12 bit)",
+          "parameters": { "profile": "main422-12" }
+        },
+        {
+          "id": 16,
+          "name": "Main 4:2:2 (12 bit) (Intra)",
+          "parameters": { "profile": "main422-12-intra" }
+        },
+        {
+          "id": 17,
+          "name": "Main 4:4:4 (12 bit)",
+          "parameters": { "profile": "main444-12" }
+        },
+        {
+          "id": 18,
+          "name": "Main 4:4:4 (12 bit) (Intra)",
+          "parameters": { "profile": "main444-12-intra" }
+        }
+      ]
+    },
+    {
+      "name": "x265Level",
+      "label": "Level",
+      "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Auto)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "1",
+          "parameters": {
+            "level": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "2",
+          "parameters": {
+            "level": "2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "2.1",
+          "parameters": {
+            "level": "2.1"
+          }
+        },
+        {
+          "id": 4,
+          "name": "3",
+          "parameters": {
+            "level": "3"
+          }
+        },
+        {
+          "id": 5,
+          "name": "3.1",
+          "parameters": {
+            "level": "3.1"
+          }
+        },
+        {
+          "id": 6,
+          "name": "4",
+          "parameters": {
+            "level": "4"
+          }
+        },
+        {
+          "id": 7,
+          "name": "4.1",
+          "parameters": {
+            "level": "4.1"
+          }
+        },
+        {
+          "id": 8,
+          "name": "5",
+          "parameters": {
+            "level": "5"
+          }
+        },
+        {
+          "id": 9,
+          "name": "5.1",
+          "parameters": {
+            "level": "5.1"
+          }
+        },
+        {
+          "id": 10,
+          "name": "5.2",
+          "parameters": {
+            "level": "5.2"
+          }
+        },
+        {
+          "id": 11,
+          "name": "6",
+          "parameters": {
+            "level": "6"
+          }
+        },
+        {
+          "id": 12,
+          "name": "6.1",
+          "parameters": {
+            "level": "6.1"
+          }
+        },
+        {
+          "id": 13,
+          "name": "6.2",
+          "parameters": {
+            "level": "6.2"
+          }
+        },
+        {
+          "id": 13,
+          "name": "8.5",
+          "parameters": {
+            "level": "8.5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265Tier",
+      "label": "Tier",
+      "description": "If --level-idc has been specified, -high-tier allows the support of high tier at that level. The encoder will first attempt to encode at the specified level, main tier first, turning on high tier only if necessary and available at that level. If your requested level does not support a High tier, high tier will not be supported. If -no-high-tier has been specified, then the encoder will attempt to encode only at the main tier.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Main",
+          "parameters": {
+            "no-high-tier": ""
+          }
+        },
+        {
+          "id": 1,
+          "name": "High",
+          "parameters": {
+            "high-tier": ""
           }
         }
       ]
@@ -2263,6 +2529,164 @@
       "parameters": {
         "cplxblur": "%.1f"
       }
+    },
+    {
+      "name": "x265SignHide",
+      "label": "Hide Sign Bit",
+      "description": "Hide sign bit of one coeff per TU (rdo). The last sign is implied. This requires analyzing all the coefficients to determine if a sign must be toggled, and then to determine which one can be toggled with the least amount of distortion.",
+      "group": "VKDRx265QuantizationOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "signhide": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-signhide": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265MaxAuSizeFactor",
+      "label": "Max. AU Size Factor",
+      "description": "It controls the maximum AU size defined in specification. It represents the percentage of maximum AU size used.",
+      "group": "VKDRx265QuantizationOptionsGroup",
+      "type": "float",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 0.5,
+      "maxValue": 1,
+      "parameters": {
+        "max-ausize-factor": "%.1f"
+      }
+    },
+    {
+      "name": "x265Deblock",
+      "label": "Deblocking",
+      "description": "Toggle deblocking loop filter, optionally specify deblocking strength offsets.\n\n<int>:<int> - parsed as tC offset and Beta offset <int>,<int> - parsed as tC offset and Beta offset <int> - both tC and Beta offsets assigned the same value",
+      "group": "VKDRx265LoopFiltersGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": "0:0",
+      "parameters": {
+        "deblock": "%s"
+      }
+    },
+    {
+      "name": "x265NoDeblock",
+      "label": "Disable deblocking",
+      "description": "Completely disables in-loop deblocking.",
+      "group": "VKDRx265LoopFiltersGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "no-deblock": ""
+      }
+    },
+    {
+      "name": "x265Sao",
+      "label": "Sample Adaptive Offset",
+      "description": "Toggle Sample Adaptive Offset loop filter.",
+      "group": "VKDRx265QuantizationOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "sao": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-sao": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265SaoNonDeblock",
+      "label": "SAO vs. Deblock",
+      "description": "Specify how to handle depencency between SAO and deblocking filter. When enabled, non-deblocked pixels are used for SAO analysis. When disabled, SAO analysis skips the right/bottom boundary areas.",
+      "group": "VKDRx265QuantizationOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "sao-non-deblock": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-sao-non-deblock": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "x265LimitSao",
+      "label": "Limit SAO",
+      "description": "Limit SAO filter computation by early terminating SAO process based on inter prediction mode, CTU spatial-domain correlations, and relations between luma and chroma.",
+      "group": "VKDRx265QuantizationOptionsGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "limit-sao": ""
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "no-limit-sao": ""
+          }
+        }
+      ]
     }
   ]
 }
