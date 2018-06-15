@@ -4,8 +4,6 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "nv12",
-  "groups": [],
-  "parameterGroups": {},
   "parameters": {
     "load_plugin": ""
   },

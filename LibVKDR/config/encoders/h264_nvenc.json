@@ -28,7 +28,6 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
-  "parameterGroups": {},
   "params": [
     {
       "name": "h264_nvencPreset",
@@ -408,7 +407,7 @@
               ],
               "defaultValue": 0,
               "parameters": {
-                "2pass": ""
+                "2pass": "1"
               }
             }
           ]
@@ -473,7 +472,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-scenecut": ""
+        "no-scenecut": "1"
       }
     },
     {
@@ -485,7 +484,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "forced-idr ": ""
+        "forced-idr ": "1"
       }
     },
     {
@@ -497,7 +496,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "nonref_p": ""
+        "nonref_p": "1"
       }
     },
     {
@@ -650,7 +649,7 @@
               "minValue": 1,
               "maxValue": 15,
               "parameters": {
-                "spatial-aq": "",
+                "spatial-aq": "1",
                 "aq-strength": "%d"
               }
             }
@@ -660,7 +659,7 @@
           "id": 2,
           "name": "Temporal AQ",
           "parameters": {
-            "temporal-aq": ""
+            "temporal-aq": "1"
           }
         }
       ]
@@ -674,7 +673,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "strict-gop": ""
+        "strict-gop": "1"
       }
     },
     {
@@ -702,7 +701,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "zerolatency": ""
+        "zerolatency": "1"
       }
     },
     {
@@ -714,7 +713,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "weighted_pred": ""
+        "weighted_pred": "1"
       }
     },
     {
@@ -726,7 +725,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "bluray-compat": ""
+        "bluray-compat": "1"
       }
     },
     {
@@ -738,7 +737,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "aud": ""
+        "aud": "1"
       }
     }
   ]

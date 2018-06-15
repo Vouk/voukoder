@@ -4,8 +4,6 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "yuv420p",
-  "groups": [],
-  "parameterGroups": {},
   "params": [
     {
       "name": "h264_amfUsage",

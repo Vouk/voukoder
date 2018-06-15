@@ -10,12 +10,11 @@
       "parent": "FilterTabGroup"
     }
   ],
-  "parameterGroups": {},
   "params": [
     {
       "name": "zscaleAlgorithm",
       "label": "Algorithm",
-      "description": "",
+      "description": "The algorithm to be used for rescaling.",
       "group": "FilterScaleTabGroup",
       "type": "int",
       "flags": [],
@@ -73,7 +72,7 @@
     {
       "name": "zscaleWidth",
       "label": "Width",
-      "description": "...",
+      "description": "The new width to rescale.",
       "group": "FilterScaleTabGroup",
       "type": "int",
       "flags": [],
@@ -88,7 +87,7 @@
     {
       "name": "zscaleHeight",
       "label": "Height",
-      "description": "...",
+      "description": "The new height to rescale.",
       "group": "FilterScaleTabGroup",
       "type": "int",
       "flags": [],

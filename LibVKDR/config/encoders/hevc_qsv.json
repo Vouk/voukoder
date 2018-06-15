@@ -4,8 +4,6 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "nv12",
-  "groups": [],
-  "parameterGroups": {},
   "params": [
     {
       "name": "hevc_qsvPreset",

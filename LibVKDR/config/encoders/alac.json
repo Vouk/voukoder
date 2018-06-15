@@ -10,9 +10,7 @@
       "description": "Minimum amount of prediction order.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 4,
       "minValue": 1,
       "maxValue": 30,
@@ -26,9 +24,7 @@
       "description": "Maximum amount of prediction order.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 6,
       "minValue": 1,
       "maxValue": 30,

@@ -523,7 +523,7 @@
               "flags": [],
               "defaultValue": 0,
               "parameters": {
-                "slow-firstpass": ""
+                "slow-firstpass": "1"
               }
             }
           ]
@@ -792,7 +792,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-deblock": ""
+        "no-deblock": "1"
       }
     },
     {
@@ -804,7 +804,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "open-gop": ""
+        "open-gop": "1"
       }
     },
     {
@@ -816,7 +816,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-cabac": ""
+        "no-cabac": "1"
       }
     },
     {
@@ -1088,7 +1088,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-mbtree": ""
+        "no-mbtree": "1"
       }
     },
     {
@@ -1182,7 +1182,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-weightb": ""
+        "no-weightb": "1"
       }
     },
     {
@@ -1374,7 +1374,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-chroma-me": ""
+        "no-chroma-me": "1"
       }
     },
     {
@@ -1386,7 +1386,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-mixed-refs": ""
+        "no-mixed-refs": "1"
       }
     },
     {
@@ -1432,7 +1432,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-dct-decimate": ""
+        "no-dct-decimate": "1"
       }
     },
     {
@@ -1457,7 +1457,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-fast-pskip": ""
+        "no-fast-pskip": "1"
       }
     },
     {
@@ -1469,7 +1469,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-psy": ""
+        "no-psy": "1"
       }
     },
     {
@@ -1513,7 +1513,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "bluray-compat": ""
+        "bluray-compat": "1"
       }
     },
     {
@@ -1525,7 +1525,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "aud": ""
+        "aud": "1"
       }
     },
     {
@@ -1537,7 +1537,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "fake-interlaced": ""
+        "fake-interlaced": "1"
       }
     }
   ]

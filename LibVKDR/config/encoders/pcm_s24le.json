@@ -2,8 +2,5 @@
   "name": "pcm_s24le",
   "authors": [
     "Daniel Stankewitz"
-  ],
-  "params": [
-
   ]
 }

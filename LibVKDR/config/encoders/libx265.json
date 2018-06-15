@@ -571,14 +571,14 @@
           "id": 0,
           "name": "Main",
           "parameters": {
-            "no-high-tier": ""
+            "no-high-tier": "1"
           }
         },
         {
           "id": 1,
           "name": "High",
           "parameters": {
-            "high-tier": ""
+            "high-tier": "1"
           }
         }
       ]
@@ -661,7 +661,7 @@
           "id": 3,
           "name": "Lossless",
           "parameters": {
-            "lossless": ""
+            "lossless": "1"
           }
         }
       ]
@@ -826,14 +826,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "limit-modes": ""
+            "limit-modes": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-limit-modes": ""
+            "no-limit-modes": "1"
           }
         }
       ]
@@ -856,14 +856,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "rect": ""
+            "rect": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-rect": ""
+            "no-rect": "1"
           }
         }
       ]
@@ -886,14 +886,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "amp": ""
+            "amp": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-amp": ""
+            "no-amp": "1"
           }
         }
       ]
@@ -916,14 +916,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "early-skip": ""
+            "early-skip": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-early-skip": ""
+            "no-early-skip": "1"
           }
         }
       ]
@@ -946,14 +946,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "rskip": ""
+            "rskip": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-rskip": ""
+            "no-rskip": "1"
           }
         }
       ]
@@ -976,14 +976,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "fast-intra": ""
+            "fast-intra": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-fast-intra": ""
+            "no-fast-intra": "1"
           }
         }
       ]
@@ -1006,14 +1006,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "b-intra": ""
+            "b-intra": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-b-intra": ""
+            "no-b-intra": "1"
           }
         }
       ]
@@ -1036,14 +1036,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "cu-lossless": ""
+            "cu-lossless": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-cu-lossless": ""
+            "no-cu-lossless": "1"
           }
         }
       ]
@@ -1066,14 +1066,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "tskip-fast": ""
+            "tskip-fast": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-tskip-fast": ""
+            "no-tskip-fast": "1"
           }
         }
       ]
@@ -1096,14 +1096,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "rd-refine": ""
+            "rd-refine": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-rd-refine": ""
+            "no-rd-refine": "1"
           }
         }
       ]
@@ -1211,14 +1211,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "dynamic-refine": ""
+            "dynamic-refine": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-dynamic-refine": ""
+            "no-dynamic-refine": "1"
           }
         }
       ]
@@ -1232,7 +1232,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "refine-mv": ""
+        "refine-mv": "1"
       }
     },
     {
@@ -1355,14 +1355,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "tskip": ""
+            "tskip": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-tskip": ""
+            "no-tskip": "1"
           }
         }
       ]
@@ -1452,14 +1452,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "ssim-rd": ""
+            "ssim-rd": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-ssim-rd": ""
+            "no-ssim-rd": "1"
           }
         }
       ]
@@ -1577,14 +1577,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "temporal-mvp": ""
+            "temporal-mvp": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-temporal-mvp": ""
+            "no-temporal-mvp": "1"
           }
         }
       ]
@@ -1607,14 +1607,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "weightp": ""
+            "weightp": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-weightp": ""
+            "no-weightp": "1"
           }
         }
       ]
@@ -1637,14 +1637,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "weightb": ""
+            "weightb": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-weightb": ""
+            "no-weightb": "1"
           }
         }
       ]
@@ -1667,14 +1667,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "analyze-src-pics": ""
+            "analyze-src-pics": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-analyze-src-pics": ""
+            "no-analyze-src-pics": "1"
           }
         }
       ]
@@ -1697,14 +1697,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "strong-intra-smoothing": ""
+            "strong-intra-smoothing": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-strong-intra-smoothing": ""
+            "no-strong-intra-smoothing": "1"
           }
         }
       ]
@@ -1727,14 +1727,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "constrained-intra": ""
+            "constrained-intra": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-constrained-intra": ""
+            "no-constrained-intra": "1"
           }
         }
       ]
@@ -1785,14 +1785,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "open-gop": ""
+            "open-gop": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-open-gop": ""
+            "no-open-gop": "1"
           }
         }
       ]
@@ -1876,7 +1876,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "intra-refresh": ""
+        "intra-refresh": "1"
       }
     },
     {
@@ -1999,14 +1999,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "b-pyramid": ""
+            "b-pyramid": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-b-pyramid": ""
+            "no-b-pyramid": "1"
           }
         }
       ]
@@ -2198,14 +2198,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "aq-motion": ""
+            "aq-motion": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-aq-motion": ""
+            "no-aq-motion": "1"
           }
         }
       ]
@@ -2228,14 +2228,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "cutree": ""
+            "cutree": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-cutree": ""
+            "no-cutree": "1"
           }
         }
       ]
@@ -2258,14 +2258,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "multi-pass-opt-analysis": ""
+            "multi-pass-opt-analysis": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-multi-pass-opt-analysis": ""
+            "no-multi-pass-opt-analysis": "1"
           }
         }
       ]
@@ -2288,14 +2288,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "multi-pass-opt-distortion": ""
+            "multi-pass-opt-distortion": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-multi-pass-opt-distortion": ""
+            "no-multi-pass-opt-distortion": "1"
           }
         }
       ]
@@ -2318,14 +2318,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "strict-cbr": ""
+            "strict-cbr": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-strict-cbr": ""
+            "no-strict-cbr": "1"
           }
         }
       ]
@@ -2460,14 +2460,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "rc-grain": ""
+            "rc-grain": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-rc-grain": ""
+            "no-rc-grain": "1"
           }
         }
       ]
@@ -2490,14 +2490,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "const-vbv": ""
+            "const-vbv": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-const-vbv": ""
+            "no-const-vbv": "1"
           }
         }
       ]
@@ -2548,14 +2548,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "signhide": ""
+            "signhide": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-signhide": ""
+            "no-signhide": "1"
           }
         }
       ]
@@ -2595,7 +2595,7 @@
       "flags": [],
       "defaultValue": 0,
       "parameters": {
-        "no-deblock": ""
+        "no-deblock": "1"
       }
     },
     {
@@ -2616,14 +2616,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "sao": ""
+            "sao": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-sao": ""
+            "no-sao": "1"
           }
         }
       ]
@@ -2646,14 +2646,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "sao-non-deblock": ""
+            "sao-non-deblock": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-sao-non-deblock": ""
+            "no-sao-non-deblock": "1"
           }
         }
       ]
@@ -2676,14 +2676,14 @@
           "id": 1,
           "name": "Enabled",
           "parameters": {
-            "limit-sao": ""
+            "limit-sao": "1"
           }
         },
         {
           "id": 2,
           "name": "Disabled",
           "parameters": {
-            "no-limit-sao": ""
+            "no-limit-sao": "1"
           }
         }
       ]

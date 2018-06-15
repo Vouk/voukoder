@@ -2,8 +2,5 @@
   "name": "pcm_s16le",
   "authors": [
     "Daniel Stankewitz"
-  ],
-  "params": [
-
   ]
 }

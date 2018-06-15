@@ -10,9 +10,7 @@
       "description" : "Higher values result in smaller files, but slightly longer encoding time.",
       "group": "ADBEAudioCodecGroup",
       "type": "int",
-      "flags": [
-        "slider"
-      ],
+      "flags": [ "slider" ],
       "defaultValue": 8,
       "useDefaultValue": true,
       "minValue": 0,

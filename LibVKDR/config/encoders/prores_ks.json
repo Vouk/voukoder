@@ -21,7 +21,6 @@
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
-  "parameterGroups": {},
   "params": [
     {
       "name": "proresProfile",
@@ -93,9 +92,7 @@
       "description": "Quantizer Matrices for different purposes.",
       "group": "VKDRproresQuantizerGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 0,
       "values": [
         {
@@ -148,9 +145,7 @@
       "description": "Amount of Macroblocks per slice. Higher value increases quality.",
       "group": "VKDRproresFrameTypeGroup",
       "type": "int",
-      "flags": [
-
-      ],
+      "flags": [],
       "defaultValue": 3,
       "values": [
         {
