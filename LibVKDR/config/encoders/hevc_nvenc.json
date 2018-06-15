@@ -618,7 +618,7 @@
               "name": "hevc_nvencAqModeSpatial",
               "label": "Strength",
               "description": "AQ strength scale from 1 (low) - 15 (aggressive).",
-              "type": "float",
+              "type": "int",
               "flags": [
                 "slider"
               ],

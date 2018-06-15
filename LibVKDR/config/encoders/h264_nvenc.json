@@ -403,8 +403,7 @@
               "label": "Force 2-Pass",
               "description": "Enable 2-pass encoding.",
               "type": "bool",
-              "flags": [
-              ],
+              "flags": [],
               "defaultValue": 0,
               "parameters": {
                 "2pass": "1"
