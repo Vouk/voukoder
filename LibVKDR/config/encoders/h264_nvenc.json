@@ -651,7 +651,7 @@
               "maxValue": 15,
               "parameters": {
                 "spatial-aq": "",
-                "aq-strength": "%.1f"
+                "aq-strength": "%d"
               }
             }
           ]
