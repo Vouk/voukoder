@@ -121,5 +121,6 @@
     <None Include="config\encoders\hevc_amf.json" />
     <None Include="config\filters\zscale.json" />
     <None Include="config\encoders\libmp3lame.json" />
+    <None Include="config\encoders\libfdk_aac.json" />
   </ItemGroup>
 </Project>

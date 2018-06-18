@@ -38,6 +38,10 @@
       "name": "flac"
     },
     {
+      "id": 16,
+      "name": "libfdk_aac"
+    },
+    {
       "id": 15,
       "name": "libmp3lame"
     },
@@ -60,10 +64,6 @@
     {
       "id": 13,
       "name": "h264_qsv_disabled"
-    },
-    {
-      "id": 14,
-      "name": "hevc_qsv_disabled"
     }
   ],
   "multiplexers": [

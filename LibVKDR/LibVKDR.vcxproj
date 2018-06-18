@@ -205,6 +205,7 @@
     <None Include="config\encoders\hevc_amf.json" />
     <None Include="config\encoders\hevc_nvenc.json" />
     <None Include="config\encoders\hevc_qsv.json" />
+    <None Include="config\encoders\libfdk_aac.json" />
     <None Include="config\encoders\libmp3lame.json" />
     <None Include="config\encoders\libx264.json" />
     <None Include="config\encoders\libx265.json" />

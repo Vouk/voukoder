@@ -20,6 +20,7 @@
 #define IDR_JSON_ENC_QSV_HEVC           116
 #define IDR_JSON_FLT_ZSCALE             117
 #define IDR_JSON_ENC_MP3LAME            118
+#define IDR_JSON_ENC_FDKAAC             119
 
 // Nächste Standardwerte für neue Objekte
 // 
