@@ -5,6 +5,52 @@
   ],
   "params": [
     {
+      "name": "fdkProfile",
+      "label": "Profile",
+      "description": "Set audio profile.",
+      "group": "ADBEBasicAudioGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Low Complexity AAC (LC)",
+          "parameters": {
+            "profile": "aac_low"
+          }
+        },
+        {
+          "id": 1,
+          "name": "High Efficiency AAC (HE-AAC)",
+          "parameters": {
+            "profile": "aac_he"
+          }
+        },
+        {
+          "id": 2,
+          "name": "High Efficiency AAC version 2 (HE-AACv2)",
+          "parameters": {
+            "profile": "aac_he_v2"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Low Delay AAC (LD)",
+          "parameters": {
+            "profile": "aac_ld"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Enhanced Low Delay AAC (ELD)",
+          "parameters": {
+            "profile": "aac_eld"
+          }
+        }
+      ]
+    },
+    {
       "name": "fdkAfterburner",
       "label": "Enable afterburner feature if set to 1, disabled if set to 0. This improves the quality but also the required processing power.",
       "description": "Enable afterburner feature if set to 1, disabled if set to 0. This improves the quality but also the required processing power.",
