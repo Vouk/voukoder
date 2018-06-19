@@ -23,8 +23,8 @@
 #define VKDR_APPNAME L"Voukoder 0.8.1"
 #define VKDR_VERSION_MAJOR 0
 #define VKDR_VERSION_MINOR 8
-#define VKDR_VERSION_PATCH 1
-#define VKDR_PARAM_VERSION 11
+#define VKDR_VERSION_PATCH 2
+#define VKDR_PARAM_VERSION 12
 
 using namespace LibVKDR;
 
