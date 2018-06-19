@@ -27,7 +27,6 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRAdvVideoCodecTabGroup, L"Advanced", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, FilterTabGroup, L"Filters", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, VKDRMultiplexerTabGroup, L"Multiplexer", kPrFalse, kPrFalse, kPrFalse);
-	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, VKDRUpdateGroup, L"Voukoder update available!", pluginUpdate->isUpdateAvailable ? kPrFalse : kPrTrue, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEBasicVideoGroup, L"Video Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEVideoTabGroup, ADBEVideoCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Audio Settings", kPrFalse, kPrFalse, kPrFalse);
@@ -80,7 +79,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	exParamValues updateValues;
 	updateValues.structVersion = 1;
 	updateValues.disabled = kPrFalse;
-	updateValues.hidden = kPrFalse;
+	updateValues.hidden = pluginUpdate->isUpdateAvailable ? kPrFalse : kPrTrue;
 	updateValues.optionalParamEnabled = kPrFalse;
 	exNewParamInfo updateParam;
 	updateParam.structVersion = 1;
@@ -88,7 +87,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	updateParam.paramType = exParamType_button;
 	updateParam.paramValues = updateValues;
 	::lstrcpyA(updateParam.identifier, VKDRUpdateButton);
-	exportParamSuite->AddParam(pluginId, groupIndex, VKDRUpdateGroup, &updateParam);
+	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicVideoGroup, &updateParam);
 
 	// Param: Video codec
 	exParamValues codecValues;
@@ -487,10 +486,16 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 	timeSuite->GetTicksPerSecond(&ticksPerSecond);
 
 	wchar_t text[256];
-	swprintf_s(text, L"Download Voukoder %d.%d.%d",
+	swprintf_s(text, L"Update available! Download Voukoder %d.%d.%d",
 		pluginUpdate->version.number.major,
 		pluginUpdate->version.number.minor,
 		pluginUpdate->version.number.patch);
+
+	// Show update
+	exParamValues updateValue;
+	exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRUpdateButton,	&updateValue);
+	updateValue.hidden = pluginUpdate->isUpdateAvailable ? kPrFalse : kPrTrue;
+	exportParamSuite->ChangeParam(pluginId, groupIndex, VKDRUpdateButton, &updateValue);
 
 	// Labels: Video
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRUpdateButton, text);

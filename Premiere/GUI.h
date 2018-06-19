@@ -11,7 +11,6 @@
 #define VKDRVideoFrameSize "VKDRVideoFrameSize"
 #define VKDRColorSpace "VKDRColorSpace"
 #define VKDRColorRange "VKDRColorRange"
-#define VKDRUpdateGroup "VKDRUpdateGroup"
 #define VKDRUpdateButton "VKDRUpdateButton"
 #define VKDRVideoSettings "VKDRVideoSettings"
 #define VKDRAudioSettings "VKDRAudioSettings"

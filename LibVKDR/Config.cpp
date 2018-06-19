@@ -552,14 +552,22 @@ int Config::CheckForUpdate(const Version version, PluginUpdate *pluginUpdate)
 		res = curl_easy_perform(curl);
 		if (res == CURLE_OK)
 		{
-			const json jsonRes = json::parse(buffer);
+			try
+			{
+				const json jsonRes = json::parse(buffer);
 
-			pluginUpdate->version.number.major = jsonRes["version"]["major"].get<uint8_t>();
-			pluginUpdate->version.number.minor = jsonRes["version"]["minor"].get<uint8_t>();
-			pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
-			pluginUpdate->version.number.build = 0;
-			pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
-			pluginUpdate->url = jsonRes["url"].get<string>();
+				pluginUpdate->version.number.major = jsonRes["version"]["major"].get<uint8_t>();
+				pluginUpdate->version.number.minor = jsonRes["version"]["minor"].get<uint8_t>();
+				pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
+				pluginUpdate->version.number.build = 0;
+				pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
+				pluginUpdate->url = jsonRes["url"].get<string>();
+			}
+			catch (json::parse_error p)
+			{
+				pluginUpdate->version = version;
+				pluginUpdate->isUpdateAvailable = false;
+			}
 		}
 
 		curl_easy_cleanup(curl);
