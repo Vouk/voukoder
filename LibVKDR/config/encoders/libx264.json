@@ -493,9 +493,7 @@
               "label": "Average Bitrate [kbit]",
               "description": "The average data rate allowed by the encoder.",
               "type": "int",
-              "flags": [
-                "slider"
-              ],
+              "flags": [ "slider" ],
               "defaultValue": 15000,
               "useDefaultValue": true,
               "minValue": 100,

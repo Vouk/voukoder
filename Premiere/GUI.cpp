@@ -1097,87 +1097,65 @@ bool GUI::getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prF
 				);
 			}
 
+			exParamValues paramValue;
+
 			for (ParamInfo paramInfo : encoderInfo.params)
 			{
-				exParamValues paramValue;
 				exportParamSuite->GetParamValue(
 					pluginId, 
 					groupIndex, 
 					paramInfo.name.c_str(),
 					&paramValue);
 
-				if (paramInfo.values.size() > 0)
+				if (encoderInfo.multipassParameter.length() > 0 &&
+					paramInfo.name == encoderInfo.multipassParameter)
+					encoderSettings->passes = paramValue.value.intValue;
+
+				encoderSettings->addParams(
+					paramInfo,
+					paramInfo.parameters,
+					paramValue,
+					encoderInfo.paramGroups);
+
+				for (ParamValueInfo paramValueInfo : paramInfo.values)
 				{
-					for (ParamValueInfo paramValueInfo : paramInfo.values)
+					if (paramValueInfo.id == paramValue.value.intValue)
 					{
-						if (paramValueInfo.id == paramValue.value.intValue)
-						{
-							if (paramValueInfo.subValues.size() > 0)
-							{
-								for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
-								{
-									exParamValues paramValue;
-									exportParamSuite->GetParamValue(
-										pluginId, 
-										groupIndex, 
-										paramSubValueInfo.name.c_str(), 
-										&paramValue);
+						if (paramValueInfo.pixelFormat.size() > 0)
+							encoderSettings->pixelFormat = paramValueInfo.pixelFormat;
 
-									if (paramSubValueInfo.pixelFormat.size() > 0)
-										encoderSettings->pixelFormat = paramSubValueInfo.pixelFormat;
+						if (encoderInfo.multipassParameter.length() > 0 &&
+							paramValueInfo.name == encoderInfo.multipassParameter)
+								encoderSettings->passes = paramValue.value.intValue;
 
-									if (encoderInfo.multipassParameter.length() > 0 && 
-										paramSubValueInfo.name == encoderInfo.multipassParameter)
-									{
-										encoderSettings->passes = paramValue.value.intValue;
-									}
-									else
-									{
-										encoderSettings->addParams(
-											paramInfo,
-											paramSubValueInfo.parameters,
-											paramValue,
-											encoderInfo.paramGroups);
-									}
-								}
-							}
-							else
-							{
-								if (paramValueInfo.pixelFormat.size() > 0)
-									encoderSettings->pixelFormat = paramValueInfo.pixelFormat;
-
-								if (encoderInfo.multipassParameter.length() > 0 &&
-									paramValueInfo.name == encoderInfo.multipassParameter)
-								{
-									encoderSettings->passes = paramValue.value.intValue;
-								}
-								else
-								{
-									encoderSettings->addParams(
-										paramInfo,
-										paramValueInfo.parameters,
-										paramValue,
-										encoderInfo.paramGroups);
-								}
-							}
-							break;
-						}
-					}
-				}
-				else
-				{
-					if (encoderInfo.multipassParameter.length() > 0 && 
-						paramInfo.name == encoderInfo.multipassParameter)
-					{
-						encoderSettings->passes = paramValue.value.intValue;
-					}
-					else
-					{
 						encoderSettings->addParams(
 							paramInfo,
-							paramInfo.parameters,
+							paramValueInfo.parameters,
 							paramValue,
 							encoderInfo.paramGroups);
+
+						for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
+						{
+							exportParamSuite->GetParamValue(
+								pluginId, 
+								groupIndex, 
+								paramSubValueInfo.name.c_str(), 
+								&paramValue);
+
+							if (paramSubValueInfo.pixelFormat.size() > 0)
+								encoderSettings->pixelFormat = paramSubValueInfo.pixelFormat;
+
+							if (encoderInfo.multipassParameter.length() > 0 && 
+								paramSubValueInfo.name == encoderInfo.multipassParameter)
+									encoderSettings->passes = paramValue.value.intValue;
+
+							encoderSettings->addParams(
+								paramSubValueInfo,
+								paramSubValueInfo.parameters,
+								paramValue,
+								encoderInfo.paramGroups);
+						}
+						break;
 					}
 				}
 			}

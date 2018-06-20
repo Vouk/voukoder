@@ -17,6 +17,7 @@ namespace LibVKDR
 		vector<string> flags;
 		bool isSubValue;
 		string defaultStringValue = "";
+		bool useDefaultValue = false;
 
 		union
 		{
@@ -42,7 +43,6 @@ namespace LibVKDR
 	struct ParamSubValueInfo : IParamInfo
 	{
 		string pixelFormat;
-		bool useDefaultValue = false;
 		map<string, string> parameters;
 	};
 
@@ -58,7 +58,6 @@ namespace LibVKDR
 	struct ParamInfo : IParamInfo
 	{
 		string group;
-		bool useDefaultValue;
 		vector<ParamValueInfo> values;
 		map<string, string> parameters;
 	};

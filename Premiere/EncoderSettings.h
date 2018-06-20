@@ -16,7 +16,7 @@ struct EncoderSettings
 	csSDK_int32 passes;
 	map<string, string> params;
 
-	void addParams(ParamInfo paramInfo, map<string, string> parameters, exParamValues paramValue, vector<EncoderParameterGroup> paramGroups)
+	void addParams(IParamInfo paramInfo, map<string, string> parameters, exParamValues paramValue, vector<EncoderParameterGroup> paramGroups)
 	{
 		char buffer[256];
 
