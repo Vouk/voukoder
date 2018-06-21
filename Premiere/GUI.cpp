@@ -892,7 +892,6 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamCh
 						}
 					}
 				}
-				break;
 			}
 			break;
 		}

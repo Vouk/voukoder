@@ -445,6 +445,57 @@
       ]
     },
     {
+      "name": "x265Tune",
+      "label": "Tuning",
+      "description": "Tune the settings for a particular type of source or situation. The changes will be applied after --preset but before all other parameters.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(None)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "PSNR",
+          "parameters": {
+            "tune": "psnr"
+          }
+        },
+        {
+          "id": 2,
+          "name": "SSIM",
+          "parameters": {
+            "tune": "ssim"
+          }
+        },
+        {
+          "id": 3,
+          "name": "Grain",
+          "parameters": {
+            "tune": "grain"
+          }
+        },
+        {
+          "id": 4,
+          "name": "Zero Latency",
+          "parameters": {
+            "tune": "zero-latency"
+          }
+        },
+        {
+          "id": 5,
+          "name": "Fast Decode",
+          "parameters": {
+            "tune": "fast-decode"
+          }
+        }
+      ]
+    },
+    {
       "name": "x265Level",
       "label": "Level",
       "description": "Constrains encoding parameters such as bitrate range and maximum frame size.",
