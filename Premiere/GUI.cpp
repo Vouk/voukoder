@@ -17,9 +17,6 @@ GUI::GUI(csSDK_uint32 pluginId, Config *config, PluginUpdate *pluginUpdate, csSD
 
 prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite)
 {
-	PrTime ticksPerSecond;
-	timeSuite->GetTicksPerSecond(&ticksPerSecond);
-
 	// Generate groups
 	exportParamSuite->AddMultiGroup(pluginId, &groupIndex);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBETopParamGroup, ADBEVideoTabGroup, L"Video", kPrFalse, kPrFalse, kPrFalse);
@@ -49,6 +46,9 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 
 	if (seqHeight.mInt32 == 0)
 		seqHeight.mInt32 = 1080;
+
+	PrTime ticksPerSecond;
+	timeSuite->GetTicksPerSecond(&ticksPerSecond);
 
 	// Find the nearest framerate (esp. important for VFR)
 	PrTime previous = ticksPerSecond / config->Framerates.front().num * config->Framerates.front().den;
@@ -426,6 +426,7 @@ exNewParamInfo GUI::createParameter(const IParamInfo paramConfig, const csSDK_in
 	paramInfo.flags = exParamFlag_none;
 	paramInfo.paramType = exParamType_undefined;
 	::lstrcpyA(paramInfo.identifier, paramConfig.name.c_str());
+	wcscpy_s(paramInfo.name, wstring(paramConfig.label.begin(), paramConfig.label.end()).c_str());
 
 	// Data types
 	if (paramConfig.type == "float")
@@ -807,6 +808,15 @@ void GUI::fillEncoderDropdown(PrSDKExportParamSuite *exportParamSuite, vector<En
 	}
 }
 
+prSuiteError GUI::setParameterVisibility(PrSDKExportParamSuite *exportParamSuite, IParamInfo *info, const bool hidden)
+{
+	exParamValues value;
+	exportParamSuite->GetParamValue(pluginId, groupIndex, info->name.c_str(), &value);
+	value.hidden = hidden ? kPrTrue : kPrFalse;
+
+	return exportParamSuite->ChangeParam(pluginId, groupIndex, info->name.c_str(), &value);
+}
+
 prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamChangedRec *paramRecP)
 {
 	exParamValues paramValue;
@@ -817,7 +827,7 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamCh
 		&paramValue);
 
 	const string paramName = paramRecP->changedParamIdentifier;
-
+	/*
 	if (paramName == VKDRVideoFrameSize)
 	{
 		if (paramValue.value.intValue == 0)
@@ -853,70 +863,42 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamCh
 			}
 		}
 	}
-	else if (paramName == ADBEVideoCodec || paramName == ADBEAudioCodec)
+	else */if (paramName == ADBEVideoCodec || paramName == ADBEAudioCodec)
 	{
 		for (const EncoderInfo selectedEncoderInfo : config->Encoders)
 		{
-			if (selectedEncoderInfo.id == paramValue.value.intValue)
+			if (selectedEncoderInfo.id != paramValue.value.intValue)
+				continue;
+
+			for (EncoderInfo encoderInfo : config->Encoders)
 			{
-				for (EncoderInfo encoderInfo : config->Encoders)
+				if (encoderInfo.encoderType != selectedEncoderInfo.encoderType)
+					continue;
+
+				for (ParamInfo paramInfo : encoderInfo.params)
 				{
-					if (encoderInfo.encoderType != selectedEncoderInfo.encoderType)
-					{
-						continue;
-					}
+					setParameterVisibility(exportParamSuite, &paramInfo, encoderInfo.id != selectedEncoderInfo.id);
 
-					for (ParamInfo paramInfo : encoderInfo.params)
-					{
-						exParamValues tempValue;
-						exportParamSuite->GetParamValue(
-							pluginId, 
-							groupIndex, 
-							paramInfo.name.c_str(), 
-							&tempValue);
-						
-						tempValue.hidden = encoderInfo.id != selectedEncoderInfo.id;
-						
-						exportParamSuite->ChangeParam(
-							pluginId,
-							groupIndex,
-							paramInfo.name.c_str(),
-							&tempValue);
+					exParamValues tempValue;
+					exportParamSuite->GetParamValue(pluginId, groupIndex, paramInfo.name.c_str(), &tempValue);
 
-						if (paramInfo.values.size() > 0)
+					const int selectedId = tempValue.value.intValue;
+
+					for (ParamValueInfo paramValueInfo : paramInfo.values)
+					{
+						for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
 						{
-							const int selectedId = tempValue.value.intValue;
-
-							for (ParamValueInfo paramValueInfo : paramInfo.values)
-							{
-								for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
-								{
-									exportParamSuite->GetParamValue(
-										pluginId,
-										groupIndex,
-										paramSubValueInfo.name.c_str(),
-										&tempValue);
-
-									tempValue.hidden = encoderInfo.id != selectedEncoderInfo.id || paramValueInfo.id != selectedId;
-									
-									exportParamSuite->ChangeParam(
-										pluginId,
-										groupIndex,
-										paramSubValueInfo.name.c_str(),
-										&tempValue);
-								}
-							}
+							setParameterVisibility(exportParamSuite, &paramSubValueInfo, encoderInfo.id != selectedEncoderInfo.id || paramValueInfo.id != selectedId);
 						}
 					}
 				}
 				break;
 			}
+			break;
 		}
 	}
 	else
 	{
-		vector<ParamValueInfo> paramValueInfos;
-
 		for (EncoderInfo encoderInfo : config->Encoders)
 		{
 			for (ParamInfo paramInfo : encoderInfo.params)
@@ -925,15 +907,9 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamCh
 				{
 					for (ParamValueInfo paramValueInfo : paramInfo.values)
 					{
-						if (paramValueInfo.subValues.size() > 0)
+						for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
 						{
-							exParamValues tempValue;
-							for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
-							{
-								exportParamSuite->GetParamValue(pluginId, groupIndex, paramSubValueInfo.name.c_str(), &tempValue);
-								tempValue.hidden = paramValueInfo.id != paramValue.value.intValue;
-								exportParamSuite->ChangeParam(pluginId, groupIndex, paramSubValueInfo.name.c_str(), &tempValue);
-							}
+							setParameterVisibility(exportParamSuite, &paramSubValueInfo, paramValueInfo.id != paramValue.value.intValue);
 						}
 					}
 
@@ -952,9 +928,10 @@ finish:
 
 bool GUI::getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings)
 {
+	FilterSettings filterSettings;
+
 	for (const FilterInfo filterInfo : config->Filters)
 	{
-		FilterSettings filterSettings;
 		filterSettings.name = filterInfo.name;
 
 		for (ParamInfo paramInfo : filterInfo.params)
@@ -966,46 +943,36 @@ bool GUI::getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, Expo
 				paramInfo.name.c_str(),
 				&paramValue);
 
-			if (paramInfo.values.size() > 0)
-			{
-				for (ParamValueInfo paramValueInfo : paramInfo.values)
-				{
-					if (paramValueInfo.id == paramValue.value.intValue)
-					{
-						if (paramValueInfo.subValues.size() > 0)
-						{
-							for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
-							{
-								exParamValues paramValue;
-								exportParamSuite->GetParamValue(
-									pluginId,
-									groupIndex,
-									paramSubValueInfo.name.c_str(),
-									&paramValue);
+			filterSettings.addParams(
+				paramInfo,
+				paramInfo.parameters,
+				paramValue);
 
-								filterSettings.addParams(
-									paramInfo,
-									paramSubValueInfo.parameters,
-									paramValue);
-							}
-						}
-						else
-						{
-							filterSettings.addParams(
-								paramInfo,
-								paramValueInfo.parameters,
-								paramValue);
-						}
-						break;
-					}
-				}
-			}
-			else
+			for (ParamValueInfo paramValueInfo : paramInfo.values)
 			{
-				filterSettings.addParams(
-					paramInfo,
-					paramInfo.parameters,
-					paramValue);
+				if (paramValueInfo.id == paramValue.value.intValue)
+				{
+					filterSettings.addParams(
+						paramInfo,
+						paramValueInfo.parameters,
+						paramValue);
+
+					for (ParamSubValueInfo paramSubValueInfo : paramValueInfo.subValues)
+					{
+						exParamValues paramValue;
+						exportParamSuite->GetParamValue(
+							pluginId,
+							groupIndex,
+							paramSubValueInfo.name.c_str(),
+							&paramValue);
+
+						filterSettings.addParams(
+							paramInfo,
+							paramSubValueInfo.parameters,
+							paramValue);
+					}
+					break;
+				}
 			}
 		}
 

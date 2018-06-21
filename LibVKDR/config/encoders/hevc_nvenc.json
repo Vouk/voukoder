@@ -619,9 +619,7 @@
               "label": "Strength",
               "description": "AQ strength scale from 1 (low) - 15 (aggressive).",
               "type": "int",
-              "flags": [
-                "slider"
-              ],
+              "flags": [ "slider" ],
               "defaultValue": 8,
               "minValue": 1,
               "maxValue": 15,

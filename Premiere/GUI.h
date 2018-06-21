@@ -59,7 +59,7 @@ private:
 	PluginUpdate *pluginUpdate;
 	void createParametersFromConfig(PrSDKExportParamSuite *exportParamSuite, IParamContainer encoderInfos, int selectedId);
 	exNewParamInfo createParameter(IParamInfo paramInfo, csSDK_int32 hidden);
-
+	prSuiteError setParameterVisibility(PrSDKExportParamSuite *exportParamSuite, IParamInfo *info, const bool hidden);
 
 
 

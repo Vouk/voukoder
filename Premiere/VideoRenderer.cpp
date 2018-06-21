@@ -335,10 +335,10 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 	{
 		if (exportSettings.colorSpace == AVColorSpace::AVCOL_SPC_BT709)
 		{
-			return PrPixelFormat_VUYA_4444_32f_709;
+			return PrPixelFormat_VUYX_4444_32f_709;
 		}
 
-		return PrPixelFormat_VUYA_4444_32f;
+		return PrPixelFormat_VUYX_4444_32f;
 	}
 
 	return PrPixelFormat_Invalid;
