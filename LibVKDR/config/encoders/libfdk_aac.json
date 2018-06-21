@@ -125,33 +125,22 @@
           "name": "Enhanced Low Delay AAC (ELD)",
           "parameters": {
             "profile": "aac_eld"
-          }
+          },
+          "subvalues": [
+            {
+              "name": "fdkElbSdr",
+              "label": "Enable SBR (Spectral Band Replication) for ELD.",
+              "description": "Enable SBR (Spectral Band Replication) for ELD.",
+              "type": "bool",
+              "flags": [],
+              "defaultValue": 0,
+              "parameters": {
+                "eld_sbr": "1"
+              }
+            }
+          ]
         }
       ]
-    },
-    {
-      "name": "fdkAfterburner",
-      "label": "Enable afterburner feature if set to 1, disabled if set to 0. This improves the quality but also the required processing power.",
-      "description": "Enable afterburner feature if set to 1, disabled if set to 0. This improves the quality but also the required processing power.",
-      "group": "ADBEAudioCodecGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "afterburner": "1"
-      }
-    },
-    {
-      "name": "fdkElbSdr",
-      "label": "Enable SBR (Spectral Band Replication) for ELD.",
-      "description": "Enable SBR (Spectral Band Replication) for ELD.",
-      "group": "ADBEAudioCodecGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "eld_sbr": "1"
-      }
     },
     {
       "name": "fdkLatm",
