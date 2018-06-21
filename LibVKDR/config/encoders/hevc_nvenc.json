@@ -613,6 +613,9 @@
         {
           "id": 1,
           "name": "Spatial AQ",
+          "parameters": {
+            "spatial_aq": "1"
+          },
           "subvalues": [
             {
               "name": "hevc_nvencAqModeSpatial",
@@ -624,7 +627,6 @@
               "minValue": 1,
               "maxValue": 15,
               "parameters": {
-                "spatial_aq": "1",
                 "aq-strength": "%d"
               }
             }
