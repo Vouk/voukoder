@@ -1,6 +1,22 @@
 # WWW.VOUKODER.ORG
 Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.
 
+## Encoders
+### Video
+- x264
+- x265
+- NVIDIA NVENC (h.264 and h.265)
+- AMD AMF (h.264 and h.265)
+- ProRes
+### Audio
+- Uncompressed PCM (16bit and 24bit)
+- ALAC
+- AC3
+- AAC
+- FDK AAC (External DLL required)
+- MP3
+- FLAC
+
 ## Support
 Please use the [forum](https://www.voukoder.org/forum) for issue reporting and support.
 
