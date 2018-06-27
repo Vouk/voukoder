@@ -335,7 +335,6 @@
               "flags": [
                 "slider"
               ],
-              "useDefaultValue": true,
               "defaultValue": 0,
               "minValue": 0,
               "maxValue": 288000,
@@ -374,7 +373,6 @@
               "flags": [
                 "slider"
               ],
-              "useDefaultValue": true,
               "defaultValue": 15000,
               "minValue": 0,
               "maxValue": 288000,
@@ -390,7 +388,6 @@
               "flags": [
                 "slider"
               ],
-              "useDefaultValue": true,
               "defaultValue": 0,
               "minValue": 0,
               "maxValue": 288000,
