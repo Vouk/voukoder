@@ -60,10 +60,6 @@
     {
       "id": 12,
       "name": "hevc_amf"
-    },
-    {
-      "id": 13,
-      "name": "h264_qsv_disabled"
     }
   ],
   "multiplexers": [

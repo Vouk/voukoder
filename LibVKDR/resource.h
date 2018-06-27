@@ -1,6 +1,7 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by LibVKDR.rc
+// Von Microsoft Visual C++ generierte Includedatei.
+// Verwendet durch LibVKDR.rc
+//
 #define ID_JSON                         100
 #define IDR_JSON_CONFIG                 101
 #define IDR_JSON_ENC_LIBX264            102
@@ -16,13 +17,11 @@
 #define IDR_JSON_ENC_PCM_24             112
 #define IDR_JSON_ENC_AMF_H264           113
 #define IDR_JSON_ENC_AMF_HEVC           114
-#define IDR_JSON_ENC_QSV_H264           115
-#define IDR_JSON_ENC_QSV_HEVC           116
 #define IDR_JSON_FLT_ZSCALE             117
 #define IDR_JSON_ENC_MP3LAME            118
 #define IDR_JSON_ENC_FDKAAC             119
 
-// Nächste Standardwerte für neue Objekte
+// Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
