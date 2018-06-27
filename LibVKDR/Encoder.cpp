@@ -85,6 +85,8 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 	{
 		encoderContext->codecContext->flags |= flags;
 
+		LOG(INFO) << codecName << " options: " << options;
+
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{

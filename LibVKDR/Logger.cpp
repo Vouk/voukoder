@@ -35,7 +35,7 @@ static inline void AvCallback(void *, int level, const char * szFmt, va_list var
 
 void Logger::vkdrInit()
 {
-	av_log_set_level(AV_LOG_DEBUG);
+	av_log_set_level(AV_LOG_TRACE);
 	av_log_set_callback(AvCallback);
 
 	char charPath[MAX_PATH];
