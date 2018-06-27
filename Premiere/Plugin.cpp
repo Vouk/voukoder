@@ -422,16 +422,12 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 			{
 				csSDK_uint32 size = encoder.getAudioFrameSize();
 
-				while (encoder.getNextFrameType() == FrameType::AudioFrame &&
-					audioRenderer.samplesInBuffer())
+				while (encoder.getNextFrameType() == FrameType::AudioFrame)
 				{
 					float **samples = audioRenderer.getSamples(&size, kPrFalse);
-					if (size > 0)
+					if (encoder.writeAudioFrame(samples, size) < 0)
 					{
-						if (encoder.writeAudioFrame(samples, size) < 0)
-						{
-							return false;
-						}
+						return false;
 					}
 				}
 			}

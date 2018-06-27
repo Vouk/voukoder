@@ -13,7 +13,6 @@ public:
 		PrSDKSequenceAudioSuite *sequenceAudioSuite, PrSDKTimeSuite *timeSuite, PrSDKMemoryManagerSuite *memorySuite);
 	~AudioRenderer();
 	float** getSamples(csSDK_uint32 *size, prBool clip);
-	prBool samplesInBuffer();
 	void reset();
 
 private:

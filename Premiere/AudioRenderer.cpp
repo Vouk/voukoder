@@ -56,8 +56,3 @@ float** AudioRenderer::getSamples(csSDK_uint32 *size, prBool clip)
 
 	return buffer;
 }
-
-prBool AudioRenderer::samplesInBuffer()
-{
-	return samplesRemaining > 0;
-}

@@ -140,10 +140,12 @@ int Encoder::open()
 				goto finish;
 			}
 
-			// Find the right sample size (for variable frame size codecs (PCM) we use a constant value)
+			// Find the right sample size (for variable frame size codecs (PCM) we use the number of samples that match for one video frame)
 			audioFrameSize = audioContext.codecContext->frame_size;
 			if (audioFrameSize == 0)
-				audioFrameSize = 5000 / audioContext.codecContext->channels;
+			{
+				audioFrameSize = av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
+			}
 		}
 
 		formatContext->url = av_strdup(exportSettings.filename.c_str());
@@ -334,7 +336,7 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 
 		char filterConfig[256];
 		sprintf_s(filterConfig,
-			"aformat=channel_layouts=%dc:sample_fmts=%s:sample_rates=%d,asetnsamples=n=%d:p=0",
+			"aformat=channel_layouts=%dc:sample_fmts=%s:sample_rates=%d,asetnsamples=n=%d",
 			audioContext.codecContext->channels,
 			av_get_sample_fmt_name(audioContext.codecContext->sample_fmt),
 			audioContext.codecContext->sample_rate,
