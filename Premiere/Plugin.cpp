@@ -294,11 +294,53 @@ prMALError Plugin::getParamSummary(exParamSummaryRec *summaryRecP)
 {
 	EncoderSettings videoEncoderSettings;
 	gui->getCurrentEncoderSettings(suites->exportParamSuite, prFieldsInvalid, EncoderType::Video, &videoEncoderSettings);
-	prUTF16CharCopy(summaryRecP->videoSummary, wstring(videoEncoderSettings.text.begin(), videoEncoderSettings.text.end()).c_str());
+
+	exParamValues width, height, frameRate, pixelAspectRatio;
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoWidth, &width);
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoHeight, &height);
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoFPS, &frameRate);
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEVideoAspect, &pixelAspectRatio);
+
+	PrTime ticksPerSecond;
+	suites->timeSuite->GetTicksPerSecond(&ticksPerSecond);
+
+	wstringstream videoSummary;
+	videoSummary << wstring(videoEncoderSettings.text.begin(), videoEncoderSettings.text.end()) << ", ";
+	videoSummary.precision(4);
+	videoSummary << width.value.intValue << "x" << height.value.intValue;
+	videoSummary << " (" << static_cast<float>(pixelAspectRatio.value.ratioValue.numerator) / static_cast<float>(pixelAspectRatio.value.ratioValue.denominator) << "), ";
+	videoSummary.precision(2);
+	videoSummary << static_cast<float>(ticksPerSecond) / static_cast<float>(frameRate.value.timeValue) << " fps";
+
+	prUTF16CharCopy(summaryRecP->videoSummary, videoSummary.str().c_str());
 
 	EncoderSettings audioEncoderSettings;
 	gui->getCurrentEncoderSettings(suites->exportParamSuite, prFieldsInvalid, EncoderType::Audio, &audioEncoderSettings);
-	prUTF16CharCopy(summaryRecP->audioSummary, wstring(audioEncoderSettings.text.begin(), audioEncoderSettings.text.end()).c_str());
+
+	exParamValues sampleRate, channelType;
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioRatePerSecond, &sampleRate);
+	suites->exportParamSuite->GetParamValue(pluginId, groupIndex, ADBEAudioNumChannels, &channelType);
+
+	wstringstream audioSummary;
+	audioSummary << wstring(audioEncoderSettings.text.begin(), audioEncoderSettings.text.end()) << ", ";
+	audioSummary.precision(0);
+	audioSummary << sampleRate.value.floatValue << " Hz, ";
+
+	switch (channelType.value.intValue)
+	{
+	case kPrAudioChannelType_Mono:
+		audioSummary << "Mono";
+		break;
+	case kPrAudioChannelType_Stereo:
+		audioSummary << "Stereo";
+		break;
+	case kPrAudioChannelType_51:
+		audioSummary << "5.1 Surround";
+		break;
+	default:
+		audioSummary << "Unknown channel type";
+	}
+	prUTF16CharCopy(summaryRecP->audioSummary, audioSummary.str().c_str());
 
 	prUTF16CharCopy(summaryRecP->bitrateSummary, L"");
 
