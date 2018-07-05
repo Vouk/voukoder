@@ -826,7 +826,7 @@
       "flags": [ "slider" ],
       "defaultValue": 0,
       "minValue": 0,
-      "maxValue": 512,
+      "maxValue": 512000,
       "parameters": {
         "vbv-maxrate": "%d"
       }
@@ -840,7 +840,7 @@
       "flags": [ "slider" ],
       "defaultValue": 0,
       "minValue": 0,
-      "maxValue": 512,
+      "maxValue": 512000,
       "parameters": {
         "vbv-bufsize": "%d"
       }
