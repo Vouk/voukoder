@@ -720,7 +720,7 @@
       "group": "VKDRx264FrameTypeGroup",
       "type": "int",
       "flags": [ "slider" ],
-      "defaultValue": 1,
+      "defaultValue": 3,
       "minValue": 0,
       "maxValue": 16,
       "parameters": {
@@ -828,7 +828,7 @@
       "minValue": 0,
       "maxValue": 512000,
       "parameters": {
-        "vbv-maxrate": "%d000"
+        "vbv-maxrate": "%d"
       }
     },
     {
@@ -842,7 +842,7 @@
       "minValue": 0,
       "maxValue": 512000,
       "parameters": {
-        "vbv-bufsize": "%d000"
+        "vbv-bufsize": "%d"
       }
     },
     {
