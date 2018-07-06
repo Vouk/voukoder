@@ -20,6 +20,9 @@
 #define IDR_JSON_FLT_ZSCALE             117
 #define IDR_JSON_ENC_MP3LAME            118
 #define IDR_JSON_ENC_FDKAAC             119
+#define IDR_JSON_ENC_VORBIS             120
+#define IDR_JSON_ENC_VP8                121
+#define IDR_JSON_ENC_VP9                122
 
 // Next default values for new objects
 // 

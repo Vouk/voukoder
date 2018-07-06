@@ -30,4 +30,7 @@ extern "C" {
 #pragma comment(lib, "x265.lib")
 #pragma comment(lib, "zimg.lib")
 #pragma comment(lib, "mp3lame.lib")
-
+#pragma comment(lib, "ogg.lib")
+#pragma comment(lib, "vorbis.lib")
+#pragma comment(lib, "vorbisenc.lib")
+#pragma comment(lib, "vpx.lib")

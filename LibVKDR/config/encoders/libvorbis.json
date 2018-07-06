@@ -1,0 +1,60 @@
+{
+  "name": "libvorbis",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "libvorbisStrategy",
+      "label": "Strategy",
+      "description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Average Bitrate",
+          "subvalues": [
+            {
+              "name": "libvorbisStrategyABR",
+              "label": "Average Bitrate [kbit]",
+              "description": "The average data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 112,
+              "useDefaultValue": true,
+              "minValue": 32,
+              "maxValue": 512,
+              "parameters": {
+                "b": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Constant Quality",
+          "subvalues": [
+            {
+              "name": "libvorbisStrategyQP",
+              "label": "Constant Quality",
+              "description": "Set constant quality setting for VBR. The value should be a float number in the range of -1 to 10. The higher the value, the better the quality.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 3,
+              "useDefaultValue": true,
+              "minValue": -1,
+              "maxValue": 10,
+              "parameters": {
+                "qp": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
