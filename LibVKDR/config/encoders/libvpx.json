@@ -2,5 +2,148 @@
   "name": "libvpx",
   "authors": [
     "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "params": [
+    {
+      "name": "libvpxQuality",
+      "label": "Quality",
+      "description": "Encoding quality.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Best",
+          "parameters": {
+            "quality": "best"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Good",
+          "parameters": {
+            "quality": "good"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Realtime",
+          "parameters": {
+            "quality": "realtime"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libvpxStrategy",
+      "label": "Strategy",
+      "description": "The encoding mode to use.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Variable Bitrate (VBR)",
+          "subvalues": [
+            {
+              "name": "libvpxStrategyVBR",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 15000,
+              "useDefaultValue": true,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Constant Rate Factor (CRF)",
+          "subvalues": [
+            {
+              "name": "libvpxStrategyCRF",
+              "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "useDefaultValue": true,
+              "defaultValue": 10,
+              "minValue": 4,
+              "maxValue": 63,
+              "parameters": {
+                "crf": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Variable Bitrate + Constant Rate Factor",
+          "subvalues": [
+            {
+              "name": "libvpxStrategyVBR2",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 15000,
+              "useDefaultValue": true,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "libvpxStrategyCRF2",
+              "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "useDefaultValue": true,
+              "defaultValue": 10,
+              "minValue": 4,
+              "maxValue": 63,
+              "parameters": {
+                "crf": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "libvpxThreads",
+      "label": "Threads",
+      "description": "Number of threads to use. Choose the number of your physical CPU cores x 1.5",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 4,
+      "minValue": 1,
+      "maxValue": 32,
+      "parameters": {
+        "threads": "%d"
+      }
+    }
+
+
+
+
+
+
+
+
   ]
 }
