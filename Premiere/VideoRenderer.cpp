@@ -134,6 +134,8 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	tp1 = high_resolution_clock::now();
 #endif
 
+	encodingData.frame = inFrameNumber;
+
 	PrPixelFormat inFormat;
 	ppixSuite->GetPixelFormat(inRenderedFrame, &inFormat);
 
@@ -148,6 +150,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		inFormat == PrPixelFormat_YUV_420_MPEG4_FIELD_PICTURE_PLANAR_8u_709_FullRange)
 	{
 		EncoderData frameData;
+		frameData.frame = inFrameNumber;
 		frameData.pass = inWhichPass + 1;
 		frameData.planes = 3;
 		frameData.pix_fmt = "yuv420p";
@@ -176,6 +179,7 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 		inFormat == PrPixelFormat_UYVY_422_8u_709)
 	{
 		EncoderData frameData;
+		frameData.frame = inFrameNumber;
 		frameData.pass = inWhichPass + 1;
 		frameData.planes = 1;
 		frameData.pix_fmt = "uyvy422";
@@ -241,6 +245,8 @@ prSuiteError VideoRenderer::frameFinished(EncoderData *frameData, PrPixelFormat 
 
 		if (!callback(frameData))
 		{
+			LOG(ERROR) << "Failed rendering video frame #" << frameData->frame << " and the accoring audio frames.";
+
 			return suiteError_ExporterSuspended;
 		}
 	}

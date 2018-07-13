@@ -304,13 +304,16 @@ prMALError Plugin::getParamSummary(exParamSummaryRec *summaryRecP)
 	PrTime ticksPerSecond;
 	suites->timeSuite->GetTicksPerSecond(&ticksPerSecond);
 
+	const float par = static_cast<float>(pixelAspectRatio.value.ratioValue.numerator) / static_cast<float>(pixelAspectRatio.value.ratioValue.denominator);
+	const float fps = static_cast<float>(ticksPerSecond) / static_cast<float>(frameRate.value.timeValue);
+
 	wstringstream videoSummary;
 	videoSummary << wstring(videoEncoderSettings.text.begin(), videoEncoderSettings.text.end()) << ", ";
-	videoSummary.precision(4);
 	videoSummary << width.value.intValue << "x" << height.value.intValue;
-	videoSummary << " (" << static_cast<float>(pixelAspectRatio.value.ratioValue.numerator) / static_cast<float>(pixelAspectRatio.value.ratioValue.denominator) << "), ";
+	videoSummary << std::fixed;
 	videoSummary.precision(2);
-	videoSummary << static_cast<float>(ticksPerSecond) / static_cast<float>(frameRate.value.timeValue) << " fps";
+	videoSummary << " (" << par << "), ";
+	videoSummary << fps << " fps";
 
 	prUTF16CharCopy(summaryRecP->videoSummary, videoSummary.str().c_str());
 
@@ -467,6 +470,9 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 				while (encoder.getNextFrameType() == FrameType::AudioFrame)
 				{
 					float **samples = audioRenderer.getSamples(&size, kPrFalse);
+					if (size <= 0)
+						break;
+
 					if (encoder.writeAudioFrame(samples, size) < 0)
 					{
 						return false;

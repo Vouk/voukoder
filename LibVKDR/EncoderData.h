@@ -10,6 +10,7 @@ namespace LibVKDR
 {
 	typedef struct EncoderData
 	{
+		uint32_t frame;
 		int planes;
 		const char *pix_fmt;
 		char *plane[MAX_FRAME_PLANES] = {};

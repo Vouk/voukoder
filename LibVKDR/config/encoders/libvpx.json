@@ -4,6 +4,18 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "yuv420p",
+  "groups": [
+    {
+      "name": "libvpxARNRGroup",
+      "label": "Alternate Reference Frames",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "libvpxOtherGroup",
+      "label": "Other",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
   "params": [
     {
       "name": "libvpxQuality",
@@ -124,26 +136,211 @@
       ]
     },
     {
-      "name": "libvpxThreads",
-      "label": "Threads",
-      "description": "Number of threads to use. Choose the number of your physical CPU cores x 1.5",
+      "name": "libvpxDeadline",
+      "label": "Deadline",
+      "description": "Allowed encoding time per frame",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": 4,
-      "minValue": 1,
-      "maxValue": 32,
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "Best",
+          "parameters": {
+            "deadline": "best"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Good",
+          "parameters": {
+            "deadline": "good"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Realtime",
+          "parameters": {
+            "deadline": "realtime"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libvpxTune",
+      "label": "Tune",
+      "description": "Tune the encoding to a specific scenario",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "(None)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "PSNR",
+          "parameters": {
+            "tune": "psnr"
+          }
+        },
+        {
+          "id": 2,
+          "name": "SSIM",
+          "parameters": {
+            "tune": "ssim"
+          }
+        }
+      ]
+    },
+
+
+
+
+
+
+    {
+      "name": "libvpxAutoAltRef",
+      "label": "Alternate Ref Frames",
+      "description": "Enable use of alternate reference frames",
+      "group": "libvpxARNRGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
       "parameters": {
-        "threads": "%d"
+        "auto-alt-ref": "1"
       }
+    },
+    {
+      "name": "libvpxLagInFrames",
+      "label": "Lag in Frames",
+      "description": "Number of frames to look ahead for alternate reference frame selection",
+      "group": "libvpxARNRGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": -1,
+      "minValue": -1,
+      "maxValue": 25,
+      "parameters": {
+        "lag-in-frames": "%d"
+      }
+    },
+    {
+      "name": "libvpxARNRMaxframes",
+      "label": "Max. Frames",
+      "description": "Altref noise reduction max frame count",
+      "group": "libvpxARNRGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": -1,
+      "minValue": -1,
+      "maxValue": 50,
+      "parameters": {
+        "arnr-maxframes": "%d"
+      }
+    },
+    {
+      "name": "libvpxARNRStrength",
+      "label": "Filter Strength",
+      "description": "Altref noise reduction filter strength",
+      "group": "libvpxARNRGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": -1,
+      "minValue": -1,
+      "maxValue": 6,
+      "parameters": {
+        "arnr-strength": "%d"
+      }
+    },
+    {
+      "name": "libvpxARNRType",
+      "label": "Type",
+      "description": "Altref noise reduction filter type",
+      "group": "libvpxARNRGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 2,
+      "values": [
+        {
+          "id": 0,
+          "name": "Backward",
+          "parameters": {
+            "arnr-type": "backward"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Forward",
+          "parameters": {
+            "arnr-type": "forward"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Centered",
+          "parameters": {
+            "arnr-type": "centered"
+          }
+        }
+      ]
+    },
+
+
+
+
+
+
+
+    {
+      "name": "libvpxARNRStrength",
+      "label": "Filter Strength",
+      "description": "Altref noise reduction filter strength",
+      "group": "libvpxOtherGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": -1,
+      "minValue": -1,
+      "maxValue": 6,
+      "parameters": {
+        "arnr-strength": "%d"
+      }
+    },
+    {
+      "name": "libvpxARNRType",
+      "label": "Type",
+      "description": "Altref noise reduction filter type",
+      "group": "libvpxOtherGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 2,
+      "values": [
+        {
+          "id": 0,
+          "name": "Backward",
+          "parameters": {
+            "arnr-type": "backward"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Forward",
+          "parameters": {
+            "arnr-type": "forward"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Centered",
+          "parameters": {
+            "arnr-type": "centered"
+          }
+        }
+      ]
     }
-
-
-
-
-
-
-
-
   ]
 }
