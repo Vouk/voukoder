@@ -435,55 +435,70 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 	Encoder encoder(exportSettings);
 
-	int ret = videoRenderer.render(
-		pixelFormat, 
-		exportRecP->startTime, 
-		exportRecP->endTime, 
-		exportSettings.passes,
-		[&](EncoderData *encoderData)
+	// Exporting loop with callback per rendered video frame
+	int ret = videoRenderer.render(pixelFormat, exportRecP->startTime, exportRecP->endTime, exportSettings.passes, [&](EncoderData *encoderData)
 	{
+		int res = 0;
+
 		// Starting a new pass
 		if (encoder.pass == 0 || (exportSettings.passes > 1 && encoderData->pass > encoder.pass))
 		{
-			encoder.pass = encoderData->pass;
-
-			if (encoder.pass > 1)
+			// Close encoder for current pass
+			if (encoderData->pass > 1)
 			{
 				encoder.close(true);
 			}
 
-			int ret;
-			if ((ret = encoder.open()) < 0)
+			encoder.pass = encoderData->pass;
+
+			// Open encoder for new pass
+			if ((res = encoder.open()) < 0)
 			{
+				LOG(WARNING) << "Unable to open the encoder for pass #" << encoder.pass << ". (Error code: " << res << ")";
+
 				return false;
 			}
 
 			audioRenderer.reset();
 		}
 
-		if (encoder.writeVideoFrame(encoderData) == 0)
+		// Write video frame first
+		if ((res = encoder.writeVideoFrame(encoderData)) < 0)
 		{
-			if (exportSettings.exportAudio)
-			{
-				csSDK_uint32 size = encoder.getAudioFrameSize();
+			LOG(WARNING) << "Failed writing video frame #" << encoderData->frame << ". (Error code: " << res << ")";
 
-				while (encoder.getNextFrameType() == FrameType::AudioFrame)
-				{
-					float **samples = audioRenderer.getSamples(&size, kPrFalse);
-					if (size <= 0)
-						break;
-
-					if (encoder.writeAudioFrame(samples, size) < 0)
-					{
-						return false;
-					}
-				}
-			}
-
-			return true;
+			return false;
 		}
 
-		return false;
+		// Write audio frames if enabled
+		if (exportSettings.exportAudio)
+		{
+			csSDK_uint32 size = encoder.getAudioFrameSize();
+
+			// Does the muxer want more audio frames?
+			while (encoder.getNextFrameType() == FrameType::AudioFrame)
+			{
+				float **samples = audioRenderer.getSamples(&size, kPrFalse);
+
+				// Abort loop if no samles are left
+				if (size <= 0)
+				{
+					LOG(INFO) << "Aborting audio renderer loop: No audio samlples left!";
+
+					break;
+				}
+
+				// Write the audio frames
+				if ((res = encoder.writeAudioFrame(samples, size)) < 0)
+				{
+					LOG(WARNING) << "Failed writing audio frames for video frame #" << encoderData->frame << ". (Error code>: " << res << ")";
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	});
 
 	encoder.close(ret == suiteError_NoError);

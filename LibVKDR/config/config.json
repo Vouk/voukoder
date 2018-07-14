@@ -63,15 +63,15 @@
     },
     {
       "id": 17,
-      "name": "libvorbis"
+      "name": "_libvorbis"
     },
     {
       "id": 18,
-      "name": "libvpx"
+      "name": "_libvpx"
     },
     {
       "id": 19,
-      "name": "libvpx-vp9"
+      "name": "_libvpx-vp9"
     }
   ],
   "multiplexers": [

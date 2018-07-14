@@ -9,7 +9,7 @@ AudioRenderer::AudioRenderer(csSDK_uint32 pluginId, PrTime startTime, PrTime end
 {
 	PrTime ticksPerSample;
 	timeSuite->GetTicksPerAudioSample(audioSampleRate, &ticksPerSample);
-	samplesTotal = (endTime - startTime) / ticksPerSample;
+	samplesTotal = ceil(static_cast<float>(endTime - startTime) / static_cast<float>(ticksPerSample));
 
 	sequenceAudioSuite->MakeAudioRenderer(
 		pluginId,
