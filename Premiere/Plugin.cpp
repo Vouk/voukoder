@@ -501,7 +501,7 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		return true;
 	});
 
-	encoder.close(ret == suiteError_NoError);
+	encoder.close(ret == suiteError_NoError || ret == 0x00000001);
 
 	return malNoError;
 }
