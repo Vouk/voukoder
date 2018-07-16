@@ -2,5 +2,277 @@
   "name": "libvpx-vp9",
   "authors": [
     "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "multipass": {
+    "name": "vp9Passes"
+  },
+  "params": [
+    {
+      "name": "vp9PixelFormat",
+      "label": "Color Format",
+      "description": "Color encoding system.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "YUV 4:2:0",
+          "pixelFormat": "yuv420p",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "YUV 4:2:2",
+          "pixelFormat": "yuv422p",
+          "parameters": {}
+        },
+        {
+          "id": 2,
+          "name": "YUV 4:4:4",
+          "pixelFormat": "yuv444p",
+          "parameters": {}
+        },
+        {
+          "id": 3,
+          "name": "YUV 4:2:0 (10 bit)",
+          "pixelFormat": "yuv420p10le",
+          "parameters": {}
+        },
+        {
+          "id": 4,
+          "name": "YUV 4:2:2 (10 bit)",
+          "pixelFormat": "yuv422p10le",
+          "parameters": {}
+        },
+        {
+          "id": 5,
+          "name": "YUV 4:4:4 (10 bit)",
+          "pixelFormat": "yuv444p10le",
+          "parameters": {}
+        },
+        {
+          "id": 6,
+          "name": "YUV 4:2:0 (12 bit)",
+          "pixelFormat": "yuv420p12le",
+          "parameters": {}
+        },
+        {
+          "id": 7,
+          "name": "YUV 4:2:2 (12 bit)",
+          "pixelFormat": "yuv422p12le",
+          "parameters": {}
+        },
+        {
+          "id": 8,
+          "name": "YUV 4:4:4 (12 bit)",
+          "pixelFormat": "yuv444p12le",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "name": "vp9Strategy",
+      "label": "Strategy",
+      "description": "The encoding strategy to use.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Average Bitrate (ABR)",
+          "subvalues": [
+            {
+              "name": "vp9StrategyABR",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 15000,
+              "useDefaultValue": true,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "vp9Passes",
+              "label": "Passes",
+              "description": "Number of encoding passes.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 1,
+              "minValue": 1,
+              "maxValue": 2,
+              "parameters": {}
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Constant Quality (CRF)",
+          "subvalues": [
+            {
+              "name": "vp9StrategyCRF",
+              "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "useDefaultValue": true,
+              "defaultValue": 31,
+              "minValue": 0,
+              "maxValue": 63,
+              "parameters": {
+                "crf": "%d",
+                "b": "0"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Constrained Quality (CQ)",
+          "subvalues": [
+            {
+              "name": "vp9StrategyCQ",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 15000,
+              "useDefaultValue": true,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000"
+              }
+            },
+            {
+              "name": "vp9StrategyCQ2",
+              "label": "Constant Rate Factor",
+              "description": "Lower values mean better quality but increase the processing time.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "useDefaultValue": true,
+              "defaultValue": 10,
+              "minValue": 4,
+              "maxValue": 63,
+              "parameters": {
+                "crf": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "vp9StrategyCBR",
+              "label": "Target Bitrate [kbit]",
+              "description": "The target data rate allowed by the encoder.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 15000,
+              "useDefaultValue": true,
+              "minValue": 100,
+              "maxValue": 100000,
+              "parameters": {
+                "b": "%d000",
+                "minrate": "%d000",
+                "maxrate": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Lossless",
+          "parameters": {
+            "lossless": "1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "vp9Deadline",
+      "label": "Deadline",
+      "description": "Good is the default and recommended for most applications.\n\nBest is recommended if you have lots of time and want the best compression efficiency.\n\nRealtime is recommended for live / fast encoding.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Good",
+          "subvalues": [
+            {
+              "name": "vp9DeadlineGoodCpuUsed",
+              "label": "CPU used",
+              "description": "Using 1 or 2 will increase encoding speed at the expense of having some impact on quality and rate control accuracy. 4 or 5 will turn off rate distortion optimization, having even more of an impact on quality.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 5,
+              "parameters": {
+                "deadline": "good",
+                "cpu-used": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Best",
+          "subvalues": [
+            {
+              "name": "vp9DeadlineBestCpuUsed",
+              "label": "CPU used",
+              "description": "Using 1 or 2 will increase encoding speed at the expense of having some impact on quality and rate control accuracy. 4 or 5 will turn off rate distortion optimization, having even more of an impact on quality.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 5,
+              "parameters": {
+                "deadline": "best",
+                "cpu-used": "%d"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Realtime",
+          "subvalues": [
+            {
+              "name": "vp9DeadlineRealtimeCpuUsed",
+              "label": "CPU used",
+              "description": "The encoder will try to hit a particular CPU utilization target, and encoding quality will depend on CPU speed and the complexity of the clip that you are encoding. See the vpx documentation for more info. In this case, the valid values for -cpu-used are between 0 and 15, where the CPU utilization target (in per cent) is calculated as (100*(16-cpu-used)/16)%",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 0,
+              "useDefaultValue": true,
+              "minValue": 0,
+              "maxValue": 15,
+              "parameters": {
+                "deadline": "realtime",
+                "cpu-used": "%d"
+              }
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

@@ -4,23 +4,28 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "yuv420p",
-  "groups": [
-    {
-      "name": "libvpxARNRGroup",
-      "label": "Alternate Reference Frames",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    },
-    {
-      "name": "libvpxOtherGroup",
-      "label": "Other",
-      "parent": "VKDRAdvVideoCodecTabGroup"
-    }
-  ],
+  "multipass": {
+    "name": "vp8Passes"
+  },
   "params": [
     {
-      "name": "libvpxStrategy",
+      "name": "vp8Threads",
+      "label": "Threads",
+      "description": "Threads to use for parallel encoding",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 8,
+      "minValue": 1,
+      "maxValue": 24,
+      "parameters": {
+        "threads": "%d"
+      }
+    },
+    {
+      "name": "vp8Strategy",
       "label": "Strategy",
-      "description": "The encoding mode to use.",
+      "description": "The encoding strategy to use.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [],
@@ -29,10 +34,10 @@
       "values": [
         {
           "id": 0,
-          "name": "Variable Bitrate (VBR)",
+          "name": "Average Bitrate (ABR)",
           "subvalues": [
             {
-              "name": "libvpxStrategyVBR",
+              "name": "vp8StrategyABR",
               "label": "Target Bitrate [kbit]",
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
@@ -42,18 +47,28 @@
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
-                "b": "%d000",
-                "threads": "16"
+                "b": "%d000"
               }
+            },
+            {
+              "name": "vp8Passes",
+              "label": "Passes",
+              "description": "Number of encoding passes.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 1,
+              "minValue": 1,
+              "maxValue": 2,
+              "parameters": {}
             }
           ]
         },
         {
           "id": 1,
-          "name": "Constant Rate Factor (CRF)",
+          "name": "Constant Quality (CRF)",
           "subvalues": [
             {
-              "name": "libvpxStrategyCRF",
+              "name": "vp8StrategyCRF",
               "label": "Constant Rate Factor",
               "description": "Lower values mean better quality but increase the processing time.",
               "type": "int",
@@ -64,18 +79,17 @@
               "maxValue": 63,
               "parameters": {
                 "crf": "%d",
-                "b" :  "0",
-                "threads": "16"
+                "b": "0"
               }
             }
           ]
         },
         {
           "id": 2,
-          "name": "Variable Bitrate + Constant Rate Factor",
+          "name": "Constrained Quality (CQ)",
           "subvalues": [
             {
-              "name": "libvpxStrategyVBR2",
+              "name": "vp8StrategyCQ",
               "label": "Target Bitrate [kbit]",
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
@@ -85,12 +99,11 @@
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
-                "b": "%d000",
-                "threads": "16"
+                "b": "%d000"
               }
             },
             {
-              "name": "libvpxStrategyCRF2",
+              "name": "vp8StrategyCQ2",
               "label": "Constant Rate Factor",
               "description": "Lower values mean better quality but increase the processing time.",
               "type": "int",
@@ -108,39 +121,39 @@
       ]
     },
     {
-      "name": "libvpxQuality",
-      "label": "Quality",
-      "description": "Encoding quality.",
+      "name": "vp8Deadline",
+      "label": "Deadline",
+      "description": "Good is the default and recommended for most applications.\n\nBest is recommended if you have lots of time and want the best compression efficiency.\n\nRealtime is recommended for live / fast encoding.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [],
-      "defaultValue": 1,
+      "defaultValue": 0,
       "values": [
         {
           "id": 0,
-          "name": "Best",
+          "name": "Good",
           "parameters": {
-            "quality": "best"
+            "deadline": "good"
           }
         },
         {
           "id": 1,
-          "name": "Good",
+          "name": "Best",
           "parameters": {
-            "quality": "good"
+            "deadline": "best"
           }
         },
         {
           "id": 2,
           "name": "Realtime",
           "parameters": {
-            "quality": "realtime"
+            "deadline": "realtime"
           }
         }
       ]
     },
     {
-      "name": "libvpxCpuUsed",
+      "name": "vp8CpuUsed",
       "label": "CPU used",
       "description": "Quality/Speed ratio modifier",
       "group": "ADBEVideoCodecGroup",
@@ -152,182 +165,6 @@
       "parameters": {
         "cpu-used": "%d"
       }
-    },
-    {
-      "name": "libvpxTune",
-      "label": "Tune",
-      "description": "Tune the encoding to a specific scenario",
-      "group": "ADBEVideoCodecGroup",
-      "type": "int",
-      "flags": [],
-      "defaultValue": 0,
-      "values": [
-        {
-          "id": 0,
-          "name": "(None)",
-          "parameters": {}
-        },
-        {
-          "id": 1,
-          "name": "PSNR",
-          "parameters": {
-            "tune": "psnr"
-          }
-        },
-        {
-          "id": 2,
-          "name": "SSIM",
-          "parameters": {
-            "tune": "ssim"
-          }
-        }
-      ]
-    },
-    {
-      "name": "libvpxDeadline",
-      "label": "Deadline [ms]",
-      "description": "Maximum allowed encoding time per frame",
-      "group": "ADBEVideoCodecGroup",
-      "type": "int",
-      "flags": [],
-      "defaultValue": 1000,
-      "minValue": 0,
-      "maxValue": 1000,
-      "parameters": {
-        "deadline": "%d000"
-      }
-    },
-    {
-      "name": "libvpxAutoAltRef",
-      "label": "Alternate Ref Frames",
-      "description": "Enable use of alternate reference frames",
-      "group": "libvpxARNRGroup",
-      "type": "bool",
-      "flags": [],
-      "defaultValue": 0,
-      "parameters": {
-        "auto-alt-ref": "1"
-      }
-    },
-    {
-      "name": "libvpxLagInFrames",
-      "label": "Lag in Frames",
-      "description": "Number of frames to look ahead for alternate reference frame selection",
-      "group": "libvpxARNRGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": -1,
-      "minValue": -1,
-      "maxValue": 25,
-      "parameters": {
-        "lag-in-frames": "%d"
-      }
-    },
-    {
-      "name": "libvpxARNRMaxframes",
-      "label": "Max. Frames",
-      "description": "Altref noise reduction max frame count",
-      "group": "libvpxARNRGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": -1,
-      "minValue": -1,
-      "maxValue": 50,
-      "parameters": {
-        "arnr-maxframes": "%d"
-      }
-    },
-    {
-      "name": "libvpxARNRStrength",
-      "label": "Filter Strength",
-      "description": "Altref noise reduction filter strength",
-      "group": "libvpxARNRGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": -1,
-      "minValue": -1,
-      "maxValue": 6,
-      "parameters": {
-        "arnr-strength": "%d"
-      }
-    },
-    {
-      "name": "libvpxARNRType",
-      "label": "Type",
-      "description": "Altref noise reduction filter type",
-      "group": "libvpxARNRGroup",
-      "type": "int",
-      "flags": [],
-      "defaultValue": 2,
-      "values": [
-        {
-          "id": 0,
-          "name": "Backward",
-          "parameters": {
-            "arnr-type": "backward"
-          }
-        },
-        {
-          "id": 1,
-          "name": "Forward",
-          "parameters": {
-            "arnr-type": "forward"
-          }
-        },
-        {
-          "id": 2,
-          "name": "Centered",
-          "parameters": {
-            "arnr-type": "centered"
-          }
-        }
-      ]
-    },
-    {
-      "name": "libvpxARNRStrength",
-      "label": "Filter Strength",
-      "description": "Altref noise reduction filter strength",
-      "group": "libvpxOtherGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": -1,
-      "minValue": -1,
-      "maxValue": 6,
-      "parameters": {
-        "arnr-strength": "%d"
-      }
-    },
-    {
-      "name": "libvpxARNRType",
-      "label": "Type",
-      "description": "Altref noise reduction filter type",
-      "group": "libvpxOtherGroup",
-      "type": "int",
-      "flags": [],
-      "defaultValue": 2,
-      "values": [
-        {
-          "id": 0,
-          "name": "Backward",
-          "parameters": {
-            "arnr-type": "backward"
-          }
-        },
-        {
-          "id": 1,
-          "name": "Forward",
-          "parameters": {
-            "arnr-type": "forward"
-          }
-        },
-        {
-          "id": 2,
-          "name": "Centered",
-          "parameters": {
-            "arnr-type": "centered"
-          }
-        }
-      ]
     }
   ]
 }
