@@ -34,3 +34,4 @@ extern "C" {
 #pragma comment(lib, "vorbis.lib")
 #pragma comment(lib, "vorbisenc.lib")
 #pragma comment(lib, "vpx.lib")
+#pragma comment(lib, "opus.lib")
