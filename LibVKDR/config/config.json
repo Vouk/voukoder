@@ -72,6 +72,10 @@
     {
       "id": 19,
       "name": "libvpx-vp9"
+    },
+    {
+      "id": 20,
+      "name": "libopus"
     }
   ],
   "multiplexers": [

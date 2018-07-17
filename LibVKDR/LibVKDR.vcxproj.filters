@@ -120,5 +120,6 @@
     <None Include="config\filters\zscale.json" />
     <None Include="config\encoders\libmp3lame.json" />
     <None Include="config\encoders\libfdk_aac.json" />
+    <None Include="config\encoders\libopus.json" />
   </ItemGroup>
 </Project>

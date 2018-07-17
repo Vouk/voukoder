@@ -1,0 +1,97 @@
+{
+  "name": "libopus",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "opusStrategy",
+      "label": "Strategy",
+      "description": "The encoding strategy to use.",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "Variable Bitrate (VBR)",
+          "subvalues": [
+            {
+              "name": "opusStrategyVBR",
+              "label": "Target Bitrate [kbit]",
+              "description": "In VBR mode the bitrate may go up and down freely depending on the content to achieve more consistent quality.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 96,
+              "useDefaultValue": true,
+              "minValue": 32,
+              "maxValue": 1024,
+              "parameters": {
+                "vbr": "on",
+                "b": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Constant Bitrate (CBR)",
+          "subvalues": [
+            {
+              "name": "opusStrategyCBR",
+              "label": "Target Bitrate [kbit]",
+              "description": "With hard-cbr every frame will be exactly the same size, similar to how speech codecs work. This delivers lower overall quality but is useful where bitrate changes might leak data in encrypted channels or on synchronous transports.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 96,
+              "useDefaultValue": true,
+              "minValue": 32,
+              "maxValue": 1024,
+              "parameters": {
+                "vbr": "off",
+                "b": "%d000"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Constrained Quality (CQ)",
+          "subvalues": [
+            {
+              "name": "opusStrategyCQ",
+              "label": "Target Bitrate [kbit]",
+              "description": "Outputs to a specific bitrate. This mode is analogous to CBR in AAC/MP3 encoders and managed mode in Vorbis coders. This delivers less consistent quality than VBR mode but consistent bitrate.",
+              "type": "int",
+              "flags": [ "slider" ],
+              "defaultValue": 96,
+              "useDefaultValue": true,
+              "minValue": 32,
+              "maxValue": 1024,
+              "parameters": {
+                "vbr": "constrained",
+                "b": "%d000"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "opusCompressionLevel",
+      "label": "Compression Level",
+      "description": "Set encoding algorithm complexity. Valid options are integers in the 0-10 range. 0 gives the fastest encodes but lower quality, while 10 gives the highest quality but slowest encoding.",
+      "group": "ADBEAudioCodecGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 10,
+      "minValue": 0,
+      "maxValue": 10,
+      "parameters": {
+        "compression_level": "%d"
+      }
+    }
+  ]
+}

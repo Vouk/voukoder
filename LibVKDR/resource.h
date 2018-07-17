@@ -23,6 +23,7 @@
 #define IDR_JSON_ENC_VORBIS             120
 #define IDR_JSON_ENC_VP8                121
 #define IDR_JSON_ENC_VP9                122
+#define IDR_JSON_ENC_OPUS               123
 
 // Next default values for new objects
 // 
