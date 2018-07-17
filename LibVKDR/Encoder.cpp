@@ -90,6 +90,20 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{
+			stringstream passlogfile;
+
+			char charPath[MAX_PATH];
+			if (GetTempPathA(MAX_PATH, charPath))
+			{
+				passlogfile << charPath << "voukoder-passlogfile";
+
+				av_dict_set(&dictionary, "passlogfile", passlogfile.str().c_str(), 0);
+			}
+			else
+			{
+				LOG(WARNING) << "System call failed: GetTempPathA()";
+			}
+
 			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
 			{
 				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);

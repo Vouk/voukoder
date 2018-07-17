@@ -265,6 +265,7 @@
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 8,
+      "useDefaultValue": true,
       "minValue": 1,
       "maxValue": 24,
       "parameters": {
@@ -279,6 +280,7 @@
       "type": "int",
       "flags": [],
       "defaultValue": 1,
+      "useDefaultValue": true,
       "values": [
         {
           "id": 0,
@@ -309,6 +311,7 @@
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 6,
+      "useDefaultValue": true,
       "minValue": -1,
       "maxValue": 6,
       "parameters": {
@@ -323,6 +326,7 @@
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 2,
+      "useDefaultValue": true,
       "minValue": -1,
       "maxValue": 2,
       "parameters": {
