@@ -4,24 +4,17 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "yuv420p",
+  "groups": [
+    {
+      "name": "VKDRvp8ThreadingGroup",
+      "label": "Frame Type",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
   "multipass": {
     "name": "vp8Passes"
   },
   "params": [
-    {
-      "name": "vp8Threads",
-      "label": "Threads",
-      "description": "Threads to use for parallel encoding",
-      "group": "ADBEVideoCodecGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": 8,
-      "minValue": 1,
-      "maxValue": 24,
-      "parameters": {
-        "threads": "%d"
-      }
-    },
     {
       "name": "vp8Strategy",
       "label": "Strategy",
@@ -165,6 +158,20 @@
       "maxValue": 16,
       "parameters": {
         "cpu-used": "%d"
+      }
+    },
+    {
+      "name": "vp8Threads",
+      "label": "Threads",
+      "description": "Number of max. threads",
+      "group": "VKDRvp8ThreadingGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 8,
+      "minValue": 1,
+      "maxValue": 24,
+      "parameters": {
+        "threads": "%d"
       }
     }
   ]

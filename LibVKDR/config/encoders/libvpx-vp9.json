@@ -4,6 +4,13 @@
     "Daniel Stankewitz"
   ],
   "defaultPixelFormat": "yuv420p",
+  "groups": [
+    {
+      "name": "VKDRvp9ThreadingGroup",
+      "label": "Frame Type",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
   "multipass": {
     "name": "vp9Passes"
   },
@@ -98,9 +105,6 @@
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
-                "tile-columns": "6",
-                "tile-rows": "2",
-                "frame-parallel": "1",
                 "b": "%d000"
               }
             },
@@ -132,9 +136,6 @@
               "minValue": 0,
               "maxValue": 63,
               "parameters": {
-                "tile-columns": "6",
-                "tile-rows": "2",
-                "frame-parallel": "1",
                 "crf": "%d",
                 "b": "0"
               }
@@ -156,9 +157,6 @@
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
-                "tile-columns": "6",
-                "tile-rows": "2",
-                "frame-parallel": "1",
                 "b": "%d000"
               }
             },
@@ -193,9 +191,6 @@
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
-                "tile-columns": "6",
-                "tile-rows": "2",
-                "frame-parallel": "1",
                 "b": "%d000",
                 "minrate": "%d000",
                 "maxrate": "%d000"
@@ -260,6 +255,78 @@
       "maxValue": 8,
       "parameters": {
         "cpu-used": "%d"
+      }
+    },
+    {
+      "name": "vp9Threads",
+      "label": "Threads",
+      "description": "Number of max. threads",
+      "group": "VKDRvp9ThreadingGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 8,
+      "minValue": 1,
+      "maxValue": 24,
+      "parameters": {
+        "threads": "%d"
+      }
+    },
+    {
+      "name": "vp9FrameParallel",
+      "label": "Frame Parallel",
+      "description": "Enable frame parallel decodability features.",
+      "group": "VKDRvp9ThreadingGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 1,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Default)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "Enabled",
+          "parameters": {
+            "frame-parallel": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Disabled",
+          "parameters": {
+            "frame-parallel": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "vp9TilesColumns",
+      "label": "Tile Columns",
+      "description": "Number of tile columns to use, log2",
+      "group": "VKDRvp9ThreadingGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 6,
+      "minValue": -1,
+      "maxValue": 6,
+      "parameters": {
+        "tile-columns": "%d"
+      }
+    },
+    {
+      "name": "vp9TilesRows",
+      "label": "Tile Rows",
+      "description": "Number of tile rows to use, log2",
+      "group": "VKDRvp9ThreadingGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 2,
+      "minValue": -1,
+      "maxValue": 2,
+      "parameters": {
+        "tile-rows": "%d"
       }
     }
   ]
