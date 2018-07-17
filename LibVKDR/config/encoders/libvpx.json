@@ -121,33 +121,34 @@
       ]
     },
     {
-      "name": "vp8Deadline",
-      "label": "Deadline",
+      "name": "vp8Quality",
+      "label": "Quality",
       "description": "Good is the default and recommended for most applications.\n\nBest is recommended if you have lots of time and want the best compression efficiency.\n\nRealtime is recommended for live / fast encoding.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 0,
+      "useDefaultValue": true,
       "values": [
         {
           "id": 0,
           "name": "Good",
           "parameters": {
-            "deadline": "good"
+            "quality": "good"
           }
         },
         {
           "id": 1,
           "name": "Best",
           "parameters": {
-            "deadline": "best"
+            "quality": "best"
           }
         },
         {
           "id": 2,
           "name": "Realtime",
           "parameters": {
-            "deadline": "realtime"
+            "quality": "realtime"
           }
         }
       ]
@@ -160,7 +161,7 @@
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 1,
-      "minValue": -16,
+      "minValue": 0,
       "maxValue": 16,
       "parameters": {
         "cpu-used": "%d"

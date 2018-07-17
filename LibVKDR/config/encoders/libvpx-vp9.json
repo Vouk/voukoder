@@ -93,11 +93,14 @@
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [ "slider" ],
-              "defaultValue": 15000,
+              "defaultValue": 1000,
               "useDefaultValue": true,
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
+                "tile-columns": "6",
+                "tile-rows": "2",
+                "frame-parallel": "1",
                 "b": "%d000"
               }
             },
@@ -129,6 +132,9 @@
               "minValue": 0,
               "maxValue": 63,
               "parameters": {
+                "tile-columns": "6",
+                "tile-rows": "2",
+                "frame-parallel": "1",
                 "crf": "%d",
                 "b": "0"
               }
@@ -145,11 +151,14 @@
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [ "slider" ],
-              "defaultValue": 15000,
+              "defaultValue": 1000,
               "useDefaultValue": true,
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
+                "tile-columns": "6",
+                "tile-rows": "2",
+                "frame-parallel": "1",
                 "b": "%d000"
               }
             },
@@ -179,11 +188,14 @@
               "description": "The target data rate allowed by the encoder.",
               "type": "int",
               "flags": [ "slider" ],
-              "defaultValue": 15000,
+              "defaultValue": 1000,
               "useDefaultValue": true,
               "minValue": 100,
               "maxValue": 100000,
               "parameters": {
+                "tile-columns": "6",
+                "tile-rows": "2",
+                "frame-parallel": "1",
                 "b": "%d000",
                 "minrate": "%d000",
                 "maxrate": "%d000"
@@ -195,84 +207,60 @@
           "id": 4,
           "name": "Lossless",
           "parameters": {
+            "tile-columns": "6",
+            "tile-rows": "2",
+            "frame-parallel": "1",
             "lossless": "1"
           }
         }
       ]
     },
     {
-      "name": "vp9Deadline",
-      "label": "Deadline",
+      "name": "vp9Quality",
+      "label": "Quality",
       "description": "Good is the default and recommended for most applications.\n\nBest is recommended if you have lots of time and want the best compression efficiency.\n\nRealtime is recommended for live / fast encoding.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 0,
+      "useDefaultValue": true,
       "values": [
         {
           "id": 0,
           "name": "Good",
-          "subvalues": [
-            {
-              "name": "vp9DeadlineGoodCpuUsed",
-              "label": "CPU used",
-              "description": "Using 1 or 2 will increase encoding speed at the expense of having some impact on quality and rate control accuracy. 4 or 5 will turn off rate distortion optimization, having even more of an impact on quality.",
-              "type": "int",
-              "flags": [ "slider" ],
-              "defaultValue": 0,
-              "useDefaultValue": true,
-              "minValue": 0,
-              "maxValue": 5,
-              "parameters": {
-                "deadline": "good",
-                "cpu-used": "%d"
-              }
-            }
-          ]
+          "parameters": {
+            "quality": "good"
+          }
         },
         {
           "id": 1,
           "name": "Best",
-          "subvalues": [
-            {
-              "name": "vp9DeadlineBestCpuUsed",
-              "label": "CPU used",
-              "description": "Using 1 or 2 will increase encoding speed at the expense of having some impact on quality and rate control accuracy. 4 or 5 will turn off rate distortion optimization, having even more of an impact on quality.",
-              "type": "int",
-              "flags": [ "slider" ],
-              "defaultValue": 0,
-              "useDefaultValue": true,
-              "minValue": 0,
-              "maxValue": 5,
-              "parameters": {
-                "deadline": "best",
-                "cpu-used": "%d"
-              }
-            }
-          ]
+          "parameters": {
+            "quality": "best"
+          }
         },
         {
           "id": 2,
           "name": "Realtime",
-          "subvalues": [
-            {
-              "name": "vp9DeadlineRealtimeCpuUsed",
-              "label": "CPU used",
-              "description": "The encoder will try to hit a particular CPU utilization target, and encoding quality will depend on CPU speed and the complexity of the clip that you are encoding. See the vpx documentation for more info. In this case, the valid values for -cpu-used are between 0 and 15, where the CPU utilization target (in per cent) is calculated as (100*(16-cpu-used)/16)%",
-              "type": "int",
-              "flags": [ "slider" ],
-              "defaultValue": 0,
-              "useDefaultValue": true,
-              "minValue": 0,
-              "maxValue": 15,
-              "parameters": {
-                "deadline": "realtime",
-                "cpu-used": "%d"
-              }
-            }
-          ]
+          "parameters": {
+            "quality": "realtime"
+          }
         }
       ]
+    },
+    {
+      "name": "vp9DeadlineRealtimeCpuUsed",
+      "label": "Quality vs Speed",
+      "description": "Smaller values have better quality, higher values are faster.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 0,
+      "maxValue": 8,
+      "parameters": {
+        "cpu-used": "%d"
+      }
     }
   ]
 }
