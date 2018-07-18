@@ -41,15 +41,14 @@ void Logger::vkdrInit()
 	char charPath[MAX_PATH];
 	if (GetTempPathA(MAX_PATH, charPath))
 	{
-		stringstream filename;
-		filename << charPath << "voukoder.log";
+		strcat_s(charPath, "voukoder.log");
 
 		stringstream cfg;
 		cfg << "* GLOBAL:\n FORMAT = \"[%datetime][%level] %msg\"\n FILENAME = \"";
-		cfg << filename.str();
+		cfg << charPath;
 		cfg << "\"\n ENABLED = true\n TO_FILE = true\n TO_STANDARD_OUTPUT = true\n SUBSECOND_PRECISION = 6\n PERFORMANCE_TRACKING = true\n";
 
-		remove(filename.str().c_str());
+		remove(charPath);
 
 		el::Configurations conf;
 		conf.setToDefault();

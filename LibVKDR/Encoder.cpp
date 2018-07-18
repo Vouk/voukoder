@@ -90,14 +90,12 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{
-			stringstream passlogfile;
-
 			char charPath[MAX_PATH];
 			if (GetTempPathA(MAX_PATH, charPath))
 			{
-				passlogfile << charPath << "voukoder-passlogfile";
+				strcat_s(charPath, "voukoder-passlogfile");
 
-				av_dict_set(&dictionary, "passlogfile", passlogfile.str().c_str(), 0);
+				av_dict_set(&dictionary, "passlogfile", charPath, 0);
 			}
 			else
 			{
