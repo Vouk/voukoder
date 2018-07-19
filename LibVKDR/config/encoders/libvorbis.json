@@ -24,10 +24,10 @@
               "description": "The average data rate allowed by the encoder.",
               "type": "int",
               "flags": [ "slider" ],
-              "defaultValue": 112,
+              "defaultValue": 96,
               "useDefaultValue": true,
               "minValue": 32,
-              "maxValue": 512,
+              "maxValue": 448,
               "parameters": {
                 "b": "%d000"
               }
