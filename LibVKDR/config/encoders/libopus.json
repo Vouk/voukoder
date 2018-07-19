@@ -27,7 +27,7 @@
               "defaultValue": 64,
               "useDefaultValue": true,
               "minValue": 6,
-              "maxValue": 510,
+              "maxValue": 512,
               "parameters": {
                 "vbr": "on",
                 "b": "%d000"
@@ -48,7 +48,7 @@
               "defaultValue": 96,
               "useDefaultValue": true,
               "minValue": 6,
-              "maxValue": 510,
+              "maxValue": 512,
               "parameters": {
                 "vbr": "off",
                 "b": "%d000"
@@ -69,7 +69,7 @@
               "defaultValue": 96,
               "useDefaultValue": true,
               "minValue": 6,
-              "maxValue": 510,
+              "maxValue": 512,
               "parameters": {
                 "vbr": "constrained",
                 "b": "%d000"
@@ -78,20 +78,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "opusCompressionLevel",
-      "label": "Compression Level",
-      "description": "Set encoding algorithm complexity. Valid options are integers in the 0-10 range. 0 gives the fastest encodes but lower quality, while 10 gives the highest quality but slowest encoding.",
-      "group": "ADBEAudioCodecGroup",
-      "type": "int",
-      "flags": [ "slider" ],
-      "defaultValue": 10,
-      "minValue": 0,
-      "maxValue": 10,
-      "parameters": {
-        "compression_level": "%d"
-      }
     }
   ]
 }
