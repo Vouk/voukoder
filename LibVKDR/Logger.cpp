@@ -55,7 +55,7 @@ void Logger::vkdrInit()
 		conf.parseFromText(cfg.str());
 		el::Loggers::reconfigureAllLoggers(conf);
 
-		LOG(INFO) <<  "LibVKDR (www.voukoder.org)";
+		LOG(INFO) << "LibVKDR (www.voukoder.org)";
 		LOG(INFO) << "by Daniel Stankewitz";
 	}
 }

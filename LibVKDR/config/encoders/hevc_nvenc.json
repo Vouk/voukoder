@@ -123,6 +123,7 @@
         {
           "id": 1,
           "name": "Main (10 Bit)",
+          "pixelFormat": "p010le",
           "parameters": {
             "profile": "main10"
           }
