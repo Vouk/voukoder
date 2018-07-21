@@ -459,7 +459,8 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 				return false;
 			}
 
-			audioRenderer.reset();
+			if (exportSettings.exportAudio)
+				audioRenderer.reset();
 		}
 
 		// Write video frame first

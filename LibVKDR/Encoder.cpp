@@ -196,6 +196,7 @@ finish:
 
 void Encoder::close(bool writeTrailer)
 {
+	// Flush (and write trailer)
 	if (writeTrailer)
 	{
 		flushContext(&videoContext);
@@ -206,12 +207,14 @@ void Encoder::close(bool writeTrailer)
 		av_write_trailer(formatContext);
 	}
 
-	if (videoContext.codecContext != NULL && videoContext.codecContext->internal != NULL)
-		avcodec_free_context(&videoContext.codecContext);
+	// Free video context
+	avcodec_free_context(&videoContext.codecContext);
 
-	if (audioContext.codecContext != NULL && audioContext.codecContext->internal != NULL)
+	// Free audio context (if enabled)
+	if (exportSettings.exportAudio)
 		avcodec_free_context(&audioContext.codecContext);
 
+	// Close streams
 	if (exportSettings.filename.length() > 0)
 	{
 		avio_close(formatContext->pb);
