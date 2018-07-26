@@ -8,6 +8,8 @@ Stay up-to-date, discuss on the forums and get all announcements and news at htt
 - NVIDIA NVENC (h.264 and h.265)
 - AMD AMF (h.264 and h.265)
 - ProRes
+- VP8
+- VP9
 ### Audio
 - Uncompressed PCM (16bit and 24bit)
 - ALAC
@@ -16,6 +18,8 @@ Stay up-to-date, discuss on the forums and get all announcements and news at htt
 - FDK AAC (External DLL required)
 - MP3
 - FLAC
+- OPUS
+- VORBIS
 
 ## Support
 Please use the [forum](https://www.voukoder.org/forum) for issue reporting and support.
