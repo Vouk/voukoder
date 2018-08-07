@@ -79,7 +79,7 @@
       "useDefaultValue": true,
       "defaultValue": 1920,
       "minValue": 320,
-      "maxValue": 4096,
+      "maxValue": 10240,
       "parameters": {
         "w": "%d"
       }
@@ -94,7 +94,7 @@
       "useDefaultValue": true,
       "defaultValue": 1080,
       "minValue": 320,
-      "maxValue": 4096,
+      "maxValue": 8192,
       "parameters": {
         "h": "%d"
       }
