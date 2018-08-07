@@ -139,7 +139,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	widthValues.structVersion = 1;
 	widthValues.value.intValue = seqWidth.mInt32;
 	widthValues.rangeMin.intValue = 320;
-	widthValues.rangeMax.intValue = 4096;
+	widthValues.rangeMax.intValue = 10240;
 	widthValues.disabled = kPrFalse;
 	widthValues.hidden = kPrFalse;
 	widthValues.optionalParamEnabled = kPrFalse;
@@ -156,7 +156,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	heightValues.structVersion = 1;
 	heightValues.value.intValue = seqHeight.mInt32;
 	heightValues.rangeMin.intValue = 240;
-	heightValues.rangeMax.intValue = 2160;
+	heightValues.rangeMax.intValue = 8192;
 	heightValues.disabled = kPrFalse;
 	heightValues.hidden = kPrFalse;
 	heightValues.optionalParamEnabled = kPrFalse;
