@@ -168,6 +168,7 @@
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 8,
+      "useDefaultValue": true,
       "minValue": 1,
       "maxValue": 24,
       "parameters": {
