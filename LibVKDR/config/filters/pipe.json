@@ -1,0 +1,42 @@
+{
+  "name": "pipe",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "groups": [
+    {
+      "name": "FilterPipeTabGroup",
+      "label": "Pipe",
+      "parent": "FilterTabGroup"
+    }
+  ],
+  "params": [
+    {
+      "name": "pipeProgram",
+      "label": "Programm",
+      "description": "Program to pipe the stream to.",
+      "group": "FilterPipeTabGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": ""
+    },
+    {
+      "name": "pipeProgramBrowse",
+      "label": "Browse ...",
+      "description": "Program to pipe the stream to.",
+      "group": "FilterPipeTabGroup",
+      "type": "button",
+      "flags": [],
+      "defaultValue": ""
+    },
+    {
+      "name": "pipeArguments",
+      "label": "Arguments",
+      "description": "Command line arguments to pipe the stream to.",
+      "group": "FilterPipeTabGroup",
+      "type": "string",
+      "flags": [],
+      "defaultValue": ""
+    }
+  ]
+}

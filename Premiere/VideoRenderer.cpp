@@ -126,6 +126,20 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 	}
 }
 
+void VideoRenderer::flipImage(char* pixels, const csSDK_int32 rowBytes)
+{
+	char *linebuffer = (char*)av_malloc(rowBytes);
+	for (int i = 0; i < height / 2; i++)
+	{
+		const int p = i * rowBytes;
+		const int p2 = (height - 1 - i) * rowBytes;
+		memcpy(linebuffer, pixels + p2, rowBytes);
+		memcpy(pixels + p2, pixels + p, rowBytes);
+		memcpy(pixels + p, linebuffer, rowBytes);
+	}
+	av_free(linebuffer);
+}
+
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass, const csSDK_uint32 inFrameNumber, const csSDK_uint32 inFrameRepeatCount, PPixHand inRenderedFrame, void* inCallbackData)
 {
 	prSuiteError error = suiteError_NoError;
@@ -228,6 +242,22 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 			(uint16_t*)encodingData.plane[3]);
 
 		return frameFinished(&encodingData, inFormat, inFrameRepeatCount);
+	}
+
+	// BGRA
+	if (inFormat == PrPixelFormat_BGRA_4444_8u)
+	{
+		flipImage(pixels, rowBytes);
+
+		EncoderData frameData;
+		frameData.frame = inFrameNumber;
+		frameData.pass = inWhichPass + 1;
+		frameData.planes = 1;
+		frameData.pix_fmt = "bgra";
+		frameData.plane[0] = pixels;
+		frameData.stride[0] = rowBytes;
+
+		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
 
 	return suiteError_RenderInvalidPixelFormat;
@@ -345,6 +375,10 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 		}
 
 		return PrPixelFormat_VUYX_4444_32f;
+	}
+	else if (exportSettings.pixelFormat == "bgra")
+	{
+		return PrPixelFormat_BGRA_4444_8u;
 	}
 
 	return PrPixelFormat_Invalid;

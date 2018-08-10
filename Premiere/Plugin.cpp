@@ -149,7 +149,8 @@ prMALError Plugin::beginInstance(SPBasicSuite *spBasicSuite, exExporterInstanceR
 	spError = spBasicSuite->AcquireSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&suites->exportProgressSuite)));
 	spError = spBasicSuite->AcquireSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&suites->windowSuite)));
 	spError = spBasicSuite->AcquireSuite(kPrSDKExporterUtilitySuite, kPrSDKExporterUtilitySuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&suites->exporterUtilitySuite)));
-	
+	spError = spBasicSuite->AcquireSuite(kPrSDKSequenceInfoSuite, kPrSDKSequenceInfoSuiteVersion, const_cast<const void**>(reinterpret_cast<void**>(&suites->sequenceInfoSuite)));
+
 	return spError;
 }
 
@@ -166,7 +167,9 @@ prMALError Plugin::endInstance()
 	result = spBasicSuite->ReleaseSuite(kPrSDKPPix2Suite, kPrSDKPPix2SuiteVersion);
 	result = spBasicSuite->ReleaseSuite(kPrSDKExportProgressSuite, kPrSDKExportProgressSuiteVersion);
 	result = spBasicSuite->ReleaseSuite(kPrSDKWindowSuite, kPrSDKWindowSuiteVersion);
-	result = spBasicSuite->ReleaseSuite(kPrSDKMemoryManagerSuite, kPrSDKMemoryManagerSuiteVersion);
+	result = spBasicSuite->ReleaseSuite(kPrSDKExporterUtilitySuite, kPrSDKWindowSuiteVersion);
+	result = spBasicSuite->ReleaseSuite(kPrSDKWindowSuite, kPrSDKExporterUtilitySuiteVersion);
+	result = spBasicSuite->ReleaseSuite(kPrSDKSequenceInfoSuite, kPrSDKSequenceInfoSuiteVersion);
 
 	return result;
 }
@@ -287,7 +290,7 @@ prMALError Plugin::queryExportFileExtension(exQueryExportFileExtensionRec *expor
 
 prMALError Plugin::validateParamChanged(exParamChangedRec *paramRecP)
 {
-	return gui->onParamChange(suites->exportParamSuite, paramRecP);
+	return gui->onParamChange(suites->exportParamSuite, suites->windowSuite, paramRecP);
 }
 
 prMALError Plugin::getParamSummary(exParamSummaryRec *summaryRecP)
@@ -429,9 +432,12 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		suites->memorySuite);
 
 	PrPixelFormat pixelFormat = VideoRenderer::GetTargetRenderFormat(exportSettings);
-	
 	if (pixelFormat == PrPixelFormat_Invalid)
+	{
+		LOG(ERROR) << "Unsupported pixel format: " << exportSettings.pixelFormat;
+
 		return suiteError_RenderInvalidPixelFormat;
+	}
 
 	Encoder encoder(exportSettings);
 
@@ -484,7 +490,7 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 				// Abort loop if no samles are left
 				if (size <= 0)
 				{
-					LOG(INFO) << "Aborting audio renderer loop: No audio samlples left!";
+					LOG(INFO) << "Aborting audio renderer loop: No audio samples left!";
 
 					break;
 				}
@@ -509,10 +515,5 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 prMALError Plugin::buttonAction(exParamButtonRec *paramButtonRecP)
 {
-	if (strcmp(paramButtonRecP->buttonParamIdentifier, VKDRUpdateButton) == 0)
-	{
-		ShellExecuteA(0, 0, pluginUpdate->url.c_str(), 0, 0, SW_SHOW);
-	}
-
-	return malNoError;
+	return gui->onButtonPress(paramButtonRecP, suites->exportParamSuite, suites->windowSuite);
 }

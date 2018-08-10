@@ -17,6 +17,7 @@
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
 #include "premiere_cs6\PrSDKWindowSuite.h"
 #include "premiere_cs6\PrSDKExporterUtilitySuite.h"
+#include "premiere_cs6\PrSDKSequenceInfoSuite.h"
 #include "..\LibVKDR\LibVKDR.h"
 #include "GUI.h"
 
@@ -44,6 +45,7 @@ typedef struct PrSuites
 	PrSDKExportProgressSuite *exportProgressSuite;
 	PrSDKWindowSuite *windowSuite;
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
+	PrSDKSequenceInfoSuite *sequenceInfoSuite;
 } PrSuites;
 
 class Plugin

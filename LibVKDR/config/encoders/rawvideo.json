@@ -1,0 +1,25 @@
+{
+  "name": "rawvideo",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "params": [
+    {
+      "name": "rawvideoPixelFormat",
+      "label": "Color Format",
+      "description": "Color depth and chroma subsampling format.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "RGB32",
+          "pixelFormat": "bgra",
+          "parameters": {}
+        }
+      ]
+    }
+  ]
+}

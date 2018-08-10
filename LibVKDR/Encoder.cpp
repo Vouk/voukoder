@@ -6,29 +6,25 @@ using namespace LibVKDR;
 
 Encoder::Encoder(ExportSettings exportSettings) :
 	exportSettings(exportSettings)
+{}
+
+Encoder::~Encoder()
+{}
+
+void Encoder::initFormatContext()
 {
+	// Create format context
 	formatContext = avformat_alloc_context();
-	formatContext->oformat = av_guess_format(
-		exportSettings.muxerName.c_str(),
-		exportSettings.filename.c_str(),
-		NULL);
+	formatContext->oformat = av_guess_format(exportSettings.muxerName.c_str(), exportSettings.filename.c_str(), NULL);
 
-	LOG(INFO) << "### ENCODER STARTED ###";
-
+	// Mark myself as encoding tool
 	const string appId = exportSettings.application + " - www.voukoder.org";
 	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
 
-	pass = 0;
+	LOG(INFO) << "### ENCODER STARTED ###";
 }
 
-Encoder::~Encoder()
-{
-	avformat_free_context(formatContext);
-
-	LOG(INFO) << "### ENCODER ENDED ###";
-}
-
-int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext)
+int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext, int flags)
 {
 	AVCodec *codec = avcodec_find_encoder_by_name(codecName.c_str());
 	if (codec == NULL)
@@ -41,6 +37,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	encoderContext->codecContext = avcodec_alloc_context3(codec);
 	encoderContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	encoderContext->codecContext->thread_count = 0;
+	encoderContext->codecContext->flags |= flags;
 
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
@@ -54,6 +51,12 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 		encoderContext->codecContext->color_trc = exportSettings.colorTRC;
 		encoderContext->codecContext->sample_aspect_ratio = exportSettings.videoSar;
 		encoderContext->codecContext->field_order = exportSettings.fieldOrder;
+
+		// Add stats_info to second pass
+		if (encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
+		{
+			encoderContext->codecContext->stats_in = encoderContext->stats_info;
+		}
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
@@ -81,27 +84,13 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 {
 	int ret;
 
-	if ((ret = createCodecContext(codecName.c_str(), encoderContext)) == 0)
+	if ((ret = createCodecContext(codecName.c_str(), encoderContext, flags)) == 0)
 	{
-		encoderContext->codecContext->flags |= flags;
-
 		LOG(INFO) << codecName << " options: " << options;
 
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{
-			char charPath[MAX_PATH];
-			if (GetTempPathA(MAX_PATH, charPath))
-			{
-				strcat_s(charPath, "voukoder-passlogfile");
-
-				av_dict_set(&dictionary, "passlogfile", charPath, 0);
-			}
-			else
-			{
-				LOG(WARNING) << "System call failed: GetTempPathA()";
-			}
-
 			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
 			{
 				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
@@ -114,6 +103,8 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 
 int Encoder::open()
 {
+	initFormatContext();
+
 	int vflags = 0;
 
 	if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
@@ -129,7 +120,7 @@ int Encoder::open()
 		}
 		else
 		{
-			vflags |= AV_CODEC_FLAG_PASS2;
+			vflags |= AV_CODEC_FLAG_PASS2;			
 		}
 	}
 
@@ -168,6 +159,11 @@ int Encoder::open()
 		else
 			filename = exportSettings.filename;
 
+		if (exportSettings.pipe)
+		{
+			pipe.open(L"c:\\ffplay.exe -f rawvideo -pixel_format bgra -video_size 1920x1080 -autoexit -framerate 60 -");
+		}
+
 		av_dump_format(formatContext, 0, filename.c_str(), 1);
 
 		if ((ret = avio_open(
@@ -205,6 +201,19 @@ void Encoder::close(bool writeTrailer)
 			flushContext(&audioContext);
 
 		av_write_trailer(formatContext);
+
+		// Save stats data from first pass
+		AVCodecContext* codec = videoContext.codecContext;
+		if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out) 
+		{
+			int size = strlen(codec->stats_out) + 1;
+			videoContext.stats_info = (char*)malloc(size);
+			strcpy_s(videoContext.stats_info, size, codec->stats_out);
+		}
+		else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
+		{
+			free(videoContext.stats_info);
+		}
 	}
 
 	// Free video context
@@ -225,10 +234,22 @@ void Encoder::close(bool writeTrailer)
 		avio_close_dyn_buf(formatContext->pb, &buffer);
 		av_free(buffer);
 	}
+
+	avformat_free_context(formatContext);
+
+	LOG(INFO) << "### ENCODER ENDED ###";
+
+	if (exportSettings.pipe)
+	{
+		pipe.close();
+	}
+
 }
 
 int Encoder::testSettings()
 {
+	initFormatContext();
+
 	int ret;
 
 	if ((ret = openCodec(
@@ -422,8 +443,12 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		// Receive frames from the rame filter
 		while (context->frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
-			// Send the frame to the encoder
-			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
+			if (exportSettings.pipe)
+			{
+				if (context->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+					pipe.write(tmp_frame);
+			}
+			else if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
 			{
 				av_frame_free(&tmp_frame);
 				return ret;
@@ -436,8 +461,12 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	}
 	else
 	{
-		// Send the frame directly to the encoder
-		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
+		if (exportSettings.pipe)
+		{
+			if (context->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+				pipe.write(frame);
+		}
+		else if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
 			return ret;
 		}
@@ -453,7 +482,7 @@ int Encoder::receivePackets(EncoderContext *context)
 	AVPacket *packet = av_packet_alloc();
 	while (avcodec_receive_packet(context->codecContext, packet) >= 0)
 	{
-		if (context->codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO)
+		if (context->codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO && packet->duration == 0)
 			packet->duration = 1;
 
 		av_packet_rescale_ts(packet, context->codecContext->time_base, context->stream->time_base);

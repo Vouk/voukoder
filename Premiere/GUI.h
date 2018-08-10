@@ -43,12 +43,13 @@ public:
 	GUI(csSDK_uint32 pluginId, Config *config, PluginUpdate *pluginUpdate, csSDK_int32 paramVersion);
 	prMALError createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKExportInfoSuite *exportInfoSuite, PrSDKTimeSuite *timeSuite);
 	prMALError updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKTimeSuite *timeSuite);
+	prMALError onButtonPress(exParamButtonRec *paramButtonRecP, PrSDKExportParamSuite *exportParamSuite, PrSDKWindowSuite *windowSuite);
 
 
 	bool getCurrentFilterSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
 	bool getCurrentEncoderSettings(PrSDKExportParamSuite *exportParamSuite, prFieldType fieldType, EncoderType encoderType, EncoderSettings *encoderSettings);
 	void getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSettings *exportSettings);
-	prMALError onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamChangedRec *paramRecP);
+	prMALError onParamChange(PrSDKExportParamSuite *exportParamSuite, PrSDKWindowSuite *windowSuite, exParamChangedRec *paramRecP);
 	int showDialog(PrSDKWindowSuite *windowSuite, string text, string caption, uint32_t type = MB_OK);
 
 private:

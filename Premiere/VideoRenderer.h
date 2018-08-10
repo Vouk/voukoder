@@ -48,4 +48,5 @@ private:
 	prSuiteError frameFinished(EncoderData *encoderData, PrPixelFormat inFormat, const csSDK_uint32 inFrameRepeatCount);
 	void unpackUint8(uint8_t *pixels, int rowBytes, uint8_t *bufferY, uint8_t *bufferU, uint8_t *bufferV);
 	void unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16_t *bufferU, uint16_t *bufferV, uint16_t *bufferA);
+	void flipImage(char* pixels, const csSDK_int32 rowBytes);
 };

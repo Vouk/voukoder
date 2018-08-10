@@ -356,7 +356,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 
 	// Init filters
 	for (FilterInfo filterInfo : config->Filters)
-		createParametersFromConfig(exportParamSuite, filterInfo, 0);
+		createParametersFromConfig(exportParamSuite, filterInfo, -1);
 
 	exportParamSuite->SetParamsVersion(pluginId, paramVersion);
 
@@ -384,7 +384,7 @@ void GUI::createParametersFromConfig(PrSDKExportParamSuite *exportParamSuite, IP
 	{
 		const exNewParamInfo newParamInfo = createParameter(
 			paramInfo,
-			encoderInfo.id != selectedId);
+			selectedId > -1 && encoderInfo.id != selectedId);
 
 		exportParamSuite->AddParam(
 			pluginId,
@@ -399,7 +399,7 @@ void GUI::createParametersFromConfig(PrSDKExportParamSuite *exportParamSuite, IP
 			{
 				const exNewParamInfo newParamInfo = createParameter(
 					paramSubValue,
-					(paramInfo.default.intValue != paramValueInfo.id) || (encoderInfo.id != selectedId));
+					(paramInfo.default.intValue != paramValueInfo.id) || (selectedId > -1 && encoderInfo.id != selectedId));
 
 				exportParamSuite->AddParam(
 					pluginId,
@@ -460,6 +460,10 @@ exNewParamInfo GUI::createParameter(const IParamInfo paramConfig, const csSDK_in
 	{
 		paramInfo.paramType = exParamType_string;
 		prUTF16CharCopy(paramValues.paramString, wstring(paramConfig.defaultStringValue.begin(), paramConfig.defaultStringValue.end()).c_str());
+	}
+	else if (paramConfig.type == "button")
+	{
+		paramInfo.paramType = exParamType_button;
 	}
 
 	// Flags
@@ -817,7 +821,7 @@ prSuiteError GUI::setParameterVisibility(PrSDKExportParamSuite *exportParamSuite
 	return exportParamSuite->ChangeParam(pluginId, groupIndex, info->name.c_str(), &value);
 }
 
-prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, exParamChangedRec *paramRecP)
+prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, PrSDKWindowSuite *windowSuite, exParamChangedRec *paramRecP)
 {
 	exParamValues paramValue;
 	exportParamSuite->GetParamValue(
@@ -1248,6 +1252,11 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 		exportSettings->colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
 		exportSettings->colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 	}
+	/*
+	exParamValues pathValue;
+	exportParamSuite->GetParamValue(pluginId, groupIndex, "pipeProgram", &pathValue);
+	exportSettings->pipeCommand = pathValue.paramString;
+	*/
 }
 
 void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
@@ -1289,6 +1298,47 @@ void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
 		groupIndex,
 		VKDRAudioSettings,
 		&audioValues);
+}
+
+prMALError GUI::onButtonPress(exParamButtonRec *paramButtonRecP, PrSDKExportParamSuite *exportParamSuite, PrSDKWindowSuite *windowSuite)
+{
+	if (strcmp(paramButtonRecP->buttonParamIdentifier, VKDRUpdateButton) == 0)
+	{
+		ShellExecuteA(0, 0, pluginUpdate->url.c_str(), 0, 0, SW_SHOW);
+	}
+	else if (strcmp(paramButtonRecP->buttonParamIdentifier, "pipeProgramBrowse") == 0)
+	{
+		exParamValues pathValue;
+		wchar_t filepath_string[sizeof(pathValue.paramString) / sizeof(pathValue.paramString[0])];
+		exportParamSuite->GetParamValue(pluginId, groupIndex, "pipeProgram", &pathValue);
+		prUTF16CharCopy(filepath_string, pathValue.paramString);
+
+		OPENFILENAMEW ofn = { 0 };
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = windowSuite->GetMainWindow();
+		ofn.hInstance = NULL;
+		ofn.lpstrFilter = { L"Executables (*.exe)\0*.exe\0\0" };
+		ofn.lpstrCustomFilter = NULL;
+		ofn.nMaxCustFilter = 0;
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFile = filepath_string;
+		ofn.nMaxFile = sizeof(filepath_string) / sizeof(filepath_string[0]);
+		ofn.lpstrFileTitle = L"lpstrFileTitle";
+		ofn.lpstrInitialDir = NULL;
+		ofn.lpstrTitle = L"Browse for executable";
+		ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+		ofn.nFileOffset = 0;
+		ofn.nFileExtension = 0;
+		ofn.lpstrDefExt = NULL;
+
+		if (GetOpenFileNameW(&ofn)) 
+		{
+			prUTF16CharCopy(pathValue.paramString, filepath_string);
+			exportParamSuite->ChangeParam(pluginId, groupIndex, "pipeProgram", &pathValue);
+		}
+	}
+
+	return malNoError;
 }
 
 int GUI::showDialog(PrSDKWindowSuite *windowSuite, string text, string caption, uint32_t type)
