@@ -460,6 +460,21 @@
       }
     },
     {
+      "name": "h264_nvencRef",
+      "label": "Reference frames",
+      "description": "Controls the size of the DPB (Decoded Picture Buffer). In short, this value is the number of previous frames each P-frame can use as references. B-frames can use one or two fewer, depending on if they are used as references or not.",
+      "group": "VKDRh264NVENCFramesGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 3,
+      "useDefaultValue": true,
+      "minValue": 1,
+      "maxValue": 16,
+      "parameters": {
+        "refs": "%d"
+      }
+    },
+    {
       "name": "h264_nvencNoSCut",
       "label": "No Scene Cut",
       "description": "When lookahead is enabled, set this to 1 to disable adaptive I-frame insertion at scene cuts.",
@@ -498,7 +513,7 @@
     {
       "name": "h264_nvencQPI",
       "label": "QP Value For I-Frames",
-	    "description": "Enable to change quantization parameter for I-frames.",
+      "description": "Enable to change quantization parameter for I-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [],
@@ -538,7 +553,7 @@
     {
       "name": "h264_nvencQPP",
       "label": "QP Value For P-Frames",
-	    "description": "Enable to change quantization parameter for P-frames.",
+      "description": "Enable to change quantization parameter for P-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [],
@@ -578,7 +593,7 @@
     {
       "name": "h264_nvencQPB",
       "label": "QP Value For B-Frames",
-	    "description": "Enable to change quantization parameter for B-frames.",
+      "description": "Enable to change quantization parameter for B-frames.",
       "group": "VKDRh264NVENCQuantizerGroup",
       "type": "bool",
       "flags": [],

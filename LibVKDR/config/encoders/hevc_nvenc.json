@@ -432,6 +432,21 @@
       }
     },
     {
+      "name": "hevc_nvencRef",
+      "label": "Reference frames",
+      "description": "Controls the size of the DPB (Decoded Picture Buffer). In short, this value is the number of previous frames each P-frame can use as references. B-frames can use one or two fewer, depending on if they are used as references or not.",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 3,
+      "useDefaultValue": true,
+      "minValue": 1,
+      "maxValue": 16,
+      "parameters": {
+        "refs": "%d"
+      }
+    },
+    {
       "name": "hevc_nvencNoSCut",
       "label": "No scene cut",
       "description": "When lookahead is enabled, set this to 1 to disable adaptive I-frame insertion at scene cuts.",
@@ -476,7 +491,7 @@
     {
       "name": "hevc_nvencQPI",
       "label": "QP Value For I-Frames",
-	    "description": "Enable to change quantization parameter for I-frames.",
+      "description": "Enable to change quantization parameter for I-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [],
@@ -516,7 +531,7 @@
     {
       "name": "hevc_nvencQPP",
       "label": "QP Value For P-Frames",
-	    "description": "Enable to change quantization parameter for P-frames.",
+      "description": "Enable to change quantization parameter for P-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [],
@@ -556,7 +571,7 @@
     {
       "name": "hevc_nvencQPB",
       "label": "QP Value For B-Frames",
-	    "description": "Enable to change quantization parameter for B-frames.",
+      "description": "Enable to change quantization parameter for B-frames.",
       "group": "VKDRhevcNVENCQuantizerGroup",
       "type": "bool",
       "flags": [],
