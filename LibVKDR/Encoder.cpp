@@ -1,4 +1,4 @@
-#include <sstream>
+﻿#include <sstream>
 #include "Encoder.h"
 #include "easylogging++.h"
 
@@ -91,6 +91,21 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
 		{
+			if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+			{
+				char charPath[MAX_PATH];
+				if (GetTempPathA(MAX_PATH, charPath))
+				{
+					strcat_s(charPath, "voukoder-passlogfile");
+
+					av_dict_set(&dictionary, "passlogfile", charPath, 0);
+				}
+				else
+				{
+					LOG(WARNING) << "System call failed: GetTempPathA()";
+				}
+			}
+
 			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
 			{
 				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
