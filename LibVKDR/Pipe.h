@@ -13,7 +13,7 @@ public:
 	~Pipe();
 	bool open(const wstring commandLine);
 	void close();
-	bool write(const AVFrame *frame);
+	bool write(const uint8_t *buffer, const int size);
 
 private:
 	HANDLE g_hChildStd_IN_Rd = NULL;

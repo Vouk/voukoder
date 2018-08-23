@@ -79,7 +79,7 @@
     },
     {
       "id": 21,
-      "name": "_rawvideo"
+      "name": "rawvideo"
     }
   ],
   "multiplexers": [
@@ -105,7 +105,7 @@
     },
     {
       "id": 4,
-      "name": "_nut",
+      "name": "nut",
       "extension": "nut"
     }
   ],
@@ -113,10 +113,6 @@
     {
       "id": 0,
       "name": "zscale"
-    },
-    {
-      "id": 1,
-      "name": "_pipe"
     }
   ],
   "videoFrameSizes": [

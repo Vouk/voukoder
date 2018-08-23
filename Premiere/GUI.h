@@ -16,6 +16,10 @@
 #define VKDRAudioSettings "VKDRAudioSettings"
 #define VKDRMultiplexerTabGroup "MultiplexerTab"
 #define VKDRMultiplexerSettingsGroup "MultiplexerBasicGroup"
+#define MultiplexerPipeGroup "MultiplexerPipeGroup"
+#define VKDRPipeCommand "VKDRPipeCommand"
+#define VKDRPipeButton "VKDRPipeButton"
+#define VKDRPipeArguments "VKDRPipeArguments"
 #define FFMultiplexer "Multiplexer"
 #define FFMultiplexerBasicGroup "MultiplexerBasicGroup"
 

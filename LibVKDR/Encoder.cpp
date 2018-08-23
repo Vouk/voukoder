@@ -8,20 +8,133 @@ Encoder::Encoder(ExportSettings exportSettings) :
 	exportSettings(exportSettings)
 {}
 
-Encoder::~Encoder()
-{}
-
-void Encoder::initFormatContext()
+int Encoder::open()
 {
+	int ret;
+
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportSettings.muxerName.c_str(), exportSettings.filename.c_str(), NULL);
 
-	// Mark myself as encoding tool
+	// Mark myself as encoding tool in the mp4/mov container
 	const string appId = exportSettings.application + " - www.voukoder.org";
 	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
 
-	LOG(INFO) << "### ENCODER STARTED ###";
+	av_log(NULL, AV_LOG_INFO, "### ENCODER STARTED ###\n");
+
+	// Try to open the video encoder
+	const int flags = getCodecFlags(AVMEDIA_TYPE_VIDEO);
+	if ((ret = openCodec(exportSettings.videoCodecName.c_str(), exportSettings.videoOptions, &videoContext, flags)) < 0)
+	{
+		av_log(NULL, AV_LOG_ERROR, "Unable to open video encoder: %s\n", exportSettings.videoCodecName.c_str());
+		close();
+		return ret;
+	}
+
+	// Try to open the audio encoder (if wanted)
+	if (exportSettings.exportAudio)
+	{
+		if ((ret = openCodec(exportSettings.audioCodecName.c_str(), exportSettings.audioOptions, &audioContext, 0)) < 0)
+		{
+			av_log(NULL, AV_LOG_ERROR, "Unable to open audio encoder: %s\n", exportSettings.audioCodecName.c_str());
+			close();
+			return ret;
+		}
+
+		// Find the right sample size (for variable frame size codecs (PCM) we use the number of samples that match for one video frame)
+		audioFrameSize = audioContext.codecContext->frame_size;
+		if (audioFrameSize == 0)
+		{
+			audioFrameSize = av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
+		}
+	}
+
+	AVDictionary *options = NULL;
+	//av_dict_set(&options, "write_index", 0, 0);
+
+	// Support pipe export
+	if (exportSettings.pipe)
+	{
+		// Open memory buffer
+		ret = avio_open_dyn_buf(&formatContext->pb);
+		if (ret < 0)
+		{
+			av_log(NULL, AV_LOG_ERROR, "Unable to open dynamic buffer\n");
+			close();
+			return ret;
+		}
+
+		pipe.open(exportSettings.pipeCommand);
+	}
+	else
+	{
+		string filename;
+		if (pass < exportSettings.passes)
+		{
+			filename = "NUL";
+		}
+		else
+		{
+			filename = exportSettings.filename;
+			formatContext->url = av_strdup(exportSettings.filename.c_str());
+		}
+
+		// Open file writer
+		ret = avio_open(&formatContext->pb, filename.c_str(), AVIO_FLAG_WRITE);
+		if (ret < 0)
+		{
+			av_log(NULL, AV_LOG_ERROR, "Unable to open file buffer\n");
+			return ret;
+		}
+
+		// Dump format settings
+		av_dump_format(formatContext, 0, filename.c_str(), 1);
+
+		// Set the faststart flag in the last pass
+		if (pass == exportSettings.passes && exportSettings.flagFaststart)
+		{
+			av_dict_set(&options, "movflags", "faststart", 0);
+		}
+	}
+	
+	return avformat_write_header(formatContext, &options);
+}
+
+int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext, const int flags)
+{
+	int ret;
+
+	if ((ret = createCodecContext(codecName.c_str(), encoderContext, flags)) == 0)
+	{
+		av_log(NULL, AV_LOG_INFO, "Opening codec: %s with options: %s\n", codecName.c_str(), options.c_str());
+
+		AVDictionary *dictionary = NULL;
+		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
+		{
+			// Set the logfile for multi-pass encodes to a file in the temp directory
+			if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+			{
+				char charPath[MAX_PATH];
+				if (GetTempPathA(MAX_PATH, charPath))
+				{
+					strcat_s(charPath, "voukoder-passlogfile");
+					av_dict_set(&dictionary, "passlogfile", charPath, 0);
+				}
+				else
+				{
+					av_log(NULL, AV_LOG_WARNING, "System call failed: GetTempPathA()\n");
+				}
+			}
+
+			// Open the codec
+			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
+			{
+				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
+			}
+		}
+	}
+
+	return ret;
 }
 
 int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext, int flags)
@@ -80,204 +193,107 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	return 0;
 }
 
-int Encoder::openCodec(const string codecName, const string options, EncoderContext *encoderContext, int flags)
+int Encoder::getCodecFlags(const AVMediaType type)
 {
-	int ret;
+	int flags = 0;
 
-	if ((ret = createCodecContext(codecName.c_str(), encoderContext, flags)) == 0)
+	if (type == AVMEDIA_TYPE_VIDEO)
 	{
-		LOG(INFO) << codecName << " options: " << options;
-
-		AVDictionary *dictionary = NULL;
-		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
+		// Mark as interlaced
+		if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
-			if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
-			{
-				char charPath[MAX_PATH];
-				if (GetTempPathA(MAX_PATH, charPath))
-				{
-					strcat_s(charPath, "voukoder-passlogfile");
+			flags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
+		}
 
-					av_dict_set(&dictionary, "passlogfile", charPath, 0);
-				}
-				else
-				{
-					LOG(WARNING) << "System call failed: GetTempPathA()";
-				}
+		// Set encoding pass
+		if (exportSettings.passes > 1)
+		{
+			if (pass == 1)
+			{
+				flags |= AV_CODEC_FLAG_PASS1;
 			}
-
-			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
+			else
 			{
-				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
+				flags |= AV_CODEC_FLAG_PASS2;
 			}
 		}
 	}
 
-	return ret;
+	return flags;
 }
 
-int Encoder::open()
+void Encoder::finalize()
 {
-	initFormatContext();
+	flushContext(&videoContext);
 
-	int vflags = 0;
-
-	if (exportSettings.fieldOrder != AVFieldOrder::AV_FIELD_PROGRESSIVE)
-	{
-		vflags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
-	}
-
-	if (exportSettings.passes > 1)
-	{
-		if (pass == 1)
-		{
-			vflags |= AV_CODEC_FLAG_PASS1;
-		}
-		else
-		{
-			vflags |= AV_CODEC_FLAG_PASS2;			
-		}
-	}
-
-	int ret;
-
-	if ((ret = openCodec(
-		exportSettings.videoCodecName.c_str(), 
-		exportSettings.videoOptions, 
-		&videoContext,
-		vflags)) == 0)
-	{
-		if (exportSettings.exportAudio)
-		{
-			if ((ret = openCodec(
-				exportSettings.audioCodecName.c_str(),
-				exportSettings.audioOptions,
-				&audioContext,
-				0)) < 0)
-			{
-				goto finish;
-			}
-
-			// Find the right sample size (for variable frame size codecs (PCM) we use the number of samples that match for one video frame)
-			audioFrameSize = audioContext.codecContext->frame_size;
-			if (audioFrameSize == 0)
-			{
-				audioFrameSize = av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
-			}
-		}
-
-		formatContext->url = av_strdup(exportSettings.filename.c_str());
-
-		string filename;
-		if (vflags & AV_CODEC_FLAG_PASS1)
-			filename = "NUL";
-		else
-			filename = exportSettings.filename;
-
-		if (exportSettings.pipe)
-		{
-			pipe.open(L"c:\\ffplay.exe -f rawvideo -pixel_format bgra -video_size 1920x1080 -autoexit -framerate 60 -");
-		}
-
-		av_dump_format(formatContext, 0, filename.c_str(), 1);
-
-		if ((ret = avio_open(
-			&formatContext->pb, 
-			filename.c_str(), 
-			AVIO_FLAG_WRITE)) == 0)
-		{
-			AVDictionary *options = NULL;
-
-			if ((exportSettings.passes == 1 || (exportSettings.passes > 1 && pass == exportSettings.passes))
-				&& exportSettings.flagFaststart)
-			{
-				av_dict_set(&options, "movflags", "faststart", 0);
-			}
-
-			return avformat_write_header(formatContext, &options);
-		}
-	}
-
-finish:
-
-	close(false);
-
-	return ret;
-}
-
-void Encoder::close(bool writeTrailer)
-{
-	// Flush (and write trailer)
-	if (writeTrailer)
-	{
-		flushContext(&videoContext);
-		
-		if (exportSettings.exportAudio)
-			flushContext(&audioContext);
-
-		av_write_trailer(formatContext);
-
-		// Save stats data from first pass
-		AVCodecContext* codec = videoContext.codecContext;
-		if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out) 
-		{
-			int size = strlen(codec->stats_out) + 1;
-			videoContext.stats_info = (char*)malloc(size);
-			strcpy_s(videoContext.stats_info, size, codec->stats_out);
-		}
-		else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
-		{
-			free(videoContext.stats_info);
-		}
-	}
-
-	// Free video context
-	avcodec_free_context(&videoContext.codecContext);
-
-	// Free audio context (if enabled)
 	if (exportSettings.exportAudio)
+		flushContext(&audioContext);
+
+	av_write_trailer(formatContext);
+
+	// Save stats data from first pass
+	AVCodecContext* codec = videoContext.codecContext;
+	if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out)
+	{
+		int size = strlen(codec->stats_out) + 1;
+		videoContext.stats_info = (char*)malloc(size);
+		strcpy_s(videoContext.stats_info, size, codec->stats_out);
+	}
+	else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
+	{
+		free(videoContext.stats_info);
+	}
+}
+
+void Encoder::close()
+{
+	// Free video context
+	if (videoContext.codecContext != NULL)
+		avcodec_free_context(&videoContext.codecContext);
+
+	// Free audio context
+	if (audioContext.codecContext != NULL)
 		avcodec_free_context(&audioContext.codecContext);
 
-	// Close streams
-	if (exportSettings.filename.length() > 0)
+	// Close pipe buffer or file
+	if (exportSettings.pipe)
 	{
-		avio_close(formatContext->pb);
+		uint8_t *buffer = NULL;
+		const int size = avio_close_dyn_buf(formatContext->pb, &buffer);
+		if (exportSettings.pipe)
+		{
+			pipe.write(buffer, size);
+		}
+		av_free(buffer);
+		pipe.close();
 	}
 	else
 	{
-		uint8_t *buffer = NULL;
-		avio_close_dyn_buf(formatContext->pb, &buffer);
-		av_free(buffer);
+		avio_close(formatContext->pb);
 	}
 
 	avformat_free_context(formatContext);
 
-	LOG(INFO) << "### ENCODER ENDED ###";
-
-	if (exportSettings.pipe)
-	{
-		pipe.close();
-	}
-
+	av_log(NULL, AV_LOG_INFO, "### ENCODER FINISHED ###\n");
 }
 
 int Encoder::testSettings()
 {
-	initFormatContext();
+	// Create format context
+	formatContext = avformat_alloc_context();
+	formatContext->oformat = av_guess_format(exportSettings.muxerName.c_str(), exportSettings.filename.c_str(), NULL);
+
+	// Mark myself as encoding tool in the mp4/mov container
+	const string appId = exportSettings.application + " - www.voukoder.org";
+	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
+
+	av_log(NULL, AV_LOG_INFO, "### ENCODER STARTED ###\n");
 
 	int ret;
 
-	if ((ret = openCodec(
-		exportSettings.videoCodecName.c_str(),
-		exportSettings.videoOptions,
-		&videoContext,
-		0)) == 0)
+	if ((ret = openCodec(exportSettings.videoCodecName.c_str(), exportSettings.videoOptions, &videoContext, 0)) == 0)
 	{
-		if ((ret = openCodec(
-			exportSettings.audioCodecName.c_str(),
-			exportSettings.audioOptions,
-			&audioContext,
-			0)) == 0)
+		if ((ret = openCodec(exportSettings.audioCodecName.c_str(), exportSettings.audioOptions, &audioContext, 0)) == 0)
 		{
 			if ((ret = avio_open_dyn_buf(&formatContext->pb)) == 0)
 			{
@@ -287,7 +303,18 @@ int Encoder::testSettings()
 		}
 	}
 
-	close(false);
+	if (videoContext.codecContext != NULL)
+		avcodec_free_context(&videoContext.codecContext);
+
+	// Free audio context
+	if (audioContext.codecContext != NULL)
+		avcodec_free_context(&audioContext.codecContext);
+
+	uint8_t *buffer = NULL;
+	avio_close_dyn_buf(formatContext->pb, &buffer);
+	av_free(buffer);
+
+	avformat_free_context(formatContext);
 
 	return ret;
 }
@@ -312,7 +339,7 @@ int Encoder::getAudioFrameSize()
 
 int Encoder::writeVideoFrame(EncoderData *encoderData)
 {
-	int ret;
+	int ret = 0;
 
 	// Do we need a frame filter for pixel format conversion?
 	if ((av_get_pix_fmt(encoderData->pix_fmt) != videoContext.codecContext->pix_fmt || exportSettings.videoFilters.size() > 0)
@@ -409,7 +436,6 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	audioContext.next_pts += sampleCount;
 	
 	int ret = 0;
-
 	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
 	{
 		return ret;
@@ -458,12 +484,7 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		// Receive frames from the rame filter
 		while (context->frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
-			if (exportSettings.pipe)
-			{
-				if (context->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
-					pipe.write(tmp_frame);
-			}
-			else if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
+			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
 			{
 				av_frame_free(&tmp_frame);
 				return ret;
@@ -476,12 +497,7 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	}
 	else
 	{
-		if (exportSettings.pipe)
-		{
-			if (context->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
-				pipe.write(frame);
-		}
-		else if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
+		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
 			return ret;
 		}
@@ -508,6 +524,18 @@ int Encoder::receivePackets(EncoderContext *context)
 			break;
 
 		av_packet_unref(packet);
+
+		if (exportSettings.pipe)
+		{
+			// Write current buffer
+			uint8_t *buffer = NULL;
+			const int size = avio_close_dyn_buf(formatContext->pb, &buffer);
+			pipe.write(buffer, size);
+			av_free(buffer);
+
+			// Create a new buffer
+			avio_open_dyn_buf(&formatContext->pb);
+		}
 	}
 
 	return ret;

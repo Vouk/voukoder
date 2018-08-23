@@ -47,6 +47,8 @@ bool Pipe::open(const wstring commandLine)
 
 	CloseHandle(piProcInfo.hProcess);
 	CloseHandle(piProcInfo.hThread);
+
+	return true;
 }
 
 void Pipe::close()
@@ -55,29 +57,8 @@ void Pipe::close()
 	CloseHandle(g_hChildStd_IN_Rd);
 }
 
-bool Pipe::write(const AVFrame *frame)
+bool Pipe::write(const uint8_t *buffer, const int size)
 {
-	const AVPixelFormat format = (AVPixelFormat)frame->format;
-	const int bufferSize = av_image_get_buffer_size(format, frame->width, frame->height, 16);
-	
-	// Reserve a buffer for the uncompressed frame data
-	uint8_t *buffer = (uint8_t*)av_malloc(bufferSize);
-	if (!buffer)
-	{
-	    av_log(NULL, AV_LOG_ERROR, "Can't allocate buffer\n");
-		return false;
-	}
-
-	bool ret = true;
-
-	// Fill the buffer and send it to the child process
-	if (av_image_copy_to_buffer(buffer, bufferSize, (const uint8_t* const *)frame->data, (const int*)frame->linesize, format, frame->width, frame->height, 1) > 0)
-	{
-		DWORD dwWritten = 0;
-		ret = WriteFile(g_hChildStd_IN_Wr, buffer, bufferSize, &dwWritten, NULL);
-	}
-
-	av_free(buffer);
-
-	return ret;
+	DWORD dwWritten = 0;
+	return WriteFile(g_hChildStd_IN_Wr, buffer, size, &dwWritten, NULL);
 }

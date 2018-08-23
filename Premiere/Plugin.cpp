@@ -452,7 +452,8 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 			// Close encoder for current pass
 			if (encoderData->pass > 1)
 			{
-				encoder.close(true);
+				encoder.finalize();
+				encoder.close();
 			}
 
 			encoder.pass = encoderData->pass;
@@ -508,7 +509,11 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		return true;
 	});
 
-	encoder.close(ret == suiteError_NoError || ret == 0x00000001);
+	if (ret == suiteError_NoError || ret == 0x00000001)
+	{
+		encoder.finalize();
+	}
+	encoder.close();
 
 	return malNoError;
 }

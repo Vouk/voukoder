@@ -20,7 +20,7 @@ namespace LibVKDR
 		int resizeWidth = 0;
 		int resizeHeight = 0;
 		int passes;
-		int pipe = false;
+		bool pipe = false;
 		wstring pipeCommand;
 		AVFieldOrder fieldOrder;
 		string pixelFormat;

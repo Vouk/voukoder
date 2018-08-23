@@ -21,9 +21,9 @@ namespace LibVKDR
 	{
 	public:
 		Encoder(ExportSettings exportSettings);
-		~Encoder();
 		int open();
-		void close(bool writeTrailer);
+		void close();
+		void finalize();
 		void flushContext(EncoderContext *encoderContext);
 		int getAudioFrameSize();
 		int testSettings();
@@ -38,10 +38,10 @@ namespace LibVKDR
 		EncoderContext videoContext;
 		EncoderContext audioContext;
 		Pipe pipe;
-		void initFormatContext();
 		int createCodecContext(string codecName, EncoderContext *encoderContext, int flags);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
-		int openCodec(string codecName, const string options, EncoderContext *encoderContext, int flags);
+		int getCodecFlags(const AVMediaType type);
+		int openCodec(string codecName, const string options, EncoderContext *encoderContext, const int flags);
 		int receivePackets(EncoderContext *context);
 		int audioFrameSize;
 	};

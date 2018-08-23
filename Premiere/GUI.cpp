@@ -29,6 +29,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Audio Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, VKDRMultiplexerSettingsGroup, L"Multiplexer Settings", kPrFalse, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, MultiplexerPipeGroup, L"Piping", kPrFalse, kPrFalse, kPrFalse);
 
 	// Get source info
 	PrParam seqWidth, seqHeight, seqPARNum, seqPARDen, seqFrameRate, seqFieldOrder, seqChannelType, seqSampleRate;
@@ -338,6 +339,50 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	multiplexerParam.paramValues = multiplexerValues;
 	::lstrcpyA(multiplexerParam.identifier, FFMultiplexer);
 	exportParamSuite->AddParam(pluginId, groupIndex, FFMultiplexerBasicGroup, &multiplexerParam);
+
+	// Param: Pipe - Command
+	exParamValues pipeCmdValues;
+	pipeCmdValues.structVersion = 1;
+	pipeCmdValues.disabled = kPrFalse;
+	pipeCmdValues.hidden = kPrFalse;
+	pipeCmdValues.optionalParamEnabled = kPrFalse;
+	prUTF16CharCopy(pipeCmdValues.paramString, L"");
+	exNewParamInfo pipeCmdParam;
+	pipeCmdParam.structVersion = 1;
+	pipeCmdParam.flags = exParamFlag_none;
+	pipeCmdParam.paramType = exParamType_string;
+	pipeCmdParam.paramValues = pipeCmdValues;
+	::lstrcpyA(pipeCmdParam.identifier, VKDRPipeCommand);
+	exportParamSuite->AddParam(pluginId, groupIndex, MultiplexerPipeGroup, &pipeCmdParam);
+
+	// Param: Pipe - Button
+	exParamValues pipeBtnValues;
+	pipeBtnValues.structVersion = 1;
+	pipeBtnValues.disabled = kPrFalse;
+	pipeBtnValues.hidden = kPrFalse;
+	pipeBtnValues.optionalParamEnabled = kPrFalse;
+	exNewParamInfo pipeBtnParam;
+	pipeBtnParam.structVersion = 1;
+	pipeBtnParam.flags = exParamFlag_independant;
+	pipeBtnParam.paramType = exParamType_button;
+	pipeBtnParam.paramValues = pipeBtnValues;
+	::lstrcpyA(pipeBtnParam.identifier, VKDRPipeButton);
+	exportParamSuite->AddParam(pluginId, groupIndex, MultiplexerPipeGroup, &pipeBtnParam);
+
+	// Param: Pipe - Arguments
+	exParamValues pipeArgsValues;
+	pipeArgsValues.structVersion = 1;
+	pipeArgsValues.disabled = kPrFalse;
+	pipeArgsValues.hidden = kPrFalse;
+	pipeArgsValues.optionalParamEnabled = kPrFalse;
+	prUTF16CharCopy(pipeArgsValues.paramString, L"");
+	exNewParamInfo pipeArgsParam;
+	pipeArgsParam.structVersion = 1;
+	pipeArgsParam.flags = exParamFlag_none;
+	pipeArgsParam.paramType = exParamType_string;
+	pipeArgsParam.paramValues = pipeArgsValues;
+	::lstrcpyA(pipeArgsParam.identifier, VKDRPipeArguments);
+	exportParamSuite->AddParam(pluginId, groupIndex, MultiplexerPipeGroup, &pipeArgsParam);
 		
 	// Init encoder base dynamic params
 	for (EncoderInfo encoderInfo : config->Encoders)
@@ -549,6 +594,17 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRMultiplexerTabGroup, L"Multiplexer");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexerBasicGroup, L"Container");
 	exportParamSuite->SetParamName(pluginId, groupIndex, FFMultiplexer, L"Format");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
+
+	// Piping
+	exportParamSuite->SetParamName(pluginId, groupIndex, MultiplexerPipeGroup, L"Piping");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeCommand, L"Program");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeCommand, L"");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeButton, L"Browse");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeButton, L"");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeArguments, L"Arguments");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeArguments, L"");
+
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
 
 	// Labels: Filter
@@ -1185,7 +1241,7 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 	exportSettings->videoSar.den = pixelAspect.value.ratioValue.denominator;
 	exportSettings->videoOptions = videoEncoderSettings.toString();
 	exportSettings->audioCodecName = audioEncoderSettings.name;
-	exportSettings->audioTimebase.num = 1; 
+	exportSettings->audioTimebase.num = 1;
 	exportSettings->audioTimebase.den = (int)audioSampleRate.value.floatValue;
 	exportSettings->audioOptions = audioEncoderSettings.toString();
 
@@ -1252,11 +1308,23 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 		exportSettings->colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
 		exportSettings->colorTRC = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 	}
-	/*
-	exParamValues pathValue;
-	exportParamSuite->GetParamValue(pluginId, groupIndex, "pipeProgram", &pathValue);
-	exportSettings->pipeCommand = pathValue.paramString;
-	*/
+
+	// Get pipe values
+	exParamValues pipeProgram, pipeArguments;
+	exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRPipeCommand, &pipeProgram);
+	exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRPipeArguments, &pipeArguments);
+
+	// Build pipe command line
+	exportSettings->pipe = wcslen(pipeProgram.paramString) > 0;
+	if (exportSettings->pipe)
+	{
+		exportSettings->pipeCommand = pipeProgram.paramString;
+		if (wcslen(pipeArguments.paramString) > 0)
+		{
+			exportSettings->pipeCommand.append(L" ");
+			exportSettings->pipeCommand.append(pipeArguments.paramString);
+		}
+	}
 }
 
 void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
@@ -1306,11 +1374,11 @@ prMALError GUI::onButtonPress(exParamButtonRec *paramButtonRecP, PrSDKExportPara
 	{
 		ShellExecuteA(0, 0, pluginUpdate->url.c_str(), 0, 0, SW_SHOW);
 	}
-	else if (strcmp(paramButtonRecP->buttonParamIdentifier, "pipeProgramBrowse") == 0)
+	else if (strcmp(paramButtonRecP->buttonParamIdentifier, VKDRPipeButton) == 0)
 	{
 		exParamValues pathValue;
 		wchar_t filepath_string[sizeof(pathValue.paramString) / sizeof(pathValue.paramString[0])];
-		exportParamSuite->GetParamValue(pluginId, groupIndex, "pipeProgram", &pathValue);
+		exportParamSuite->GetParamValue(pluginId, groupIndex, VKDRPipeCommand, &pathValue);
 		prUTF16CharCopy(filepath_string, pathValue.paramString);
 
 		OPENFILENAMEW ofn = { 0 };
@@ -1334,7 +1402,7 @@ prMALError GUI::onButtonPress(exParamButtonRec *paramButtonRecP, PrSDKExportPara
 		if (GetOpenFileNameW(&ofn)) 
 		{
 			prUTF16CharCopy(pathValue.paramString, filepath_string);
-			exportParamSuite->ChangeParam(pluginId, groupIndex, "pipeProgram", &pathValue);
+			exportParamSuite->ChangeParam(pluginId, groupIndex, VKDRPipeCommand, &pathValue);
 		}
 	}
 

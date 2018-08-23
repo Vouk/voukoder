@@ -79,8 +79,17 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	inputs->next = NULL;
 
 	// Parse filter chain & configure graph
-	err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL);
-	err = avfilter_graph_config(filterGraph, NULL);
+	if ((err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL)) < 0)
+	{
+		av_log(NULL, AV_LOG_ERROR, "Unable to parse filter graph: %s\n", filters);
+		return err;
+	}
+
+	if ((err = avfilter_graph_config(filterGraph, NULL)) < 0)
+	{
+		av_log(NULL, AV_LOG_ERROR, "Unable to configure filter graph.\n", filters);
+		return err;
+	}
 
 	// Free inputs & outputs
 	//avfilter_inout_free(&inputs);
