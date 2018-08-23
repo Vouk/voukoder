@@ -184,6 +184,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 	encoderContext->stream = avformat_new_stream(formatContext, codec);
 	encoderContext->stream->id = formatContext->nb_streams - 1;
 	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
+	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{

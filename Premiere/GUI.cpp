@@ -29,7 +29,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Audio Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, VKDRMultiplexerSettingsGroup, L"Multiplexer Settings", kPrFalse, kPrFalse, kPrFalse);
-	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, MultiplexerPipeGroup, L"Piping", kPrFalse, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, MultiplexerPipeGroup, L"Piping", kPrTrue, kPrFalse, kPrFalse);
 
 	// Get source info
 	PrParam seqWidth, seqHeight, seqPARNum, seqPARDen, seqFrameRate, seqFieldOrder, seqChannelType, seqSampleRate;
