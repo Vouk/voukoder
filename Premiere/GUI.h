@@ -12,8 +12,6 @@
 #define VKDRColorSpace "VKDRColorSpace"
 #define VKDRColorRange "VKDRColorRange"
 #define VKDRUpdateButton "VKDRUpdateButton"
-#define VKDRVideoSettings "VKDRVideoSettings"
-#define VKDRAudioSettings "VKDRAudioSettings"
 #define VKDRMultiplexerTabGroup "MultiplexerTab"
 #define VKDRMultiplexerSettingsGroup "MultiplexerBasicGroup"
 #define MultiplexerPipeGroup "MultiplexerPipeGroup"

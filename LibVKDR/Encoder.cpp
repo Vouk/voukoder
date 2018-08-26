@@ -109,28 +109,31 @@ int Encoder::openCodec(const string codecName, const string options, EncoderCont
 		av_log(NULL, AV_LOG_INFO, "Opening codec: %s with options: %s\n", codecName.c_str(), options.c_str());
 
 		AVDictionary *dictionary = NULL;
-		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) == 0)
+		if ((ret = av_dict_parse_string(&dictionary, options.c_str(), "=", ",", 0)) < 0)
 		{
-			// Set the logfile for multi-pass encodes to a file in the temp directory
-			if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
-			{
-				char charPath[MAX_PATH];
-				if (GetTempPathA(MAX_PATH, charPath))
-				{
-					strcat_s(charPath, "voukoder-passlogfile");
-					av_dict_set(&dictionary, "passlogfile", charPath, 0);
-				}
-				else
-				{
-					av_log(NULL, AV_LOG_WARNING, "System call failed: GetTempPathA()\n");
-				}
-			}
+			av_log(NULL, AV_LOG_ERROR, "Unable to parse encoder configuration: %s\n", options.c_str());
+			return ret;
+		}
 
-			// Open the codec
-			if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
+		// Set the logfile for multi-pass encodes to a file in the temp directory
+		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+		{
+			char charPath[MAX_PATH];
+			if (GetTempPathA(MAX_PATH, charPath))
 			{
-				return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
+				strcat_s(charPath, "voukoder-passlogfile");
+				av_dict_set(&dictionary, "passlogfile", charPath, 0);
 			}
+			else
+			{
+				av_log(NULL, AV_LOG_WARNING, "System call failed: GetTempPathA()\n");
+			}
+		}
+
+		// Open the codec
+		if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
+		{
+			return avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
 		}
 	}
 

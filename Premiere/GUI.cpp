@@ -105,21 +105,6 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	::lstrcpyA(codecParam.identifier, ADBEVideoCodec);
 	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicVideoGroup, &codecParam);
 
-	// Param: Video settings
-	exParamValues videoSettingsValues;
-	videoSettingsValues.structVersion = 1;
-	videoSettingsValues.disabled = kPrFalse;
-	videoSettingsValues.hidden = kPrFalse;
-	videoSettingsValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(videoSettingsValues.paramString, L"");
-	exNewParamInfo videoSettingsParam;
-	videoSettingsParam.structVersion = 1;
-	videoSettingsParam.flags = exParamFlag_independant;
-	videoSettingsParam.paramType = exParamType_string;
-	videoSettingsParam.paramValues = videoSettingsValues;
-	::lstrcpyA(videoSettingsParam.identifier, VKDRVideoSettings);
-	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicVideoGroup, &videoSettingsParam);
-
 	// Param: Frame size
 	exParamValues videoSizeValues;
 	videoSizeValues.structVersion = 1;
@@ -279,21 +264,6 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	audioCodecParam.paramValues = audioCodecValues;
 	::lstrcpyA(audioCodecParam.identifier, ADBEAudioCodec);
 	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicAudioGroup, &audioCodecParam);
-
-	// Param: Audio settings
-	exParamValues audioSettingsValues;
-	audioSettingsValues.structVersion = 1;
-	audioSettingsValues.disabled = kPrFalse;
-	audioSettingsValues.hidden = kPrFalse;
-	audioSettingsValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(audioSettingsValues.paramString, L"");
-	exNewParamInfo audioSettingsParam;
-	audioSettingsParam.structVersion = 1;
-	audioSettingsParam.flags = exParamFlag_independant;
-	audioSettingsParam.paramType = exParamType_string;
-	audioSettingsParam.paramValues = audioSettingsValues;
-	::lstrcpyA(audioSettingsParam.identifier, VKDRAudioSettings);
-	exportParamSuite->AddParam(pluginId, groupIndex, ADBEBasicAudioGroup, &audioSettingsParam);
 
 	// Param: Audio Sample Rate
 	exParamValues sampleRateValues;
@@ -553,8 +523,6 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEBasicVideoGroup, L"Video Settings");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoCodec, L"Video Encoder");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEVideoCodec, L"The encoder that creates the output video.");
-	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoSettings, L"Encoder params (r/o)");
-	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRVideoSettings, L"The raw parameters supplied to the video encoder. (read only)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRVideoFrameSize, L"Frame size");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRVideoFrameSize, L"Width and height of the video frame.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEVideoWidth, L"Width");
@@ -582,8 +550,6 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEBasicAudioGroup, L"Audio Settings");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioCodec, L"Audio Encoder");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEAudioCodec, L"The encoder that creates the output audio.");
-	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRAudioSettings, L"Encoder params (r/o)");
-	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRAudioSettings, L"The raw parameters supplied to the audio encoder. (read only)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioRatePerSecond, L"Sample Rate");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, ADBEAudioRatePerSecond, L"The sample rate of the audio.");
 	exportParamSuite->SetParamName(pluginId, groupIndex, ADBEAudioNumChannels, L"Channels");
@@ -728,8 +694,6 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 
 	for (FilterInfo filterInfo : config->Filters)
 		updateDynamicParameters(exportParamSuite, filterInfo);
-
-	refreshEncoderSettings(exportParamSuite);
 
 	return malNoError;
 }
@@ -972,15 +936,11 @@ prMALError GUI::onParamChange(PrSDKExportParamSuite *exportParamSuite, PrSDKWind
 						}
 					}
 
-					goto finish;
+					return malNoError;
 				}
 			}
 		}
 	}
-
-finish:
-
-	refreshEncoderSettings(exportParamSuite);
 
 	return malNoError;
 }
@@ -1325,47 +1285,6 @@ void GUI::getExportSettings(PrSDKExportParamSuite *exportParamSuite, ExportSetti
 			exportSettings->pipeCommand.append(pipeArguments.paramString);
 		}
 	}
-}
-
-void GUI::refreshEncoderSettings(PrSDKExportParamSuite *exportParamSuite)
-{
-	EncoderSettings videoEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Video, &videoEncoderSettings);
-	string config = videoEncoderSettings.toString();
-
-	exParamValues videoValues;
-	exportParamSuite->GetParamValue(
-		pluginId,
-		groupIndex,
-		VKDRVideoSettings,
-		&videoValues);
-
-	prUTF16CharCopy(videoValues.paramString, wstring(config.begin(), config.end()).c_str());
-
-	exportParamSuite->ChangeParam(
-		pluginId,
-		groupIndex,
-		VKDRVideoSettings,
-		&videoValues);
-
-	EncoderSettings audioEncoderSettings;
-	getCurrentEncoderSettings(exportParamSuite, prFieldsInvalid, EncoderType::Audio, &audioEncoderSettings);
-	config = audioEncoderSettings.toString();
-
-	exParamValues audioValues;
-	exportParamSuite->GetParamValue(
-		pluginId,
-		groupIndex,
-		VKDRAudioSettings,
-		&audioValues);
-
-	prUTF16CharCopy(audioValues.paramString, wstring(config.begin(), config.end()).c_str());
-
-	exportParamSuite->ChangeParam(
-		pluginId,
-		groupIndex,
-		VKDRAudioSettings,
-		&audioValues);
 }
 
 prMALError GUI::onButtonPress(exParamButtonRec *paramButtonRecP, PrSDKExportParamSuite *exportParamSuite, PrSDKWindowSuite *windowSuite)
