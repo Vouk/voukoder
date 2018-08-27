@@ -228,12 +228,21 @@ int Encoder::getCodecFlags(const AVMediaType type)
 
 void Encoder::finalize()
 {
+	av_log(NULL, AV_LOG_INFO, "Flushing encoders and finalizing ...\n");
+
 	flushContext(&videoContext);
 
 	if (exportSettings.exportAudio)
+	{
 		flushContext(&audioContext);
+	}
 
-	av_write_trailer(formatContext);
+	int ret = 0;
+	if ((ret = av_write_trailer(formatContext)) < 0)
+	{
+		av_log(NULL, AV_LOG_INFO, "Unable to write trailer. (Return code: %d)\n", ret);
+		return;
+	}
 
 	// Save stats data from first pass
 	AVCodecContext* codec = videoContext.codecContext;
@@ -251,13 +260,19 @@ void Encoder::finalize()
 
 void Encoder::close()
 {
+	av_log(NULL, AV_LOG_INFO, "Closing encoders ...\n");
+
 	// Free video context
 	if (videoContext.codecContext != NULL)
+	{
 		avcodec_free_context(&videoContext.codecContext);
+	}
 
 	// Free audio context
 	if (audioContext.codecContext != NULL)
+	{
 		avcodec_free_context(&audioContext.codecContext);
+	}
 
 	// Close pipe buffer or file
 	if (exportSettings.pipe)
@@ -278,7 +293,7 @@ void Encoder::close()
 
 	avformat_free_context(formatContext);
 
-	av_log(NULL, AV_LOG_INFO, "### ENCODER FINISHED ###\n");
+	av_log(NULL, AV_LOG_INFO, "### EXPORT FINISHED ###\n");
 }
 
 int Encoder::testSettings()

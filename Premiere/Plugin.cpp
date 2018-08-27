@@ -456,25 +456,27 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 				encoder.close();
 			}
 
+			av_log(NULL, AV_LOG_INFO, "Switching to encoding pass #%d ...\n", encoderData->pass);
+
 			encoder.pass = encoderData->pass;
 
 			// Open encoder for new pass
 			if ((res = encoder.open()) < 0)
 			{
-				LOG(WARNING) << "Unable to open the encoder for pass #" << encoder.pass << ". (Error code: " << res << ")";
-
+				av_log(NULL, AV_LOG_WARNING, "Unable to open the encoder. (Error code: %d)\n", res);
 				return false;
 			}
 
 			if (exportSettings.exportAudio)
+			{
 				audioRenderer.reset();
+			}
 		}
 
 		// Write video frame first
 		if ((res = encoder.writeVideoFrame(encoderData)) < 0)
 		{
-			LOG(WARNING) << "Failed writing video frame #" << encoderData->frame << ". (Error code: " << res << ")";
-
+			av_log(NULL, AV_LOG_WARNING, "Failed writing video frame #%d . (Error code: %d)\n", encoderData->frame, res);
 			return false;
 		}
 
@@ -491,16 +493,14 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 				// Abort loop if no samles are left
 				if (size <= 0)
 				{
-					LOG(INFO) << "Aborting audio renderer loop: No audio samples left!";
-
+					av_log(NULL, AV_LOG_WARNING, "Aborting audio renderer loop: No audio samples left!.\n");
 					break;
 				}
 
 				// Write the audio frames
 				if ((res = encoder.writeAudioFrame(samples, size)) < 0)
 				{
-					LOG(WARNING) << "Failed writing audio frames for video frame #" << encoderData->frame << ". (Error code>: " << res << ")";
-
+					av_log(NULL, AV_LOG_WARNING, "Failed writing audio frames for video frame #%d . (Error code: %d)\n", encoderData->frame, res);
 					return false;
 				}
 			}
@@ -509,6 +509,9 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 		return true;
 	});
 
+	av_log(NULL, AV_LOG_INFO, "Encoding loop finished. (Return code: %d)\n", ret);
+	
+	// Finalize
 	if (ret == suiteError_NoError || ret == 0x00000001)
 	{
 		encoder.finalize();
