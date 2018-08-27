@@ -129,7 +129,7 @@ void VideoRenderer::unpackFloatToUint16(float* pixels, uint16_t *bufferY, uint16
 void VideoRenderer::flipImage(char* pixels, const csSDK_int32 rowBytes)
 {
 	char *linebuffer = (char*)av_malloc(rowBytes);
-	for (int i = 0; i < height / 2; i++)
+	for (unsigned int i = 0; i < height / 2; i++)
 	{
 		const int p = i * rowBytes;
 		const int p2 = (height - 1 - i) * rowBytes;

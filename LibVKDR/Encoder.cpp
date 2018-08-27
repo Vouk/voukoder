@@ -10,8 +10,6 @@ Encoder::Encoder(ExportSettings exportSettings) :
 
 int Encoder::open()
 {
-	int ret;
-
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportSettings.muxerName.c_str(), exportSettings.filename.c_str(), NULL);
@@ -24,6 +22,8 @@ int Encoder::open()
 
 	// Try to open the video encoder
 	const int flags = getCodecFlags(AVMEDIA_TYPE_VIDEO);
+
+	int ret;
 	if ((ret = openCodec(exportSettings.videoCodecName.c_str(), exportSettings.videoOptions, &videoContext, flags)) < 0)
 	{
 		av_log(NULL, AV_LOG_ERROR, "Unable to open video encoder: %s\n", exportSettings.videoCodecName.c_str());
@@ -45,12 +45,11 @@ int Encoder::open()
 		audioFrameSize = audioContext.codecContext->frame_size;
 		if (audioFrameSize == 0)
 		{
-			audioFrameSize = av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
+			audioFrameSize = (int)av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
 		}
 	}
 
 	AVDictionary *options = NULL;
-	//av_dict_set(&options, "write_index", 0, 0);
 
 	// Support pipe export
 	if (exportSettings.pipe)
@@ -248,7 +247,7 @@ void Encoder::finalize()
 	AVCodecContext* codec = videoContext.codecContext;
 	if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out)
 	{
-		int size = strlen(codec->stats_out) + 1;
+		const size_t size = strlen(codec->stats_out) + 1;
 		videoContext.stats_info = (char*)malloc(size);
 		strcpy_s(videoContext.stats_info, size, codec->stats_out);
 	}
