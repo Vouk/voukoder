@@ -36,7 +36,7 @@ namespace LibVKDR
 		AVColorPrimaries colorPrimaries;
 		AVColorTransferCharacteristic colorTRC;
 		bool exportAudio;
-		bool flagFaststart = false;
+		bool flagFaststart = true;
 		vector<string> videoFilters;
 	};
 }

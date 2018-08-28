@@ -236,12 +236,16 @@ void Encoder::finalize()
 		flushContext(&audioContext);
 	}
 
+	av_log(NULL, AV_LOG_INFO, "Video and audio buffers flushed.\n");
+
 	int ret = 0;
 	if ((ret = av_write_trailer(formatContext)) < 0)
 	{
 		av_log(NULL, AV_LOG_INFO, "Unable to write trailer. (Return code: %d)\n", ret);
 		return;
 	}
+
+	av_log(NULL, AV_LOG_INFO, "Trailer has been written.\n");
 
 	// Save stats data from first pass
 	AVCodecContext* codec = videoContext.codecContext;
@@ -344,8 +348,11 @@ FrameType Encoder::getNextFrameType()
 
 void Encoder::flushContext(EncoderContext *encoderContext)
 {
-	delete(encoderContext->frameFilter);
-	encoderContext->frameFilter = NULL;
+	if (encoderContext->frameFilter)
+	{
+		delete(encoderContext->frameFilter);
+		encoderContext->frameFilter = NULL;
+	}
 
 	encodeAndWriteFrame(encoderContext, NULL);
 }
