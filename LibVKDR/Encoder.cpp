@@ -168,7 +168,7 @@ int Encoder::createCodecContext(string codecName, EncoderContext *encoderContext
 		encoderContext->codecContext->field_order = exportSettings.fieldOrder;
 
 		// Add stats_info to second pass
-		if (encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
+		if (strcmp(codec->name, "libx264") != 0 && encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
 		{
 			encoderContext->codecContext->stats_in = encoderContext->stats_info;
 		}
@@ -249,15 +249,18 @@ void Encoder::finalize()
 
 	// Save stats data from first pass
 	AVCodecContext* codec = videoContext.codecContext;
-	if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out)
+	if (strcmp(codec->codec->name, "libx264") != 0)
 	{
-		const size_t size = strlen(codec->stats_out) + 1;
-		videoContext.stats_info = (char*)malloc(size);
-		strcpy_s(videoContext.stats_info, size, codec->stats_out);
-	}
-	else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
-	{
-		free(videoContext.stats_info);
+		if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out)
+		{
+			const size_t size = strlen(codec->stats_out) + 1;
+			videoContext.stats_info = (char*)malloc(size);
+			strcpy_s(videoContext.stats_info, size, codec->stats_out);
+		}
+		else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
+		{
+			free(videoContext.stats_info);
+		}
 	}
 }
 
