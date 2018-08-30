@@ -29,7 +29,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEBasicAudioGroup, L"Audio Settings", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, ADBEAudioTabGroup, ADBEAudioCodecGroup, L"Encoder Options", kPrFalse, kPrFalse, kPrFalse);
 	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, VKDRMultiplexerSettingsGroup, L"Multiplexer Settings", kPrFalse, kPrFalse, kPrFalse);
-	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, MultiplexerPipeGroup, L"Piping", kPrTrue, kPrFalse, kPrFalse);
+	exportParamSuite->AddParamGroup(pluginId, groupIndex, VKDRMultiplexerTabGroup, MultiplexerPipeGroup, L"Piping", kPrFalse, kPrFalse, kPrFalse);
 
 	// Get source info
 	PrParam seqWidth, seqHeight, seqPARNum, seqPARDen, seqFrameRate, seqFieldOrder, seqChannelType, seqSampleRate;
@@ -316,7 +316,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	pipeCmdValues.disabled = kPrFalse;
 	pipeCmdValues.hidden = kPrFalse;
 	pipeCmdValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(pipeCmdValues.paramString, L"");
+	prUTF16CharCopy(pipeCmdValues.paramString, L"C:\\ffplay.exe");
 	exNewParamInfo pipeCmdParam;
 	pipeCmdParam.structVersion = 1;
 	pipeCmdParam.flags = exParamFlag_none;
@@ -345,7 +345,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	pipeArgsValues.disabled = kPrFalse;
 	pipeArgsValues.hidden = kPrFalse;
 	pipeArgsValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(pipeArgsValues.paramString, L"");
+	prUTF16CharCopy(pipeArgsValues.paramString, L"-autoexit -");
 	exNewParamInfo pipeArgsParam;
 	pipeArgsParam.structVersion = 1;
 	pipeArgsParam.flags = exParamFlag_none;

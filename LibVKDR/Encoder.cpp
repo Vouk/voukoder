@@ -8,6 +8,13 @@ Encoder::Encoder(ExportSettings exportSettings) :
 	exportSettings(exportSettings)
 {}
 
+int write_packet(void *ptr, uint8_t *buf, int buf_size)
+{
+	Pipe *pipe = reinterpret_cast<Pipe*>(ptr);
+	pipe->write(buf, buf_size);
+	return buf_size;
+}
+
 int Encoder::open()
 {
 	// Create format context
@@ -50,18 +57,19 @@ int Encoder::open()
 	}
 
 	AVDictionary *options = NULL;
+	pipeBuffer = NULL;
 
 	// Support pipe export
 	if (exportSettings.pipe)
 	{
-		// Open memory buffer
-		ret = avio_open_dyn_buf(&formatContext->pb);
-		if (ret < 0)
+		pipeBuffer = (uint8_t*)av_malloc(pipeBufferSize);
+		if (!pipeBuffer)
 		{
-			av_log(NULL, AV_LOG_ERROR, "Unable to open dynamic buffer\n");
-			close();
-			return ret;
+			av_log(NULL, AV_LOG_ERROR, "Out of memory for pipe buffer.\n");
+			return AVERROR(ENOMEM);
 		}
+
+		formatContext->pb = avio_alloc_context(pipeBuffer, pipeBufferSize, 1, &pipe, NULL, &write_packet, NULL);
 
 		pipe.open(exportSettings.pipeCommand);
 	}
@@ -283,13 +291,11 @@ void Encoder::close()
 	// Close pipe buffer or file
 	if (exportSettings.pipe)
 	{
-		uint8_t *buffer = NULL;
-		const int size = avio_close_dyn_buf(formatContext->pb, &buffer);
-		if (exportSettings.pipe)
+		avio_context_free(&formatContext->pb);
+		if (pipeBuffer)
 		{
-			pipe.write(buffer, size);
+			av_free(pipeBuffer);
 		}
-		av_free(buffer);
 		pipe.close();
 	}
 	else
@@ -552,18 +558,6 @@ int Encoder::receivePackets(EncoderContext *context)
 			break;
 
 		av_packet_unref(packet);
-
-		if (exportSettings.pipe)
-		{
-			// Write current buffer
-			uint8_t *buffer = NULL;
-			const int size = avio_close_dyn_buf(formatContext->pb, &buffer);
-			pipe.write(buffer, size);
-			av_free(buffer);
-
-			// Create a new buffer
-			avio_open_dyn_buf(&formatContext->pb);
-		}
 	}
 
 	return ret;

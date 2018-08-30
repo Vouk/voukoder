@@ -38,6 +38,8 @@ namespace LibVKDR
 		EncoderContext videoContext;
 		EncoderContext audioContext;
 		Pipe pipe;
+		uint8_t *pipeBuffer;
+		size_t pipeBufferSize = 1024000;
 		int createCodecContext(string codecName, EncoderContext *encoderContext, int flags);
 		int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 		int getCodecFlags(const AVMediaType type);
