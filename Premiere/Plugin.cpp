@@ -434,8 +434,6 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 	PrPixelFormat pixelFormat = VideoRenderer::GetTargetRenderFormat(exportSettings);
 	if (pixelFormat == PrPixelFormat_Invalid)
 	{
-		LOG(ERROR) << "Unsupported pixel format: " << exportSettings.pixelFormat;
-
 		return suiteError_RenderInvalidPixelFormat;
 	}
 

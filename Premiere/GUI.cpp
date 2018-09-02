@@ -316,7 +316,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	pipeCmdValues.disabled = kPrFalse;
 	pipeCmdValues.hidden = kPrFalse;
 	pipeCmdValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(pipeCmdValues.paramString, L"C:\\ffplay.exe");
+	prUTF16CharCopy(pipeCmdValues.paramString, L"");
 	exNewParamInfo pipeCmdParam;
 	pipeCmdParam.structVersion = 1;
 	pipeCmdParam.flags = exParamFlag_none;
@@ -345,7 +345,7 @@ prMALError GUI::createParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKE
 	pipeArgsValues.disabled = kPrFalse;
 	pipeArgsValues.hidden = kPrFalse;
 	pipeArgsValues.optionalParamEnabled = kPrFalse;
-	prUTF16CharCopy(pipeArgsValues.paramString, L"-autoexit -");
+	prUTF16CharCopy(pipeArgsValues.paramString, L"");
 	exNewParamInfo pipeArgsParam;
 	pipeArgsParam.structVersion = 1;
 	pipeArgsParam.flags = exParamFlag_none;
@@ -563,13 +563,13 @@ prMALError GUI::updateParameters(PrSDKExportParamSuite *exportParamSuite, PrSDKT
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
 
 	// Piping
-	exportParamSuite->SetParamName(pluginId, groupIndex, MultiplexerPipeGroup, L"Piping");
+	exportParamSuite->SetParamName(pluginId, groupIndex, MultiplexerPipeGroup, L"Pipe to external program");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeCommand, L"Program");
-	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeCommand, L"");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeCommand, L"The external programm receiving the bytestream on STDIN. (i.e. ffplay.exe)");
 	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeButton, L"Browse");
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeButton, L"");
-	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeArguments, L"Arguments");
-	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeArguments, L"");
+	exportParamSuite->SetParamName(pluginId, groupIndex, VKDRPipeArguments, L"Command line arguments");
+	exportParamSuite->SetParamDescription(pluginId, groupIndex, VKDRPipeArguments, L"i.e. '-autoexit -' for ffplay.exe");
 
 	exportParamSuite->SetParamDescription(pluginId, groupIndex, FFMultiplexer, L"The multiplexer/container for the output file.");
 

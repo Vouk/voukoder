@@ -322,7 +322,9 @@ prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, 
 
 PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings)
 {
-	if (exportSettings.pixelFormat == "yuv420p" || 
+	av_log(NULL, AV_LOG_INFO, "Requesting pixel format: %s\n", exportSettings.pixelFormat.c_str());
+
+	if (exportSettings.pixelFormat == "yuv420p" ||
 		exportSettings.pixelFormat == "nv12")
 	{
 		if (exportSettings.fieldOrder == AVFieldOrder::AV_FIELD_PROGRESSIVE)
@@ -380,6 +382,8 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 	{
 		return PrPixelFormat_BGRA_4444_8u;
 	}
+
+	av_log(NULL, AV_LOG_ERROR, "Unsupported pixel format requested: %s\n", exportSettings.pixelFormat.c_str());
 
 	return PrPixelFormat_Invalid;
 }
