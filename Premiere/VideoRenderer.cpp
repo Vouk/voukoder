@@ -205,7 +205,9 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 
 	// YUVA
 	if (inFormat == PrPixelFormat_VUYA_4444_8u ||
-		inFormat == PrPixelFormat_VUYA_4444_8u_709)
+		inFormat == PrPixelFormat_VUYA_4444_8u_709 ||
+		inFormat == PrPixelFormat_VUYX_4444_8u ||
+		inFormat == PrPixelFormat_VUYX_4444_8u_709)
 	{
 		// Set output format
 		encodingData.pass = inWhichPass + 1;
@@ -226,7 +228,9 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 	
 	// VUYA (> 8bit)
 	if (inFormat == PrPixelFormat_VUYA_4444_32f ||
-		inFormat == PrPixelFormat_VUYA_4444_32f_709)
+		inFormat == PrPixelFormat_VUYA_4444_32f_709 ||
+		inFormat == PrPixelFormat_VUYX_4444_32f ||
+		inFormat == PrPixelFormat_VUYX_4444_32f_709)
 	{
 		encodingData.pass = inWhichPass + 1;
 		encodingData.planes = 4;
@@ -259,6 +263,8 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 inWhichPass
 
 		return frameFinished(&frameData, inFormat, inFrameRepeatCount);
 	}
+
+	av_log(NULL, AV_LOG_ERROR, "Unsupported pixel format returned: %#010x\n", inFormat);
 
 	return suiteError_RenderInvalidPixelFormat;
 }
