@@ -176,7 +176,8 @@
         "sao-non-deblock",
         "no-sao-non-deblock",
         "high-tier",
-        "no-high-tier"
+        "no-high-tier",
+        "qp"
       ]
     }
   },
