@@ -548,6 +548,7 @@ int Config::CheckForUpdate(const Version version, PluginUpdate *pluginUpdate)
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
 		curl_easy_setopt(curl, CURLOPT_USERAGENT, "voukoder/1.0");
+		curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
 
 		res = curl_easy_perform(curl);
 		if (res == CURLE_OK)
