@@ -326,7 +326,7 @@
               "minValue": 0,
               "maxValue": 288000,
               "parameters": {
-                "buffsize": "%d000"
+                "bufsize": "%d000"
               }
             }
           ]
@@ -380,7 +380,7 @@
               "minValue": 0,
               "maxValue": 288000,
               "parameters": {
-                "buffsize": "%d000"
+                "bufsize": "%d000"
               }
             },
             {
