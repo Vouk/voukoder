@@ -80,6 +80,10 @@
     {
       "id": 21,
       "name": "rawvideo"
+    },
+    {
+      "id": 22,
+      "name": "libaom-av1__disabled"
     }
   ],
   "multiplexers": [
