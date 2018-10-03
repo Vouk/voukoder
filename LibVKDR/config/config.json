@@ -84,6 +84,10 @@
     {
       "id": 22,
       "name": "libaom-av1__disabled"
+    },
+    {
+      "id": 23,
+      "name": "ffv1"
     }
   ],
   "multiplexers": [

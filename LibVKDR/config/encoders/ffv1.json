@@ -1,0 +1,289 @@
+{
+  "name": "ffv1",
+  "authors": [
+    "Daniel Stankewitz"
+  ],
+  "defaultPixelFormat": "yuv420p",
+  "multipass": {
+    "name": "ffv1Passes"
+  },
+  "groups": [
+    {
+      "name": "VKDRffv1GeneralGroup",
+      "label": "General",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRffv1SlicesGroup",
+      "label": "Slices",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    }
+  ],
+  "params": [
+    {
+      "name": "ffv1PixelFormat",
+      "label": "Color Format",
+      "description": "Color encoding system.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "YUV 4:2:0",
+          "pixelFormat": "yuv420p",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "YUV 4:2:2",
+          "pixelFormat": "yuv422p",
+          "parameters": {}
+        },
+        {
+          "id": 2,
+          "name": "YUV 4:4:4",
+          "pixelFormat": "yuv444p",
+          "parameters": {}
+        },
+        {
+          "id": 3,
+          "name": "YUV 4:2:0 (10 bit)",
+          "pixelFormat": "yuv420p10le",
+          "parameters": {}
+        },
+        {
+          "id": 4,
+          "name": "YUV 4:2:2 (10 bit)",
+          "pixelFormat": "yuv422p10le",
+          "parameters": {}
+        },
+        {
+          "id": 5,
+          "name": "YUV 4:4:4 (10 bit)",
+          "pixelFormat": "yuv444p10le",
+          "parameters": {}
+        },
+        {
+          "id": 6,
+          "name": "YUV 4:2:0 (12 bit)",
+          "pixelFormat": "yuv420p12le",
+          "parameters": {}
+        },
+        {
+          "id": 7,
+          "name": "YUV 4:2:2 (12 bit)",
+          "pixelFormat": "yuv422p12le",
+          "parameters": {}
+        },
+        {
+          "id": 8,
+          "name": "YUV 4:4:4 (12 bit)",
+          "pixelFormat": "yuv444p12le",
+          "parameters": {}
+        },
+        {
+          "id": 9,
+          "name": "YUV 4:2:0 (14 bit)",
+          "pixelFormat": "yuv420p14le",
+          "parameters": {}
+        },
+        {
+          "id": 10,
+          "name": "YUV 4:2:2 (14 bit)",
+          "pixelFormat": "yuv422p14le",
+          "parameters": {}
+        },
+        {
+          "id": 11,
+          "name": "YUV 4:4:4 (14 bit)",
+          "pixelFormat": "yuv444p14le",
+          "parameters": {}
+        },
+        {
+          "id": 12,
+          "name": "YUV 4:2:0 (16 bit)",
+          "pixelFormat": "yuv420p16le",
+          "parameters": {}
+        },
+        {
+          "id": 13,
+          "name": "YUV 4:2:2 (16 bit)",
+          "pixelFormat": "yuv422p16le",
+          "parameters": {}
+        },
+        {
+          "id": 14,
+          "name": "YUV 4:4:4 (16 bit)",
+          "pixelFormat": "yuv444p16le",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "name": "ffv1Passes",
+      "label": "Passes",
+      "description": "FFV1.3 is able to be encoded in multiple passes, to increase compression efficiency. It requires encoding the file twice, though: The 1st pass is to analyze the video source data and logging the results, and the 2nd pass uses this previously gathered information to achieve a higher compression ratio.",
+      "group": "ADBEVideoCodecGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 1,
+      "minValue": 1,
+      "maxValue": 2,
+      "parameters": {
+        "level": "3"
+      }
+    },
+    {
+      "name": "ffv1Coder",
+      "label": "Coder",
+      "description": "",
+      "group": "VKDRffv1GeneralGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Golomb-Rice",
+          "parameters": {
+            "coder": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Range Coder",
+          "parameters": {
+            "coder": "1"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Range Coder (with custom state transition table)",
+          "parameters": {
+            "coder": "2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ffv1Context",
+      "label": "Context",
+      "description": "",
+      "group": "VKDRffv1GeneralGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Small",
+          "parameters": {
+            "context": "0"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Large",
+          "parameters": {
+            "context": "1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ffv1KeyInt",
+      "label": "Max. GOP Size",
+      "description": "For archival use, GOP-size should be '1'.",
+      "group": "VKDRffv1GeneralGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 250,
+      "useDefaultValue": true,
+      "minValue": 0,
+      "maxValue": 600,
+      "parameters": {
+        "g": "%d"
+      }
+    },
+    {
+      "name": "ffv1Slices",
+      "label": "Slices",
+      "description": "Each frame is split into this number of slices. This affects multithreading performance, as well as filesize: Increasing the number of slices might speed up performance, but also increases the filesize.",
+      "group": "VKDRffv1SlicesGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 4,
+      "useDefaultValue": true,
+      "values": [
+        {
+          "id": 0,
+          "name": "(Disabled)",
+          "parameters": {}
+        },
+        {
+          "id": 1,
+          "name": "4",
+          "parameters": {
+            "slices": "4"
+          }
+        },
+        {
+          "id": 2,
+          "name": "6",
+          "parameters": {
+            "slices": "6"
+          }
+        },
+        {
+          "id": 3,
+          "name": "9",
+          "parameters": {
+            "slices": "9"
+          }
+        },
+        {
+          "id": 4,
+          "name": "12",
+          "parameters": {
+            "slices": "12"
+          }
+        },
+        {
+          "id": 5,
+          "name": "16",
+          "parameters": {
+            "slices": "16"
+          }
+        },
+        {
+          "id": 6,
+          "name": "24",
+          "parameters": {
+            "slices": "24"
+          }
+        },
+        {
+          "id": 7,
+          "name": "30",
+          "parameters": {
+            "slices": "30"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ffv1SliceCRC",
+      "label": "Create a checksum for each slice.",
+      "description": "Enabling this option adds CRC information to each slice. This makes it possible for a decoder to detect errors in the bitstream, rather than blindly decoding a broken slice.",
+      "group": "VKDRffv1SlicesGroup",
+      "type": "bool",
+      "flags": [],
+      "defaultValue": 0,
+      "parameters": {
+        "slicecrc ": "1"
+      }
+    }
+  ]
+}
