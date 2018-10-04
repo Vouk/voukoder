@@ -357,6 +357,7 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 {
 	prMALError result = malNoError;
 
+	/*
 	ExportSettings exportSettings;
 	exportSettings.application = "Settings validator";
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
@@ -384,6 +385,7 @@ prMALError Plugin::validateOutputSettings(exValidateOutputSettingsRec *outputSet
 
 		result = malUnknownError;
 	}
+	*/
 
 	return result;
 }
@@ -462,6 +464,29 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 			if ((res = encoder.open()) < 0)
 			{
 				av_log(NULL, AV_LOG_WARNING, "Unable to open the encoder. (Error code: %d)\n", res);
+
+				char charPath[MAX_PATH];
+				if (GetTempPathA(MAX_PATH, charPath))
+				{
+					stringstream buffer;
+					buffer << "FFMpeg rejected the current configuration.\n";
+					buffer << "Please take a look in your voukoder logfile:\n\n";
+					buffer << charPath << "voukoder.log\n\n";
+					buffer << "Muxer: " << exportSettings.muxerName << "\n";
+					buffer << "Video encoder: " << exportSettings.videoCodecName << "\n";
+					buffer << "Audio encoder: ";
+					if (exportSettings.exportAudio)
+					{
+						buffer << exportSettings.audioCodecName << "\n";
+					}
+					else
+					{
+						buffer << "<disabled>\n";
+					}
+
+					gui->showDialog(suites->windowSuite, buffer.str(), "Voukoder Export Error", MB_ICONERROR);
+				}
+
 				return false;
 			}
 
