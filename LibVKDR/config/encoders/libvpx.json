@@ -6,8 +6,13 @@
   "defaultPixelFormat": "yuv420p",
   "groups": [
     {
-      "name": "VKDRvp8ThreadingGroup",
+      "name": "VKDRvp8FrameTypeGroup",
       "label": "Frame Type",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRvp8MiscGroup",
+      "label": "Miscellaneous",
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
@@ -161,10 +166,56 @@
       }
     },
     {
+      "name": "vp8KeyInt",
+      "label": "Max. GOP Size",
+      "description": "Maximum keyframe interval (frames)",
+      "group": "VKDRvp8FrameTypeGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 250,
+      "minValue": 0,
+      "maxValue": 600,
+      "parameters": {
+        "g": "%d"
+      }
+    },
+    {
+      "name": "vp8AltRefFrames",
+      "label": "Alternate reference frames",
+      "description": "Enable use of alternate reference frames (2-pass only)",
+      "group": "VKDRvp8FrameTypeGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Unset",
+          "parameters": {
+            "auto-alt-ref": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Disabled",
+          "parameters": {
+            "auto-alt-ref": "0"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Enabled",
+          "parameters": {
+            "auto-alt-ref": "1"
+          }
+        }
+      ]
+    },
+    {
       "name": "vp8Threads",
       "label": "Threads",
       "description": "Number of max. threads",
-      "group": "VKDRvp8ThreadingGroup",
+      "group": "VKDRvp8FrameTypeGroup",
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 8,
@@ -173,6 +224,34 @@
       "maxValue": 24,
       "parameters": {
         "threads": "%d"
+      }
+    },
+    {
+      "name": "vp8LagInFrames",
+      "label": "Look ahead frames",
+      "description": "Number of frames to look ahead for when encoding, 0 no limit",
+      "group": "VKDRvp8FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 25,
+      "parameters": {
+        "lag-in-frames": "%d"
+      }
+    },
+    {
+      "name": "vp8Sharpness",
+      "label": "Sharpness",
+      "description": "Anything above 0 weakens the deblocking effect of the loop filter.",
+      "group": "VKDRvp8MiscGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 7,
+      "parameters": {
+        "sharpness": "%d"
       }
     }
   ]

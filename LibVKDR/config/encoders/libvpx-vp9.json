@@ -6,8 +6,13 @@
   "defaultPixelFormat": "yuv420p",
   "groups": [
     {
-      "name": "VKDRvp9ThreadingGroup",
+      "name": "VKDRvp9FrameTypeGroup",
       "label": "Frame Type",
+      "parent": "VKDRAdvVideoCodecTabGroup"
+    },
+    {
+      "name": "VKDRvp9MiscGroup",
+      "label": "Miscellaneous",
       "parent": "VKDRAdvVideoCodecTabGroup"
     }
   ],
@@ -258,10 +263,56 @@
       }
     },
     {
+      "name": "vp9KeyInt",
+      "label": "Max. GOP Size",
+      "description": "Maximum keyframe interval (frames)",
+      "group": "VKDRvp9FrameTypeGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 250,
+      "minValue": 0,
+      "maxValue": 600,
+      "parameters": {
+        "g": "%d"
+      }
+    },
+    {
+      "name": "vp9AltRefFrames",
+      "label": "Alternate reference frames",
+      "description": "Enable use of alternate reference frames (2-pass only)",
+      "group": "VKDRvp9FrameTypeGroup",
+      "type": "int",
+      "flags": [],
+      "defaultValue": 0,
+      "values": [
+        {
+          "id": 0,
+          "name": "Unset",
+          "parameters": {
+            "auto-alt-ref": "-1"
+          }
+        },
+        {
+          "id": 1,
+          "name": "Disabled",
+          "parameters": {
+            "auto-alt-ref": "0"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Enabled",
+          "parameters": {
+            "auto-alt-ref": "1"
+          }
+        }
+      ]
+    },
+    {
       "name": "vp9Threads",
       "label": "Threads",
       "description": "Number of max. threads",
-      "group": "VKDRvp9ThreadingGroup",
+      "group": "VKDRvp9FrameTypeGroup",
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 8,
@@ -276,7 +327,7 @@
       "name": "vp9FrameParallel",
       "label": "Frame Parallel",
       "description": "Enable frame parallel decodability features.",
-      "group": "VKDRvp9ThreadingGroup",
+      "group": "VKDRvp9FrameTypeGroup",
       "type": "int",
       "flags": [],
       "defaultValue": 1,
@@ -304,10 +355,24 @@
       ]
     },
     {
+      "name": "vp9LagInFrames",
+      "label": "Look ahead frames",
+      "description": "Number of frames to look ahead for when encoding, 0 no limit",
+      "group": "VKDRvp9FrameTypeGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 25,
+      "parameters": {
+        "lag-in-frames": "%d"
+      }
+    },
+    {
       "name": "vp9TilesColumns",
       "label": "Tile Columns",
       "description": "Number of tile columns to use, log2",
-      "group": "VKDRvp9ThreadingGroup",
+      "group": "VKDRvp9FrameTypeGroup",
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 6,
@@ -322,7 +387,7 @@
       "name": "vp9TilesRows",
       "label": "Tile Rows",
       "description": "Number of tile rows to use, log2",
-      "group": "VKDRvp9ThreadingGroup",
+      "group": "VKDRvp9FrameTypeGroup",
       "type": "int",
       "flags": [ "slider" ],
       "defaultValue": 2,
@@ -331,6 +396,20 @@
       "maxValue": 2,
       "parameters": {
         "tile-rows": "%d"
+      }
+    },
+    {
+      "name": "vp9Sharpness",
+      "label": "Sharpness",
+      "description": "Anything above 0 weakens the deblocking effect of the loop filter.",
+      "group": "VKDRvp9MiscGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 7,
+      "parameters": {
+        "sharpness": "%d"
       }
     }
   ]
