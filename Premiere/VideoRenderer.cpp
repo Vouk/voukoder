@@ -370,12 +370,12 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 
 		return PrPixelFormat_VUYA_4444_8u;
 	}
-	else if (exportSettings.pixelFormat == "yuv420p10le" || exportSettings.pixelFormat == "yuv420p12le" ||
-		exportSettings.pixelFormat == "yuv422p10le" || exportSettings.pixelFormat == "yuv422p12le" ||
-		exportSettings.pixelFormat == "yuv444p10le" || exportSettings.pixelFormat == "yuv444p12le" ||
-		exportSettings.pixelFormat == "yuva420p10le" || exportSettings.pixelFormat == "yuva420p12le" ||
-		exportSettings.pixelFormat == "yuva422p10le" || exportSettings.pixelFormat == "yuva422p12le" ||
-		exportSettings.pixelFormat == "yuva444p10le" || exportSettings.pixelFormat == "yuva444p12le")
+	else if (exportSettings.pixelFormat == "yuv420p10le" || exportSettings.pixelFormat == "yuv420p12le" || exportSettings.pixelFormat == "yuv420p14le" || exportSettings.pixelFormat == "yuv420p16le" ||
+		exportSettings.pixelFormat == "yuv422p10le" || exportSettings.pixelFormat == "yuv422p12le" || exportSettings.pixelFormat == "yuv422p14le" || exportSettings.pixelFormat == "yuv422p16le" ||
+		exportSettings.pixelFormat == "yuv444p10le" || exportSettings.pixelFormat == "yuv444p12le" || exportSettings.pixelFormat == "yuv444p14le" || exportSettings.pixelFormat == "yuv444p16le" ||
+		exportSettings.pixelFormat == "yuva420p10le" || exportSettings.pixelFormat == "yuva420p12le" || exportSettings.pixelFormat == "yuva420p14le" || exportSettings.pixelFormat == "yuva420p16le" ||
+		exportSettings.pixelFormat == "yuva422p10le" || exportSettings.pixelFormat == "yuva422p12le" || exportSettings.pixelFormat == "yuva422p14le" || exportSettings.pixelFormat == "yuva422p16le" ||
+		exportSettings.pixelFormat == "yuva444p10le" || exportSettings.pixelFormat == "yuva444p12le" || exportSettings.pixelFormat == "yuva444p14le" || exportSettings.pixelFormat == "yuva444p16le")
 	{
 		if (exportSettings.colorSpace == AVColorSpace::AVCOL_SPC_BT709)
 		{
