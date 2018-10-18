@@ -161,6 +161,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Callback.h" />
     <ClInclude Include="ChannelInfo.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="easylogging++.h" />

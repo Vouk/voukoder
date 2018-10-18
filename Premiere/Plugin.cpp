@@ -117,6 +117,7 @@ Plugin::Plugin(csSDK_uint32 pluginId):
 	Config::CheckForUpdate(version, pluginUpdate);
 
 	config = new Config();
+	config->Init();
 	gui = new GUI(pluginId, config, pluginUpdate, VKDR_PARAM_VERSION);
 	logger = new Logger(pluginId);
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include "premiere_cs6\PrSDKPPix2Suite.h"
 #include "premiere_cs6\PrSDKImageProcessingSuite.h"
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
@@ -9,21 +8,6 @@
 
 using namespace std;
 using namespace LibVKDR;
-
-template <typename T>
-struct Callback;
-
-template <typename Ret, typename... Params>
-struct Callback<Ret(Params...)> {
-	template <typename... Args>
-	static Ret callback(Args... args) {
-		return func(args...);
-	}
-	static function<Ret(Params...)> func;
-};
-
-template <typename Ret, typename... Params>
-function<Ret(Params...)> Callback<Ret(Params...)>::func;
 
 class VideoRenderer
 {

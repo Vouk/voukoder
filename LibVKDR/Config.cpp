@@ -4,16 +4,17 @@
 
 using namespace LibVKDR;
 
-Config::Config()
+static inline HMODULE GetCurrentModule()
 {
-	// Get the DLL module handle
-	MEMORY_BASIC_INFORMATION mbi;
-	static int dummy;
-	VirtualQuery(&dummy, &mbi, sizeof(mbi));
-	HMODULE hModule = reinterpret_cast<HMODULE>(mbi.AllocationBase);
+	HMODULE hModule = NULL;
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCTSTR)GetCurrentModule, &hModule);
 
-	map<string, json> resources;
-	if (loadResources(hModule, MAKEINTRESOURCE(ID_JSON), &resources))
+	return hModule;
+}
+
+void Config::Init()
+{
+	if (loadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_JSON)))
 	{
 		initEncoders(resources);
 		initFixedParams(resources);
@@ -24,10 +25,8 @@ Config::Config()
 
 #pragma region Resource loader
 
-static inline BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG lParam)
+BOOL Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG lParam)
 {
-	map<string, json>& resources = *(map<string, json>*)lParam;
-
 	const HRSRC hRes = FindResourceEx(hModule, lpType, lpName, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 	if (NULL != hRes)
 	{
@@ -56,11 +55,14 @@ static inline BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName,
 	return TRUE;
 }
 
-bool Config::loadResources(HMODULE hModule, LPTSTR lpType, map<string, json> *resources)
+bool Config::loadResources(HMODULE hModule, LPTSTR lpType)
 {
-	resources->clear();
+	resources.clear();
 
-	return EnumResourceNames(hModule, lpType, (ENUMRESNAMEPROC)EnumNamesFunc, (LONG_PTR)resources);
+	// Create C conform callback
+	Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG lParam)>::func = bind(&Config::EnumNamesFunc, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+
+	return EnumResourceNames(hModule, lpType, static_cast<ENUMRESNAMEPROC>(Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG lParam)>::callback), NULL);
 }
 
 #pragma endregion

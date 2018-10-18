@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include "Callback.h"
 #include "json.hpp"
 #include "resource.h"
 #include "EncoderInfo.h"
@@ -47,7 +48,6 @@ namespace LibVKDR
 	class Config
 	{
 	public:
-		Config();
 		int DefaultVideoEncoder = -1;
 		int DefaultAudioEncoder = -1;
 		int DefaultMultiplexer = -1;
@@ -58,9 +58,11 @@ namespace LibVKDR
 		vector<MultiplexerInfo> Multiplexers;
 		vector<FilterInfo> Filters;
 		vector<FrameSizeInfo> FrameSizes;
+		void Init();
 		static int CheckForUpdate(Version version, PluginUpdate *pluginUpdate);
 
 	private:
+		map<string, json> resources;
 		ParamInfo createParamInfo(json json);
 		ParamValueInfo createValueInfo(json json);
 		ParamSubValueInfo createSubValue(json json);
@@ -69,6 +71,7 @@ namespace LibVKDR
 		bool initFixedParams(const json resources);
 		bool initMultiplexers(const json resources);
 		bool initFilters(const json resources);
-		bool loadResources(HMODULE hModule, LPTSTR lpType, map<string, json> *resources);
+		bool loadResources(HMODULE hModule, LPTSTR lpType);
+		BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG lParam);
 	};
 }

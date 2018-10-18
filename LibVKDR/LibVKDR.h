@@ -2,6 +2,7 @@
 
 #include "easylogging++.h"
 #include "ChannelInfo.h"
+#include "Callback.h"
 #include "Config.h"
 #include "Encoder.h"
 #include "EncoderContext.h"

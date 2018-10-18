@@ -81,6 +81,9 @@
     <ClInclude Include="Pipe.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Callback.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Config.cpp">
