@@ -13,7 +13,28 @@ AudioRenderer::AudioRenderer(csSDK_uint32 pluginId, PrTime startTime, PrTime end
 	// Ceil up divison
 	samplesTotal = 1 + ((endTime - startTime - 1) / ticksPerSample);
 
+#ifdef BUILD_CS6_COMPATIBLE
 	sequenceAudioSuite->MakeAudioRenderer(pluginId, startTime, channelType, kPrAudioSampleType_32BitFloat, audioSampleRate, &rendererId);
+#else
+	PrAudioChannelLabel *layout;
+	if (channelType == kPrAudioChannelType_Mono)
+	{
+		layout = new PrAudioChannelLabel[1]{ kPrAudioChannelLabel_Discrete };
+	}
+	else if (channelType == kPrAudioChannelType_Stereo)
+	{
+		layout = new PrAudioChannelLabel[2]{ kPrAudioChannelLabel_FrontLeft, kPrAudioChannelLabel_FrontRight };
+	}
+	else if (channelType == kPrAudioChannelType_51)
+	{
+		layout = new PrAudioChannelLabel[6]{ kPrAudioChannelLabel_FrontLeft, kPrAudioChannelLabel_FrontRight, kPrAudioChannelLabel_BackLeft, kPrAudioChannelLabel_BackRight, kPrAudioChannelLabel_FrontCenter, kPrAudioChannelLabel_LowFrequency };
+	}
+	else
+	{
+		return;
+	}
+	sequenceAudioSuite->MakeAudioRenderer(pluginId, startTime, channelType, layout, kPrAudioSampleType_32BitFloat, audioSampleRate, &rendererId);
+#endif
 	
 	sequenceAudioSuite->GetMaxBlip(rendererId, ticksPerFrame, &maxBlip);
 

@@ -20,7 +20,9 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		infoRecP->canExportAudio = kPrTrue;
 		infoRecP->interfaceVersion = EXPORTMOD_VERSION;
 		infoRecP->isCacheable = kPrFalse;
-
+#ifndef BUILD_CS6_COMPATIBLE
+		infoRecP->canConformToMatchParams = kPrTrue;
+#endif
 		Logger::vkdrInit();
 
 		return malNoError;

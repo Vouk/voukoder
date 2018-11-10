@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef BUILD_CS6_COMPATIBLE
 #include "premiere_cs6\PrSDKExport.h"
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
 #include "premiere_cs6\PrSDKExportFileSuite.h"
@@ -18,6 +19,26 @@
 #include "premiere_cs6\PrSDKWindowSuite.h"
 #include "premiere_cs6\PrSDKExporterUtilitySuite.h"
 #include "premiere_cs6\PrSDKSequenceInfoSuite.h"
+#else
+#include "premiere_cc2015\PrSDKExport.h"
+#include "premiere_cc2015\PrSDKMemoryManagerSuite.h"
+#include "premiere_cc2015\PrSDKExportFileSuite.h"
+#include "premiere_cc2015\PrSDKExportInfoSuite.h"
+#include "premiere_cc2015\PrSDKExportParamSuite.h"
+#include "premiere_cc2015\PrSDKExportProgressSuite.h"
+#include "premiere_cc2015\PrSDKErrorSuite.h"
+#include "premiere_cc2015\PrSDKMarkerSuite.h"
+#include "premiere_cc2015\PrSDKSequenceRenderSuite.h"
+#include "premiere_cc2015\PrSDKSequenceAudioSuite.h"
+#include "premiere_cc2015\PrSDKClipRenderSuite.h"
+#include "premiere_cc2015\PrSDKPPixCreatorSuite.h"
+#include "premiere_cc2015\PrSDKPPixCacheSuite.h"
+#include "premiere_cc2015\PrSDKPPix2Suite.h"
+#include "premiere_cc2015\PrSDKMemoryManagerSuite.h"
+#include "premiere_cc2015\PrSDKWindowSuite.h"
+#include "premiere_cc2015\PrSDKExporterUtilitySuite.h"
+#include "premiere_cc2015\PrSDKSequenceInfoSuite.h"
+#endif
 #include "..\LibVKDR\LibVKDR.h"
 #include "GUI.h"
 

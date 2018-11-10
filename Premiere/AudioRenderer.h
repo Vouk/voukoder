@@ -1,8 +1,14 @@
 #pragma once
 
+#ifdef BUILD_CS6_COMPATIBLE
 #include "premiere_cs6\PrSDKExportParamSuite.h"
 #include "premiere_cs6\PrSDKSequenceAudioSuite.h"
 #include "premiere_cs6\PrSDKMemoryManagerSuite.h"
+#else
+#include "premiere_cc2015\PrSDKExportParamSuite.h"
+#include "premiere_cc2015\PrSDKSequenceAudioSuite.h"
+#include "premiere_cc2015\PrSDKMemoryManagerSuite.h"
+#endif
 
 #define MAX_CHANNELS 6
 

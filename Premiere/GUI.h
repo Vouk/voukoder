@@ -1,8 +1,14 @@
 #pragma once
 
+#ifdef BUILD_CS6_COMPATIBLE
 #include "premiere_cs6\PrSDKExportParamSuite.h"
 #include "premiere_cs6\PrSDKExportInfoSuite.h"
 #include "premiere_cs6\PrSDKWindowSuite.h"
+#else
+#include "premiere_cc2015\PrSDKExportParamSuite.h"
+#include "premiere_cc2015\PrSDKExportInfoSuite.h"
+#include "premiere_cc2015\PrSDKWindowSuite.h"
+#endif
 #include "EncoderSettings.h"
 #include "FilterSettings.h"
 
