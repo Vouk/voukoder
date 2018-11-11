@@ -160,7 +160,7 @@
       "text": "4096x2160 (DCI 4K)"
     }
   ],
-  "videoFramerates": [  
+  "videoFramerates": [
     {
       "num": 5,
       "den": 1,
@@ -225,6 +225,16 @@
       "num": 60,
       "den": 1,
       "text": "60"
+    },
+    {
+      "num": 120000,
+      "den": 1001,
+      "text": "119.88"
+    },
+    {
+      "num": 120,
+      "den": 1,
+      "text": "120"
     }
   ],
   "audioSampleRates": [
