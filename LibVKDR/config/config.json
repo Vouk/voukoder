@@ -88,6 +88,10 @@
     {
       "id": 23,
       "name": "ffv1"
+    },
+    {
+      "id": 24,
+      "name": "hap"
     }
   ],
   "multiplexers": [
