@@ -27,6 +27,7 @@
 #define IDR_JSON_ENC_RAWVIDEO           124
 #define IDR_JSON_ENC_AV1                125
 #define IDR_JSON_ENC_FFV1               126
+#define IDR_JSON_ENC_HAP                127
 
 // Next default values for new objects
 // 
