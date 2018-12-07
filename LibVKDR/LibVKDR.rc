@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -93,11 +93,9 @@ IDR_JSON_ENC_OPUS       100                     "config\\encoders\\libopus.json"
 
 IDR_JSON_ENC_RAWVIDEO   100                     "config\\encoders\\rawvideo.json"
 
-IDR_JSON_ENC_AV1        100                     "config\\encoders\\libaom-av1.json"
+IDR_JSON_ENC_HAP        100                     "config\\encoders\\hap.json"
 
 IDR_JSON_ENC_FFV1       100                     "config\\encoders\\ffv1.json"
-
-IDR_JSON_ENC_HAP        100                     "config\\encoders\\hap.json"
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
