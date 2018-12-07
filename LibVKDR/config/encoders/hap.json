@@ -3,6 +3,7 @@
   "authors": [
     "Daniel Stankewitz"
   ],
+  "defaultPixelFormat": "rgba",
   "groups": [
     {
       "name": "VKDRhapGeneralGroup",
@@ -14,7 +15,7 @@
     {
       "name": "hap_format",
       "label": "Format",
-      "description" : "Specifies the Hap format to encode.",
+      "description": "Specifies the Hap format to encode.",
       "group": "VKDRhapGeneralGroup",
       "type": "int",
       "flags": [],
@@ -60,7 +61,7 @@
     {
       "name": "hap_compressor",
       "label": "Compressor",
-      "description" : "Specifies the second-stage compressor to use. If set to none, chunks will be limited to 1, as chunked uncompressed frames offer no benefit.",
+      "description": "Specifies the second-stage compressor to use. If set to none, chunks will be limited to 1, as chunked uncompressed frames offer no benefit.",
       "group": "VKDRhapGeneralGroup",
       "type": "int",
       "flags": [],

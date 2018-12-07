@@ -384,7 +384,8 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportSettings exportSettings
 
 		return PrPixelFormat_VUYX_4444_32f;
 	}
-	else if (exportSettings.pixelFormat == "bgra")
+	else if (exportSettings.pixelFormat == "bgra" ||
+		exportSettings.pixelFormat == "rgba")
 	{
 		return PrPixelFormat_BGRA_4444_8u;
 	}
