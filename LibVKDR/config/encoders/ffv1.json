@@ -123,7 +123,7 @@
     },
     {
       "name": "ffv1Passes",
-      "label": "Passes",
+      "label": "Level",
       "description": "FFV1.3 is able to be encoded in multiple passes, to increase compression efficiency. It requires encoding the file twice, though: The 1st pass is to analyze the video source data and logging the results, and the 2nd pass uses this previously gathered information to achieve a higher compression ratio.",
       "group": "ADBEVideoCodecGroup",
       "type": "int",
