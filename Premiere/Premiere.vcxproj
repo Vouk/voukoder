@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;PREMIERE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <AdditionalOptions>/DELPP_THREAD_SAFE /DCURL_STATICLIB %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DELPP_THREAD_SAFE /DCURL_STATICLIB /DBUILD_CS6_COMPATIBLE %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,7 +154,7 @@
       <PreprocessorDefinitions>NDEBUG;PREMIERE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <AdditionalOptions>/DELPP_THREAD_SAFE /DCURL_STATICLIB %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DELPP_THREAD_SAFE /DCURL_STATICLIB /DBUILD_CS6_COMPATIBLE %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
