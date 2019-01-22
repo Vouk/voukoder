@@ -416,6 +416,20 @@
       }
     },
     {
+      "name": "hevc_nvencBFrames",
+      "label": "Number of B-Frames",
+      "description": "Set max number of B-frames between non-B-frames. 0 means that Bipredective coded picture frames are disabled. If a value of -1 is used, it will choose an automatic value depending on the encoder.",
+      "group": "VKDRhevcNVENCFramesGroup",
+      "type": "int",
+      "flags": [ "slider" ],
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 5,
+      "parameters": {
+        "bf": "%d"
+      }
+    },
+    {
       "name": "hevc_nvencKeyInt",
       "label": "Max. GOP Size",
       "description": "Maximum Group of Pictures Structure size in which intra- and inter-frames are arranged. Smaller values increase the video quality.",
