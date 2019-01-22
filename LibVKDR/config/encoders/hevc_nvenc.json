@@ -417,8 +417,8 @@
     },
     {
       "name": "hevc_nvencBFrames",
-      "label": "Number of B-Frames",
-      "description": "Set max number of B-frames between non-B-frames. 0 means that Bipredective coded picture frames are disabled. If a value of -1 is used, it will choose an automatic value depending on the encoder.",
+      "label": "Number of B-Frames (RTX only)",
+      "description": "Set max number of B-frames between non-B-frames. 0 means that Bipredective coded picture frames are disabled. Only available on RTX video cards.",
       "group": "VKDRhevcNVENCFramesGroup",
       "type": "int",
       "flags": [ "slider" ],
