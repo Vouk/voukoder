@@ -4,7 +4,7 @@
     "Schauerland",
     "Daniel Stankewitz",
     "Daniel Steuer"
-  ],
+  ],"b
   "defaultPixelFormat": "yuv420p",
   "groups": [
     {
@@ -420,9 +420,10 @@
       "label": "Number of B-Frames (RTX only)",
       "description": "Set max number of B-frames between non-B-frames. 0 means that Bipredective coded picture frames are disabled. Only available on RTX video cards.",
       "group": "VKDRhevcNVENCFramesGroup",
+      "useDefaultValue": true,
       "type": "int",
       "flags": [ "slider" ],
-      "defaultValue": 0,
+      "defaultValue": 2,
       "minValue": 0,
       "maxValue": 5,
       "parameters": {
