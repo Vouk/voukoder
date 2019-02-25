@@ -22,8 +22,7 @@ int Encoder::open()
 	formatContext->oformat = av_guess_format(exportSettings.muxerName.c_str(), exportSettings.filename.c_str(), NULL);
 
 	// Mark myself as encoding tool in the mp4/mov container
-	const string appId = exportSettings.application + " - www.voukoder.org";
-	av_dict_set(&formatContext->metadata, "encoding_tool", appId.c_str(), 0);
+	av_dict_set(&formatContext->metadata, "encoding_tool", exportSettings.application.c_str(), 0);
 
 	av_log(NULL, AV_LOG_INFO, "### ENCODER STARTED ###\n");
 
