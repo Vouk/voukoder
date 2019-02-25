@@ -408,7 +408,7 @@ prMALError Plugin::doExport(exDoExportRec *exportRecP)
 
 	ExportSettings exportSettings;
 	exportSettings.filename = filename;
-	exportSettings.application = string(app.begin(), app.end()) + " (Premiere)";
+	exportSettings.application = string(app.begin(), app.end());
 	exportSettings.exportAudio = exportRecP->exportAudio == kPrTrue;
 	gui->getExportSettings(suites->exportParamSuite, &exportSettings);
 
