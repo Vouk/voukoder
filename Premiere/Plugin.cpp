@@ -1,6 +1,7 @@
 ﻿#include "Plugin.h"
 #include "VideoRenderer.h"
 #include "AudioRenderer.h"
+#include <premiere_cs6\PrSDKAppInfoSuite.h>
 
 DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParmsP, void *param1, void	*param2)
 {
@@ -8,6 +9,23 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 	{
 	case exSelStartup:
 	{
+		int fourCC = 0;
+		VersionInfo version = { 0, 0, 0 };
+
+		PrSDKAppInfoSuite *appInfoSuite = NULL;
+		stdParmsP->getSPBasicSuite()->AcquireSuite(kPrSDKAppInfoSuite, kPrSDKAppInfoSuiteVersion, (const void**)&appInfoSuite);
+
+		if (appInfoSuite)
+		{
+			appInfoSuite->GetAppInfo(PrSDKAppInfoSuite::kAppInfo_AppFourCC, (void *)&fourCC);
+			appInfoSuite->GetAppInfo(PrSDKAppInfoSuite::kAppInfo_Version, (void *)&version);
+
+			stdParmsP->getSPBasicSuite()->ReleaseSuite(kPrSDKAppInfoSuite, kPrSDKAppInfoSuiteVersion);
+
+			if (fourCC == kAppAfterEffects)
+				return exportReturn_IterateExporterDone;
+		}
+		
 		exExporterInfoRec *infoRecP = reinterpret_cast<exExporterInfoRec*>(param1);
 		infoRecP->fileType = 'VOUK';
 		prUTF16CharCopy(infoRecP->fileTypeName, VKDR_APPNAME);
@@ -20,9 +38,20 @@ DllExport PREMPLUGENTRY xSDKExport(csSDK_int32 selector, exportStdParms *stdParm
 		infoRecP->canExportAudio = kPrTrue;
 		infoRecP->interfaceVersion = EXPORTMOD_VERSION;
 		infoRecP->isCacheable = kPrFalse;
-#ifndef BUILD_CS6_COMPATIBLE
-		infoRecP->canConformToMatchParams = kPrTrue;
+		
+		// Allow "Match Source" if possible
+		if (stdParmsP->interfaceVer >= 6 &&
+			((fourCC == kAppPremierePro && version.major >= 9) ||
+			(fourCC == kAppMediaEncoder && version.major >= 9)))
+		{
+#if EXPORTMOD_VERSION >= 6
+			infoRecP->canConformToMatchParams = kPrTrue;
+#else
+			csSDK_uint32 *info = &infoRecP->isCacheable;
+			info[1] = kPrTrue;
 #endif
+		}
+		
 		Logger::vkdrInit();
 
 		return malNoError;
