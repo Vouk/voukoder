@@ -511,6 +511,12 @@ bool Config::checkEncoderAvailability(const string encoderName)
 			codecContext->sample_rate = 48000;
 			codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 			codecContext->bit_rate = 0;
+
+			if (codecContext->sample_fmt == AV_SAMPLE_FMT_FLTP)
+			{
+				avcodec_free_context(&codecContext);
+				return false;
+			}
 		}
 
 		// Open the codec
