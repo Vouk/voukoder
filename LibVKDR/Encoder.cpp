@@ -411,6 +411,8 @@ int Encoder::writeVideoFrame(EncoderData *encoderData)
 
 	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
 	{
+		av_log(NULL, AV_LOG_ERROR, "Unable to reserve buffer for video frame #%d ... (Error code: %d)\n", frame->pts, ret);
+
 		return ret;
 	}
 
@@ -471,6 +473,8 @@ int Encoder::writeAudioFrame(float **data, int32_t sampleCount)
 	int ret = 0;
 	if ((ret = av_frame_get_buffer(frame, 0)) < 0)
 	{
+		av_log(NULL, AV_LOG_ERROR, "Unable to reserve buffer for video frame #%d ... (Error code: %d)\n", frame->pts, ret);
+
 		return ret;
 	}
 
@@ -497,6 +501,8 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		// Send NULL frame
 		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
+			av_log(NULL, AV_LOG_ERROR, "Flushing frame failed. (Error code: %d)\n", ret);
+
 			return ret;
 		}
 
@@ -508,6 +514,8 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		// Send the uncompressed frame to frame filter
 		if ((ret = context->frameFilter->sendFrame(frame)) < 0)
 		{
+			av_log(NULL, AV_LOG_ERROR, "Sending frame to frame filter failed. (Error code: %d)\n", ret);
+
 			return ret;
 		}
 
@@ -519,6 +527,8 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		{
 			if ((ret = avcodec_send_frame(context->codecContext, tmp_frame)) < 0)
 			{
+				av_log(NULL, AV_LOG_ERROR, "Sending frame vom frame filter to encoder failed. (Error code: %d)\n", ret);
+
 				av_frame_free(&tmp_frame);
 				return ret;
 			}
@@ -532,6 +542,8 @@ int Encoder::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	{
 		if ((ret = avcodec_send_frame(context->codecContext, frame)) < 0)
 		{
+			av_log(NULL, AV_LOG_ERROR, "Direct sending frame to encoder failed. (Error code: %d)\n", ret);
+
 			return ret;
 		}
 	}
@@ -554,7 +566,11 @@ int Encoder::receivePackets(EncoderContext *context)
 		packet->stream_index = context->stream->index;
 
 		if ((ret = av_interleaved_write_frame(formatContext, packet)) < 0)
+		{
+			av_log(NULL, AV_LOG_ERROR, "Muxing frame failed. (Error code: %d)\n", ret);
+
 			break;
+		}
 
 		av_packet_unref(packet);
 	}

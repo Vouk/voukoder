@@ -48,9 +48,9 @@ namespace LibVKDR
 	class Config
 	{
 	public:
-		int DefaultVideoEncoder = -1;
-		int DefaultAudioEncoder = -1;
-		int DefaultMultiplexer = -1;
+		int DefaultVideoEncoder = 0; // X264
+		int DefaultAudioEncoder = 9; // PCM16
+		int DefaultMultiplexer = 1;  // MKV
 		vector<EncoderInfo> Encoders;
 		vector<FramerateInfo> Framerates;
 		vector<SamplerateInfo> Samplerates;
