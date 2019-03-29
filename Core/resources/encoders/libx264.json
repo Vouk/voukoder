@@ -425,11 +425,11 @@
           "id": "libx264.standard.strategy.crf",
           "parameter": "crf",
           "control": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 51,
-            "singleStep": 1,
-            "value": 23
+            "type": "float",
+            "minimum": 1.0,
+            "maximum": 51.0,
+            "singleStep": 0.1,
+            "value": 23.0
           }
         },
         {

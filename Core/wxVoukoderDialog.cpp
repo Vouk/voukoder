@@ -359,14 +359,14 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 			m_genEncVideoChoice->Append(encoder.name, (void*)&encoder);
 			
 			if (encoder.id == vEncoder)
-				m_genEncVideoChoice->Select(m_genEncVideoChoice->GetCount() - 1);
+				m_genEncVideoChoice->SetStringSelection(encoder.name);
 		}
 		else if (encoder.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
 		{
 			m_genEncAudioChoice->Append(encoder.name, (void*)&encoder);
 
 			if (encoder.id == aEncoder)
-				m_genEncAudioChoice->Select(m_genEncAudioChoice->GetCount() - 1);
+				m_genEncAudioChoice->SetStringSelection(encoder.name);
 		}
 	}
 
