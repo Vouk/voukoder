@@ -130,7 +130,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000"
+          "multiplicationFactor": 1000
         },
         {
           "id": "libvpx-vp9.standard.strategy.crf",

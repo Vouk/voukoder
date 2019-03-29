@@ -324,7 +324,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000",
+          "multiplicationFactor": 1000,
           "filters": [
             {
               "filter": "OnChangeValue",
@@ -349,7 +349,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000",
+          "multiplicationFactor": 1000,
           "filters": [
             {
               "filter": "OnChangeValue",
@@ -374,7 +374,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000"
+          "multiplicationFactor": 1000
         },
         {
           "id": "h264_nvenc.standard.strategy.twopass",

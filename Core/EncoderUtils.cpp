@@ -77,10 +77,10 @@ bool EncoderUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const json re
 	optionInfo.name = Trans(optionInfo.id, "label");
 	optionInfo.description = Trans(optionInfo.id, "description");
 
-	// Optional: Is a format set?
-	if (resource.find("format") != resource.end())
+	// Optional: Is a multiplication factor set?
+	if (resource.find("multiplicationFactor") != resource.end())
 	{
-		optionInfo.format = resource["format"].get<string>();
+		optionInfo.multiplicationFactor = resource["multiplicationFactor"].get<int>();
 	}
 
 	// Optional: Is it a forced parameter?

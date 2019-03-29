@@ -24,7 +24,7 @@ struct EncoderOptionInfo
 	wstring name;
 	wstring description;
 	string parameter;
-	string format;
+	int multiplicationFactor = 1;
 	vector<OptionFilterInfo> filters;
 	bool isForced = false;
 	bool isActive = false;

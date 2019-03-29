@@ -90,11 +90,43 @@ void wxEncoderConfigEditor::Configure(EncoderInfo encoderInfo, OptionContainer o
 			m_propertyGrid->AppendIn(category, optionProperty);
 
 			// Import stored settings
-			string parameter = optionProperty->GetOptionInfo().parameter;
-			if (options.find(parameter) != options.end() && parameter[0] != '_')
+			EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
+			if (options.find(optionInfo.parameter) != options.end() && optionInfo.parameter[0] != '_')
 			{
 				optionProperty->SetChecked();
-				optionProperty->SetValueFromString(options[parameter]);
+				
+				if (optionInfo.control.type == EncoderOptionType::ComboBox)
+				{
+					// Select combo items by name not by value
+					for (auto& item : optionInfo.control.items)
+					{
+						if (item.value == options[optionInfo.parameter])
+						{
+							optionProperty->SetValueFromString(Trans(item.id));
+							break;
+						}
+					}
+				}
+				else if (optionInfo.control.type == EncoderOptionType::Integer)
+				{
+					long longVal;
+					wxString val = options[optionInfo.parameter];
+					val.ToLong(&longVal);
+
+					optionProperty->SetValueFromInt(longVal / optionInfo.multiplicationFactor);
+				}
+				else if (optionInfo.control.type == EncoderOptionType::Float)
+				{
+					double doubleVal;
+					wxString val = options[optionInfo.parameter];
+					val.ToDouble(&doubleVal);
+
+					optionProperty->SetValueFromString(wxString::Format(wxT("%.1f"), doubleVal));
+				}
+				else
+				{
+					optionProperty->SetValueFromString(options[optionInfo.parameter]);
+				}
 			}
 
 			// Make inactive options gray
@@ -247,18 +279,16 @@ void wxEncoderConfigEditor::RefreshResults()
 			{
 				wxString value;
 
-				// Format the value if required
-				if (optionInfo.format.size() > 0)
+				// Format the value if required (Make sure parsing unformats the value!!)
+				if (optionInfo.control.type == EncoderOptionType::Integer)
 				{
-					const wxString format = optionInfo.format;
-					if (optionInfo.control.type == EncoderOptionType::Integer)
-					{
-						value = wxString::Format(format, prop->GetValue().GetInteger());
-					}
-					else if (optionInfo.control.type == EncoderOptionType::Float)
-					{
-						value = wxString::Format(format, prop->GetValue().GetDouble());
-					}
+					int val = prop->GetValue().GetInteger() * optionInfo.multiplicationFactor;
+					value = wxString::Format(wxT("%d"), val);
+				}
+				else if (optionInfo.control.type == EncoderOptionType::Float)
+				{
+					double val = prop->GetValue().GetDouble() * optionInfo.multiplicationFactor;
+					value = wxString::Format(wxT("%.1f"), val);
 				}
 				else
 				{

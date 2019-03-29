@@ -398,7 +398,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000"
+          "multiplicationFactor": 1000
         },
         {
           "id": "libx264.standard.strategy.multipass",

@@ -225,7 +225,7 @@
             "value": 15000,
             "visible": false
           },
-          "format": "%d000"
+          "multiplicationFactor": 1000
         }
       ]
     }
