@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "alac",
+  "name": "ALAC",
+  "defaults": {
+    "_sampleFormat": "s16p"
+  },
+  "groups": [
+    {
+      "id": "alac.prediction_order",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "alac.prediction_order.min_prediction_order",
+          "parameter": "min_prediction_order",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30,
+            "singleStep": 1,
+            "value": 4
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "alac.prediction_order.max_prediction_order"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "alac.prediction_order.max_prediction_order",
+          "parameter": "max_prediction_order",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30,
+            "singleStep": 1,
+            "value": 6
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "alac.prediction_order.min_prediction_order"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

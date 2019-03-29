@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "pcm_s16le",
+  "name": "Uncompressed PCM (16 Bit)",
+  "type" : "audio",
+  "defaults": {
+    "_sampleFormat": "pcm_s16le"
+  },
+  "groups": []
+}

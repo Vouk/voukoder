@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien\Encoders">
+      <UniqueIdentifier>{71e7dde0-0d0b-4120-9127-6054c50272b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Muxers">
+      <UniqueIdentifier>{850437f9-1437-4b28-bb45-05b2cb3a06cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Translations">
+      <UniqueIdentifier>{86908c3e-1ced-46a6-abbc-c828fba05cb1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderContext.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="lavf.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Callback.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OnSelectionOptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OnChangeValueOptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionContainer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginUpdate.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderEngine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MuxerInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderGroupInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionFilterInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderOptionInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="NvidiaCustomOptions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MuxerUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxPGOptionProperty.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Images.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Voukoder.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEncoderConfigEditor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxVoukoderDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ExportInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FrameFilter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderEngine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="NvidiaCustomOptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionContainer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="MuxerUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxPGOptionProperty.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Voukoder.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEncoderConfigEditor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxVoukoderDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\encoders\aac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\ac3.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\alac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\ffv1.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\flac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\h264_amf.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\h264_nvenc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_amf.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_nvenc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libfdk_aac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libopus.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libmp3lame.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvorbis.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvpx.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvpx-vp9.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libx264.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libx265.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s16le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s24le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s32le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\prores_ks.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\webm.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mp4.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mov.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mkv.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\translations\english.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\encoders\hap.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Core.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

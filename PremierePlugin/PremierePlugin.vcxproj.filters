@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PremierePlugin.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioRenderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoRenderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PremierePlugin.def">
+      <Filter>Quelldateien</Filter>
+    </None>
+    <None Include="res\PremierePlugin.rc2">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="deploy.bat" />
+    <None Include="..\Core\resources\encoders\aac.json" />
+    <None Include="..\Core\resources\encoders\ac3.json" />
+    <None Include="..\Core\resources\encoders\alac.json" />
+    <None Include="..\Core\resources\encoders\ffv1.json" />
+    <None Include="..\Core\resources\encoders\flac.json" />
+    <None Include="..\Core\resources\encoders\h264_amf.json" />
+    <None Include="..\Core\resources\encoders\h264_nvenc.json" />
+    <None Include="..\Core\resources\encoders\hevc_amf.json" />
+    <None Include="..\Core\resources\encoders\hevc_nvenc.json" />
+    <None Include="..\Core\resources\encoders\libfdk_aac.json" />
+    <None Include="..\Core\resources\encoders\libmp3lame.json" />
+    <None Include="..\Core\resources\encoders\libopus.json" />
+    <None Include="..\Core\resources\encoders\libvorbis.json" />
+    <None Include="..\Core\resources\encoders\libvpx.json" />
+    <None Include="..\Core\resources\encoders\libvpx-vp9.json" />
+    <None Include="..\Core\resources\encoders\libx264.json" />
+    <None Include="..\Core\resources\encoders\libx265.json" />
+    <None Include="..\Core\resources\encoders\pcm_s16le.json" />
+    <None Include="..\Core\resources\encoders\pcm_s24le.json" />
+    <None Include="..\Core\resources\encoders\pcm_s32le.json" />
+    <None Include="..\Core\resources\encoders\prores_ks.json" />
+    <None Include="..\Core\resources\muxers\mkv.json" />
+    <None Include="..\Core\resources\muxers\mov.json" />
+    <None Include="..\Core\resources\muxers\mp4.json" />
+    <None Include="..\Core\resources\muxers\webm.json" />
+    <None Include="..\Core\resources\translations\english.json" />
+    <None Include="..\Core\resources\encoders\hap.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PremierePlugin.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioRenderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructionSet.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Suites.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoRenderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PremierePlugin.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="..\Core\Core.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

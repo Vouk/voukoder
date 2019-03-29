@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ffv1",
+  "name": "FFV1",
+  "defaults": {
+    "level": "3"
+  },
+  "groups": [
+    {
+      "id": "ffv1.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "ffv1.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv420p10le"
+              },
+              {
+                "value": "yuv422p10le"
+              },
+              {
+                "value": "yuv444p10le"
+              },
+              {
+                "value": "yuv420p12le"
+              },
+              {
+                "value": "yuv422p12le"
+              },
+              {
+                "value": "yuv444p12le"
+              },
+              {
+                "value": "yuv420p14le"
+              },
+              {
+                "value": "yuv422p14le"
+              },
+              {
+                "value": "yuv444p14le"
+              },
+              {
+                "value": "yuv420p16le"
+              },
+              {
+                "value": "yuv422p16le"
+              },
+              {
+                "value": "yuv444p16le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ffv1.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "ffv1.frames.g",
+          "parameter": "g",
+          "control": {
+            "maximum": 600,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 250
+          }
+        }
+      ]
+    },
+    {
+      "id": "ffv1.slices",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "ffv1.slices.slices",
+          "parameter": "slices",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 4,
+            "items": [
+              {},
+              {
+                "value": "4"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "24"
+              },
+              {
+                "value": "30"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ffv1.slices.slicecrc",
+          "parameter": "slicecrc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ffv1.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "ffv1.misc.coder",
+          "parameter": "coder",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ffv1.misc.context",
+          "parameter": "context",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

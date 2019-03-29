@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ac3",
+  "name": "AC-3",
+  "defaults": {
+    "_sampleFormat": "fltp"
+  },
+  "groups": []
+}

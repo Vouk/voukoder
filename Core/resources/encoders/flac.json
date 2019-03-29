@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "flac",
+  "name": "FLAC",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "flac.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "flac.basic.sampleFormat",
+          "parameter": "_sampleFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "s16"
+              },
+              {
+                "value": "s32"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flac.compression",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "flac.compression.compression_level",
+          "parameter": "compression_level",
+          "control": {
+            "maximum": 12,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          }
+        }
+      ]
+    }
+  ]
+}
