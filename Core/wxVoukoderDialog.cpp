@@ -433,6 +433,10 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	EncoderInfo* encoderInfo = GetSelectedEncoder(m_genEncVideoChoice);
 	exportInfo.video.id = encoderInfo->id;
 
+	// Clear options when encoder changes (except on startup)
+	if (event.GetId() != 0)
+		exportInfo.video.options.clear();
+
 	if (exportInfo.video.enabled)
 	{
 		UpdateFormats();
@@ -480,6 +484,10 @@ void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 {
 	EncoderInfo* encoderInfo = GetSelectedEncoder(m_genEncAudioChoice);
 	exportInfo.audio.id = encoderInfo->id;
+
+	// Clear options when encoder changes (except on startup)
+	if (event.GetId() != 0)
+		exportInfo.video.options.clear();
 
 	if (exportInfo.audio.enabled)
 	{

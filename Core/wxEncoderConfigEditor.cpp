@@ -91,7 +91,7 @@ void wxEncoderConfigEditor::Configure(EncoderInfo encoderInfo, OptionContainer o
 
 			// Import stored settings
 			EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
-			if (options.find(optionInfo.parameter) != options.end() && optionInfo.parameter[0] != '_')
+			if (options.find(optionInfo.parameter) != options.end())
 			{
 				optionProperty->SetChecked();
 				
