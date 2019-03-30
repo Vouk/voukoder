@@ -25,11 +25,12 @@ static const __m128 scale_add = _mm_setr_ps(
 	0.0f
 );
 
-VideoRenderer::VideoRenderer(csSDK_uint32 pluginId, csSDK_uint32 width, csSDK_uint32 height, PrSuites *suites, std::function<bool(AVFrame *frame, int pass)> callback):
+VideoRenderer::VideoRenderer(csSDK_uint32 pluginId, csSDK_uint32 width, csSDK_uint32 height, bool maxDepth, PrSuites *suites, std::function<bool(AVFrame *frame, int pass)> callback):
 	suites(suites),
 	pluginId(pluginId),
 	width(width),
 	height(height),
+	maxDepth(maxDepth),
 	callback(callback)
 {}
 
@@ -302,6 +303,14 @@ void VideoRenderer::flipImage(char* pixels, const csSDK_int32 rowBytes)
 
 PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportInfo encoderInfo)
 {
+	// Rendering with max depth
+	if (maxDepth)
+	{
+		av_log(NULL, AV_LOG_INFO, "Rendering with maximum depth requested. Forcing YUVX_4444_32f.");
+
+		return encoderInfo.video.colorSpace == AVColorSpace::AVCOL_SPC_BT709 ? PrPixelFormat_VUYX_4444_32f_709 : PrPixelFormat_VUYX_4444_32f;
+	}
+
 	av_log(NULL, AV_LOG_INFO, "Requesting pixel format: %s\n", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
 
 	if (encoderInfo.video.pixelFormat == AV_PIX_FMT_YUV420P ||
