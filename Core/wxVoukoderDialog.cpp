@@ -324,7 +324,7 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 	wxString vEncoder = configuration->DefaultVideoEncoder;
 	wxString aEncoder = configuration->DefaultAudioEncoder;
 	wxString format = configuration->DefaultMuxer;
-	bool faststart = true;
+	bool faststart = false;
 
 	// Video encoder
 	if (!exportInfo.video.id.IsEmpty())
