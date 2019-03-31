@@ -3,7 +3,7 @@
   "id": "libfdk_aac",
   "name": "AAC (Fraunhofer)",
   "defaults": {
-    "_sampleFormat": "s16p"
+    "_sampleFormat": "s16"
   },
   "groups": [
     {
