@@ -254,12 +254,13 @@
         },
         {
           "id": "libx264.standard.strategy",
-          "parameter": "qp",
+          "parameter": "rc",
           "control": {
             "type": "combobox",
             "selectedIndex": 1,
             "items": [
               {
+                "value": "abr",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -291,6 +292,7 @@
                 ]
               },
               {
+                "value": "crf",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -322,6 +324,7 @@
                 ]
               },
               {
+                "value": "cqp",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -346,38 +349,6 @@
                         {
                           "id": "libx264.standard.strategy.qp",
                           "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "value": "0",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "libx264.standard.strategy.bitrate",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx264.standard.strategy.multipass",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx264.standard.strategy.slowfirstpass",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx264.standard.strategy.crf",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx264.standard.strategy.qp",
-                          "visible": false
                         }
                       ]
                     }
@@ -426,7 +397,7 @@
           "parameter": "crf",
           "control": {
             "type": "float",
-            "minimum": 1.0,
+            "minimum": 0.0,
             "maximum": 51.0,
             "singleStep": 0.1,
             "value": 23.0
@@ -437,7 +408,7 @@
           "parameter": "qp",
           "control": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 69,
             "singleStep": 1,
             "value": 23
