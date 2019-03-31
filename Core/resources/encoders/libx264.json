@@ -145,7 +145,7 @@
           "id": "libx264.standard.profile",
           "parameter": "profile",
           "control": {
-            "selectedIndex": 0,
+            "selectedIndex": 1,
             "type": "combobox",
             "items": [
               {

@@ -169,6 +169,7 @@
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
     <ClInclude Include="lavf.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="MuxerInfo.h" />
     <ClInclude Include="MuxerUtils.h" />
     <ClInclude Include="NvidiaCustomOptions.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="EncoderEngine.cpp" />
     <ClCompile Include="EncoderUtils.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="MuxerUtils.cpp" />
     <ClCompile Include="NvidiaCustomOptions.cpp" />
     <ClCompile Include="OptionContainer.cpp" />

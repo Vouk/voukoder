@@ -3,6 +3,8 @@
 #include "EncoderUtils.h"
 #include "PluginUpdate.h"
 #include "Images.h"
+#include "Voukoder.h"
+#include "Log.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -140,6 +142,20 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	bGenTab1Sizer->Fit(m_genTab1);
 	m_genNotebook->AddPage(m_genTab1, Trans("ui.encoderconfig.general"), false);
 
+	// General > Log
+
+	//m_generalLogPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	//wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
+
+	//m_generalLogText = new wxTextCtrl(m_generalLogPanel, wxID_ANY, Log::instance()->GetAsString(), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL);
+	//m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
+	//m_generalLogText->ShowPosition(m_generalLogText->GetLastPosition());
+	//logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 5);
+	//
+	//m_generalLogPanel->SetSizer(logSizer);
+	//m_generalLogPanel->Layout();
+	//m_genNotebook->AddPage(m_generalLogPanel, Trans("ui.encoderconfig.general.log"), false);
+
 	// General > About
 
 	m_generalAboutPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -210,7 +226,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_videoCategory->SetSizer(bVideoCategorySizer);
 		m_videoCategory->Layout();
 		bVideoCategorySizer->Fit(m_videoCategory);
-		m_Categories->AddPage(m_videoCategory, Trans("ui.encoderconfig.video.title"), false);
+		m_Categories->AddPage(m_videoCategory, Trans("ui.encoderconfig.video"), false);
 		m_Categories->SetPageImage(imageIdx++, 1);
 	}
 
@@ -237,7 +253,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_audioCategory->SetSizer(bAudioCategorySizer);
 		m_audioCategory->Layout();
 		bAudioCategorySizer->Fit(m_audioCategory);
-		m_Categories->AddPage(m_audioCategory, Trans("ui.encoderconfig.audio.title"), false);
+		m_Categories->AddPage(m_audioCategory, Trans("ui.encoderconfig.audio"), false);
 		m_Categories->SetPageImage(imageIdx++, 2);
 	}
 

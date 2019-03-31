@@ -49,6 +49,8 @@ protected:
 	wxChoice* m_genMuxFormatChoice;
 	wxCheckBox* m_genMuxFaststartCheck;
 	wxPanel* m_generalOtherPanel;
+	wxPanel* m_generalLogPanel;
+	wxTextCtrl* m_generalLogText;
 	wxPanel* m_generalAboutPanel;
 
 	wxEncoderConfigEditor* m_videoEditor;
