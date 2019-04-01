@@ -142,31 +142,400 @@
           "control": {
             "items": [
               {
-                "value": "yuv420p"
+                "value": "yuv420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv422p"
+                "value": "yuv422p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv444p"
+                "value": "yuv444p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv420p10le"
+                "value": "yuv420p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv422p10le"
+                "value": "yuv422p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv444p10le"
+                "value": "yuv444p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv420p12le"
+                "value": "yuv420p12le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv422p12le"
+                "value": "yuv422p12le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv444p12le"
+                "value": "yuv444p12le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx265.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile420-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile422-12",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.profile444-12",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             ],
             "selectedIndex": 0,
@@ -220,7 +589,7 @@
           }
         },
         {
-          "id": "libx265.standard.profile",
+          "id": "libx265.standard.profile420-8",
           "parameter": "profile",
           "control": {
             "items": [
@@ -232,7 +601,81 @@
               },
               {
                 "value": "mainstillpicture"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile420-10",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main10"
               },
+              {
+                "value": "main10-intra"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile420-12",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main12"
+              },
+              {
+                "value": "main12-intra"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile422-10",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main422-10"
+              },
+              {
+                "value": "main422-10-intra"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile422-12",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main422-12"
+              },
+              {
+                "value": "main422-12-intra"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile444-8",
+          "parameter": "profile",
+          "control": {
+            "items": [
               {
                 "value": "main444-8"
               },
@@ -241,37 +684,33 @@
               },
               {
                 "value": "main444-stillpicture"
-              },
-              {
-                "value": "main10"
-              },
-              {
-                "value": "main10-intra"
-              },
-              {
-                "value": "main422-10"
-              },
-              {
-                "value": "main422-10-intra"
-              },
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile444-10",
+          "parameter": "profile",
+          "control": {
+            "items": [
               {
                 "value": "main444-10"
               },
               {
                 "value": "main444-10-intra"
-              },
-              {
-                "value": "main12"
-              },
-              {
-                "value": "main12-intra"
-              },
-              {
-                "value": "main422-12"
-              },
-              {
-                "value": "main422-12-intra"
-              },
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.standard.profile444-12",
+          "parameter": "profile",
+          "control": {
+            "items": [
               {
                 "value": "main444-12"
               },

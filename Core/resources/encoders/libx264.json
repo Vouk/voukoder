@@ -75,22 +75,148 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "yuv420p"
+                "value": "yuv420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv422p"
+                "value": "yuv422p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv444p"
+                "value": "yuv444p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv420p10le"
+                "value": "yuv420p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv422p10le"
+                "value": "yuv422p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "yuv444p10le"
+                "value": "yuv444p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -142,7 +268,7 @@
           }
         },
         {
-          "id": "libx264.standard.profile",
+          "id": "libx264.standard.profile420",
           "parameter": "profile",
           "control": {
             "selectedIndex": 1,
@@ -156,10 +282,30 @@
               },
               {
                 "value": "high"
-              },
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile422",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
               {
                 "value": "high422"
-              },
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile444",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
               {
                 "value": "high444"
               }
