@@ -1,4 +1,5 @@
 #include "wxVoukoderDialog.h"
+#include <wx/clipbrd.h>
 #include "Translation.h"
 #include "EncoderUtils.h"
 #include "PluginUpdate.h"
@@ -144,17 +145,44 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 	// General > Log
 
-	//m_generalLogPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	//wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
+	m_generalLogPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
 
-	//m_generalLogText = new wxTextCtrl(m_generalLogPanel, wxID_ANY, Log::instance()->GetAsString(), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL);
-	//m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
-	//m_generalLogText->ShowPosition(m_generalLogText->GetLastPosition());
-	//logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 5);
-	//
-	//m_generalLogPanel->SetSizer(logSizer);
-	//m_generalLogPanel->Layout();
-	//m_genNotebook->AddPage(m_generalLogPanel, Trans("ui.encoderconfig.general.log"), false);
+	m_generalLogText = new wxTextCtrl(m_generalLogPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL);
+	m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
+	logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 5);
+	
+	// General > Log > Buttons
+
+	m_genLogButtonsPanel = new wxPanel(m_generalLogPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.general.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLogClear->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
+		Log::instance()->Clear();
+		m_generalLogText->Clear();
+		m_generalLogText->SetFocus();
+	});
+	btnSizer2->Add(m_genLogClear, 0, wxALL, 5);
+	m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.general.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLogCopyToClipboard->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
+		wxClipboard wxClip;
+		if (wxClip.Open())
+		{
+			wxClip.Clear();
+			wxClip.SetData(new wxTextDataObject(m_generalLogText->GetValue()));
+			wxClip.Flush();
+			wxClip.Close();
+		}
+	});
+	btnSizer2->Add(m_genLogCopyToClipboard, 0, wxALL, 5);
+	m_genLogButtonsPanel->SetSizer(btnSizer2);
+	m_genLogButtonsPanel->Layout();
+	btnSizer2->Fit(m_genLogButtonsPanel);
+	logSizer->Add(m_genLogButtonsPanel, 0, wxEXPAND | wxALL);
+
+	m_generalLogPanel->SetSizer(logSizer);
+	m_generalLogPanel->Layout();
+	m_genNotebook->AddPage(m_generalLogPanel, Trans("ui.encoderconfig.general.log"), false);
 
 	// General > About
 
@@ -331,6 +359,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 	this->Centre(wxBOTH);
 
+	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
+	m_generalLogText->ShowPosition(m_generalLogText->GetLastPosition());
 }
 
 void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
