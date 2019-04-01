@@ -12,10 +12,8 @@ Log::Log()
 
 void Log::AddLine(wxString line)
 {
-	wxDateTime dt = wxDateTime::Now();
+	_log.Append("[" + wxDateTime::Now().FormatISOCombined() + "] " + line + "\n");
 
-	// TOO SLOW!!! Need to find better solution
-	_log.Append("[" + dt.FormatISOCombined() + "] " + line + "\n");
 	if (_log.size() > LOG_BUFFER_SIZE)
 	{
 		_log.erase(0, _log.Find('\n') + 1);

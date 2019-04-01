@@ -2,7 +2,7 @@
 
 #include <wx\wx.h>
 
-#define LOG_BUFFER_SIZE 65535
+#define LOG_BUFFER_SIZE 655350
 
 class Log
 {
