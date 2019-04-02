@@ -94,7 +94,7 @@
   "ui.encoderconfig.general.log.copyToClipboard": "Copy to clipboard",
   "ui.encoderconfig.video": "Video",
   "ui.encoderconfig.audio": "Audio",
-  "ui.encoderconfig.update": "Update",
+  "ui.encoderconfig.update": "Update\navailable",
   "ui.encoderconfig.update.title": "Version %d.%d.%d",
   "ui.encoderconfig.update.button": "Open download page",
   "ui.encoderconfig.tabs.editor": "Editor",
