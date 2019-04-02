@@ -75,7 +75,8 @@
   "ui.premiere.tab.voukoder.configuration._label": "Configure ...",
   "ui.premiere.tab.voukoder.configuration._description": "",
   "ui.premiere.error.missingConfiguration": "No valid export configuration set. Please configure Voukoder before starting the export.",
-  "ui.premiere.error.encoderError": "Unable to initialize the encoder.\n\nThis has most likely to do with an invalid combination of (internal) options.\n\nPlease check if the used options and presets comply to the selected output level (if selected). Even the encoders default configuration (no options set at all) might not comply with all levels.",
+  "ui.premiere.error.encoderError": "Unable to initialize the encoder.\n\nThis has most likely to do with an invalid combination of options.",
+  "ui.premiere.error.encoderError.level": "Please check if the used options and presets comply to the selected output level. Even the encoders default configuration (no options set at all) might not comply with all levels.",
 
   "ui.encoderconfig.general": "General",
   "ui.encoderconfig.general.encoders": "Encoders",
