@@ -9,9 +9,9 @@
 #include "json.hpp"
 
 #define VKDR_APPNAME L"Voukoder R2"
-#define VKDR_VERSION_MAJOR 0
+#define VKDR_VERSION_MAJOR 2
 #define VKDR_VERSION_MINOR 0
-#define VKDR_VERSION_PATCH 0
+#define VKDR_VERSION_PATCH 1
 #define VKDR_VERSION_SUFFIX ""
 
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
