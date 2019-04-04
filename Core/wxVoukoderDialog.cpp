@@ -487,6 +487,23 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	{
 		UpdateFormats();
 
+		// Unfold param groups
+		for (auto& paramGroup : encoderInfo->paramGroups)
+		{
+			if (exportInfo.video.options.find(paramGroup.first) != exportInfo.video.options.end())
+			{
+				wxStringTokenizer tokens(exportInfo.video.options[paramGroup.first], ":");
+				while (tokens.HasMoreTokens())
+				{
+					wxString token = tokens.GetNextToken();
+					exportInfo.video.options.insert(
+						std::make_pair(token.BeforeFirst('='), token.AfterFirst('=')));
+				}
+
+				exportInfo.video.options.erase(paramGroup.first);
+			}
+		}
+
 		// Handle interlaced modes
 		if (exportInfo.video.id == "libx264")
 		{
