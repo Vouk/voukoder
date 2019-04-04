@@ -2,10 +2,65 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "hevc_nvenc",
   "name": "NVENC hevc",
-  "defaults": {
-    "_pixelFormat": "yuv420p"
-  },
+  "defaults": {},
   "groups": [
+    {
+      "id": "hevc_nvenc.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "hevc_nvenc.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "yuv420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "p010le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "hevc_nvenc.standard",
       "class": "standard",
@@ -117,7 +172,7 @@
           }
         },
         {
-          "id": "hevc_nvenc.standard.profile",
+          "id": "hevc_nvenc.standard.profile420-8",
           "parameter": "profile",
           "control": {
             "type": "combobox",
@@ -127,10 +182,20 @@
                 "value": "main"
               },
               {
-                "value": "main10"
-              },
-              {
                 "value": "rext"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.profile420-10",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main10"
               }
             ]
           }

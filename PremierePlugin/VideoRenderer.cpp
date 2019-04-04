@@ -314,7 +314,8 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportInfo encoderInfo)
 	av_log(NULL, AV_LOG_INFO, "Requesting pixel format: %s\n", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
 
 	if (encoderInfo.video.pixelFormat == AV_PIX_FMT_YUV420P ||
-		encoderInfo.video.pixelFormat == AV_PIX_FMT_NV12)
+		encoderInfo.video.pixelFormat == AV_PIX_FMT_NV12 ||
+		encoderInfo.video.pixelFormat == AV_PIX_FMT_P010LE) // Not really nice
 	{
 		if (encoderInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_PROGRESSIVE)
 		{
