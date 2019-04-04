@@ -598,7 +598,7 @@
   "libx264.ratecontrol.vbv-bufsize._label": "VBV Buffer Size [kbit]",
   "libx264.ratecontrol.vbv-bufsize._description": "The Video Buffering Verifier bitstream buffer size.",
   "libx264.ratecontrol.vbv-init._label": "VBV Initial Buffer",
-  "libx264.ratecontrol.vbv-init._description": "\"The Video Buffering Verifier validates that the encoded",
+  "libx264.ratecontrol.vbv-init._description": "The Video Buffering Verifier validates that the encoded",
   "libx264.ratecontrol.qpmin._label": "Min. Quantizer",
   "libx264.ratecontrol.qpmin._description": "The minimum frame quantizer.",
   "libx264.ratecontrol.qpmax._label": "Max. Quantizer",

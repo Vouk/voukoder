@@ -18,9 +18,10 @@ wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent, OptionContainer &
 	wxBoxSizer* bSizer = new wxBoxSizer(wxVERTICAL);
 
 	// Property grid
-	m_propertyGrid = new wxPropertyGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER | wxPG_EX_HELP_AS_TOOLTIPS);
+	m_propertyGrid = new wxPropertyGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER);
 	m_propertyGrid->SetMinSize(wxSize(100, 100));
 	m_propertyGrid->SetValidationFailureBehavior(0);
+	m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
 	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxEncoderConfigEditor::OnLeftDown, this);
 	m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxEncoderConfigEditor::OnPropertyGridChanged, this, m_propertyGrid->GetId());
 	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxEncoderConfigEditor::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
