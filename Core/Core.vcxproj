@@ -168,6 +168,7 @@
     <ClInclude Include="ExportInfo.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
+    <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="LanguageInfo.h" />
     <ClInclude Include="LanguageUtils.h" />
     <ClInclude Include="lavf.h" />

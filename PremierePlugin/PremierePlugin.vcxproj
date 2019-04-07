@@ -213,34 +213,6 @@
     <ClCompile Include="VideoRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Core\resources\encoders\aac.json" />
-    <None Include="..\Core\resources\encoders\ac3.json" />
-    <None Include="..\Core\resources\encoders\alac.json" />
-    <None Include="..\Core\resources\encoders\ffv1.json" />
-    <None Include="..\Core\resources\encoders\flac.json" />
-    <None Include="..\Core\resources\encoders\h264_amf.json" />
-    <None Include="..\Core\resources\encoders\h264_nvenc.json" />
-    <None Include="..\Core\resources\encoders\hap.json" />
-    <None Include="..\Core\resources\encoders\hevc_amf.json" />
-    <None Include="..\Core\resources\encoders\hevc_nvenc.json" />
-    <None Include="..\Core\resources\encoders\libfdk_aac.json" />
-    <None Include="..\Core\resources\encoders\libmp3lame.json" />
-    <None Include="..\Core\resources\encoders\libopus.json" />
-    <None Include="..\Core\resources\encoders\libvorbis.json" />
-    <None Include="..\Core\resources\encoders\libvpx-vp9.json" />
-    <None Include="..\Core\resources\encoders\libvpx.json" />
-    <None Include="..\Core\resources\encoders\libx264.json" />
-    <None Include="..\Core\resources\encoders\libx265.json" />
-    <None Include="..\Core\resources\encoders\pcm_s16le.json" />
-    <None Include="..\Core\resources\encoders\pcm_s24le.json" />
-    <None Include="..\Core\resources\encoders\pcm_s32le.json" />
-    <None Include="..\Core\resources\encoders\prores_ks.json" />
-    <None Include="..\Core\resources\muxers\mkv.json" />
-    <None Include="..\Core\resources\muxers\mov.json" />
-    <None Include="..\Core\resources\muxers\mp4.json" />
-    <None Include="..\Core\resources\muxers\webm.json" />
-    <None Include="..\Core\resources\translations\english.json" />
-    <None Include="deploy.bat" />
     <None Include="PremierePlugin.def" />
     <None Include="res\PremierePlugin.rc2" />
   </ItemGroup>
@@ -248,7 +220,6 @@
     <ClInclude Include="..\Core\resource.h" />
     <ClInclude Include="AudioRenderer.h" />
     <ClInclude Include="Gui.h" />
-    <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="PremierePlugin.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Suites.h" />

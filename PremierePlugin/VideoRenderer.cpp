@@ -1,7 +1,7 @@
 #include <tmmintrin.h>
 #include <immintrin.h>
 #include "VideoRenderer.h"
-#include "InstructionSet.h"
+#include <InstructionSet.h>
 #include <Voukoder.h>
 
 static const __m128i unpackMask8 = _mm_set_epi8(
