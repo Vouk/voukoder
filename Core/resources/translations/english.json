@@ -94,6 +94,7 @@
     "ui.encoderconfig.general.about.version": "Version",
     "ui.encoderconfig.general.about.author": "Project Lead and Development",
     "ui.encoderconfig.general.about.awesomefont": "Icons \"Font Awesome\"",
+    "ui.encoderconfig.general.about.transmaint": "Translation maintainers",
     "ui.encoderconfig.general.log": "Logfile",
     "ui.encoderconfig.general.log.clear": "Clear",
     "ui.encoderconfig.general.log.copyToClipboard": "Copy to clipboard",
