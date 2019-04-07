@@ -4,8 +4,6 @@
   "langId": 1033,
   "translations": {
     "ui.premiere.tab.video": "Video",
-    "ui.premiere.tab.video.match_source._label": "Use values from source (Match Source).",
-    "ui.premiere.tab.video.match_source._description": "Use values from source (Match Source).",
     "ui.premiere.tab.video.width._label": "Width",
     "ui.premiere.tab.video.width._description": "Width of the video frame.",
     "ui.premiere.tab.video.height._label": "Height",
