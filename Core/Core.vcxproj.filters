@@ -36,9 +36,6 @@
     <ClInclude Include="lavf.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Translation.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -114,6 +111,12 @@
     <ClInclude Include="Log.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="LanguageUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -147,6 +150,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageUtils.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

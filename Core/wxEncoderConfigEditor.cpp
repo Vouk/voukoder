@@ -1,5 +1,5 @@
 #include "wxEncoderConfigEditor.h"
-#include "Translation.h"
+#include "LanguageUtils.h"
 #include "OnChangeValueOptionFilter.h"
 #include "OnSelectionOptionFilter.h"
 #include "EncoderUtils.h"
@@ -233,6 +233,7 @@ void wxEncoderConfigEditor::OnPropertyGridChanged(wxPropertyGridEvent& event)
 
 	RefreshResults();
 }
+
 void wxEncoderConfigEditor::OnResetClick(wxCommandEvent& event)
 {
 	Configure(encoderInfo, options);

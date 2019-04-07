@@ -48,6 +48,13 @@ protected:
 	wxStaticText* m_genMuxFormatLabel;
 	wxChoice* m_genMuxFormatChoice;
 	wxCheckBox* m_genMuxFaststartCheck;
+
+	wxPanel* m_genLocPanel;
+	wxPanel* m_genLocFormPanel;
+	wxStaticText* m_genLocFormatLabel;
+	wxChoice* m_genLocLanguageChoice;
+	wxCheckBox* m_genLocAutoLanguageCheck;
+
 	wxPanel* m_generalOtherPanel;
 	wxPanel* m_generalLogPanel;
 	wxTextCtrl* m_generalLogText;
@@ -85,4 +92,5 @@ private:
 	void OnAudioEncoderChanged(wxCommandEvent& event);
 	void OnMuxerChanged(wxCommandEvent& event);
 	void OnFaststartChanged(wxCommandEvent& event);
+	void OnOkayClick(wxCommandEvent& event);
 };

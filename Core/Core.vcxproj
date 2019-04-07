@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -168,6 +168,8 @@
     <ClInclude Include="ExportInfo.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
+    <ClInclude Include="LanguageInfo.h" />
+    <ClInclude Include="LanguageUtils.h" />
     <ClInclude Include="lavf.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="MuxerInfo.h" />
@@ -183,7 +185,6 @@
     <ClInclude Include="ResourceInfo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Translation.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxEncoderConfigEditor.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="EncoderEngine.cpp" />
     <ClCompile Include="EncoderUtils.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
+    <ClCompile Include="LanguageUtils.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="MuxerUtils.cpp" />
     <ClCompile Include="NvidiaCustomOptions.cpp" />

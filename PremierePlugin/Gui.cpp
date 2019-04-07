@@ -1,6 +1,6 @@
 #include "Gui.h"
 #include <wx/wx.h>
-#include <Translation.h>
+#include <LanguageUtils.h>
 
 class actctx_activator
 {

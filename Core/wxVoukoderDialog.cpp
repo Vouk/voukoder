@@ -1,7 +1,8 @@
 #include "wxVoukoderDialog.h"
 #include <wx/clipbrd.h>
-#include "Translation.h"
+#include <wx/msw/registry.h>
 #include "EncoderUtils.h"
+#include "LanguageUtils.h"
 #include "PluginUpdate.h"
 #include "Images.h"
 #include "Voukoder.h"
@@ -96,6 +97,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	sbGenEncSizer->Fit(m_genEncPanel);
 	bGenTab1Sizer->Add(m_genEncPanel, 0, wxEXPAND | wxALL, 5);
 
+	// General > Muxer
+
 	m_genMuxPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenMuxSizer;
 	sbGenMuxSizer = new wxStaticBoxSizer(new wxStaticBox(m_genMuxPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers")), wxVERTICAL);
@@ -134,6 +137,38 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genMuxPanel->Layout();
 	sbGenMuxSizer->Fit(m_genMuxPanel);
 	bGenTab1Sizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
+
+	// General > Localization
+
+	m_genLocPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.general.localization")), wxVERTICAL);
+
+	m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxGridBagSizer* gbGenLocFormSizer = new wxGridBagSizer(0, 0);
+	gbGenLocFormSizer->SetFlexibleDirection(wxHORIZONTAL);
+	gbGenLocFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+
+	m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLocFormatLabel->Wrap(-1);
+	m_genLocFormatLabel->SetMinSize(wxSize(100, -1));
+	gbGenLocFormSizer->Add(m_genLocFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
+
+	wxArrayString m_genLocLanguageChoices;
+	m_genLocLanguageChoice = new wxChoice(m_genLocFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genLocLanguageChoices, wxCB_SORT);
+	gbGenLocFormSizer->Add(m_genLocLanguageChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
+
+	gbGenLocFormSizer->AddGrowableCol(1);
+	m_genLocFormPanel->SetSizer(gbGenLocFormSizer);
+	m_genLocFormPanel->Layout();
+	gbGenLocFormSizer->Fit(m_genLocFormPanel);
+	sbGenLocSizer->Add(m_genLocFormPanel, 1, wxEXPAND | wxALL, 5);
+
+	m_genLocPanel->SetSizer(sbGenLocSizer);
+	m_genLocPanel->Layout();
+	sbGenLocSizer->Fit(m_genLocPanel);
+	bGenTab1Sizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
+
+	// General > ...
 
 	m_generalOtherPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	bGenTab1Sizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
@@ -343,6 +378,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
 	btnSizer->Add(0, 0, 1, wxEXPAND, 5);
 	m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
+	m_btnOK->Bind(wxEVT_BUTTON, &wxVoukoderDialog::OnOkayClick, this);
 	btnSizer->Add(m_btnOK, 0, wxALL, 5);
 	m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
 	btnSizer->Add(m_btnCancel, 0, wxALL, 5);
@@ -437,6 +473,17 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 
 			break;
 		}
+	}
+
+	LANGID langId = LanguageUtils::GetLanguageId(configuration->languageInfos);
+
+	// Populate available languages
+	for (auto& languageInfo : configuration->languageInfos)
+	{
+		m_genLocLanguageChoice->Append(languageInfo.name, (void*)&languageInfo);
+
+		if (languageInfo.langId == langId)
+			m_genLocLanguageChoice->SetStringSelection(languageInfo.name);
 	}
 }
 
@@ -578,6 +625,14 @@ void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 void wxVoukoderDialog::OnFaststartChanged(wxCommandEvent& event)
 {
 	exportInfo.format.faststart = m_genMuxFaststartCheck->GetValue();
+}
+
+void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
+{
+	LanguageInfo *languageInfo = reinterpret_cast<LanguageInfo*>(m_genLocLanguageChoice->GetClientData(m_genLocLanguageChoice->GetSelection()));
+	LanguageUtils::StoreLanguageId(languageInfo->langId);
+
+	EndDialog(wxID_OK);
 }
 
 EncoderInfo* wxVoukoderDialog::GetSelectedEncoder(wxChoice* choice)

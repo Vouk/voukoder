@@ -1,6 +1,6 @@
 #include <map>
 #include "EncoderUtils.h"
-#include "Translation.h"
+#include "LanguageUtils.h"
 #include "NvidiaCustomOptions.h"
 
 bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)

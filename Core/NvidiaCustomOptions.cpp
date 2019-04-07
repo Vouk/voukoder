@@ -1,5 +1,5 @@
 #include "NvidiaCustomOptions.h"
-#include "Translation.h"
+#include "LanguageUtils.h"
 
 bool NvidiaCustomOptions::GetOptions(EncoderInfo &encoderInfo)
 {

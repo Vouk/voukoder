@@ -6,6 +6,7 @@
 #include "resource.h"
 #include "EncoderInfo.h"
 #include "MuxerInfo.h"
+#include "LanguageInfo.h"
 #include "json.hpp"
 
 #define VKDR_APPNAME L"Voukoder R2"
@@ -13,6 +14,8 @@
 #define VKDR_VERSION_MINOR 0
 #define VKDR_VERSION_PATCH 0
 #define VKDR_VERSION_SUFFIX ""
+#define VKDR_REG_ROOT "Software\\Voukoder"
+#define VKDR_REG_LANGUAGE "Language"
 
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
@@ -33,6 +36,7 @@ struct Configuration
 	wxString DefaultMuxer = "mp4";
 	vector<EncoderInfo> encoderInfos;
 	vector<MuxerInfo> muxerInfos;
+	vector<LanguageInfo> languageInfos;
 };
 
 class Voukoder
