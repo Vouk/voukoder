@@ -228,9 +228,15 @@
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
     <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\muxers\aac.json" />
+    <None Include="resources\muxers\flac.json" />
     <None Include="resources\muxers\mkv.json" />
     <None Include="resources\muxers\mov.json" />
+    <None Include="resources\muxers\mp3.json" />
     <None Include="resources\muxers\mp4.json" />
+    <None Include="resources\muxers\ogg.json" />
+    <None Include="resources\muxers\opus.json" />
+    <None Include="resources\muxers\wav.json" />
     <None Include="resources\muxers\webm.json" />
     <None Include="resources\translations\english.json" />
   </ItemGroup>

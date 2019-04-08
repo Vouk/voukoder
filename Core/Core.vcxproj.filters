@@ -241,6 +241,24 @@
     <None Include="resources\encoders\hap.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\muxers\aac.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\flac.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mp3.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\ogg.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\opus.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\wav.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
