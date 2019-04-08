@@ -76,6 +76,13 @@ prMALError Gui::Create()
 	infoSuite->GetExportSourceInfo(pluginId, kExportInfo_AudioSampleRate, &seqSampleRate);
 	infoSuite->GetExportSourceInfo(pluginId, kExportInfo_AudioChannelsType, &seqChannelType);
 
+	// Req'd for AME
+	if (seqWidth.mInt32 == 0)
+		seqWidth.mInt32 = 1920;
+
+	if (seqHeight.mInt32 == 0)
+		seqHeight.mInt32 = 1080;
+
 	// Create ADBE UI elements
 	prCreateIntParam(ADBEVideoCodec, ADBEBasicVideoGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrTrue);
 	prCreateIntParam(ADBEVideoWidth, ADBEBasicVideoGroup, exParamFlag_none, seqWidth.mInt32, 320, 10240, kPrFalse, kPrFalse);
