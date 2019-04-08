@@ -54,12 +54,13 @@
       "properties": [
         {
           "id": "libvpx-vp9.standard.strategy",
-          "parameter": "strategy",
+          "parameter": "_strategy",
           "control": {
             "items": [
               {
                 "filters": [
                   {
+                    "value": "bitrate",
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
@@ -77,6 +78,7 @@
                 ]
               },
               {
+                "value": "crf",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -96,6 +98,7 @@
                 ]
               },
               {
+                "value": "bitrate_crf",
                 "filters": [
                   {
                     "filter": "OnSelection",

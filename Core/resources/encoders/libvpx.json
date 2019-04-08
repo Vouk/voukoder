@@ -12,10 +12,11 @@
       "properties": [
         {
           "id": "libvpx.standard.strategy",
-          "parameter": "strategy",
+          "parameter": "_strategy",
           "control": {
             "items": [
               {
+                "value": "bitrate",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -35,6 +36,7 @@
                 ]
               },
               {
+                "value": "crf",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -54,6 +56,7 @@
                 ]
               },
               {
+                "value": "bitrate_crf",
                 "filters": [
                   {
                     "filter": "OnSelection",

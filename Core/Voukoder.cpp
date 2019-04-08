@@ -6,12 +6,15 @@
 
 void Voukoder::Init()
 {
-	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
-	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
+	// Load translations first
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_TRANSLATION));
-	
+
 	// Initialize translation module
 	LanguageUtils::InitTranslation(configuration.languageInfos);
+
+	// Load encoder- and muxer infos
+	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
+	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
 }
 
 const Configuration* Voukoder::GetConfiguration()
