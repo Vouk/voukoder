@@ -40,15 +40,9 @@
 #define IDR_MUX_WAV                     209
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
-#define IDD_DIALOG1                     426
-#define IDD_DIA                         427
-#define IDC_TAB1                        1017
-#define IDC_STATIC1                     1029
-#define IDC_MFCPROPERTYGRID1            1030
-#define IDC_PROP_PREVIEW                1033
-#define IDC_PROP_GRID                   1034
-#define IDC_BUTTON1                     1035
-#define IDRESET                         1036
+#define ID_FILTER                       400
+#define IDR_FLT_ZSCALE                  401
+
 
 // Next default values for new objects
 // 

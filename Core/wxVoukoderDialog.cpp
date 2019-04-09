@@ -30,6 +30,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_HOME));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_VIDEO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_AUDIO));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_FILTER));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_SETTINGS));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_UPDATE));
 	}
 	
@@ -319,6 +321,45 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_Categories->AddPage(m_audioCategory, Trans("ui.encoderconfig.audio"), false);
 		m_Categories->SetPageImage(imageIdx++, 2);
 	}
+
+	// Filters
+
+	m_filterCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bFilterCategorySizer = new wxBoxSizer(wxVERTICAL);
+
+	m_filterNotebook = new wxNotebook(m_filterCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	m_filterPanel = new wxPanel(m_filterNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bFilterLayout = new wxBoxSizer(wxHORIZONTAL);
+
+	m_filterList = new wxListBox(m_filterPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	bFilterLayout->Add(m_filterList, 1, wxALL | wxEXPAND, 5);
+
+	m_filterButtons = new wxPanel(m_filterPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bFilterButtonsLayout = new wxBoxSizer(wxVERTICAL);
+
+	m_filterAdd = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.add"), wxDefaultPosition, wxDefaultSize, 0);
+	bFilterButtonsLayout->Add(m_filterAdd, 0, wxALL, 5);
+
+	m_filterRemove = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.remove"), wxDefaultPosition, wxDefaultSize, 0);
+	bFilterButtonsLayout->Add(m_filterRemove, 0, wxALL, 5);
+
+	m_filterButtons->SetSizer(bFilterButtonsLayout);
+	m_filterButtons->Layout();
+	bFilterButtonsLayout->Fit(m_filterButtons);
+	bFilterLayout->Add(m_filterButtons, 0, wxEXPAND | wxALL, 0);
+
+	m_filterPanel->SetSizer(bFilterLayout);
+	m_filterPanel->Layout();
+	bFilterLayout->Fit(m_filterPanel);
+	m_filterNotebook->AddPage(m_filterPanel, Trans("ui.encoderconfig.filters"), false);
+
+	bFilterCategorySizer->Add(m_filterNotebook, 1, wxEXPAND | wxALL, 0);
+	   
+	m_filterCategory->SetSizer(bFilterCategorySizer);
+	m_filterCategory->Layout();
+	bFilterCategorySizer->Fit(m_filterCategory);
+	m_Categories->AddPage(m_filterCategory, Trans("ui.encoderconfig.filters"), false);
+	m_Categories->SetPageImage(imageIdx++, 3);
 
 	// Set current version
 	Version curVersion;

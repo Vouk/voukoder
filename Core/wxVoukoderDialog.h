@@ -73,6 +73,14 @@ protected:
 	wxNotebook* m_audioNotebook;
 	wxPanel* m_audioEditorPanel;
 
+	wxPanel* m_filterCategory;
+	wxNotebook* m_filterNotebook;
+	wxPanel* m_filterPanel;
+	wxListBox* m_filterList;
+	wxPanel* m_filterButtons;
+	wxButton* m_filterAdd;
+	wxButton* m_filterRemove;
+
 	wxPanel* m_updateCategory;
 	wxNotebook* m_updateNotebook;
 	wxPanel* m_updatePanel;

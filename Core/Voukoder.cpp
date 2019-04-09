@@ -2,6 +2,7 @@
 #include "Callback.h"
 #include "EncoderUtils.h"
 #include "MuxerUtils.h"
+#include "FilterUtils.h"
 #include "LanguageUtils.h"
 
 void Voukoder::Init()
@@ -12,9 +13,10 @@ void Voukoder::Init()
 	// Initialize translation module
 	LanguageUtils::InitTranslation(configuration.languageInfos);
 
-	// Load encoder- and muxer infos
+	// Load encoder, muxer and filter infos
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
+	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_FILTER));
 }
 
 const Configuration* Voukoder::GetConfiguration()
@@ -56,6 +58,14 @@ BOOL Voukoder::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LON
 					if (MuxerUtils::Create(muxerInfo, jsonResource))
 					{
 						configuration.muxerInfos.push_back(muxerInfo);
+					}
+				}
+				else if (lpType == MAKEINTRESOURCE(ID_FILTER))
+				{
+					FilterInfo filterInfo;
+					if (FilterUtils::Create(filterInfo, jsonResource))
+					{
+						configuration.filterInfos.push_back(filterInfo);
 					}
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_TRANSLATION))

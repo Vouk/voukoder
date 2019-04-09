@@ -16,9 +16,6 @@ public:
 	static string GetParameterGroup(EncoderInfo encoderInfo, string parameter);
 
 private:
-	static bool CreateOptionInfo(EncoderOptionInfo &optionInfo, const json json);
-	static bool CreateOptionFilterInfos(vector<OptionFilterInfo> &filters, json resource, string id);
-	static bool CreateOptionFilterInfo(OptionFilterInfo &optionFilterInfo, const json property, const string ownerId);
 	static bool IsAvailable(const string codecId);
 	static AVMediaType GetMediaType(const string codecId);
 };

@@ -166,6 +166,9 @@
     <ClInclude Include="EncoderContext.h" />
     <ClInclude Include="EncoderUtils.h" />
     <ClInclude Include="ExportInfo.h" />
+    <ClInclude Include="FilterInfo.h" />
+    <ClInclude Include="FilterUtils.h" />
+    <ClInclude Include="OptionResourceUtils.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
     <ClInclude Include="InstructionSet.h" />
@@ -194,6 +197,8 @@
   <ItemGroup>
     <ClCompile Include="EncoderEngine.cpp" />
     <ClCompile Include="EncoderUtils.cpp" />
+    <ClCompile Include="FilterUtils.cpp" />
+    <ClCompile Include="OptionResourceUtils.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
     <ClCompile Include="LanguageUtils.cpp" />
     <ClCompile Include="Log.cpp" />

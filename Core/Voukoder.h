@@ -6,6 +6,7 @@
 #include "resource.h"
 #include "EncoderInfo.h"
 #include "MuxerInfo.h"
+#include "FilterInfo.h"
 #include "LanguageInfo.h"
 #include "json.hpp"
 
@@ -36,6 +37,7 @@ struct Configuration
 	wxString DefaultMuxer = "mp4";
 	vector<EncoderInfo> encoderInfos;
 	vector<MuxerInfo> muxerInfos;
+	vector<FilterInfo> filterInfos;
 	vector<LanguageInfo> languageInfos;
 };
 
