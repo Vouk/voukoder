@@ -46,7 +46,6 @@ struct ArbData
 	prUTF16Char audioCodecOptions[16384];
 	prUTF16Char formatId[10];
 	bool faststart;
-	prUTF16Char videoFilters[16384];
 };
 
 #define prCreateIntParam(_identifier_, _groupName_, _paramflags_, _defaultValue_, _minValue_, _maxValue_, _disabled_, _hidden_) { \
