@@ -129,6 +129,12 @@
     <ClInclude Include="FilterUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="wxAddFilterDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxFilterPanel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -171,6 +177,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="FilterUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxAddFilterDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxFilterPanel.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

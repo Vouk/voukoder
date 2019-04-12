@@ -112,6 +112,11 @@
     "ui.encoderconfig.buttonOkay": "&OK",
     "ui.encoderconfig.buttonCancel": "&Cancel",
 
+    "ui.addfilter.title": "Add filter",
+    "ui.addfilter.options": "Options",
+    "ui.addfilter.buttonOkay": "&OK",
+    "ui.addfilter.buttonCancel": "&Cancel",
+
     "prores_ks.standard": "Standard",
     "prores_ks.standard.profile._label": "Profile",
     "prores_ks.standard.profile._description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
@@ -1309,6 +1314,21 @@
     "pcm.standard.sampleFormat._description": "Constant encoding bitrate.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
-    "pcm.standard.sampleFormat._item_2": "PCM 32 bit"
+    "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
+
+    "filter.zscale": "Rescale",
+    "filter.zscale.standard": "Standard",
+    "filter.zscale.standard.format._label": "Method",
+    "filter.zscale.standard.format._description": "",
+    "filter.zscale.standard.format._item_0": "Point",
+    "filter.zscale.standard.format._item_1": "Bilinear",
+    "filter.zscale.standard.format._item_2": "Bicubic",
+    "filter.zscale.standard.format._item_3": "Spline 16",
+    "filter.zscale.standard.format._item_4": "Spline 36",
+    "filter.zscale.standard.format._item_5": "Lanczos",
+    "filter.zscale.standard.width._label": "Width",
+    "filter.zscale.standard.width._description": "",
+    "filter.zscale.standard.height._label": "Height",
+    "filter.zscale.standard.height._description": ""
   }
 }

@@ -190,6 +190,8 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="wxAddFilterDialog.h" />
+    <ClInclude Include="wxFilterPanel.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxEncoderConfigEditor.h" />
     <ClInclude Include="wxPGOptionProperty.h" />
@@ -206,6 +208,8 @@
     <ClCompile Include="NvidiaCustomOptions.cpp" />
     <ClCompile Include="OptionContainer.cpp" />
     <ClCompile Include="Voukoder.cpp" />
+    <ClCompile Include="wxAddFilterDialog.cpp" />
+    <ClCompile Include="wxFilterPanel.cpp" />
     <ClCompile Include="wxVoukoderDialog.cpp" />
     <ClCompile Include="wxEncoderConfigEditor.cpp" />
     <ClCompile Include="wxPGOptionProperty.cpp" />

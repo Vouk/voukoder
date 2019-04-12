@@ -17,6 +17,7 @@
 #include "wxPGOptionProperty.h"
 #include "ExportInfo.h"
 #include "wxEncoderConfigEditor.h"
+#include "wxFilterPanel.h"
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
@@ -75,11 +76,7 @@ protected:
 
 	wxPanel* m_filterCategory;
 	wxNotebook* m_filterNotebook;
-	wxPanel* m_filterPanel;
-	wxListBox* m_filterList;
-	wxPanel* m_filterButtons;
-	wxButton* m_filterAdd;
-	wxButton* m_filterRemove;
+	wxFilterPanel* m_filterPanel;
 
 	wxPanel* m_updateCategory;
 	wxNotebook* m_updateNotebook;
@@ -89,16 +86,17 @@ protected:
 
 public:
 	wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo);
-	void SetConfiguration(const Configuration *configuration);
+	void SetConfiguration();
 
 private:
-	const Configuration *configuration;
 	ExportInfo& exportInfo;
 	EncoderInfo* GetSelectedEncoder(wxChoice *choice);
+	void ApplyStoredFilters();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);
 	void OnMuxerChanged(wxCommandEvent& event);
 	void OnFaststartChanged(wxCommandEvent& event);
 	void OnOkayClick(wxCommandEvent& event);
+
 };

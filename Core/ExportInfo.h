@@ -26,7 +26,6 @@ struct ExportInfo
 		AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
 		AVColorTransferCharacteristic colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 		int64_t ticksPerFrame = 0;
-		vector<string> filters;
 	} video;
 
 	struct Audio

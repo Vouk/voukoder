@@ -17,8 +17,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	SetTitle(VKDR_APPNAME);
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	wxBoxSizer* bDialogLayout;
-	bDialogLayout = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
 	// Init image handlers
 	wxInitAllImageHandlers();
@@ -324,33 +323,12 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 	// Filters
 
+	/*
 	m_filterCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bFilterCategorySizer = new wxBoxSizer(wxVERTICAL);
 
 	m_filterNotebook = new wxNotebook(m_filterCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	m_filterPanel = new wxPanel(m_filterNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bFilterLayout = new wxBoxSizer(wxHORIZONTAL);
-
-	m_filterList = new wxListBox(m_filterPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-	bFilterLayout->Add(m_filterList, 1, wxALL | wxEXPAND, 5);
-
-	m_filterButtons = new wxPanel(m_filterPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bFilterButtonsLayout = new wxBoxSizer(wxVERTICAL);
-
-	m_filterAdd = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.add"), wxDefaultPosition, wxDefaultSize, 0);
-	bFilterButtonsLayout->Add(m_filterAdd, 0, wxALL, 5);
-
-	m_filterRemove = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.remove"), wxDefaultPosition, wxDefaultSize, 0);
-	bFilterButtonsLayout->Add(m_filterRemove, 0, wxALL, 5);
-
-	m_filterButtons->SetSizer(bFilterButtonsLayout);
-	m_filterButtons->Layout();
-	bFilterButtonsLayout->Fit(m_filterButtons);
-	bFilterLayout->Add(m_filterButtons, 0, wxEXPAND | wxALL, 0);
-
-	m_filterPanel->SetSizer(bFilterLayout);
-	m_filterPanel->Layout();
-	bFilterLayout->Fit(m_filterPanel);
+	m_filterPanel = new wxFilterPanel(m_filterNotebook);
 	m_filterNotebook->AddPage(m_filterPanel, Trans("ui.encoderconfig.filters"), false);
 
 	bFilterCategorySizer->Add(m_filterNotebook, 1, wxEXPAND | wxALL, 0);
@@ -360,6 +338,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	bFilterCategorySizer->Fit(m_filterCategory);
 	m_Categories->AddPage(m_filterCategory, Trans("ui.encoderconfig.filters"), false);
 	m_Categories->SetPageImage(imageIdx++, 3);
+	*/
 
 	// Set current version
 	Version curVersion;
@@ -440,13 +419,11 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_generalLogText->ShowPosition(m_generalLogText->GetLastPosition());
 }
 
-void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
+void wxVoukoderDialog::SetConfiguration()
 {
-	this->configuration = configuration;
-
-	wxString vEncoder = configuration->DefaultVideoEncoder;
-	wxString aEncoder = configuration->DefaultAudioEncoder;
-	wxString format = configuration->DefaultMuxer;
+	wxString vEncoder = DefaultVideoEncoder;
+	wxString aEncoder = DefaultAudioEncoder;
+	wxString format = DefaultMuxer;
 	bool faststart = false;
 
 	// Video encoder
@@ -475,7 +452,7 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
 
 	// Populate encoders
-	for (auto& encoder : configuration->encoderInfos)
+	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
 	{
 		if (encoder.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
 		{
@@ -516,10 +493,11 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 		}
 	}
 
-	LANGID langId = LanguageUtils::GetLanguageId(configuration->languageInfos);
+	Voukoder::Config &config = Voukoder::Config::Get();
+	LANGID langId = LanguageUtils::GetLanguageId(config.languageInfos);
 
 	// Populate available languages
-	for (auto& languageInfo : configuration->languageInfos)
+	for (auto& languageInfo : config.languageInfos)
 	{
 		m_genLocLanguageChoice->Append(languageInfo.name, (void*)&languageInfo);
 
@@ -531,7 +509,7 @@ void wxVoukoderDialog::SetConfiguration(const Configuration *configuration)
 void wxVoukoderDialog::UpdateFormats()
 {
 	// Populate muxers
-	for (auto& formatInfo : configuration->muxerInfos)
+	for (auto& formatInfo : Voukoder::Config::Get().muxerInfos)
 	{
 		int index = m_genMuxFormatChoice->FindString(formatInfo.name);
 
@@ -672,6 +650,8 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 {
 	LanguageInfo *languageInfo = reinterpret_cast<LanguageInfo*>(m_genLocLanguageChoice->GetClientData(m_genLocLanguageChoice->GetSelection()));
 	LanguageUtils::StoreLanguageId(languageInfo->langId);
+
+	//m_filterPanel->GetFilterConfig(exportInfo.video.filters);
 
 	EndDialog(wxID_OK);
 }

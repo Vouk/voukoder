@@ -48,7 +48,7 @@ Gui::Gui(PrSuites *suites, csSDK_uint32 pluginId) :
 	suites(suites),
 	pluginId(pluginId)
 {
-	voukoder.Init();
+	Voukoder::Config::Get();
 }
 
 prMALError Gui::Create()
@@ -227,10 +227,9 @@ void Gui::CheckSettings()
 	ExportInfo exportInfo;
 	if (ReadEncoderOptions(VKDRVoukoderConfiguration, exportInfo))
 	{
-		const Configuration *config = voukoder.GetConfiguration();
-		muxer = Voukoder::GetResourceName(config->muxerInfos, exportInfo.format.id, none);
-		videoEncoder = Voukoder::GetResourceName(config->encoderInfos, exportInfo.video.id, none);
-		audioEncoder = Voukoder::GetResourceName(config->encoderInfos, exportInfo.audio.id, none);
+		muxer = Voukoder::GetResourceName(Voukoder::Config::Get().muxerInfos, exportInfo.format.id, none);
+		videoEncoder = Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none);
+		audioEncoder = Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none);
 	}
 	else
 	{
@@ -245,9 +244,7 @@ void Gui::CheckSettings()
 
 prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
 {
-	const Configuration *config = voukoder.GetConfiguration();
-
-	wxString muxerId = config->DefaultMuxer;
+	wxString muxerId = DefaultMuxer;
 
 	// Overwrite with selected muxer
 	ExportInfo exportInfo;
@@ -257,7 +254,7 @@ prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
 	}
 
 	// Find muxer info
-	for (auto& muxer : config->muxerInfos)
+	for (auto& muxer : Voukoder::Config::Get().muxerInfos)
 	{
 		if (muxer.id == muxerId)
 		{
@@ -312,7 +309,7 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 		
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
-		dialog.SetConfiguration(voukoder.GetConfiguration());
+		dialog.SetConfiguration();
 		result = dialog.ShowModal();
 
 		wxTopLevelWindows.DeleteObject(&parent);
@@ -356,9 +353,10 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 		if (PrSuiteErrorSucceeded(suites->exportParamSuite->GetArbData(pluginId, 0, dataId, &dataSize, reinterpret_cast<void*>(&arbData))))
 		{
 			// Log configuration
-			av_log(NULL, AV_LOG_INFO, "Loading encoder configuration (vcodec: %ls, voptions: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)\n",
+			av_log(NULL, AV_LOG_INFO, "Loading encoder configuration (vcodec: %ls, voptions: %ls, vfilters: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)\n",
 				arbData.videoCodecId,
 				arbData.videoCodecOptions,
+				arbData.videoFilters,
 				arbData.audioCodecId,
 				arbData.audioCodecOptions,
 				arbData.formatId,
@@ -367,6 +365,7 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 			// Set main values
 			exportInfo.video.id = wxString(arbData.videoCodecId);
 			exportInfo.video.options.fromString(arbData.videoCodecOptions);
+			//exportInfo.video.filters = wxString(arbData.videoFilters);
 			exportInfo.audio.id = wxString(arbData.audioCodecId);
 			exportInfo.audio.options.fromString(arbData.audioCodecOptions);
 			exportInfo.format.id = wxString(arbData.formatId);
@@ -400,15 +399,17 @@ bool Gui::StoreEncoderOptions(const char *dataId, ExportInfo exportInfo)
 	ArbData arbData;
 	prUTF16CharCopy(arbData.videoCodecId, exportInfo.video.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.videoCodecOptions, exportInfo.video.options.toString(true).c_str());
+	//prUTF16CharCopy(arbData.videoFilters, exportInfo.video.filters.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.audioCodecId, exportInfo.audio.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.toString(true).c_str());
 	prUTF16CharCopy(arbData.formatId, exportInfo.format.id.ToStdWstring().c_str());
 	arbData.faststart = exportInfo.format.faststart;
 
 	// Log configuration
-	av_log(NULL, AV_LOG_INFO, "Storing encoder configuration (vcodec: %ls, voptions: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)\n", 
+	av_log(NULL, AV_LOG_INFO, "Storing encoder configuration (vcodec: %ls, voptions: %ls, vfilters: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)\n", 
 		arbData.videoCodecId,
 		arbData.videoCodecOptions,
+		L"",//arbData.videoFilters,
 		arbData.audioCodecId,
 		arbData.audioCodecOptions,
 		arbData.formatId,

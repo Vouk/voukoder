@@ -18,9 +18,11 @@
 #define VKDR_REG_ROOT "Software\\Voukoder"
 #define VKDR_REG_LANGUAGE "Language"
 
-#pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#define DefaultVideoEncoder "libx264"
+#define DefaultAudioEncoder "aac"
+#define DefaultMuxer "mp4"
 
-using namespace nlohmann;
+#pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 static inline HMODULE GetCurrentModule()
 {
@@ -28,24 +30,32 @@ static inline HMODULE GetCurrentModule()
 	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCTSTR)GetCurrentModule, &hModule);
 
 	return hModule;
-}
-
-struct Configuration
-{
-	wxString DefaultVideoEncoder = "libx264";
-	wxString DefaultAudioEncoder = "aac";
-	wxString DefaultMuxer = "mp4";
-	vector<EncoderInfo> encoderInfos;
-	vector<MuxerInfo> muxerInfos;
-	vector<FilterInfo> filterInfos;
-	vector<LanguageInfo> languageInfos;
 };
 
-class Voukoder
+namespace Voukoder
 {
-public:
-	void Init();
-	const Configuration* GetConfiguration();
+	class Config
+	{
+	public:
+		static Config& Get()
+		{
+			static Config instance; 
+			return instance;
+		}
+		vector<EncoderInfo> encoderInfos;
+		vector<MuxerInfo> muxerInfos;
+		vector<FilterInfo> filterInfos;
+		vector<LanguageInfo> languageInfos;
+
+	private:
+		Config();
+		bool LoadResources(HMODULE hModule, LPTSTR lpType);
+		BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam);
+
+	public:
+		Config(Config const&) = delete;
+		void operator=(Config const&) = delete;
+	};
 
 	template <class T> static wxString GetResourceName(vector<T> items, wxString id, wxString def = "")
 	{
@@ -59,10 +69,4 @@ public:
 
 		return def;
 	}
-
-private:
-	Configuration configuration;
-	bool LoadResources(HMODULE hModule, LPTSTR lpType);
-	BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam);
-};
-
+}

@@ -1,15 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "zscale",
-  "name": "ZScale",
+  "id": "filter.zscale",
+  "name": "zscale",
   "groups": [
     {
-      "id": "zscale.standard",
+      "id": "filter.zscale.standard",
       "class": "standard",
       "properties": [
         {
-          "id": "zscale.standard.format",
-          "parameter": "format",
+          "id": "filter.zscale.standard.format",
+          "parameter": "f",
+		  "forced": true,
           "control": {
             "selectedIndex": 0,
             "type": "combobox",
@@ -36,8 +37,9 @@
           }
         },
         {
-          "id": "zscale.standard.width",
+          "id": "filter.zscale.standard.width",
           "parameter": "w",
+		  "forced": true,
           "control": {
             "maximum": 10240,
             "minimum": 320,
@@ -47,8 +49,9 @@
           }
         },        
 		{
-          "id": "zscale.standard.height",
+          "id": "filter.zscale.standard.height",
           "parameter": "h",
+		  "forced": true,
           "control": {
             "maximum": 8192,
             "minimum": 240,
