@@ -1,0 +1,233 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hevc_amf",
+  "name": "AMF hevc",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
+  "groups": [
+    {
+      "id": "hevc_amf.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "hevc_amf.standard.usage",
+          "parameter": "usage",
+          "control": {
+            "items": [
+              {
+                "value": "transcoding"
+              },
+              {
+                "value": "ultralowlatency"
+              },
+              {
+                "value": "lowlatency"
+              },
+              {
+                "value": "webcam"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.profile",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.level",
+          "parameter": "level",
+          "control": {
+            "items": [
+              {
+                "value": "1.0"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.quality",
+          "parameter": "quality",
+          "control": {
+            "items": [
+              {
+                "value": "speed"
+              },
+              {
+                "value": "balanced"
+              },
+              {
+                "value": "quality"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "items": [
+              {
+                "value": "qp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_peak",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_latency",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy.cqp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "h264_amf",
+  "name": "AMF h.264",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
+  "groups": [
+    {
+      "id": "h264_amf.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "h264_amf.standard.usage",
+          "parameter": "usage",
+          "control": {
+            "items": [
+              {
+                "value": "transcoding"
+              },
+              {
+                "value": "ultralowlatency"
+              },
+              {
+                "value": "lowlatency"
+              },
+              {
+                "value": "webcam"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "h264_amf.standard.profile",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              },
+              {
+                "value": "constrained_baseline"
+              },
+              {
+                "value": "constrained_high"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "h264_amf.standard.level",
+          "parameter": "level",
+          "control": {
+            "items": [
+              {
+                "value": "1.0"
+              },
+              {
+                "value": "1.1"
+              },
+              {
+                "value": "1.2"
+              },
+              {
+                "value": "1.3"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "2.2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "3.2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "4.2"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "h264_amf.standard.quality",
+          "parameter": "quality",
+          "control": {
+            "items": [
+              {
+                "value": "speed"
+              },
+              {
+                "value": "balanced"
+              },
+              {
+                "value": "quality"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "h264_amf.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "items": [
+              {
+                "value": "qp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_amf.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_amf.standard.strategy.bitrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_peak",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_latency",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "h264_amf.standard.strategy.cqp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "h264_amf.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        }
+      ]
+    }
+  ]
+}

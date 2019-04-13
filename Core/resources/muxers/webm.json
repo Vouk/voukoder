@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "webm",
+  "name": "WebM (.webm)",
+  "extension": "webm",
+  "encoders": {
+    "video": [ "libvpx", "libvpx-vp9" ],
+    "audio": [ "libopus", "libvorbis" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

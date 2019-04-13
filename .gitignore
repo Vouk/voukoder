@@ -1,12 +1,47 @@
-﻿################################################################################
-# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
-################################################################################
+# Prerequisites
+*.d
 
-/3rdparty/libav
-/LibVKDR/x64
-/Premiere/x64
-/Premiere_old/x64
-/.vs
-/enc_temp_folder
-/Setup/Output
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Build dirs
+/.vs/
+/Core/x64/
+/Core/debug/
+/Core/release/
+/Core/GeneratedFiles/
+/PremierePlugin/x64/
+/PremierePlugin/debug/
+/PremierePlugin/release/
+/PremierePlugin/GeneratedFiles/
+/AfterEffectsPlugin
+/VoukoderCore
 /x64/Debug
+/PremierePluginOld/.vs/PremierePluginOld/v15

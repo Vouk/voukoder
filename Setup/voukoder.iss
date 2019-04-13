@@ -48,7 +48,7 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Files]
-Source: "..\Premiere\x64\Release\Voukoder.prm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\PremierePlugin\x64\Release\VoukoderR2.prm"; DestDir: "{app}"; Flags: ignoreversion
 
 [Run]
 Filename: "https://www.patreon.com/voukoder"; Flags: shellexec runasoriginaluser postinstall; Description: "Open the Voukoder Patreon.com page. Supporting me on Patreon helps me to continue developing and improving this plugin. Thank you!"

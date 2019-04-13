@@ -1,0 +1,747 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hevc_nvenc",
+  "name": "NVENC hevc",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "hevc_nvenc.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "hevc_nvenc.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "yuv420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "p010le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hevc_nvenc.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "hevc_nvenc.standard.preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "slow",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "medium",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "fast",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "hq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "bd",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "lossless",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.profile420-8",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "rext"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.profile420-10",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main10"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.tier",
+          "parameter": "tier",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "constqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.twopass",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr_hq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_hq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.twopass",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.cqp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "hevc_nvenc.standard.strategy.maxrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.maxrate",
+          "parameter": "maxrate",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "hevc_nvenc.standard.strategy.bitrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.buffersize",
+          "parameter": "bufsize",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.twopass",
+          "parameter": "2pass",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "hevc_nvenc.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_nvenc.frames.rclookahead",
+          "parameter": "rc-lookahead",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.gopsize",
+          "parameter": "g",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1200,
+            "singleStep": 1,
+            "value": 300
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.strictgop",
+          "parameter": "strict-gop",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.bframes",
+          "parameter": "bf",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "singleStep": 1,
+            "value": 2
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.refs",
+          "parameter": "refs",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16,
+            "singleStep": 1,
+            "value": 3
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.noscenecut",
+          "parameter": "no-scenecut",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.forcedidr",
+          "parameter": "forced-idr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.frames.nonrefp",
+          "parameter": "nonref_p",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "hevc_nvenc.quantizer",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_nvenc.quantizer.qpi",
+          "parameter": "init_qpI",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.quantizer.qpp",
+          "parameter": "init_qpP",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.quantizer.qpb",
+          "parameter": "init_qpB",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.quantizer.spatialaq",
+          "parameter": "spatial-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "filters": [
+            {
+              "filter": "OnSelection",
+              "params": {
+                "ShowOptions": [
+                  {
+                    "id": "hevc_nvenc.quantizer.spatialaq.strength",
+                    "visible": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "hevc_nvenc.quantizer.spatialaq.strength",
+          "parameter": "aq-strength",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 15,
+            "singleStep": 1,
+            "value": 8,
+            "enabled": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.quantizer.temporalaq",
+          "parameter": "temporal-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "filters": [
+            {
+              "filter": "OnSelection",
+              "params": {
+                "ShowOptions": [
+                  {
+                    "id": "hevc_nvenc.quantizer.spatialaq.strength",
+                    "visible": false
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hevc_nvenc.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_nvenc.misc.surfaces",
+          "parameter": "surfaces",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 64,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.misc.zerolat",
+          "parameter": "zerolatency",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.misc.weightedpred",
+          "parameter": "weighted_pred",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.misc.bdc",
+          "parameter": "bluray-compat",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_nvenc.misc.aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

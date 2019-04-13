@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "filter.zscale",
+  "name": "zscale",
+  "groups": [
+    {
+      "id": "filter.zscale.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "filter.zscale.standard.format",
+          "parameter": "f",
+		  "forced": true,
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "point"
+              },
+              {
+                "value": "bilinear"
+              },
+              {
+                "value": "bicubic"
+              },
+              {
+                "value": "spline16"
+              },
+              {
+                "value": "spline36"
+              },
+              {
+                "value": "lanczos"
+              }
+            ]
+          }
+        },
+        {
+          "id": "filter.zscale.standard.width",
+          "parameter": "w",
+		  "forced": true,
+          "control": {
+            "maximum": 10240,
+            "minimum": 320,
+            "singleStep": 16,
+            "type": "integer",
+            "value": 1920
+          }
+        },        
+		{
+          "id": "filter.zscale.standard.height",
+          "parameter": "h",
+		  "forced": true,
+          "control": {
+            "maximum": 8192,
+            "minimum": 240,
+            "singleStep": 16,
+            "type": "integer",
+            "value": 1080
+          }
+        }
+      ]
+    }
+  ]
+}

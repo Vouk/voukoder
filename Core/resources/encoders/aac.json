@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "aac",
+  "name": "AAC (FFmpeg)",
+  "defaults": {
+    "_sampleFormat": "fltp"
+  },
+  "groups": [
+    {
+      "id": "aac.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "aac.standard.bitrate",
+          "parameter": "b",
+          "forced": true,
+          "active": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "64000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "aac.standard.profile",
+          "parameter": "profile",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "aac_low"
+              },
+              {
+                "value": "mpeg2_aac_low"
+              },
+              {
+                "value": "aac_ltp"
+              },
+              {
+                "value": "aac_main"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

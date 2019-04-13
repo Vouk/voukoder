@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "adts",
+  "name": "Advance Audio Coding (.aac)",
+  "extension": "aac",
+  "encoders": {
+    "video": [],
+    "audio": [ "aac", "libfdk_aac" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}
