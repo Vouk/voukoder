@@ -286,6 +286,9 @@
     <None Include="resources\muxers\wav.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
+    <None Include="resources\translations\german.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
