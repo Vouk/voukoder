@@ -12,12 +12,14 @@
       "properties": [
         {
           "id": "libfdk_aac.standard.strategy",
+          "parameter": "_strategy",
           "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
             "items": [
               {
+                "value": "cbr",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -37,6 +39,7 @@
                 ]
               },
               {
+                "value": "vbr",
                 "filters": [
                   {
                     "filter": "OnSelection",
