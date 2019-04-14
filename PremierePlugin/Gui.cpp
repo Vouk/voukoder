@@ -1,7 +1,6 @@
 #include "Gui.h"
 #include <wx/wx.h>
 #include <LanguageUtils.h>
-#include <wxLogStringBuffer.h>
 #include <Log.h>
 
 class actctx_activator

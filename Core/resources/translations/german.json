@@ -1,6 +1,6 @@
 {
   "id": "german",
-  "name": "German",
+  "name": "Deutsch",
   "langId": 1031,
   "translations": {
     "ui.premiere.tab.video": "Video",
@@ -88,8 +88,6 @@
     "ui.encoderconfig.general.muxers": "Muxer / Formate",
     "ui.encoderconfig.general.muxers.container": "Container",
     "ui.encoderconfig.general.muxers.faststart": "Aktiviere Schnellstart",
-    "ui.encoderconfig.general.localization": "Lokalisierung (Neustart nötig)",
-    "ui.encoderconfig.general.localization.language": "Sprache",
     "ui.encoderconfig.general.about": "Über",
     "ui.encoderconfig.general.about.version": "Version",
     "ui.encoderconfig.general.about.author": "Projektleitung und Entwicklung",
@@ -101,6 +99,8 @@
     "ui.encoderconfig.filters.add": "Hinzufügen ...",
     "ui.encoderconfig.filters.remove": "Entfernen",
     "ui.encoderconfig.settings": "Einstellungen",
+    "ui.encoderconfig.settings.localization": "Lokalisierung (Neustart nötig)",
+    "ui.encoderconfig.settings.localization.language": "Sprache",
     "ui.encoderconfig.settings.log": "Logdatei",
     "ui.encoderconfig.settings.log.clear": "Leeren",
     "ui.encoderconfig.settings.log.copyToClipboard": "In Zwischenablage kopieren",

@@ -7,7 +7,6 @@
 #include "Images.h"
 #include "Voukoder.h"
 #include "Log.h"
-#include "wxLogStringBuffer.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -139,36 +138,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genMuxPanel->Layout();
 	sbGenMuxSizer->Fit(m_genMuxPanel);
 	bGenTab1Sizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
-
-	// General > Localization
-
-	m_genLocPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.general.localization")), wxVERTICAL);
-
-	m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxGridBagSizer* gbGenLocFormSizer = new wxGridBagSizer(0, 0);
-	gbGenLocFormSizer->SetFlexibleDirection(wxHORIZONTAL);
-	gbGenLocFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-	m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genLocFormatLabel->Wrap(-1);
-	m_genLocFormatLabel->SetMinSize(wxSize(100, -1));
-	gbGenLocFormSizer->Add(m_genLocFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
-
-	wxArrayString m_genLocLanguageChoices;
-	m_genLocLanguageChoice = new wxChoice(m_genLocFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genLocLanguageChoices, wxCB_SORT);
-	gbGenLocFormSizer->Add(m_genLocLanguageChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-
-	gbGenLocFormSizer->AddGrowableCol(1);
-	m_genLocFormPanel->SetSizer(gbGenLocFormSizer);
-	m_genLocFormPanel->Layout();
-	gbGenLocFormSizer->Fit(m_genLocFormPanel);
-	sbGenLocSizer->Add(m_genLocFormPanel, 1, wxEXPAND | wxALL, 5);
-
-	m_genLocPanel->SetSizer(sbGenLocSizer);
-	m_genLocPanel->Layout();
-	sbGenLocSizer->Fit(m_genLocPanel);
-	bGenTab1Sizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
 
 	// General > ...
 
@@ -313,6 +282,43 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxBoxSizer* bSettingsCategorySizer = new wxBoxSizer(wxVERTICAL);
 
 	m_settingsNotebook = new wxNotebook(m_settingsCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+	// Settings > Basic
+
+	m_settingsBasicPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bSetBasicSizer = new wxBoxSizer(wxVERTICAL);
+
+	m_genLocPanel = new wxPanel(m_settingsBasicPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization")), wxVERTICAL);
+
+	m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxGridBagSizer* gbGenLocFormSizer = new wxGridBagSizer(0, 0);
+	gbGenLocFormSizer->SetFlexibleDirection(wxHORIZONTAL);
+	gbGenLocFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+
+	m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLocFormatLabel->Wrap(-1);
+	m_genLocFormatLabel->SetMinSize(wxSize(100, -1));
+	gbGenLocFormSizer->Add(m_genLocFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
+
+	wxArrayString m_genLocLanguageChoices;
+	m_genLocLanguageChoice = new wxChoice(m_genLocFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genLocLanguageChoices, wxCB_SORT);
+	gbGenLocFormSizer->Add(m_genLocLanguageChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
+
+	gbGenLocFormSizer->AddGrowableCol(1);
+	m_genLocFormPanel->SetSizer(gbGenLocFormSizer);
+	m_genLocFormPanel->Layout();
+	gbGenLocFormSizer->Fit(m_genLocFormPanel);
+	sbGenLocSizer->Add(m_genLocFormPanel, 1, wxEXPAND | wxALL, 5);
+
+	m_genLocPanel->SetSizer(sbGenLocSizer);
+	m_genLocPanel->Layout();
+	sbGenLocSizer->Fit(m_genLocPanel);
+	bSetBasicSizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
+
+	m_settingsBasicPanel->SetSizer(bSetBasicSizer);
+	m_settingsBasicPanel->Layout();
+	m_settingsNotebook->AddPage(m_settingsBasicPanel, Trans("ui.encoderconfig.settings"), false);
 
 	// Settings > Log
 

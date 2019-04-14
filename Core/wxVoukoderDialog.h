@@ -75,6 +75,7 @@ protected:
 
 	wxPanel* m_settingsCategory;
 	wxNotebook* m_settingsNotebook;
+	wxPanel* m_settingsBasicPanel;
 	wxPanel* m_settingsPanel;
 	wxPanel* m_settingsLogPanel;
 	wxTextCtrl* m_generalLogText;
@@ -95,7 +96,6 @@ public:
 private:
 	ExportInfo& exportInfo;
 	EncoderInfo* GetSelectedEncoder(wxChoice *choice);
-	void ApplyStoredFilters();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);
