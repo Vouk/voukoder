@@ -9,6 +9,7 @@
 #include "FilterInfo.h"
 #include "LanguageInfo.h"
 #include "json.hpp"
+#include "wxLogStringBuffer.h"
 
 #define VKDR_APPNAME L"Voukoder R2"
 #define VKDR_VERSION_MAJOR 2
@@ -23,6 +24,10 @@
 #define DefaultMuxer "mp4"
 
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+static wxString LOG_BUFFER;
+
+
 
 static inline HMODULE GetCurrentModule()
 {

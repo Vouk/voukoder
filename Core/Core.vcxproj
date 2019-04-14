@@ -192,6 +192,7 @@
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxAddFilterDialog.h" />
     <ClInclude Include="wxFilterPanel.h" />
+    <ClInclude Include="wxLogStringBuffer.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxEncoderConfigEditor.h" />
     <ClInclude Include="wxPGOptionProperty.h" />

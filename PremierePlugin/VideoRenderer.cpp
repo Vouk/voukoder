@@ -3,6 +3,7 @@
 #include "VideoRenderer.h"
 #include <InstructionSet.h>
 #include <Voukoder.h>
+#include <Log.h>
 
 static const __m128i unpackMask8 = _mm_set_epi8(
 	12, 8, 4, 0, // Y
@@ -25,7 +26,7 @@ static const __m128 scale_add = _mm_setr_ps(
 	0.0f
 );
 
-VideoRenderer::VideoRenderer(csSDK_uint32 pluginId, csSDK_uint32 width, csSDK_uint32 height, bool maxDepth, PrSuites *suites, std::function<bool(AVFrame *frame, int pass)> callback):
+VideoRenderer::VideoRenderer(csSDK_uint32 pluginId, csSDK_uint32 width, csSDK_uint32 height, bool maxDepth, PrSuites *suites, std::function<bool(AVFrame *frame, int pass, int render, int process)> callback):
 	suites(suites),
 	pluginId(pluginId),
 	width(width),
@@ -136,6 +137,8 @@ prSuiteError VideoRenderer::render(PrPixelFormat pixelFormat, PrTime startTime, 
 	Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::func = std::bind(&VideoRenderer::frameCompleteCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
 	PrSDKMultipassExportLoopFrameCompletionFunction c_callback = static_cast<PrSDKMultipassExportLoopFrameCompletionFunction>(Callback<prSuiteError(csSDK_uint32, csSDK_uint32, csSDK_uint32, PPixHand, void*)>::callback);
 
+	tp_frameStart = std::chrono::high_resolution_clock::now();
+
 	return suites->exporterUtilitySuite->DoMultiPassExportLoop(pluginId, &renderParams, passes, c_callback, NULL);
 }
 
@@ -157,6 +160,9 @@ inline void setColorSpace709(AVFrame *frame, bool is709)
 
 prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 pass, const csSDK_uint32 frameNumber, const csSDK_uint32 frameRepeatCount, PPixHand renderedFrame, void *callbackData)
 {
+	tp_frameProcess = std::chrono::high_resolution_clock::now();
+	int render = (tp_frameProcess - tp_frameStart) / std::chrono::microseconds(1);
+
 	prSuiteError error = suiteError_NoError;
 
 	// Just in case for multipass encoding
@@ -263,18 +269,20 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 pass, const
 		}
 	}
 
-	return frameFinished(frame, pass + 1, frameRepeatCount);
+	return frameFinished(frame, pass + 1, frameRepeatCount, render);
 }
 
-prSuiteError VideoRenderer::frameFinished(AVFrame *frame, int pass, const csSDK_uint32 inFrameRepeatCount)
+prSuiteError VideoRenderer::frameFinished(AVFrame *frame, int pass, const csSDK_uint32 inFrameRepeatCount, int render)
 {
+	int process = (std::chrono::high_resolution_clock::now() - tp_frameProcess) / std::chrono::microseconds(1);
+
 	suites->exporterUtilitySuite->ReportIntermediateProgressForRepeatedVideoFrame(pluginId, 1);
 
 	for (unsigned int r = 0; r < inFrameRepeatCount; r++)
 	{
 		frame->pts = pts + r;
 
-		if (!callback(frame, pass))
+		if (!callback(frame, pass, render, process))
 		{
 			return exportReturn_ErrLastErrorSet;
 		}
@@ -283,6 +291,8 @@ prSuiteError VideoRenderer::frameFinished(AVFrame *frame, int pass, const csSDK_
 	pts += inFrameRepeatCount;
 
 	av_frame_free(&frame);
+
+	tp_frameStart = std::chrono::high_resolution_clock::now();
 
 	return suiteError_NoError;
 }
@@ -306,12 +316,12 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportInfo encoderInfo)
 	// Rendering with max depth
 	if (maxDepth)
 	{
-		av_log(NULL, AV_LOG_INFO, "Rendering with maximum depth requested. Forcing YUVX_4444_32f.");
+		vkLogInfo("Rendering with maximum depth requested. Forcing YUVX_4444_32f.");
 
 		return encoderInfo.video.colorSpace == AVColorSpace::AVCOL_SPC_BT709 ? PrPixelFormat_VUYX_4444_32f_709 : PrPixelFormat_VUYX_4444_32f;
 	}
 
-	av_log(NULL, AV_LOG_INFO, "Requesting pixel format: %s\n", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
+	vkLogInfo("Requesting pixel format: %s", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
 
 	if (encoderInfo.video.pixelFormat == AV_PIX_FMT_YUV420P ||
 		encoderInfo.video.pixelFormat == AV_PIX_FMT_NV12 ||

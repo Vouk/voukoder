@@ -40,6 +40,7 @@
 #define IDR_MUX_WAV                     209
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
+#define IDR_TRANS_DE                    302
 #define ID_FILTER                       400
 #define IDR_FLT_ZSCALE                  401
 

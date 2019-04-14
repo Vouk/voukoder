@@ -54,7 +54,7 @@ int AudioRenderer::GetNextFrame(AVFrame &frame)
 		// Reserve buffer
 		if (av_frame_get_buffer(&frame, av_cpu_max_align()) < 0)
 		{
-			av_log(NULL, AV_LOG_ERROR, "Can not reserve audio buffer!\n");
+			wxLogError("Can not reserve audio buffer!");
 			return malUnknownError;
 		}
 	}

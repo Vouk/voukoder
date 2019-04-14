@@ -1,4 +1,5 @@
 #include "FrameFilter.h"
+#include "Log.h"
 
 FrameFilter::FrameFilter()
 {
@@ -79,13 +80,13 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	// Parse filter chain & configure graph
 	if ((err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL)) < 0)
 	{
-		av_log(NULL, AV_LOG_ERROR, "Unable to parse filter graph: %s\n", filters);
+		vkLogError("Unable to parse filter graph: %s", filters);
 		return err;
 	}
 
 	if ((err = avfilter_graph_config(filterGraph, NULL)) < 0)
 	{
-		av_log(NULL, AV_LOG_ERROR, "Unable to configure filter graph.\n", filters);
+		vkLogError("Unable to configure filter graph. (Code %d)", err);
 		return err;
 	}
 

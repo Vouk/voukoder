@@ -1,4 +1,5 @@
 #include "MuxerUtils.h"
+#include "Log.h"
 
 bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 {
@@ -9,6 +10,8 @@ bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 	{
 		return false;
 	}
+
+	vkLogInfo("Loading: muxers/%s.json", muxerId.c_str());
 
 	// Parse encoder info
 	muxerInfo.id = muxerId;

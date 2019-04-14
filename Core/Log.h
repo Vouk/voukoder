@@ -2,7 +2,9 @@
 
 #include <wx\wx.h>
 
-#define LOG_BUFFER_SIZE 655350
+#define vkLogInfo(msg, ...) Log::instance()->AddLine(wxString::Format(msg, __VA_ARGS__));
+#define vkLogWarn(msg, ...) Log::instance()->AddLine(wxString::Format(msg, __VA_ARGS__));
+#define vkLogError(msg, ...) Log::instance()->AddLine(wxString::Format(msg, __VA_ARGS__));
 
 class Log
 {

@@ -1,5 +1,6 @@
 #include "LanguageUtils.h"
 #include "Voukoder.h"
+#include "Log.h"
 #include <wx/msw/registry.h>
 
 static std::map<wxString, wxString> __translations;
@@ -9,6 +10,8 @@ bool LanguageUtils::Create(LanguageInfo &languageInfo, const json resource)
 	languageInfo.id = resource["id"].get<string>();
 	languageInfo.name = resource["name"].get<string>();
 	languageInfo.langId = resource["langId"].get<LANGID>();
+
+	vkLogInfo("Loading: translations/%s.json", languageInfo.id.c_str());
 
 	for (auto &item : resource["translations"].items())
 	{

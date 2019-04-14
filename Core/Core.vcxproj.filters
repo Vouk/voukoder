@@ -135,6 +135,9 @@
     <ClInclude Include="wxFilterPanel.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="wxLogStringBuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">

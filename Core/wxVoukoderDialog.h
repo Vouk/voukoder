@@ -57,11 +57,6 @@ protected:
 	wxCheckBox* m_genLocAutoLanguageCheck;
 
 	wxPanel* m_generalOtherPanel;
-	wxPanel* m_generalLogPanel;
-	wxTextCtrl* m_generalLogText;
-	wxPanel* m_genLogButtonsPanel;
-	wxButton* m_genLogClear;
-	wxButton* m_genLogCopyToClipboard;
 	wxPanel* m_generalAboutPanel;
 
 	wxEncoderConfigEditor* m_videoEditor;
@@ -77,6 +72,15 @@ protected:
 	wxPanel* m_filterCategory;
 	wxNotebook* m_filterNotebook;
 	wxFilterPanel* m_filterPanel;
+
+	wxPanel* m_settingsCategory;
+	wxNotebook* m_settingsNotebook;
+	wxPanel* m_settingsPanel;
+	wxPanel* m_settingsLogPanel;
+	wxTextCtrl* m_generalLogText;
+	wxPanel* m_genLogButtonsPanel;
+	wxButton* m_genLogClear;
+	wxButton* m_genLogCopyToClipboard;
 
 	wxPanel* m_updateCategory;
 	wxNotebook* m_updateNotebook;

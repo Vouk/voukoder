@@ -3,6 +3,7 @@
 #include "LanguageUtils.h"
 #include "NvidiaCustomOptions.h"
 #include "OptionResourceUtils.h"
+#include "Log.h"
 
 bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 {
@@ -25,6 +26,8 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	{
 		return false;
 	}
+
+	vkLogInfo("Loading: encoders/%s.json", codecId.c_str());
 
 	// Default parameters
 	for (auto &item : resource["defaults"].items())
@@ -87,9 +90,6 @@ bool EncoderUtils::IsAvailable(const string name)
 {
 	bool ret = false;
 
-	int level = av_log_get_level();
-	av_log_set_level(AV_LOG_QUIET);
-
 	AVCodec *codec = avcodec_find_encoder_by_name(name.c_str());
 	if (codec != NULL)
 	{
@@ -121,8 +121,6 @@ bool EncoderUtils::IsAvailable(const string name)
 			avcodec_free_context(&codecContext);
 		}
 	}
-
-	av_log_set_level(level);
 
 	return ret;
 }
