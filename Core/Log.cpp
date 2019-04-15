@@ -36,6 +36,22 @@ Log::Log()
 	statex.dwLength = sizeof(statex);
 	GlobalMemoryStatusEx(&statex);
 	AddLine(wxString::Format("%d MB system memory", (int)(statex.ullTotalPhys / 1024) / 1024));
+
+	// Get GPU information
+	DISPLAY_DEVICE DispDev;
+	ZeroMemory(&DispDev, sizeof(DispDev));
+	DispDev.cb = sizeof(DispDev);
+
+	int nDeviceIndex = 0, gpu = 0;
+	while (EnumDisplayDevices(NULL, nDeviceIndex, &DispDev, 0))
+	{
+		if (DispDev.StateFlags & DISPLAY_DEVICE_ACTIVE)
+			AddLine(wxString::Format("GPU #%d: %S", 
+				gpu++,
+				DispDev.DeviceString));
+
+		nDeviceIndex++;
+	}
 	
 	AddLine("---------------------------------------------");
 }
