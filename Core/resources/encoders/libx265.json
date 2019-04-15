@@ -801,12 +801,13 @@
         },
         {
           "id": "libx265.standard.strategy",
-          "parameter": "lossless",
+          "parameter": "_strategy",
           "control": {
             "type": "combobox",
             "selectedIndex": 1,
             "items": [
               {
+                "value": "abr",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -830,6 +831,7 @@
                 ]
               },
               {
+                "value": "crf",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -853,6 +855,7 @@
                 ]
               },
               {
+                "value": "qp",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -869,30 +872,6 @@
                         {
                           "id": "libx265.standard.strategy.qp",
                           "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "value": "1",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "libx265.standard.strategy.bitrate",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx265.standard.strategy.crf",
-                          "visible": false
-                        },
-                        {
-                          "id": "libx265.standard.strategy.qp",
-                          "visible": false
                         }
                       ]
                     }

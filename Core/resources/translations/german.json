@@ -818,7 +818,6 @@
     "libx265.standard.strategy._item_0": "Durchschnittliche Bitrate (ABR)",
     "libx265.standard.strategy._item_1": "Konstanter Ratenfaktor (CRF)",
     "libx265.standard.strategy._item_2": "Konstanter Quantisierer (CQP)",
-    "libx265.standard.strategy._item_3": "Verlustfrei",
     "libx265.standard.strategy.bitrate._label": "Durchschnittliche Bitrate [kbit]",
     "libx265.standard.strategy.bitrate._description": "Durchschnittlich erlaubte Datenrate des Codierers.",
     "libx265.standard.strategy.crf._label": "Konstanter Ratenfaktor",
