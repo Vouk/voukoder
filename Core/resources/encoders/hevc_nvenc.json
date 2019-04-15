@@ -296,6 +296,10 @@
                           "visible": false
                         },
                         {
+                          "id": "hevc_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
                           "id": "hevc_nvenc.standard.strategy.twopass",
                           "visible": false
                         }
@@ -328,6 +332,10 @@
                           "visible": true
                         },
                         {
+                          "id": "hevc_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
                           "id": "hevc_nvenc.standard.strategy.twopass",
                           "visible": false
                         }
@@ -357,6 +365,10 @@
                         },
                         {
                           "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cq",
                           "visible": true
                         },
                         {
@@ -392,6 +404,10 @@
                           "visible": true
                         },
                         {
+                          "id": "hevc_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
                           "id": "hevc_nvenc.standard.strategy.twopass",
                           "visible": false
                         }
@@ -421,6 +437,10 @@
                         },
                         {
                           "id": "hevc_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.strategy.cq",
                           "visible": true
                         },
                         {
@@ -508,6 +528,18 @@
             "visible": false
           },
           "multiplicationFactor": 1000
+        },
+        {
+          "id": "hevc_nvenc.standard.strategy.cq",
+          "parameter": "cq",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0,
+            "visible": false
+          }
         },
         {
           "id": "hevc_nvenc.standard.strategy.twopass",
