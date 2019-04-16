@@ -2,17 +2,22 @@
 #include "windows.h"
 #include <sstream>
 #include "Log.h"
-#include <wx/filename.h>
 
 EncoderEngine::EncoderEngine(ExportInfo encoderInfo) :
 	exportInfo(encoderInfo)
 {
 	packet = av_packet_alloc();
+
+	passLogFile = wxFileName::CreateTempFileName("voukoder", (wxFile*)NULL);
 }
 
 EncoderEngine::~EncoderEngine()
 {
 	av_packet_free(&packet);
+
+	// Remove temporary files
+	wxRemoveFile(passLogFile);
+	wxRemoveFile(passLogFile + ".cutree");
 }
 
 int EncoderEngine::open()
@@ -122,36 +127,27 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO &&
 			exportInfo.passes > 1)
 		{
-			char charPath[MAX_PATH];
-			if (GetTempPathA(MAX_PATH, charPath))
+			vkLogInfo("Running pass #%d ...", pass);
+			vkLogInfo("Using pass logfile: %s", passLogFile);
+
+			if (codecId == "libx265")
 			{
-				strcat_s(charPath, "voukoder-passlogfile");
-
-				vkLogInfo("Using pass logfile: %s", charPath);
-
-				if (codecId == "libx265")
+				wxString params;
+				AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
+				if (entry != NULL)
 				{
-					wxString params;
-					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
-					if (entry != NULL)
-					{
-						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, charPath, pass);
-					}
-					else
-					{
-						params = wxString::Format("stats='%s':pass=%d", charPath, pass);
-					}
-
-					av_dict_set(&dictionary, "x265-params", params, 0);
+					params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
 				}
 				else
 				{
-					av_dict_set(&dictionary, "passlogfile", charPath, 0);
+					params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
 				}
+
+				av_dict_set(&dictionary, "x265-params", params, 0);
 			}
 			else
 			{
-				vkLogError("System call failed: GetTempPathA()");
+				av_dict_set(&dictionary, "passlogfile", passLogFile, 0);
 			}
 		}
 

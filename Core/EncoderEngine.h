@@ -3,6 +3,7 @@
 #include "EncoderContext.h"
 #include "ExportInfo.h"
 #include "lavf.h"
+#include <wx/filename.h>
 
 class EncoderEngine
 {
@@ -32,4 +33,5 @@ private:
 	int sendFrame(AVCodecContext *context, AVStream *stream, AVFrame *frame);
 	int receivePackets(AVCodecContext *context, AVStream *stream);
 	int audioFrameSize;
+	wxString passLogFile;
 };
