@@ -32,9 +32,6 @@
     <None Include="PremierePlugin.def">
       <Filter>Quelldateien</Filter>
     </None>
-    <None Include="res\PremierePlugin.rc2">
-      <Filter>Ressourcendateien</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -63,9 +60,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PremierePlugin.rc">
-      <Filter>Ressourcendateien</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="..\Core\Core.rc">
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>

@@ -214,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PremierePlugin.def" />
-    <None Include="res\PremierePlugin.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Core\resource.h" />
@@ -228,7 +227,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Core\Core.rc" />
-    <ResourceCompile Include="PremierePlugin.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
