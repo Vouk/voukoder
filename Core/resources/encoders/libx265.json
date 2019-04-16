@@ -818,6 +818,10 @@
                           "visible": true
                         },
                         {
+                          "id": "libx265.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
                           "id": "libx265.standard.strategy.crf",
                           "visible": false
                         },
@@ -842,6 +846,10 @@
                           "visible": false
                         },
                         {
+                          "id": "libx265.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
                           "id": "libx265.standard.strategy.crf",
                           "visible": true
                         },
@@ -863,6 +871,10 @@
                       "ShowOptions": [
                         {
                           "id": "libx265.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.strategy.multipass",
                           "visible": false
                         },
                         {
@@ -893,6 +905,19 @@
             "visible": false
           },
           "multiplicationFactor": 1000
+        },
+        {
+          "id": "libx265.standard.strategy.multipass",
+          "parameter": "_2pass",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
         },
         {
           "id": "libx265.standard.strategy.crf",

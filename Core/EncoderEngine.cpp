@@ -2,6 +2,7 @@
 #include "windows.h"
 #include <sstream>
 #include "Log.h"
+#include <wx/filename.h>
 
 EncoderEngine::EncoderEngine(ExportInfo encoderInfo) :
 	exportInfo(encoderInfo)
@@ -118,13 +119,35 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 		}
 
 		// Set the logfile for multi-pass encodes to a file in the temp directory
-		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
+		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO &&
+			exportInfo.passes > 1)
 		{
 			char charPath[MAX_PATH];
 			if (GetTempPathA(MAX_PATH, charPath))
 			{
 				strcat_s(charPath, "voukoder-passlogfile");
-				av_dict_set(&dictionary, "passlogfile", charPath, 0);
+
+				vkLogInfo("Using pass logfile: %s", charPath);
+
+				if (codecId == "libx265")
+				{
+					wxString params;
+					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
+					if (entry != NULL)
+					{
+						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, charPath, pass);
+					}
+					else
+					{
+						params = wxString::Format("stats='%s':pass=%d", charPath, pass);
+					}
+
+					av_dict_set(&dictionary, "x265-params", params, 0);
+				}
+				else
+				{
+					av_dict_set(&dictionary, "passlogfile", charPath, 0);
+				}
 			}
 			else
 			{
