@@ -32,6 +32,13 @@ int EncoderEngine::open()
 	// MOV
 	// MKV
 
+	// Logging multi pass information
+	if (exportInfo.passes > 1)
+	{
+		vkLogInfo("Running pass #%d ...", pass);
+		vkLogInfo("Using pass logfile: %s", passLogFile);
+	}
+
 	int ret;
 
 	// Do we want video export?
@@ -127,9 +134,6 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO &&
 			exportInfo.passes > 1)
 		{
-			vkLogInfo("Running pass #%d ...", pass);
-			vkLogInfo("Using pass logfile: %s", passLogFile);
-
 			if (codecId == "libx265")
 			{
 				wxString params;
