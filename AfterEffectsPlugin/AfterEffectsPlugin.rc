@@ -1,0 +1,42 @@
+
+
+
+
+16000  PiPL  DISCARDABLE
+BEGIN
+	0x0001,	 
+	0, 0x0, 	
+	5, 0x0, 
+	"MIB8",
+	"dnik", 
+	0, 0x0,
+	4, 0x0,
+	"xgEA",
+
+	"MIB8",
+	"eman",
+	0, 0x0,
+	12, 0x0,
+	"\x0BVoukoder R2", 
+
+	"MIB8",
+	"gtac", 
+	0, 0x0,
+	16, 0x0,
+	"\x0EGeneral Plugin\0", 
+
+	"MIB8",
+	"srev", 
+	0, 0x0,
+	4, 0x0,
+	0, 1, 
+
+	"MIB8",
+	"4668", 
+	0, 0x0,
+	12, 0x0,
+	"GPMain_IO\0\0\0", 
+
+
+END
+

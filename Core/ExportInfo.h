@@ -6,21 +6,21 @@
 
 struct ExportInfo
 {
-	wxString filename;
-	wxString application;
-	int passes;
+	wxString filename = wxEmptyString;
+	wxString application = wxEmptyString;
+	int passes = 0;
 
 	struct Video
 	{
-		bool enabled;
-		int width;
-		int height;
-		wxString id;
+		bool enabled = true;
+		int width = 0;
+		int height = 0;
+		wxString id = wxEmptyString;
 		OptionContainer options;
-		AVRational timebase;
-		AVPixelFormat pixelFormat = AVPixelFormat::AV_PIX_FMT_NONE; // TODO
-		AVRational sampleAspectRatio;
-		AVFieldOrder fieldOrder;
+		AVRational timebase = { 0, 0 };
+		AVPixelFormat pixelFormat = AVPixelFormat::AV_PIX_FMT_NONE;
+		AVRational sampleAspectRatio = { 0, 0 };
+		AVFieldOrder fieldOrder = AVFieldOrder::AV_FIELD_UNKNOWN;
 		AVColorRange colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
 		AVColorSpace colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
 		AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
@@ -30,17 +30,17 @@ struct ExportInfo
 
 	struct Audio
 	{
-		bool enabled;
-		wxString id;
+		bool enabled = true;
+		wxString id = wxEmptyString;
 		OptionContainer options;
-		AVRational timebase;
-		AVSampleFormat sampleFormat = AVSampleFormat::AV_SAMPLE_FMT_NONE; // TODO
-		uint64_t channelLayout;
+		AVRational timebase = { 0, 0 };
+		AVSampleFormat sampleFormat = AVSampleFormat::AV_SAMPLE_FMT_NONE;
+		uint64_t channelLayout = 0;
 	} audio;
 
 	struct Format
 	{
-		wxString id;
-		bool faststart;
+		wxString id = wxEmptyString;
+		bool faststart = false;
 	} format;
 };

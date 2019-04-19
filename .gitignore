@@ -41,7 +41,11 @@
 /PremierePlugin/debug/
 /PremierePlugin/release/
 /PremierePlugin/GeneratedFiles/
-/AfterEffectsPlugin
+/AfterEffectsPlugin/x64/
+/AfterEffectsPlugin/debug/
+/AfterEffectsPlugin/release/
+/AfterEffectsPlugin/GeneratedFiles/
 /VoukoderCore
 /x64/Debug
-/PremierePluginOld/.vs/PremierePluginOld/v15
+
+/AfterEffectsPlugin/.vs/AfterEffectsPlugin/v15
