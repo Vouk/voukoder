@@ -248,6 +248,7 @@
     <None Include="resources\muxers\wav.json" />
     <None Include="resources\muxers\webm.json" />
     <None Include="resources\translations\english.json" />
+    <None Include="resources\translations\french.json" />
     <None Include="resources\translations\german.json" />
   </ItemGroup>
   <ItemGroup>
