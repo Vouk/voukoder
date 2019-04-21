@@ -8,7 +8,7 @@ static std::map<wxString, wxString> __translations;
 bool LanguageUtils::Create(LanguageInfo &languageInfo, const json resource)
 {
 	languageInfo.id = resource["id"].get<string>();
-	languageInfo.name = resource["name"].get<string>();
+	languageInfo.name = wxString::FromUTF8(resource["name"].get<string>());
 	languageInfo.langId = resource["langId"].get<LANGID>();
 
 	vkLogInfo("Loading: translations/%s.json", languageInfo.id.c_str());
