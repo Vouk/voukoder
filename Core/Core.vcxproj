@@ -189,6 +189,7 @@
     <ClInclude Include="ResourceInfo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxAddFilterDialog.h" />
     <ClInclude Include="wxFilterPanel.h" />

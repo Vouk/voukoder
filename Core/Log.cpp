@@ -1,6 +1,7 @@
 #include "Log.h"
 #include <intrin.h>  
 #include <ShlObj_core.h>
+#include "Version.h"
 
 Log* Log::instance()
 {
@@ -10,6 +11,15 @@ Log* Log::instance()
 
 Log::Log()
 {
+	// Report voukoder version
+	AddLine(wxString::Format("Voukoder %d.%d.%d",
+		VKDR_VERSION_MAJOR,
+		VKDR_VERSION_MINOR,
+		VKDR_VERSION_PATCH));
+
+	AddLine("by Daniel Stankewitz");
+	AddLine("---------------------------------------------");
+
 	int CPUInfo[4] = { -1 };
 	unsigned   nExIds, i = 0;
 	char name[0x40];
@@ -59,7 +69,7 @@ Log::Log()
 	{
 		AddLine("User is an administrator.");
 	}
-	
+
 	AddLine("---------------------------------------------");
 }
 

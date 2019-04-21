@@ -135,6 +135,9 @@
     <ClInclude Include="wxFilterPanel.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">

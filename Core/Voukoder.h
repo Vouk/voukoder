@@ -9,12 +9,9 @@
 #include "FilterInfo.h"
 #include "LanguageInfo.h"
 #include "json.hpp"
+#include "Version.h"
 
 #define VKDR_APPNAME L"Voukoder R2"
-#define VKDR_VERSION_MAJOR 2
-#define VKDR_VERSION_MINOR 0
-#define VKDR_VERSION_PATCH 0
-#define VKDR_VERSION_SUFFIX ""
 #define VKDR_REG_ROOT "Software\\Voukoder"
 #define VKDR_REG_LANGUAGE "Language"
 

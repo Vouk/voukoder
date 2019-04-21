@@ -16,8 +16,11 @@ EncoderEngine::~EncoderEngine()
 	av_packet_free(&packet);
 
 	// Remove temporary files
-	wxRemoveFile(passLogFile);
-	wxRemoveFile(passLogFile + ".cutree");
+	if (wxFileExists(passLogFile))
+		wxRemoveFile(passLogFile);
+
+	if (wxFileExists(passLogFile + ".cutree"))
+		wxRemoveFile(passLogFile + ".cutree");
 }
 
 int EncoderEngine::open()
