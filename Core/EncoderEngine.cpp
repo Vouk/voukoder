@@ -21,6 +21,9 @@ EncoderEngine::~EncoderEngine()
 
 	if (wxFileExists(passLogFile + ".cutree"))
 		wxRemoveFile(passLogFile + ".cutree");
+	
+	if (wxFileExists(passLogFile + ".mbtree"))
+		wxRemoveFile(passLogFile + ".mbtree");
 }
 
 int EncoderEngine::open()
