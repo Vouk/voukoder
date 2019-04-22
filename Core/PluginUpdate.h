@@ -31,14 +31,14 @@ struct PluginUpdate
 	bool isUpdateAvailable;
 };
 
-static bool CheckForUpdate(const Version version, PluginUpdate *pluginUpdate)
+static bool CheckForUpdate(const Version version, PluginUpdate* pluginUpdate)
 {
 	// Fallback values
 	pluginUpdate->version = version;
 	pluginUpdate->isUpdateAvailable = false;
 
 	// Build url
-	wxString url = wxString::Format(VKDR_UPDATE_CHECK_URL, 
+	wxString url = wxString::Format(VKDR_UPDATE_CHECK_URL,
 		version.number.major,
 		version.number.minor,
 		version.number.patch);
@@ -48,38 +48,39 @@ static bool CheckForUpdate(const Version version, PluginUpdate *pluginUpdate)
 	get.SetHeader(_T("User-Agent"), wxString::Format(_T("voukoder/%d.%d.%d"), version.number.major, version.number.minor, version.number.patch));
 	get.SetTimeout(2);
 
-	while (!get.Connect(VKDR_UPDATE_CHECK_HOST))
-		wxSleep(2);
-
-	wxApp::IsMainLoopRunning();
-
-	wxInputStream *httpStream = get.GetInputStream(url);
-
-	if (get.GetError() == wxPROTO_NOERR)
+	if (get.Connect(VKDR_UPDATE_CHECK_HOST))
 	{
-		wxString res;
-		wxStringOutputStream out_stream(&res);
-		httpStream->Read(out_stream);
+		wxApp::IsMainLoopRunning();
 
-		try
+		wxInputStream* httpStream = get.GetInputStream(url);
+
+		if (get.GetError() == wxPROTO_NOERR)
 		{
-			const json jsonRes = json::parse(res.ToStdString());
+			wxString res;
+			wxStringOutputStream out_stream(&res);
+			httpStream->Read(out_stream);
 
-			pluginUpdate->version.number.major = jsonRes["version"]["major"].get<uint8_t>();
-			pluginUpdate->version.number.minor = jsonRes["version"]["minor"].get<uint8_t>();
-			pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
-			pluginUpdate->version.number.build = 0;
-			pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
-			pluginUpdate->url = jsonRes["url"].get<string>();
-			pluginUpdate->headline = jsonRes["headline"].get<string>();
-			pluginUpdate->message = jsonRes["message"].get<string>();
+			try
+			{
+				const json jsonRes = json::parse(res.ToStdString());
+
+				pluginUpdate->version.number.major = jsonRes["version"]["major"].get<uint8_t>();
+				pluginUpdate->version.number.minor = jsonRes["version"]["minor"].get<uint8_t>();
+				pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
+				pluginUpdate->version.number.build = 0;
+				pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
+				pluginUpdate->url = jsonRes["url"].get<string>();
+				pluginUpdate->headline = jsonRes["headline"].get<string>();
+				pluginUpdate->message = jsonRes["message"].get<string>();
+			}
+			catch (json::parse_error p)
+			{
+			}
 		}
-		catch (json::parse_error p)
-		{}
-	}
 
-	wxDELETE(httpStream);
-	get.Close();
+		wxDELETE(httpStream);
+		get.Close();
+	}
 
 	return pluginUpdate->isUpdateAvailable;
 }
