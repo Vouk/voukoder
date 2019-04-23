@@ -295,6 +295,9 @@
     <None Include="resources\translations\french.json">
       <Filter>Ressourcendateien\Translations</Filter>
     </None>
+    <None Include="resources\translations\chinese.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

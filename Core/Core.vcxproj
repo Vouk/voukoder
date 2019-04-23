@@ -23,7 +23,7 @@
     <ProjectGuid>{359C3690-9837-4368-9322-FD633464842C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Core</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,7 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -248,6 +248,7 @@
     <None Include="resources\muxers\opus.json" />
     <None Include="resources\muxers\wav.json" />
     <None Include="resources\muxers\webm.json" />
+    <None Include="resources\translations\chinese.json" />
     <None Include="resources\translations\english.json" />
     <None Include="resources\translations\french.json" />
     <None Include="resources\translations\german.json" />

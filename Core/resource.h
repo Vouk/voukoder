@@ -42,6 +42,7 @@
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302
 #define IDR_TRANS_FR                    303
+#define IDR_TRANS_ZH                    304
 #define ID_FILTER                       400
 #define IDR_FLT_ZSCALE                  401
 
