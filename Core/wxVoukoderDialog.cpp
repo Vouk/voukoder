@@ -183,7 +183,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	n_aboutTrans->SetFont(f_headline);
 	aboutSizer->Add(n_aboutTrans, 0, wxALIGN_CENTER | wxALL, 5);
 	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Cedric R. (Deutsch)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno \"MyPOV\" T. (Français)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Français)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("\n\n\n\nwww.voukoder.org"), wxT("https://www.voukoder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
 	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
