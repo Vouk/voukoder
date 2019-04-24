@@ -17,6 +17,10 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	SetTitle(VKDR_APPNAME);
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
+	// Translate boolean options
+	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));
+	wxPGGlobalVars->m_boolChoices[1].SetText(Trans("ui.encoderconfig.true"));
+
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
 	// Init image handlers

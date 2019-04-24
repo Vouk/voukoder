@@ -81,6 +81,8 @@
     "ui.premiere.error.encoderError.nvenc.sessions": "S'assurer qu'il y a au moins une session libre de NVENC et fermer tous les autres programmes qui utilisent NVENC.",
     "ui.premiere.error.encoderError.level": "Vérifier si les préréglages utilisés sont conformes avec le niveau de sortie sélectionné. Même les configurations par défaut (aucune option définie) peuvent ne pas être conforme avec un niveau.",
 
+    "ui.encoderconfig.true": "Oui",
+    "ui.encoderconfig.false": "Non",
     "ui.encoderconfig.general": "Général",
     "ui.encoderconfig.general.encoders": "Encodeurs",
     "ui.encoderconfig.general.encoders.video": "Video encodeur",

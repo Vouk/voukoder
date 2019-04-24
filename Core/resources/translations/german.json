@@ -81,6 +81,8 @@
     "ui.premiere.error.encoderError.nvenc.sessions": "Bitte stelle sicher, dass mindestens eine NVENC Sitzung frei ist und schließe alle anderen Programme die NVENC nutzen.",
     "ui.premiere.error.encoderError.level": "Bitte überprüfen Sie, ob die verwendeten Optionen und Voreinstellungen mit dem ausgewählten Level konform sind. Sogar die Standardkonfiguration der Encoder (es wurden keine Optionen festgelegt) entspricht möglicherweise nicht allen Leveln.",
 
+    "ui.encoderconfig.true": "Ja",
+    "ui.encoderconfig.false": "Nein",
     "ui.encoderconfig.general": "Allgemein",
     "ui.encoderconfig.general.encoders": "Codecs",
     "ui.encoderconfig.general.encoders.video": "Video Codec",

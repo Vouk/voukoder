@@ -81,6 +81,8 @@
     "ui.premiere.error.encoderError.nvenc.sessions": "确保至少有一个可用的 NVENC 会话，并关闭使用 NVENC 的所有其他程序.",
     "ui.premiere.error.encoderError.level": "请检查所使用的选项和预设是否符合选定的输出要求。即使编码器的默认配置（根本没有设置选项）也可能不符合所有级别.",
 
+    "ui.encoderconfig.true": "True",
+    "ui.encoderconfig.false": "False",
     "ui.encoderconfig.general": "常规",
     "ui.encoderconfig.general.encoders": "编码器",
     "ui.encoderconfig.general.encoders.video": "视频编码器",
