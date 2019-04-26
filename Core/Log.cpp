@@ -1,6 +1,5 @@
 #include "Log.h"
 #include <intrin.h>  
-#include <ShlObj_core.h>
 #include "Version.h"
 
 Log* Log::instance()
@@ -62,12 +61,6 @@ Log::Log()
 				DispDev.DeviceString));
 
 		nDeviceIndex++;
-	}
-
-	// Is admin?
-	if (IsUserAnAdmin())
-	{
-		AddLine("User is an administrator.");
 	}
 
 	AddLine("---------------------------------------------");
