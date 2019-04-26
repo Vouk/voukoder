@@ -14,6 +14,7 @@
 #define VKDRSelectedMuxer "VKDRSelectedMuxer"
 
 #define CONFIG_MAX_SIZE 16384
+#define ARB_VERSION 1
 
 using namespace std;
 
@@ -46,6 +47,7 @@ struct ArbData
 	prUTF16Char audioCodecOptions[16384];
 	prUTF16Char formatId[10];
 	bool faststart;
+	csSDK_uint32 version = 0;
 };
 
 #define prCreateIntParam(_identifier_, _groupName_, _paramflags_, _defaultValue_, _minValue_, _maxValue_, _disabled_, _hidden_) { \

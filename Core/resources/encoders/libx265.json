@@ -2039,8 +2039,8 @@
           "parameter": "deblock",
           "control": {
             "type": "string",
-            "value": "0:0",
-            "regex": "^-?[0-9]+:-?[0-9]+$"
+            "value": "0,0",
+            "regex": "^-?[0-9]+,-?[0-9]+$"
           }
         },
         {

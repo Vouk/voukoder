@@ -353,20 +353,22 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 		ArbData arbData;
 		if (PrSuiteErrorSucceeded(suites->exportParamSuite->GetArbData(pluginId, 0, dataId, &dataSize, reinterpret_cast<void*>(&arbData))))
 		{
-			// Log configuration
-			//vkLogInfo("Loading encoder configuration (vcodec: %ls, voptions: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)",
-			//	arbData.videoCodecId,
-			//	arbData.videoCodecOptions,
-			//	arbData.audioCodecId,
-			//	arbData.audioCodecOptions,
-			//	arbData.formatId,
-			//	arbData.faststart);
+			// Get codec options
+			wxString videoOptions = arbData.videoCodecOptions;
+			wxString audioOptions = arbData.audioCodecOptions;
+
+			// Convert version=0 parameters
+			if (arbData.version == 0)
+			{
+				videoOptions.Replace(",", PARAM_SEPARATOR);
+				audioOptions.Replace(",", PARAM_SEPARATOR);
+			}
 
 			// Set main values
 			exportInfo.video.id = wxString(arbData.videoCodecId);
-			exportInfo.video.options.fromString(arbData.videoCodecOptions);
+			exportInfo.video.options.fromString(videoOptions);
 			exportInfo.audio.id = wxString(arbData.audioCodecId);
-			exportInfo.audio.options.fromString(arbData.audioCodecOptions);
+			exportInfo.audio.options.fromString(audioOptions);
 			exportInfo.format.id = wxString(arbData.formatId);
 			exportInfo.format.faststart = arbData.faststart;
 
@@ -402,15 +404,7 @@ bool Gui::StoreEncoderOptions(const char *dataId, ExportInfo exportInfo)
 	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.toString(true).c_str());
 	prUTF16CharCopy(arbData.formatId, exportInfo.format.id.ToStdWstring().c_str());
 	arbData.faststart = exportInfo.format.faststart;
-
-	// Log configuration
-	//vkLogInfo("Storing encoder configuration (vcodec: %ls, voptions: %ls, acodec: %ls, aoptions: %ls, format: %ls, faststart: %d)",
-	//	arbData.videoCodecId,
-	//	arbData.videoCodecOptions,
-	//	arbData.audioCodecId,
-	//	arbData.audioCodecOptions,
-	//	arbData.formatId,
-	//	arbData.faststart);
+	arbData.version = ARB_VERSION;
 
 	// Save the encoder settings
 	csSDK_int32 size = static_cast<csSDK_int32>(sizeof(ArbData));

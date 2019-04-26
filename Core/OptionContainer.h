@@ -3,7 +3,7 @@
 #include <map>
 #include <wx/wx.h>
 
-#define PARAM_SEPARATOR ","
+#define PARAM_SEPARATOR "|"
 #define VALUE_SEPARATOR "="
 
 using namespace std;
