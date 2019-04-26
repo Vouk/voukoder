@@ -130,7 +130,7 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 		vkLogInfo("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
 
 		AVDictionary *dictionary = NULL;
-		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), "=", ",", 0)) < 0)
+		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), VALUE_SEPARATOR, PARAM_SEPARATOR, 0)) < 0)
 		{
 			vkLogError("Unable to parse encoder configuration: %s", codecOptions.c_str());
 			return ret;

@@ -168,6 +168,7 @@
     <ClInclude Include="ExportInfo.h" />
     <ClInclude Include="FilterInfo.h" />
     <ClInclude Include="FilterUtils.h" />
+    <ClInclude Include="EncoderOptionPresets.h" />
     <ClInclude Include="OptionResourceUtils.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="ResourceInfo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tinyexpr.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxAddFilterDialog.h" />
@@ -208,6 +210,7 @@
     <ClCompile Include="MuxerUtils.cpp" />
     <ClCompile Include="NvidiaCustomOptions.cpp" />
     <ClCompile Include="OptionContainer.cpp" />
+    <ClCompile Include="tinyexpr.c" />
     <ClCompile Include="Voukoder.cpp" />
     <ClCompile Include="wxAddFilterDialog.cpp" />
     <ClCompile Include="wxFilterPanel.cpp" />

@@ -18,4 +18,5 @@ public:
 private:
 	static bool IsAvailable(const string codecId);
 	static AVMediaType GetMediaType(const string codecId);
+	static void CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup &parent, const json json);
 };

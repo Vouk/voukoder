@@ -72,7 +72,47 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 		}
 	}
 
+	// Optional: Presets
+	if (resource.find("presets") != resource.end())
+	{
+		for (auto& item : resource["presets"])
+		{
+			EncoderOptionPresetGroup group;
+			CreateEncoderOptionPresetGroup(group, item);
+
+			encoderInfo.presets.push_back(group);
+		}
+	}
+
 	return true;
+}
+
+void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& group, const json json)
+{
+	group.id = json["id"].get<string>();
+
+	//
+	if (json.find("presets") != json.end())
+	{
+		for (auto& preset : json["presets"])
+		{
+			EncoderOptionPreset p;
+			p.id = preset["id"].get<string>();
+			p.options = preset["options"].get<string>();
+		}
+	}
+
+	//
+	if (json.find("group") != json.end())
+	{
+		for (auto& item : json["group"])
+		{
+			EncoderOptionPresetGroup subgroup;
+			CreateEncoderOptionPresetGroup(subgroup, item);
+
+			group.group.push_back(subgroup);
+		}
+	}
 }
 
 AVMediaType EncoderUtils::GetMediaType(const string codecId)

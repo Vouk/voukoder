@@ -5,5 +5,53 @@
   "defaults": {
     "_sampleFormat": "fltp"
   },
-  "groups": []
+  "groups": [
+    {
+      "id": "ac3.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "ac3.standard.bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              },
+              {
+                "value": "576000"
+              },
+              {
+                "value": "640000"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

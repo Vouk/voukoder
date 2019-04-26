@@ -22,7 +22,6 @@
       "b-adapt",
       "b-pyramid",
       "no-deblock",
-      "deblock",
       "scenecut",
       "no-weightb",
       "qpmin",
