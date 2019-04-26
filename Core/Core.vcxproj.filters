@@ -138,9 +138,6 @@
     <ClInclude Include="Version.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="tinyexpr.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="EncoderOptionPresets.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -192,9 +189,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxFilterPanel.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyexpr.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
