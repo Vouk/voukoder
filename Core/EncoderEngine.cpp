@@ -361,13 +361,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	if (frame->pts == 0)
 	{
 		stringstream filterconfig;
-
-		// Convert pixel format
-		if (frame->format != videoContext.codecContext->pix_fmt)
-		{
-			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
-		}
-			
+	
 		// Convert color space or range?
 		if (videoContext.codecContext->color_range != frame->color_range ||
 			videoContext.codecContext->colorspace != frame->colorspace ||
@@ -396,6 +390,12 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
 				break;
 			}
+		}
+		
+		// Convert pixel format
+		if (frame->format != videoContext.codecContext->pix_fmt)
+		{
+			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
 		}
 
 		// Create filter
