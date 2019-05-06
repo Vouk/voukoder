@@ -33,7 +33,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_HOME));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_VIDEO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_AUDIO));
-		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_FILTER));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_SETTINGS));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_UPDATE));
 	}
@@ -261,25 +260,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_Categories->SetPageImage(imageIdx++, 2);
 	}
 
-	// Filters
-
-	/*
-	m_filterCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bFilterCategorySizer = new wxBoxSizer(wxVERTICAL);
-
-	m_filterNotebook = new wxNotebook(m_filterCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	m_filterPanel = new wxFilterPanel(m_filterNotebook);
-	m_filterNotebook->AddPage(m_filterPanel, Trans("ui.encoderconfig.filters"), false);
-
-	bFilterCategorySizer->Add(m_filterNotebook, 1, wxEXPAND | wxALL, 0);
-	   
-	m_filterCategory->SetSizer(bFilterCategorySizer);
-	m_filterCategory->Layout();
-	bFilterCategorySizer->Fit(m_filterCategory);
-	m_Categories->AddPage(m_filterCategory, Trans("ui.encoderconfig.filters"), false);
-	m_Categories->SetPageImage(imageIdx++, 3);
-	*/
-
 	// Settings
 
 	m_settingsCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -371,7 +351,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_settingsCategory->Layout();
 	bSettingsCategorySizer->Fit(m_settingsCategory);
 	m_Categories->AddPage(m_settingsCategory, Trans("ui.encoderconfig.settings"), false);
-	m_Categories->SetPageImage(imageIdx++, 4);
+	m_Categories->SetPageImage(imageIdx++, 3);
 
 	// Set current version
 	Version curVersion;
@@ -419,7 +399,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_updateCategory->Layout();
 		bUpdateCategorySizer->Fit(m_updateCategory);
 		m_Categories->AddPage(m_updateCategory, Trans("ui.encoderconfig.update"), false);
-		m_Categories->SetPageImage(imageIdx++, 5);
+		m_Categories->SetPageImage(imageIdx++, 4);
 	}
 
 	//
