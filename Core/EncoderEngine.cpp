@@ -437,7 +437,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		filterconfig << "sample_rates=" << audioContext.codecContext->sample_rate;
 
 		// Buffer all samples
-		filterconfig << ",asetnsamples=n=" << audioFrameSize;
+		//filterconfig << ",asetnsamples=n=" << audioFrameSize;
 
 		// Set frame filter options
 		FrameFilterOptions options;
