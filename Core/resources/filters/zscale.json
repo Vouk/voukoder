@@ -1,19 +1,61 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "filter.zscale",
-  "name": "zscale",
+  "defaults": {
+    "_name": "zscale"
+  },
   "groups": [
     {
-      "id": "filter.zscale.standard",
       "class": "standard",
+      "id": "filter.zscale.standard",
       "properties": [
         {
-          "id": "filter.zscale.standard.format",
-          "parameter": "f",
-		  "forced": true,
           "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.zscale.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.zscale.standard.height",
+          "parameter": "height"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.zscale.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "ordered"
+              },
+              {
+                "value": "random"
+              },
+              {
+                "value": "error_diffusion"
+              }
+            ],
             "selectedIndex": 0,
-            "type": "combobox",
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.dither",
+          "parameter": "dither"
+        },
+        {
+          "control": {
             "items": [
               {
                 "value": "point"
@@ -33,34 +75,357 @@
               {
                 "value": "lanczos"
               }
-            ]
-          }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.filter",
+          "parameter": "filter"
         },
         {
-          "id": "filter.zscale.standard.width",
-          "parameter": "w",
-		  "forced": true,
           "control": {
-            "maximum": 10240,
-            "minimum": 320,
-            "singleStep": 16,
-            "type": "integer",
-            "value": 1920
-          }
-        },        
-		{
-          "id": "filter.zscale.standard.height",
-          "parameter": "h",
-		  "forced": true,
+            "items": [
+              {
+                "value": "input"
+              },
+              {
+                "value": "limited"
+              },
+              {
+                "value": "full"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "tv"
+              },
+              {
+                "value": "pc"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.range",
+          "parameter": "range"
+        },
+        {
           "control": {
-            "maximum": 8192,
-            "minimum": 240,
-            "singleStep": 16,
+            "items": [
+              {
+                "value": "input"
+              },
+              {
+                "value": "709"
+              },
+              {
+                "value": "unspecified"
+              },
+              {
+                "value": "170m"
+              },
+              {
+                "value": "240m"
+              },
+              {
+                "value": "2020"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "film"
+              },
+              {
+                "value": "bt2020"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "smpte431"
+              },
+              {
+                "value": "smpte432"
+              },
+              {
+                "value": "jedec-p22"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.primaries",
+          "parameter": "primaries"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "input"
+              },
+              {
+                "value": "709"
+              },
+              {
+                "value": "unspecified"
+              },
+              {
+                "value": "601"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "2020_10"
+              },
+              {
+                "value": "2020_12"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "log100"
+              },
+              {
+                "value": "log316"
+              },
+              {
+                "value": "bt2020-10"
+              },
+              {
+                "value": "bt2020-12"
+              },
+              {
+                "value": "smpte2084"
+              },
+              {
+                "value": "iec61966-2-4"
+              },
+              {
+                "value": "iec61966-2-1"
+              },
+              {
+                "value": "arib-std-b67"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.transfer",
+          "parameter": "transfer"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "input"
+              },
+              {
+                "value": "709"
+              },
+              {
+                "value": "unspecified"
+              },
+              {
+                "value": "470bg"
+              },
+              {
+                "value": "170m"
+              },
+              {
+                "value": "2020_ncl"
+              },
+              {
+                "value": "2020_cl"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "gbr"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "fcc"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte2400m"
+              },
+              {
+                "value": "ycgco"
+              },
+              {
+                "value": "bt2020nc"
+              },
+              {
+                "value": "bt2020c"
+              },
+              {
+                "value": "chroma-derived-nc"
+              },
+              {
+                "value": "chroma-derived-c"
+              },
+              {
+                "value": "ictcp"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.matrix",
+          "parameter": "matrix"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": -1,
+            "singleStep": 1,
             "type": "integer",
-            "value": 1080
-          }
+            "value": -2147483648
+          },
+          "id": "filter.zscale.standard.rangein",
+          "parameter": "rangein"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.zscale.standard.primariesin",
+          "parameter": "primariesin"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.zscale.standard.transferin",
+          "parameter": "transferin"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.zscale.standard.matrixin",
+          "parameter": "matrixin"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "input"
+              },
+              {
+                "value": "left"
+              },
+              {
+                "value": "center"
+              },
+              {
+                "value": "topleft"
+              },
+              {
+                "value": "top"
+              },
+              {
+                "value": "bottomleft"
+              },
+              {
+                "value": "bottom"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.zscale.standard.chromal",
+          "parameter": "chromal"
+        },
+        {
+          "control": {
+            "maximum": 5,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.zscale.standard.chromalin",
+          "parameter": "chromalin"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.zscale.standard.npl",
+          "parameter": "npl"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.zscale.standard.agamma",
+          "parameter": "agamma"
         }
       ]
     }
-  ]
+  ],
+  "id": "filter.zscale",
+  "name": "zscale",
+  "type": "video"
 }

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vibrance"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vibrance.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.vibrance.standard.intensity",
+          "parameter": "intensity"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.vibrance.standard.rbal",
+          "parameter": "rbal"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.vibrance.standard.gbal",
+          "parameter": "gbal"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.vibrance.standard.bbal",
+          "parameter": "bbal"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.07218600064516068
+          },
+          "id": "filter.vibrance.standard.rlum",
+          "parameter": "rlum"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.7151579856872559
+          },
+          "id": "filter.vibrance.standard.glum",
+          "parameter": "glum"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.21265600621700287
+          },
+          "id": "filter.vibrance.standard.blum",
+          "parameter": "blum"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vibrance",
+  "name": "vibrance",
+  "type": "video"
+}

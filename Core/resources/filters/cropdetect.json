@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "cropdetect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.cropdetect.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0941176488995552
+          },
+          "id": "filter.cropdetect.standard.limit",
+          "parameter": "limit"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.cropdetect.standard.round",
+          "parameter": "round"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.cropdetect.standard.reset_count",
+          "parameter": "reset_count"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.cropdetect.standard.max_outliers",
+          "parameter": "max_outliers"
+        }
+      ]
+    }
+  ],
+  "id": "filter.cropdetect",
+  "name": "cropdetect",
+  "type": "video"
+}

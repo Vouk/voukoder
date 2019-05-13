@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "readvitc"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.readvitc.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.readvitc.standard.scan_max",
+          "parameter": "scan_max"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.20000000298023224
+          },
+          "id": "filter.readvitc.standard.thr_b",
+          "parameter": "thr_b"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.6000000238418579
+          },
+          "id": "filter.readvitc.standard.thr_w",
+          "parameter": "thr_w"
+        }
+      ]
+    }
+  ],
+  "id": "filter.readvitc",
+  "name": "readvitc",
+  "type": "video"
+}

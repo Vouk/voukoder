@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lumakey"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lumakey.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.lumakey.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.lumakey.standard.tolerance",
+          "parameter": "tolerance"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.lumakey.standard.softness",
+          "parameter": "softness"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lumakey",
+  "name": "lumakey",
+  "type": "video"
+}

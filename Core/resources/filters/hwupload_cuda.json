@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hwupload_cuda"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.cudaupload.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.cudaupload.standard.device",
+          "parameter": "device"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hwupload_cuda",
+  "name": "hwupload_cuda",
+  "type": "video"
+}

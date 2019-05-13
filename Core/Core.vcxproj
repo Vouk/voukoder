@@ -166,6 +166,7 @@
     <ClInclude Include="EncoderContext.h" />
     <ClInclude Include="EncoderUtils.h" />
     <ClInclude Include="ExportInfo.h" />
+    <ClInclude Include="FilterConfig.h" />
     <ClInclude Include="FilterInfo.h" />
     <ClInclude Include="FilterUtils.h" />
     <ClInclude Include="EncoderOptionPresets.h" />

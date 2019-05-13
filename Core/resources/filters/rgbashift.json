@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "rgbashift"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.rgbashift.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.rh",
+          "parameter": "rh"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.rv",
+          "parameter": "rv"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.gh",
+          "parameter": "gh"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.gv",
+          "parameter": "gv"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.bh",
+          "parameter": "bh"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.bv",
+          "parameter": "bv"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.ah",
+          "parameter": "ah"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.rgbashift.standard.av",
+          "parameter": "av"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "smear"
+              },
+              {
+                "value": "wrap"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.rgbashift.standard.edge",
+          "parameter": "edge"
+        }
+      ]
+    }
+  ],
+  "id": "filter.rgbashift",
+  "name": "rgbashift",
+  "type": "video"
+}

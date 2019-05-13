@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "detelecine"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.detelecine.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "top"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "bottom"
+              },
+              {
+                "value": "b"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.detelecine.standard.first_field",
+          "parameter": "first_field"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "23"
+          },
+          "id": "filter.detelecine.standard.pattern",
+          "parameter": "pattern"
+        },
+        {
+          "control": {
+            "maximum": 13,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.detelecine.standard.start_frame",
+          "parameter": "start_frame"
+        }
+      ]
+    }
+  ],
+  "id": "filter.detelecine",
+  "name": "detelecine",
+  "type": "video"
+}

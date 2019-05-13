@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tile"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tile.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "6x5"
+          },
+          "id": "filter.tile.standard.layout",
+          "parameter": "layout"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tile.standard.nb_frames",
+          "parameter": "nb_frames"
+        },
+        {
+          "control": {
+            "maximum": 1024,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tile.standard.margin",
+          "parameter": "margin"
+        },
+        {
+          "control": {
+            "maximum": 1024,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tile.standard.padding",
+          "parameter": "padding"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.tile.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tile.standard.overlap",
+          "parameter": "overlap"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tile.standard.init_padding",
+          "parameter": "init_padding"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tile",
+  "name": "tile",
+  "type": "video"
+}

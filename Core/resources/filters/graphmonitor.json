@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "graphmonitor"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.graphmonitor.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "hd720"
+          },
+          "id": "filter.graphmonitor.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.8999999761581421
+          },
+          "id": "filter.graphmonitor.standard.opacity",
+          "parameter": "opacity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "full"
+              },
+              {
+                "value": "compact"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.graphmonitor.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "queue"
+              },
+              {
+                "value": "frame_count_in"
+              },
+              {
+                "value": "frame_count_out"
+              },
+              {
+                "value": "pts"
+              },
+              {
+                "value": "time"
+              },
+              {
+                "value": "timebase"
+              },
+              {
+                "value": "format"
+              },
+              {
+                "value": "size"
+              },
+              {
+                "value": "rate"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.graphmonitor.standard.flags",
+          "parameter": "flags"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "25"
+          },
+          "id": "filter.graphmonitor.standard.rate",
+          "parameter": "rate"
+        }
+      ]
+    }
+  ],
+  "id": "filter.graphmonitor",
+  "name": "graphmonitor",
+  "type": "video"
+}

@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 #include "lavf.h"
 #include "OptionContainer.h"
+#include "FilterConfig.h"
 
 struct ExportInfo
 {
@@ -17,6 +18,7 @@ struct ExportInfo
 		int height = 0;
 		wxString id = wxEmptyString;
 		OptionContainer options;
+		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
 		AVPixelFormat pixelFormat = AVPixelFormat::AV_PIX_FMT_NONE;
 		AVRational sampleAspectRatio = { 0, 0 };
@@ -33,6 +35,7 @@ struct ExportInfo
 		bool enabled = true;
 		wxString id = wxEmptyString;
 		OptionContainer options;
+		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
 		AVSampleFormat sampleFormat = AVSampleFormat::AV_SAMPLE_FMT_NONE;
 		uint64_t channelLayout = 0;

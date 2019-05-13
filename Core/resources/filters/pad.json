@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pad"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pad.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "iw"
+          },
+          "id": "filter.pad.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "ih"
+          },
+          "id": "filter.pad.standard.height",
+          "parameter": "height"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.pad.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.pad.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.pad.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "init"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.pad.standard.eval",
+          "parameter": "eval"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.pad.standard.aspect",
+          "parameter": "aspect"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pad",
+  "name": "pad",
+  "type": "video"
+}

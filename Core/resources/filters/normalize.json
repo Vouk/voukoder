@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "normalize"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.normalize.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.normalize.standard.blackpt",
+          "parameter": "blackpt"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "white"
+          },
+          "id": "filter.normalize.standard.whitept",
+          "parameter": "whitept"
+        },
+        {
+          "control": {
+            "maximum": 268435455,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.normalize.standard.smoothing",
+          "parameter": "smoothing"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.normalize.standard.independence",
+          "parameter": "independence"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.normalize.standard.strength",
+          "parameter": "strength"
+        }
+      ]
+    }
+  ],
+  "id": "filter.normalize",
+  "name": "normalize",
+  "type": "video"
+}

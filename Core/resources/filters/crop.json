@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "crop"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.crop.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "iw"
+          },
+          "id": "filter.crop.standard.out_w",
+          "parameter": "out_w"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "ih"
+          },
+          "id": "filter.crop.standard.out_h",
+          "parameter": "out_h"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "(in_w-out_w)/2"
+          },
+          "id": "filter.crop.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "(in_h-out_h)/2"
+          },
+          "id": "filter.crop.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.crop.standard.keep_aspect",
+          "parameter": "keep_aspect"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.crop.standard.exact",
+          "parameter": "exact"
+        }
+      ]
+    }
+  ],
+  "id": "filter.crop",
+  "name": "crop",
+  "type": "video"
+}

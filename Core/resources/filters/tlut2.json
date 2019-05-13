@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tlut2"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tlut2.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "x"
+          },
+          "id": "filter.tlut2.standard.c0",
+          "parameter": "c0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "x"
+          },
+          "id": "filter.tlut2.standard.c1",
+          "parameter": "c1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "x"
+          },
+          "id": "filter.tlut2.standard.c2",
+          "parameter": "c2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "x"
+          },
+          "id": "filter.tlut2.standard.c3",
+          "parameter": "c3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tlut2",
+  "name": "tlut2",
+  "type": "video"
+}

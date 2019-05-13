@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pp7"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pp7.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.pp7.standard.qp",
+          "parameter": "qp"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "hard"
+              },
+              {
+                "value": "soft"
+              },
+              {
+                "value": "medium"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.pp7.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pp7",
+  "name": "pp7",
+  "type": "video"
+}

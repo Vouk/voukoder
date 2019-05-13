@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "limiter"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.limiter.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.limiter.standard.min",
+          "parameter": "min"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.limiter.standard.max",
+          "parameter": "max"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.limiter.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.limiter",
+  "name": "limiter",
+  "type": "video"
+}

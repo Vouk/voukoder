@@ -360,10 +360,10 @@ My_UserOptionsDialog(
 		ExportInfo exportInfo;
 		exportInfo.video.enabled = (widthL > 0 && heightL > 0);
 		exportInfo.video.id = arbData->videoCodecId;
-		exportInfo.video.options.fromString(arbData->videoCodecOptions);
+		exportInfo.video.options.Deserialize(arbData->videoCodecOptions);
 		exportInfo.audio.enabled = soundRateF > 0;
 		exportInfo.audio.id = arbData->audioCodecId;
-		exportInfo.audio.options.fromString(arbData->audioCodecOptions);
+		exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
 		exportInfo.format.id = arbData->formatId;
 		exportInfo.format.faststart = arbData->faststart;
 
@@ -377,9 +377,9 @@ My_UserOptionsDialog(
 		{
 			// Fill ArbData
 			strcpy_s(arbData->videoCodecId, exportInfo.video.id);
-			strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.toString().c_str());
+			strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.Serialize().c_str());
 			strcpy_s(arbData->audioCodecId, exportInfo.audio.id);
-			strcpy_s(arbData->audioCodecOptions, exportInfo.audio.options.toString().c_str());
+			strcpy_s(arbData->audioCodecOptions, exportInfo.audio.options.Serialize().c_str());
 			strcpy_s(arbData->formatId, exportInfo.format.id);
 			arbData->faststart = exportInfo.format.faststart;
 

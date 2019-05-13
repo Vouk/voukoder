@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "rotate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.rotate.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.rotate.standard.angle",
+          "parameter": "angle"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "iw"
+          },
+          "id": "filter.rotate.standard.out_w",
+          "parameter": "out_w"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "ih"
+          },
+          "id": "filter.rotate.standard.out_h",
+          "parameter": "out_h"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.rotate.standard.fillcolor",
+          "parameter": "fillcolor"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.rotate.standard.bilinear",
+          "parameter": "bilinear"
+        }
+      ]
+    }
+  ],
+  "id": "filter.rotate",
+  "name": "rotate",
+  "type": "video"
+}

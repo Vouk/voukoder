@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "sab"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.sab.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 4.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.sab.standard.luma_radius",
+          "parameter": "luma_radius"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.sab.standard.luma_pre_filter_radius",
+          "parameter": "luma_pre_filter_radius"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.sab.standard.luma_strength",
+          "parameter": "luma_strength"
+        },
+        {
+          "control": {
+            "maximum": 4.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.sab.standard.chroma_radius",
+          "parameter": "chroma_radius"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.sab.standard.chroma_pre_filter_radius",
+          "parameter": "chroma_pre_filter_radius"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.sab.standard.chroma_strength",
+          "parameter": "chroma_strength"
+        }
+      ]
+    }
+  ],
+  "id": "filter.sab",
+  "name": "sab",
+  "type": "video"
+}

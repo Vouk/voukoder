@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lut1d"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lut1d.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.lut1d.standard.file",
+          "parameter": "file"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "nearest"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "cosine"
+              },
+              {
+                "value": "cubic"
+              },
+              {
+                "value": "spline"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.lut1d.standard.interp",
+          "parameter": "interp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lut1d",
+  "name": "lut1d",
+  "type": "video"
+}

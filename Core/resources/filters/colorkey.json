@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "colorkey"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.colorkey.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.colorkey.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.009999999776482582
+          },
+          "id": "filter.colorkey.standard.similarity",
+          "parameter": "similarity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorkey.standard.blend",
+          "parameter": "blend"
+        }
+      ]
+    }
+  ],
+  "id": "filter.colorkey",
+  "name": "colorkey",
+  "type": "video"
+}

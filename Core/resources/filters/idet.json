@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "idet"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.idet.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0399999618530273
+          },
+          "id": "filter.idet.standard.intl_thres",
+          "parameter": "intl_thres"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.5
+          },
+          "id": "filter.idet.standard.prog_thres",
+          "parameter": "prog_thres"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 3.0
+          },
+          "id": "filter.idet.standard.rep_thres",
+          "parameter": "rep_thres"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.idet.standard.half_life",
+          "parameter": "half_life"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.idet.standard.analyze_interlaced_flag",
+          "parameter": "analyze_interlaced_flag"
+        }
+      ]
+    }
+  ],
+  "id": "filter.idet",
+  "name": "idet",
+  "type": "video"
+}

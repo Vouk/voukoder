@@ -19,6 +19,7 @@ Voukoder::Config::Config()
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_FILTER));
+	//FilterUtils::AutoFill(filterInfos);
 }
 
 BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "geq"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.geq.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.lum_expr",
+          "parameter": "lum_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.cb_expr",
+          "parameter": "cb_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.cr_expr",
+          "parameter": "cr_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.alpha_expr",
+          "parameter": "alpha_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.red_expr",
+          "parameter": "red_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.green_expr",
+          "parameter": "green_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.geq.standard.blue_expr",
+          "parameter": "blue_expr"
+        }
+      ]
+    }
+  ],
+  "id": "filter.geq",
+  "name": "geq",
+  "type": "video"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "realtime"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.realtime.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.realtime.standard.limit",
+          "parameter": "limit"
+        }
+      ]
+    }
+  ],
+  "id": "filter.realtime",
+  "name": "realtime",
+  "type": "video"
+}

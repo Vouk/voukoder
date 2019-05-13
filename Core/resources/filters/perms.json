@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "perms"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.perms.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "ro"
+              },
+              {
+                "value": "rw"
+              },
+              {
+                "value": "toggle"
+              },
+              {
+                "value": "random"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.perms.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.perms.standard.seed",
+          "parameter": "seed"
+        }
+      ]
+    }
+  ],
+  "id": "filter.perms",
+  "name": "perms",
+  "type": "video"
+}

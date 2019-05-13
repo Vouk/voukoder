@@ -11,6 +11,8 @@ using namespace std;
 class OptionContainer : public map<string, string>
 {
 public:
-	void fromString(const wxString input, const char parameterSeparator = PARAM_SEPARATOR[0], const char valueSeparator = VALUE_SEPARATOR[0]);
-	const wxString toString(const bool includePrivate = false, wxString prefix = "", char parameterSeparator = PARAM_SEPARATOR[0], char valueSeparator = VALUE_SEPARATOR[0]);
+	OptionContainer() {};
+	OptionContainer(OptionContainer* options);
+	void Deserialize(const wxString input, const char parameterSeparator = PARAM_SEPARATOR[0], const char valueSeparator = VALUE_SEPARATOR[0]);
+	const wxString Serialize(const bool includePrivate = false, wxString prefix = "", char parameterSeparator = PARAM_SEPARATOR[0], char valueSeparator = VALUE_SEPARATOR[0]);
 };

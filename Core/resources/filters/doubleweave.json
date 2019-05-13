@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "doubleweave"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.doubleweave.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "top"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "bottom"
+              },
+              {
+                "value": "b"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.doubleweave.standard.first_field",
+          "parameter": "first_field"
+        }
+      ]
+    }
+  ],
+  "id": "filter.doubleweave",
+  "name": "doubleweave",
+  "type": "video"
+}

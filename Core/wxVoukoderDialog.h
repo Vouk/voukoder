@@ -63,15 +63,13 @@ protected:
 	wxPanel* m_videoCategory;
 	wxNotebook* m_videoNotebook;
 	wxPanel* m_videoEditorPanel;
+	wxFilterPanel* m_videoFilterPanel;
 
 	wxEncoderConfigEditor* m_audioEditor;
 	wxPanel* m_audioCategory;
 	wxNotebook* m_audioNotebook;
 	wxPanel* m_audioEditorPanel;
-
-	wxPanel* m_filterCategory;
-	wxNotebook* m_filterNotebook;
-	wxFilterPanel* m_filterPanel;
+	wxFilterPanel* m_audioFilterPanel;
 
 	wxPanel* m_settingsCategory;
 	wxNotebook* m_settingsNotebook;

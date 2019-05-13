@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tblend"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tblend.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tblend.standard.c0_mode",
+          "parameter": "c0_mode"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tblend.standard.c1_mode",
+          "parameter": "c1_mode"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tblend.standard.c2_mode",
+          "parameter": "c2_mode"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tblend.standard.c3_mode",
+          "parameter": "c3_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "addition"
+              },
+              {
+                "value": "addition128"
+              },
+              {
+                "value": "grainmerge"
+              },
+              {
+                "value": "and"
+              },
+              {
+                "value": "average"
+              },
+              {
+                "value": "burn"
+              },
+              {
+                "value": "darken"
+              },
+              {
+                "value": "difference"
+              },
+              {
+                "value": "difference128"
+              },
+              {
+                "value": "grainextract"
+              },
+              {
+                "value": "divide"
+              },
+              {
+                "value": "dodge"
+              },
+              {
+                "value": "exclusion"
+              },
+              {
+                "value": "extremity"
+              },
+              {
+                "value": "freeze"
+              },
+              {
+                "value": "glow"
+              },
+              {
+                "value": "hardlight"
+              },
+              {
+                "value": "hardmix"
+              },
+              {
+                "value": "heat"
+              },
+              {
+                "value": "lighten"
+              },
+              {
+                "value": "linearlight"
+              },
+              {
+                "value": "multiply"
+              },
+              {
+                "value": "multiply128"
+              },
+              {
+                "value": "negation"
+              },
+              {
+                "value": "normal"
+              },
+              {
+                "value": "or"
+              },
+              {
+                "value": "overlay"
+              },
+              {
+                "value": "phoenix"
+              },
+              {
+                "value": "pinlight"
+              },
+              {
+                "value": "reflect"
+              },
+              {
+                "value": "screen"
+              },
+              {
+                "value": "softlight"
+              },
+              {
+                "value": "subtract"
+              },
+              {
+                "value": "vividlight"
+              },
+              {
+                "value": "xor"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.tblend.standard.all_mode",
+          "parameter": "all_mode"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.tblend.standard.c0_expr",
+          "parameter": "c0_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.tblend.standard.c1_expr",
+          "parameter": "c1_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.tblend.standard.c2_expr",
+          "parameter": "c2_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.tblend.standard.c3_expr",
+          "parameter": "c3_expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.tblend.standard.all_expr",
+          "parameter": "all_expr"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.tblend.standard.c0_opacity",
+          "parameter": "c0_opacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.tblend.standard.c1_opacity",
+          "parameter": "c1_opacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.tblend.standard.c2_opacity",
+          "parameter": "c2_opacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.tblend.standard.c3_opacity",
+          "parameter": "c3_opacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.tblend.standard.all_opacity",
+          "parameter": "all_opacity"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tblend",
+  "name": "tblend",
+  "type": "video"
+}

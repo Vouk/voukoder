@@ -332,5 +332,5 @@ void wxEncoderConfigEditor::RefreshResults()
 	}
 
 	// Update the preview
-	m_preview->ChangeValue(results.toString(false, "", ' '));
+	m_preview->ChangeValue(results.Serialize(false, "", ' '));
 }

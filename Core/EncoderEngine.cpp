@@ -50,7 +50,7 @@ int EncoderEngine::open()
 	// Do we want video export?
 	if (exportInfo.video.enabled)
 	{
-		if ((ret = openCodec(exportInfo.video.id.ToStdString(), exportInfo.video.options.toString().ToStdString(), &videoContext, getCodecFlags(AVMEDIA_TYPE_VIDEO))) < 0)
+		if ((ret = openCodec(exportInfo.video.id.ToStdString(), exportInfo.video.options.Serialize().ToStdString(), &videoContext, getCodecFlags(AVMEDIA_TYPE_VIDEO))) < 0)
 		{
 			vkLogError("Unable to open video encoder: %s", exportInfo.video.id.c_str());
 			close();
@@ -61,7 +61,7 @@ int EncoderEngine::open()
 	// Try to open the audio encoder (if wanted)
 	if (exportInfo.audio.enabled)
 	{
-		if ((ret = openCodec(exportInfo.audio.id.ToStdString(), exportInfo.audio.options.toString().ToStdString(), &audioContext, 0)) < 0)
+		if ((ret = openCodec(exportInfo.audio.id.ToStdString(), exportInfo.audio.options.Serialize().ToStdString(), &audioContext, 0)) < 0)
 		{
 			vkLogError("Unable to open audio encoder: %s", exportInfo.audio.id.c_str());
 			close();
@@ -206,6 +206,16 @@ int EncoderEngine::createCodecContext(const string codecId, EncoderContext *enco
 		encoderContext->codecContext->color_trc = exportInfo.video.colorTransferCharacteristics;
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
+
+		// Check for a zscaler filter
+		for (auto const& filter : exportInfo.video.filters.filters)
+		{
+			if (filter->at("_name") == "zscale")
+			{
+				encoderContext->codecContext->width = wxAtoi(filter->at("w"));
+				encoderContext->codecContext->height = wxAtoi(filter->at("h"));
+			}
+		}
 
 		// Add stats_info to second pass
 		if (codecId != "libx264" && encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
@@ -398,6 +408,9 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
 		}
 
+		// Add users filter config
+		filterconfig << exportInfo.video.filters.AsFilterString();
+
 		// Create filter
 		string flt = filterconfig.str();
 		if (flt.size() > 0)
@@ -405,8 +418,8 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 			// Set frame filter options
 			FrameFilterOptions options;
 			options.media_type = videoContext.codecContext->codec_type;
-			options.width = videoContext.codecContext->width;
-			options.height = videoContext.codecContext->height;
+			options.width = exportInfo.video.width;
+			options.height = exportInfo.video.height;
 			options.pix_fmt = (AVPixelFormat)frame->format;
 			options.time_base = videoContext.codecContext->time_base;
 			options.sar = videoContext.codecContext->sample_aspect_ratio;

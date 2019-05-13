@@ -2,7 +2,12 @@
 #include <string>
 #include <sstream>
 
-void OptionContainer::fromString(const wxString input, const char parameterSeparator, const char valueSeparator)
+OptionContainer::OptionContainer(OptionContainer* options)
+{
+	this->insert(options->begin(), options->end());
+}
+
+void OptionContainer::Deserialize(const wxString input, const char parameterSeparator, const char valueSeparator)
 {
 	istringstream iss(input.ToStdString());
 
@@ -16,7 +21,7 @@ void OptionContainer::fromString(const wxString input, const char parameterSepar
 	}
 }
 
-const wxString OptionContainer::toString(const bool includePrivate, wxString prefix, char parameterSeparator, char valueSeparator)
+const wxString OptionContainer::Serialize(const bool includePrivate, wxString prefix, char parameterSeparator, char valueSeparator)
 {
 	stringstream out;
 

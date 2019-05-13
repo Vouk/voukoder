@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "phase"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.phase.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "b"
+              },
+              {
+                "value": "T"
+              },
+              {
+                "value": "B"
+              },
+              {
+                "value": "u"
+              },
+              {
+                "value": "U"
+              },
+              {
+                "value": "a"
+              },
+              {
+                "value": "A"
+              }
+            ],
+            "selectedIndex": 8,
+            "type": "combobox"
+          },
+          "id": "filter.phase.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.phase",
+  "name": "phase",
+  "type": "video"
+}

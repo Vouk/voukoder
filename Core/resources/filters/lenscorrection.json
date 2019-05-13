@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lenscorrection"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lenscorrection.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.lenscorrection.standard.cx",
+          "parameter": "cx"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.lenscorrection.standard.cy",
+          "parameter": "cy"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.lenscorrection.standard.k1",
+          "parameter": "k1"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.lenscorrection.standard.k2",
+          "parameter": "k2"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lenscorrection",
+  "name": "lenscorrection",
+  "type": "video"
+}

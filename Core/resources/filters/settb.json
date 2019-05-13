@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "settb"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.settb.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "intb"
+          },
+          "id": "filter.settb.standard.expr",
+          "parameter": "expr"
+        }
+      ]
+    }
+  ],
+  "id": "filter.settb",
+  "name": "settb",
+  "type": "video"
+}

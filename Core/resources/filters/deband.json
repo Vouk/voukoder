@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "deband"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.deband.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.deband.standard.1thr",
+          "parameter": "1thr"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.deband.standard.2thr",
+          "parameter": "2thr"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.deband.standard.3thr",
+          "parameter": "3thr"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.deband.standard.4thr",
+          "parameter": "4thr"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deband.standard.range",
+          "parameter": "range"
+        },
+        {
+          "control": {
+            "maximum": 6.2831854820251465,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 6.2831854820251465
+          },
+          "id": "filter.deband.standard.direction",
+          "parameter": "direction"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.deband.standard.blur",
+          "parameter": "blur"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.deband.standard.coupling",
+          "parameter": "coupling"
+        }
+      ]
+    }
+  ],
+  "id": "filter.deband",
+  "name": "deband",
+  "type": "video"
+}

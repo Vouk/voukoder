@@ -1,0 +1,337 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "colorspace"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.colorspace.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "bt601-6-525"
+              },
+              {
+                "value": "bt601-6-625"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "bt2020"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.all",
+          "parameter": "all"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "fcc"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "ycgco"
+              },
+              {
+                "value": "gbr"
+              },
+              {
+                "value": "bt2020nc"
+              },
+              {
+                "value": "bt2020ncl"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.space",
+          "parameter": "space"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tv"
+              },
+              {
+                "value": "mpeg"
+              },
+              {
+                "value": "pc"
+              },
+              {
+                "value": "jpeg"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.range",
+          "parameter": "range"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "film"
+              },
+              {
+                "value": "smpte431"
+              },
+              {
+                "value": "smpte432"
+              },
+              {
+                "value": "bt2020"
+              },
+              {
+                "value": "jedec-p22"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.primaries",
+          "parameter": "primaries"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "gamma22"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "gamma28"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "srgb"
+              },
+              {
+                "value": "iec61966-2-1"
+              },
+              {
+                "value": "xvycc"
+              },
+              {
+                "value": "iec61966-2-4"
+              },
+              {
+                "value": "bt2020-10"
+              },
+              {
+                "value": "bt2020-12"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.trc",
+          "parameter": "trc"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv420p10"
+              },
+              {
+                "value": "yuv420p12"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv422p10"
+              },
+              {
+                "value": "yuv422p12"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv444p10"
+              },
+              {
+                "value": "yuv444p12"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.format",
+          "parameter": "format"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.colorspace.standard.fast",
+          "parameter": "fast"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "fsb"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.dither",
+          "parameter": "dither"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bradford"
+              },
+              {
+                "value": "vonkries"
+              },
+              {
+                "value": "identity"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colorspace.standard.wpadapt",
+          "parameter": "wpadapt"
+        },
+        {
+          "control": {
+            "maximum": 8,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.colorspace.standard.iall",
+          "parameter": "iall"
+        },
+        {
+          "control": {
+            "maximum": 22,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.colorspace.standard.ispace",
+          "parameter": "ispace"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.colorspace.standard.irange",
+          "parameter": "irange"
+        },
+        {
+          "control": {
+            "maximum": 22,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.colorspace.standard.iprimaries",
+          "parameter": "iprimaries"
+        },
+        {
+          "control": {
+            "maximum": 18,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.colorspace.standard.itrc",
+          "parameter": "itrc"
+        }
+      ]
+    }
+  ],
+  "id": "filter.colorspace",
+  "name": "colorspace",
+  "type": "video"
+}

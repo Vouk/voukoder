@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "drawgrid"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.drawgrid.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawgrid.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawgrid.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawgrid.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawgrid.standard.height",
+          "parameter": "height"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.drawgrid.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "1"
+          },
+          "id": "filter.drawgrid.standard.thickness",
+          "parameter": "thickness"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.drawgrid.standard.replace",
+          "parameter": "replace"
+        }
+      ]
+    }
+  ],
+  "id": "filter.drawgrid",
+  "name": "drawgrid",
+  "type": "video"
+}

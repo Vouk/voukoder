@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "shuffleframes"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.shuffleframes.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.shuffleframes.standard.mapping",
+          "parameter": "mapping"
+        }
+      ]
+    }
+  ],
+  "id": "filter.shuffleframes",
+  "name": "shuffleframes",
+  "type": "video"
+}

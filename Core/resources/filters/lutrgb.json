@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lutrgb"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lutrgb.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.c0",
+          "parameter": "c0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.c1",
+          "parameter": "c1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.c2",
+          "parameter": "c2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.c3",
+          "parameter": "c3"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.u",
+          "parameter": "u"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.v",
+          "parameter": "v"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.r",
+          "parameter": "r"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.g",
+          "parameter": "g"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.b",
+          "parameter": "b"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutrgb.standard.a",
+          "parameter": "a"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lutrgb",
+  "name": "lutrgb",
+  "type": "video"
+}

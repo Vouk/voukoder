@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "floodfill"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.floodfill.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.s0",
+          "parameter": "s0"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.s1",
+          "parameter": "s1"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.s2",
+          "parameter": "s2"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.s3",
+          "parameter": "s3"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.d0",
+          "parameter": "d0"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.d1",
+          "parameter": "d1"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.d2",
+          "parameter": "d2"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.floodfill.standard.d3",
+          "parameter": "d3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.floodfill",
+  "name": "floodfill",
+  "type": "video"
+}

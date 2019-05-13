@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "mcdeint"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.mcdeint.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "extra_slow"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.mcdeint.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tff"
+              },
+              {
+                "value": "bff"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.mcdeint.standard.parity",
+          "parameter": "parity"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.mcdeint.standard.qp",
+          "parameter": "qp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.mcdeint",
+  "name": "mcdeint",
+  "type": "video"
+}

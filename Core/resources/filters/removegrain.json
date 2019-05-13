@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "removegrain"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.removegrain.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 24,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.removegrain.standard.m0",
+          "parameter": "m0"
+        },
+        {
+          "control": {
+            "maximum": 24,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.removegrain.standard.m1",
+          "parameter": "m1"
+        },
+        {
+          "control": {
+            "maximum": 24,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.removegrain.standard.m2",
+          "parameter": "m2"
+        },
+        {
+          "control": {
+            "maximum": 24,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.removegrain.standard.m3",
+          "parameter": "m3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.removegrain",
+  "name": "removegrain",
+  "type": "video"
+}

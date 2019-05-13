@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "perspective"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.perspective.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.perspective.standard.x0",
+          "parameter": "x0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.perspective.standard.y0",
+          "parameter": "y0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "W"
+          },
+          "id": "filter.perspective.standard.x1",
+          "parameter": "x1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.perspective.standard.y1",
+          "parameter": "y1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.perspective.standard.x2",
+          "parameter": "x2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "H"
+          },
+          "id": "filter.perspective.standard.y2",
+          "parameter": "y2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "W"
+          },
+          "id": "filter.perspective.standard.x3",
+          "parameter": "x3"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "H"
+          },
+          "id": "filter.perspective.standard.y3",
+          "parameter": "y3"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "linear"
+              },
+              {
+                "value": "cubic"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.perspective.standard.interpolation",
+          "parameter": "interpolation"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "source"
+              },
+              {
+                "value": "destination"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.perspective.standard.sense",
+          "parameter": "sense"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "init"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.perspective.standard.eval",
+          "parameter": "eval"
+        }
+      ]
+    }
+  ],
+  "id": "filter.perspective",
+  "name": "perspective",
+  "type": "video"
+}

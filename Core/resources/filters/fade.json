@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fade"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fade.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "in"
+              },
+              {
+                "value": "out"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.fade.standard.type",
+          "parameter": "type"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fade.standard.start_frame",
+          "parameter": "start_frame"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fade.standard.nb_frames",
+          "parameter": "nb_frames"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.fade.standard.alpha",
+          "parameter": "alpha"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fade.standard.start_time",
+          "parameter": "start_time"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fade.standard.duration",
+          "parameter": "duration"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.fade.standard.color",
+          "parameter": "color"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fade",
+  "name": "fade",
+  "type": "video"
+}

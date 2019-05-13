@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hwmap"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.hwmap.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "read"
+              },
+              {
+                "value": "write"
+              },
+              {
+                "value": "overwrite"
+              },
+              {
+                "value": "direct"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.hwmap.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.hwmap.standard.derive_device",
+          "parameter": "derive_device"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.hwmap.standard.reverse",
+          "parameter": "reverse"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hwmap",
+  "name": "hwmap",
+  "type": "video"
+}

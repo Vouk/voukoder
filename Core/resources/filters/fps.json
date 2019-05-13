@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fps"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fps.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "25"
+          },
+          "id": "filter.fps.standard.fps",
+          "parameter": "fps"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.fps.standard.start_time",
+          "parameter": "start_time"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "zero"
+              },
+              {
+                "value": "inf"
+              },
+              {
+                "value": "down"
+              },
+              {
+                "value": "up"
+              },
+              {
+                "value": "near"
+              }
+            ],
+            "selectedIndex": 5,
+            "type": "combobox"
+          },
+          "id": "filter.fps.standard.round",
+          "parameter": "round"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "round"
+              },
+              {
+                "value": "pass"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.fps.standard.eof_action",
+          "parameter": "eof_action"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fps",
+  "name": "fps",
+  "type": "video"
+}

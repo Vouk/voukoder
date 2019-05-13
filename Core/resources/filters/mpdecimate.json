@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "mpdecimate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.mpdecimate.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.mpdecimate.standard.max",
+          "parameter": "max"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.mpdecimate.standard.hi",
+          "parameter": "hi"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.mpdecimate.standard.lo",
+          "parameter": "lo"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.33000001311302185
+          },
+          "id": "filter.mpdecimate.standard.frac",
+          "parameter": "frac"
+        }
+      ]
+    }
+  ],
+  "id": "filter.mpdecimate",
+  "name": "mpdecimate",
+  "type": "video"
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hqdn3d"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.hqdn3d.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.hqdn3d.standard.luma_spatial",
+          "parameter": "luma_spatial"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.hqdn3d.standard.chroma_spatial",
+          "parameter": "chroma_spatial"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.hqdn3d.standard.luma_tmp",
+          "parameter": "luma_tmp"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.hqdn3d.standard.chroma_tmp",
+          "parameter": "chroma_tmp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hqdn3d",
+  "name": "hqdn3d",
+  "type": "video"
+}

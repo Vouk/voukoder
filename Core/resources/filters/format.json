@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "format"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.format.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.format.standard.pix_fmts",
+          "parameter": "pix_fmts"
+        }
+      ]
+    }
+  ],
+  "id": "filter.format",
+  "name": "format",
+  "type": "video"
+}

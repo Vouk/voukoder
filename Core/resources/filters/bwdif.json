@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "bwdif"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.bwdif.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "send_frame"
+              },
+              {
+                "value": "send_field"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.bwdif.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tff"
+              },
+              {
+                "value": "bff"
+              },
+              {
+                "value": "auto"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.bwdif.standard.parity",
+          "parameter": "parity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "all"
+              },
+              {
+                "value": "interlaced"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.bwdif.standard.deint",
+          "parameter": "deint"
+        }
+      ]
+    }
+  ],
+  "id": "filter.bwdif",
+  "name": "bwdif",
+  "type": "video"
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vignette"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vignette.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "PI/5"
+          },
+          "id": "filter.vignette.standard.angle",
+          "parameter": "angle"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "w/2"
+          },
+          "id": "filter.vignette.standard.x0",
+          "parameter": "x0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "h/2"
+          },
+          "id": "filter.vignette.standard.y0",
+          "parameter": "y0"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "forward"
+              },
+              {
+                "value": "backward"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vignette.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "init"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vignette.standard.eval",
+          "parameter": "eval"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.vignette.standard.dither",
+          "parameter": "dither"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.vignette.standard.aspect",
+          "parameter": "aspect"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vignette",
+  "name": "vignette",
+  "type": "video"
+}

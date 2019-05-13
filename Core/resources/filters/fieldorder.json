@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fieldorder"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fieldorder.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bff"
+              },
+              {
+                "value": "tff"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.fieldorder.standard.order",
+          "parameter": "order"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fieldorder",
+  "name": "fieldorder",
+  "type": "video"
+}

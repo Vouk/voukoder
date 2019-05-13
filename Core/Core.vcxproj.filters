@@ -141,6 +141,9 @@
     <ClInclude Include="EncoderOptionPresets.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="FilterConfig.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fillborders"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fillborders.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fillborders.standard.left",
+          "parameter": "left"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fillborders.standard.right",
+          "parameter": "right"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fillborders.standard.top",
+          "parameter": "top"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fillborders.standard.bottom",
+          "parameter": "bottom"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "smear"
+              },
+              {
+                "value": "mirror"
+              },
+              {
+                "value": "fixed"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.fillborders.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.fillborders.standard.color",
+          "parameter": "color"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fillborders",
+  "name": "fillborders",
+  "type": "video"
+}

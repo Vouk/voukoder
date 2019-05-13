@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "blackdetect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.blackdetect.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.blackdetect.standard.black_min_duration",
+          "parameter": "black_min_duration"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.9800000190734863
+          },
+          "id": "filter.blackdetect.standard.picture_black_ratio_th",
+          "parameter": "picture_black_ratio_th"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.10000000149011612
+          },
+          "id": "filter.blackdetect.standard.pixel_black_th",
+          "parameter": "pixel_black_th"
+        }
+      ]
+    }
+  ],
+  "id": "filter.blackdetect",
+  "name": "blackdetect",
+  "type": "video"
+}

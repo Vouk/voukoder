@@ -226,6 +226,9 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_videoNotebook->AddPage(m_videoEditorPanel, Trans("ui.encoderconfig.tabs.editor"), true);
 		bVideoCategorySizer->Add(m_videoNotebook, 1, wxEXPAND | wxALL, 0);
 
+		m_videoFilterPanel = new wxFilterPanel(m_videoNotebook, AVMEDIA_TYPE_VIDEO);
+		m_videoNotebook->AddPage(m_videoFilterPanel, Trans("ui.encoderconfig.filters"), false);
+
 		m_videoCategory->SetSizer(bVideoCategorySizer);
 		m_videoCategory->Layout();
 		bVideoCategorySizer->Fit(m_videoCategory);
@@ -252,6 +255,9 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 		m_audioNotebook->AddPage(m_audioEditorPanel, Trans("ui.encoderconfig.tabs.editor"), true);
 		bAudioCategorySizer->Add(m_audioNotebook, 1, wxEXPAND | wxALL, 0);
+
+		m_audioFilterPanel = new wxFilterPanel(m_audioNotebook, AVMEDIA_TYPE_AUDIO);
+		m_audioNotebook->AddPage(m_audioFilterPanel, Trans("ui.encoderconfig.filters"), false);
 
 		m_audioCategory->SetSizer(bAudioCategorySizer);
 		m_audioCategory->Layout();
@@ -660,10 +666,13 @@ void wxVoukoderDialog::OnFaststartChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 {
+	// Store language setting
 	LanguageInfo *languageInfo = reinterpret_cast<LanguageInfo*>(m_genLocLanguageChoice->GetClientData(m_genLocLanguageChoice->GetSelection()));
 	LanguageUtils::StoreLanguageId(languageInfo->langId);
 
-	//m_filterPanel->GetFilterConfig(exportInfo.video.filters);
+	// Filters
+	m_videoFilterPanel->GetFilterConfig(exportInfo.video.filters);
+	m_audioFilterPanel->GetFilterConfig(exportInfo.audio.filters);
 
 	EndDialog(wxID_OK);
 }

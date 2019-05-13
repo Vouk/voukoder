@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "elbg"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.elbg.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.elbg.standard.codebook_length",
+          "parameter": "codebook_length"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.elbg.standard.nb_steps",
+          "parameter": "nb_steps"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.elbg.standard.seed",
+          "parameter": "seed"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.elbg.standard.pal8",
+          "parameter": "pal8"
+        }
+      ]
+    }
+  ],
+  "id": "filter.elbg",
+  "name": "elbg",
+  "type": "video"
+}

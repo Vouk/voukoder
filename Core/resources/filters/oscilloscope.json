@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "oscilloscope"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.oscilloscope.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.oscilloscope.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.oscilloscope.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.800000011920929
+          },
+          "id": "filter.oscilloscope.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.oscilloscope.standard.t",
+          "parameter": "t"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.800000011920929
+          },
+          "id": "filter.oscilloscope.standard.o",
+          "parameter": "o"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.oscilloscope.standard.tx",
+          "parameter": "tx"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.8999999761581421
+          },
+          "id": "filter.oscilloscope.standard.ty",
+          "parameter": "ty"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.800000011920929
+          },
+          "id": "filter.oscilloscope.standard.tw",
+          "parameter": "tw"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.oscilloscope.standard.th",
+          "parameter": "th"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.oscilloscope.standard.c",
+          "parameter": "c"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.oscilloscope.standard.g",
+          "parameter": "g"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.oscilloscope.standard.st",
+          "parameter": "st"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.oscilloscope.standard.sc",
+          "parameter": "sc"
+        }
+      ]
+    }
+  ],
+  "id": "filter.oscilloscope",
+  "name": "oscilloscope",
+  "type": "video"
+}

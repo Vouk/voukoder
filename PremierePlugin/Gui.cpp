@@ -366,9 +366,11 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 
 			// Set main values
 			exportInfo.video.id = wxString(arbData.videoCodecId);
-			exportInfo.video.options.fromString(videoOptions);
+			exportInfo.video.options.Deserialize(videoOptions);
+			exportInfo.video.filters.Deserialize(arbData.videoFilters);
 			exportInfo.audio.id = wxString(arbData.audioCodecId);
-			exportInfo.audio.options.fromString(audioOptions);
+			exportInfo.audio.options.Deserialize(audioOptions);
+			exportInfo.audio.filters.Deserialize(arbData.audioFilters);
 			exportInfo.format.id = wxString(arbData.formatId);
 			exportInfo.format.faststart = arbData.faststart;
 
@@ -398,13 +400,15 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 bool Gui::StoreEncoderOptions(const char *dataId, ExportInfo exportInfo)
 {
 	ArbData arbData;
+	arbData.version = ARB_VERSION;
 	prUTF16CharCopy(arbData.videoCodecId, exportInfo.video.id.ToStdWstring().c_str());
-	prUTF16CharCopy(arbData.videoCodecOptions, exportInfo.video.options.toString(true).c_str());
+	prUTF16CharCopy(arbData.videoCodecOptions, exportInfo.video.options.Serialize(true).c_str());
+	prUTF16CharCopy(arbData.videoFilters, exportInfo.video.filters.Serialize());
 	prUTF16CharCopy(arbData.audioCodecId, exportInfo.audio.id.ToStdWstring().c_str());
-	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.toString(true).c_str());
+	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.Serialize(true).c_str());
+	prUTF16CharCopy(arbData.audioFilters, exportInfo.audio.filters.Serialize());
 	prUTF16CharCopy(arbData.formatId, exportInfo.format.id.ToStdWstring().c_str());
 	arbData.faststart = exportInfo.format.faststart;
-	arbData.version = ARB_VERSION;
 
 	// Save the encoder settings
 	csSDK_int32 size = static_cast<csSDK_int32>(sizeof(ArbData));

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "deflate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.deflate.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deflate.standard.threshold0",
+          "parameter": "threshold0"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deflate.standard.threshold1",
+          "parameter": "threshold1"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deflate.standard.threshold2",
+          "parameter": "threshold2"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deflate.standard.threshold3",
+          "parameter": "threshold3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.deflate",
+  "name": "deflate",
+  "type": "video"
+}

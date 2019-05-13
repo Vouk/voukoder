@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "framerate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.framerate.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "50"
+          },
+          "id": "filter.framerate.standard.fps",
+          "parameter": "fps"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.framerate.standard.interp_start",
+          "parameter": "interp_start"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.framerate.standard.interp_end",
+          "parameter": "interp_end"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 8.199999809265137
+          },
+          "id": "filter.framerate.standard.scene",
+          "parameter": "scene"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "scene_change_detect"
+              },
+              {
+                "value": "scd"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.framerate.standard.flags",
+          "parameter": "flags"
+        }
+      ]
+    }
+  ],
+  "id": "filter.framerate",
+  "name": "framerate",
+  "type": "video"
+}

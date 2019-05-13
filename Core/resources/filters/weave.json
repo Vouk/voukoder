@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "weave"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.weave.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "top"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "bottom"
+              },
+              {
+                "value": "b"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.weave.standard.first_field",
+          "parameter": "first_field"
+        }
+      ]
+    }
+  ],
+  "id": "filter.weave",
+  "name": "weave",
+  "type": "video"
+}

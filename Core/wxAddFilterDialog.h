@@ -19,6 +19,7 @@
 #include <wx/propgrid/propgrid.h>
 #include "Voukoder.h"
 #include "OptionContainer.h"
+#include "wxPGOptionProperty.h"
 
 #define VKDR_GRID_COLOR_BASIC 0xffffff
 #define VKDR_GRID_COLOR_STANDARD 0xcdffff
@@ -26,9 +27,9 @@
 
 class wxAddFilterDialog : public wxDialog
 {
-private:
-	FilterInfo *filterInfo;
-	void OnFilterChanged(wxCommandEvent& event);
+public:
+	wxAddFilterDialog(wxWindow* parent, OptionContainer** options, AVMediaType type = AVMEDIA_TYPE_UNKNOWN);
+	void GetFilterOptions(vector<OptionContainer>** options);
 
 protected:
 	wxNotebook* m_notebook;
@@ -39,8 +40,13 @@ protected:
 	wxButton* m_sdbSizer1OK;
 	wxButton* m_sdbSizer1Cancel;
 
-public:
-	wxAddFilterDialog(wxWindow* parent);
-	void GetFilterOptions(vector<OptionContainer> &options);
-	const wxString GetLabel();
+private:
+	FilterInfo* filterInfo;
+	void OnFilterChanged(wxCommandEvent& event);
+	OptionContainer** options;
+	void OnOkayClick(wxCommandEvent& event);
+	void OnPropertyGridChanged(wxPropertyGridEvent& event);
+	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);
+	void OnLeftDown(wxMouseEvent& event);
+	bool SendEvent(wxEventType eventType, wxPGProperty* p);
 };

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "drawbox"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.drawbox.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawbox.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawbox.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawbox.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.drawbox.standard.height",
+          "parameter": "height"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.drawbox.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "3"
+          },
+          "id": "filter.drawbox.standard.thickness",
+          "parameter": "thickness"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.drawbox.standard.replace",
+          "parameter": "replace"
+        }
+      ]
+    }
+  ],
+  "id": "filter.drawbox",
+  "name": "drawbox",
+  "type": "video"
+}

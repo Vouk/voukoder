@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "colorchannelmixer"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.colorchannelmixer.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.colorchannelmixer.standard.rr",
+          "parameter": "rr"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.rg",
+          "parameter": "rg"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.rb",
+          "parameter": "rb"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ra",
+          "parameter": "ra"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.gr",
+          "parameter": "gr"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.colorchannelmixer.standard.gg",
+          "parameter": "gg"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.gb",
+          "parameter": "gb"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ga",
+          "parameter": "ga"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.br",
+          "parameter": "br"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.bg",
+          "parameter": "bg"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.colorchannelmixer.standard.bb",
+          "parameter": "bb"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ba",
+          "parameter": "ba"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ar",
+          "parameter": "ar"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ag",
+          "parameter": "ag"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.colorchannelmixer.standard.ab",
+          "parameter": "ab"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.colorchannelmixer.standard.aa",
+          "parameter": "aa"
+        }
+      ]
+    }
+  ],
+  "id": "filter.colorchannelmixer",
+  "name": "colorchannelmixer",
+  "type": "video"
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "shuffleplanes"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.shuffleplanes.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.shuffleplanes.standard.map0",
+          "parameter": "map0"
+        },
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.shuffleplanes.standard.map1",
+          "parameter": "map1"
+        },
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.shuffleplanes.standard.map2",
+          "parameter": "map2"
+        },
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.shuffleplanes.standard.map3",
+          "parameter": "map3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.shuffleplanes",
+  "name": "shuffleplanes",
+  "type": "video"
+}

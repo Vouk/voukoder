@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pp"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pp.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "de"
+          },
+          "id": "filter.pp.standard.subfilters",
+          "parameter": "subfilters"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pp",
+  "name": "pp",
+  "type": "video"
+}

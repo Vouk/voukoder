@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "negate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.negate.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.negate.standard.negate_alpha",
+          "parameter": "negate_alpha"
+        }
+      ]
+    }
+  ],
+  "id": "filter.negate",
+  "name": "negate",
+  "type": "video"
+}

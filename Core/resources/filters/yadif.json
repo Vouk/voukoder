@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "yadif"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.yadif.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "send_frame"
+              },
+              {
+                "value": "send_field"
+              },
+              {
+                "value": "send_frame_nospatial"
+              },
+              {
+                "value": "send_field_nospatial"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.yadif.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tff"
+              },
+              {
+                "value": "bff"
+              },
+              {
+                "value": "auto"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.yadif.standard.parity",
+          "parameter": "parity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "all"
+              },
+              {
+                "value": "interlaced"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.yadif.standard.deint",
+          "parameter": "deint"
+        }
+      ]
+    }
+  ],
+  "id": "filter.yadif",
+  "name": "yadif",
+  "type": "video"
+}
