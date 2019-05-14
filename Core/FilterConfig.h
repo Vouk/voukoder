@@ -43,11 +43,13 @@ struct FilterConfig
 
 		for (auto filter : filters)
 		{
-			config << FF_FILTER_SEPARATOR << filter->at("_name") << FF_VALUE_SEPARATOR;
-			config << filter->Serialize(false, "", FF_PARAM_SEPARATOR, FF_VALUE_SEPARATOR);
+			config << FF_FILTER_SEPARATOR << filter->at("_name");
+
+			wxString params = filter->Serialize(false, "", FF_PARAM_SEPARATOR, FF_VALUE_SEPARATOR);
+			if (!params.IsEmpty())
+				config << FF_VALUE_SEPARATOR << params;
 		}
 
 		return config;
 	}
-
 };

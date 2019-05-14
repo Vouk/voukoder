@@ -210,10 +210,12 @@ int EncoderEngine::createCodecContext(const string codecId, EncoderContext *enco
 		// Check for a zscaler filter
 		for (auto const& filter : exportInfo.video.filters.filters)
 		{
-			if (filter->at("_name") == "zscale")
+			if (filter->at("_name") == "zscale" &&
+				filter->find("width") != filter->end() &&
+				filter->find("height") != filter->end())
 			{
-				encoderContext->codecContext->width = wxAtoi(filter->at("w"));
-				encoderContext->codecContext->height = wxAtoi(filter->at("h"));
+				encoderContext->codecContext->width = wxAtoi(filter->at("width"));
+				encoderContext->codecContext->height = wxAtoi(filter->at("height"));
 			}
 		}
 
