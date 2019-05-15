@@ -1214,7 +1214,7 @@
     "libfdk_aac.standard.strategy.vbr._item_1": "32 kbps/声道",
     "libfdk_aac.standard.strategy.vbr._item_2": "48 kbps/声道",
     "libfdk_aac.standard.strategy.vbr._item_3": "64 kbps/声道",
-    "libfdk_aac.standard.strategy.vbr._item_4": "96 kbps/声道",
+    "libfdk_aac.standard.strategy.vbr._item_4": "96 kbps/声道 (No cutoff)",
     "libfdk_aac.standard.profile._label": "配置文件",
     "libfdk_aac.standard.profile._description": "设置音频配置文件.",
     "libfdk_aac.standard.profile._item_0": "低复杂度 AAC (LC)",
