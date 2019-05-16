@@ -25,7 +25,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.dctdnoiz.standard.overlap",
           "parameter": "overlap"
@@ -44,7 +44,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.dctdnoiz.standard.n",
           "parameter": "n"

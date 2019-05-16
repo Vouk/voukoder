@@ -14,7 +14,7 @@
             "minimum": 4,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 4
           },
           "id": "filter.fspp.standard.quality",
           "parameter": "quality"

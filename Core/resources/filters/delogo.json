@@ -14,7 +14,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.delogo.standard.x",
           "parameter": "x"
@@ -25,7 +25,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.delogo.standard.y",
           "parameter": "y"
@@ -36,7 +36,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.delogo.standard.w",
           "parameter": "w"
@@ -47,7 +47,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.delogo.standard.h",
           "parameter": "h"

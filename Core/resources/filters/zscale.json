@@ -26,14 +26,6 @@
         },
         {
           "control": {
-            "type": "string",
-            "value": ""
-          },
-          "id": "filter.zscale.standard.size",
-          "parameter": "size"
-        },
-        {
-          "control": {
             "items": [
               {
                 "value": "none"
@@ -323,7 +315,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.zscale.standard.rangein",
           "parameter": "rangein"
@@ -334,7 +326,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.zscale.standard.primariesin",
           "parameter": "primariesin"
@@ -345,7 +337,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.zscale.standard.transferin",
           "parameter": "transferin"
@@ -356,7 +348,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.zscale.standard.matrixin",
           "parameter": "matrixin"
@@ -398,7 +390,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.zscale.standard.chromalin",
           "parameter": "chromalin"

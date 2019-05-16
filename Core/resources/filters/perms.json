@@ -39,7 +39,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.perms.standard.seed",
           "parameter": "seed"

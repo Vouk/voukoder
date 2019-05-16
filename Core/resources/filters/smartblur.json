@@ -69,7 +69,7 @@
             "minimum": -31,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -31
           },
           "id": "filter.smartblur.standard.chroma_threshold",
           "parameter": "chroma_threshold"

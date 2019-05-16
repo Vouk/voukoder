@@ -36,7 +36,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.fftdnoiz.standard.block",
           "parameter": "block"

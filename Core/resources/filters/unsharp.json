@@ -14,7 +14,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.unsharp.standard.luma_msize_x",
           "parameter": "luma_msize_x"
@@ -25,7 +25,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.unsharp.standard.luma_msize_y",
           "parameter": "luma_msize_y"
@@ -47,7 +47,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.unsharp.standard.chroma_msize_x",
           "parameter": "chroma_msize_x"
@@ -58,7 +58,7 @@
             "minimum": 3,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 3
           },
           "id": "filter.unsharp.standard.chroma_msize_y",
           "parameter": "chroma_msize_y"

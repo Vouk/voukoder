@@ -14,7 +14,7 @@
             "minimum": 50,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 50
           },
           "id": "filter.histogram.standard.level_height",
           "parameter": "level_height"
@@ -71,7 +71,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.histogram.standard.components",
           "parameter": "components"

@@ -41,7 +41,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.boxblur.standard.chroma_power",
           "parameter": "chroma_power"
@@ -60,7 +60,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.boxblur.standard.alpha_power",
           "parameter": "alpha_power"

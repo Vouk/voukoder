@@ -131,7 +131,7 @@
             "minimum": 256,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 256
           },
           "id": "filter.ciescope.standard.size",
           "parameter": "size"

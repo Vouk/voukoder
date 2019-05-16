@@ -14,7 +14,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.noise.standard.all_seed",
           "parameter": "all_seed"
@@ -58,7 +58,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.noise.standard.c0_seed",
           "parameter": "c0_seed"
@@ -102,7 +102,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.noise.standard.c1_seed",
           "parameter": "c1_seed"
@@ -146,7 +146,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.noise.standard.c2_seed",
           "parameter": "c2_seed"
@@ -190,7 +190,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.noise.standard.c3_seed",
           "parameter": "c3_seed"

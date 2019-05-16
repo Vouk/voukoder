@@ -22,7 +22,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.setsar.standard.max",
           "parameter": "max"

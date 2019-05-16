@@ -14,7 +14,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.elbg.standard.codebook_length",
           "parameter": "codebook_length"
@@ -25,7 +25,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.elbg.standard.nb_steps",
           "parameter": "nb_steps"
@@ -36,7 +36,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.elbg.standard.seed",
           "parameter": "seed"

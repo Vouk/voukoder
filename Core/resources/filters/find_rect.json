@@ -33,7 +33,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.find_rect.standard.mipmaps",
           "parameter": "mipmaps"

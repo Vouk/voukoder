@@ -80,7 +80,7 @@
             "minimum": 5,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 5
           },
           "id": "filter.atadenoise.standard.s",
           "parameter": "s"

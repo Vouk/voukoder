@@ -115,7 +115,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.standard.in_v_chr_pos",
           "parameter": "in_v_chr_pos"
@@ -126,7 +126,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.standard.in_h_chr_pos",
           "parameter": "in_h_chr_pos"
@@ -137,7 +137,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.standard.out_v_chr_pos",
           "parameter": "out_v_chr_pos"
@@ -148,7 +148,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.standard.out_h_chr_pos",
           "parameter": "out_h_chr_pos"
@@ -294,7 +294,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.scale.swscaler.srcw",
           "parameter": "srcw"
@@ -305,7 +305,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.scale.swscaler.srch",
           "parameter": "srch"
@@ -316,7 +316,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.scale.swscaler.dstw",
           "parameter": "dstw"
@@ -327,7 +327,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.scale.swscaler.dsth",
           "parameter": "dsth"
@@ -392,7 +392,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.swscaler.src_v_chr_pos",
           "parameter": "src_v_chr_pos"
@@ -403,7 +403,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.swscaler.src_h_chr_pos",
           "parameter": "src_h_chr_pos"
@@ -414,7 +414,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.swscaler.dst_v_chr_pos",
           "parameter": "dst_v_chr_pos"
@@ -425,7 +425,7 @@
             "minimum": -513,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -513
           },
           "id": "filter.scale.swscaler.dst_h_chr_pos",
           "parameter": "dst_h_chr_pos"

@@ -110,7 +110,7 @@
             "minimum": 4,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 4
           },
           "id": "filter.minterpolate.standard.mb_size",
           "parameter": "mb_size"
@@ -121,7 +121,7 @@
             "minimum": 4,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 4
           },
           "id": "filter.minterpolate.standard.search_param",
           "parameter": "search_param"

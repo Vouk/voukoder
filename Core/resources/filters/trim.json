@@ -69,7 +69,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.trim.standard.start_frame",
           "parameter": "start_frame"
@@ -80,7 +80,7 @@
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": 0
           },
           "id": "filter.trim.standard.end_frame",
           "parameter": "end_frame"

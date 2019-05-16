@@ -14,7 +14,7 @@
             "minimum": 2,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 2
           },
           "id": "filter.random.standard.frames",
           "parameter": "frames"
@@ -25,7 +25,7 @@
             "minimum": -1,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -1
           },
           "id": "filter.random.standard.seed",
           "parameter": "seed"

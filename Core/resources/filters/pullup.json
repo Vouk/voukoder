@@ -36,7 +36,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.pullup.standard.jt",
           "parameter": "jt"
@@ -47,7 +47,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "id": "filter.pullup.standard.jb",
           "parameter": "jb"
