@@ -1337,21 +1337,6 @@
     "pcm.standard.sampleFormat._description": "恒定比特率编码.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
-    "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
-
-    "filter.zscale": "Rescale",
-    "filter.zscale.standard": "标准",
-    "filter.zscale.standard.format._label": "方式",
-    "filter.zscale.standard.format._description": "",
-    "filter.zscale.standard.format._item_0": "点",
-    "filter.zscale.standard.format._item_1": "双线性",
-    "filter.zscale.standard.format._item_2": "双三次",
-    "filter.zscale.standard.format._item_3": "曲线 16",
-    "filter.zscale.standard.format._item_4": "曲线 36",
-    "filter.zscale.standard.format._item_5": "Lanczos",
-    "filter.zscale.standard.width._label": "宽度",
-    "filter.zscale.standard.width._description": "",
-    "filter.zscale.standard.height._label": "高度",
-    "filter.zscale.standard.height._description": ""
+    "pcm.standard.sampleFormat._item_2": "PCM 32 bit"
   }
 }

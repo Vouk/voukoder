@@ -1337,21 +1337,6 @@
     "pcm.standard.sampleFormat._description": "Débit constant.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
-    "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
-
-    "filter.zscale": "",
-    "filter.zscale.standard": "",
-    "filter.zscale.standard.format._label": "",
-    "filter.zscale.standard.format._description": "",
-    "filter.zscale.standard.format._item_0": "",
-    "filter.zscale.standard.format._item_1": "",
-    "filter.zscale.standard.format._item_2": "",
-    "filter.zscale.standard.format._item_3": "",
-    "filter.zscale.standard.format._item_4": "",
-    "filter.zscale.standard.format._item_5": "",
-    "filter.zscale.standard.width._label": "",
-    "filter.zscale.standard.width._description": "",
-    "filter.zscale.standard.height._label": "",
-    "filter.zscale.standard.height._description": ""
+    "pcm.standard.sampleFormat._item_2": "PCM 32 bit"
   }
 }

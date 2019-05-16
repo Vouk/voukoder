@@ -1338,21 +1338,6 @@
     "pcm.standard.sampleFormat._description": "Konstante Kodierungs-Bitrate.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 Bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 Bit",
-    "pcm.standard.sampleFormat._item_2": "PCM 32 Bit",
-
-    "filter.zscale": "Reskalieren",
-    "filter.zscale.standard": "Standard",
-    "filter.zscale.standard.format._label": "Methode",
-    "filter.zscale.standard.format._description": "",
-    "filter.zscale.standard.format._item_0": "Punkt",
-    "filter.zscale.standard.format._item_1": "Bilinear",
-    "filter.zscale.standard.format._item_2": "Bicubic",
-    "filter.zscale.standard.format._item_3": "Spline 16",
-    "filter.zscale.standard.format._item_4": "Spline 36",
-    "filter.zscale.standard.format._item_5": "Lanczos",
-    "filter.zscale.standard.width._label": "Breite",
-    "filter.zscale.standard.width._description": "",
-    "filter.zscale.standard.height._label": "Höhe",
-    "filter.zscale.standard.height._description": ""
+    "pcm.standard.sampleFormat._item_2": "PCM 32 Bit"
   }
 }

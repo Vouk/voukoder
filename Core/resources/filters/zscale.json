@@ -73,7 +73,13 @@
           },
           "id": "filter.zscale.standard.filter",
           "parameter": "filter"
-        },
+        }
+	  ]
+	},
+	{
+      "class": "advanced",
+      "id": "filter.zscale.advanced",
+      "properties": [
         {
           "control": {
             "items": [
@@ -99,7 +105,7 @@
             "selectedIndex": 0,
             "type": "combobox"
           },
-          "id": "filter.zscale.standard.range",
+          "id": "filter.zscale.advanced.range",
           "parameter": "range"
         },
         {
@@ -163,7 +169,7 @@
             "selectedIndex": 0,
             "type": "combobox"
           },
-          "id": "filter.zscale.standard.primaries",
+          "id": "filter.zscale.advanced.primaries",
           "parameter": "primaries"
         },
         {
@@ -236,7 +242,7 @@
             "selectedIndex": 0,
             "type": "combobox"
           },
-          "id": "filter.zscale.standard.transfer",
+          "id": "filter.zscale.advanced.transfer",
           "parameter": "transfer"
         },
         {
@@ -306,7 +312,7 @@
             "selectedIndex": 0,
             "type": "combobox"
           },
-          "id": "filter.zscale.standard.matrix",
+          "id": "filter.zscale.advanced.matrix",
           "parameter": "matrix"
         },
         {
@@ -317,7 +323,7 @@
             "type": "integer",
             "value": -1
           },
-          "id": "filter.zscale.standard.rangein",
+          "id": "filter.zscale.advanced.rangein",
           "parameter": "rangein"
         },
         {
@@ -328,7 +334,7 @@
             "type": "integer",
             "value": -1
           },
-          "id": "filter.zscale.standard.primariesin",
+          "id": "filter.zscale.advanced.primariesin",
           "parameter": "primariesin"
         },
         {
@@ -339,7 +345,7 @@
             "type": "integer",
             "value": -1
           },
-          "id": "filter.zscale.standard.transferin",
+          "id": "filter.zscale.advanced.transferin",
           "parameter": "transferin"
         },
         {
@@ -350,7 +356,7 @@
             "type": "integer",
             "value": -1
           },
-          "id": "filter.zscale.standard.matrixin",
+          "id": "filter.zscale.advanced.matrixin",
           "parameter": "matrixin"
         },
         {
@@ -381,7 +387,7 @@
             "selectedIndex": 0,
             "type": "combobox"
           },
-          "id": "filter.zscale.standard.chromal",
+          "id": "filter.zscale.advanced.chromal",
           "parameter": "chromal"
         },
         {
@@ -392,7 +398,7 @@
             "type": "integer",
             "value": -1
           },
-          "id": "filter.zscale.standard.chromalin",
+          "id": "filter.zscale.advanced.chromalin",
           "parameter": "chromalin"
         },
         {
@@ -403,7 +409,7 @@
             "type": "float",
             "value": 0.0
           },
-          "id": "filter.zscale.standard.npl",
+          "id": "filter.zscale.advanced.npl",
           "parameter": "npl"
         },
         {
@@ -411,7 +417,7 @@
             "type": "boolean",
             "value": true
           },
-          "id": "filter.zscale.standard.agamma",
+          "id": "filter.zscale.advanced.agamma",
           "parameter": "agamma"
         }
       ]
