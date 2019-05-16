@@ -9,7 +9,8 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 {
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	SetTitle(Trans((*options)->size() > 0 ? "ui.addfilter.title" : "ui.editfilter.title"));
+	// Set the right window title
+	SetTitle(Trans((*options)->size() > 0 ? "ui.editfilter.title" : "ui.addfilter.title"));
 
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
