@@ -2,6 +2,7 @@
 #include "LanguageUtils.h"
 #include "OptionResourceUtils.h"
 #include "lavf.h"
+#include "Log.h"
 
 bool FilterUtils::Create(FilterInfo &filterInfo, const json resource)
 {
@@ -9,6 +10,8 @@ bool FilterUtils::Create(FilterInfo &filterInfo, const json resource)
 	filterInfo.id = resource["id"].get<string>();
 	filterInfo.name = resource["name"].get<string>();
 	filterInfo.type = GetMediaType(filterInfo.name);
+
+	vkLogInfo("Loading: filters/%s.json", filterInfo.name.c_str());
 
 	// Default parameters
 	for (auto& item : resource["defaults"].items())
