@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tremolo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tremolo.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 20000.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 5.0
+          },
+          "id": "filter.tremolo.standard.f",
+          "parameter": "f"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.tremolo.standard.d",
+          "parameter": "d"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tremolo",
+  "name": "tremolo",
+  "type": "audio"
+}

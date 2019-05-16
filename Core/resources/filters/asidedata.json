@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asidedata"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asidedata.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "select"
+              },
+              {
+                "value": "delete"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.asidedata.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "PANSCAN"
+              },
+              {
+                "value": "A53_CC"
+              },
+              {
+                "value": "STEREO3D"
+              },
+              {
+                "value": "MATRIXENCODING"
+              },
+              {
+                "value": "DOWNMIX_INFO"
+              },
+              {
+                "value": "REPLAYGAIN"
+              },
+              {
+                "value": "DISPLAYMATRIX"
+              },
+              {
+                "value": "AFD"
+              },
+              {
+                "value": "MOTION_VECTORS"
+              },
+              {
+                "value": "SKIP_SAMPLES"
+              },
+              {
+                "value": "AUDIO_SERVICE_TYPE"
+              },
+              {
+                "value": "MASTERING_DISPLAY_METADATA"
+              },
+              {
+                "value": "GOP_TIMECODE"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.asidedata.standard.type",
+          "parameter": "type"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asidedata",
+  "name": "asidedata",
+  "type": "audio"
+}

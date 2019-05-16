@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "acrusher"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.acrusher.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acrusher.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acrusher.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 8.0
+          },
+          "id": "filter.acrusher.standard.bits",
+          "parameter": "bits"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.acrusher.standard.mix",
+          "parameter": "mix"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "lin"
+              },
+              {
+                "value": "log"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.acrusher.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": 4.0,
+            "minimum": 0.25,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acrusher.standard.dc",
+          "parameter": "dc"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.acrusher.standard.aa",
+          "parameter": "aa"
+        },
+        {
+          "control": {
+            "maximum": 250.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acrusher.standard.samples",
+          "parameter": "samples"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.acrusher.standard.lfo",
+          "parameter": "lfo"
+        },
+        {
+          "control": {
+            "maximum": 250.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 20.0
+          },
+          "id": "filter.acrusher.standard.lforange",
+          "parameter": "lforange"
+        },
+        {
+          "control": {
+            "maximum": 200.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.acrusher.standard.lforate",
+          "parameter": "lforate"
+        }
+      ]
+    }
+  ],
+  "id": "filter.acrusher",
+  "name": "acrusher",
+  "type": "audio"
+}

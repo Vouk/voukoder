@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vibrato"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vibrato.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 20000.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 5.0
+          },
+          "id": "filter.vibrato.standard.f",
+          "parameter": "f"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.vibrato.standard.d",
+          "parameter": "d"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vibrato",
+  "name": "vibrato",
+  "type": "audio"
+}

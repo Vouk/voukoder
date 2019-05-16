@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "adeclick"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.adeclick.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 10.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 55.0
+          },
+          "id": "filter.adeclick.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "maximum": 95.0,
+            "minimum": 50.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 75.0
+          },
+          "id": "filter.adeclick.standard.o",
+          "parameter": "o"
+        },
+        {
+          "control": {
+            "maximum": 25.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.adeclick.standard.a",
+          "parameter": "a"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.adeclick.standard.t",
+          "parameter": "t"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.adeclick.standard.b",
+          "parameter": "b"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "s"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.adeclick.standard.m",
+          "parameter": "m"
+        }
+      ]
+    }
+  ],
+  "id": "filter.adeclick",
+  "name": "adeclick",
+  "type": "audio"
+}

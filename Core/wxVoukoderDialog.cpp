@@ -258,6 +258,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		bAudioCategorySizer->Add(m_audioNotebook, 1, wxEXPAND | wxALL, 0);
 
 		m_audioFilterPanel = new wxFilterPanel(m_audioNotebook, AVMEDIA_TYPE_AUDIO);
+		m_audioFilterPanel->SetFilterConfig(exportInfo.audio.filters);
 		m_audioNotebook->AddPage(m_audioFilterPanel, Trans("ui.encoderconfig.filters"), false);
 
 		m_audioCategory->SetSizer(bAudioCategorySizer);

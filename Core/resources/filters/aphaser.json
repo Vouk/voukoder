@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aphaser"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aphaser.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.4000000059604645
+          },
+          "id": "filter.aphaser.standard.in_gain",
+          "parameter": "in_gain"
+        },
+        {
+          "control": {
+            "maximum": 1000000000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.7400000095367432
+          },
+          "id": "filter.aphaser.standard.out_gain",
+          "parameter": "out_gain"
+        },
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 3.0
+          },
+          "id": "filter.aphaser.standard.delay",
+          "parameter": "delay"
+        },
+        {
+          "control": {
+            "maximum": 0.9900000095367432,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.4000000059604645
+          },
+          "id": "filter.aphaser.standard.decay",
+          "parameter": "decay"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.aphaser.standard.speed",
+          "parameter": "speed"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "triangular"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "sinusoidal"
+              },
+              {
+                "value": "s"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.aphaser.standard.type",
+          "parameter": "type"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aphaser",
+  "name": "aphaser",
+  "type": "audio"
+}

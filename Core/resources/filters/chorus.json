@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "chorus"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.chorus.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.4000000059604645
+          },
+          "id": "filter.chorus.standard.in_gain",
+          "parameter": "in_gain"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.4000000059604645
+          },
+          "id": "filter.chorus.standard.out_gain",
+          "parameter": "out_gain"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.chorus.standard.delays",
+          "parameter": "delays"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.chorus.standard.decays",
+          "parameter": "decays"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.chorus.standard.speeds",
+          "parameter": "speeds"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.chorus.standard.depths",
+          "parameter": "depths"
+        }
+      ]
+    }
+  ],
+  "id": "filter.chorus",
+  "name": "chorus",
+  "type": "audio"
+}

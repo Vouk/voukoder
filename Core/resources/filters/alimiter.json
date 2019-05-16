@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "alimiter"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.alimiter.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.alimiter.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.alimiter.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.alimiter.standard.limit",
+          "parameter": "limit"
+        },
+        {
+          "control": {
+            "maximum": 80.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 5.0
+          },
+          "id": "filter.alimiter.standard.attack",
+          "parameter": "attack"
+        },
+        {
+          "control": {
+            "maximum": 8000.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 50.0
+          },
+          "id": "filter.alimiter.standard.release",
+          "parameter": "release"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.alimiter.standard.asc",
+          "parameter": "asc"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.alimiter.standard.asc_level",
+          "parameter": "asc_level"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.alimiter.standard.level",
+          "parameter": "level"
+        }
+      ]
+    }
+  ],
+  "id": "filter.alimiter",
+  "name": "alimiter",
+  "type": "audio"
+}

@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "afftfilt"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.afftfilt.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "re"
+          },
+          "id": "filter.afftfilt.standard.real",
+          "parameter": "real"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "im"
+          },
+          "id": "filter.afftfilt.standard.imag",
+          "parameter": "imag"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "w16"
+              },
+              {
+                "value": "w32"
+              },
+              {
+                "value": "w64"
+              },
+              {
+                "value": "w128"
+              },
+              {
+                "value": "w256"
+              },
+              {
+                "value": "w512"
+              },
+              {
+                "value": "w1024"
+              },
+              {
+                "value": "w2048"
+              },
+              {
+                "value": "w4096"
+              },
+              {
+                "value": "w8192"
+              },
+              {
+                "value": "w16384"
+              },
+              {
+                "value": "w32768"
+              },
+              {
+                "value": "w65536"
+              },
+              {
+                "value": "w131072"
+              }
+            ],
+            "selectedIndex": 12,
+            "type": "combobox"
+          },
+          "id": "filter.afftfilt.standard.win_size",
+          "parameter": "win_size"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "rect"
+              },
+              {
+                "value": "bartlett"
+              },
+              {
+                "value": "hann"
+              },
+              {
+                "value": "hanning"
+              },
+              {
+                "value": "hamming"
+              },
+              {
+                "value": "blackman"
+              },
+              {
+                "value": "welch"
+              },
+              {
+                "value": "flattop"
+              },
+              {
+                "value": "bharris"
+              },
+              {
+                "value": "bnuttall"
+              },
+              {
+                "value": "bhann"
+              },
+              {
+                "value": "sine"
+              },
+              {
+                "value": "nuttall"
+              },
+              {
+                "value": "lanczos"
+              },
+              {
+                "value": "gauss"
+              },
+              {
+                "value": "tukey"
+              },
+              {
+                "value": "dolph"
+              },
+              {
+                "value": "cauchy"
+              },
+              {
+                "value": "parzen"
+              },
+              {
+                "value": "poisson"
+              },
+              {
+                "value": "bohman"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.afftfilt.standard.win_func",
+          "parameter": "win_func"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.afftfilt.standard.overlap",
+          "parameter": "overlap"
+        }
+      ]
+    }
+  ],
+  "id": "filter.afftfilt",
+  "name": "afftfilt",
+  "type": "audio"
+}

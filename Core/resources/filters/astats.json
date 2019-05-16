@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "astats"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.astats.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.05000000074505806
+          },
+          "id": "filter.astats.standard.length",
+          "parameter": "length"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.astats.standard.metadata",
+          "parameter": "metadata"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.astats.standard.reset",
+          "parameter": "reset"
+        }
+      ]
+    }
+  ],
+  "id": "filter.astats",
+  "name": "astats",
+  "type": "audio"
+}

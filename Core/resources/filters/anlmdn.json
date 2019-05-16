@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "anlmdn"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.anlmdn.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 9.999999747378752e-06
+          },
+          "id": "filter.anlmdn.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "maximum": 100000,
+            "minimum": 1000,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1000
+          },
+          "id": "filter.anlmdn.standard.p",
+          "parameter": "p"
+        },
+        {
+          "control": {
+            "maximum": 300000,
+            "minimum": 2000,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2000
+          },
+          "id": "filter.anlmdn.standard.r",
+          "parameter": "r"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "i"
+              },
+              {
+                "value": "o"
+              },
+              {
+                "value": "n"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.anlmdn.standard.o",
+          "parameter": "o"
+        }
+      ]
+    }
+  ],
+  "id": "filter.anlmdn",
+  "name": "anlmdn",
+  "type": "audio"
+}

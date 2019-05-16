@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aeval"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aeval.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.aeval.standard.exprs",
+          "parameter": "exprs"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.aeval.standard.channel_layout",
+          "parameter": "channel_layout"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aeval",
+  "name": "aeval",
+  "type": "audio"
+}

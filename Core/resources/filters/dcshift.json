@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dcshift"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dcshift.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.dcshift.standard.shift",
+          "parameter": "shift"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.dcshift.standard.limitergain",
+          "parameter": "limitergain"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dcshift",
+  "name": "dcshift",
+  "type": "audio"
+}

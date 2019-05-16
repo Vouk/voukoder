@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dynaudnorm"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dynaudnorm.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 8000,
+            "minimum": 10,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 10
+          },
+          "id": "filter.dynaudnorm.standard.f",
+          "parameter": "f"
+        },
+        {
+          "control": {
+            "maximum": 301,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          },
+          "id": "filter.dynaudnorm.standard.g",
+          "parameter": "g"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.949999988079071
+          },
+          "id": "filter.dynaudnorm.standard.p",
+          "parameter": "p"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 10.0
+          },
+          "id": "filter.dynaudnorm.standard.m",
+          "parameter": "m"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.dynaudnorm.standard.r",
+          "parameter": "r"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.dynaudnorm.standard.n",
+          "parameter": "n"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.dynaudnorm.standard.c",
+          "parameter": "c"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.dynaudnorm.standard.b",
+          "parameter": "b"
+        },
+        {
+          "control": {
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.dynaudnorm.standard.s",
+          "parameter": "s"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dynaudnorm",
+  "name": "dynaudnorm",
+  "type": "audio"
+}

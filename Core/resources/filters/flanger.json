@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "flanger"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.flanger.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.flanger.standard.delay",
+          "parameter": "delay"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.flanger.standard.depth",
+          "parameter": "depth"
+        },
+        {
+          "control": {
+            "maximum": 95.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.flanger.standard.regen",
+          "parameter": "regen"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 71.0
+          },
+          "id": "filter.flanger.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.flanger.standard.speed",
+          "parameter": "speed"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "triangular"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "sinusoidal"
+              },
+              {
+                "value": "s"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.flanger.standard.shape",
+          "parameter": "shape"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 25.0
+          },
+          "id": "filter.flanger.standard.phase",
+          "parameter": "phase"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "linear"
+              },
+              {
+                "value": "quadratic"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.flanger.standard.interp",
+          "parameter": "interp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.flanger",
+  "name": "flanger",
+  "type": "audio"
+}

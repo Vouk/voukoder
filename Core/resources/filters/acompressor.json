@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "acompressor"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.acompressor.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acompressor.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.125
+          },
+          "id": "filter.acompressor.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.acompressor.standard.ratio",
+          "parameter": "ratio"
+        },
+        {
+          "control": {
+            "maximum": 2000.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 20.0
+          },
+          "id": "filter.acompressor.standard.attack",
+          "parameter": "attack"
+        },
+        {
+          "control": {
+            "maximum": 9000.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 250.0
+          },
+          "id": "filter.acompressor.standard.release",
+          "parameter": "release"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acompressor.standard.makeup",
+          "parameter": "makeup"
+        },
+        {
+          "control": {
+            "maximum": 8.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.828429937362671
+          },
+          "id": "filter.acompressor.standard.knee",
+          "parameter": "knee"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "average"
+              },
+              {
+                "value": "maximum"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.acompressor.standard.link",
+          "parameter": "link"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "peak"
+              },
+              {
+                "value": "rms"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.acompressor.standard.detection",
+          "parameter": "detection"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acompressor.standard.level_sc",
+          "parameter": "level_sc"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.acompressor.standard.mix",
+          "parameter": "mix"
+        }
+      ]
+    }
+  ],
+  "id": "filter.acompressor",
+  "name": "acompressor",
+  "type": "audio"
+}

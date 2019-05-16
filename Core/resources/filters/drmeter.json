@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "drmeter"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.drmeter.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 3.0
+          },
+          "id": "filter.drmeter.standard.length",
+          "parameter": "length"
+        }
+      ]
+    }
+  ],
+  "id": "filter.drmeter",
+  "name": "drmeter",
+  "type": "audio"
+}

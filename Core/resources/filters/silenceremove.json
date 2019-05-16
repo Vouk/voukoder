@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "silenceremove"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.silenceremove.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 9000,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.start_periods",
+          "parameter": "start_periods"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.start_duration",
+          "parameter": "start_duration"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.silenceremove.standard.start_threshold",
+          "parameter": "start_threshold"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.start_silence",
+          "parameter": "start_silence"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "any"
+              },
+              {
+                "value": "all"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.silenceremove.standard.start_mode",
+          "parameter": "start_mode"
+        },
+        {
+          "control": {
+            "maximum": 9000,
+            "minimum": -9000,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.stop_periods",
+          "parameter": "stop_periods"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.stop_duration",
+          "parameter": "stop_duration"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.silenceremove.standard.stop_threshold",
+          "parameter": "stop_threshold"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.stop_silence",
+          "parameter": "stop_silence"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.silenceremove.standard.stop_mode",
+          "parameter": "stop_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "peak"
+              },
+              {
+                "value": "rms"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.silenceremove.standard.detection",
+          "parameter": "detection"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.silenceremove.standard.window",
+          "parameter": "window"
+        }
+      ]
+    }
+  ],
+  "id": "filter.silenceremove",
+  "name": "silenceremove",
+  "type": "audio"
+}

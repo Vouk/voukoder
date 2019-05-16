@@ -1,0 +1,473 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aresample"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aresample.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.standard.sample_rate",
+          "parameter": "sample_rate"
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "filter.aresample.swresampler",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.in_channel_count",
+          "parameter": "in_channel_count"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.out_channel_count",
+          "parameter": "out_channel_count"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.used_channel_count",
+          "parameter": "used_channel_count"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.in_sample_rate",
+          "parameter": "in_sample_rate"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.out_sample_rate",
+          "parameter": "out_sample_rate"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.aresample.swresampler.in_sample_fmt",
+          "parameter": "in_sample_fmt"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.aresample.swresampler.out_sample_fmt",
+          "parameter": "out_sample_fmt"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.aresample.swresampler.internal_sample_fmt",
+          "parameter": "internal_sample_fmt"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.in_channel_layout",
+          "parameter": "in_channel_layout"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.out_channel_layout",
+          "parameter": "out_channel_layout"
+        },
+        {
+          "control": {
+            "maximum": 32.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.7071067690849304
+          },
+          "id": "filter.aresample.swresampler.center_mix_level",
+          "parameter": "center_mix_level"
+        },
+        {
+          "control": {
+            "maximum": 32.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.7071067690849304
+          },
+          "id": "filter.aresample.swresampler.surround_mix_level",
+          "parameter": "surround_mix_level"
+        },
+        {
+          "control": {
+            "maximum": 32.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.aresample.swresampler.lfe_mix_level",
+          "parameter": "lfe_mix_level"
+        },
+        {
+          "control": {
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.aresample.swresampler.rematrix_volume",
+          "parameter": "rematrix_volume"
+        },
+        {
+          "control": {
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.aresample.swresampler.rematrix_maxval",
+          "parameter": "rematrix_maxval"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "res"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aresample.swresampler.swr_flags",
+          "parameter": "swr_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.aresample.swresampler.dither_scale",
+          "parameter": "dither_scale"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "rectangular"
+              },
+              {
+                "value": "triangular"
+              },
+              {
+                "value": "triangular_hp"
+              },
+              {
+                "value": "lipshitz"
+              },
+              {
+                "value": "shibata"
+              },
+              {
+                "value": "low_shibata"
+              },
+              {
+                "value": "high_shibata"
+              },
+              {
+                "value": "f_weighted"
+              },
+              {
+                "value": "modified_e_weighted"
+              },
+              {
+                "value": "improved_e_weighted"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aresample.swresampler.dither_method",
+          "parameter": "dither_method"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.filter_size",
+          "parameter": "filter_size"
+        },
+        {
+          "control": {
+            "maximum": 24,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.phase_shift",
+          "parameter": "phase_shift"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.aresample.swresampler.linear_interp",
+          "parameter": "linear_interp"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.aresample.swresampler.exact_rational",
+          "parameter": "exact_rational"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.aresample.swresampler.resample_cutoff",
+          "parameter": "resample_cutoff"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "swr"
+              },
+              {
+                "value": "soxr"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aresample.swresampler.resampler",
+          "parameter": "resampler"
+        },
+        {
+          "control": {
+            "maximum": 33.0,
+            "minimum": 15.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 20.0
+          },
+          "id": "filter.aresample.swresampler.precision",
+          "parameter": "precision"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.aresample.swresampler.cheby",
+          "parameter": "cheby"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 3.4028234663852886e+38
+          },
+          "id": "filter.aresample.swresampler.min_comp",
+          "parameter": "min_comp"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.10000000149011612
+          },
+          "id": "filter.aresample.swresampler.min_hard_comp",
+          "parameter": "min_hard_comp"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.aresample.swresampler.comp_duration",
+          "parameter": "comp_duration"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.aresample.swresampler.max_soft_comp",
+          "parameter": "max_soft_comp"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.aresample.swresampler.async",
+          "parameter": "async"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.first_pts",
+          "parameter": "first_pts"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "dolby"
+              },
+              {
+                "value": "dplii"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aresample.swresampler.matrix_encoding",
+          "parameter": "matrix_encoding"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "cubic"
+              },
+              {
+                "value": "blackman_nuttall"
+              },
+              {
+                "value": "kaiser"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.aresample.swresampler.filter_type",
+          "parameter": "filter_type"
+        },
+        {
+          "control": {
+            "maximum": 16.0,
+            "minimum": 2.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 9.0
+          },
+          "id": "filter.aresample.swresampler.kaiser_beta",
+          "parameter": "kaiser_beta"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aresample.swresampler.output_sample_bits",
+          "parameter": "output_sample_bits"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aresample",
+  "name": "aresample",
+  "type": "audio"
+}

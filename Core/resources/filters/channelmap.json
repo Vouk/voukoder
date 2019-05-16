@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "channelmap"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.channelmap.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.channelmap.standard.map",
+          "parameter": "map"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.channelmap.standard.channel_layout",
+          "parameter": "channel_layout"
+        }
+      ]
+    }
+  ],
+  "id": "filter.channelmap",
+  "name": "channelmap",
+  "type": "audio"
+}

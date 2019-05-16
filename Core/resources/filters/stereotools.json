@@ -1,0 +1,256 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "stereotools"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.stereotools.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.stereotools.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.stereotools.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.balance_in",
+          "parameter": "balance_in"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.balance_out",
+          "parameter": "balance_out"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.stereotools.standard.softclip",
+          "parameter": "softclip"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.stereotools.standard.mutel",
+          "parameter": "mutel"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.stereotools.standard.muter",
+          "parameter": "muter"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.stereotools.standard.phasel",
+          "parameter": "phasel"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.stereotools.standard.phaser",
+          "parameter": "phaser"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "lr>lr"
+              },
+              {
+                "value": "lr>ms"
+              },
+              {
+                "value": "ms>lr"
+              },
+              {
+                "value": "lr>ll"
+              },
+              {
+                "value": "lr>rr"
+              },
+              {
+                "value": "lr>l+r"
+              },
+              {
+                "value": "lr>rl"
+              },
+              {
+                "value": "ms>ll"
+              },
+              {
+                "value": "ms>rr"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.stereotools.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.stereotools.standard.slev",
+          "parameter": "slev"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.sbal",
+          "parameter": "sbal"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.stereotools.standard.mlev",
+          "parameter": "mlev"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.mpan",
+          "parameter": "mpan"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.base",
+          "parameter": "base"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.delay",
+          "parameter": "delay"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.stereotools.standard.sclevel",
+          "parameter": "sclevel"
+        },
+        {
+          "control": {
+            "maximum": 360.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.stereotools.standard.phase",
+          "parameter": "phase"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "balance"
+              },
+              {
+                "value": "amplitude"
+              },
+              {
+                "value": "power"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.stereotools.standard.bmode_in",
+          "parameter": "bmode_in"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.stereotools.standard.bmode_out",
+          "parameter": "bmode_out"
+        }
+      ]
+    }
+  ],
+  "id": "filter.stereotools",
+  "name": "stereotools",
+  "type": "audio"
+}

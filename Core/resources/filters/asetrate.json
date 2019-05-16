@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asetrate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asetrate.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.asetrate.standard.sample_rate",
+          "parameter": "sample_rate"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asetrate",
+  "name": "asetrate",
+  "type": "audio"
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "apulsator"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.apulsator.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.apulsator.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.apulsator.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "sine"
+              },
+              {
+                "value": "triangle"
+              },
+              {
+                "value": "square"
+              },
+              {
+                "value": "sawup"
+              },
+              {
+                "value": "sawdown"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.apulsator.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.apulsator.standard.amount",
+          "parameter": "amount"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.apulsator.standard.offset_l",
+          "parameter": "offset_l"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.apulsator.standard.offset_r",
+          "parameter": "offset_r"
+        },
+        {
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.apulsator.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bpm"
+              },
+              {
+                "value": "ms"
+              },
+              {
+                "value": "hz"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.apulsator.standard.timing",
+          "parameter": "timing"
+        },
+        {
+          "control": {
+            "maximum": 300.0,
+            "minimum": 30.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 120.0
+          },
+          "id": "filter.apulsator.standard.bpm",
+          "parameter": "bpm"
+        },
+        {
+          "control": {
+            "maximum": 2000,
+            "minimum": 10,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 10
+          },
+          "id": "filter.apulsator.standard.ms",
+          "parameter": "ms"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.apulsator.standard.hz",
+          "parameter": "hz"
+        }
+      ]
+    }
+  ],
+  "id": "filter.apulsator",
+  "name": "apulsator",
+  "type": "audio"
+}

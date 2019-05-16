@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "arealtime"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.arealtime.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.arealtime.standard.limit",
+          "parameter": "limit"
+        }
+      ]
+    }
+  ],
+  "id": "filter.arealtime",
+  "name": "arealtime",
+  "type": "audio"
+}

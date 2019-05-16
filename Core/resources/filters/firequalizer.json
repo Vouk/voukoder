@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "firequalizer"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.firequalizer.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "gain_interpolate(f)"
+          },
+          "id": "filter.firequalizer.standard.gain",
+          "parameter": "gain"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.firequalizer.standard.gain_entry",
+          "parameter": "gain_entry"
+        },
+        {
+          "control": {
+            "maximum": 10000000000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.009999999776482582
+          },
+          "id": "filter.firequalizer.standard.delay",
+          "parameter": "delay"
+        },
+        {
+          "control": {
+            "maximum": 10000000000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 5.0
+          },
+          "id": "filter.firequalizer.standard.accuracy",
+          "parameter": "accuracy"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "rectangular"
+              },
+              {
+                "value": "hann"
+              },
+              {
+                "value": "hamming"
+              },
+              {
+                "value": "blackman"
+              },
+              {
+                "value": "nuttall3"
+              },
+              {
+                "value": "mnuttall3"
+              },
+              {
+                "value": "nuttall"
+              },
+              {
+                "value": "bnuttall"
+              },
+              {
+                "value": "bharris"
+              },
+              {
+                "value": "tukey"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.firequalizer.standard.wfunc",
+          "parameter": "wfunc"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.firequalizer.standard.fixed",
+          "parameter": "fixed"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.firequalizer.standard.multi",
+          "parameter": "multi"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.firequalizer.standard.zero_phase",
+          "parameter": "zero_phase"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "linlin"
+              },
+              {
+                "value": "linlog"
+              },
+              {
+                "value": "loglin"
+              },
+              {
+                "value": "loglog"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.firequalizer.standard.scale",
+          "parameter": "scale"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.firequalizer.standard.dumpfile",
+          "parameter": "dumpfile"
+        },
+        {
+          "control": {
+            "maximum": 3,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.firequalizer.standard.dumpscale",
+          "parameter": "dumpscale"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.firequalizer.standard.fft2",
+          "parameter": "fft2"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.firequalizer.standard.min_phase",
+          "parameter": "min_phase"
+        }
+      ]
+    }
+  ],
+  "id": "filter.firequalizer",
+  "name": "firequalizer",
+  "type": "audio"
+}

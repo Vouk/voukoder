@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aecho"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aecho.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.6000000238418579
+          },
+          "id": "filter.aecho.standard.in_gain",
+          "parameter": "in_gain"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.aecho.standard.out_gain",
+          "parameter": "out_gain"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "1000"
+          },
+          "id": "filter.aecho.standard.delays",
+          "parameter": "delays"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0.5"
+          },
+          "id": "filter.aecho.standard.decays",
+          "parameter": "decays"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aecho",
+  "name": "aecho",
+  "type": "audio"
+}

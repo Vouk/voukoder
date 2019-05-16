@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "volume"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.volume.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "1.0"
+          },
+          "id": "filter.volume.standard.volume",
+          "parameter": "volume"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "fixed"
+              },
+              {
+                "value": "float"
+              },
+              {
+                "value": "double"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.volume.standard.precision",
+          "parameter": "precision"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "once"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.volume.standard.eval",
+          "parameter": "eval"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "drop"
+              },
+              {
+                "value": "ignore"
+              },
+              {
+                "value": "track"
+              },
+              {
+                "value": "album"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.volume.standard.replaygain",
+          "parameter": "replaygain"
+        },
+        {
+          "control": {
+            "maximum": 15.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.volume.standard.replaygain_preamp",
+          "parameter": "replaygain_preamp"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.volume.standard.replaygain_noclip",
+          "parameter": "replaygain_noclip"
+        }
+      ]
+    }
+  ],
+  "id": "filter.volume",
+  "name": "volume",
+  "type": "audio"
+}

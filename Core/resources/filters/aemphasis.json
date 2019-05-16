@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aemphasis"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aemphasis.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.aemphasis.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.aemphasis.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "reproduction"
+              },
+              {
+                "value": "production"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aemphasis.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "col"
+              },
+              {
+                "value": "emi"
+              },
+              {
+                "value": "bsi"
+              },
+              {
+                "value": "riaa"
+              },
+              {
+                "value": "cd"
+              },
+              {
+                "value": "50fm"
+              },
+              {
+                "value": "75fm"
+              },
+              {
+                "value": "50kf"
+              },
+              {
+                "value": "75kf"
+              }
+            ],
+            "selectedIndex": 4,
+            "type": "combobox"
+          },
+          "id": "filter.aemphasis.standard.type",
+          "parameter": "type"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aemphasis",
+  "name": "aemphasis",
+  "type": "audio"
+}

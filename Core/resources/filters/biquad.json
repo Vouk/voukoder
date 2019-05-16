@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "biquad"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.biquad.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.biquad.standard.a0",
+          "parameter": "a0"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.biquad.standard.a1",
+          "parameter": "a1"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.biquad.standard.a2",
+          "parameter": "a2"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.biquad.standard.b0",
+          "parameter": "b0"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.biquad.standard.b1",
+          "parameter": "b1"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.biquad.standard.b2",
+          "parameter": "b2"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.biquad.standard.channels",
+          "parameter": "channels"
+        }
+      ]
+    }
+  ],
+  "id": "filter.biquad",
+  "name": "biquad",
+  "type": "audio"
+}

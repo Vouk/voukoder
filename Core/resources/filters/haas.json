@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "haas"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.haas.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.side_gain",
+          "parameter": "side_gain"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "left"
+              },
+              {
+                "value": "right"
+              },
+              {
+                "value": "mid"
+              },
+              {
+                "value": "side"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.haas.standard.middle_source",
+          "parameter": "middle_source"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.haas.standard.middle_phase",
+          "parameter": "middle_phase"
+        },
+        {
+          "control": {
+            "maximum": 40.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.049999952316284
+          },
+          "id": "filter.haas.standard.left_delay",
+          "parameter": "left_delay"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.haas.standard.left_balance",
+          "parameter": "left_balance"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.left_gain",
+          "parameter": "left_gain"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.haas.standard.left_phase",
+          "parameter": "left_phase"
+        },
+        {
+          "control": {
+            "maximum": 40.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.119999885559082
+          },
+          "id": "filter.haas.standard.right_delay",
+          "parameter": "right_delay"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.right_balance",
+          "parameter": "right_balance"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.haas.standard.right_gain",
+          "parameter": "right_gain"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.haas.standard.right_phase",
+          "parameter": "right_phase"
+        }
+      ]
+    }
+  ],
+  "id": "filter.haas",
+  "name": "haas",
+  "type": "audio"
+}

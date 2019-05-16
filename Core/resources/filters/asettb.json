@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asettb"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asettb.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "intb"
+          },
+          "id": "filter.asettb.standard.expr",
+          "parameter": "expr"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asettb",
+  "name": "asettb",
+  "type": "audio"
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "silencedetect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.silencedetect.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0010000000474974513
+          },
+          "id": "filter.silencedetect.standard.noise",
+          "parameter": "noise"
+        },
+        {
+          "control": {
+            "maximum": 86400.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.silencedetect.standard.duration",
+          "parameter": "duration"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.silencedetect.standard.mono",
+          "parameter": "mono"
+        }
+      ]
+    }
+  ],
+  "id": "filter.silencedetect",
+  "name": "silencedetect",
+  "type": "audio"
+}

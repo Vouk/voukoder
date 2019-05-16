@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "apad"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.apad.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.apad.standard.packet_size",
+          "parameter": "packet_size"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.apad.standard.pad_len",
+          "parameter": "pad_len"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.apad.standard.whole_len",
+          "parameter": "whole_len"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.apad.standard.pad_dur",
+          "parameter": "pad_dur"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.apad.standard.whole_dur",
+          "parameter": "whole_dur"
+        }
+      ]
+    }
+  ],
+  "id": "filter.apad",
+  "name": "apad",
+  "type": "audio"
+}

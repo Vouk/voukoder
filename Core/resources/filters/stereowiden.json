@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "stereowiden"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.stereowiden.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 20.0
+          },
+          "id": "filter.stereowiden.standard.delay",
+          "parameter": "delay"
+        },
+        {
+          "control": {
+            "maximum": 0.8999999761581421,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.stereowiden.standard.feedback",
+          "parameter": "feedback"
+        },
+        {
+          "control": {
+            "maximum": 0.800000011920929,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.stereowiden.standard.crossfeed",
+          "parameter": "crossfeed"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.800000011920929
+          },
+          "id": "filter.stereowiden.standard.drymix",
+          "parameter": "drymix"
+        }
+      ]
+    }
+  ],
+  "id": "filter.stereowiden",
+  "name": "stereowiden",
+  "type": "audio"
+}

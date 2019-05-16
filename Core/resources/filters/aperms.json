@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aperms"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aperms.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "ro"
+              },
+              {
+                "value": "rw"
+              },
+              {
+                "value": "toggle"
+              },
+              {
+                "value": "random"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.aperms.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.aperms.standard.seed",
+          "parameter": "seed"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aperms",
+  "name": "aperms",
+  "type": "audio"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "adelay"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.adelay.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.adelay.standard.delays",
+          "parameter": "delays"
+        }
+      ]
+    }
+  ],
+  "id": "filter.adelay",
+  "name": "adelay",
+  "type": "audio"
+}

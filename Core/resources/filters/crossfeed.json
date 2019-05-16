@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "crossfeed"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.crossfeed.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.20000000298023224
+          },
+          "id": "filter.crossfeed.standard.strength",
+          "parameter": "strength"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.crossfeed.standard.range",
+          "parameter": "range"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.8999999761581421
+          },
+          "id": "filter.crossfeed.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.crossfeed.standard.level_out",
+          "parameter": "level_out"
+        }
+      ]
+    }
+  ],
+  "id": "filter.crossfeed",
+  "name": "crossfeed",
+  "type": "audio"
+}

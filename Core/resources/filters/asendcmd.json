@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asendcmd"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asendcmd.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.asendcmd.standard.commands",
+          "parameter": "commands"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.asendcmd.standard.filename",
+          "parameter": "filename"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asendcmd",
+  "name": "asendcmd",
+  "type": "audio"
+}

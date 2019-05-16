@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lowpass"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lowpass.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 999999.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 500.0
+          },
+          "id": "filter.lowpass.standard.frequency",
+          "parameter": "frequency"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "h"
+              },
+              {
+                "value": "q"
+              },
+              {
+                "value": "o"
+              },
+              {
+                "value": "s"
+              },
+              {
+                "value": "k"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.lowpass.standard.width_type",
+          "parameter": "width_type"
+        },
+        {
+          "control": {
+            "maximum": 99999.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.7070000171661377
+          },
+          "id": "filter.lowpass.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.lowpass.standard.poles",
+          "parameter": "poles"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.lowpass.standard.channels",
+          "parameter": "channels"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lowpass",
+  "name": "lowpass",
+  "type": "audio"
+}
