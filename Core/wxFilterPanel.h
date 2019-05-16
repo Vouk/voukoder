@@ -10,6 +10,7 @@ class wxFilterPanel : public wxPanel
 public:
 	wxFilterPanel(wxWindow *parent = NULL, AVMediaType type = AVMEDIA_TYPE_UNKNOWN);
 	void GetFilterConfig(FilterConfig &filterConfig);
+	void SetFilterConfig(FilterConfig filterConfig);
 
 protected:
 	wxListBox* m_filterList;

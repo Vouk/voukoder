@@ -118,6 +118,7 @@
     "ui.addfilter.options": "Options",
     "ui.addfilter.buttonOkay": "&Oui",
     "ui.addfilter.buttonCancel": "&Annuler",
+    "ui.editfilter.title": "Edit filter",
 
     "prores_ks.standard": "Standard",
     "prores_ks.standard.profile._label": "Profile",

@@ -10,25 +10,12 @@ bool FilterUtils::Create(FilterInfo &filterInfo, const json resource)
 	filterInfo.name = resource["name"].get<string>();
 	filterInfo.type = GetMediaType(filterInfo.name);
 
-	// Create a top info group
-	EncoderGroupInfo groupInfo;
-	groupInfo.id = "filter.info";
-	groupInfo.name = Trans(groupInfo.id);
-	groupInfo.groupClass = "basic";
-
-	// Compute capability is read-only
-	EncoderOptionInfo optionInfo;
-	optionInfo.id = groupInfo.id + ".name";
-	optionInfo.name = Trans(optionInfo.id, "label");
-	optionInfo.description = wxEmptyString;
-	optionInfo.parameter = "_name";
-	optionInfo.isForced = true;
-	optionInfo.control.type = EncoderOptionType::String;
-	optionInfo.control.value.stringValue = filterInfo.name;
-	optionInfo.control.enabled = false;
-	groupInfo.options.push_back(optionInfo);
-
-	filterInfo.groups.push_back(groupInfo);
+	// Default parameters
+	for (auto& item : resource["defaults"].items())
+	{
+		string value = item.value().get<string>();
+		filterInfo.defaults.insert(make_pair(item.key(), value));
+	}
 
 	// Parse groups
 	for (json group : resource["groups"])
@@ -66,7 +53,6 @@ AVMediaType FilterUtils::GetMediaType(const wxString filterId)
 
 static inline void show_help_children(const AVClass *c, FilterInfo &filterInfo)
 {
-	AVOptionRanges *r;
 	const AVClass *child = NULL;
 	if (c->option)
 	{

@@ -118,6 +118,7 @@
     "ui.addfilter.options": "选项",
     "ui.addfilter.buttonOkay": "确定(&O)",
     "ui.addfilter.buttonCancel": "取消(&C)",
+    "ui.editfilter.title": "Edit filter",s
 
     "prores_ks.standard": "标准",
     "prores_ks.standard.profile._label": "配置文件",

@@ -115,10 +115,11 @@
     "ui.encoderconfig.buttonOkay": "&OK",
     "ui.encoderconfig.buttonCancel": "&Abbrechen",
 
-    "ui.addfilter.title": "Add filter",
-    "ui.addfilter.options": "Options",
+    "ui.addfilter.title": "Filter hinzufügen",
+    "ui.addfilter.options": "Optionen",
     "ui.addfilter.buttonOkay": "&OK",
-    "ui.addfilter.buttonCancel": "&Cancel",
+    "ui.addfilter.buttonCancel": "&Abbrechen",
+    "ui.editfilter.title": "Filter bearbeiten",
 
     "prores_ks.standard": "Standard",
     "prores_ks.standard.profile._label": "Profile",

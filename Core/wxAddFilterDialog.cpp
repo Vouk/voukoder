@@ -4,12 +4,12 @@
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options, AVMediaType type) :
-	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 320), wxDEFAULT_DIALOG_STYLE),
+	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	options(options)
 {
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	SetTitle(Trans("ui.addfilter.title"));
+	SetTitle(Trans((*options)->size() > 0 ? "ui.addfilter.title" : "ui.editfilter.title"));
 
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
@@ -53,10 +53,30 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 	// Populate filters
 	for (auto& filterInfo : Voukoder::Config::Get().filterInfos)
 	{
-		if (type == AVMEDIA_TYPE_UNKNOWN ||	filterInfo.type == type)
-			m_FilterChoice->Append(Trans(filterInfo.id), (void*)&filterInfo);
+		if (type == AVMEDIA_TYPE_UNKNOWN || filterInfo.type == type)
+			m_FilterChoice->Append(Trans(filterInfo.id), (void*)& filterInfo);
 	}
-	m_FilterChoice->SetSelection(0);
+
+	int selection = 0;
+
+	// Edit mode
+	if ((*options)->size() > 0)
+	{
+		m_FilterChoice->Enable(false);
+
+		wxString filterName = (*options)->at("_name");
+
+		// Find the pre-selected filter
+		for (auto& filterInfo : Voukoder::Config::Get().filterInfos)
+			if (filterInfo.name == filterName)
+			{
+				selection = m_FilterChoice->FindString(Trans(filterInfo.id));
+				break;
+			}
+	}
+
+	// Select the right filter
+	m_FilterChoice->SetSelection(selection);
 
 	wxCommandEvent event;
 	OnFilterChanged(event);
@@ -239,11 +259,7 @@ void wxAddFilterDialog::OnPropertyGridChanged(wxPropertyGridEvent& event)
 
 			SendEvent(wxEVT_CHECKBOX_CHANGE, prop);
 		}
-
-		//ExecuteFilters(prop);
 	}
-
-	//RefreshResults();
 }
 
 void wxAddFilterDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
@@ -255,12 +271,15 @@ void wxAddFilterDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event
 		wxColour col = wxSystemSettings::GetColour(property->IsChecked() ? wxSYS_COLOUR_LISTBOXTEXT : wxSYS_COLOUR_GRAYTEXT);
 		property->SetTextColour(col);
 	}
-
-	//RefreshResults();
 }
 
 void wxAddFilterDialog::OnOkayClick(wxCommandEvent& event)
 {
+	FilterInfo* filterInfo = reinterpret_cast<FilterInfo*> (m_FilterChoice->GetClientData(m_FilterChoice->GetSelection()));
+
+	(*options)->clear();
+	(*options)->insert(filterInfo->defaults.begin(), filterInfo->defaults.end());
+
 	// Iterate over all options
 	wxPropertyGridConstIterator it;
 	for (it = m_propertyGrid->GetIterator(wxPG_ITERATE_VISIBLE); !it.AtEnd(); it++)

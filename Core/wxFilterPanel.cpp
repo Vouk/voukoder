@@ -50,6 +50,21 @@ void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
 	}
 }
 
+void wxFilterPanel::SetFilterConfig(FilterConfig filterConfig)
+{
+	// Append the filter
+	for (auto options : filterConfig.filters)
+		m_filterList->Append(Trans("filter." + options->at("_name")), (void*)options);
+
+	// There is always a filter selected so enable the remove button
+	if (m_filterList->GetCount() > 0)
+	{
+		m_filterList->SetSelection(0);
+		m_filterEdit->Enable();
+		m_filterRemove->Enable();
+	}
+}
+
 void wxFilterPanel::OnAddFilterClick(wxCommandEvent& event)
 {
 	OptionContainer *options = new OptionContainer;

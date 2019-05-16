@@ -227,6 +227,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		bVideoCategorySizer->Add(m_videoNotebook, 1, wxEXPAND | wxALL, 0);
 
 		m_videoFilterPanel = new wxFilterPanel(m_videoNotebook, AVMEDIA_TYPE_VIDEO);
+		m_videoFilterPanel->SetFilterConfig(exportInfo.video.filters);
 		m_videoNotebook->AddPage(m_videoFilterPanel, Trans("ui.encoderconfig.filters"), false);
 
 		m_videoCategory->SetSizer(bVideoCategorySizer);
