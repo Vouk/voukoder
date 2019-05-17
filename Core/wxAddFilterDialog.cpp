@@ -24,6 +24,8 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 	bTabLayout->Add(m_FilterChoice, 0, wxALL | wxEXPAND, 5);
 
 	m_propertyGrid = new wxPropertyGrid(m_tabPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER);
+	m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
+	m_propertyGrid->SetValidationFailureBehavior(0);
 	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxAddFilterDialog::OnLeftDown, this);
 	m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxAddFilterDialog::OnPropertyGridChanged, this, m_propertyGrid->GetId());
 	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxAddFilterDialog::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
