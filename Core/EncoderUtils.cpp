@@ -9,9 +9,12 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 {
 	string codecId = resource["id"].get<string>();
 	
+	vkLogInfo("Loading: encoders/%s.json", codecId.c_str());
+
 	// Is this encoder supported?
 	if (!IsAvailable(codecId))
 	{
+		vkLogInfo("Unloading: encoders/%s.json", codecId.c_str());
 		return false;
 	}
 
@@ -26,8 +29,6 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	{
 		return false;
 	}
-
-	vkLogInfo("Loading: encoders/%s.json", codecId.c_str());
 
 	// Default parameters
 	for (auto &item : resource["defaults"].items())

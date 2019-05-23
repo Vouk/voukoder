@@ -265,7 +265,7 @@ prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
 		}
 	}
 
-	wxLogWarning("Unsupported format: %s", muxerId.c_str());
+	vkLogError("Unsupported format: %s", muxerId.c_str());
 
 	return malUnknownError;
 }

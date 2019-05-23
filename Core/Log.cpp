@@ -56,7 +56,7 @@ Log::Log()
 	while (EnumDisplayDevices(NULL, nDeviceIndex, &DispDev, 0))
 	{
 		if (DispDev.StateFlags & DISPLAY_DEVICE_ACTIVE)
-			AddLine(wxString::Format("GPU #%d: %S", 
+			AddLine(wxString::Format("Display #%d on: %S", 
 				gpu++,
 				DispDev.DeviceString));
 

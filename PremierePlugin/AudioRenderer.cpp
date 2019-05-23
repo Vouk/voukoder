@@ -1,4 +1,5 @@
 #include "AudioRenderer.h"
+#include <Log.h>
 
 AudioRenderer::AudioRenderer(const csSDK_uint32 pluginId, const PrTime startTime, const PrTime endTime, csSDK_uint32 chunkSize, ExportInfo encoderInfo, PrSuites *suites):
 	pluginId(pluginId),
@@ -54,7 +55,7 @@ int AudioRenderer::GetNextFrame(AVFrame &frame)
 		// Reserve buffer
 		if (av_frame_get_buffer(&frame, av_cpu_max_align()) < 0)
 		{
-			wxLogError("Can not reserve audio buffer!");
+			vkLogError("Can not reserve audio buffer!");
 			return malUnknownError;
 		}
 	}

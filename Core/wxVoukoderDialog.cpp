@@ -490,6 +490,14 @@ void wxVoukoderDialog::SetConfiguration()
 		}
 	}
 
+	// Check if stored video encoder is still available
+	if (m_genEncVideoChoice->GetSelection() == wxNOT_FOUND)
+		m_genEncVideoChoice->SetSelection(0);
+
+	// Check if stored audio encoder is still available
+	if (m_genEncAudioChoice->GetSelection() == wxNOT_FOUND)
+		m_genEncAudioChoice->SetSelection(0);
+
 	// Init encoder infos
 	wxCommandEvent event;
 	OnVideoEncoderChanged(event);
