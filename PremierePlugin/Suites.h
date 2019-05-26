@@ -32,5 +32,4 @@ typedef struct PrSuites
 	PrSDKExporterUtilitySuite *exporterUtilitySuite;
 	PrSDKSequenceInfoSuite *sequenceInfoSuite;
 	PrSDKImageProcessingSuite *imageProcessingSuite;
-	PrSDKAppInfoSuite* appInfoSuite;
 } PrSuites;
