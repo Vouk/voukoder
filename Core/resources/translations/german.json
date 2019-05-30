@@ -816,6 +816,8 @@
     "libx265.standard.level._item_11": "6.1",
     "libx265.standard.level._item_12": "6.2",
     "libx265.standard.level._item_13": "8.5",
+    "libx265.standard.high-tier._label": "Enable High-Tier",
+    "libx265.standard.high-tier._description": "The encoder will first attempt to encode at the specified level, main tier first, turning on high tier only if necessary and available at that level.If your requested level does not support a High tier, high tier will not be supported. If –no-high-tier has been specified, then the encoder will attempt to encode only at the main tier.",
     "libx265.standard.strategy._label": "Strategie",
     "libx265.standard.strategy._description": "Der zu verwendende Codierungsmodus. Wähle Durchschnittliche Bitrate (ABR), Konstanter Ratenfaktor (CRF) Konstanter Quantisierer (CQP) oder Verlustfrei.",
     "libx265.standard.strategy._item_0": "Durchschnittliche Bitrate (ABR)",

@@ -814,6 +814,15 @@
           }
         },
         {
+          "id": "libx265.standard.high-tier",
+          "parameter": "high-tier",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "preprendNoIfFalse": true
+        },
+        {
           "id": "libx265.standard.strategy",
           "parameter": "_strategy",
           "control": {
