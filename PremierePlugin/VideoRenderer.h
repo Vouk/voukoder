@@ -26,6 +26,7 @@ private:
 	csSDK_uint32 height;
 	csSDK_int64 pts;
 	csSDK_uint32 currentPass;
+	PrPixelFormat format = PrPixelFormat_Any;
 	bool maxDepth;
 	std::function<bool(AVFrame *frame, int pass, int render, int process)> callback;
 	void flipImage(char* pixels, const csSDK_int32 rowBytes);

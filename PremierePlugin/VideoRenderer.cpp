@@ -178,9 +178,12 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 pass, const
 	frame->height = height;
 	frame->color_range = AVColorRange::AVCOL_RANGE_MPEG;
 
-	// Get pixel format
-	PrPixelFormat format;
-	suites->ppixSuite->GetPixelFormat(renderedFrame, &format);
+	// Get pixel format from the first frame
+	if (format == PrPixelFormat_Any)
+	{
+		// Get pixel format
+		suites->ppixSuite->GetPixelFormat(renderedFrame, &format);
+	}
 
 	// yuv420p
 	if (format == PrPixelFormat_YUV_420_MPEG4_FRAME_PICTURE_PLANAR_8u_601 ||
