@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <windows.h>
+
 #include <wx/wx.h>
 #include "resource.h"
 #include "EncoderInfo.h"
@@ -10,6 +10,10 @@
 #include "LanguageInfo.h"
 #include "json.hpp"
 #include "Version.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #define VKDR_APPNAME L"Voukoder R2"
 #define VKDR_REG_ROOT "Software\\Voukoder"
@@ -23,6 +27,7 @@
 
 static wxString LOG_BUFFER;
 
+#ifdef _WIN32
 static inline HMODULE GetCurrentModule()
 {
 	HMODULE hModule = NULL;
@@ -30,6 +35,7 @@ static inline HMODULE GetCurrentModule()
 
 	return hModule;
 };
+#endif
 
 namespace Voukoder
 {
@@ -38,25 +44,27 @@ namespace Voukoder
 	public:
 		static Config& Get()
 		{
-			static Config instance; 
+			static Config instance;
 			return instance;
 		}
-		vector<EncoderInfo> encoderInfos;
-		vector<MuxerInfo> muxerInfos;
-		vector<FilterInfo> filterInfos;
-		vector<LanguageInfo> languageInfos;
+		std::vector<EncoderInfo> encoderInfos;
+		std::vector<MuxerInfo> muxerInfos;
+		std::vector<FilterInfo> filterInfos;
+		std::vector<LanguageInfo> languageInfos;
 
 	private:
 		Config();
+#ifdef _WIN32
 		bool LoadResources(HMODULE hModule, LPTSTR lpType);
 		BOOL EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam);
+#endif
 
 	public:
 		Config(Config const&) = delete;
 		void operator=(Config const&) = delete;
 	};
 
-	template <class T> static wxString GetResourceName(vector<T> items, wxString id, wxString def = "")
+	template <class T> static wxString GetResourceName(std::vector<T> items, wxString id, wxString def = "")
 	{
 		for (auto& item : items)
 		{

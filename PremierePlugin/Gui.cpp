@@ -137,7 +137,7 @@ prMALError Gui::Update()
 	{
 		paramPar.ratioValue.numerator = VideoAspects[i][0];
 		paramPar.ratioValue.denominator = VideoAspects[i][1];
-	    wstring text = Trans("ui.premiere.tab.video.aspect", "item_" + to_string(i));
+		wstring text = Trans("ui.premiere.tab.video.aspect", "item_" + to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEVideoAspect, &paramPar, text.c_str());
 	}
 
@@ -174,7 +174,7 @@ prMALError Gui::Update()
 		wstring text = Trans("ui.premiere.tab.video.colorrange", "item_" + to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRVideoColorRange, &paramColorRangeType, text.c_str());
 	}
-	
+
 	// Video color space
 	paramSuite->ClearConstrainedValues(pluginId, 0, VKDRVideoColorSpace);
 	exOneParamValueRec paramColorSpace;
@@ -265,7 +265,7 @@ prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
 		}
 	}
 
-	vkLogError("Unsupported format: %s", muxerId.c_str());
+	vkLogErrorVA("Unsupported format: %s", muxerId.c_str());
 
 	return malUnknownError;
 }
@@ -307,7 +307,7 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 		parent.SetHWND((WXHWND)hwnd);
 		parent.AdoptAttributesFromHWND();
 		wxTopLevelWindows.Append(&parent);
-	
+
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
 		dialog.SetConfiguration();
@@ -316,7 +316,7 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 		wxTopLevelWindows.DeleteObject(&parent);
 		parent.SetHWND((WXHWND)NULL);
 	}
-		
+
 	// Clean-up and return.
 	wxEntryCleanup();
 	if (result == (int)wxID_OK)
@@ -342,7 +342,7 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 	// Read arb data size
 	if (PrSuiteErrorFailed(suites->exportParamSuite->GetArbData(pluginId, 0, dataId, &dataSize, NULL)))
 	{
-		vkLogError("Unable to retrieve arb data from: %s\n", dataId);
+		vkLogErrorVA("Unable to retrieve arb data from: %s\n", dataId);
 		return false;
 	}
 
@@ -525,7 +525,7 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 	{
 		exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
 	}
-	
+
 	// Color ranges
 	if (colorRange.value.intValue == (csSDK_int32)VKDRColorRanges::LIMITED)
 	{

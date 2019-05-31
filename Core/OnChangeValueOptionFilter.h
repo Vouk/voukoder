@@ -5,7 +5,7 @@
 class OnChangeValueOptionFilter : public OptionFilter
 {
 public:
-	OnChangeValueOptionFilter(OptionFilterInfo filterInfo, wxPropertyGrid *propertyGrid) : 
+	OnChangeValueOptionFilter(OptionFilterInfo filterInfo, wxPropertyGrid *propertyGrid) :
 		OptionFilter(filterInfo, propertyGrid)
 	{}
 
@@ -15,7 +15,7 @@ public:
 		if (optionProperty)
 		{
 			wxVariant value = optionProperty->GetValue();
-			
+
 			for (auto& param : filterInfo.params)
 			{
 				for (auto& option : param.second)

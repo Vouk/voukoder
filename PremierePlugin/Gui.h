@@ -16,8 +16,6 @@
 #define CONFIG_MAX_SIZE 16384
 #define ARB_VERSION 1
 
-using namespace std;
-
 enum VKDRColorRanges {
 	LIMITED,
 	FULL
@@ -29,7 +27,7 @@ enum VKDRColorSpaces {
 	BT709,
 	BT2020_CL,
 	BT2020_NCL
-}; 
+};
 
 const csSDK_int32 VideoAspects[][2] = { { 1, 1 }, { 10, 11 }, { 40, 33 }, { 768, 702 }, { 1024, 702 }, { 2, 1 }, { 4, 3 }, { 3, 2 } };
 const PrTime VideoFramerates[][2] = { {5, 1}, {10, 1}, {12, 1}, {15, 1}, {18, 1}, {20, 1}, {24000, 1001}, {24, 1}, {25, 1}, {30000, 1001}, {30, 1}, {50, 1}, {60000, 1001}, {60, 1}, { 120000, 1001 }, { 120, 1} };

@@ -1,6 +1,8 @@
-﻿#include "EncoderEngine.h"
-#include "windows.h"
-#include <sstream>
+﻿#include <sstream>
+#ifdef PRWIN_ENV
+//#include <windows>
+#endif
+#include "EncoderEngine.h"
 #include "Log.h"
 
 EncoderEngine::EncoderEngine(ExportInfo encoderInfo) :
@@ -21,7 +23,7 @@ EncoderEngine::~EncoderEngine()
 
 	if (wxFileExists(passLogFile + ".cutree"))
 		wxRemoveFile(passLogFile + ".cutree");
-	
+
 	if (wxFileExists(passLogFile + ".mbtree"))
 		wxRemoveFile(passLogFile + ".mbtree");
 }
@@ -41,8 +43,8 @@ int EncoderEngine::open()
 	// Logging multi pass information
 	if (exportInfo.passes > 1)
 	{
-		vkLogInfo("Running pass #%d ...", pass);
-		vkLogInfo("Using pass logfile: %s", passLogFile);
+		vkLogInfoVA("Running pass #%d ...", pass);
+		vkLogInfoVA("Using pass logfile: %s", passLogFile);
 	}
 
 	int ret;
@@ -52,7 +54,7 @@ int EncoderEngine::open()
 	{
 		if ((ret = openCodec(exportInfo.video.id.ToStdString(), exportInfo.video.options.Serialize().ToStdString(), &videoContext, getCodecFlags(AVMEDIA_TYPE_VIDEO))) < 0)
 		{
-			vkLogError("Unable to open video encoder: %s", exportInfo.video.id.c_str());
+			vkLogErrorVA("Unable to open video encoder: %s", exportInfo.video.id.c_str());
 			close();
 			return ret;
 		}
@@ -63,7 +65,7 @@ int EncoderEngine::open()
 	{
 		if ((ret = openCodec(exportInfo.audio.id.ToStdString(), exportInfo.audio.options.Serialize().ToStdString(), &audioContext, 0)) < 0)
 		{
-			vkLogError("Unable to open audio encoder: %s", exportInfo.audio.id.c_str());
+			vkLogErrorVA("Unable to open audio encoder: %s", exportInfo.audio.id.c_str());
 			close();
 			return ret;
 		}
@@ -82,10 +84,10 @@ int EncoderEngine::open()
 			}
 		}
 	}
-	
+
 	AVDictionary *options = NULL;
 
-	string filename;
+	wxString filename;
 	if (pass < exportInfo.passes)
 	{
 		filename = "NUL";
@@ -117,22 +119,22 @@ int EncoderEngine::open()
 
 	// Dump format settings
 	av_dump_format(formatContext, 0, filename.c_str(), 1);
-	
+
 	return avformat_write_header(formatContext, &options);
 }
 
-int EncoderEngine::openCodec(const string codecId, const string codecOptions, EncoderContext *encoderContext, const int flags)
+int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags)
 {
 	int ret;
 
 	if ((ret = createCodecContext(codecId, encoderContext, flags)) == 0)
 	{
-		vkLogInfo("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
+		vkLogInfoVA("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
 
 		AVDictionary *dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), VALUE_SEPARATOR, PARAM_SEPARATOR, 0)) < 0)
 		{
-			vkLogError("Unable to parse encoder configuration: %s", codecOptions.c_str());
+			vkLogErrorVA("Unable to parse encoder configuration: %s", codecOptions.c_str());
 			return ret;
 		}
 
@@ -153,11 +155,11 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 					params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
 				}
 
-				av_dict_set(&dictionary, "x265-params", params, 0);
+				av_dict_set(&dictionary, "x265-params", params.c_str(), 0);
 			}
 			else
 			{
-				av_dict_set(&dictionary, "passlogfile", passLogFile, 0);
+				av_dict_set(&dictionary, "passlogfile", passLogFile.c_str(), 0);
 			}
 		}
 
@@ -168,14 +170,14 @@ int EncoderEngine::openCodec(const string codecId, const string codecOptions, En
 		}
 		else
 		{
-			vkLogError("Failed opening codec: %s", codecId.c_str());
+			vkLogErrorVA("Failed opening codec: %s", codecId.c_str());
 		}
 	}
 
 	return ret;
 }
 
-int EncoderEngine::createCodecContext(const string codecId, EncoderContext *encoderContext, int flags)
+int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags)
 {
 	// Is this codec supported?
 	const AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
@@ -297,7 +299,7 @@ void EncoderEngine::finalize()
 	int ret = 0;
 	if ((ret = av_write_trailer(formatContext)) < 0)
 	{
-		vkLogError("Unable to write trailer. (Return code: %d)", ret);
+		vkLogErrorVA("Unable to write trailer. (Return code: %d)", ret);
 		return;
 	}
 
@@ -311,7 +313,7 @@ void EncoderEngine::finalize()
 		{
 			const size_t size = strlen(codec->stats_out) + 1;
 			videoContext.stats_info = (char*)malloc(size);
-			strcpy_s(videoContext.stats_info, size, codec->stats_out);
+			wxStrncpy(videoContext.stats_info, codec->stats_out, size);
 		}
 		else if (codec->flags & AV_CODEC_FLAG_PASS2 && videoContext.stats_info)
 		{
@@ -357,7 +359,7 @@ void EncoderEngine::flushContext(EncoderContext *encoderContext)
 
 	// Send a flush notification
 	sendFrame(encoderContext->codecContext, encoderContext->stream, NULL);
-	
+
 	// Clear the output buffer
 	receivePackets(encoderContext->codecContext, encoderContext->stream);
 }
@@ -372,8 +374,8 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	// Do we need a frame filter?
 	if (frame->pts == 0)
 	{
-		stringstream filterconfig;
-	
+		wxString filterconfig;
+
 		// Convert color space or range?
 		if (videoContext.codecContext->color_range != frame->color_range ||
 			videoContext.codecContext->colorspace != frame->colorspace ||
@@ -401,9 +403,11 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 			case AVColorSpace::AVCOL_SPC_BT2020_NCL:
 				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
 				break;
+			default:
+				break;
 			}
 		}
-		
+
 		// Convert pixel format
 		if (frame->format != videoContext.codecContext->pix_fmt)
 		{
@@ -414,8 +418,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 		filterconfig << exportInfo.video.filters.AsFilterString();
 
 		// Create filter
-		string flt = filterconfig.str();
-		if (flt.size() > 0)
+		if (filterconfig.size() > 0)
 		{
 			// Set frame filter options
 			FrameFilterOptions options;
@@ -428,7 +431,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 
 			// Set up filter config
 			videoContext.frameFilter = new FrameFilter();
-			videoContext.frameFilter->configure(options, flt.substr(1).c_str());
+			videoContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
 		}
 	}
 
@@ -444,7 +447,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 {
 	if (frame->pts == 0)
 	{
-		stringstream filterconfig;
+		wxString filterconfig;
 
 		//Convert sample format
 		filterconfig << "aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
@@ -463,7 +466,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 		// Set up filter config
 		audioContext.frameFilter = new FrameFilter();
-		audioContext.frameFilter->configure(options, filterconfig.str().c_str());
+		audioContext.frameFilter->configure(options, filterconfig.c_str());
 	}
 
 	// Send the frame to the encoder
@@ -546,7 +549,7 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 		}
 		else if (ret < 0)
 		{
-			vkLogError("Encoding packet failed (Code: %d)", ret);
+			vkLogErrorVA("Encoding packet failed (Code: %d)", ret);
 			return ret;
 		}
 

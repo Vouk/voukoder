@@ -9,6 +9,7 @@ using namespace nlohmann;
 
 Voukoder::Config::Config()
 {
+#ifdef _WIN32
 	// Load translations first
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_TRANSLATION));
 
@@ -19,8 +20,10 @@ Voukoder::Config::Config()
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_FILTER));
+#endif
 }
 
+#ifdef _WIN32
 BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
 {
 	const HRSRC hRes = FindResourceEx(hModule, lpType, lpName, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
@@ -92,3 +95,4 @@ bool Voukoder::Config::LoadResources(HMODULE hModule, LPTSTR lpType)
 
 	return EnumResourceNames(hModule, lpType, static_cast<ENUMRESNAMEPROC>(Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)>::callback), NULL);
 }
+#endif

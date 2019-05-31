@@ -6,8 +6,6 @@
 #include "OptionValue.h"
 #include "OptionFilterInfo.h"
 
-using namespace std;
-
 enum struct EncoderOptionType
 {
 	Undefined,
@@ -20,22 +18,22 @@ enum struct EncoderOptionType
 
 struct EncoderOptionInfo
 {
-	string id;
-	wstring name;
-	wstring description;
-	string parameter;
+	std::string id;
+	std::wstring name;
+	std::wstring description;
+	std::string parameter;
 	int multiplicationFactor = 1;
-	vector<OptionFilterInfo> filters;
+	std::vector<OptionFilterInfo> filters;
 	bool isForced = false;
 	bool isActive = false;
 	bool preprendNoIfFalse = false;
 
 	struct ComboItem
 	{
-		string id;
-		wstring name;
-		string value;
-		vector<OptionFilterInfo> filters;
+		std::string id;
+		std::wstring name;
+		std::string value;
+		std::vector<OptionFilterInfo> filters;
 	};
 
 	struct
@@ -45,9 +43,9 @@ struct EncoderOptionInfo
 		OptionValue maximum;
 		OptionValue singleStep;
 		EncoderOptionType type;
-		vector<ComboItem> items;
+		std::vector<ComboItem> items;
 		int selectedIndex = 0;
 		bool enabled = true;
-		string regex;
+		std::string regex;
 	} control;
 };

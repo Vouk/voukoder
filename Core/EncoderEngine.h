@@ -3,6 +3,7 @@
 #include "EncoderContext.h"
 #include "ExportInfo.h"
 #include "lavf.h"
+#include <wx/wx.h>
 #include <wx/filename.h>
 
 class EncoderEngine
@@ -26,10 +27,10 @@ private:
 	AVFormatContext *formatContext;
 	EncoderContext videoContext;
 	EncoderContext audioContext;
-	int createCodecContext(const string, EncoderContext *encoderContext, int flags);
+	int createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags);
 	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 	int getCodecFlags(const AVMediaType type);
-	int openCodec(const string codecId, const string codecOptions, EncoderContext *encoderContext, const int flags);
+	int openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags);
 	int sendFrame(AVCodecContext *context, AVStream *stream, AVFrame *frame);
 	int receivePackets(AVCodecContext *context, AVStream *stream);
 	int audioFrameSize;

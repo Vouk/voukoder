@@ -15,7 +15,7 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 {
 	int err;
 	const AVFilter *in, *out;
-	
+
 	// Create the right input & output filters
 	switch (options.media_type)
 	{
@@ -57,8 +57,10 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 		av_opt_set_q(in_ctx, "time_base", options.time_base, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set_q(in_ctx, "sar", options.sar, AV_OPT_SEARCH_CHILDREN);
 		break;
+	default:
+		break;
 	}
-	
+
 	// Initialize filters
 	err = avfilter_init_str(in_ctx, NULL);
 	err = avfilter_init_str(out_ctx, NULL);
@@ -80,13 +82,13 @@ int FrameFilter::configure(FrameFilterOptions options, const char *filters)
 	// Parse filter chain & configure graph
 	if ((err = avfilter_graph_parse(filterGraph, filters, inputs, outputs, NULL)) < 0)
 	{
-		vkLogError("Unable to parse filter graph: %s", filters);
+		vkLogErrorVA("Unable to parse filter graph: %s", filters);
 		return err;
 	}
 
 	if ((err = avfilter_graph_config(filterGraph, NULL)) < 0)
 	{
-		vkLogError("Unable to configure filter graph. (Code %d)", err);
+		vkLogErrorVA("Unable to configure filter graph. (Code %d)", err);
 		return err;
 	}
 

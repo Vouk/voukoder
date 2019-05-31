@@ -3,12 +3,10 @@
 #include <vector>
 #include "EncoderOptionInfo.h"
 
-using namespace std;
-
 struct EncoderGroupInfo
 {
-	string id;
-	wstring name;
-	string groupClass;
-	vector<EncoderOptionInfo> options;
+	std::string id;
+	std::wstring name;
+	std::string groupClass;
+	std::vector<EncoderOptionInfo> options;
 };

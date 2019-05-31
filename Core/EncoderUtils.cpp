@@ -7,21 +7,21 @@
 
 bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 {
-	string codecId = resource["id"].get<string>();
-	
-	vkLogInfo("Loading: encoders/%s.json", codecId.c_str());
+	std::string codecId = resource["id"].get<std::string>();
+
+	vkLogInfoVA("Loading: encoders/%s.json", codecId.c_str());
 
 	// Is this encoder supported?
 	if (!IsAvailable(codecId))
 	{
-		vkLogInfo("Unloading: encoders/%s.json", codecId.c_str());
+		vkLogInfoVA("Unloading: encoders/%s.json", codecId.c_str());
 		return false;
 	}
 
 	// Parse encoder info
 	encoderInfo.id = codecId;
-	string name = resource["name"].get<string>();
-	encoderInfo.name = wstring(name.begin(), name.end());
+	std::string name = resource["name"].get<std::string>();
+	encoderInfo.name = std::wstring(name.begin(), name.end());
 	encoderInfo.type = GetMediaType(codecId);
 
 	// Don't support unkown media types
@@ -33,7 +33,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	// Default parameters
 	for (auto &item : resource["defaults"].items())
 	{
-		string value = item.value().get<string>();
+		std::string value = item.value().get<std::string>();
 		encoderInfo.defaults.insert(make_pair(item.key(), value));
 	}
 
@@ -47,9 +47,9 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	for (json group : resource["groups"])
 	{
 		EncoderGroupInfo encoderGroupInfo;
-		encoderGroupInfo.id = group["id"].get<string>();
+		encoderGroupInfo.id = group["id"].get<std::string>();
 		encoderGroupInfo.name = Trans(encoderGroupInfo.id);
-		encoderGroupInfo.groupClass = group["class"].get<string>();
+		encoderGroupInfo.groupClass = group["class"].get<std::string>();
 
 		for (json obj2 : group["properties"])
 		{
@@ -68,7 +68,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	{
 		for (auto &item : resource["parameterGroups"].items())
 		{
-			vector<string> paramGroup = item.value().get<vector<string>>();
+			std::vector<std::string> paramGroup = item.value().get<std::vector<std::string>>();
 			encoderInfo.paramGroups.insert(make_pair(item.key(), paramGroup));
 		}
 	}
@@ -90,7 +90,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 
 void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& group, const json json)
 {
-	group.id = json["id"].get<string>();
+	group.id = json["id"].get<std::string>();
 
 	//
 	if (json.find("presets") != json.end())
@@ -98,8 +98,8 @@ void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& grou
 		for (auto& preset : json["presets"])
 		{
 			EncoderOptionPreset p;
-			p.id = preset["id"].get<string>();
-			p.options = preset["options"].get<string>();
+			p.id = preset["id"].get<std::string>();
+			p.options = preset["options"].get<std::string>();
 		}
 	}
 
@@ -116,7 +116,7 @@ void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& grou
 	}
 }
 
-AVMediaType EncoderUtils::GetMediaType(const string codecId)
+AVMediaType EncoderUtils::GetMediaType(const std::string codecId)
 {
 	AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
 	if (codec != NULL)
@@ -127,7 +127,7 @@ AVMediaType EncoderUtils::GetMediaType(const string codecId)
 	return AVMEDIA_TYPE_UNKNOWN;
 }
 
-bool EncoderUtils::IsAvailable(const string name)
+bool EncoderUtils::IsAvailable(const std::string name)
 {
 	bool ret = false;
 
@@ -176,7 +176,7 @@ void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContai
 		{
 			if (option.isForced)
 			{
-				string value;
+				wxString value;
 
 				switch (option.control.type)
 				{
@@ -185,11 +185,11 @@ void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContai
 					break;
 
 				case EncoderOptionType::Integer:
-					value = to_string(option.control.value.intValue);
+					value = std::to_string(option.control.value.intValue);
 					break;
-				
+
 				case EncoderOptionType::Float:
-					value = to_string(option.control.value.floatValue);
+					value = std::to_string(option.control.value.floatValue);
 					break;
 
 				case EncoderOptionType::Boolean:
@@ -199,6 +199,8 @@ void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContai
 				case EncoderOptionType::String:
 					value = option.control.value.stringValue;
 					break;
+				default:
+					continue;
 				}
 
 				if (!value.empty())
@@ -210,7 +212,7 @@ void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContai
 	}
 }
 
-string EncoderUtils::GetParameterGroup(EncoderInfo encoderInfo, string parameter)
+std::string EncoderUtils::GetParameterGroup(EncoderInfo encoderInfo, std::string parameter)
 {
 	for (auto& parameterGroup : encoderInfo.paramGroups)
 	{

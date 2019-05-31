@@ -3,6 +3,8 @@
 
 bool NvidiaCustomOptions::GetOptions(EncoderInfo &encoderInfo)
 {
+#ifdef _WIN32
+
 	// Load cuda
 	HMODULE cuda = LoadLibraryW(L"nvcuda.dll");
 	if (cuda == NULL)
@@ -67,7 +69,7 @@ bool NvidiaCustomOptions::GetOptions(EncoderInfo &encoderInfo)
 		OptionFilterInfo filterInfo;
 		filterInfo.name = "OnSelection";
 		filterInfo.params.insert(make_pair("SetValue", argumentsList));
-		
+
 		comboItem.filters.push_back(filterInfo);
 
 		optionInfo.control.items.push_back(comboItem);
@@ -94,4 +96,10 @@ bool NvidiaCustomOptions::GetOptions(EncoderInfo &encoderInfo)
 	FreeLibrary(cuda);
 
 	return true;
+
+#else
+
+		return false;
+
+#endif
 }

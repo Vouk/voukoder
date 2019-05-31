@@ -4,7 +4,7 @@
 
 bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const json resource)
 {
-	optionInfo.id = resource["id"].get<string>();
+	optionInfo.id = resource["id"].get<std::string>();
 	optionInfo.name = Trans(optionInfo.id, "label");
 	optionInfo.description = Trans(optionInfo.id, "description");
 
@@ -23,7 +23,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	// Optional: Is this property assigned to a parameter name?
 	if (resource.find("parameter") != resource.end())
 	{
-		optionInfo.parameter = resource["parameter"].get<string>();
+		optionInfo.parameter = resource["parameter"].get<std::string>();
 	}
 
 	// Optional: 
@@ -33,7 +33,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	}
 
 	// Get the control type
-	string type = resource["control"]["type"].get<string>();
+	std::string type = resource["control"]["type"].get<std::string>();
 
 	// Parse data types
 	if (type == "integer")
@@ -60,11 +60,11 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	else if (type == "string")
 	{
 		optionInfo.control.type = EncoderOptionType::String;
-		optionInfo.control.value.stringValue = resource["control"]["value"].get<string>();
+		optionInfo.control.value.stringValue = resource["control"]["value"].get<std::string>();
 
 		if (resource["control"].find("regex") != resource["control"].end())
 		{
-			optionInfo.control.regex = resource["control"]["regex"].get<string>();
+			optionInfo.control.regex = resource["control"]["regex"].get<std::string>();
 		}
 	}
 	else if (type == "combobox")
@@ -80,12 +80,12 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 		{
 			// Create combo item
 			EncoderOptionInfo::ComboItem comboItem;
-			comboItem.id = optionInfo.id + "._item_" + to_string(idx++);
+			comboItem.id = optionInfo.id + "._item_" + std::to_string(idx++);
 			comboItem.name = Trans(comboItem.id);
 
 			if (item.find("value") != item.end())
 			{
-				comboItem.value = item["value"].get<string>();
+				comboItem.value = item["value"].get<std::string>();
 			}
 
 			// Parse filters
@@ -101,7 +101,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	return true;
 }
 
-bool OptionResourceUtils::CreateOptionFilterInfos(vector<OptionFilterInfo> &filters, json resource, string id)
+bool OptionResourceUtils::CreateOptionFilterInfos(std::vector<OptionFilterInfo> &filters, json resource, std::string id)
 {
 	if (resource.find("filters") != resource.end())
 	{
@@ -122,16 +122,16 @@ bool OptionResourceUtils::CreateOptionFilterInfos(vector<OptionFilterInfo> &filt
 	return true;
 }
 
-bool OptionResourceUtils::CreateOptionFilterInfo(OptionFilterInfo &optionFilterInfo, const json resource, const string ownerId)
+bool OptionResourceUtils::CreateOptionFilterInfo(OptionFilterInfo &optionFilterInfo, const json resource, const std::string ownerId)
 {
-	optionFilterInfo.name = resource["filter"].get<string>();
+	optionFilterInfo.name = resource["filter"].get<std::string>();
 	optionFilterInfo.ownerId = ownerId;
 
 	OptionFilterInfo::Params params;
 
 	for (auto param : resource["params"].items())
 	{
-		vector<OptionFilterInfo::Arguments> options;
+		std::vector<OptionFilterInfo::Arguments> options;
 
 		for (auto& item : param.value())
 		{
@@ -144,7 +144,7 @@ bool OptionResourceUtils::CreateOptionFilterInfo(OptionFilterInfo &optionFilterI
 				OptionValue value;
 				if (data.is_string())
 				{
-					value.stringValue = data.get<string>();
+					value.stringValue = data.get<std::string>();
 				}
 				else if (data.is_number_integer())
 				{

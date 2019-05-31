@@ -3,7 +3,7 @@
 
 bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 {
-	string muxerId = resource["id"].get<string>();
+	std::string muxerId = resource["id"].get<std::string>();
 
 	// Is this encoder supported?
 	if (!IsAvailable(muxerId))
@@ -11,20 +11,20 @@ bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 		return false;
 	}
 
-	vkLogInfo("Loading: muxers/%s.json", muxerId.c_str());
+	vkLogInfoVA("Loading: muxers/%s.json", muxerId.c_str());
 
 	// Parse encoder info
 	muxerInfo.id = muxerId;
-	muxerInfo.name = resource["name"].get<string>();
-	muxerInfo.extension = resource["extension"].get<string>();
-	muxerInfo.videoCodecIds = resource["encoders"]["video"].get<vector<string>>();
-	muxerInfo.audioCodecIds = resource["encoders"]["audio"].get<vector<string>>();
+	muxerInfo.name = resource["name"].get<std::string>();
+	muxerInfo.extension = resource["extension"].get<std::string>();
+	muxerInfo.videoCodecIds = resource["encoders"]["video"].get<std::vector<std::string>>();
+	muxerInfo.audioCodecIds = resource["encoders"]["audio"].get<std::vector<std::string>>();
 	muxerInfo.capabilities.faststart = resource["capabilities"]["faststart"].get<bool>();
 
 	return true;
 }
 
-bool MuxerUtils::IsAvailable(const string id)
+bool MuxerUtils::IsAvailable(const std::string id)
 {
 	return av_guess_format(id.c_str(), NULL, NULL) != NULL;
 }

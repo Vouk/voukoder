@@ -6,9 +6,7 @@
 #define PARAM_SEPARATOR "|"
 #define VALUE_SEPARATOR "="
 
-using namespace std;
-
-class OptionContainer : public map<string, string>
+class OptionContainer : public std::map<std::string, std::string>
 {
 public:
 	OptionContainer() {};

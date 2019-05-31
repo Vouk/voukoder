@@ -9,21 +9,21 @@ OptionContainer::OptionContainer(OptionContainer* options)
 
 void OptionContainer::Deserialize(const wxString input, const char parameterSeparator, const char valueSeparator)
 {
-	istringstream iss(input.ToStdString());
+	std::istringstream iss(input.ToStdString());
 
-	string token;
+	std::string token;
 	while (getline(iss, token, parameterSeparator))
 	{
 		size_t pos = token.find(valueSeparator);
-		string key = token.substr(0, pos);
-		string value = token.substr(pos + 1);
+		std::string key = token.substr(0, pos);
+		std::string value = token.substr(pos + 1);
 		insert(make_pair(key, value));
 	}
 }
 
 const wxString OptionContainer::Serialize(const bool includePrivate, wxString prefix, char parameterSeparator, char valueSeparator)
 {
-	stringstream out;
+	std::stringstream out;
 
 	//
 	for (auto item : *this)

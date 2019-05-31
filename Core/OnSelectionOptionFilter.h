@@ -5,7 +5,7 @@
 class OnSelectionOptionFilter : public OptionFilter
 {
 public:
-	OnSelectionOptionFilter(OptionFilterInfo filterInfo, wxPropertyGrid *propertyGrid) : 
+	OnSelectionOptionFilter(OptionFilterInfo filterInfo, wxPropertyGrid *propertyGrid) :
 		OptionFilter(filterInfo, propertyGrid)
 	{}
 
@@ -26,7 +26,7 @@ public:
 				}
 				else if (param.first == "SetValue")
 				{
-					string value = option.at("value").stringValue;
+					wxString value = option.at("value").stringValue;
 					targetProperty->SetValueFromString(value);
 				}
 				else

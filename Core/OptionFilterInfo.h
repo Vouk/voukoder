@@ -4,14 +4,12 @@
 #include <map>
 #include "OptionValue.h"
 
-using namespace std;
-
 struct OptionFilterInfo
 {
-	typedef map<string, OptionValue> Arguments;
-	typedef map<string, vector<Arguments>> Params;
+	typedef std::map<std::string, OptionValue> Arguments;
+	typedef std::map<std::string, std::vector<Arguments>> Params;
 
-	string name;
-	string ownerId;
+	std::string name;
+	std::string ownerId;
 	Params params;
 };

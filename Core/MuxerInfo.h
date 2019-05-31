@@ -5,13 +5,11 @@
 #include <wx/wx.h>
 #include "ResourceInfo.h"
 
-using namespace std;
-
 struct MuxerInfo : public ResourceInfo
 {
 	wxString extension;
-	vector<string> videoCodecIds;
-	vector<string> audioCodecIds;
+	std::vector<std::string> videoCodecIds;
+	std::vector<std::string> audioCodecIds;
 
 	struct
 	{

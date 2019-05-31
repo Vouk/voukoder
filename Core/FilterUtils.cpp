@@ -7,16 +7,16 @@
 bool FilterUtils::Create(FilterInfo &filterInfo, const json resource)
 {
 	// Parse filter info
-	filterInfo.id = resource["id"].get<string>();
-	filterInfo.name = resource["name"].get<string>();
+	filterInfo.id = resource["id"].get<std::string>();
+	filterInfo.name = resource["name"].get<std::string>();
 	filterInfo.type = GetMediaType(filterInfo.name);
 
-	vkLogInfo("Loading: filters/%s.json", filterInfo.name.c_str());
+	vkLogInfoVA("Loading: filters/%s.json", filterInfo.name.c_str());
 
 	// Default parameters
 	for (auto& item : resource["defaults"].items())
 	{
-		string value = item.value().get<string>();
+		std::string value = item.value().get<std::string>();
 		filterInfo.defaults.insert(make_pair(item.key(), value));
 	}
 
@@ -24,9 +24,9 @@ bool FilterUtils::Create(FilterInfo &filterInfo, const json resource)
 	for (json group : resource["groups"])
 	{
 		EncoderGroupInfo encoderGroupInfo;
-		encoderGroupInfo.id = group["id"].get<string>();
+		encoderGroupInfo.id = group["id"].get<std::string>();
 		encoderGroupInfo.name = Trans(encoderGroupInfo.id);
-		encoderGroupInfo.groupClass = group["class"].get<string>();
+		encoderGroupInfo.groupClass = group["class"].get<std::string>();
 
 		for (json obj2 : group["properties"])
 		{

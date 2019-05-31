@@ -7,25 +7,27 @@ static std::map<wxString, wxString> __translations;
 
 bool LanguageUtils::Create(LanguageInfo &languageInfo, const json resource)
 {
-	languageInfo.id = resource["id"].get<string>();
-	languageInfo.name = wxString::FromUTF8(resource["name"].get<string>());
+	languageInfo.id = resource["id"].get<std::string>();
+	languageInfo.name = wxString::FromUTF8(resource["name"].get<std::string>());
 	languageInfo.langId = resource["langId"].get<LANGID>();
 
-	vkLogInfo("Loading: translations/%s.json", languageInfo.id.c_str());
+	vkLogInfoVA("Loading: translations/%s.json", languageInfo.id.c_str());
 
 	for (auto &item : resource["translations"].items())
 	{
-		wxString value = wxString::FromUTF8(item.value().get<string>());
+		wxString value = wxString::FromUTF8(item.value().get<std::string>());
 		languageInfo.translations.insert(make_pair(item.key(), value));
 	}
 
 	return true;
 }
 
-LANGID LanguageUtils::GetLanguageId(vector<LanguageInfo> languageInfos)
+LANGID LanguageUtils::GetLanguageId(std::vector<LanguageInfo> languageInfos)
 {
 	// Fallback to english in worst case
 	LANGID langId = 1033;
+
+#ifdef _WIN32
 
 	// If users UI language is supported use this as fallback
 	if (IsLanguageAvailable(languageInfos, GetUserDefaultUILanguage()))
@@ -44,12 +46,15 @@ LANGID LanguageUtils::GetLanguageId(vector<LanguageInfo> languageInfos)
 		{
 			langId = val;
 		}
+
 	}
+
+#endif
 
 	return langId;
 }
 
-void LanguageUtils::InitTranslation(vector<LanguageInfo> languageInfos)
+void LanguageUtils::InitTranslation(std::vector<LanguageInfo> languageInfos)
 {
 	// Fallback to english in worst case
 	LANGID langId = GetLanguageId(languageInfos);
@@ -62,7 +67,7 @@ void LanguageUtils::InitTranslation(vector<LanguageInfo> languageInfos)
 	}
 }
 
-bool LanguageUtils::IsLanguageAvailable(vector<LanguageInfo> languageInfos, LANGID langId)
+bool LanguageUtils::IsLanguageAvailable(std::vector<LanguageInfo> languageInfos, LANGID langId)
 {
 	for (auto& languageInfo : languageInfos)
 	{
@@ -75,6 +80,8 @@ bool LanguageUtils::IsLanguageAvailable(vector<LanguageInfo> languageInfos, LANG
 
 void LanguageUtils::StoreLanguageId(LANGID langId)
 {
+#ifdef _WIN32
+
 	wxRegKey key(wxRegKey::HKCU, VKDR_REG_ROOT);
 	if (!key.Exists())
 	{
@@ -82,8 +89,9 @@ void LanguageUtils::StoreLanguageId(LANGID langId)
 	}
 
 	key.SetValue(VKDR_REG_LANGUAGE, (long)langId);
-}
 
+#endif
+}
 
 const wxString LanguageUtils::Translate(wxString key, const wxString sub)
 {
