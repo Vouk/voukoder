@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "hevc_amf",
-  "name": "AMF hevc",
+  "name": "AMF HEVC",
   "defaults": {
     "_pixelFormat": "yuv420p"
   },
