@@ -146,7 +146,7 @@
           "control": {
             "items": [
               {
-                "value": "qp",
+                "value": "cqp",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -253,6 +253,189 @@
             "visible": false
           },
           "multiplicationFactor": 1000
+        }
+      ]
+    },
+    {
+      "id": "h264_amf.quantizer",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_amf.quantizer.qp_i",
+          "parameter": "qp_i",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_amf.quantizer.qp_p",
+          "parameter": "qp_p",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_amf.quantizer.qp_b",
+          "parameter": "qp_b",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_amf.quantizer.bf_delta_qp",
+          "parameter": "bf_delta_qp",
+          "control": {
+            "type": "integer",
+            "minimum": -10,
+            "maximum": 10,
+            "singleStep": 1,
+            "value": 4
+          }
+        },
+        {
+          "id": "h264_amf.quantizer.bf_ref",
+          "parameter": "bf_ref",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "h264_amf.quantizer.vbaq",
+          "parameter": "vbaq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "h264_amf.analysis",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_amf.analysis.me_half_pel",
+          "parameter": "me_half_pel",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "h264_amf.analysis.me_quarter_pel",
+          "parameter": "me_quarter_pel",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "h264_amf.analysis.frame_skipping",
+          "parameter": "frame_skipping",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_amf.analysis.preanalysis",
+          "parameter": "preanalysis",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_amf.analysis.max_au_size",
+          "parameter": "max_au_size",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_amf.analysis.intra_refresh_mb",
+          "parameter": "intra_refresh_mb",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999,
+            "singleStep": 1,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "h264_amf.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_amf.misc.filler_data",
+          "parameter": "filler_data",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_amf.misc.coder",
+          "parameter": "coder",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "cabac"
+              },
+              {
+                "value": "cavlc"
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_amf.misc.header_spacing",
+          "parameter": "header_spacing",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_amf.misc.aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_amf.misc.enforce_hrd",
+          "parameter": "enforce_hrd",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
         }
       ]
     }
