@@ -69,6 +69,10 @@
                           "visible": true
                         },
                         {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
                           "id": "libvpx-vp9.standard.strategy.crf",
                           "visible": false
                         }
@@ -86,6 +90,10 @@
                       "ShowOptions": [
                         {
                           "id": "libvpx-vp9.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
                           "visible": false
                         },
                         {
@@ -107,6 +115,10 @@
                         {
                           "id": "libvpx-vp9.standard.strategy.bitrate",
                           "visible": true
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
+                          "visible": false
                         },
                         {
                           "id": "libvpx-vp9.standard.strategy.crf",
@@ -134,6 +146,19 @@
             "visible": false
           },
           "multiplicationFactor": 1000
+        },
+        {
+          "id": "libvpx-vp9.standard.strategy.multipass",
+          "parameter": "_2pass",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
         },
         {
           "id": "libvpx-vp9.standard.strategy.crf",
