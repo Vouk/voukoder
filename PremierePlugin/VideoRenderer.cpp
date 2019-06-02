@@ -329,7 +329,7 @@ PrPixelFormat VideoRenderer::GetTargetRenderFormat(ExportInfo encoderInfo)
 		return encoderInfo.video.colorSpace == AVColorSpace::AVCOL_SPC_BT709 ? PrPixelFormat_VUYX_4444_32f_709 : PrPixelFormat_VUYX_4444_32f;
 	}
 
-	vkLogInfo("Requesting pixel format: %s", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
+	vkLogInfoVA("Requesting pixel format: %s", av_get_pix_fmt_name(encoderInfo.video.pixelFormat));
 
 	if (encoderInfo.video.pixelFormat == AV_PIX_FMT_YUV420P ||
 		encoderInfo.video.pixelFormat == AV_PIX_FMT_NV12 ||
