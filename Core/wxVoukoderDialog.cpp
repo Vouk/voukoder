@@ -226,9 +226,11 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_videoNotebook->AddPage(m_videoEditorPanel, Trans("ui.encoderconfig.tabs.editor"), true);
 		bVideoCategorySizer->Add(m_videoNotebook, 1, wxEXPAND | wxALL, 0);
 
+#ifdef _DEBUG
 		m_videoFilterPanel = new wxFilterPanel(m_videoNotebook, AVMEDIA_TYPE_VIDEO);
 		m_videoFilterPanel->SetFilterConfig(exportInfo.video.filters);
 		m_videoNotebook->AddPage(m_videoFilterPanel, Trans("ui.encoderconfig.filters"), false);
+#endif
 
 		m_videoCategory->SetSizer(bVideoCategorySizer);
 		m_videoCategory->Layout();
@@ -257,9 +259,11 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 		m_audioNotebook->AddPage(m_audioEditorPanel, Trans("ui.encoderconfig.tabs.editor"), true);
 		bAudioCategorySizer->Add(m_audioNotebook, 1, wxEXPAND | wxALL, 0);
 
+#ifdef _DEBUG
 		m_audioFilterPanel = new wxFilterPanel(m_audioNotebook, AVMEDIA_TYPE_AUDIO);
 		m_audioFilterPanel->SetFilterConfig(exportInfo.audio.filters);
 		m_audioNotebook->AddPage(m_audioFilterPanel, Trans("ui.encoderconfig.filters"), false);
+#endif
 
 		m_audioCategory->SetSizer(bAudioCategorySizer);
 		m_audioCategory->Layout();
@@ -681,8 +685,10 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	LanguageUtils::StoreLanguageId(languageInfo->langId);
 
 	// Filters
+#ifdef _DEBUG
 	m_videoFilterPanel->GetFilterConfig(exportInfo.video.filters);
 	m_audioFilterPanel->GetFilterConfig(exportInfo.audio.filters);
+#endif
 
 	EndDialog(wxID_OK);
 }
