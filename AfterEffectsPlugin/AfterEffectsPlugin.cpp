@@ -616,36 +616,27 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	return err;
 };
 
-static A_Err
-My_AddFrame(
-	AEIO_BasicData			*basic_dataP,
-	AEIO_OutSpecH			outH,
-	A_long					frame_index,
-	A_long					frames,
-	const PF_EffectWorld	*wP,
-	const A_LPoint			*origin0,
-	A_Boolean				was_compressedB,
-	AEIO_InterruptFuncs		*inter0)
+static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long frame_index, A_long frames, const PF_EffectWorld *wP, const A_LPoint *origin0, A_Boolean was_compressedB, AEIO_InterruptFuncs *inter0)
 {
-	A_Err		err = A_Err_NONE;
-	A_Boolean	deep_worldB = PF_WORLD_IS_DEEP(wP);
-#ifdef AE_OS_MAC
-#pragma unused (deep_worldB)
-#endif
-	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
-
-	PF_Pixel8* pixels8 = reinterpret_cast<PF_Pixel8*>(wP->data);
-	
+	// Create a frame with argb data
 	AVFrame* frame = av_frame_alloc();
 	frame->width = wP->width;
 	frame->height = wP->height;
 	frame->pts = frame_index;
 	frame->format = AV_PIX_FMT_ARGB;
-	frame->data[0] = (uint8_t*)pixels8;
-	frame->linesize[0] = frame->width * 4;
+	frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
+	frame->linesize[0] = frame->width * PF_WORLD_IS_DEEP(wP) ? 8 : 4;
 
-	encoderEngine->writeVideoFrame(frame);
+	A_Err err = A_Err_NONE;
 
+	// Encode & write video frame
+	if (encoderEngine->writeVideoFrame(frame) < 0)
+	{
+		//vkLog
+		err = A_Err_GENERIC;
+	}
+
+	// Free the frame from memory again
 	av_frame_free(&frame);
 	
 	return err;
@@ -653,6 +644,7 @@ My_AddFrame(
 
 static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
+	// Shutdown encoders
 	if (encoderEngine)
 	{
 		encoderEngine->finalize();
