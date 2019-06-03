@@ -377,10 +377,10 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 		wxString filterconfig;
 
 		// Convert color space or range?
-		if (videoContext.codecContext->color_range != frame->color_range ||
+		if (frame->format != AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
 			videoContext.codecContext->colorspace != frame->colorspace ||
 			videoContext.codecContext->color_primaries != frame->color_primaries ||
-			videoContext.codecContext->color_trc != frame->color_trc)
+			videoContext.codecContext->color_trc != frame->color_trc))
 		{
 			// Color range
 			filterconfig << ",colorspace=range=" << (videoContext.codecContext->color_range == AVColorRange::AVCOL_RANGE_MPEG ? "mpeg" : "jpeg");

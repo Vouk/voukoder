@@ -3,7 +3,7 @@
 #include "AEConfig.h"
 #include "entry.h"
 
-#ifdef AE_OS_WIN
+#ifdef _WIN32
 #include <windows.h>
 #endif
 

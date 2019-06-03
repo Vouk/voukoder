@@ -23,7 +23,7 @@
     <ProjectGuid>{4BFC58B1-64E6-453D-82D7-24303CCDEE66}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AfterEffectsPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,7 +78,7 @@
     <TargetName>VoukoderR2</TargetName>
     <TargetExt>.aex</TargetExt>
     <IncludePath>C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Headers;C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Util;C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Headers\SP;C:\Users\Daniel\source\repos\voukoder\Core;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath);C:\Users\Daniel\source\external\include</IncludePath>
-    <OutDir>..\..\..\..\..\..\Program Files\Adobe\Adobe After Effects CC 2019\Support Files\Plug-ins\Format\</OutDir>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;C:\Users\Daniel\source\external\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,7 +89,7 @@
     <TargetName>VoukoderR2</TargetName>
     <TargetExt>.aex</TargetExt>
     <IncludePath>C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Headers;C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Util;C:\Users\Daniel\source\external\include\aftereffects_cc2015\Examples\Headers\SP;C:\Users\Daniel\source\repos\voukoder\Core;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(IncludePath);C:\Users\Daniel\source\external\include</IncludePath>
-    <OutDir>..\..\..\..\..\..\Program Files\Adobe\Adobe After Effects CC 2019\Support Files\Plug-ins\Format\</OutDir>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;C:\Users\Daniel\source\external\lib\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -121,6 +121,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>wxmsw31ud_adv.lib;wxbase31ud_xml.lib;wxmsw31ud_html.lib;wxmsw31ud_richtext.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_core.lib;wxbase31ud_net.lib;wxbase31ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;kernel32.lib;user32.lib;gdi32.lib;comdlg32.lib;winspool.lib;winmm.lib;shell32.lib;shlwapi.lib;comctl32.lib;ole32.lib;oleaut32.lib;uuid.lib;rpcrt4.lib;advapi32.lib;version.lib;wsock32.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>call deploy.bat "$(ProjectDir)\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -159,6 +162,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>wxmsw31u_adv.lib;wxbase31u_xml.lib;wxmsw31u_html.lib;wxmsw31u_richtext.lib;wxmsw31u_propgrid.lib;wxmsw31u_core.lib;wxbase31u_net.lib;wxbase31u.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;kernel32.lib;user32.lib;gdi32.lib;comdlg32.lib;winspool.lib;winmm.lib;shell32.lib;shlwapi.lib;comctl32.lib;ole32.lib;oleaut32.lib;uuid.lib;rpcrt4.lib;advapi32.lib;version.lib;wsock32.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>call deploy.bat "$(ProjectDir)\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AfterEffectsPlugin.h" />

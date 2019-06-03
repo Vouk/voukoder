@@ -34,7 +34,7 @@ struct FilterConfig
 		for (auto filter : filters)
 			config << FF_FILTER_SEPARATOR << filter->Serialize(true);
 
-		return config.length() > 0 ? config.substr(1) : wxEmptyString;
+		return config.length() > 0 ? config.substr(1) : (wxString)wxEmptyString;
 	}
 
 	wxString AsFilterString()

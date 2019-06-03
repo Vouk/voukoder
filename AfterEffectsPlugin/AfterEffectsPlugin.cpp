@@ -6,6 +6,20 @@
 #include <Windows.h>
 #include <wx/wx.h>
 #include <wxVoukoderDialog.h>
+#include <EncoderEngine.h>
+
+#ifdef _DEBUG
+static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
+{
+	char logbuf[2000];
+	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+	logbuf[sizeof(logbuf) - 1] = '\0';
+
+	OutputDebugStringA(logbuf);
+}
+#endif
+
+static EncoderEngine* encoderEngine;
 
 class actctx_activator
 {
@@ -495,13 +509,37 @@ My_SetOutputFile(
 	return AEIO_Err_USE_DFLT_CALLBACK;
 }
 
-static A_Err
-My_StartAdding(
-	AEIO_BasicData		*basic_dataP,
-	AEIO_OutSpecH		outH,
-	A_long				flags)
+static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
-	A_Err				err = A_Err_NONE;
+	A_Err err = A_Err_NONE;
+	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
+	
+	ExportInfo exportInfo;
+	exportInfo.application = "After Effects";
+	exportInfo.filename = "c:\\users\\Daniel\\Desktop\\test\\afx.mp4";
+	exportInfo.passes = 1;
+	exportInfo.video.enabled = true;
+	exportInfo.video.id = "libx264";
+	//exportInfo.video.options;
+	exportInfo.video.width = 1920;
+	exportInfo.video.height = 1080;
+	exportInfo.video.timebase = { 1, 25 };
+	exportInfo.video.pixelFormat = AV_PIX_FMT_YUV420P;
+	exportInfo.video.colorRange = AVCOL_RANGE_MPEG;
+	exportInfo.video.colorSpace = AVCOL_SPC_BT709;
+	exportInfo.video.colorPrimaries = AVCOL_PRI_BT709;
+	exportInfo.video.colorTransferCharacteristics = AVCOL_TRC_BT709;
+	exportInfo.video.sampleAspectRatio = { 1,1 };
+	exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
+	exportInfo.audio.enabled = false;
+	//exportInfo.audio.id = "libx264";
+	//exportInfo.audio.options;
+
+	
+
+	encoderEngine = new EncoderEngine(exportInfo);
+	encoderEngine->open();
+
 	//IO_FileHeader		header;
 	//A_Time				duration = { 0,1 };
 	//A_short				depth = 0;
@@ -594,26 +632,37 @@ My_AddFrame(
 #ifdef AE_OS_MAC
 #pragma unused (deep_worldB)
 #endif
+	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	/*
-		+	reinterpret the provided frame into your format.
-		+	append it to the already-opened file.
-	*/
+	PF_Pixel8* pixels8 = reinterpret_cast<PF_Pixel8*>(wP->data);
+	
+	AVFrame* frame = av_frame_alloc();
+	frame->width = wP->width;
+	frame->height = wP->height;
+	frame->pts = frame_index;
+	frame->format = AV_PIX_FMT_ARGB;
+	frame->data[0] = (uint8_t*)pixels8;
+	frame->linesize[0] = frame->width * 4;
 
+	encoderEngine->writeVideoFrame(frame);
+
+	av_frame_free(&frame);
+	
 	return err;
 };
 
-static A_Err
-My_EndAdding(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH			outH,
-	A_long					flags)
+static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
-	/*
-		+	Close file handle, clear out optionsH associated with add.
-	*/
+	if (encoderEngine)
+	{
+		encoderEngine->finalize();
+		encoderEngine->close();
+
+		delete(encoderEngine);
+	}
+
 	return A_Err_NONE;
-};
+}
 
 static A_Err
 My_OutputFrame(
@@ -824,6 +873,11 @@ GPMain_IO(
 	AEGP_PluginID aegp_plugin_id,
 	void *global_refconPV)
 {
+#ifdef _DEBUG
+	av_log_set_level(AV_LOG_TRACE);
+	av_log_set_callback(AvCallback);
+#endif
+
 	A_Err err = A_Err_NONE;
 	AEIO_ModuleInfo info;
 	AEIO_FunctionBlock4	funcs;
@@ -837,7 +891,7 @@ GPMain_IO(
 	ERR(AEIO_ConstructFunctionBlock(&funcs));
 	ERR(suites.RegisterSuite5()->AEGP_RegisterIO(aegp_plugin_id, 0, &info, &funcs));
 	ERR(suites.UtilitySuite3()->AEGP_RegisterWithAEGP(NULL, "VOUKODER_R2", &S_mem_id));
-
+	
 	// Init voukoder core
 	Voukoder::Config::Get();
 
