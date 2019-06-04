@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #include <wxVoukoderDialog.h>
 #include <EncoderEngine.h>
+#include <Log.h>
 
 #ifdef _DEBUG
 static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
@@ -65,16 +66,12 @@ BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL, _In_ DWORD fdwReason, _In_ LPVOID l
 
 AEGP_PluginID S_mem_id = 0;
 
-static A_Err DeathHook(
-	AEGP_GlobalRefcon unused1,
-	AEGP_DeathRefcon unused2)
+static A_Err DeathHook(AEGP_GlobalRefcon unused1, AEGP_DeathRefcon unused2)
 {
 	return A_Err_NONE;
 }
 
-static A_Err
-AEIO_ConstructModuleInfo(
-	AEIO_ModuleInfo	*info)
+static A_Err AEIO_ConstructModuleInfo(AEIO_ModuleInfo *info)
 {
 	A_Err err = A_Err_NONE;
 
@@ -100,7 +97,7 @@ AEIO_ConstructModuleInfo(
 		info->create_kind.creator = 'VOUK';
 
 		// Set plugin name
-		strcpy_s(info->name, "Voukoder R2");
+		strcpy_s(info->name, (wxString)VKDR_APPNAME);
 
 		//
 		info->read_kinds[0].mac.type = 'VKDR';
@@ -123,14 +120,11 @@ AEIO_ConstructModuleInfo(
 	{
 		err = A_Err_STRUCT;
 	}
+
 	return err;
 }
 
-static A_Err
-My_InitOutputSpec(
-	AEIO_BasicData *basic_dataP,
-	AEIO_OutSpecH outH,
-	A_Boolean *user_interacted)
+static A_Err My_InitOutputSpec(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_Boolean *user_interacted)
 {
 	A_Err err = A_Err_NONE;
 
@@ -155,103 +149,6 @@ My_InitOutputSpec(
 	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(new_optionsH));
 
 	ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, new_optionsH, reinterpret_cast<void**>(&old_optionsH)));
-
-	//AEIO_Handle old_optionsH = NULL, new_optionsH = NULL;
-	//ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&old_optionsH)));
-	
-	//if (!err)
-	//{
-	//	ERR(suites.MemorySuite1()->AEGP_NewMemHandle(S_mem_id, "InitOutputSpec options", sizeof(ArbData), AEGP_MemFlag_CLEAR, &new_optionsH));
-
-	//	if (!err && new_optionsH)
-	//	{
-	//		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(new_optionsH, reinterpret_cast<void**>(&arbData)));
-
-	//		if (!err && arbData) {
-
-	//			if (!old_optionsH) {
-	//				//ERR(PretendToReadFileHeader(basic_dataP, reinterpret_cast<IO_FileHeader *>(&(new_optionsP->name))));
-	//				arbData->isFlat = FALSE;
-	//			}
-	//			else {
-	//				ERR(suites.MemorySuite1()->AEGP_LockMemHandle(old_optionsH, reinterpret_cast<void**>(&arbDataOld)));
-
-	//				if (!err && arbData && arbDataOld) {
-	//					memcpy(arbData, arbDataOld, sizeof(ArbData));
-	//					arbData->isFlat = FALSE;
-
-	//					//// If you modify the output options, then set this to true to tell AE that the project has changed
-	//					//if (rand() % 3) {
-	//					//	*user_interacted = TRUE;
-	//					//}
-	//					//else {
-	//					//	*user_interacted = FALSE;
-	//					//}
-
-	//					ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(old_optionsH));
-	//				}
-	//			}
-	//			ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(new_optionsH));
-
-	//			ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, new_optionsH, reinterpret_cast<void**>(&old_optionsH)));
-	//		}
-	//	}
-	//}
-
-	/*
-	AEIO_Handle optionsH = NULL, old_optionsH = 0, old_old_optionsH = NULL;
-	ArbData *arbData = NULL, *old_arbData = NULL;
-	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
-
-
-
-	// Get the old data
-	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&old_optionsH)));
-	
-	// Get the existing data size
-	AEGP_MemSize old_size;
-	ERR(suites.MemorySuite1()->AEGP_GetMemHandleSize(old_optionsH, &old_size));
-
-	// make new options handle
-	suites.MemorySuite1()->AEGP_NewMemHandle(S_mem_id, "Output Options",
-		sizeof(ArbData),
-		AEGP_MemFlag_CLEAR, &optionsH);
-
-	// 
-	AEGP_MemSize mem_size;
-	ERR(suites.MemorySuite1()->AEGP_GetMemHandleSize(optionsH, &mem_size));
-
-	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, (void**)&arbData));
-
-	if (old_optionsH && old_size == mem_size)
-	{
-		suites.MemorySuite1()->AEGP_LockMemHandle(old_optionsH, (void**)&old_arbData);
-
-		memcpy((char*)arbData, (char*)old_arbData, mem_size);
-
-		suites.MemorySuite1()->AEGP_UnlockMemHandle(old_optionsH);
-	}
-	else
-	{
-		// Create a new data object
-		memset(arbData, 0, sizeof(ArbData));
-		strcpy_s(arbData->videoCodecId, DefaultVideoEncoder);
-		strcpy_s(arbData->videoCodecOptions, "");
-		strcpy_s(arbData->audioCodecId, DefaultAudioEncoder);
-		strcpy_s(arbData->audioCodecOptions, "");
-		strcpy_s(arbData->formatId, DefaultMuxer);
-		arbData->faststart = FALSE;
-	}
-
-	suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH);
-
-	// set the options handle
-	suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, (void*)optionsH, (void**)&old_old_optionsH);
-	
-	// so now AE wants me to delete this. whatever.
-	if (old_old_optionsH)
-		suites.MemorySuite1()->AEGP_FreeMemHandle(old_old_optionsH);
-	*/
 
 	return err;
 }
@@ -294,23 +191,22 @@ My_GetFlatOutputOptions(
 	return err;
 }
 
-static A_Err
-My_DisposeOutputOptions(
-	AEIO_BasicData *basic_dataP,
-	void *optionsPV)
+static A_Err My_DisposeOutputOptions(AEIO_BasicData *basic_dataP, void *optionsPV)
 {
-	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
-	AEIO_Handle optionsH = reinterpret_cast<AEIO_Handle>(optionsPV);
 	A_Err err = A_Err_NONE;
 
-	if (optionsH) {
+	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
+	AEIO_Handle optionsH = reinterpret_cast<AEIO_Handle>(optionsPV);
+
+	if (optionsH)
+	{
 		ERR(suites.MemorySuite1()->AEGP_FreeMemHandle(optionsH));
 	}
-	return err;
-};
 
-static int
-ShowVoukoderDialog(ExportInfo &exportInfo)
+	return err;
+}
+
+static int ShowVoukoderDialog(ExportInfo &exportInfo)
 {
 	// Restore plugin's activation context.
 	actctx_activator actctx(g_act_ctx);
@@ -346,70 +242,60 @@ ShowVoukoderDialog(ExportInfo &exportInfo)
 	return result;
 }
 
-static A_Err
-My_UserOptionsDialog(
-	AEIO_BasicData *basic_dataP,
-	AEIO_OutSpecH outH,
-	const PF_EffectWorld *sample0,
-	A_Boolean *user_interacted0)
+static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, const PF_EffectWorld *sample0, A_Boolean *user_interacted0)
 {
 	A_Err err = A_Err_NONE;
+
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
+
+	// Get ARB data
 	AEIO_Handle optionsH = NULL, old_optionsH = 0;
 	ArbData *arbData = NULL;
-
 	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
-	if (!err) {
-		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
-		
-		// Has video?
-		A_long widthL = 0, heightL = 0;
-		ERR(suites.IOOutSuite4()->AEGP_GetOutSpecDimensions(outH, &widthL, &heightL));
+	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
+	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
 
-		// Has audio?
-		A_FpLong soundRateF = 0.0;
-		ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF));
+	// Has video?
+	A_long widthL = 0, heightL = 0;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecDimensions(outH, &widthL, &heightL));
 
-		// Fill export data
-		ExportInfo exportInfo;
-		exportInfo.video.enabled = (widthL > 0 && heightL > 0);
-		exportInfo.video.id = arbData->videoCodecId;
-		exportInfo.video.options.Deserialize(arbData->videoCodecOptions);
-		exportInfo.audio.enabled = soundRateF > 0;
-		exportInfo.audio.id = arbData->audioCodecId;
-		exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
-		exportInfo.format.id = arbData->formatId;
-		exportInfo.format.faststart = arbData->faststart;
+	// Has audio?
+	A_FpLong soundRateF = 0.0;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF));
 
-		// Show voukoder dialog
-		int result = ShowVoukoderDialog(exportInfo);
+	// Fill export data
+	ExportInfo exportInfo;
+	exportInfo.video.enabled = (widthL > 0 && heightL > 0);
+	exportInfo.video.id = arbData->videoCodecId;
+	exportInfo.video.options.Deserialize(arbData->videoCodecOptions);
+	exportInfo.audio.enabled = soundRateF > 0;
+	exportInfo.audio.id = arbData->audioCodecId;
+	exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
+	exportInfo.format.id = arbData->formatId;
+	exportInfo.format.faststart = arbData->faststart;
 
-		ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
+	// Show voukoder dialog
+	int result = ShowVoukoderDialog(exportInfo);
 
-		// On OK click
-		if (result == (int)wxID_OK)
-		{
-			// Fill ArbData
-			strcpy_s(arbData->videoCodecId, exportInfo.video.id);
-			strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.Serialize().c_str());
-			strcpy_s(arbData->audioCodecId, exportInfo.audio.id);
-			strcpy_s(arbData->audioCodecOptions, exportInfo.audio.options.Serialize().c_str());
-			strcpy_s(arbData->formatId, exportInfo.format.id);
-			arbData->faststart = exportInfo.format.faststart;
+	// On OK click
+	if (result == (int)wxID_OK)
+	{
+		// Fill ArbData
+		strcpy_s(arbData->videoCodecId, exportInfo.video.id);
+		strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.Serialize().c_str());
+		strcpy_s(arbData->audioCodecId, exportInfo.audio.id);
+		strcpy_s(arbData->audioCodecOptions, exportInfo.audio.options.Serialize().c_str());
+		strcpy_s(arbData->formatId, exportInfo.format.id);
+		arbData->faststart = exportInfo.format.faststart;
 
-			// Store configuration
-			ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, optionsH, reinterpret_cast<void**>(&old_optionsH)));
-		}
+		// Store configuration
+		ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, optionsH, reinterpret_cast<void**>(&old_optionsH)));
 	}
 
 	return err;
-};
+}
 
-static A_Err
-My_GetOutputInfo(
-	AEIO_BasicData *basic_dataP,
-	AEIO_OutSpecH outH,
-	AEIO_Verbiage *verbiageP)
+static A_Err My_GetOutputInfo(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_Verbiage *verbiageP)
 {
 	A_Err err = A_Err_NONE;
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
@@ -500,11 +386,7 @@ My_OutputInfoChanged(
 	return err;
 }
 
-static A_Err
-My_SetOutputFile(
-	AEIO_BasicData		*basic_dataP,
-	AEIO_OutSpecH		outH,
-	const A_UTF16Char	*file_pathZ)
+static A_Err My_SetOutputFile(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, const A_UTF16Char *file_pathZ)
 {
 	return AEIO_Err_USE_DFLT_CALLBACK;
 }
@@ -514,125 +396,174 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	A_Err err = A_Err_NONE;
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 	
+	// Get stored voukoder config
+	AEIO_Handle optionsH = NULL;
+	ArbData* arbData = NULL;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
+	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
+	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
+	
+	// Create export information
 	ExportInfo exportInfo;
-	exportInfo.application = "After Effects";
-	exportInfo.filename = "c:\\users\\Daniel\\Desktop\\test\\afx.mp4";
+	exportInfo.application = VKDR_APPNAME;
+	exportInfo.format.id = arbData->formatId;
+	exportInfo.format.faststart = arbData->faststart;
+
+	// Handle two pass encoding
 	exportInfo.passes = 1;
-	exportInfo.video.enabled = true;
-	exportInfo.video.id = "libx264";
-	//exportInfo.video.options;
-	exportInfo.video.width = 1920;
-	exportInfo.video.height = 1080;
-	exportInfo.video.timebase = { 1, 25 };
-	exportInfo.video.pixelFormat = AV_PIX_FMT_YUV420P;
+	if (exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
+	{
+		if (exportInfo.video.options.at("_2pass") == "1")
+			exportInfo.passes = 2;
+	}
+
+	// Get filename and -path
+	AEGP_MemHandle file_pathH = NULL;
+	A_Boolean file_reservedB = FALSE;
+	A_UTF16Char* file_pathZ = NULL;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecFilePath(outH, &file_pathH, &file_reservedB));
+	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(file_pathH, reinterpret_cast<void**>(&file_pathZ)));
+	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(file_pathH));
+	ERR(suites.MemorySuite1()->AEGP_FreeMemHandle(file_pathH));
+	exportInfo.filename = (wchar_t*)file_pathZ;
+
+	// ### Video settings ###
+	exportInfo.video.id = arbData->videoCodecId;
+	exportInfo.video.options.Deserialize(arbData->videoCodecOptions);
+
+	// Video dimensions
+	A_long widthL = 0, heightL = 0;
+	suites.IOOutSuite4()->AEGP_GetOutSpecDimensions(outH, &widthL, &heightL);
+	exportInfo.video.width = widthL;
+	exportInfo.video.height = heightL;
+
+	// Is video enabled?
+	exportInfo.video.enabled = widthL > 0 && heightL > 0;
+
+	// Video timebase
+	A_Fixed fps = 0;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecFPS(outH, &fps));
+	exportInfo.video.timebase = { 65536, (int)fps };
+	
+	// Video interlace mode
+	FIEL_Label fields;
+	AEFX_CLR_STRUCT(fields);
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecInterlaceLabel(outH, &fields));
+	if (fields.type == FIEL_Type_FRAME_RENDERED)
+	{
+		exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
+	}
+	else
+	{
+		exportInfo.video.fieldOrder = fields.order == FIEL_Order_LOWER_FIRST ? AV_FIELD_BB : AV_FIELD_TT;
+	}
+
+	// Set pixel format
+	if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
+	{
+		exportInfo.video.pixelFormat = av_get_pix_fmt(exportInfo.video.options.at("_pixelFormat").c_str());
+	}
+	else
+	{
+		// Find default pixel format
+		AVCodec* codec = avcodec_find_encoder_by_name(exportInfo.video.id);
+		if (codec != NULL)
+		{
+			exportInfo.video.pixelFormat = codec->pix_fmts[0];
+		}
+	}
+
+	// Get configuration
+	exportInfo.video.sampleAspectRatio = { 1, 1 };
 	exportInfo.video.colorRange = AVCOL_RANGE_MPEG;
 	exportInfo.video.colorSpace = AVCOL_SPC_BT709;
 	exportInfo.video.colorPrimaries = AVCOL_PRI_BT709;
 	exportInfo.video.colorTransferCharacteristics = AVCOL_TRC_BT709;
-	exportInfo.video.sampleAspectRatio = { 1,1 };
-	exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
-	exportInfo.audio.enabled = false;
-	//exportInfo.audio.id = "libx264";
-	//exportInfo.audio.options;
 
+	// ### Audio settings ###
+	exportInfo.audio.id = arbData->audioCodecId;
+	exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
+
+	// Get audio timebase
+	A_FpLong soundRateF = 0.0;
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF);
+	exportInfo.audio.timebase = { 1, (int)soundRateF };
+
+	// Is audio enabled?
+	exportInfo.audio.enabled = exportInfo.audio.timebase.den > 0;
 	
+	// Audio channels
+	AEIO_SndChannels channels; 
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &channels); //TODO: Faulty!
+	if (channels == AEIO_SndChannels_MONO)
+	{
+		exportInfo.audio.channelLayout = AV_CH_LAYOUT_MONO;
+	}
+	else if (channels == AEIO_SndChannels_STEREO || channels == 0)
+	{
+		exportInfo.audio.channelLayout = AV_CH_LAYOUT_STEREO;
+	}
+	else
+	{
+		vkLogErrorVA("Channel layout with %d channels is not supported. Audio track disabled.", (int)channels);
 
+		exportInfo.audio.enabled = false;
+	}
+
+	// Set sample format
+	if (exportInfo.audio.options.find("_sampleFormat") != exportInfo.audio.options.end())
+	{
+		exportInfo.audio.sampleFormat = av_get_sample_fmt(exportInfo.audio.options.at("_sampleFormat").c_str());
+	}
+	else
+	{
+		// Find default sample format
+		AVCodec* codec = avcodec_find_encoder_by_name(exportInfo.audio.id);
+		if (codec != NULL)
+		{
+			exportInfo.audio.sampleFormat = codec->sample_fmts[0];
+		}
+	}
+	
+	// Create a new encoder engine instance
 	encoderEngine = new EncoderEngine(exportInfo);
-	encoderEngine->open();
+	if (encoderEngine->open() < 0)
+	{
+		vkLogError("Unable to open the encoder engine with the supplied export info.");
+		err = A_Err_GENERIC;
+	}
 
-	//IO_FileHeader		header;
-	//A_Time				duration = { 0,1 };
-	//A_short				depth = 0;
-	//A_Fixed				fps = 0;
-	//A_long				widthL = 0,
-	//	heightL = 0;
-	//A_FpLong			soundRateF = 0.0;
-	//A_char				name[AEGP_MAX_PATH_SIZE] = { '\0' };
-	//AEGP_SuiteHandler	suites(basic_dataP->pica_basicP);
-
-	//AEGP_ProjectH		my_projH = 0;
-	//AEGP_TimeDisplay3	time_display;
-	//A_long				start_frameL = 0;
-
-	//AEGP_MemHandle				file_pathH = NULL;
-	//A_Boolean					file_reservedB;
-	//A_UTF16Char					*file_pathZ;
-
-	//AEFX_CLR_STRUCT(time_display);
-	//AEFX_CLR_STRUCT(header);
-
-	//ERR(suites.IOOutSuite4()->AEGP_GetOutSpecDuration(outH, &duration));
-	//ERR(suites.IOOutSuite4()->AEGP_GetOutSpecDimensions(outH, &widthL, &heightL));
-	//ERR(suites.IOOutSuite4()->AEGP_GetOutSpecDepth(outH, &depth));
-	//ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF));
-
-	//// If video
-	//if (!err && name && widthL && heightL) {
-	//	header.hasVideo = TRUE;
-	//	header.widthLu = (A_u_long)widthL;
-	//	header.heightLu = (A_u_long)heightL;
-
-	//	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecFPS(outH, &fps));
-	//	header.fpsT.value = duration.value;
-	//	header.fpsT.scale = duration.scale;
-
-	//	if (depth > 32) {
-	//		header.rowbytesLu = (unsigned long)(8 * widthL);
-	//	}
-	//	else {
-	//		header.rowbytesLu = (unsigned long)(4 * widthL);
-	//	}
-	//}
-
-	//if (!err && soundRateF > 0) {
-	//	header.hasAudio = TRUE;
-	//	header.rateF = soundRateF;
-	//	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &header.num_channels));
-	//	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundSampleSize(outH, &header.bytes_per_sample));
-
-	//	header.encoding = AEIO_E_UNSIGNED_PCM;
-	//}
-
-	//// Get timecode
-	//if (!err) {
-	//	ERR(suites.ProjSuite6()->AEGP_GetProjectByIndex(0, &my_projH));
-	//	ERR(suites.ProjSuite6()->AEGP_GetProjectTimeDisplay(my_projH, &time_display));
-
-	//	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecStartFrame(outH, &start_frameL));
-	//}
-
-	//if (!err) {
-	//	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecFilePath(outH, &file_pathH, &file_reservedB));
-
-	//	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(file_pathH, reinterpret_cast<void**>(&file_pathZ)));
-	//	/*
-	//		+	Open file
-	//		+	Write header
-	//		+	(keep file open)
-	//	*/
-	//	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(file_pathH));
-	//	ERR(suites.MemorySuite1()->AEGP_FreeMemHandle(file_pathH));
-	//}
 	return err;
-};
+}
 
 static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long frame_index, A_long frames, const PF_EffectWorld *wP, const A_LPoint *origin0, A_Boolean was_compressedB, AEIO_InterruptFuncs *inter0)
 {
+	A_Err err = A_Err_NONE;
+
 	// Create a frame with argb data
 	AVFrame* frame = av_frame_alloc();
 	frame->width = wP->width;
 	frame->height = wP->height;
 	frame->pts = frame_index;
-	frame->format = AV_PIX_FMT_ARGB;
-	frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
-	frame->linesize[0] = frame->width * PF_WORLD_IS_DEEP(wP) ? 8 : 4;
 
-	A_Err err = A_Err_NONE;
+	// Fill in 8 or 16 bpc data
+	if (PF_WORLD_IS_DEEP(wP))
+	{
+		frame->format = AV_PIX_FMT_BGRA64LE;
+		frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
+		frame->linesize[0] = frame->width * 8;
+	}
+	else
+	{
+		frame->format = AV_PIX_FMT_ARGB;
+		frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
+		frame->linesize[0] = frame->width * 4;
+	}
 
 	// Encode & write video frame
 	if (encoderEngine->writeVideoFrame(frame) < 0)
 	{
-		//vkLog
+		vkLogErrorVA("Unable to write video frame #%d.", frame->pts);
 		err = A_Err_GENERIC;
 	}
 
@@ -640,13 +571,13 @@ static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long
 	av_frame_free(&frame);
 	
 	return err;
-};
+}
 
 static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
-	// Shutdown encoders
 	if (encoderEngine)
 	{
+		// Shutdown encoders
 		encoderEngine->finalize();
 		encoderEngine->close();
 
@@ -655,22 +586,6 @@ static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_lon
 
 	return A_Err_NONE;
 }
-
-static A_Err
-My_OutputFrame(
-	AEIO_BasicData			*basic_dataP,
-	AEIO_OutSpecH			outH,
-	const PF_EffectWorld	*wP)
-{
-	A_Err		err = A_Err_NONE;
-
-	/*
-		+	Re-interpret the supplied PF_World in your own
-			format, and save it out to the outH's path.
-
-	*/
-	return err;
-};
 
 static A_Err
 My_WriteLabels(
@@ -743,22 +658,14 @@ My_Idle(
 };
 
 
-static A_Err
-My_GetDepths(
-	AEIO_BasicData *basic_dataP,
-	AEIO_OutSpecH outH,
-	AEIO_SupportedDepthFlags *which)
+static A_Err My_GetDepths(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_SupportedDepthFlags *which)
 {
-	*which = AEIO_SupportedDepthFlags_DEPTH_24;
+	*which = AEIO_SupportedDepthFlags_DEPTH_32;
 
 	return A_Err_NONE;
-};
+}
 
-static A_Err
-My_GetOutputSuffix(
-	AEIO_BasicData *basic_dataP,
-	AEIO_OutSpecH outH,
-	A_char *suffix)
+static A_Err My_GetOutputSuffix(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_char *suffix)
 {
 	A_Err err = AEIO_Err_USE_DFLT_CALLBACK;
 
@@ -787,7 +694,7 @@ My_GetOutputSuffix(
 	}
 
 	return err;
-};
+}
 
 static A_Err
 My_CloseSourceFiles(
@@ -831,7 +738,6 @@ AEIO_ConstructFunctionBlock(
 	if (funcs)
 	{
 		funcs->AEIO_AddFrame = My_AddFrame;
-		//funcs->AEIO_AddMarker = My_AddMarker;
 		funcs->AEIO_AddSoundChunk = My_AddSoundChunk;
 		funcs->AEIO_DisposeOutputOptions = My_DisposeOutputOptions;
 		funcs->AEIO_EndAdding = My_EndAdding;
@@ -841,7 +747,6 @@ AEIO_ConstructFunctionBlock(
 		funcs->AEIO_GetOutputSuffix = My_GetOutputSuffix;
 		funcs->AEIO_GetSizes = My_GetSizes;
 		funcs->AEIO_Idle = My_Idle;
-		funcs->AEIO_OutputFrame = My_OutputFrame; // single frame
 		funcs->AEIO_SetOutputFile = My_SetOutputFile;
 		funcs->AEIO_SetUserData = My_SetUserData;
 		funcs->AEIO_StartAdding = My_StartAdding;
