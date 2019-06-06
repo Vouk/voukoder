@@ -19,7 +19,7 @@ Log::Log()
 		VKDR_VERSION_PATCH));
 
 	AddLine("by Daniel Stankewitz");
-	AddLine("---------------------------------------------");
+	AddSep();
 #ifdef _WIN32
 	int CPUInfo[4] = { -1 };
 	unsigned   nExIds, i = 0;
@@ -65,6 +65,11 @@ Log::Log()
 		nDeviceIndex++;
 	}
 #endif
+	AddSep();
+}
+
+void Log::AddSep()
+{
 	AddLine("---------------------------------------------");
 }
 

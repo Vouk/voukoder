@@ -432,6 +432,9 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 			// Set up filter config
 			videoContext.frameFilter = new FrameFilter();
 			videoContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+
+			// Log filters
+			vkLogInfo("Applying video filters: " + filterconfig.substr(1));
 		}
 	}
 
@@ -448,25 +451,37 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 	if (frame->pts == 0)
 	{
 		wxString filterconfig;
-
-		//Convert sample format
-		filterconfig << "aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
-		filterconfig << "sample_fmts=" << av_get_sample_fmt_name(audioContext.codecContext->sample_fmt) << ":";
-		filterconfig << "sample_rates=" << audioContext.codecContext->sample_rate;
+		
+		// Convert sample format
+		if (audioContext.codecContext->channels != frame->channels ||
+			audioContext.codecContext->sample_fmt != frame->format ||
+			audioContext.codecContext->sample_rate != frame->sample_rate)
+		{
+			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
+			filterconfig << "sample_fmts=" << av_get_sample_fmt_name(audioContext.codecContext->sample_fmt) << ":";
+			filterconfig << "sample_rates=" << audioContext.codecContext->sample_rate;
+		}
 
 		// Add users filter config
 		filterconfig << exportInfo.audio.filters.AsFilterString();
 
-		// Set frame filter options
-		FrameFilterOptions options;
-		options.media_type = audioContext.codecContext->codec->type;
-		options.channel_layout = audioContext.codecContext->channel_layout;
-		options.sample_fmt = AV_SAMPLE_FMT_FLTP;
-		options.time_base = { 1, audioContext.codecContext->sample_rate };
-
 		// Set up filter config
-		audioContext.frameFilter = new FrameFilter();
-		audioContext.frameFilter->configure(options, filterconfig.c_str());
+		if (filterconfig.size() > 0)
+		{	
+			// Set frame filter options
+			FrameFilterOptions options;
+			options.media_type = audioContext.codecContext->codec->type;
+			options.channel_layout = audioContext.codecContext->channel_layout;
+			options.sample_fmt = AV_SAMPLE_FMT_FLTP;
+			options.time_base = { 1, audioContext.codecContext->sample_rate };
+
+			// Set up filter config
+			audioContext.frameFilter = new FrameFilter();
+			audioContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+
+			// Log filters
+			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));
+		}
 	}
 
 	// Send the frame to the encoder

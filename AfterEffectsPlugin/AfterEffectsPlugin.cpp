@@ -1,13 +1,14 @@
-#include "stdafx.h"
 #include "AfterEffectsPlugin.h"
-//#include <Voukoder.h>
 #include "AEGP_SuiteHandler.cpp"
 #include "MissingSuiteError.cpp"
-#include <Windows.h>
 #include <wx/wx.h>
 #include <wxVoukoderDialog.h>
 #include <EncoderEngine.h>
 #include <Log.h>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 #ifdef _DEBUG
 static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
@@ -90,7 +91,7 @@ static A_Err AEIO_ConstructModuleInfo(AEIO_ModuleInfo *info)
 		info->flags = AEIO_MFlag_OUTPUT |
 			AEIO_MFlag_FILE |
 			AEIO_MFlag_VIDEO |
-			AEIO_MFlag_AUDIO |
+			//AEIO_MFlag_AUDIO |
 			AEIO_MFlag_NO_TIME;
 
 		info->create_kind.type = 'VKDR';
@@ -587,80 +588,66 @@ static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_lon
 	return A_Err_NONE;
 }
 
-static A_Err
-My_WriteLabels(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH	outH,
-	AEIO_LabelFlags	*written)
+static A_Err My_WriteLabels(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_LabelFlags *written)
 {
 	return AEIO_Err_USE_DFLT_CALLBACK;
-};
+}
 
-static A_Err
-My_GetSizes(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH	outH,
-	A_u_longlong	*free_space,
-	A_u_longlong	*file_size)
+static A_Err My_GetSizes(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_u_longlong *free_space, A_u_longlong *file_size)
 {
 	return AEIO_Err_USE_DFLT_CALLBACK;
-};
+}
 
-static A_Err
-My_Flush(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH	outH)
+static A_Err My_Flush(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH)
 {
 	/*	free any temp buffers you kept around for
 		writing.
 	*/
 	return A_Err_NONE;
-};
+}
 
-static A_Err
-My_AddSoundChunk(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH	outH,
-	const A_Time	*start,
-	A_u_long		num_samplesLu,
-	const void		*dataPV)
+static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, const A_Time *start, A_u_long num_samplesLu, const void *dataPV)
 {
-	A_Err err = A_Err_NONE, err2 = A_Err_NONE;
+	A_Err err = A_Err_NONE;
 
-	AEGP_SuiteHandler	suites(basic_dataP->pica_basicP);
+	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	AEIO_Handle					optionsH = NULL;
-	ArbData	*optionsP = NULL;
+	// Create a frame with argb data
+	AVFrame* frame = av_frame_alloc();
+	frame->channel_layout = AV_CH_LAYOUT_STEREO;
+	frame->sample_rate = 48000;
+	frame->nb_samples = num_samplesLu;
 
-	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
 
-	if (!err && optionsH) {
-		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&optionsP)));
-		if (!err) {
-			A_char report[AEGP_MAX_ABOUT_STRING_SIZE] = { '\0' };
-			suites.ANSICallbacksSuite1()->sprintf(report, "SDK_IO : Pretended to write %d samples of audio requested.", num_samplesLu);
-			ERR(suites.UtilitySuite3()->AEGP_ReportInfo(basic_dataP->aegp_plug_id, report));
-		}
+
+
+	// Get data encoding
+	AEIO_SndEncoding encoding;
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundEncoding(outH, &encoding);
+
+	if (encoding == AEIO_E_UNSIGNED_PCM)
+	{
+		frame->format = AV_SAMPLE_FMT_U8P;
 	}
-	ERR2(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
+	else if (encoding == AEIO_E_SIGNED_PCM)
+	{
+		frame->format = AV_SAMPLE_FMT_S16P;
+	}
+	else if (encoding == AEIO_E_SIGNED_FLOAT)
+	{
+		frame->format = AV_SAMPLE_FMT_FLTP;
+	}
+	   
+
+
+	//frame->data[0] = reinterpret_cast<const uint8_t*>(dataPV);
 
 	return err;
 };
 
-
-static A_Err
-My_Idle(
-	AEIO_BasicData *basic_dataP,
-	AEIO_ModuleSignature sig,
-	AEIO_IdleFlags *idle_flags0)
-{
-	return A_Err_NONE;
-};
-
-
 static A_Err My_GetDepths(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_SupportedDepthFlags *which)
 {
-	*which = AEIO_SupportedDepthFlags_DEPTH_32;
+	*which = AEIO_SupportedDepthFlags_DEPTH_32;// | AEIO_SupportedDepthFlags_DEPTH_64;
 
 	return A_Err_NONE;
 }
@@ -696,44 +683,17 @@ static A_Err My_GetOutputSuffix(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH,
 	return err;
 }
 
-static A_Err
-My_CloseSourceFiles(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_InSpecH			seqH)
+static A_Err My_CloseSourceFiles(AEIO_BasicData	*basic_dataP, AEIO_InSpecH seqH)
 {
 	return A_Err_NONE;
-};		// TRUE for close, FALSE for unclose
+}
 
-static A_Err
-My_SetUserData(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH			outH,
-	A_u_long				typeLu,
-	A_u_long				indexLu,
-	const AEIO_Handle		dataH)
+static A_Err My_SetUserData(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_u_long typeLu, A_u_long indexLu, const AEIO_Handle dataH)
 {
 	return A_Err_NONE;
-};
+}
 
-static A_Err
-My_AddMarker(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH 			outH,
-	A_long 					frame_index,
-	AEIO_MarkerType 		marker_type,
-	void					*marker_dataPV,
-	AEIO_InterruptFuncs		*inter0)
-{
-	/*	The type of the marker is in marker_type,
-		and the text they contain is in
-		marker_dataPV.
-	*/
-	return A_Err_NONE;
-};
-
-static A_Err 
-AEIO_ConstructFunctionBlock(
-	AEIO_FunctionBlock4 *funcs)
+static A_Err AEIO_ConstructFunctionBlock(AEIO_FunctionBlock4 *funcs)
 {
 	if (funcs)
 	{
@@ -746,7 +706,6 @@ AEIO_ConstructFunctionBlock(
 		funcs->AEIO_GetOutputInfo = My_GetOutputInfo;
 		funcs->AEIO_GetOutputSuffix = My_GetOutputSuffix;
 		funcs->AEIO_GetSizes = My_GetSizes;
-		funcs->AEIO_Idle = My_Idle;
 		funcs->AEIO_SetOutputFile = My_SetOutputFile;
 		funcs->AEIO_SetUserData = My_SetUserData;
 		funcs->AEIO_StartAdding = My_StartAdding;
@@ -762,13 +721,7 @@ AEIO_ConstructFunctionBlock(
 		return A_Err_STRUCT;
 }
 
-A_Err 
-GPMain_IO(
-	struct SPBasicSuite *pica_basicP,
-	A_long major_versionL,
-	A_long minor_versionL,
-	AEGP_PluginID aegp_plugin_id,
-	void *global_refconPV)
+A_Err GPMain_IO(struct SPBasicSuite *pica_basicP, A_long major_versionL, A_long minor_versionL,	AEGP_PluginID aegp_plugin_id, void *global_refconPV)
 {
 #ifdef _DEBUG
 	av_log_set_level(AV_LOG_TRACE);
