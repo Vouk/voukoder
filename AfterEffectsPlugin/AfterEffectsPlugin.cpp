@@ -22,6 +22,9 @@ static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 #endif
 
 static EncoderEngine* encoderEngine;
+static std::chrono::time_point<std::chrono::steady_clock> tp_exportStart;
+static std::chrono::time_point<std::chrono::steady_clock> tp_framePrev;
+static int frame_count;
 
 class actctx_activator
 {
@@ -535,12 +538,18 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 		err = A_Err_GENERIC;
 	}
 
+	// Reset performance log
+	tp_framePrev = tp_exportStart = std::chrono::high_resolution_clock::now();
+	frame_count = 0;
+
 	return err;
 }
 
 static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long frame_index, A_long frames, const PF_EffectWorld *wP, const A_LPoint *origin0, A_Boolean was_compressedB, AEIO_InterruptFuncs *inter0)
 {
 	A_Err err = A_Err_NONE;
+
+	int usRender = (std::chrono::high_resolution_clock::now() - tp_framePrev) / std::chrono::microseconds(1);
 
 	// Create a frame with argb data
 	AVFrame* frame = av_frame_alloc();
@@ -561,6 +570,8 @@ static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long
 		frame->linesize[0] = frame->width * 4;
 	}
 
+	auto tp_encStart = std::chrono::high_resolution_clock::now();
+
 	// Encode & write video frame
 	if (encoderEngine->writeVideoFrame(frame) < 0)
 	{
@@ -568,14 +579,36 @@ static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long
 		err = A_Err_GENERIC;
 	}
 
+	int usEncode = (std::chrono::high_resolution_clock::now() - tp_encStart) / std::chrono::microseconds(1);
+
 	// Free the frame from memory again
 	av_frame_free(&frame);
+
+	// Write performance log
+	vkLogInfoVA("Frame #%d: vRender: %d 탎, vProcess: %d 탎, vEncoding: %d 탎, Latency: %d 탎",
+		frame_index,
+		usRender,
+		0,
+		usEncode,
+		(int)((std::chrono::high_resolution_clock::now() - tp_framePrev) / std::chrono::microseconds(1)));
+
+	// Measure video latency w/o audio
+	tp_framePrev = std::chrono::high_resolution_clock::now();
+	frame_count++;
 	
 	return err;
 }
 
 static A_Err My_EndAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
+	int msEncode = (std::chrono::high_resolution_clock::now() - tp_exportStart) / std::chrono::milliseconds(1);
+
+	// Log performance
+	vkLogInfoVA("Exported %d frames in %d seconds. (avg. %d fps)",
+		frame_count,
+		msEncode / 1000,
+		frame_count * 1000 / msEncode);
+
 	if (encoderEngine)
 	{
 		// Shutdown encoders
