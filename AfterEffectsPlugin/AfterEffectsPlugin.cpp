@@ -299,15 +299,17 @@ static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH out
 static A_Err My_GetOutputInfo(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_Verbiage *verbiageP)
 {
 	A_Err err = A_Err_NONE;
+	
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	wxString formatId = DefaultMuxer,
-		videoCodecId = DefaultVideoEncoder;
+	wxString formatId = DefaultMuxer;
+	wxString videoCodecId = DefaultVideoEncoder;
 
 	// Load config from storage
 	AEIO_Handle optionsH = NULL;
 	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
-	if (!err) {
+	if (!err)
+	{
 		ArbData *arbData = NULL;
 		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
 		formatId = arbData->formatId;
@@ -339,8 +341,7 @@ static A_Err My_GetOutputInfo(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A
 	}
 
 	return err;
-};
-
+}
 
 static A_Err
 My_OutputInfoChanged(
@@ -495,7 +496,7 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	
 	// Audio channels
 	AEIO_SndChannels channels; 
-	suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &channels); //TODO: Faulty!
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &channels);
 	if (channels == AEIO_SndChannels_MONO)
 	{
 		exportInfo.audio.channelLayout = AV_CH_LAYOUT_MONO;
@@ -545,19 +546,18 @@ static A_Err My_AddFrame(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long
 	AVFrame* frame = av_frame_alloc();
 	frame->width = wP->width;
 	frame->height = wP->height;
+	frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
 	frame->pts = frame_index;
 
 	// Fill in 8 or 16 bpc data
 	if (PF_WORLD_IS_DEEP(wP))
 	{
 		frame->format = AV_PIX_FMT_BGRA64LE;
-		frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
 		frame->linesize[0] = frame->width * 8;
 	}
 	else
 	{
 		frame->format = AV_PIX_FMT_ARGB;
-		frame->data[0] = reinterpret_cast<uint8_t*>(wP->data);
 		frame->linesize[0] = frame->width * 4;
 	}
 
@@ -614,12 +614,24 @@ static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 
 	// Create a frame with argb data
 	AVFrame* frame = av_frame_alloc();
-	frame->channel_layout = AV_CH_LAYOUT_STEREO;
-	frame->sample_rate = 48000;
 	frame->nb_samples = num_samplesLu;
+	frame->data[0] = (uint8_t*)dataPV;
+	frame->pts = 0;
 
+	//
+	A_FpLong soundRateF = 0.0;
+	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF));
+	frame->sample_rate = (int)soundRateF;
 
+	//
+	AEIO_SndChannels channels;
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &channels);
+	frame->channels = channels;
+	frame->channel_layout = av_get_default_channel_layout(channels);
 
+	//
+	AEIO_SndSampleSize sampleSize = 0;
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundSampleSize(outH, &sampleSize);
 
 	// Get data encoding
 	AEIO_SndEncoding encoding;
@@ -631,16 +643,22 @@ static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 	}
 	else if (encoding == AEIO_E_SIGNED_PCM)
 	{
-		frame->format = AV_SAMPLE_FMT_S16P;
+		frame->format = AV_SAMPLE_FMT_S16;
 	}
 	else if (encoding == AEIO_E_SIGNED_FLOAT)
 	{
 		frame->format = AV_SAMPLE_FMT_FLTP;
 	}
 	   
+	// Encode & write video frame
+	if (encoderEngine->writeAudioFrame(frame) < 0)
+	{
+		vkLogErrorVA("Unable to write audio frame #%lld.", frame->pts);
+		err = A_Err_GENERIC;
+	}
 
-
-	//frame->data[0] = reinterpret_cast<const uint8_t*>(dataPV);
+	// Free the frame from memory again
+	av_frame_free(&frame);
 
 	return err;
 };

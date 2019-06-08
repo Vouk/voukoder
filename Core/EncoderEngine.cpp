@@ -422,9 +422,9 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 		{
 			// Set frame filter options
 			FrameFilterOptions options;
-			options.media_type = videoContext.codecContext->codec_type;
-			options.width = exportInfo.video.width;
-			options.height = exportInfo.video.height;
+			options.media_type = AVMEDIA_TYPE_VIDEO;
+			options.width = frame->width;
+			options.height = frame->height;
 			options.pix_fmt = (AVPixelFormat)frame->format;
 			options.time_base = videoContext.codecContext->time_base;
 			options.sar = videoContext.codecContext->sample_aspect_ratio;
@@ -470,10 +470,10 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		{	
 			// Set frame filter options
 			FrameFilterOptions options;
-			options.media_type = audioContext.codecContext->codec->type;
-			options.channel_layout = audioContext.codecContext->channel_layout;
-			options.sample_fmt = AV_SAMPLE_FMT_FLTP;
-			options.time_base = { 1, audioContext.codecContext->sample_rate };
+			options.media_type = AVMEDIA_TYPE_AUDIO;
+			options.channel_layout = frame->channel_layout;
+			options.sample_fmt = (AVSampleFormat)frame->format;
+			options.time_base = { 1, frame->sample_rate };
 
 			// Set up filter config
 			audioContext.frameFilter = new FrameFilter();
