@@ -1057,6 +1057,15 @@
     <None Include="resources\filters\zscale.json">
       <Filter>Ressourcendateien\Filters</Filter>
     </None>
+    <None Include="resources\encoders\dca.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\eac3.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\truehd.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

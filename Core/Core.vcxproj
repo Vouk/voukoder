@@ -222,6 +222,8 @@
     <None Include="resources\encoders\aac.json" />
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
+    <None Include="resources\encoders\dca.json" />
+    <None Include="resources\encoders\eac3.json" />
     <None Include="resources\encoders\ffv1.json" />
     <None Include="resources\encoders\flac.json" />
     <None Include="resources\encoders\h264_amf.json" />
@@ -241,6 +243,7 @@
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
     <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\encoders\truehd.json" />
     <None Include="resources\filters\abench.json" />
     <None Include="resources\filters\acompressor.json" />
     <None Include="resources\filters\acontrast.json" />

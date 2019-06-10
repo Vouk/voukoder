@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "dca",
+  "name": "DTS",
+  "defaults": {
+    "_sampleFormat": "s32"
+  },
+  "groups": [
+    {
+      "id": "dca.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "dca.standard.bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "672000"
+              },
+              {
+                "value": "896000"
+              },
+              {
+                "value": "1024000"
+              },
+              {
+                "value": "1344000"
+              },
+              {
+                "value": "1536000"
+              },
+              {
+                "value": "1920000"
+              },
+              {
+                "value": "3072000"
+              },
+              {
+                "value": "3840000"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dca.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "dca.misc.dca_adpcm",
+          "parameter": "dca_adpcm",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

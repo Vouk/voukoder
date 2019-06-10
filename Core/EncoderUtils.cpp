@@ -152,7 +152,7 @@ bool EncoderUtils::IsAvailable(const std::string name)
 				codecContext->channels = 2;
 				codecContext->sample_rate = 48000;
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-				codecContext->bit_rate = 0;
+				//codecContext->bit_rate = 0;
 			}
 
 			// Open the codec
