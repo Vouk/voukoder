@@ -582,7 +582,7 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 	}
 	else if (audioChannelType.value.intValue == (csSDK_int32)kPrAudioChannelType_51)
 	{
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+		exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1;
 	}
 	else
 	{

@@ -686,8 +686,11 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 
 	// Filters
 #ifdef _DEBUG
-	m_videoFilterPanel->GetFilterConfig(exportInfo.video.filters);
-	m_audioFilterPanel->GetFilterConfig(exportInfo.audio.filters);
+	if (m_videoFilterPanel)
+		m_videoFilterPanel->GetFilterConfig(exportInfo.video.filters);
+
+	if (m_audioFilterPanel)
+		m_audioFilterPanel->GetFilterConfig(exportInfo.audio.filters);
 #endif
 
 	EndDialog(wxID_OK);
