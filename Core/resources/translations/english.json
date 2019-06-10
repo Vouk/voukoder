@@ -1515,7 +1515,7 @@
     "eac3.bitstream.loro_cmixlev._label": "Lo/Ro Center Mix Level",
     "eac3.bitstream.loro_cmixlev._description": "The amount of gain the decoder should apply to the center channel when downmixing to stereo in Lo/Ro mode.",
     "eac3.bitstream.loro_cmixlev._item_0": "+3dB gain",
-    "aec3.bitstream.loro_cmixlev._item_1": "+1.5dB gain",
+    "eac3.bitstream.loro_cmixlev._item_1": "+1.5dB gain",
     "eac3.bitstream.loro_cmixlev._item_2": "0dB gain",
     "eac3.bitstream.loro_cmixlev._item_3": "-1.5dB gain",
     "eac3.bitstream.loro_cmixlev._item_4": "-3.0dB gain",
