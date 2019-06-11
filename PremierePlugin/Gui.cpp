@@ -582,7 +582,15 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 	}
 	else if (audioChannelType.value.intValue == (csSDK_int32)kPrAudioChannelType_51)
 	{
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1;
+		//Use 5.1(side) when dts audio is selected
+		if (exportInfo.audio.id == "dca") 
+		{
+			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1;
+		}
+		else 
+		{
+			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+		}
 	}
 	else
 	{

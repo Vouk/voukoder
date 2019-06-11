@@ -1,22 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "ac3",
-  "name": "AC-3",
+  "id": "eac3",
+  "name": "EAC-3 (DD+)",
   "defaults": {
     "_sampleFormat": "fltp"
   },
   "groups": [
     {
-      "id": "ac3.standard",
+      "id": "eac3.standard",
       "class": "standard",
       "properties": [
         {
-          "id": "ac3.standard.bitrate",
+          "id": "eac3.standard.bitrate",
           "parameter": "b",
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 2,
+            "selectedIndex": 9,
             "items": [
               {
                 "value": "96000"
@@ -47,6 +47,33 @@
               },
               {
                 "value": "640000"
+              },
+              {
+                "value": "768000"
+              },
+              {
+                "value": "896000"
+              },
+              {
+                "value": "1152000"
+              },
+              {
+                "value": "1408000"
+              },
+              {
+                "value": "1920000"
+              },
+              {
+                "value": "2432000"
+              },
+              {
+                "value": "3456000"
+              },
+              {
+                "value": "4480000"
+              },
+              {
+                "value": "6144000"
               }
             ]
           }
@@ -54,11 +81,11 @@
       ]
     },
     {
-      "id": "ac3.metadata",
+      "id": "eac3.metadata",
       "class": "advanced",
       "properties": [
         {
-          "id": "ac3.metadata.copyright",
+          "id": "eac3.metadata.copyright",
           "parameter": "copyright",
           "control": {
             "type": "boolean",
@@ -66,7 +93,7 @@
           }
         },
         {
-          "id": "ac3.metadata.dsur_mode",
+          "id": "eac3.metadata.dsur_mode",
           "parameter": "dsur_mode",
           "control": {
             "type": "combobox",
@@ -85,7 +112,7 @@
           }
         },
         {
-          "id": "ac3.metadata.original",
+          "id": "eac3.metadata.original",
           "parameter": "original",
           "control": {
             "type": "boolean",
@@ -93,7 +120,7 @@
           }
         },
         {
-          "id": "ac3.metadata.dialnorm",
+          "id": "eac3.metadata.dialnorm",
           "parameter": "dialnorm",
           "control": {
             "maximum": -1,
@@ -106,11 +133,11 @@
       ]
     },
     {
-      "id": "ac3.bitstream",
+      "id": "eac3.bitstream",
       "class": "advanced",
       "properties": [
         {
-          "id": "ac3.bitstream.dmix_mode",
+          "id": "eac3.bitstream.dmix_mode",
           "parameter": "dmix_mode",
           "control": {
             "type": "combobox",
@@ -132,7 +159,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.ltrt_cmixlev",
+          "id": "eac3.bitstream.ltrt_cmixlev",
           "parameter": "ltrt_cmixlev",
           "control": {
             "type": "combobox",
@@ -166,7 +193,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.ltrt_surmixlev",
+          "id": "eac3.bitstream.ltrt_surmixlev",
           "parameter": "ltrt_surmixlev",
           "control": {
             "type": "combobox",
@@ -191,7 +218,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.loro_cmixlev",
+          "id": "eac3.bitstream.loro_cmixlev",
           "parameter": "loro_cmixlev",
           "control": {
             "type": "combobox",
@@ -225,7 +252,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.loro_surmixlev",
+          "id": "eac3.bitstream.loro_surmixlev",
           "parameter": "loro_surmixlev",
           "control": {
             "type": "combobox",
@@ -250,7 +277,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.dsurex_mode",
+          "id": "eac3.bitstream.dsurex_mode",
           "parameter": "dsurex_mode",
           "control": {
             "type": "combobox",
@@ -272,7 +299,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.dheadphone_mode",
+          "id": "eac3.bitstream.dheadphone_mode",
           "parameter": "dheadphone_mode",
           "control": {
             "type": "combobox",
@@ -291,7 +318,7 @@
           }
         },
         {
-          "id": "ac3.bitstream.ad_conv_type",
+          "id": "eac3.bitstream.ad_conv_type",
           "parameter": "ad_conv_type",
           "control": {
             "type": "combobox",
@@ -309,49 +336,11 @@
       ]
     },
     {
-      "id": "ac3.misc",
+      "id": "eac3.misc",
       "class": "advanced",
       "properties": [
         {
-          "id": "ac3.misc.center_mixlev",
-          "parameter": "center_mixlev",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 1,
-            "items": [
-              {
-                "value": "0.707"
-              },
-              {
-                "value": "0.595"
-              },
-              {
-                "value": "0.500"
-              }
-            ]
-          }
-        },
-        {
-          "id": "ac3.misc.surround_mixlev",
-          "parameter": "surround_mixlev",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 1,
-            "items": [
-              {
-                "value": "0.707"
-              },
-              {
-                "value": "0.500"
-              },
-              {
-                "value": "0.000"
-              }
-            ]
-          }
-        },
-        {
-          "id": "ac3.misc.room_type",
+          "id": "eac3.misc.room_type",
           "parameter": "room_type",
           "control": {
             "type": "combobox",
@@ -370,7 +359,7 @@
           }
         },
         {
-          "id": "ac3.misc.stereo_rematrixing",
+          "id": "eac3.misc.stereo_rematrixing",
           "parameter": "stereo_rematrixing",
           "control": {
             "type": "boolean",
@@ -378,7 +367,7 @@
           }
         },
         {
-          "id": "ac3.misc.channel_coupling",
+          "id": "eac3.misc.channel_coupling",
           "parameter": "channel_coupling",
           "control": {
             "type": "boolean",
@@ -386,7 +375,7 @@
           }
         },
         {
-          "id": "ac3.misc.mixing_level",
+          "id": "eac3.misc.mixing_level",
           "parameter": "mixing_level",
           "control": {
             "maximum": 111,
@@ -397,7 +386,7 @@
           }
         },
         {
-          "id": "ac3.misc.cpl_start_band",
+          "id": "eac3.misc.cpl_start_band",
           "parameter": "cpl_start_band",
           "control": {
             "maximum": 15,

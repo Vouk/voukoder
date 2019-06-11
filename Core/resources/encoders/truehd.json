@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "truehd",
+    "name": "Dolby TrueHD",
+    "defaults": {
+      "_sampleFormat": "s16"
+    },
+    "groups": [
+      {
+        "id": "truehd.standard",
+        "class": "standard"
+      }
+    ]
+  }
