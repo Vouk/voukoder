@@ -168,8 +168,6 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 pass, const
 	tp_frameProcess = std::chrono::high_resolution_clock::now();
 	int render = (tp_frameProcess - tp_frameStart) / std::chrono::microseconds(1);
 
-	prSuiteError error = suiteError_NoError;
-
 	// Just in case for multipass encoding
 	if (pass > currentPass)
 	{
@@ -273,7 +271,8 @@ prSuiteError VideoRenderer::frameCompleteCallback(const csSDK_uint32 pass, const
 		}
 		else
 		{
-			vkdrReturnError(wxString::Format("Unsupported pixel format returned: %#010x", format));
+            //prSuiteError error = suiteError_NoError;
+            //vkdrReturnError(wxString::Format("Unsupported pixel format returned: %#010x", format));
 		}
 	}
 

@@ -69,9 +69,9 @@ static bool CheckForUpdate(const Version version, PluginUpdate* pluginUpdate)
 				pluginUpdate->version.number.patch = jsonRes["version"]["patch"].get<uint8_t>();
 				pluginUpdate->version.number.build = 0;
 				pluginUpdate->isUpdateAvailable = pluginUpdate->version.code > version.code;
-				pluginUpdate->url = jsonRes["url"].get<string>();
-				pluginUpdate->headline = jsonRes["headline"].get<string>();
-				pluginUpdate->message = jsonRes["message"].get<string>();
+                pluginUpdate->url = jsonRes["url"].get<std::string>();
+                pluginUpdate->headline = jsonRes["headline"].get<std::string>();
+                pluginUpdate->message = jsonRes["message"].get<std::string>();
 			}
 			catch (json::parse_error p)
 			{

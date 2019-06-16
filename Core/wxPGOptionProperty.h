@@ -24,7 +24,7 @@ public:
 	virtual wxString ValueToString(wxVariant& value, int argFlags) const wxOVERRIDE;
 	virtual bool StringToValue(wxVariant& variant, const wxString& text, int WXUNUSED(argFlags)) const wxOVERRIDE;
 	virtual bool IntToValue(wxVariant& variant, int value, int argFlags) const wxOVERRIDE;
-	virtual const wxPGEditor* DoGetEditorClass() const;
+	virtual const wxPGEditor* DoGetEditorClass() const wxOVERRIDE;
 	virtual bool ValidateValue(wxVariant& value, wxPGValidationInfo& validationInfo) const wxOVERRIDE;
 
 	bool IsChecked() const;
@@ -37,7 +37,7 @@ public:
 protected:
 	int GetIndex() const;
 	void SetIndex(int index);
-	void OnSetValue();
+	void OnSetValue() wxOVERRIDE;
 	bool ValueFromString_(wxVariant& value, int* pIndex, const wxString& text, int WXUNUSED(argFlags)) const;
 	bool ValueFromInt_(wxVariant& value, int* pIndex, int intVal, int argFlags) const;
 

@@ -85,7 +85,7 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 	OnFilterChanged(event);
 }
 
-void wxAddFilterDialog::GetFilterOptions(vector<OptionContainer> **options)
+void wxAddFilterDialog::GetFilterOptions(std::vector<OptionContainer> **options)
 {
 	wxString filter = filterInfo->name + "=";
 
@@ -122,9 +122,7 @@ void wxAddFilterDialog::GetFilterOptions(vector<OptionContainer> **options)
 				// Assign the value
 				if (!value.IsEmpty())
 				{
-					string param = parameter.ToStdString();
-
-					filter += param + "=" + value + ":";
+					filter += parameter + "=" + value + ":";
 				}
 			}
 		}
@@ -316,9 +314,7 @@ void wxAddFilterDialog::OnOkayClick(wxCommandEvent& event)
 				// Assign the value
 				if (!value.IsEmpty())
 				{
-					string param = parameter.ToStdString();
-
-					(*options)->insert_or_assign(param, value);
+					(*options)->insert_or_assign(parameter.ToStdString(), value);
 				}
 			}
 		}

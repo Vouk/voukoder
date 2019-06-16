@@ -186,7 +186,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	n_aboutTrans->SetFont(f_headline);
 	aboutSizer->Add(n_aboutTrans, 0, wxALIGN_CENTER | wxALL, 5);
 	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Cedric R. (Deutsch)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Français)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Francais)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("\n\n\n\nwww.voukoder.org"), wxT("https://www.voukoder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
 	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
@@ -609,17 +609,17 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 			if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_BB ||
 				exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
 			{
-				encoderInfo->defaults.insert(make_pair("interlaced", "1"));
+                encoderInfo->defaults.insert(std::make_pair("interlaced", "1"));
 			}
 
 			// Field order
 			if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_BB)
 			{
-				encoderInfo->defaults.insert(make_pair("bff", "1"));
+                encoderInfo->defaults.insert(std::make_pair("bff", "1"));
 			}
 			else if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
 			{
-				encoderInfo->defaults.insert(make_pair("tff", "1"));
+                encoderInfo->defaults.insert(std::make_pair("tff", "1"));
 			}
 		}
 		else if (exportInfo.video.id == "libx265")
@@ -627,13 +627,13 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 			// Field order
 			if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_BB)
 			{
-				encoderInfo->defaults.insert(make_pair("interlace", "bff"));
-				encoderInfo->defaults.insert(make_pair("top", "0"));
+                encoderInfo->defaults.insert(std::make_pair("interlace", "bff"));
+                encoderInfo->defaults.insert(std::make_pair("top", "0"));
 			}
 			else if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
 			{
-				encoderInfo->defaults.insert(make_pair("interlace", "tff"));
-				encoderInfo->defaults.insert(make_pair("top", "1"));
+                encoderInfo->defaults.insert(std::make_pair("interlace", "tff"));
+                encoderInfo->defaults.insert(std::make_pair("top", "1"));
 			}
 		}
 

@@ -7,43 +7,97 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11B4504D0F31126B00C5D63D /* SDK_Segment_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11B4504B0F31126B00C5D63D /* SDK_Segment_Utils.cpp */; };
-		11D1EB4A0FC63B01006036A4 /* SDK_Exporter_Params.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11D1EB490FC63B01006036A4 /* SDK_Exporter_Params.cpp */; };
-		11F7C1F10E43A4F0004962F5 /* SDK_Exporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11F7C1EF0E43A4F0004962F5 /* SDK_Exporter.cpp */; };
-		11F7C1F90E43A516004962F5 /* SDK_File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11F7C1F70E43A516004962F5 /* SDK_File.cpp */; };
+		65579EF122B6165500E5A8EC /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EEA22B6165500E5A8EC /* Gui.cpp */; };
+		65579EF222B6165500E5A8EC /* AudioRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EED22B6165500E5A8EC /* AudioRenderer.cpp */; };
+		65579EF322B6165500E5A8EC /* PremierePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EEF22B6165500E5A8EC /* PremierePlugin.cpp */; };
+		65579EF422B6165500E5A8EC /* VideoRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EF022B6165500E5A8EC /* VideoRenderer.cpp */; };
+		65579F2E22B6432800E5A8EC /* wxVoukoderDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EF822B6432500E5A8EC /* wxVoukoderDialog.cpp */; };
+		65579F2F22B6432800E5A8EC /* EncoderUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EFB22B6432500E5A8EC /* EncoderUtils.cpp */; };
+		65579F3022B6432800E5A8EC /* EncoderEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579EFF22B6432500E5A8EC /* EncoderEngine.cpp */; };
+		65579F3122B6432800E5A8EC /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F0222B6432500E5A8EC /* Log.cpp */; };
+		65579F3222B6432800E5A8EC /* Voukoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F0522B6432500E5A8EC /* Voukoder.cpp */; };
+		65579F3322B6432800E5A8EC /* wxAddFilterDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F0922B6432600E5A8EC /* wxAddFilterDialog.cpp */; };
+		65579F3422B6432800E5A8EC /* LanguageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F0A22B6432600E5A8EC /* LanguageUtils.cpp */; };
+		65579F3522B6432800E5A8EC /* NvidiaCustomOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F1022B6432600E5A8EC /* NvidiaCustomOptions.cpp */; };
+		65579F3622B6432800E5A8EC /* OptionResourceUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F1122B6432600E5A8EC /* OptionResourceUtils.cpp */; };
+		65579F3722B6432800E5A8EC /* wxPGOptionProperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F1322B6432600E5A8EC /* wxPGOptionProperty.cpp */; };
+		65579F3822B6432800E5A8EC /* FilterUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F1522B6432600E5A8EC /* FilterUtils.cpp */; };
+		65579F3922B6432800E5A8EC /* wxEncoderConfigEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F1A22B6432700E5A8EC /* wxEncoderConfigEditor.cpp */; };
+		65579F3A22B6432800E5A8EC /* OptionContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F2122B6432700E5A8EC /* OptionContainer.cpp */; };
+		65579F3B22B6432800E5A8EC /* MuxerUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F2A22B6432800E5A8EC /* MuxerUtils.cpp */; };
+		65579F3C22B6432800E5A8EC /* wxFilterPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F2B22B6432800E5A8EC /* wxFilterPanel.cpp */; };
+		65579F3E22B6432800E5A8EC /* FrameFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65579F2D22B6432800E5A8EC /* FrameFilter.cpp */; };
 		7E48CD071700FC3100D1EFDC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E48CD061700FC3100D1EFDC /* Cocoa.framework */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		11B4504B0F31126B00C5D63D /* SDK_Segment_Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SDK_Segment_Utils.cpp; path = ../../../Utils/SDK_Segment_Utils.cpp; sourceTree = SOURCE_ROOT; };
-		11B4504C0F31126B00C5D63D /* SDK_Segment_Utils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDK_Segment_Utils.h; path = ../../../Utils/SDK_Segment_Utils.h; sourceTree = SOURCE_ROOT; };
-		11CA39540FB39A6E002C4700 /* PrSDKSequenceAudioSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKSequenceAudioSuite.h; path = ../../../Headers/PrSDKSequenceAudioSuite.h; sourceTree = SOURCE_ROOT; };
-		11CA39550FB39A80002C4700 /* PrSDKSequenceRenderSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKSequenceRenderSuite.h; path = ../../../Headers/PrSDKSequenceRenderSuite.h; sourceTree = SOURCE_ROOT; };
-		11D1EB490FC63B01006036A4 /* SDK_Exporter_Params.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SDK_Exporter_Params.cpp; path = ../SDK_Exporter_Params.cpp; sourceTree = SOURCE_ROOT; };
-		11D1EB4B0FC63B0A006036A4 /* SDK_Exporter_Params.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDK_Exporter_Params.h; path = ../SDK_Exporter_Params.h; sourceTree = SOURCE_ROOT; };
-		11D1EB4D0FC63B98006036A4 /* PrSDKClipRenderSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKClipRenderSuite.h; path = ../../../Headers/PrSDKClipRenderSuite.h; sourceTree = SOURCE_ROOT; };
-		11D1EB4E0FC63B98006036A4 /* PrSDKEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKEntry.h; path = ../../../Headers/PrSDKEntry.h; sourceTree = SOURCE_ROOT; };
-		11D1EB4F0FC63B98006036A4 /* PrSDKMALErrors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKMALErrors.h; path = ../../../Headers/PrSDKMALErrors.h; sourceTree = SOURCE_ROOT; };
-		11D1EB500FC63B98006036A4 /* PrSDKMarkerSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKMarkerSuite.h; path = ../../../Headers/PrSDKMarkerSuite.h; sourceTree = SOURCE_ROOT; };
-		11D1EB510FC63B98006036A4 /* PrSDKPixelFormat.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKPixelFormat.h; path = ../../../Headers/PrSDKPixelFormat.h; sourceTree = SOURCE_ROOT; };
-		11D1EB520FC63B98006036A4 /* PrSDKPPixSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKPPixSuite.h; path = ../../../Headers/PrSDKPPixSuite.h; sourceTree = SOURCE_ROOT; };
-		11D1EB530FC63B98006036A4 /* PrSDKQuality.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKQuality.h; path = ../../../Headers/PrSDKQuality.h; sourceTree = SOURCE_ROOT; };
-		11D1EB540FC63B98006036A4 /* PrSDKTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKTypes.h; path = ../../../Headers/PrSDKTypes.h; sourceTree = SOURCE_ROOT; };
-		11F7C1EF0E43A4F0004962F5 /* SDK_Exporter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SDK_Exporter.cpp; path = ../SDK_Exporter.cpp; sourceTree = SOURCE_ROOT; };
-		11F7C1F00E43A4F0004962F5 /* SDK_Exporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDK_Exporter.h; path = ../SDK_Exporter.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F20E43A50A004962F5 /* PrSDKExport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKExport.h; path = ../../../Headers/PrSDKExport.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F30E43A50A004962F5 /* PrSDKExportFileSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKExportFileSuite.h; path = ../../../Headers/PrSDKExportFileSuite.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F40E43A50A004962F5 /* PrSDKExportInfoSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKExportInfoSuite.h; path = ../../../Headers/PrSDKExportInfoSuite.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F50E43A50A004962F5 /* PrSDKExportParamSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKExportParamSuite.h; path = ../../../Headers/PrSDKExportParamSuite.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F60E43A50A004962F5 /* PrSDKExportProgressSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKExportProgressSuite.h; path = ../../../Headers/PrSDKExportProgressSuite.h; sourceTree = SOURCE_ROOT; };
-		11F7C1F70E43A516004962F5 /* SDK_File.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SDK_File.cpp; path = ../../../Utils/SDK_File.cpp; sourceTree = SOURCE_ROOT; };
-		11F7C1F80E43A516004962F5 /* SDK_File.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDK_File.h; path = ../../../Utils/SDK_File.h; sourceTree = SOURCE_ROOT; };
-		11FA2EF20FC4C380009438F1 /* PrSDKAudioSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKAudioSuite.h; path = ../../../Headers/PrSDKAudioSuite.h; sourceTree = SOURCE_ROOT; };
-		11FA2EF50FC4C80E009438F1 /* PrSDKTimeSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKTimeSuite.h; path = ../../../Headers/PrSDKTimeSuite.h; sourceTree = SOURCE_ROOT; };
-		11FA2F030FC4D6B1009438F1 /* PrSDKMemoryManagerSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrSDKMemoryManagerSuite.h; path = ../../../Headers/PrSDKMemoryManagerSuite.h; sourceTree = SOURCE_ROOT; };
-		32BAE0B30371A71500C91783 /* SDK_Exporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDK_Exporter_Prefix.pch; sourceTree = "<group>"; };
+		65579EE722B6165500E5A8EC /* AudioRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRenderer.h; path = ../PremierePlugin/AudioRenderer.h; sourceTree = "<group>"; };
+		65579EE822B6165500E5A8EC /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resource.h; path = ../PremierePlugin/Resource.h; sourceTree = "<group>"; };
+		65579EE922B6165500E5A8EC /* Suites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Suites.h; path = ../PremierePlugin/Suites.h; sourceTree = "<group>"; };
+		65579EEA22B6165500E5A8EC /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gui.cpp; path = ../PremierePlugin/Gui.cpp; sourceTree = "<group>"; };
+		65579EEB22B6165500E5A8EC /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gui.h; path = ../PremierePlugin/Gui.h; sourceTree = "<group>"; };
+		65579EEC22B6165500E5A8EC /* PremierePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PremierePlugin.h; path = ../PremierePlugin/PremierePlugin.h; sourceTree = "<group>"; };
+		65579EED22B6165500E5A8EC /* AudioRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioRenderer.cpp; path = ../PremierePlugin/AudioRenderer.cpp; sourceTree = "<group>"; };
+		65579EEE22B6165500E5A8EC /* VideoRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRenderer.h; path = ../PremierePlugin/VideoRenderer.h; sourceTree = "<group>"; };
+		65579EEF22B6165500E5A8EC /* PremierePlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PremierePlugin.cpp; path = ../PremierePlugin/PremierePlugin.cpp; sourceTree = "<group>"; };
+		65579EF022B6165500E5A8EC /* VideoRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoRenderer.cpp; path = ../PremierePlugin/VideoRenderer.cpp; sourceTree = "<group>"; };
+		65579EF622B6432400E5A8EC /* OptionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionFilter.h; path = ../Core/OptionFilter.h; sourceTree = "<group>"; };
+		65579EF722B6432500E5A8EC /* Voukoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Voukoder.h; path = ../Core/Voukoder.h; sourceTree = "<group>"; };
+		65579EF822B6432500E5A8EC /* wxVoukoderDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxVoukoderDialog.cpp; path = ../Core/wxVoukoderDialog.cpp; sourceTree = "<group>"; };
+		65579EF922B6432500E5A8EC /* ExportInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExportInfo.h; path = ../Core/ExportInfo.h; sourceTree = "<group>"; };
+		65579EFA22B6432500E5A8EC /* Callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Callback.h; path = ../Core/Callback.h; sourceTree = "<group>"; };
+		65579EFB22B6432500E5A8EC /* EncoderUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EncoderUtils.cpp; path = ../Core/EncoderUtils.cpp; sourceTree = "<group>"; };
+		65579EFC22B6432500E5A8EC /* Images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Images.h; path = ../Core/Images.h; sourceTree = "<group>"; };
+		65579EFD22B6432500E5A8EC /* OptionResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionResourceUtils.h; path = ../Core/OptionResourceUtils.h; sourceTree = "<group>"; };
+		65579EFE22B6432500E5A8EC /* EncoderOptionPresets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderOptionPresets.h; path = ../Core/EncoderOptionPresets.h; sourceTree = "<group>"; };
+		65579EFF22B6432500E5A8EC /* EncoderEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EncoderEngine.cpp; path = ../Core/EncoderEngine.cpp; sourceTree = "<group>"; };
+		65579F0022B6432500E5A8EC /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = ../Core/Version.h; sourceTree = "<group>"; };
+		65579F0122B6432500E5A8EC /* PluginUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginUpdate.h; path = ../Core/PluginUpdate.h; sourceTree = "<group>"; };
+		65579F0222B6432500E5A8EC /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = ../Core/Log.cpp; sourceTree = "<group>"; };
+		65579F0322B6432500E5A8EC /* MuxerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MuxerInfo.h; path = ../Core/MuxerInfo.h; sourceTree = "<group>"; };
+		65579F0422B6432500E5A8EC /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../Core/json.hpp; sourceTree = "<group>"; };
+		65579F0522B6432500E5A8EC /* Voukoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Voukoder.cpp; path = ../Core/Voukoder.cpp; sourceTree = "<group>"; };
+		65579F0622B6432500E5A8EC /* FilterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterInfo.h; path = ../Core/FilterInfo.h; sourceTree = "<group>"; };
+		65579F0722B6432600E5A8EC /* NvidiaCustomOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NvidiaCustomOptions.h; path = ../Core/NvidiaCustomOptions.h; sourceTree = "<group>"; };
+		65579F0822B6432600E5A8EC /* EncoderGroupInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderGroupInfo.h; path = ../Core/EncoderGroupInfo.h; sourceTree = "<group>"; };
+		65579F0922B6432600E5A8EC /* wxAddFilterDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxAddFilterDialog.cpp; path = ../Core/wxAddFilterDialog.cpp; sourceTree = "<group>"; };
+		65579F0A22B6432600E5A8EC /* LanguageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LanguageUtils.cpp; path = ../Core/LanguageUtils.cpp; sourceTree = "<group>"; };
+		65579F0B22B6432600E5A8EC /* wxPGOptionProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxPGOptionProperty.h; path = ../Core/wxPGOptionProperty.h; sourceTree = "<group>"; };
+		65579F0C22B6432600E5A8EC /* ResourceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceInfo.h; path = ../Core/ResourceInfo.h; sourceTree = "<group>"; };
+		65579F0D22B6432600E5A8EC /* OptionFilterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionFilterInfo.h; path = ../Core/OptionFilterInfo.h; sourceTree = "<group>"; };
+		65579F0E22B6432600E5A8EC /* OnSelectionOptionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OnSelectionOptionFilter.h; path = ../Core/OnSelectionOptionFilter.h; sourceTree = "<group>"; };
+		65579F0F22B6432600E5A8EC /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../Core/Log.h; sourceTree = "<group>"; };
+		65579F1022B6432600E5A8EC /* NvidiaCustomOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NvidiaCustomOptions.cpp; path = ../Core/NvidiaCustomOptions.cpp; sourceTree = "<group>"; };
+		65579F1122B6432600E5A8EC /* OptionResourceUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionResourceUtils.cpp; path = ../Core/OptionResourceUtils.cpp; sourceTree = "<group>"; };
+		65579F1222B6432600E5A8EC /* EncoderOptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderOptionInfo.h; path = ../Core/EncoderOptionInfo.h; sourceTree = "<group>"; };
+		65579F1322B6432600E5A8EC /* wxPGOptionProperty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxPGOptionProperty.cpp; path = ../Core/wxPGOptionProperty.cpp; sourceTree = "<group>"; };
+		65579F1422B6432600E5A8EC /* wxEncoderConfigEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxEncoderConfigEditor.h; path = ../Core/wxEncoderConfigEditor.h; sourceTree = "<group>"; };
+		65579F1522B6432600E5A8EC /* FilterUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FilterUtils.cpp; path = ../Core/FilterUtils.cpp; sourceTree = "<group>"; };
+		65579F1622B6432700E5A8EC /* OptionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionValue.h; path = ../Core/OptionValue.h; sourceTree = "<group>"; };
+		65579F1722B6432700E5A8EC /* EncoderEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderEngine.h; path = ../Core/EncoderEngine.h; sourceTree = "<group>"; };
+		65579F1822B6432700E5A8EC /* FilterConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterConfig.h; path = ../Core/FilterConfig.h; sourceTree = "<group>"; };
+		65579F1922B6432700E5A8EC /* MuxerUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MuxerUtils.h; path = ../Core/MuxerUtils.h; sourceTree = "<group>"; };
+		65579F1A22B6432700E5A8EC /* wxEncoderConfigEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxEncoderConfigEditor.cpp; path = ../Core/wxEncoderConfigEditor.cpp; sourceTree = "<group>"; };
+		65579F1B22B6432700E5A8EC /* FrameFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FrameFilter.h; path = ../Core/FrameFilter.h; sourceTree = "<group>"; };
+		65579F1C22B6432700E5A8EC /* EncoderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderUtils.h; path = ../Core/EncoderUtils.h; sourceTree = "<group>"; };
+		65579F1D22B6432700E5A8EC /* EncoderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderContext.h; path = ../Core/EncoderContext.h; sourceTree = "<group>"; };
+		65579F1E22B6432700E5A8EC /* LanguageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageUtils.h; path = ../Core/LanguageUtils.h; sourceTree = "<group>"; };
+		65579F1F22B6432700E5A8EC /* EncoderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncoderInfo.h; path = ../Core/EncoderInfo.h; sourceTree = "<group>"; };
+		65579F2022B6432700E5A8EC /* OnChangeValueOptionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OnChangeValueOptionFilter.h; path = ../Core/OnChangeValueOptionFilter.h; sourceTree = "<group>"; };
+		65579F2122B6432700E5A8EC /* OptionContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionContainer.cpp; path = ../Core/OptionContainer.cpp; sourceTree = "<group>"; };
+		65579F2222B6432700E5A8EC /* wxVoukoderDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxVoukoderDialog.h; path = ../Core/wxVoukoderDialog.h; sourceTree = "<group>"; };
+		65579F2322B6432700E5A8EC /* OptionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionContainer.h; path = ../Core/OptionContainer.h; sourceTree = "<group>"; };
+		65579F2422B6432800E5A8EC /* wxAddFilterDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxAddFilterDialog.h; path = ../Core/wxAddFilterDialog.h; sourceTree = "<group>"; };
+		65579F2522B6432800E5A8EC /* InstructionSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionSet.h; path = ../Core/InstructionSet.h; sourceTree = "<group>"; };
+		65579F2622B6432800E5A8EC /* LanguageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageInfo.h; path = ../Core/LanguageInfo.h; sourceTree = "<group>"; };
+		65579F2722B6432800E5A8EC /* wxFilterPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxFilterPanel.h; path = ../Core/wxFilterPanel.h; sourceTree = "<group>"; };
+		65579F2822B6432800E5A8EC /* FilterUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterUtils.h; path = ../Core/FilterUtils.h; sourceTree = "<group>"; };
+		65579F2922B6432800E5A8EC /* lavf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lavf.h; path = ../Core/lavf.h; sourceTree = "<group>"; };
+		65579F2A22B6432800E5A8EC /* MuxerUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MuxerUtils.cpp; path = ../Core/MuxerUtils.cpp; sourceTree = "<group>"; };
+		65579F2B22B6432800E5A8EC /* wxFilterPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxFilterPanel.cpp; path = ../Core/wxFilterPanel.cpp; sourceTree = "<group>"; };
+		65579F2D22B6432800E5A8EC /* FrameFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FrameFilter.cpp; path = ../Core/FrameFilter.cpp; sourceTree = "<group>"; };
 		7E48CD061700FC3100D1EFDC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D01CCD20486CAD60068D4B7 /* SDK_Exporter.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDK_Exporter.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,28 +129,61 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				11B4504B0F31126B00C5D63D /* SDK_Segment_Utils.cpp */,
-				11B4504C0F31126B00C5D63D /* SDK_Segment_Utils.h */,
-				11F7C1F70E43A516004962F5 /* SDK_File.cpp */,
-				11F7C1F80E43A516004962F5 /* SDK_File.h */,
-				11FA2EF20FC4C380009438F1 /* PrSDKAudioSuite.h */,
-				11D1EB4D0FC63B98006036A4 /* PrSDKClipRenderSuite.h */,
-				11D1EB4E0FC63B98006036A4 /* PrSDKEntry.h */,
-				11F7C1F20E43A50A004962F5 /* PrSDKExport.h */,
-				11F7C1F30E43A50A004962F5 /* PrSDKExportFileSuite.h */,
-				11F7C1F40E43A50A004962F5 /* PrSDKExportInfoSuite.h */,
-				11F7C1F50E43A50A004962F5 /* PrSDKExportParamSuite.h */,
-				11F7C1F60E43A50A004962F5 /* PrSDKExportProgressSuite.h */,
-				11D1EB4F0FC63B98006036A4 /* PrSDKMALErrors.h */,
-				11D1EB500FC63B98006036A4 /* PrSDKMarkerSuite.h */,
-				11FA2F030FC4D6B1009438F1 /* PrSDKMemoryManagerSuite.h */,
-				11D1EB510FC63B98006036A4 /* PrSDKPixelFormat.h */,
-				11D1EB520FC63B98006036A4 /* PrSDKPPixSuite.h */,
-				11D1EB530FC63B98006036A4 /* PrSDKQuality.h */,
-				11CA39540FB39A6E002C4700 /* PrSDKSequenceAudioSuite.h */,
-				11CA39550FB39A80002C4700 /* PrSDKSequenceRenderSuite.h */,
-				11FA2EF50FC4C80E009438F1 /* PrSDKTimeSuite.h */,
-				11D1EB540FC63B98006036A4 /* PrSDKTypes.h */,
+				65579EFA22B6432500E5A8EC /* Callback.h */,
+				65579F1D22B6432700E5A8EC /* EncoderContext.h */,
+				65579EFF22B6432500E5A8EC /* EncoderEngine.cpp */,
+				65579F1722B6432700E5A8EC /* EncoderEngine.h */,
+				65579F0822B6432600E5A8EC /* EncoderGroupInfo.h */,
+				65579F1F22B6432700E5A8EC /* EncoderInfo.h */,
+				65579F1222B6432600E5A8EC /* EncoderOptionInfo.h */,
+				65579EFE22B6432500E5A8EC /* EncoderOptionPresets.h */,
+				65579EFB22B6432500E5A8EC /* EncoderUtils.cpp */,
+				65579F1C22B6432700E5A8EC /* EncoderUtils.h */,
+				65579EF922B6432500E5A8EC /* ExportInfo.h */,
+				65579F1822B6432700E5A8EC /* FilterConfig.h */,
+				65579F0622B6432500E5A8EC /* FilterInfo.h */,
+				65579F1522B6432600E5A8EC /* FilterUtils.cpp */,
+				65579F2822B6432800E5A8EC /* FilterUtils.h */,
+				65579F2D22B6432800E5A8EC /* FrameFilter.cpp */,
+				65579F1B22B6432700E5A8EC /* FrameFilter.h */,
+				65579EFC22B6432500E5A8EC /* Images.h */,
+				65579F2522B6432800E5A8EC /* InstructionSet.h */,
+				65579F0422B6432500E5A8EC /* json.hpp */,
+				65579F2622B6432800E5A8EC /* LanguageInfo.h */,
+				65579F0A22B6432600E5A8EC /* LanguageUtils.cpp */,
+				65579F1E22B6432700E5A8EC /* LanguageUtils.h */,
+				65579F2922B6432800E5A8EC /* lavf.h */,
+				65579F0222B6432500E5A8EC /* Log.cpp */,
+				65579F0F22B6432600E5A8EC /* Log.h */,
+				65579F0322B6432500E5A8EC /* MuxerInfo.h */,
+				65579F2A22B6432800E5A8EC /* MuxerUtils.cpp */,
+				65579F1922B6432700E5A8EC /* MuxerUtils.h */,
+				65579F1022B6432600E5A8EC /* NvidiaCustomOptions.cpp */,
+				65579F0722B6432600E5A8EC /* NvidiaCustomOptions.h */,
+				65579F2022B6432700E5A8EC /* OnChangeValueOptionFilter.h */,
+				65579F0E22B6432600E5A8EC /* OnSelectionOptionFilter.h */,
+				65579F2122B6432700E5A8EC /* OptionContainer.cpp */,
+				65579F2322B6432700E5A8EC /* OptionContainer.h */,
+				65579EF622B6432400E5A8EC /* OptionFilter.h */,
+				65579F0D22B6432600E5A8EC /* OptionFilterInfo.h */,
+				65579F1122B6432600E5A8EC /* OptionResourceUtils.cpp */,
+				65579EFD22B6432500E5A8EC /* OptionResourceUtils.h */,
+				65579F1622B6432700E5A8EC /* OptionValue.h */,
+				65579F0122B6432500E5A8EC /* PluginUpdate.h */,
+				65579F0C22B6432600E5A8EC /* ResourceInfo.h */,
+				65579F0022B6432500E5A8EC /* Version.h */,
+				65579F0522B6432500E5A8EC /* Voukoder.cpp */,
+				65579EF722B6432500E5A8EC /* Voukoder.h */,
+				65579F0922B6432600E5A8EC /* wxAddFilterDialog.cpp */,
+				65579F2422B6432800E5A8EC /* wxAddFilterDialog.h */,
+				65579F1A22B6432700E5A8EC /* wxEncoderConfigEditor.cpp */,
+				65579F1422B6432600E5A8EC /* wxEncoderConfigEditor.h */,
+				65579F2B22B6432800E5A8EC /* wxFilterPanel.cpp */,
+				65579F2722B6432800E5A8EC /* wxFilterPanel.h */,
+				65579F1322B6432600E5A8EC /* wxPGOptionProperty.cpp */,
+				65579F0B22B6432600E5A8EC /* wxPGOptionProperty.h */,
+				65579EF822B6432500E5A8EC /* wxVoukoderDialog.cpp */,
+				65579F2222B6432700E5A8EC /* wxVoukoderDialog.h */,
 				7E48CD061700FC3100D1EFDC /* Cocoa.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -114,11 +201,16 @@
 		08FB77ADFE841716C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				11F7C1EF0E43A4F0004962F5 /* SDK_Exporter.cpp */,
-				11F7C1F00E43A4F0004962F5 /* SDK_Exporter.h */,
-				11D1EB490FC63B01006036A4 /* SDK_Exporter_Params.cpp */,
-				11D1EB4B0FC63B0A006036A4 /* SDK_Exporter_Params.h */,
-				32BAE0B30371A71500C91783 /* SDK_Exporter_Prefix.pch */,
+				65579EED22B6165500E5A8EC /* AudioRenderer.cpp */,
+				65579EE722B6165500E5A8EC /* AudioRenderer.h */,
+				65579EEA22B6165500E5A8EC /* Gui.cpp */,
+				65579EEB22B6165500E5A8EC /* Gui.h */,
+				65579EEF22B6165500E5A8EC /* PremierePlugin.cpp */,
+				65579EEC22B6165500E5A8EC /* PremierePlugin.h */,
+				65579EE822B6165500E5A8EC /* Resource.h */,
+				65579EE922B6165500E5A8EC /* Suites.h */,
+				65579EF022B6165500E5A8EC /* VideoRenderer.cpp */,
+				65579EEE22B6165500E5A8EC /* VideoRenderer.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -160,11 +252,12 @@
 			attributes = {
 				LastUpgradeCheck = 0730;
 			};
-			buildConfigurationList = 4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "SDK_Exporter" */;
+			buildConfigurationList = 4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "PremierePluginMac" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* SDK_Exporter */;
@@ -192,10 +285,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11F7C1F10E43A4F0004962F5 /* SDK_Exporter.cpp in Sources */,
-				11F7C1F90E43A516004962F5 /* SDK_File.cpp in Sources */,
-				11B4504D0F31126B00C5D63D /* SDK_Segment_Utils.cpp in Sources */,
-				11D1EB4A0FC63B01006036A4 /* SDK_Exporter_Params.cpp in Sources */,
+				65579F3322B6432800E5A8EC /* wxAddFilterDialog.cpp in Sources */,
+				65579EF322B6165500E5A8EC /* PremierePlugin.cpp in Sources */,
+				65579F3522B6432800E5A8EC /* NvidiaCustomOptions.cpp in Sources */,
+				65579F3622B6432800E5A8EC /* OptionResourceUtils.cpp in Sources */,
+				65579EF122B6165500E5A8EC /* Gui.cpp in Sources */,
+				65579F3122B6432800E5A8EC /* Log.cpp in Sources */,
+				65579F3922B6432800E5A8EC /* wxEncoderConfigEditor.cpp in Sources */,
+				65579F3B22B6432800E5A8EC /* MuxerUtils.cpp in Sources */,
+				65579EF422B6165500E5A8EC /* VideoRenderer.cpp in Sources */,
+				65579F3822B6432800E5A8EC /* FilterUtils.cpp in Sources */,
+				65579EF222B6165500E5A8EC /* AudioRenderer.cpp in Sources */,
+				65579F2F22B6432800E5A8EC /* EncoderUtils.cpp in Sources */,
+				65579F3222B6432800E5A8EC /* Voukoder.cpp in Sources */,
+				65579F3C22B6432800E5A8EC /* wxFilterPanel.cpp in Sources */,
+				65579F3E22B6432800E5A8EC /* FrameFilter.cpp in Sources */,
+				65579F3022B6432800E5A8EC /* EncoderEngine.cpp in Sources */,
+				65579F2E22B6432800E5A8EC /* wxVoukoderDialog.cpp in Sources */,
+				65579F3422B6432800E5A8EC /* LanguageUtils.cpp in Sources */,
+				65579F3722B6432800E5A8EC /* wxPGOptionProperty.cpp in Sources */,
+				65579F3A22B6432800E5A8EC /* OptionContainer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,8 +330,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SDK_Exporter_Prefix.pch;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
@@ -239,8 +348,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SDK_Exporter_Prefix.pch;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
@@ -254,8 +363,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "i386 x86_64";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
+				EXTERNAL = /Users/daniel/external;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -266,10 +378,60 @@
 				HEADER_SEARCH_PATHS = (
 					../../../Headers/,
 					../../../Utils/,
+					$EXTERNAL/include,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I$WXROOT/build-release/lib/wx/include/osx_cocoa-unicode-static-3.1",
+					"-I$WXROOT/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DwxDEBUG_LEVEL=0",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+					"-I$EXTERNAL/include",
+				);
+				OTHER_LDFLAGS = (
+					"-L$WXROOT/build-release/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_xrc-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_qa-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu_net-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_html-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_core-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu_xml-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu-3.1.a",
+					"-framework",
+					WebKit,
+					"-lwxtiff-3.1",
+					"-lwxjpeg-3.1",
+					"-lwxpng-3.1",
+					"-lwxregexu-3.1",
+					"-lwxscintilla-3.1",
+					"-lexpat",
+					"-lz",
+					"-framework",
+					Security,
+					"-lpthread",
+					"-liconv",
+				);
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../Core;
 				WRAPPER_EXTENSION = bundle;
+				WXROOT = "/Users/daniel/wxWidgets-3.1.2";
 			};
 			name = Debug;
 		};
@@ -277,7 +439,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "i386 x86_64";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EXTERNAL = /Users/daniel/external;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -288,9 +453,59 @@
 				HEADER_SEARCH_PATHS = (
 					../../../Headers/,
 					../../../Utils/,
+					$EXTERNAL/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I$WXROOT/build-release/lib/wx/include/osx_cocoa-unicode-static-3.1",
+					"-I$WXROOT/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DwxDEBUG_LEVEL=0",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+					"-I$EXTERNAL/include",
+				);
+				OTHER_LDFLAGS = (
+					"-L$WXROOT/build-release/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_xrc-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_qa-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu_net-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_html-3.1.a",
+					"$WXROOT/build-release/lib/libwx_osx_cocoau_core-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu_xml-3.1.a",
+					"$WXROOT/build-release/lib/libwx_baseu-3.1.a",
+					"-framework",
+					WebKit,
+					"-lwxtiff-3.1",
+					"-lwxjpeg-3.1",
+					"-lwxpng-3.1",
+					"-lwxregexu-3.1",
+					"-lwxscintilla-3.1",
+					"-lexpat",
+					"-lz",
+					"-framework",
+					Security,
+					"-lpthread",
+					"-liconv",
 				);
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../Core;
 				WRAPPER_EXTENSION = bundle;
+				WXROOT = "/Users/daniel/wxWidgets-3.1.2";
 			};
 			name = Release;
 		};
@@ -306,7 +521,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "SDK_Exporter" */ = {
+		4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "PremierePluginMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4FADC23808B4156C00ABE55E /* Debug */,

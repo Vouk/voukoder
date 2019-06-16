@@ -29,7 +29,7 @@ class wxAddFilterDialog : public wxDialog
 {
 public:
 	wxAddFilterDialog(wxWindow* parent, OptionContainer** options, AVMediaType type = AVMEDIA_TYPE_UNKNOWN);
-	void GetFilterOptions(vector<OptionContainer>** options);
+    void GetFilterOptions(std::vector<OptionContainer>** options);
 
 protected:
 	wxNotebook* m_notebook;

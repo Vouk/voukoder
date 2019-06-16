@@ -91,7 +91,7 @@ void wxEncoderConfigEditor::Configure(EncoderInfo encoderInfo, OptionContainer o
 			m_propertyGrid->AppendIn(category, optionProperty);
 
 			// Import stored settings
-			EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
+			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 			if (options.find(optionInfo.parameter) != options.end())
 			{
 				optionProperty->SetChecked();
@@ -155,7 +155,7 @@ void wxEncoderConfigEditor::ExecuteFilters(wxOptionProperty *optionProperty)
 	EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 
 	// Basic filters
-	vector<OptionFilterInfo> filters;
+    std::vector<OptionFilterInfo> filters;
 	filters.assign(optionInfo.filters.begin(), optionInfo.filters.end());
 
 	// Add ComboBox item filters
@@ -300,14 +300,14 @@ void wxEncoderConfigEditor::RefreshResults()
 				// Assign the value
 				if (!value.IsEmpty())
 				{
-					string param = parameter.ToStdString();
+                    std::string param = parameter.ToStdString();
 					if (optionInfo.preprendNoIfFalse && value == "0")
 					{
 						param = "no-" + param;
 						value = "1";
 					}
 
-					string paramGroup = EncoderUtils::GetParameterGroup(encoderInfo, param);
+                    std::string paramGroup = EncoderUtils::GetParameterGroup(encoderInfo, param);
 
 					// Is it a grouped parameter?
 					if (paramGroup.empty())

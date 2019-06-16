@@ -3,12 +3,14 @@
 #include <wx/wx.h>
 #include <map>
 
-using namespace std;
+#ifndef _WIN32
+typedef unsigned short LANGID;
+#endif
 
 struct LanguageInfo
 {
 	wxString id;
 	wxString name;
 	LANGID langId;
-	map<wxString, wxString> translations;
+    std::map<wxString, wxString> translations;
 };
