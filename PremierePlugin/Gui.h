@@ -64,7 +64,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_int; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -80,7 +80,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_bool; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -97,7 +97,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_ratio; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -113,7 +113,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_ticksFrameRate; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -129,7 +129,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_float; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -144,7 +144,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_button; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 
@@ -160,7 +160,7 @@ struct ArbData
 	par.flags = _paramflags_; \
 	par.paramType = exParamType_string; \
 	par.paramValues = val; \
-	::lstrcpyA(par.identifier, _identifier_); \
+    strncpy(par.identifier, _identifier_, sizeof(_identifier_)); \
 	suites->exportParamSuite->AddParam(pluginId, 0, _groupName_, &par); \
 }
 

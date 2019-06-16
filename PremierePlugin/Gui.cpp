@@ -1,5 +1,6 @@
 #include "Gui.h"
 #include <wx/wx.h>
+#include <lavf.h>
 #include <LanguageUtils.h>
 #include <Log.h>
 
@@ -238,11 +239,11 @@ void Gui::CheckSettings()
 	{
 		videoEncoder = audioEncoder = muxer = none;
 	}
-
+    
 	// Set the values
-	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedMuxer, &value, muxer);
-	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedVideoEncoder, &value, videoEncoder);
-	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedAudioEncoder, &value, audioEncoder);
+	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedMuxer, &value, muxer.ToStdWstring().c_str());
+	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedVideoEncoder, &value, videoEncoder.ToStdWstring().c_str());
+	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedAudioEncoder, &value, audioEncoder.ToStdWstring().c_str());
 }
 
 prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
@@ -261,7 +262,7 @@ prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
 	{
 		if (muxer.id == muxerId)
 		{
-			prUTF16CharCopy(extension, muxer.extension);
+			prUTF16CharCopy(extension, muxer.extension.ToStdWstring().c_str());
 
 			return malNoError;
 		}
@@ -291,14 +292,15 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 
 	GetExportInfo(exportInfo);
 
+    int result;
+
+#ifdef _WIN32
 	// Restore plugin's activation context.
 	actctx_activator actctx(g_act_ctx);
 
 	// Initialize application.
 	new wxApp();
 	wxEntryStart(g_instance);
-
-	int result;
 
 	// Have an own scope
 	{
@@ -318,6 +320,15 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 		wxTopLevelWindows.DeleteObject(&parent);
 		parent.SetHWND((WXHWND)NULL);
 	}
+#else
+    new wxApp();
+    //wxEntryStart(0, "");
+    wxWindow *parent = new wxWindow;
+    // Create and launch configuration dialog.
+    wxVoukoderDialog dialog(parent, exportInfo);
+    dialog.SetConfiguration();
+    result = dialog.ShowModal();
+#endif
 
 	// Clean-up and return.
 	wxEntryCleanup();
@@ -405,10 +416,10 @@ bool Gui::StoreEncoderOptions(const char *dataId, ExportInfo exportInfo)
 	arbData.version = ARB_VERSION;
 	prUTF16CharCopy(arbData.videoCodecId, exportInfo.video.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.videoCodecOptions, exportInfo.video.options.Serialize(true).c_str());
-	prUTF16CharCopy(arbData.videoFilters, exportInfo.video.filters.Serialize());
+	prUTF16CharCopy(arbData.videoFilters, exportInfo.video.filters.Serialize().ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.audioCodecId, exportInfo.audio.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.Serialize(true).c_str());
-	prUTF16CharCopy(arbData.audioFilters, exportInfo.audio.filters.Serialize());
+	prUTF16CharCopy(arbData.audioFilters, exportInfo.audio.filters.Serialize().ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.formatId, exportInfo.format.id.ToStdWstring().c_str());
 	arbData.faststart = exportInfo.format.faststart;
 
@@ -456,8 +467,7 @@ bool Gui::ClearEncoderOptions(const char *dataId)
 	return true;
 }
 
-template <class T>
-static inline T GCD(T a, T b) { if (a == 0) return b; return GCD(b % a, a); }
+static inline PrTime GCD(PrTime a, PrTime b) { if (a == 0) return b; return GCD(b % a, a); }
 
 void Gui::GetExportInfo(ExportInfo &exportInfo)
 {
@@ -507,7 +517,7 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 	// Sample format
 	if (exportInfo.audio.enabled && exportInfo.audio.sampleFormat == AV_SAMPLE_FMT_NONE)
 	{
-		AVCodec *codec = avcodec_find_encoder_by_name(exportInfo.audio.id);
+		AVCodec *codec = avcodec_find_encoder_by_name(exportInfo.audio.id.ToStdString().c_str());
 		if (codec != NULL) // TODO: Check if sizeof(sample_fmts) > 0?
 		{
 			exportInfo.audio.sampleFormat = codec->sample_fmts[0];
@@ -603,7 +613,7 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 prMALError Gui::ReportMessage(wxString message, csSDK_uint32 type)
 {
 	// Use the adobe internal messaging system
-	suites->exporterUtilitySuite->ReportEvent(pluginId, type, VKDR_APPNAME, message);
+	suites->exporterUtilitySuite->ReportEvent(pluginId, type, VKDR_APPNAME, message.ToStdWstring().c_str());
 
 	if (type == kEventTypeError)
 	{

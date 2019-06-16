@@ -428,6 +428,7 @@
 					Security,
 					"-lpthread",
 					"-liconv",
+					"-L$EXTERNAL/lib",
 				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = /Users/daniel/Documents/voukoder/Core;
@@ -504,6 +505,7 @@
 					Security,
 					"-lpthread",
 					"-liconv",
+					"-L$EXTERNAL/lib",
 				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = /Users/daniel/Documents/voukoder/Core;
