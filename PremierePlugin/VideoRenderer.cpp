@@ -55,9 +55,11 @@ int VideoRenderer::createFrameFromBuffer(const uint8_t *pixels, const int rowByt
 			{
 				const __m128i yuva = _mm_loadu_si128((__m128i*)(p + c));
 				const __m128i out = _mm_shuffle_epi8(yuva, unpackMask8);
-				memcpy(frame.data[0] + q, out.m128i_u8 + 4, 4);
+#ifdef _WIN32
+                memcpy(frame.data[0] + q, out.m128i_u8 + 4, 4);
 				memcpy(frame.data[1] + q, out.m128i_u8 + 8, 4);
 				memcpy(frame.data[2] + q, out.m128i_u8 + 12, 4);
+#endif
 				q += 4;
 			}
 		}

@@ -3,6 +3,7 @@
 #include <LanguageUtils.h>
 #include <Log.h>
 
+#ifdef _WIN32
 class actctx_activator
 {
 protected:
@@ -44,6 +45,7 @@ BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL, _In_ DWORD fdwReason, _In_ LPVOID l
 
 	return TRUE;
 }
+#endif
 
 Gui::Gui(PrSuites *suites, csSDK_uint32 pluginId) :
 	suites(suites),

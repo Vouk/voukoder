@@ -1,6 +1,6 @@
 #pragma once
 
-#include "filterInfo.h"
+#include "FilterInfo.h"
 #include "json.hpp"
 
 using namespace nlohmann;

@@ -362,9 +362,10 @@
 		4FADC23808B4156C00ABE55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "i386 x86_64";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = x86_64;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_X86_VECTOR_INSTRUCTIONS = fma;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				EXTERNAL = /Users/daniel/external;
@@ -429,7 +430,8 @@
 					"-liconv",
 				);
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ../../Core;
+				USER_HEADER_SEARCH_PATHS = /Users/daniel/Documents/voukoder/Core;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = bundle;
 				WXROOT = "/Users/daniel/wxWidgets-3.1.2";
 			};
@@ -438,9 +440,10 @@
 		4FADC23908B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "i386 x86_64";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = x86_64;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_X86_VECTOR_INSTRUCTIONS = fma;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EXTERNAL = /Users/daniel/external;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
@@ -503,7 +506,8 @@
 					"-liconv",
 				);
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ../../Core;
+				USER_HEADER_SEARCH_PATHS = /Users/daniel/Documents/voukoder/Core;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = bundle;
 				WXROOT = "/Users/daniel/wxWidgets-3.1.2";
 			};
