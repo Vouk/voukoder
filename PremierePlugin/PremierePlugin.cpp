@@ -559,14 +559,14 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 						}
 
 						// Audio performance
-						audioLog = wxString::Format(", aRender: %d 탎, aEncoding: %d 탎",
+						audioLog = wxString::Format(", aRender: %d us, aEncoding: %d us",
 							(int)((tp_encode - tp_render) / std::chrono::microseconds(1)),
 							(int)((std::chrono::high_resolution_clock::now() - tp_encode) / std::chrono::microseconds(1)));
 					}
 				}
 
 				// Write performance log
-				vkLogInfoVA("Frame #%lld: vRender: %d 탎, vProcess: %d 탎, vEncoding: %d 탎" + audioLog + ", Latency: %d 탎",
+				vkLogInfoVA("Frame #%lld: vRender: %d us, vProcess: %d us, vEncoding: %d us" + audioLog + ", Latency: %d us",
 					vFrame->pts,
 					usRender,
 					usProcess,
