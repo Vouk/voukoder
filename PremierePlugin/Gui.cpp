@@ -137,7 +137,7 @@ prMALError Gui::Update()
 	{
 		paramPar.ratioValue.numerator = VideoAspects[i][0];
 		paramPar.ratioValue.denominator = VideoAspects[i][1];
-		wstring text = Trans("ui.premiere.tab.video.aspect", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.video.aspect", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEVideoAspect, &paramPar, text.c_str());
 	}
 
@@ -151,7 +151,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(VideoFramerates) / sizeof(VideoFramerates[0]); i++)
 	{
 		paramFps.timeValue = ticksPerSecond / VideoFramerates[i][0] * VideoFramerates[i][1];
-		wstring text = Trans("ui.premiere.tab.video.framerate", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.video.framerate", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEVideoFPS, &paramFps, text.c_str());
 	}
 
@@ -161,7 +161,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(VideoFieldTypes) / sizeof(VideoFieldTypes[0]); i++)
 	{
 		paramFieldType.intValue = VideoFieldTypes[i];
-		wstring text = Trans("ui.premiere.tab.video.fieldtype", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.video.fieldtype", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEVideoFieldType, &paramFieldType, text.c_str());
 	}
 
@@ -171,7 +171,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(ColorRanges) / sizeof(ColorRanges[0]); i++)
 	{
 		paramColorRangeType.intValue = ColorRanges[i];
-		wstring text = Trans("ui.premiere.tab.video.colorrange", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.video.colorrange", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRVideoColorRange, &paramColorRangeType, text.c_str());
 	}
 
@@ -181,7 +181,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(ColorSpaces) / sizeof(ColorSpaces[0]); i++)
 	{
 		paramColorSpace.intValue = ColorSpaces[i];
-		wstring text = Trans("ui.premiere.tab.video.colorspace", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.video.colorspace", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRVideoColorSpace, &paramColorSpace, text.c_str());
 	}
 
@@ -191,7 +191,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(AudioSamplingRates) / sizeof(AudioSamplingRates[0]); i++)
 	{
 		paramAudioRate.floatValue = AudioSamplingRates[i];
-		wstring text = Trans("ui.premiere.tab.audio.samplerate", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.audio.samplerate", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEAudioRatePerSecond, &paramAudioRate, text.c_str());
 	}
 
@@ -201,7 +201,7 @@ prMALError Gui::Update()
 	for (csSDK_int32 i = 0; i < sizeof(AudioChannels) / sizeof(AudioChannels[0]); i++)
 	{
 		paramAudioChannels.intValue = AudioChannels[i];
-		wstring text = Trans("ui.premiere.tab.audio.channels", "item_" + to_string(i));
+		std::wstring text = Trans("ui.premiere.tab.audio.channels", "item_" + std::to_string(i));
 		paramSuite->AddConstrainedValuePair(pluginId, 0, ADBEAudioNumChannels, &paramAudioChannels, text.c_str());
 	}
 

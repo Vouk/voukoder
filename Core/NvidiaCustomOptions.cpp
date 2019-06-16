@@ -49,21 +49,21 @@ bool NvidiaCustomOptions::GetOptions(EncoderInfo &encoderInfo)
 		cuDeviceComputeCapability(&major, &minor, 0);
 
 		// Convert to wstring
-		string deviceName = name;
-		wstring wdeviceName(deviceName.begin(), deviceName.end());
+		std::string deviceName = name;
+		std::wstring wdeviceName(deviceName.begin(), deviceName.end());
 
 		// Create an entry per GPU
 		EncoderOptionInfo::ComboItem comboItem;
-		comboItem.id = groupInfo.id + "._item_" + to_string(i);
+		comboItem.id = groupInfo.id + "._item_" + std::to_string(i);
 		comboItem.name = wdeviceName;
-		comboItem.value = to_string(i);
+		comboItem.value = std::to_string(i);
 
 		// Create a filter to change the compute capability together with the selected GPU
 		OptionFilterInfo::Arguments arguments;
-		arguments.insert(make_pair("id", groupInfo.id + ".computecapability"));
-		arguments.insert(make_pair("value", to_string(major) + "." + to_string(minor)));
+		arguments.insert(std::make_pair("id", groupInfo.id + ".computecapability"));
+		arguments.insert(std::make_pair("value", std::to_string(major) + "." + std::to_string(minor)));
 
-		vector<OptionFilterInfo::Arguments> argumentsList;
+		std::vector<OptionFilterInfo::Arguments> argumentsList;
 		argumentsList.push_back(arguments);
 
 		OptionFilterInfo filterInfo;

@@ -41,7 +41,7 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 			try
 			{
 				json jsonResource = json::parse(resource);
-				string id = jsonResource["id"].get<string>();
+				std::string id = jsonResource["id"].get<std::string>();
 
 				// Create configs and store them
 				if (lpType == MAKEINTRESOURCE(ID_ENCODER))
@@ -91,7 +91,7 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 bool Voukoder::Config::LoadResources(HMODULE hModule, LPTSTR lpType)
 {
 	// Create C conform callback
-	Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)>::func = bind(&Voukoder::Config::EnumNamesFunc, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)>::func = bind(&Voukoder::Config::EnumNamesFunc, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 
 	return EnumResourceNames(hModule, lpType, static_cast<ENUMRESNAMEPROC>(Callback<BOOL(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)>::callback), NULL);
 }

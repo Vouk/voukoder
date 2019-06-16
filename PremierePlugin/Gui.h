@@ -165,19 +165,19 @@ struct ArbData
 }
 
 #define prSetGroupName(_identifier_, _translationId_) { \
-    const wstring label = Trans(_translationId_); \
+    const std::wstring label = Trans(_translationId_); \
     suites->exportParamSuite->SetParamName(pluginId, 0, _identifier_, label.c_str()); \
 }
 
 #define prSetNameDescription(_identifier_, _translationId_) { \
-    const wstring label = Trans(_translationId_, "label"); \
-    const wstring description = Trans(_translationId_, "description"); \
+    const std::wstring label = Trans(_translationId_, "label"); \
+    const std::wstring description = Trans(_translationId_, "description"); \
     suites->exportParamSuite->SetParamName(pluginId, 0, _identifier_, label.c_str()); \
 	suites->exportParamSuite->SetParamDescription(pluginId, 0, _identifier_, description.c_str()); \
 }
 
 #define prCreateParamGroup(_identifier_, _groupName_, _parentGroupName_) { \
-    const wstring label = Trans(_identifier_); \
+    const std::wstring label = Trans(_identifier_); \
 	params->AddParamGroup(pluginId, 0, _parentGroupName_, _groupName_, label.c_str(), kPrFalse, kPrFalse, kPrFalse); \
 }
 
