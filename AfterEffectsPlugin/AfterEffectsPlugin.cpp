@@ -29,17 +29,15 @@ static int frame_count;
 class actctx_activator
 {
 protected:
-	ULONG_PTR m_cookie; // Cookie for context deactivation
+	ULONG_PTR m_cookie;
 
 public:
-	// Construct the activator and activates the given activation context
 	actctx_activator(_In_ HANDLE hActCtx)
 	{
 		if (!ActivateActCtx(hActCtx, &m_cookie))
 			m_cookie = 0;
 	}
 
-	// Deactivates activation context and destructs the activator
 	virtual ~actctx_activator()
 	{
 		if (m_cookie)
@@ -81,7 +79,7 @@ static A_Err AEIO_ConstructModuleInfo(AEIO_ModuleInfo *info)
 
 	if (info)
 	{
-		std::vector<MuxerInfo> muxerInfos = Voukoder::Config::Get().muxerInfos;
+		auto muxerInfos = Voukoder::Config::Get().muxerInfos;
 
 		info->sig = 'VKDR';
 		info->max_width = 8192;
@@ -134,37 +132,69 @@ static A_Err My_InitOutputSpec(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, 
 
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	AEIO_Handle old_optionsH = NULL, new_optionsH = NULL;
-	ERR(suites.MemorySuite1()->AEGP_NewMemHandle(S_mem_id, "InitOutputSpec options", sizeof(ArbData), AEGP_MemFlag_CLEAR, &new_optionsH));
-	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&old_optionsH)));
+	// Make new options handle
+	ArbData* newArb = NULL;
+	AEGP_MemSize newSize;
+	AEIO_Handle newOptionsH = NULL;
+	suites.MemorySuite1()->AEGP_NewMemHandle(S_mem_id, "ARB Data", sizeof(ArbData), AEGP_MemFlag_CLEAR, &newOptionsH);
+	err = suites.MemorySuite1()->AEGP_GetMemHandleSize(newOptionsH, &newSize);
+	err = suites.MemorySuite1()->AEGP_LockMemHandle(newOptionsH, (void**)& newArb);
 
-	ArbData *arbData = NULL;
-	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(new_optionsH, reinterpret_cast<void**>(&arbData)));
+	// Existing options handle
+	AEIO_Handle optionsH = NULL;
+	suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, (void**)& optionsH);
 
-	// Create a new data object
-	memset(arbData, 0, sizeof(ArbData));
-	strcpy_s(arbData->videoCodecId, DefaultVideoEncoder);
-	strcpy_s(arbData->videoCodecOptions, "");
-	strcpy_s(arbData->audioCodecId, DefaultAudioEncoder);
-	strcpy_s(arbData->audioCodecOptions, "");
-	strcpy_s(arbData->formatId, DefaultMuxer);
-	arbData->faststart = FALSE;
+	// Do we have saved data?
+	if (optionsH)
+	{
+		AEGP_MemSize size;
+		ERR(suites.MemorySuite1()->AEGP_GetMemHandleSize(optionsH, &size));
+		
+		// Did the data structure increase in size?
+		if (newSize > size)
+		{
+			suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH);
+			suites.MemorySuite1()->AEGP_ResizeMemHandle("Old Handle Resize", size, optionsH);
+		}
 
-	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(new_optionsH));
+		// Get existing data
+		ArbData* arb = NULL;
+		suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, (void**)& arb);
 
-	ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, new_optionsH, reinterpret_cast<void**>(&old_optionsH)));
+		// Copy existing data to new data
+		memcpy((char*)newArb, (char*)arb, newSize);
+
+		suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH);
+	}
+	else
+	{
+		// Set default values as initial values
+		memset(newArb, 0, sizeof(ArbData));
+		strcpy_s(newArb->audioCodecId, DefaultAudioEncoder);
+		strcpy_s(newArb->videoCodecId, DefaultVideoEncoder);
+		strcpy_s(newArb->formatId, DefaultMuxer);
+	}
+
+	suites.MemorySuite1()->AEGP_UnlockMemHandle(newOptionsH);
+
+	// Set the options handle
+	AEIO_Handle oldOptionsH = NULL;
+	suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, (void*)newOptionsH, (void**)&oldOptionsH);
+	if (oldOptionsH)
+	{
+		suites.MemorySuite1()->AEGP_FreeMemHandle(oldOptionsH);
+	}
 
 	return err;
 }
 
-static A_Err
-My_GetFlatOutputOptions(
-	AEIO_BasicData	*basic_dataP,
-	AEIO_OutSpecH	outH,
-	AEIO_Handle		*new_optionsPH)
+
+// TODO: Check if it is necessary
+static A_Err My_GetFlatOutputOptions(AEIO_BasicData	*basic_dataP, AEIO_OutSpecH outH, AEIO_Handle *new_optionsPH)
 {
-	A_Err						err = A_Err_NONE;
-	AEIO_Handle					old_optionsH = NULL;
+	A_Err err = A_Err_NONE;
+
+	AEIO_Handle old_optionsH = NULL;
 	ArbData	*new_optionsP = NULL,
 		*old_optionsP = NULL;
 	AEGP_SuiteHandler			suites(basic_dataP->pica_basicP);
@@ -200,8 +230,9 @@ static A_Err My_DisposeOutputOptions(AEIO_BasicData *basic_dataP, void *optionsP
 	A_Err err = A_Err_NONE;
 
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
-	AEIO_Handle optionsH = reinterpret_cast<AEIO_Handle>(optionsPV);
 
+	// Dispose options if we have any
+	AEIO_Handle optionsH = reinterpret_cast<AEIO_Handle>(optionsPV);
 	if (optionsH)
 	{
 		ERR(suites.MemorySuite1()->AEGP_FreeMemHandle(optionsH));
@@ -284,6 +315,8 @@ static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH out
 	// On OK click
 	if (result == (int)wxID_OK)
 	{
+		*user_interacted0 = true;
+
 		// Fill ArbData
 		strcpy_s(arbData->videoCodecId, exportInfo.video.id);
 		strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.Serialize().c_str());
@@ -305,43 +338,10 @@ static A_Err My_GetOutputInfo(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A
 	
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	wxString formatId = DefaultMuxer;
-	wxString videoCodecId = DefaultVideoEncoder;
-
-	// Load config from storage
-	AEIO_Handle optionsH = NULL;
-	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
-	if (!err)
-	{
-		ArbData *arbData = NULL;
-		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
-		formatId = arbData->formatId;
-		videoCodecId = arbData->videoCodecId;
-		ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
-	}
-
-	// TODO
-	suites.ANSICallbacksSuite1()->strcpy(verbiageP->name, "vouk123");
-
-	// Find format
-	for (auto& muxer : Voukoder::Config::Get().muxerInfos)
-	{
-		if (muxer.id == formatId)
-		{
-			suites.ANSICallbacksSuite1()->strcpy(verbiageP->type, muxer.name);
-			break;
-		}
-	}
-
-	// Find encoder
-	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
-	{
-		if (encoder.id == videoCodecId)
-		{
-			suites.ANSICallbacksSuite1()->strcpy(verbiageP->sub_type, encoder.name);
-			break;
-		}
-	}
+	// Set infos
+	suites.ANSICallbacksSuite1()->strcpy(verbiageP->name, GetFileName(basic_dataP, outH));
+	suites.ANSICallbacksSuite1()->strcpy(verbiageP->type, (wxString)VKDR_APPNAME);
+	verbiageP->sub_type[0] = '\0';
 
 	return err;
 }
@@ -396,6 +396,21 @@ static A_Err My_SetOutputFile(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 	return AEIO_Err_USE_DFLT_CALLBACK;
 }
 
+static wxString GetFileName(AEIO_BasicData* basic_dataP, AEIO_OutSpecH outH)
+{
+	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
+
+	AEGP_MemHandle file_pathH = NULL;
+	A_Boolean file_reservedB = FALSE;
+	A_UTF16Char* file_pathZ = NULL;
+	suites.IOOutSuite4()->AEGP_GetOutSpecFilePath(outH, &file_pathH, &file_reservedB);
+	suites.MemorySuite1()->AEGP_LockMemHandle(file_pathH, reinterpret_cast<void**>(&file_pathZ));
+	suites.MemorySuite1()->AEGP_UnlockMemHandle(file_pathH);
+	suites.MemorySuite1()->AEGP_FreeMemHandle(file_pathH);
+	
+	return (wchar_t*)file_pathZ;
+}
+
 static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_long flags)
 {
 	A_Err err = A_Err_NONE;
@@ -411,6 +426,7 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	// Create export information
 	ExportInfo exportInfo;
 	exportInfo.application = VKDR_APPNAME;
+	exportInfo.filename = GetFileName(basic_dataP, outH);
 	exportInfo.format.id = arbData->formatId;
 	exportInfo.format.faststart = arbData->faststart;
 
@@ -421,16 +437,6 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 		if (exportInfo.video.options.at("_2pass") == "1")
 			exportInfo.passes = 2;
 	}
-
-	// Get filename and -path
-	AEGP_MemHandle file_pathH = NULL;
-	A_Boolean file_reservedB = FALSE;
-	A_UTF16Char* file_pathZ = NULL;
-	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecFilePath(outH, &file_pathH, &file_reservedB));
-	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(file_pathH, reinterpret_cast<void**>(&file_pathZ)));
-	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(file_pathH));
-	ERR(suites.MemorySuite1()->AEGP_FreeMemHandle(file_pathH));
-	exportInfo.filename = (wchar_t*)file_pathZ;
 
 	// ### Video settings ###
 	exportInfo.video.id = arbData->videoCodecId;
@@ -633,9 +639,6 @@ static A_Err My_GetSizes(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_u_lo
 
 static A_Err My_Flush(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH)
 {
-	/*	free any temp buffers you kept around for
-		writing.
-	*/
 	return A_Err_NONE;
 }
 
@@ -705,33 +708,35 @@ static A_Err My_GetDepths(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_
 
 static A_Err My_GetOutputSuffix(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_char *suffix)
 {
-	A_Err err = AEIO_Err_USE_DFLT_CALLBACK;
+	A_Err err = A_Err_NONE;
 
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
-
-	wxString formatId = DefaultMuxer;
 
 	// Load config from storage
 	AEIO_Handle optionsH = NULL;
 	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecOptionsHandle(outH, reinterpret_cast<void**>(&optionsH)));
-	if (!err) {
-		ArbData *arbData = NULL;
-		ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
-		formatId = arbData->formatId;
-		ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
+	if (!optionsH)
+	{
+		return AEIO_Err_USE_DFLT_CALLBACK;
 	}
+
+	// Get current settings
+	ArbData* arbData = NULL;
+	ERR(suites.MemorySuite1()->AEGP_LockMemHandle(optionsH, reinterpret_cast<void**>(&arbData)));
+	wxString formatId = arbData->formatId;
+	ERR(suites.MemorySuite1()->AEGP_UnlockMemHandle(optionsH));
 
 	// Find suffix
 	for (auto& muxer : Voukoder::Config::Get().muxerInfos)
 	{
 		if (muxer.id == formatId)
 		{
-			suites.ANSICallbacksSuite1()->strcpy(suffix, muxer.extension);
+			suites.ANSICallbacksSuite1()->strcpy(suffix, "." + muxer.extension);
 			break;
 		}
 	}
 
-	return err;
+	return A_Err_NONE;
 }
 
 static A_Err My_CloseSourceFiles(AEIO_BasicData	*basic_dataP, AEIO_InSpecH seqH)
