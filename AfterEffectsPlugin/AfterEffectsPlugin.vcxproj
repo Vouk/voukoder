@@ -182,8 +182,12 @@
 cl /D "MSWindows" /EP $(IntDir)%(Filename).rrc &gt; "$(ProjectDir)"\\"%(Filename)".rc</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling the PiPL</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).rc;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl /EP "%(Filename).r" &gt; "$(ProjectDir)$(IntDir)%(Filename).rr"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pwd
+echo cl /EP "%(Filename).r" &gt; "$(ProjectDir)$(IntDir)%(Filename).rr"
+cl /EP "%(Filename).r" &gt; "$(ProjectDir)$(IntDir)%(Filename).rr"
+echo "$(ProjectDir)..\..\..\external\include\aftereffects_cc2015\Examples\Resources\PiPLTool.exe" "$(ProjectDir)$(IntDir)%(Filename).rr" "$(ProjectDir)$(IntDir)%(Filename).rrc"
 "$(ProjectDir)..\..\..\external\include\aftereffects_cc2015\Examples\Resources\PiPLTool.exe" "$(ProjectDir)$(IntDir)%(Filename).rr" "$(ProjectDir)$(IntDir)%(Filename).rrc"
+echo cl /D "MSWindows" /EP $(ProjectDir)$(IntDir)%(Filename).rrc &gt; "$(ProjectDir)"\\"%(Filename)".rc
 cl /D "MSWindows" /EP $(ProjectDir)$(IntDir)%(Filename).rrc &gt; "$(ProjectDir)"\\"%(Filename)".rc</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling the PiPL</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).rc;%(Outputs)</Outputs>
