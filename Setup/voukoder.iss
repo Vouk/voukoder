@@ -1,12 +1,13 @@
 #define MyAppName "Voukoder"
 #define MyAppPublisher "Daniel Stankewitz"
 #define MyAppURL "http://www.voukoder.org"
+#define MyAppVersion "2.2.3"
 
 [Setup]
 AppId={{9F919D76-F1AC-4813-8B10-AB22E8F5015D}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-AppVerName={#MyAppName}{#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
@@ -18,6 +19,7 @@ LicenseFile=C:\Users\Daniel\source\repos\voukoder\LICENSE
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
+WizardSmallImageFile=logo.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -30,18 +32,13 @@ Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl"
 Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
-Name: "greek"; MessagesFile: "compiler:Languages\Greek.isl"
 Name: "hebrew"; MessagesFile: "compiler:Languages\Hebrew.isl"
-Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
-Name: "scottishgaelic"; MessagesFile: "compiler:Languages\ScottishGaelic.isl"
-Name: "serbiancyrillic"; MessagesFile: "compiler:Languages\SerbianCyrillic.isl"
-Name: "serbianlatin"; MessagesFile: "compiler:Languages\SerbianLatin.isl"
 Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
@@ -78,9 +75,10 @@ var
 begin
   if RegGetSubkeyNames(HKLM64, 'Software\Adobe\After Effects', Versions) then
   begin
+    Version := '';
     for I := 0 to GetArrayLength(Versions) - 1 do
-      if (Version = nil) OR (StrToFloat(Versions[I]) > StrToFloat(Version)) then Version := Versions[I];
-    if Version <> nil then
+      if (Version = '') OR (StrToFloat(Versions[I]) > StrToFloat(Version)) then Version := Versions[I];
+    if Version <> '' then
     begin
       if RegQueryStringValue(HKLM64, 'Software\Adobe\After Effects\' + Version, 'PluginInstallPath', Path) then
       begin
@@ -105,7 +103,7 @@ begin
   desc := SetupMessage(msgSelectDirDesc);
   labl := SetupMessage(msgSelectDirLabel3);
   StringChangeEx(desc, '[name]', '{#SetupSetting("AppVerName")}', True);
-  StringChangeEx(labl, '[name]', '{#SetupSetting("AppVerName")}', True) ;
+  StringChangeEx(labl, '[name]', '{#SetupSetting("AppVerName")}', True);
   DirPage := CreateInputDirPage(wpSelectComponents, SetupMessage(msgWizardSelectDir), desc, labl, False, '');
   DirPage.Add('Adobe Premiere / Media Encoder');
   DirPage.Add('Adobe After Effects');
@@ -117,4 +115,17 @@ procedure RegisterPreviousData(PreviousDataKey: Integer);
 begin
   SetPreviousData(PreviousDataKey, 'PrmDir', DirPage.Values[0]);
   SetPreviousData(PreviousDataKey, 'AexDir', DirPage.Values[1]);
+end;
+
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+  if CurPageID = wpSelectComponents then
+  begin
+    if WizardSelectedComponents(False) = '' then
+    begin
+      MsgBox('No component selected', mbInformation, MB_OK);
+      Result := False;
+    end;
+  end;
 end;
