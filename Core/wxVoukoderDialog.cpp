@@ -157,39 +157,63 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_generalAboutPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxFont f_headline = wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxEmptyString);
+	// General > About > Header
 
-	wxStaticText *m_aboutVoukoder = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\nVoukoder"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	m_headerPanel = new wxPanel(m_generalAboutPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	wxBoxSizer* headerSizer = new wxBoxSizer(wxHORIZONTAL);
+
+	wxStaticBitmap* m_logo = new wxStaticBitmap(m_headerPanel, wxID_ANY, wxBITMAP_PNG_FROM_DATA(IMG_LOGO), wxDefaultPosition, wxDefaultSize, 0);
+	headerSizer->Add(m_logo, 0, wxALIGN_LEFT | wxALL, 5);
+
+	m_infoPanel = new wxPanel(m_headerPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* infoSizer = new wxBoxSizer(wxVERTICAL);
+	headerSizer->Add(m_infoPanel, 0, wxALIGN_CENTER | wxALL, 0);
+
+	wxStaticText* m_aboutVoukoder = new wxStaticText(m_infoPanel, wxID_ANY, wxT("Voukoder"), wxDefaultPosition, wxDefaultSize, 0);
 	m_aboutVoukoder->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial")));
-	aboutSizer->Add(m_aboutVoukoder, 0, wxALIGN_CENTER | wxALL, 5);
+	infoSizer->Add(m_aboutVoukoder, 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxString version = wxString::Format(Trans("ui.encoderconfig.general.about.version") + " %d.%d.%d %s", VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH, VKDR_VERSION_SUFFIX);
-	wxStaticText *m_aboutVersion = new wxStaticText(m_generalAboutPanel, wxID_ANY, version, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(m_aboutVersion, 0, wxALIGN_CENTER | wxALL, 0);
+	wxStaticText* m_aboutVersion = new wxStaticText(m_infoPanel, wxID_ANY, version, wxDefaultPosition, wxDefaultSize, 0);
+	infoSizer->Add(m_aboutVersion, 0, wxALIGN_CENTER | wxALL, 0);
+	
+	m_infoPanel->SetSizer(infoSizer);
+	m_infoPanel->Layout();
+	m_headerPanel->SetSizer(headerSizer);
+	m_headerPanel->Layout();
 
-	wxStaticText *m_aboutAuthor = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n") + Trans("ui.encoderconfig.general.about.author"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
+
+	//
+
+	wxFont f_headline = wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxEmptyString);
+
+	wxStaticText *m_aboutAuthor = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n") + Trans("ui.encoderconfig.general.about.author"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
 	m_aboutAuthor->SetFont(f_headline);
-	aboutSizer->Add(m_aboutAuthor, 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(m_aboutAuthor, 0, wxALIGN_CENTER | wxALL, 0);
 
 	wxStaticText *m_aboutDaniel = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Daniel Stankewitz"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(m_aboutDaniel, 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(m_aboutDaniel, 0, wxALIGN_CENTER | wxALL, 3);
 
 	wxStaticText *n_aboutIcons = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n") + Trans("ui.encoderconfig.general.about.awesomefont"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
 	n_aboutIcons->SetFont(f_headline);
-	aboutSizer->Add(n_aboutIcons, 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(n_aboutIcons, 0, wxALIGN_CENTER | wxALL, 0);
 
-	wxStaticText *n_aboutDave = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Dave Gandy\nCC 3.0 BY"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(n_aboutDave, 0, wxALIGN_CENTER | wxALL, 5);
+	wxStaticText *n_aboutDave = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Dave Gandy / CC 3.0 BY"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	aboutSizer->Add(n_aboutDave, 0, wxALIGN_CENTER | wxALL, 3);
 
 	// Translation maintainers
 	wxStaticText *n_aboutTrans = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n") + Trans("ui.encoderconfig.general.about.transmaint"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
 	n_aboutTrans->SetFont(f_headline);
-	aboutSizer->Add(n_aboutTrans, 0, wxALIGN_CENTER | wxALL, 5);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Cedric R. (Deutsch)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Francais)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 5);
+	aboutSizer->Add(n_aboutTrans, 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Cedric R. (Deutsch)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 3);
+	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Francais)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 3);
 
-	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("\n\n\n\nwww.voukoder.org"), wxT("https://www.voukoder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
-	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
+	wxStaticText* n_special = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n\nSpecial thanks to Noar for the Voukoder logo."), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	aboutSizer->Add(n_special, 0, wxALIGN_CENTER | wxALL, 0);
+
+	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("\n\n\nwww.voukoder.org"), wxT("https://www.voukoder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 0);
 
 	m_generalAboutPanel->SetSizer(aboutSizer);
 	m_generalAboutPanel->Layout();

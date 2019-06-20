@@ -58,6 +58,8 @@ protected:
 
 	wxPanel* m_generalOtherPanel;
 	wxPanel* m_generalAboutPanel;
+	wxPanel* m_headerPanel;
+	wxPanel* m_infoPanel;
 
 	wxEncoderConfigEditor* m_videoEditor;
 	wxPanel* m_videoCategory;

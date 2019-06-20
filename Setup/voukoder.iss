@@ -1,7 +1,6 @@
 #define MyAppName "Voukoder"
 #define MyAppPublisher "Daniel Stankewitz"
 #define MyAppURL "http://www.voukoder.org"
-#define MyAppVersion "2.2.3"
 
 [Setup]
 AppId={{9F919D76-F1AC-4813-8B10-AB22E8F5015D}
