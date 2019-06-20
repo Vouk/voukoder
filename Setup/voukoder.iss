@@ -6,14 +6,14 @@
 AppId={{9F919D76-F1AC-4813-8B10-AB22E8F5015D}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName}{#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={code:GetInstallationPath}
+DefaultDirName={code:GetPrmPath}
 DisableProgramGroupPage=yes
-DisableDirPage=no
+DisableDirPage=yes
 LicenseFile=C:\Users\Daniel\source\repos\voukoder\LICENSE
 OutputBaseFilename=setup
 Compression=lzma
@@ -47,16 +47,74 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
+[Components]
+Name: "prm";      Description: "Voukoder for Premiere / Media Encoder";  Types: full compact;
+Name: "aex";      Description: "Voukoder for After Effects";             Types: full;
+
 [Files]
-Source: "..\PremierePlugin\x64\Release\VoukoderR2.prm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\PremierePlugin\x64\Release\VoukoderR2.prm"; DestDir: "{code:GetDir|0}"; Flags: ignoreversion; Components: prm;
+Source: "..\AfterEffectsPlugin\x64\Release\VoukoderR2.aex"; DestDir: "{code:GetDir|1}"; Flags: ignoreversion; Components: aex;
 
 [Run]
 Filename: "https://www.patreon.com/voukoder"; Flags: shellexec runasoriginaluser postinstall unchecked; Description: "Donate with Patreon"
 Filename: "https://www.paypal.me/voukoder"; Flags: shellexec runasoriginaluser postinstall unchecked; Description: "Donate via PayPal.me"
 
 [Code]
-function GetInstallationPath(path: String): String;
+var
+  DirPage: TInputDirWizardPage;
+
+function GetPrmPath(Path: String): String;
 begin
-  RegQueryStringValue(HKLM64, 'Software\Adobe\Premiere Pro\CurrentVersion', 'Plug-InsDir', path);
-  Result := path;
+  RegQueryStringValue(HKLM64, 'Software\Adobe\Premiere Pro\CurrentVersion', 'Plug-InsDir', Path);
+  Result := Path;
+end;
+
+function GetAexPath(): String;
+var
+  Versions: TArrayOfString;
+  I: Integer;
+  Version: String;
+  Path: String;
+begin
+  if RegGetSubkeyNames(HKLM64, 'Software\Adobe\After Effects', Versions) then
+  begin
+    for I := 0 to GetArrayLength(Versions) - 1 do
+      if (Version = nil) OR (StrToFloat(Versions[I]) > StrToFloat(Version)) then Version := Versions[I];
+    if Version <> nil then
+    begin
+      if RegQueryStringValue(HKLM64, 'Software\Adobe\After Effects\' + Version, 'PluginInstallPath', Path) then
+      begin
+        Result := Path;
+        Exit;
+      end;
+    end;
+  end;
+  Result := '';
+end;
+
+function GetDir(Param: String): String;
+begin
+  Result := DirPage.Values[StrToInt(Param)];
+end;
+
+procedure InitializeWizard;
+var
+  desc: String;
+  labl: String;
+begin
+  desc := SetupMessage(msgSelectDirDesc);
+  labl := SetupMessage(msgSelectDirLabel3);
+  StringChangeEx(desc, '[name]', '{#SetupSetting("AppVerName")}', True);
+  StringChangeEx(labl, '[name]', '{#SetupSetting("AppVerName")}', True) ;
+  DirPage := CreateInputDirPage(wpSelectComponents, SetupMessage(msgWizardSelectDir), desc, labl, False, '');
+  DirPage.Add('Adobe Premiere / Media Encoder');
+  DirPage.Add('Adobe After Effects');
+  DirPage.Values[0] := GetPreviousData('PrmDir', GetPrmPath(''));
+  DirPage.Values[1] := GetPreviousData('AexDir', GetAexPath());
+end;
+
+procedure RegisterPreviousData(PreviousDataKey: Integer);
+begin
+  SetPreviousData(PreviousDataKey, 'PrmDir', DirPage.Values[0]);
+  SetPreviousData(PreviousDataKey, 'AexDir', DirPage.Values[1]);
 end;
