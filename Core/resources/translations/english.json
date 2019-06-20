@@ -95,6 +95,7 @@
     "ui.encoderconfig.general.about.author": "Project Lead and Development",
     "ui.encoderconfig.general.about.awesomefont": "Icons \"Font Awesome\"",
     "ui.encoderconfig.general.about.transmaint": "Translation maintainers",
+    "ui.encoderconfig.general.about.special": "Special thanks to Noar for the Voukoder logo.",
     "ui.encoderconfig.video": "Video",
     "ui.encoderconfig.audio": "Audio",
     "ui.encoderconfig.filters": "Filters",
@@ -373,7 +374,7 @@
     "hevc_amf.misc.aud._description": "Inserts AU Delimiter NAL unit",
     "hevc_amf.misc.enforce_hrd._label": "Enforce HRD",
     "hevc_amf.misc.enforce_hrd._description": "Enforce HRD",
-    
+
     "h264_nvenc.hardware": "Hardware",
     "h264_nvenc.hardware.gpu._label": "GPU",
     "h264_nvenc.hardware.gpu._description": "CUDA capable video card.",

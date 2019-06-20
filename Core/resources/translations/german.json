@@ -95,6 +95,7 @@
     "ui.encoderconfig.general.about.author": "Projektleitung und Entwicklung",
     "ui.encoderconfig.general.about.awesomefont": "Icons \"Font Awesome\"",
     "ui.encoderconfig.general.about.transmaint": "Übersetzungsbetreuer",
+    "ui.encoderconfig.general.about.special": "Besonderen Dank an Noar für das Voukoder-Logo.",
     "ui.encoderconfig.video": "Video",
     "ui.encoderconfig.audio": "Audio",
     "ui.encoderconfig.filters": "Filter",
@@ -1144,7 +1145,7 @@
     "libx265.slicedecision.scenecut-bias._label": "Szenenschnitt Bias",
     "libx265.slicedecision.scenecut._description": "Wie aggressiv I-Frames eingefügt werden müssen. Je höher der Schwellenwert, desto aggressiver ist die I-Frame-Platzierung. --scenecut 0 oder --no-scenecut deaktiviert die adaptive I-Bildplatzierung.",
     "libx265.slicedecision.scenecut._label": "Szenenschnitt",
-    
+
     "libx265.vui": "VUI",
     "libx265.vui.sar._label": "Beispielseitenverhältnis",
     "libx265.vui.sar._description": "Das Verhältnis von Breite zu Höhe eines einzelnen Samples (Pixel). Der Benutzer kann Breite und Höhe explizit angeben oder eine ganze Zahl aus der vordefinierten Liste der in der HEVC-Spezifikation definierten Seitenverhältnisse angeben.",
@@ -1544,7 +1545,7 @@
     "eac3.bitstream.ad_conv_type._description": "Zeigt an, ob das Audio die HDCD-A/D-Wandlung durchlaufen hat.",
     "eac3.bitstream.ad_conv_type._item_0": "Standard A/D Converter (standard)",
     "eac3.bitstream.ad_conv_type._item_1": "HDCD A/D Converter",
-    
+
     "truehd.standard": "Standard",
 
     "dca.standard": "Standard",
