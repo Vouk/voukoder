@@ -5,8 +5,16 @@
 #include "OptionContainer.h"
 #include "FilterConfig.h"
 
+
 struct ExportInfo
 {
+	struct Configuration
+	{
+		OptionContainer options;
+		OptionContainer sideData;
+		FilterConfig filters;
+	};
+
 	wxString filename = wxEmptyString;
 	wxString application = wxEmptyString;
 	int passes = 0;

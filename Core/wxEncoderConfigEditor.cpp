@@ -11,9 +11,8 @@ wxIMPLEMENT_DYNAMIC_CLASS(wxEncoderConfigEditor, wxPanel);
 wxBEGIN_EVENT_TABLE(wxEncoderConfigEditor, wxControl)
 wxEND_EVENT_TABLE()
 
-wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent, OptionContainer &results):
-	wxPanel(parent),
-	results(results)
+wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent):
+	wxPanel(parent)
 {
 	wxBoxSizer* bSizer = new wxBoxSizer(wxVERTICAL);
 

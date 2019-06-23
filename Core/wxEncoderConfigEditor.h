@@ -13,13 +13,9 @@
 class wxEncoderConfigEditor : public wxPanel
 {
 public:
-	wxEncoderConfigEditor() : results(*(new OptionContainer)) // UGLY!
-	{
-		OptionContainer v;
-		wxEncoderConfigEditor(NULL, v);
-	};
-
-	wxEncoderConfigEditor(wxWindow *parent, OptionContainer &results);
+	OptionContainer results;
+	wxEncoderConfigEditor() : wxEncoderConfigEditor(NULL) {};
+	wxEncoderConfigEditor(wxWindow *parent);
 	void Configure(EncoderInfo encoderInfo, OptionContainer options);
 
 protected:
@@ -32,7 +28,6 @@ protected:
 private:
 	EncoderInfo encoderInfo;
 	OptionContainer options;
-	OptionContainer& results;
 	void ExecuteFilters(wxOptionProperty *optionProperty);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);

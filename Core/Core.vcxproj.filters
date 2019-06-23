@@ -147,7 +147,7 @@
     <ClInclude Include="FilterConfig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxCustomOptionsDialog.h">
+    <ClInclude Include="wxConfigurationDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -200,7 +200,7 @@
     <ClCompile Include="wxFilterPanel.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="wxCustomOptionsDialog.cpp">
+    <ClCompile Include="wxConfigurationDialog.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,7 +6,7 @@
   "groups": [
     {
       "id": "spherical",
-      "class": "basic",
+      "class": "standard",
       "properties": [
         {
           "id": "projection",
@@ -206,7 +206,7 @@
     },
     {
       "id": "stereo3d",
-      "class": "basic",
+      "class": "standard",
       "properties": [
         {
           "id": "type",

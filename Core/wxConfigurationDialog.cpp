@@ -1,39 +1,66 @@
-#include "wxCustomOptionsDialog.h"
+#include "wxConfigurationDialog.h"
 #include "LanguageUtils.h"
 #include "OnChangeValueOptionFilter.h"
 #include "OnSelectionOptionFilter.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
-wxCustomOptionsDialog::wxCustomOptionsDialog(wxWindow* parent) :
-	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<FilterInfo> filterInfos, OptionContainer** encoderOptions, OptionContainer** sideDataOptions, FilterConfig** filterOptions) :
+	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
+	encoderOptions(encoderOptions),
+	sideDataOptions(sideDataOptions),
+	filterOptions(filterOptions)
 {
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	wxBoxSizer * bDialogLayout = new wxBoxSizer(wxVERTICAL);
-
+	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 	m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	m_tabPanel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer * bTabLayout = new wxBoxSizer(wxVERTICAL);
 
-	m_propertyGrid = new wxPropertyGrid(m_tabPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER);
-	m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
-	m_propertyGrid->SetValidationFailureBehavior(0);
-	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxCustomOptionsDialog::OnLeftDown, this);
-	m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxCustomOptionsDialog::OnPropertyGridChanged, this, m_propertyGrid->GetId());
-	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxCustomOptionsDialog::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
-	bTabLayout->Add(m_propertyGrid, 1, wxEXPAND | wxALL, 5);
+	// Encoder config
+	if (encoderInfo.groups.size() > 0)
+	{
+		m_encoderOptions = new wxEncoderConfigEditor(m_notebook);
+		wxBoxSizer* bVideoLayout = new wxBoxSizer(wxVERTICAL);
+		m_notebook->AddPage(m_encoderOptions, Trans("ui.voukoder.confguration.options"), true);
 
-	m_tabPanel->SetSizer(bTabLayout);
-	m_tabPanel->Layout();
-	bTabLayout->Fit(m_tabPanel);
-	m_notebook->AddPage(m_tabPanel, Trans("ui.addfilter.options"), true);
+		m_encoderOptions->Configure(encoderInfo, **encoderOptions);
+	}
+
+	// Side data
+	if (sideData.groups.size() > 0)
+	{
+		m_propPanel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+		wxBoxSizer* bPropLayout = new wxBoxSizer(wxVERTICAL);
+		m_propertyGrid = new wxPropertyGrid(m_propPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER);
+		m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
+		m_propertyGrid->SetValidationFailureBehavior(0);
+		m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxConfigurationDialog::OnLeftDown, this);
+		m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxConfigurationDialog::OnPropertyGridChanged, this, m_propertyGrid->GetId());
+		m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxConfigurationDialog::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
+		bPropLayout->Add(m_propertyGrid, 1, wxALL | wxEXPAND, 5);
+		m_propPanel->SetSizer(bPropLayout);
+		m_propPanel->Layout();
+		bPropLayout->Fit(m_propPanel);
+		m_notebook->AddPage(m_propPanel, Trans("ui.voukoder.confguration.sidedata"));
+
+		this->Configure(sideData);
+	}
+
+	// Filters
+	if (filterInfos.size() > 0)
+	{
+		m_filterPanel = new wxFilterPanel(m_notebook, AVMEDIA_TYPE_VIDEO);
+		m_notebook->AddPage(m_filterPanel, Trans("ui.voukoder.confguration.filters"), false);
+
+		// Configure Filters
+		m_filterPanel->SetFilterConfig(**filterOptions);
+	}
 
 	bDialogLayout->Add(m_notebook, 1, wxEXPAND | wxALL, 5);
 
 	m_sdbSizer1 = new wxStdDialogButtonSizer();
 	m_sdbSizer1OK = new wxButton(this, wxID_OK);
-	m_sdbSizer1OK->Bind(wxEVT_BUTTON, &wxCustomOptionsDialog::OnOkayClick, this);
+	m_sdbSizer1OK->Bind(wxEVT_BUTTON, &wxConfigurationDialog::OnOkayClick, this);
 	m_sdbSizer1->AddButton(m_sdbSizer1OK);
 	m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL);
 	m_sdbSizer1->AddButton(m_sdbSizer1Cancel);
@@ -46,25 +73,18 @@ wxCustomOptionsDialog::wxCustomOptionsDialog(wxWindow* parent) :
 	this->Centre(wxBOTH);
 }
 
-wxCustomOptionsDialog::~wxCustomOptionsDialog()
-{
-}
+wxConfigurationDialog::~wxConfigurationDialog()
+{}
 
-void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer options)
+void wxConfigurationDialog::Configure(EncoderInfo sideData)
 {
-	this->encoderInfo = encoderInfo;
-	this->origOptions = options;
-
 	// Reset the options map
 	m_propertyGrid->Clear();
-
-	// Set fixed default parameters
-	//results.insert(encoderInfo.defaults.begin(), encoderInfo.defaults.end());
 
 	wxColour bgColor;
 
 	// Build all groups and properties
-	for (const EncoderGroupInfo& group : encoderInfo.groups)
+	for (const EncoderGroupInfo& group : sideData.groups)
 	{
 		wxPGProperty* category = m_propertyGrid->Append(new wxPropertyCategory(group.name));
 
@@ -88,9 +108,11 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 			wxOptionProperty* optionProperty = new wxOptionProperty(optionInfo);
 			m_propertyGrid->AppendIn(category, optionProperty);
 
+			OptionContainer config = **sideDataOptions;
+
 			// Import stored settings
 			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
-			if (options.find(optionInfo.parameter) != options.end())
+			if (config.find(optionInfo.parameter) != config.end())
 			{
 				optionProperty->SetChecked();
 
@@ -99,7 +121,7 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 					// Select combo items by name not by value
 					for (auto& item : optionInfo.control.items)
 					{
-						if (item.value == options[optionInfo.parameter])
+						if (item.value == config[optionInfo.parameter])
 						{
 							optionProperty->SetValueFromString(Trans(item.id));
 							break;
@@ -109,7 +131,7 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 				else if (optionInfo.control.type == EncoderOptionType::Integer)
 				{
 					long longVal;
-					wxString val = options[optionInfo.parameter];
+					wxString val = config[optionInfo.parameter];
 					val.ToLong(&longVal);
 
 					optionProperty->SetValueFromInt(longVal / optionInfo.multiplicationFactor);
@@ -117,14 +139,14 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 				else if (optionInfo.control.type == EncoderOptionType::Float)
 				{
 					double doubleVal;
-					wxString val = options[optionInfo.parameter];
+					wxString val = config[optionInfo.parameter];
 					val.ToDouble(&doubleVal);
 
 					optionProperty->SetValueFromString(wxString::Format(wxT("%.1f"), doubleVal));
 				}
 				else
 				{
-					optionProperty->SetValueFromString(options[optionInfo.parameter]);
+					optionProperty->SetValueFromString(config[optionInfo.parameter]);
 				}
 			}
 
@@ -136,7 +158,7 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 	}
 
 	// Components enabled
-	Enable(encoderInfo.groups.size() > 0);
+	Enable(sideData.groups.size() > 0);
 
 	// Execute filters
 	wxPropertyGridConstIterator it;
@@ -146,7 +168,7 @@ void wxCustomOptionsDialog::Configure(EncoderInfo encoderInfo, OptionContainer o
 	}
 }
 
-void wxCustomOptionsDialog::ExecuteFilters(wxOptionProperty* optionProperty)
+void wxConfigurationDialog::ExecuteFilters(wxOptionProperty* optionProperty)
 {
 	EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 
@@ -178,7 +200,7 @@ void wxCustomOptionsDialog::ExecuteFilters(wxOptionProperty* optionProperty)
 	}
 }
 
-bool wxCustomOptionsDialog::SendEvent(wxEventType eventType, wxPGProperty* p)
+bool wxConfigurationDialog::SendEvent(wxEventType eventType, wxPGProperty* p)
 {
 	wxPropertyGridEvent event(wxEVT_CHECKBOX_CHANGE, m_propertyGrid->GetId());
 	event.SetPropertyGrid(m_propertyGrid);
@@ -188,7 +210,7 @@ bool wxCustomOptionsDialog::SendEvent(wxEventType eventType, wxPGProperty* p)
 	return event.WasVetoed();
 }
 
-void wxCustomOptionsDialog::OnLeftDown(wxMouseEvent& event)
+void wxConfigurationDialog::OnLeftDown(wxMouseEvent& event)
 {
 	wxPropertyGridHitTestResult htr = m_propertyGrid->HitTest(event.GetPosition());
 	wxPGProperty* prop = htr.GetProperty();
@@ -211,7 +233,7 @@ void wxCustomOptionsDialog::OnLeftDown(wxMouseEvent& event)
 	event.Skip();
 }
 
-void wxCustomOptionsDialog::OnPropertyGridChanged(wxPropertyGridEvent& event)
+void wxConfigurationDialog::OnPropertyGridChanged(wxPropertyGridEvent& event)
 {
 	wxOptionProperty* prop = wxDynamicCast(event.GetProperty(), wxOptionProperty);
 	if (prop)
@@ -228,7 +250,7 @@ void wxCustomOptionsDialog::OnPropertyGridChanged(wxPropertyGridEvent& event)
 	}
 }
 
-void wxCustomOptionsDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
+void wxConfigurationDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
 {
 	wxOptionProperty* property = wxDynamicCast(event.GetProperty(), wxOptionProperty);
 	if (property)
@@ -239,9 +261,14 @@ void wxCustomOptionsDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& e
 	}
 }
 
-void wxCustomOptionsDialog::OnOkayClick(wxCommandEvent& event)
+void wxConfigurationDialog::OnOkayClick(wxCommandEvent& event)
 {
-	options.clear();
+	// Set encoder config
+	(*encoderOptions)->clear();
+	(*encoderOptions)->insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
+
+	// Set side data config
+	(*sideDataOptions)->clear();
 
 	// Iterate over all options
 	wxPropertyGridConstIterator it;
@@ -276,11 +303,17 @@ void wxCustomOptionsDialog::OnOkayClick(wxCommandEvent& event)
 				// Assign the value
 				if (!value.IsEmpty())
 				{
-					options.insert_or_assign(parameter.ToStdString(), value);
+					(*sideDataOptions)->insert_or_assign(parameter.ToStdString(), value);
 				}
 			}
 		}
 	}
+
+#ifdef _DEBUG
+	// Filters
+	if (m_filterPanel)
+		m_filterPanel->GetFilterConfig(**filterOptions);
+#endif
 
 	EndDialog(wxID_OK);
 }

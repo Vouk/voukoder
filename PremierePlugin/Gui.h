@@ -9,8 +9,6 @@
 #define VKDRVoukoderConfiguration "VKDRVideoConfiguration"
 #define VKDRVideoColorRange "VKDRVideoColorRange"
 #define VKDRVideoColorSpace "VKDRVideoColorSpace"
-#define VKDRSelectedVideoEncoder "VKDRSelectedVideoEncoder"
-#define VKDRSelectedAudioEncoder "VKDRSelectedAudioEncoder"
 #define VKDRSelectedMuxer "VKDRSelectedMuxer"
 
 #define CONFIG_MAX_SIZE 16384

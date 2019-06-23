@@ -42,10 +42,10 @@ protected:
 	wxPanel* m_genEncFormPanel;
 	wxStaticText* m_genEncVideoLabel;
 	wxChoice* m_genEncVideoChoice;
-	wxButton* m_genEncVideoSideData;
+	wxButton* m_genEncVideoConfig;
 	wxStaticText* m_genEncAudioLabel;
 	wxChoice* m_genEncAudioChoice;
-	wxButton* m_genEncAudioSideData;
+	wxButton* m_genEncAudioConfig;
 	wxPanel* m_genMuxPanel;
 	wxPanel* m_genMuxFormPanel;
 	wxStaticText* m_genMuxFormatLabel;
@@ -62,18 +62,6 @@ protected:
 	wxPanel* m_generalAboutPanel;
 	wxPanel* m_headerPanel;
 	wxPanel* m_infoPanel;
-
-	wxEncoderConfigEditor* m_videoEditor;
-	wxPanel* m_videoCategory;
-	wxNotebook* m_videoNotebook;
-	wxPanel* m_videoEditorPanel;
-	wxFilterPanel* m_videoFilterPanel;
-
-	wxEncoderConfigEditor* m_audioEditor;
-	wxPanel* m_audioCategory;
-	wxNotebook* m_audioNotebook;
-	wxPanel* m_audioEditorPanel;
-	wxFilterPanel* m_audioFilterPanel;
 
 	wxPanel* m_settingsCategory;
 	wxNotebook* m_settingsNotebook;

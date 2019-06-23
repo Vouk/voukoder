@@ -101,10 +101,8 @@ prMALError Gui::Create()
 	prCreateIntParam(ADBEAudioNumChannels, ADBEBasicAudioGroup, exParamFlag_none, seqChannelType.mInt32, NULL, NULL, kPrFalse, kPrFalse);
 
 	// Create Voukoder elements
-	prCreateButtonParam(VKDRVoukoderConfiguration, VKDRVoukoderTabGroup, exParamFlag_independant);
 	prCreateIntParam(VKDRSelectedMuxer, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
-	prCreateIntParam(VKDRSelectedVideoEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
-	prCreateIntParam(VKDRSelectedAudioEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
+	prCreateButtonParam(VKDRVoukoderConfiguration, VKDRVoukoderTabGroup, exParamFlag_independant);
 
 	return malNoError;
 }
@@ -126,10 +124,8 @@ prMALError Gui::Update()
 	prSetNameDescription(ADBEAudioRatePerSecond, "ui.premiere.tab.audio.samplerate");
 	prSetNameDescription(ADBEAudioNumChannels, "ui.premiere.tab.audio.channels");
 	prSetGroupName(VKDRVoukoderTabGroup, "ui.premiere.tab.voukoder");
-	prSetNameDescription(VKDRVoukoderConfiguration, "ui.premiere.tab.voukoder.configuration");
 	prSetNameDescription(VKDRSelectedMuxer, "ui.premiere.tab.voukoder.selectedMuxer");
-	prSetNameDescription(VKDRSelectedVideoEncoder, "ui.premiere.tab.voukoder.selectedVideoEncoder");
-	prSetNameDescription(VKDRSelectedAudioEncoder, "ui.premiere.tab.voukoder.selectedAudioEncoder");
+	prSetNameDescription(VKDRVoukoderConfiguration, "ui.premiere.tab.voukoder.configuration");
 
 	PrSDKExportParamSuite *paramSuite = suites->exportParamSuite;
 
@@ -218,32 +214,28 @@ void Gui::CheckSettings()
 	// Clear info
 	PrSDKExportParamSuite *paramSuite = suites->exportParamSuite;
 	paramSuite->ClearConstrainedValues(pluginId, 0, VKDRSelectedMuxer);
-	paramSuite->ClearConstrainedValues(pluginId, 0, VKDRSelectedVideoEncoder);
-	paramSuite->ClearConstrainedValues(pluginId, 0, VKDRSelectedAudioEncoder);
 
 	// Define first entry
 	exOneParamValueRec value;
 	value.intValue = 0;
 
-	wxString videoEncoder, audioEncoder, muxer, none = Trans("ui.premiere.tab.voukoder.none");
+	wxString muxer, none = Trans("ui.premiere.tab.voukoder.none");
 
 	// Try to ready any existing config
 	ExportInfo exportInfo;
 	if (ReadEncoderOptions(VKDRVoukoderConfiguration, exportInfo))
 	{
-		muxer = Voukoder::GetResourceName(Voukoder::Config::Get().muxerInfos, exportInfo.format.id, none);
-		videoEncoder = Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none);
-		audioEncoder = Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none);
+		muxer = Voukoder::GetResourceName(Voukoder::Config::Get().muxerInfos, exportInfo.format.id, none)
+			<< " [ " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none)
+			<< ", " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none) << " ]";
 	}
 	else
 	{
-		videoEncoder = audioEncoder = muxer = none;
+		muxer = none;
 	}
     
 	// Set the values
 	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedMuxer, &value, muxer.ToStdWstring().c_str());
-	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedVideoEncoder, &value, videoEncoder.ToStdWstring().c_str());
-	paramSuite->AddConstrainedValuePair(pluginId, 0, VKDRSelectedAudioEncoder, &value, audioEncoder.ToStdWstring().c_str());
 }
 
 prMALError Gui::GetSelectedFileExtension(prUTF16Char *extension)
@@ -341,10 +333,6 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 
 void Gui::ParamChange(exParamChangedRec *paramRecP)
 {
-	// En/disable encoder params
-	prSetHidden(VKDRSelectedVideoEncoder, 1 - paramRecP->exportVideo);
-	prSetHidden(VKDRSelectedAudioEncoder, 1 - paramRecP->exportAudio);
-
 	CheckSettings();
 }
 
@@ -476,12 +464,6 @@ bool Gui::ClearEncoderOptions(const char *dataId)
 
 static inline PrTime GCD(PrTime a, PrTime b) { if (a == 0) return b; return GCD(b % a, a); }
 
-// Couldn't find anything in LibAV for this
-static int GetColorDepth(AVPixelFormat pixFmt)
-{
-
-}
-
 void Gui::GetExportInfo(ExportInfo &exportInfo)
 {
 	// Get current settings
@@ -586,24 +568,7 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 	case VKDRColorSpaces::BT2020_NCL:
 		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
 		exportInfo.video.colorSpace = colorSpace.value.intValue == (csSDK_int32)VKDRColorSpaces::BT2020_CL ? AVCOL_SPC_BT2020_CL : AVCOL_SPC_BT2020_NCL;
-
-		// Is there an avlib function for getting the color depth?
-		switch (exportInfo.video.pixelFormat)
-		{
-		case AV_PIX_FMT_YUV420P10:
-		case AV_PIX_FMT_YUV422P10:
-		case AV_PIX_FMT_YUV444P10:
-		case AV_PIX_FMT_P010LE:
-			exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
-			break;
-
-		case AV_PIX_FMT_YUV420P12:
-		case AV_PIX_FMT_YUV422P12:
-		case AV_PIX_FMT_YUV444P12:
-			exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
-			break;
-		}
-		break;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
 	}
 
 	// Audio channel selection
