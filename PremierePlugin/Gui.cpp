@@ -476,6 +476,12 @@ bool Gui::ClearEncoderOptions(const char *dataId)
 
 static inline PrTime GCD(PrTime a, PrTime b) { if (a == 0) return b; return GCD(b % a, a); }
 
+// Couldn't find anything in LibAV for this
+static int GetColorDepth(AVPixelFormat pixFmt)
+{
+
+}
+
 void Gui::GetExportInfo(ExportInfo &exportInfo)
 {
 	// Get current settings
@@ -581,15 +587,21 @@ void Gui::GetExportInfo(ExportInfo &exportInfo)
 		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
 		exportInfo.video.colorSpace = colorSpace.value.intValue == (csSDK_int32)VKDRColorSpaces::BT2020_CL ? AVCOL_SPC_BT2020_CL : AVCOL_SPC_BT2020_NCL;
 
-		const AVPixFmtDescriptor *pixFmtDescr = av_pix_fmt_desc_get(exportInfo.video.pixelFormat);
-		int bits = av_get_bits_per_pixel(pixFmtDescr) / av_pix_fmt_count_planes(exportInfo.video.pixelFormat);
-		if (bits == 10) // WRONG!
+		// Is there an avlib function for getting the color depth?
+		switch (exportInfo.video.pixelFormat)
 		{
+		case AV_PIX_FMT_YUV420P10:
+		case AV_PIX_FMT_YUV422P10:
+		case AV_PIX_FMT_YUV444P10:
+		case AV_PIX_FMT_P010LE:
 			exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
-		}
-		else if (bits = 12)
-		{
+			break;
+
+		case AV_PIX_FMT_YUV420P12:
+		case AV_PIX_FMT_YUV422P12:
+		case AV_PIX_FMT_YUV444P12:
 			exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
+			break;
 		}
 		break;
 	}
