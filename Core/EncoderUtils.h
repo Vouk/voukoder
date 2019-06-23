@@ -10,12 +10,12 @@ using namespace nlohmann;
 class EncoderUtils
 {
 public:
-	static bool Create(EncoderInfo &encoderInfo, const json json);
+	static bool Create(EncoderInfo &encoderInfo, const json json, bool validateEncoder = true);
 	static void InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer &options);
 	static std::string GetParameterGroup(EncoderInfo encoderInfo, std::string parameter);
+	static bool IsEncoderAvailable(const std::string codecId);
 
 private:
-	static bool IsAvailable(const std::string codecId);
-	static AVMediaType GetMediaType(const std::string codecId);
+	static AVMediaType GetMediaType(const wxString codecId);
 	static void CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup &parent, const json json);
 };

@@ -147,6 +147,9 @@
     <ClInclude Include="FilterConfig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="wxCustomOptionsDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -195,6 +198,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxFilterPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxCustomOptionsDialog.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1065,6 +1071,12 @@
     </None>
     <None Include="resources\encoders\truehd.json">
       <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\video_side_data.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="resources\audio_side_data.json">
+      <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

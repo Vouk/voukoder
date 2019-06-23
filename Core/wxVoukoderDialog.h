@@ -42,8 +42,10 @@ protected:
 	wxPanel* m_genEncFormPanel;
 	wxStaticText* m_genEncVideoLabel;
 	wxChoice* m_genEncVideoChoice;
+	wxButton* m_genEncVideoSideData;
 	wxStaticText* m_genEncAudioLabel;
 	wxChoice* m_genEncAudioChoice;
+	wxButton* m_genEncAudioSideData;
 	wxPanel* m_genMuxPanel;
 	wxPanel* m_genMuxFormPanel;
 	wxStaticText* m_genMuxFormatLabel;

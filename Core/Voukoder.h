@@ -10,6 +10,7 @@
 #include "LanguageInfo.h"
 #include "json.hpp"
 #include "Version.h"
+#include "Log.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -47,6 +48,8 @@ namespace Voukoder
 			static Config instance;
 			return instance;
 		}
+		EncoderInfo videoSideData;
+		EncoderInfo audioSideData;
 		std::vector<EncoderInfo> encoderInfos;
 		std::vector<MuxerInfo> muxerInfos;
 		std::vector<FilterInfo> filterInfos;

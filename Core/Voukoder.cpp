@@ -17,6 +17,7 @@ Voukoder::Config::Config()
 	LanguageUtils::InitTranslation(languageInfos);
 
 	// Load encoder, muxer and filter infos
+	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MISC));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_ENCODER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_FILTER));
@@ -44,12 +45,33 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 				std::string id = jsonResource["id"].get<std::string>();
 
 				// Create configs and store them
-				if (lpType == MAKEINTRESOURCE(ID_ENCODER))
+				if (lpType == MAKEINTRESOURCE(ID_MISC))
 				{
-					EncoderInfo encoderInfo;
-					if (EncoderUtils::Create(encoderInfo, jsonResource))
+					if (lpName == MAKEINTRESOURCE(IDR_VIDEO_SIDE_DATA))
 					{
-						encoderInfos.push_back(encoderInfo);
+						EncoderUtils::Create(videoSideData, jsonResource);
+					}
+					else if (lpName == MAKEINTRESOURCE(IDR_AUDIO_SIDE_DATA))
+					{
+						EncoderUtils::Create(audioSideData, jsonResource);
+					}
+				}
+				else if (lpType == MAKEINTRESOURCE(ID_ENCODER))
+				{
+					vkLogInfoVA("Loading: encoders/%s.json", id.c_str());
+
+					// Is this encoder supported?
+					if (EncoderUtils::IsEncoderAvailable(id))
+					{
+						EncoderInfo encoderInfo;
+						if (EncoderUtils::Create(encoderInfo, jsonResource))
+						{
+							encoderInfos.push_back(encoderInfo);
+						}
+					}
+					else
+					{
+						vkLogInfoVA("Unloading: encoders/%s.json", id.c_str());
 					}
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_MUXER))

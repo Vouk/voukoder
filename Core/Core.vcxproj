@@ -195,6 +195,7 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxAddFilterDialog.h" />
+    <ClInclude Include="wxCustomOptionsDialog.h" />
     <ClInclude Include="wxFilterPanel.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxEncoderConfigEditor.h" />
@@ -213,12 +214,14 @@
     <ClCompile Include="OptionContainer.cpp" />
     <ClCompile Include="Voukoder.cpp" />
     <ClCompile Include="wxAddFilterDialog.cpp" />
+    <ClCompile Include="wxCustomOptionsDialog.cpp" />
     <ClCompile Include="wxFilterPanel.cpp" />
     <ClCompile Include="wxVoukoderDialog.cpp" />
     <ClCompile Include="wxEncoderConfigEditor.cpp" />
     <ClCompile Include="wxPGOptionProperty.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\audio_side_data.json" />
     <None Include="resources\encoders\aac.json" />
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
@@ -494,6 +497,7 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\video_side_data.json" />
     <None Include="resources\muxers\aac.json" />
     <None Include="resources\muxers\flac.json" />
     <None Include="resources\muxers\mkv.json" />

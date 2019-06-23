@@ -14,7 +14,7 @@
 #define VKDRSelectedMuxer "VKDRSelectedMuxer"
 
 #define CONFIG_MAX_SIZE 16384
-#define ARB_VERSION 1
+#define ARB_VERSION 2
 
 enum VKDRColorRanges {
 	LIMITED,
@@ -41,8 +41,10 @@ struct ArbData
 {
 	prUTF16Char videoCodecId[16];
 	prUTF16Char videoCodecOptions[16384];
+	prUTF16Char videoSideData[16384] = { 0 };
 	prUTF16Char audioCodecId[16];
 	prUTF16Char audioCodecOptions[16384];
+	prUTF16Char audioSideData[16384] = { 0 };
 	prUTF16Char formatId[10];
 	bool faststart;
 	csSDK_uint32 version = 0;

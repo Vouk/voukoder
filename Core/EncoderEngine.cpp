@@ -1,7 +1,4 @@
 ﻿#include <sstream>
-#ifdef PRWIN_ENV
-//#include <windows>
-#endif
 #include "EncoderEngine.h"
 #include "Log.h"
 
@@ -33,6 +30,7 @@ int EncoderEngine::open()
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportInfo.format.id.c_str(), exportInfo.filename.c_str(), NULL);
+	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
 
 	// Mark myself as encoding tool in the mp4/mov container
@@ -177,6 +175,110 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 	return ret;
 }
 
+int EncoderEngine::injectStereoData(AVStream* stream)
+{
+	// Do we have stereo 3d data?
+	wxString type = GetSideData(exportInfo.video.sideData, "s3d_type", "");
+	if (type.IsEmpty())
+	{
+		return 0;
+	}
+
+	// Add basic data
+	AVStereo3D* stereo_3d = av_stereo3d_alloc();
+	stereo_3d->flags = 0;
+
+	// Add type
+	if (type == "2d")
+	{
+		stereo_3d->type = AV_STEREO3D_2D;
+	}
+	else if (type == "sidebyside")
+	{
+		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE;
+	}
+	else if (type == "topbottom")
+	{
+		stereo_3d->type = AV_STEREO3D_TOPBOTTOM;
+	}
+	else if (type == "framesequence")
+	{
+		stereo_3d->type = AV_STEREO3D_FRAMESEQUENCE;
+	}
+	else if (type == "checkerboard")
+	{
+		stereo_3d->type = AV_STEREO3D_CHECKERBOARD;
+	}
+	else if (type == "sidebyside_quincunx")
+	{
+		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE_QUINCUNX;
+	}
+	else if (type == "lines")
+	{
+		stereo_3d->type = AV_STEREO3D_LINES;
+	}
+	else if (type == "columns")
+	{
+		stereo_3d->type = AV_STEREO3D_COLUMNS;
+	}
+
+	// Add views
+	wxString view = GetSideData(exportInfo.video.sideData, "s3d_view", "");
+	if (view == "2d")
+	{
+		stereo_3d->view = AV_STEREO3D_VIEW_PACKED;
+	}
+	else if (view == "left")
+	{
+		stereo_3d->view = AV_STEREO3D_VIEW_LEFT;
+	}
+	else if (view == "right")
+	{
+		stereo_3d->view = AV_STEREO3D_VIEW_RIGHT;
+	}
+
+	return av_stream_add_side_data(stream, AV_PKT_DATA_STEREO3D, (uint8_t*)stereo_3d, sizeof(*stereo_3d));
+}
+
+int EncoderEngine::injectSphericalData(AVStream *stream)
+{
+	// Do we have spherical projection data?
+	wxString projection = GetSideData(exportInfo.video.sideData, "sph_projection", "");
+	if (projection.IsEmpty())
+	{
+		return 0;
+	}
+
+	size_t size;
+	
+	// Add basic data
+	AVSphericalMapping* spherical = av_spherical_alloc(&size);
+	spherical->yaw = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_yaw", "0"));
+	spherical->pitch = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_pitch", "0"));
+	spherical->roll = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_roll", "0"));
+
+	// Add projection data
+	if (projection == "equirectangular")
+	{
+		spherical->projection = AV_SPHERICAL_EQUIRECTANGULAR;
+	}
+	else if (projection == "cubemap")
+	{
+		spherical->projection = AV_SPHERICAL_CUBEMAP;
+		spherical->padding = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_padding", "0"));
+	}
+	else if (projection == "equirectangular_tile")
+	{
+		spherical->projection = AV_SPHERICAL_EQUIRECTANGULAR_TILE;
+		spherical->bound_left = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_bound-left", "0"));
+		spherical->bound_top = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_bound-top", "0"));
+		spherical->bound_right = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_bound-right", "0"));
+		spherical->bound_bottom = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_bound-bottom", "0"));
+	}
+
+	return av_stream_add_side_data(stream, AV_PKT_DATA_SPHERICAL, (uint8_t*)spherical, size);
+}
+
 int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags)
 {
 	// Is this codec supported?
@@ -189,6 +291,12 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	// No frame server so far
 	encoderContext->frameFilter = NULL;
 
+	// Create new stream
+	encoderContext->stream = avformat_new_stream(formatContext, codec);
+	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = exportInfo.video.timebase;
+	encoderContext->stream->avg_frame_rate = av_inv_q(exportInfo.video.timebase);
+
 	// Create codec context
 	encoderContext->codecContext = avcodec_alloc_context3(codec);
 	encoderContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
@@ -197,6 +305,11 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
+		// Inject side data
+		injectSphericalData(encoderContext->stream);
+		injectStereoData(encoderContext->stream);
+
+		// Configure context
 		encoderContext->codecContext->width = exportInfo.video.width;
 		encoderContext->codecContext->height = exportInfo.video.height;
 		encoderContext->codecContext->time_base = exportInfo.video.timebase;
@@ -236,12 +349,6 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->sample_rate = exportInfo.audio.timebase.den;
 		encoderContext->codecContext->bit_rate = 0;
 	}
-
-	// Create new stream
-	encoderContext->stream = avformat_new_stream(formatContext, codec);
-	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
-	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 	{

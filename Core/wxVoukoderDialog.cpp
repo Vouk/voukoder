@@ -7,6 +7,7 @@
 #include "Images.h"
 #include "Voukoder.h"
 #include "Log.h"
+#include "wxCustomOptionsDialog.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -75,6 +76,23 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncVideoChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnVideoEncoderChanged, this);
 	gbGenEncFormSizer->Add(m_genEncVideoChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
 
+	// General > Video > Side data
+
+	m_genEncVideoSideData = new wxButton(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video.sidedata"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genEncVideoSideData->Enable(exportInfo.video.enabled && Voukoder::Config::Get().videoSideData.groups.size() > 0);
+	m_genEncVideoSideData->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
+		{
+			wxCustomOptionsDialog dialog(this);
+			dialog.SetTitle(m_genEncVideoSideData->GetLabelText());
+			dialog.Configure(Voukoder::Config::Get().videoSideData, exportInfo.video.sideData);
+			if (dialog.ShowModal() == (int)wxID_OK)
+			{
+				this->exportInfo.video.sideData.clear();
+				this->exportInfo.video.sideData.insert(dialog.options.begin(), dialog.options.end());
+			}
+		});
+	gbGenEncFormSizer->Add(m_genEncVideoSideData, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
+
 	m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncAudioLabel->Wrap(-1);
 	m_genEncAudioLabel->SetMinSize(wxSize(100, -1));
@@ -86,6 +104,23 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
 	m_genEncAudioChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnAudioEncoderChanged, this);
 	gbGenEncFormSizer->Add(m_genEncAudioChoice, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
+
+	// General > Audio > Side data
+
+	m_genEncAudioSideData = new wxButton(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio.sidedata"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genEncAudioSideData->Enable(exportInfo.audio.enabled && Voukoder::Config::Get().audioSideData.groups.size() > 0);
+	m_genEncAudioSideData->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
+		{
+			wxCustomOptionsDialog dialog(this);
+			dialog.SetTitle(m_genEncAudioSideData->GetLabelText());
+			dialog.Configure(Voukoder::Config::Get().audioSideData, exportInfo.audio.sideData);
+			if (dialog.ShowModal() == (int)wxID_OK)
+			{
+				this->exportInfo.audio.sideData.clear();
+				this->exportInfo.audio.sideData.insert(dialog.options.begin(), dialog.options.end());
+			}
+		});
+	gbGenEncFormSizer->Add(m_genEncAudioSideData, wxGBPosition(1, 2), wxGBSpan(1, 1), wxALL, 5);
 
 
 	gbGenEncFormSizer->AddGrowableCol(1);
@@ -127,8 +162,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genMuxFaststartCheck = new wxCheckBox(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.faststart"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genMuxFaststartCheck->Bind(wxEVT_CHECKBOX, &wxVoukoderDialog::OnFaststartChanged, this);
 	gbGenMuxFormSizer->Add(m_genMuxFaststartCheck, wxGBPosition(1, 0), wxGBSpan(1, 2), wxALL, 5);
-
-
+	
+	
 	gbGenMuxFormSizer->AddGrowableCol(1);
 
 	m_genMuxFormPanel->SetSizer(gbGenMuxFormSizer);

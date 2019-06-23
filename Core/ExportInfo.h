@@ -18,6 +18,7 @@ struct ExportInfo
 		int height = 0;
 		wxString id = wxEmptyString;
 		OptionContainer options;
+		OptionContainer sideData;
 		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
 		AVPixelFormat pixelFormat = AVPixelFormat::AV_PIX_FMT_NONE;
@@ -35,6 +36,7 @@ struct ExportInfo
 		bool enabled = true;
 		wxString id = wxEmptyString;
 		OptionContainer options;
+		OptionContainer sideData;
 		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
 		AVSampleFormat sampleFormat = AVSampleFormat::AV_SAMPLE_FMT_NONE;

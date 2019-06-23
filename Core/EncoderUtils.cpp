@@ -5,30 +5,11 @@
 #include "OptionResourceUtils.h"
 #include "Log.h"
 
-bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
+bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validateEncoder)
 {
-	std::string codecId = resource["id"].get<std::string>();
-
-	vkLogInfoVA("Loading: encoders/%s.json", codecId.c_str());
-
-	// Is this encoder supported?
-	if (!IsAvailable(codecId))
-	{
-		vkLogInfoVA("Unloading: encoders/%s.json", codecId.c_str());
-		return false;
-	}
-
-	// Parse encoder info
-	encoderInfo.id = codecId;
-	std::string name = resource["name"].get<std::string>();
-	encoderInfo.name = std::wstring(name.begin(), name.end());
-	encoderInfo.type = GetMediaType(codecId);
-
-	// Don't support unkown media types
-	if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_UNKNOWN)
-	{
-		return false;
-	}
+	encoderInfo.id = resource["id"].get<std::string>();
+	encoderInfo.name = resource["name"].get<std::string>();
+	encoderInfo.type = GetMediaType(encoderInfo.id);
 
 	// Default parameters
 	for (auto &item : resource["defaults"].items())
@@ -38,7 +19,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	}
 
 	// Additional NVENC parameters
-	if (codecId == "h264_nvenc" || codecId == "hevc_nvenc")
+	if (encoderInfo.id == "h264_nvenc" || encoderInfo.id == "hevc_nvenc")
 	{
 		NvidiaCustomOptions::GetOptions(encoderInfo);
 	}
@@ -46,6 +27,9 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 	// Parse groups
 	for (json group : resource["groups"])
 	{
+		if (group["id"].get<std::string>().find('.') == std::string::npos)
+			group["id"] = encoderInfo.id + '.' + group["id"].get<std::string>();
+
 		EncoderGroupInfo encoderGroupInfo;
 		encoderGroupInfo.id = group["id"].get<std::string>();
 		encoderGroupInfo.name = Trans(encoderGroupInfo.id);
@@ -53,6 +37,9 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, const json resource)
 
 		for (json obj2 : group["properties"])
 		{
+			if (obj2["id"].get<std::string>().find('.') == std::string::npos)
+				obj2["id"] = encoderGroupInfo.id + '.' + obj2["id"].get<std::string>();
+
 			EncoderOptionInfo encoderOptionInfo;
 			if (OptionResourceUtils::CreateOptionInfo(encoderOptionInfo, obj2))
 			{
@@ -116,9 +103,9 @@ void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& grou
 	}
 }
 
-AVMediaType EncoderUtils::GetMediaType(const std::string codecId)
+AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 {
-	AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
+	AVCodec *codec = avcodec_find_encoder_by_name(codecId);
 	if (codec != NULL)
 	{
 		return codec->type;
@@ -127,7 +114,7 @@ AVMediaType EncoderUtils::GetMediaType(const std::string codecId)
 	return AVMEDIA_TYPE_UNKNOWN;
 }
 
-bool EncoderUtils::IsAvailable(const std::string name)
+bool EncoderUtils::IsEncoderAvailable(const std::string name)
 {
 	bool ret = false;
 

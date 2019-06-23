@@ -15,6 +15,8 @@ extern "C" {
 #include "libavutil/fifo.h"
 #include "libavutil/log.h"
 #include "libavutil/mathematics.h"
+#include "libavutil/spherical.h"
+#include "libavutil/stereo3D.h"
 #include "x264.h"
 #include "x265.h"
 }

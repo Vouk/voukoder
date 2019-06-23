@@ -101,10 +101,10 @@ prMALError Gui::Create()
 	prCreateIntParam(ADBEAudioNumChannels, ADBEBasicAudioGroup, exParamFlag_none, seqChannelType.mInt32, NULL, NULL, kPrFalse, kPrFalse);
 
 	// Create Voukoder elements
+	prCreateButtonParam(VKDRVoukoderConfiguration, VKDRVoukoderTabGroup, exParamFlag_independant);
 	prCreateIntParam(VKDRSelectedMuxer, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
 	prCreateIntParam(VKDRSelectedVideoEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
 	prCreateIntParam(VKDRSelectedAudioEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
-	prCreateButtonParam(VKDRVoukoderConfiguration, VKDRVoukoderTabGroup, exParamFlag_independant);
 
 	return malNoError;
 }
@@ -126,10 +126,10 @@ prMALError Gui::Update()
 	prSetNameDescription(ADBEAudioRatePerSecond, "ui.premiere.tab.audio.samplerate");
 	prSetNameDescription(ADBEAudioNumChannels, "ui.premiere.tab.audio.channels");
 	prSetGroupName(VKDRVoukoderTabGroup, "ui.premiere.tab.voukoder");
+	prSetNameDescription(VKDRVoukoderConfiguration, "ui.premiere.tab.voukoder.configuration");
 	prSetNameDescription(VKDRSelectedMuxer, "ui.premiere.tab.voukoder.selectedMuxer");
 	prSetNameDescription(VKDRSelectedVideoEncoder, "ui.premiere.tab.voukoder.selectedVideoEncoder");
 	prSetNameDescription(VKDRSelectedAudioEncoder, "ui.premiere.tab.voukoder.selectedAudioEncoder");
-	prSetNameDescription(VKDRVoukoderConfiguration, "ui.premiere.tab.voukoder.configuration");
 
 	PrSDKExportParamSuite *paramSuite = suites->exportParamSuite;
 
@@ -376,6 +376,11 @@ bool Gui::ReadEncoderOptions(const char *dataId, ExportInfo &exportInfo)
 				videoOptions.Replace(",", PARAM_SEPARATOR);
 				audioOptions.Replace(",", PARAM_SEPARATOR);
 			}
+			else if (arbData.version == 2)
+			{
+				exportInfo.video.sideData.Deserialize(arbData.videoSideData);
+				exportInfo.audio.sideData.Deserialize(arbData.audioSideData);
+			}
 
 			// Set main values
 			exportInfo.video.id = wxString(arbData.videoCodecId);
@@ -417,9 +422,11 @@ bool Gui::StoreEncoderOptions(const char *dataId, ExportInfo exportInfo)
 	prUTF16CharCopy(arbData.videoCodecId, exportInfo.video.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.videoCodecOptions, exportInfo.video.options.Serialize(true).c_str());
 	prUTF16CharCopy(arbData.videoFilters, exportInfo.video.filters.Serialize().ToStdWstring().c_str());
+	prUTF16CharCopy(arbData.videoSideData, exportInfo.video.sideData.Serialize(true).c_str());
 	prUTF16CharCopy(arbData.audioCodecId, exportInfo.audio.id.ToStdWstring().c_str());
 	prUTF16CharCopy(arbData.audioCodecOptions, exportInfo.audio.options.Serialize(true).c_str());
 	prUTF16CharCopy(arbData.audioFilters, exportInfo.audio.filters.Serialize().ToStdWstring().c_str());
+	prUTF16CharCopy(arbData.audioSideData, exportInfo.audio.sideData.Serialize(true).c_str());
 	prUTF16CharCopy(arbData.formatId, exportInfo.format.id.ToStdWstring().c_str());
 	arbData.faststart = exportInfo.format.faststart;
 

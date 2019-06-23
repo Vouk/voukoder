@@ -6,6 +6,8 @@
 #include <wx/wx.h>
 #include <wx/filename.h>
 
+#define GetSideData(data, id, def) data.find(id) != data.end() ? data[id] : ""
+
 class EncoderEngine
 {
 public:
@@ -33,6 +35,8 @@ private:
 	int openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags);
 	int sendFrame(AVCodecContext *context, AVStream *stream, AVFrame *frame);
 	int receivePackets(AVCodecContext *context, AVStream *stream);
+	int injectStereoData(AVStream* stream);
+	int injectSphericalData(AVStream* stream);
 	int audioFrameSize;
 	wxString passLogFile;
 };
