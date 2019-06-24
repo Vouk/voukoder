@@ -13,17 +13,24 @@
 #include "AEGP_SuiteHandler.h"
 #include <ExportInfo.h>
 
+#define ARB_VERSION 2
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 	typedef struct 
 	{
-		char videoCodecId[16];
-		char videoCodecOptions[16384];
-		char audioCodecId[16];
-		char audioCodecOptions[16384];
-		char formatId[10];
-		bool faststart;
+		char videoCodecId[16] = { 0 };
+		char videoCodecOptions[16384] = { 0 };
+		char audioCodecId[16] = { 0 };
+		char audioCodecOptions[16384] = { 0 };
+		char formatId[10] = { 0 };
+		bool faststart = false;
+		A_long version = 0;
+		char videoFilters[16384] = { 0 };
+		char audioFilters[16384] = { 0 };
+		char videoSideData[16384] = { 0 };
+		char audioSideData[16384] = { 0 };
 	} ArbData;
 
 	DllExport A_Err GPMain_IO(

@@ -308,6 +308,11 @@ static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH out
 	exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
 	exportInfo.format.id = arbData->formatId;
 	exportInfo.format.faststart = arbData->faststart;
+	exportInfo.video.filters.Deserialize(arbData->videoFilters);
+	exportInfo.audio.filters.Deserialize(arbData->audioFilters);
+	exportInfo.video.sideData.Deserialize(arbData->videoSideData);
+	exportInfo.audio.sideData.Deserialize(arbData->audioSideData);
+
 
 	// Show voukoder dialog
 	int result = ShowVoukoderDialog(exportInfo);
@@ -318,12 +323,17 @@ static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH out
 		*user_interacted0 = true;
 
 		// Fill ArbData
+		arbData->version = ARB_VERSION;
 		strcpy_s(arbData->videoCodecId, exportInfo.video.id);
 		strcpy_s(arbData->videoCodecOptions, exportInfo.video.options.Serialize().c_str());
 		strcpy_s(arbData->audioCodecId, exportInfo.audio.id);
 		strcpy_s(arbData->audioCodecOptions, exportInfo.audio.options.Serialize().c_str());
 		strcpy_s(arbData->formatId, exportInfo.format.id);
 		arbData->faststart = exportInfo.format.faststart;
+		strcpy_s(arbData->videoSideData, exportInfo.video.sideData.Serialize().c_str());
+		strcpy_s(arbData->audioSideData, exportInfo.audio.sideData.Serialize().c_str());
+		strcpy_s(arbData->videoFilters, exportInfo.video.filters.Serialize().c_str());
+		strcpy_s(arbData->audioFilters, exportInfo.audio.filters.Serialize().c_str());
 
 		// Store configuration
 		ERR(suites.IOOutSuite4()->AEGP_SetOutSpecOptionsHandle(outH, optionsH, reinterpret_cast<void**>(&old_optionsH)));
