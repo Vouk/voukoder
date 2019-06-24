@@ -19,6 +19,7 @@ OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
 WizardSmallImageFile=logo.bmp
+WizardStyle=modern
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -114,6 +115,24 @@ procedure RegisterPreviousData(PreviousDataKey: Integer);
 begin
   SetPreviousData(PreviousDataKey, 'PrmDir', DirPage.Values[0]);
   SetPreviousData(PreviousDataKey, 'AexDir', DirPage.Values[1]);
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+var
+  IsPrm: Boolean;
+  IsAex: Boolean;
+begin
+  if CurPageID = 100 then
+  begin
+    IsPrm := WizardIsComponentSelected('prm');
+    DirPage.PromptLabels[0].Enabled := IsPrm;
+    DirPage.Edits[0].Enabled := IsPrm;
+    DirPage.Buttons[0].Enabled := IsPrm;
+    IsAex := WizardIsComponentSelected('aex');
+    DirPage.PromptLabels[1].Enabled := IsAex;
+    DirPage.Edits[1].Enabled := IsAex;
+    DirPage.Buttons[1].Enabled := IsAex;
+  end;
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
