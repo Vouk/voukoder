@@ -101,7 +101,9 @@ prMALError Gui::Create()
 	prCreateIntParam(ADBEAudioNumChannels, ADBEBasicAudioGroup, exParamFlag_none, seqChannelType.mInt32, NULL, NULL, kPrFalse, kPrFalse);
 
 	// Create Voukoder elements
-	prCreateIntParam(VKDRSelectedMuxer, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrFalse);
+	prCreateIntParam(VKDRSelectedMuxer, VKDRVoukoderTabGroup, exParamFlag_multiLine, 0, NULL, NULL, kPrFalse, kPrFalse);
+	prCreateIntParam(VKDRSelectedVideoEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrTrue); // Legacy
+	prCreateIntParam(VKDRSelectedAudioEncoder, VKDRVoukoderTabGroup, exParamFlag_none, 0, NULL, NULL, kPrFalse, kPrTrue); // Legacy
 	prCreateButtonParam(VKDRVoukoderConfiguration, VKDRVoukoderTabGroup, exParamFlag_independant);
 
 	return malNoError;
@@ -125,6 +127,8 @@ prMALError Gui::Update()
 	prSetNameDescription(ADBEAudioNumChannels, "ui.premiere.tab.audio.channels");
 	prSetGroupName(VKDRVoukoderTabGroup, "ui.premiere.tab.voukoder");
 	prSetNameDescription(VKDRSelectedMuxer, "ui.premiere.tab.voukoder.selectedMuxer");
+	prSetHidden(VKDRSelectedVideoEncoder, kPrTrue);
+	prSetHidden(VKDRSelectedAudioEncoder, kPrTrue);
 	prSetNameDescription(VKDRVoukoderConfiguration, "ui.premiere.tab.voukoder.configuration");
 
 	PrSDKExportParamSuite *paramSuite = suites->exportParamSuite;
@@ -226,8 +230,8 @@ void Gui::CheckSettings()
 	if (ReadEncoderOptions(VKDRVoukoderConfiguration, exportInfo))
 	{
 		muxer = Voukoder::GetResourceName(Voukoder::Config::Get().muxerInfos, exportInfo.format.id, none)
-			<< " [ " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none)
-			<< ", " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none) << " ]";
+			<< " - " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none)
+			<< ", " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none);
 	}
 	else
 	{

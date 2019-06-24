@@ -9,6 +9,8 @@
 #define VKDRVoukoderConfiguration "VKDRVideoConfiguration"
 #define VKDRVideoColorRange "VKDRVideoColorRange"
 #define VKDRVideoColorSpace "VKDRVideoColorSpace"
+#define VKDRSelectedVideoEncoder "VKDRSelectedVideoEncoder"
+#define VKDRSelectedAudioEncoder "VKDRSelectedAudioEncoder"
 #define VKDRSelectedMuxer "VKDRSelectedMuxer"
 
 #define CONFIG_MAX_SIZE 16384
@@ -35,19 +37,21 @@ const csSDK_int32 ColorSpaces[] = { VKDRColorSpaces::BT601_PAL, VKDRColorSpaces:
 const double AudioSamplingRates[] = { 32000.0, 44100.0, 48000.0, 96000.0 };
 const csSDK_int32 AudioChannels[] = { kPrAudioChannelType_Mono, kPrAudioChannelType_Stereo, kPrAudioChannelType_51 };
 
+// To maintain backwards compatibility append to this structure only.
+// DON'T INSERT IN BETWEEN!
 struct ArbData
 {
 	prUTF16Char videoCodecId[16];
 	prUTF16Char videoCodecOptions[16384];
-	prUTF16Char videoSideData[16384] = { 0 };
 	prUTF16Char audioCodecId[16];
 	prUTF16Char audioCodecOptions[16384];
-	prUTF16Char audioSideData[16384] = { 0 };
 	prUTF16Char formatId[10];
 	bool faststart;
 	csSDK_uint32 version = 0;
 	prUTF16Char videoFilters[16384] = { 0 };
 	prUTF16Char audioFilters[16384] = { 0 };
+	prUTF16Char videoSideData[16384] = { 0 };
+	prUTF16Char audioSideData[16384] = { 0 };
 };
 
 #define prCreateIntParam(_identifier_, _groupName_, _paramflags_, _defaultValue_, _minValue_, _maxValue_, _disabled_, _hidden_) { \
