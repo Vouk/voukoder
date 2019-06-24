@@ -264,56 +264,60 @@ void wxConfigurationDialog::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& e
 void wxConfigurationDialog::OnOkayClick(wxCommandEvent& event)
 {
 	// Set encoder config
-	(*encoderOptions)->clear();
-	(*encoderOptions)->insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
+	if (m_encoderOptions)
+	{
+		(*encoderOptions)->clear();
+		(*encoderOptions)->insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
+	}
 
 	// Set side data config
-	(*sideDataOptions)->clear();
-
-	// Iterate over all options
-	wxPropertyGridConstIterator it;
-	for (it = m_propertyGrid->GetIterator(wxPG_ITERATE_VISIBLE); !it.AtEnd(); it++)
+	if (m_propPanel)
 	{
-		wxOptionProperty* prop = wxDynamicCast(*it, wxOptionProperty);
-		if (prop)
+		(*sideDataOptions)->clear();
+
+		// Iterate over all options
+		wxPropertyGridConstIterator it;
+		for (it = m_propertyGrid->GetIterator(wxPG_ITERATE_VISIBLE); !it.AtEnd(); it++)
 		{
-			EncoderOptionInfo optionInfo = prop->GetOptionInfo();
-			wxString parameter = optionInfo.parameter;
-
-			if (!parameter.IsEmpty() && prop->IsChecked())
+			wxOptionProperty* prop = wxDynamicCast(*it, wxOptionProperty);
+			if (prop)
 			{
-				wxString value;
+				EncoderOptionInfo optionInfo = prop->GetOptionInfo();
+				wxString parameter = optionInfo.parameter;
 
-				// Format the value if required (Make sure parsing unformats the value!!)
-				if (optionInfo.control.type == EncoderOptionType::Integer)
+				if (!parameter.IsEmpty() && prop->IsChecked())
 				{
-					int val = prop->GetValue().GetInteger() * optionInfo.multiplicationFactor;
-					value = wxString::Format(wxT("%d"), val);
-				}
-				else if (optionInfo.control.type == EncoderOptionType::Float)
-				{
-					double val = prop->GetValue().GetDouble() * optionInfo.multiplicationFactor;
-					value = wxString::Format(wxT("%.1f"), val);
-				}
-				else
-				{
-					value = prop->GetValueAsString(wxPG_FULL_VALUE);
-				}
+					wxString value;
 
-				// Assign the value
-				if (!value.IsEmpty())
-				{
-					(*sideDataOptions)->insert_or_assign(parameter.ToStdString(), value);
+					// Format the value if required (Make sure parsing unformats the value!!)
+					if (optionInfo.control.type == EncoderOptionType::Integer)
+					{
+						int val = prop->GetValue().GetInteger() * optionInfo.multiplicationFactor;
+						value = wxString::Format(wxT("%d"), val);
+					}
+					else if (optionInfo.control.type == EncoderOptionType::Float)
+					{
+						double val = prop->GetValue().GetDouble() * optionInfo.multiplicationFactor;
+						value = wxString::Format(wxT("%.1f"), val);
+					}
+					else
+					{
+						value = prop->GetValueAsString(wxPG_FULL_VALUE);
+					}
+
+					// Assign the value
+					if (!value.IsEmpty())
+					{
+						(*sideDataOptions)->insert_or_assign(parameter.ToStdString(), value);
+					}
 				}
 			}
 		}
 	}
 
-#ifdef _DEBUG
 	// Filters
 	if (m_filterPanel)
 		m_filterPanel->GetFilterConfig(**filterOptions);
-#endif
 
 	EndDialog(wxID_OK);
 }
