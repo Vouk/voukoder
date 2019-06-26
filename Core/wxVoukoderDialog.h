@@ -86,6 +86,8 @@ public:
 private:
 	ExportInfo& exportInfo;
 	EncoderInfo* GetSelectedEncoder(wxChoice *choice);
+	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
+	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);

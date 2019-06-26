@@ -222,35 +222,14 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
 
 	//
+	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 20);
 
-	wxFont f_headline = wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxEmptyString);
-
-	wxStaticText *m_aboutAuthor = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n") + Trans("ui.encoderconfig.general.about.author"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	m_aboutAuthor->SetFont(f_headline);
-	aboutSizer->Add(m_aboutAuthor, 0, wxALIGN_CENTER | wxALL, 0);
-
-	wxStaticText *m_aboutDaniel = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Daniel Stankewitz"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(m_aboutDaniel, 0, wxALIGN_CENTER | wxALL, 3);
-
-	wxStaticText *n_aboutIcons = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n") + Trans("ui.encoderconfig.general.about.awesomefont"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	n_aboutIcons->SetFont(f_headline);
-	aboutSizer->Add(n_aboutIcons, 0, wxALIGN_CENTER | wxALL, 0);
-
-	wxStaticText *n_aboutDave = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Dave Gandy / CC 3.0 BY"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(n_aboutDave, 0, wxALIGN_CENTER | wxALL, 3);
-
-	// Translation maintainers
-	wxStaticText *n_aboutTrans = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n") + Trans("ui.encoderconfig.general.about.transmaint"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	n_aboutTrans->SetFont(f_headline);
-	aboutSizer->Add(n_aboutTrans, 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Cedric R. (Deutsch)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 3);
-	aboutSizer->Add(new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("Bruno T. \"MyPOV\" (Francais)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL), 0, wxALIGN_CENTER | wxALL, 3);
-
-	wxStaticText* n_special = new wxStaticText(m_generalAboutPanel, wxID_ANY, wxT("\n\n\nSpecial thanks to Noar for the Voukoder logo."), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	aboutSizer->Add(n_special, 0, wxALIGN_CENTER | wxALL, 0);
-
-	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("\n\n\nwww.voukoder.org"), wxT("https://www.voukoder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
-	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 0);
+	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("Support Voukoder on patreon.com"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
 
 	m_generalAboutPanel->SetSizer(aboutSizer);
 	m_generalAboutPanel->Layout();
@@ -436,6 +415,100 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	this->Centre(wxBOTH);
 
 	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
+}
+
+wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
+{
+	wxRichTextCtrl* richText = new wxRichTextCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS);
+	richText->BeginAlignment(wxTextAttrAlignment::wxTEXT_ALIGNMENT_CENTER);
+
+	wxHTTP get;
+	get.SetHeader(_T("Content-type"), _T("text/html; charset=utf-8"));
+	get.SetHeader(_T("User-Agent"), wxString::Format(_T("voukoder/%d.%d.%d"), VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH));
+	get.SetTimeout(2);
+
+	if (get.Connect(VKDR_UPDATE_CHECK_HOST))
+	{
+		wxApp::IsMainLoopRunning();
+
+		wxInputStream* httpStream = get.GetInputStream("/patreon/patrons.php");
+
+		if (get.GetError() == wxPROTO_NOERR)
+		{
+			wxString res;
+			wxStringOutputStream out_stream(&res);
+			httpStream->Read(out_stream);
+
+			try
+			{
+				const json patrons = json::parse(res.ToStdString());
+
+				richText->BeginBold();
+				richText->BeginFontSize(11);
+				richText->BeginUnderline();
+				richText->WriteText(Trans("ui.encoderconfig.general.about.toppatrons") + "\n");
+				richText->EndUnderline();
+				richText->EndFontSize();
+				richText->EndBold();
+
+				int i = 0;
+				for (json patron : patrons)
+				{
+					if (i < 3)
+					{
+						richText->BeginBold();
+						richText->BeginFontSize(13);
+					}
+					else
+					{
+						richText->BeginFontSize(10);
+					}
+
+					richText->WriteText(patron["name"].get<std::string>() + "\n");
+					richText->EndFontSize();
+
+					if (i < 3)
+					{
+						richText->EndBold();
+					}
+					i++;
+				}
+			}
+			catch (json::parse_error p)
+			{
+				richText->Clear();
+				richText->WriteText("Unable to parse patron data.");
+			}
+		}
+
+		wxDELETE(httpStream);
+		get.Close();
+	}
+
+	richText->EndAlignment();
+
+	return richText;
+}
+
+wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, wxString text)
+{
+	wxPanel* m_panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bSizer = new wxBoxSizer(wxHORIZONTAL);
+	
+	wxStaticText* m_label = new wxStaticText(m_panel, wxID_ANY, label, wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
+	m_label->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+	m_label->Wrap(-1);
+	bSizer->Add(m_label, 1, wxALL, 5);
+
+	wxStaticText* m_text = new wxStaticText(m_panel, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, 0);
+	m_text->Wrap(-1);
+	bSizer->Add(m_text, 1, wxALL, 5);
+
+	m_panel->SetSizer(bSizer);
+	m_panel->Layout();
+	bSizer->Fit(m_panel);
+
+	return m_panel;
 }
 
 void wxVoukoderDialog::SetConfiguration()
