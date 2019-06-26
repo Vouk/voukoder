@@ -1757,6 +1757,8 @@
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
     "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
 
+    "DO.NOT.TRANSLATE.FROM.THIS.POINT.ON": "#######################################################",
+
     "filter.amplify": "amplify",
     "filter.amplify.standard": "standard",
     "filter.amplify.standard.factor._description": "set factor",
