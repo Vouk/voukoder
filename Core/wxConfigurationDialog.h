@@ -21,14 +21,14 @@ public:
 	~wxConfigurationDialog();
 
 protected:
-	wxNotebook* m_notebook;
-	wxEncoderConfigEditor* m_encoderOptions;
-	wxPanel* m_propPanel;
-	wxPropertyGrid* m_propertyGrid;
-	wxFilterPanel* m_filterPanel;
-	wxStdDialogButtonSizer* m_sdbSizer1;
-	wxButton* m_sdbSizer1OK;
-	wxButton* m_sdbSizer1Cancel;
+	wxNotebook* m_notebook = NULL;
+	wxEncoderConfigEditor* m_encoderOptions = NULL;
+	wxPanel* m_propPanel = NULL;
+	wxPropertyGrid* m_propertyGrid = NULL;
+	wxFilterPanel* m_filterPanel = NULL;
+	wxStdDialogButtonSizer* m_sdbSizer1 = NULL;
+	wxButton* m_sdbSizer1OK = NULL;
+	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
 	OptionContainer** encoderOptions;
