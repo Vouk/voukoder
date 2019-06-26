@@ -223,9 +223,9 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 	//
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 20);
 
 	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("Support Voukoder on patreon.com"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
@@ -439,45 +439,38 @@ wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
 			wxStringOutputStream out_stream(&res);
 			httpStream->Read(out_stream);
 
-			try
+			richText->BeginBold();
+			richText->BeginFontSize(11);
+			richText->BeginUnderline();
+			richText->WriteText(Trans("ui.encoderconfig.general.about.toppatrons") + "\n");
+			richText->EndUnderline();
+			richText->EndFontSize();
+			richText->EndBold();
+
+			int i = 0;
+
+			wxStringTokenizer tokenizer(res, "|");
+			while (tokenizer.HasMoreTokens())
 			{
-				const json patrons = json::parse(res.ToStdString());
-
-				richText->BeginBold();
-				richText->BeginFontSize(11);
-				richText->BeginUnderline();
-				richText->WriteText(Trans("ui.encoderconfig.general.about.toppatrons") + "\n");
-				richText->EndUnderline();
-				richText->EndFontSize();
-				richText->EndBold();
-
-				int i = 0;
-				for (json patron : patrons)
+				wxString patron = tokenizer.GetNextToken();
+				if (i < 3)
 				{
-					if (i < 3)
-					{
-						richText->BeginBold();
-						richText->BeginFontSize(13);
-					}
-					else
-					{
-						richText->BeginFontSize(10);
-					}
-
-					richText->WriteText(patron["name"].get<std::string>() + "\n");
-					richText->EndFontSize();
-
-					if (i < 3)
-					{
-						richText->EndBold();
-					}
-					i++;
+					richText->BeginBold();
+					richText->BeginFontSize(13);
 				}
-			}
-			catch (json::parse_error p)
-			{
-				richText->Clear();
-				richText->WriteText("Unable to parse patron data.");
+				else
+				{
+					richText->BeginFontSize(10);
+				}
+
+				richText->WriteText(patron + "\n");
+				richText->EndFontSize();
+
+				if (i < 3)
+				{
+					richText->EndBold();
+				}
+				i++;
 			}
 		}
 
