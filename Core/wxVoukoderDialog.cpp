@@ -86,9 +86,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 			OptionContainer* sideData = &this->exportInfo.video.sideData;
 			FilterConfig* filterConfig = &this->exportInfo.video.filters;
 
-			std::vector<FilterInfo> filters;
-
-			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncVideoChoice), Voukoder::Config::Get().videoSideData, filters, &encoderOptions, &sideData, &filterConfig);
+			// Open the configure dialog
+			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncVideoChoice), Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, &encoderOptions, &sideData, &filterConfig);
 			dialog.SetTitle(m_genEncVideoConfig->GetLabelText());
 			dialog.ShowModal();
 		});
@@ -116,9 +115,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 			OptionContainer* sideData = &this->exportInfo.audio.sideData;
 			FilterConfig* filterConfig = &this->exportInfo.audio.filters;
 
-			std::vector<FilterInfo> filters;
-
-			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncAudioChoice), Voukoder::Config::Get().audioSideData, filters, &encoderOptions, &sideData, &filterConfig);
+			// Open the configure dialog
+			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncAudioChoice), Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, &encoderOptions, &sideData, &filterConfig);
 			dialog.SetTitle(m_genEncAudioConfig->GetLabelText());
 			dialog.ShowModal();
 		});
@@ -642,6 +640,12 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	if (event.GetId() != 0)
 		exportInfo.video.options.clear();
 
+	// Enable or disable configure button
+	m_genEncVideoConfig->Enable(encoderInfo->groups.size() > 0
+		|| Voukoder::Config::Get().videoSideData.groups.size() > 0
+		|| Voukoder::Config::Get().videoFilterInfos.size() > 0);
+
+
 	if (exportInfo.video.enabled)
 	{
 		UpdateFormats();
@@ -707,7 +711,12 @@ void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 
 	// Clear options when encoder changes (except on startup)
 	if (event.GetId() != 0)
-		exportInfo.video.options.clear();
+		exportInfo.audio.options.clear();
+
+	// Enable or disable configure button
+	m_genEncAudioConfig->Enable(encoderInfo->groups.size() > 0
+		|| Voukoder::Config::Get().audioSideData.groups.size() > 0
+		|| Voukoder::Config::Get().audioFilterInfos.size() > 0);
 
 	if (exportInfo.audio.enabled)
 	{

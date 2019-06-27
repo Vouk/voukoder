@@ -87,7 +87,14 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 					FilterInfo filterInfo;
 					if (FilterUtils::Create(filterInfo, jsonResource))
 					{
-						filterInfos.push_back(filterInfo);
+						if (filterInfo.type == AVMEDIA_TYPE_VIDEO)
+						{
+							videoFilterInfos.push_back(filterInfo);
+						}
+						else if (filterInfo.type == AVMEDIA_TYPE_AUDIO)
+						{
+							audioFilterInfos.push_back(filterInfo);
+						}
 					}
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_TRANSLATION))

@@ -10,24 +10,24 @@
 #define VKDR_GRID_COLOR_STANDARD 0xcdffff
 #define VKDR_GRID_COLOR_OTHER 0xfff0f0
 
-class wxEncoderConfigEditor : public wxPanel
+class wxOptionEditor : public wxPanel
 {
 public:
 	OptionContainer results;
-	wxEncoderConfigEditor() : wxEncoderConfigEditor(NULL) {};
-	wxEncoderConfigEditor(wxWindow *parent);
+	wxOptionEditor() : wxOptionEditor(NULL) {};
+	wxOptionEditor(wxWindow *parent, bool hasPreview = true);
 	void Configure(EncoderInfo encoderInfo, OptionContainer options);
 
 protected:
 	wxPropertyGrid* m_propertyGrid = NULL;
 	wxRichTextCtrl* m_preview = NULL;
-	wxPanel* m_btnPanel = NULL;
 	wxButton* m_btnReset = NULL;
 	wxButton* m_btnClear = NULL;
 
 private:
 	EncoderInfo encoderInfo;
 	OptionContainer options;
+	bool hasPreview = true;
 	void ExecuteFilters(wxOptionProperty *optionProperty);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);
@@ -37,6 +37,6 @@ private:
 	void RefreshResults();
 	bool SendEvent(wxEventType eventType, wxPGProperty* p);
 
-	wxDECLARE_DYNAMIC_CLASS(wxEncoderConfigEditor);
+	wxDECLARE_DYNAMIC_CLASS(wxOptionEditor);
 	wxDECLARE_EVENT_TABLE();
 };

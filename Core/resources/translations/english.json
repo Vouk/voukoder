@@ -77,7 +77,7 @@
     "ui.premiere.error.encoderError.nvenc.sessions": "Make sure there is at least one free NVENC session and close all other programs that make use of NVENC.",
     "ui.premiere.error.encoderError.level": "Please check if the used options and presets comply to the selected output level. Even the encoders default configuration (no options set at all) might not comply with all levels.",
 
-    "ui.voukoder.confguration.options": "Options",
+    "ui.voukoder.confguration.options": "Encoder options",
     "ui.voukoder.confguration.sidedata": "Side data",
     "ui.voukoder.confguration.filters": "Filters",
 

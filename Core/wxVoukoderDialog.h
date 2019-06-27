@@ -11,13 +11,14 @@
 #include <wx/base64.h>
 #include <wx/event.h>
 #include <wx/hyperlink.h>
+#include <wx/richtext/richtextctrl.h>
 #include "Voukoder.h"
 #include "EncoderInfo.h"
 #include "OptionContainer.h"
 #include "wxPGOptionProperty.h"
 #include "ExportInfo.h"
-#include "wxEncoderConfigEditor.h"
 #include "wxFilterPanel.h"
+
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 

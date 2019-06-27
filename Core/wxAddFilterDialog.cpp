@@ -54,7 +54,7 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 	this->Centre(wxBOTH);
 
 	// Populate filters
-	for (auto& filterInfo : Voukoder::Config::Get().filterInfos)
+	for (auto& filterInfo : Voukoder::Config::Get().videoFilterInfos)
 	{
 		if (type == AVMEDIA_TYPE_UNKNOWN || filterInfo.type == type)
 			m_FilterChoice->Append(Trans(filterInfo.id), (void*)& filterInfo);
@@ -70,7 +70,7 @@ wxAddFilterDialog::wxAddFilterDialog(wxWindow* parent, OptionContainer **options
 		wxString filterName = (*options)->at("_name");
 
 		// Find the pre-selected filter
-		for (auto& filterInfo : Voukoder::Config::Get().filterInfos)
+		for (auto& filterInfo : Voukoder::Config::Get().videoFilterInfos)
 			if (filterInfo.name == filterName)
 			{
 				selection = m_FilterChoice->FindString(Trans(filterInfo.id));

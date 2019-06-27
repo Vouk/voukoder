@@ -198,7 +198,7 @@
     <ClInclude Include="wxConfigurationDialog.h" />
     <ClInclude Include="wxFilterPanel.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
-    <ClInclude Include="wxEncoderConfigEditor.h" />
+    <ClInclude Include="wxOptionEditor.h" />
     <ClInclude Include="wxPGOptionProperty.h" />
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +217,7 @@
     <ClCompile Include="wxConfigurationDialog.cpp" />
     <ClCompile Include="wxFilterPanel.cpp" />
     <ClCompile Include="wxVoukoderDialog.cpp" />
-    <ClCompile Include="wxEncoderConfigEditor.cpp" />
+    <ClCompile Include="wxOptionEditor.cpp" />
     <ClCompile Include="wxPGOptionProperty.cpp" />
   </ItemGroup>
   <ItemGroup>

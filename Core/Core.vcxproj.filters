@@ -102,9 +102,6 @@
     <ClInclude Include="Voukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxEncoderConfigEditor.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="wxVoukoderDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -150,6 +147,9 @@
     <ClInclude Include="wxConfigurationDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="wxOptionEditor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -176,9 +176,6 @@
     <ClCompile Include="Voukoder.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="wxEncoderConfigEditor.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="wxVoukoderDialog.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -201,6 +198,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxConfigurationDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxOptionEditor.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "wxEncoderConfigEditor.h"
+#include "wxOptionEditor.h"
 #include "LanguageUtils.h"
 #include "OnChangeValueOptionFilter.h"
 #include "OnSelectionOptionFilter.h"
@@ -6,13 +6,14 @@
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxEncoderConfigEditor, wxPanel);
+wxIMPLEMENT_DYNAMIC_CLASS(wxOptionEditor, wxPanel);
 
-wxBEGIN_EVENT_TABLE(wxEncoderConfigEditor, wxControl)
+wxBEGIN_EVENT_TABLE(wxOptionEditor, wxControl)
 wxEND_EVENT_TABLE()
 
-wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent):
-	wxPanel(parent)
+wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview):
+	wxPanel(parent),
+	hasPreview(hasPreview)
 {
 	wxBoxSizer* bSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -21,25 +22,28 @@ wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent):
 	m_propertyGrid->SetMinSize(wxSize(100, 100));
 	m_propertyGrid->SetValidationFailureBehavior(0);
 	m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
-	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxEncoderConfigEditor::OnLeftDown, this);
-	m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxEncoderConfigEditor::OnPropertyGridChanged, this, m_propertyGrid->GetId());
-	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxEncoderConfigEditor::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
+	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxOptionEditor::OnLeftDown, this);
+	m_propertyGrid->Bind(wxEVT_PG_CHANGED, &wxOptionEditor::OnPropertyGridChanged, this, m_propertyGrid->GetId());
+	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxOptionEditor::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
 	bSizer->Add(m_propertyGrid, 1, wxALL | wxEXPAND, 5);
 
 	// Preview
-	m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
-	m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
-	m_preview->SetMinSize(wxSize(100, 100));
-	bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
+	if (hasPreview)
+	{
+		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
+		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
+		m_preview->SetMinSize(wxSize(100, 100));
+		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
+	}
 
 	// Buttons
-	m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
 	m_btnReset = new wxButton(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.buttonReset"), wxDefaultPosition, wxDefaultSize, 0);
-	m_btnReset->Bind(wxEVT_BUTTON, &wxEncoderConfigEditor::OnResetClick, this);
+	m_btnReset->Bind(wxEVT_BUTTON, &wxOptionEditor::OnResetClick, this);
 	btnSizer2->Add(m_btnReset, 0, wxALL, 5);
 	m_btnClear = new wxButton(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.buttonClear"), wxDefaultPosition, wxDefaultSize, 0);
-	m_btnClear->Bind(wxEVT_BUTTON, &wxEncoderConfigEditor::OnClearClick, this);
+	m_btnClear->Bind(wxEVT_BUTTON, &wxOptionEditor::OnClearClick, this);
 	btnSizer2->Add(m_btnClear, 0, wxALL, 5);
 	m_btnPanel->SetSizer(btnSizer2);
 	m_btnPanel->Layout();
@@ -51,7 +55,7 @@ wxEncoderConfigEditor::wxEncoderConfigEditor(wxWindow *parent):
 	bSizer->Fit(this);
 }
 
-void wxEncoderConfigEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
+void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 {
 	this->encoderInfo = encoderInfo;
 	this->options = options;
@@ -149,7 +153,7 @@ void wxEncoderConfigEditor::Configure(EncoderInfo encoderInfo, OptionContainer o
 	RefreshResults();
 }
 
-void wxEncoderConfigEditor::ExecuteFilters(wxOptionProperty *optionProperty)
+void wxOptionEditor::ExecuteFilters(wxOptionProperty *optionProperty)
 {
 	EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 
@@ -181,7 +185,7 @@ void wxEncoderConfigEditor::ExecuteFilters(wxOptionProperty *optionProperty)
 	}
 }
 
-bool wxEncoderConfigEditor::SendEvent(wxEventType eventType, wxPGProperty* p)
+bool wxOptionEditor::SendEvent(wxEventType eventType, wxPGProperty* p)
 {
 	wxPropertyGridEvent event(wxEVT_CHECKBOX_CHANGE, m_propertyGrid->GetId());
 	event.SetPropertyGrid(m_propertyGrid);
@@ -191,7 +195,7 @@ bool wxEncoderConfigEditor::SendEvent(wxEventType eventType, wxPGProperty* p)
 	return event.WasVetoed();
 }
 
-void wxEncoderConfigEditor::OnLeftDown(wxMouseEvent& event)
+void wxOptionEditor::OnLeftDown(wxMouseEvent& event)
 {
 	wxPropertyGridHitTestResult htr = m_propertyGrid->HitTest(event.GetPosition());
 	wxPGProperty* prop = htr.GetProperty();
@@ -214,7 +218,7 @@ void wxEncoderConfigEditor::OnLeftDown(wxMouseEvent& event)
 	event.Skip();
 }
 
-void wxEncoderConfigEditor::OnPropertyGridChanged(wxPropertyGridEvent& event)
+void wxOptionEditor::OnPropertyGridChanged(wxPropertyGridEvent& event)
 {
 	wxOptionProperty *prop = wxDynamicCast(event.GetProperty(), wxOptionProperty);
 	if (prop)
@@ -233,12 +237,12 @@ void wxEncoderConfigEditor::OnPropertyGridChanged(wxPropertyGridEvent& event)
 	RefreshResults();
 }
 
-void wxEncoderConfigEditor::OnResetClick(wxCommandEvent& event)
+void wxOptionEditor::OnResetClick(wxCommandEvent& event)
 {
 	Configure(encoderInfo, options);
 }
 
-void wxEncoderConfigEditor::OnClearClick(wxCommandEvent& event)
+void wxOptionEditor::OnClearClick(wxCommandEvent& event)
 {
 	options.clear();
 	options.insert(encoderInfo.defaults.begin(), encoderInfo.defaults.end());
@@ -246,7 +250,7 @@ void wxEncoderConfigEditor::OnClearClick(wxCommandEvent& event)
 	Configure(encoderInfo, options);
 }
 
-void wxEncoderConfigEditor::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
+void wxOptionEditor::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
 {
 	wxOptionProperty *property = wxDynamicCast(event.GetProperty(), wxOptionProperty);
 	if (property)
@@ -259,7 +263,7 @@ void wxEncoderConfigEditor::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& e
 	RefreshResults();
 }
 
-void wxEncoderConfigEditor::RefreshResults()
+void wxOptionEditor::RefreshResults()
 {
 	results.clear();
 
@@ -331,5 +335,6 @@ void wxEncoderConfigEditor::RefreshResults()
 	}
 
 	// Update the preview
-	m_preview->ChangeValue(results.Serialize(false, "", ' '));
+	if (hasPreview)
+		m_preview->ChangeValue(results.Serialize(false, "", ' '));
 }
