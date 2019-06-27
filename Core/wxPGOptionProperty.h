@@ -43,12 +43,12 @@ protected:
 
 private:
 	EncoderOptionInfo optionInfo;
-	wxPGCellRenderer *labelRenderer;
-	wxPGProperty *internalProperty;
-	int m_index;
-	bool m_checked;
-	int m_checkMinX;
-	int m_checkMaxX;
+	wxPGCellRenderer *labelRenderer = NULL;
+	wxPGProperty *internalProperty = NULL;
+	int m_index = 0;
+	bool m_checked = false;
+	int m_checkMinX = 0;
+	int m_checkMaxX = 0;
 
 	wxDECLARE_ABSTRACT_CLASS(wxOptionProperty);
 };

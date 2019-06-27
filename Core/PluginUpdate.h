@@ -28,7 +28,7 @@ struct PluginUpdate
 	wxString url;
 	wxString headline;
 	wxString message;
-	bool isUpdateAvailable;
+	bool isUpdateAvailable = false;
 };
 
 static bool CheckForUpdate(const Version version, PluginUpdate* pluginUpdate)

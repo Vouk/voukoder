@@ -13,11 +13,11 @@ public:
 	void SetFilterConfig(FilterConfig filterConfig);
 
 protected:
-	wxListBox* m_filterList;
-	wxPanel* m_filterButtons;
-	wxButton* m_filterAdd;
-	wxButton* m_filterEdit;
-	wxButton* m_filterRemove;
+	wxListBox* m_filterList = NULL;
+	wxPanel* m_filterButtons = NULL;
+	wxButton* m_filterAdd = NULL;
+	wxButton* m_filterEdit = NULL;
+	wxButton* m_filterRemove = NULL;
 
 private:
 	AVMediaType type;

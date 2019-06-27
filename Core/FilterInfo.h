@@ -8,7 +8,7 @@
 
 struct FilterInfo : public ResourceInfo
 {
-	AVMediaType type;
+	AVMediaType type = AVMEDIA_TYPE_UNKNOWN;
 	OptionContainer defaults;
 	std::vector<EncoderGroupInfo> groups;
 };

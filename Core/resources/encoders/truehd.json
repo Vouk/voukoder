@@ -5,10 +5,5 @@
     "defaults": {
       "_sampleFormat": "s16"
     },
-    "groups": [
-      {
-        "id": "truehd.standard",
-        "class": "standard"
-      }
-    ]
+    "groups": []
   }

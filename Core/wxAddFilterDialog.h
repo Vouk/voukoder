@@ -32,18 +32,18 @@ public:
     void GetFilterOptions(std::vector<OptionContainer>** options);
 
 protected:
-	wxNotebook* m_notebook;
-	wxPanel* m_tabPanel;
-	wxChoice* m_FilterChoice;
-	wxPropertyGrid* m_propertyGrid;
-	wxStdDialogButtonSizer* m_sdbSizer1;
-	wxButton* m_sdbSizer1OK;
-	wxButton* m_sdbSizer1Cancel;
+	wxNotebook* m_notebook = NULL;
+	wxPanel* m_tabPanel = NULL;
+	wxChoice* m_FilterChoice = NULL;
+	wxPropertyGrid* m_propertyGrid = NULL;
+	wxStdDialogButtonSizer* m_sdbSizer1 = NULL;
+	wxButton* m_sdbSizer1OK = NULL;
+	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
-	FilterInfo* filterInfo;
+	FilterInfo* filterInfo = NULL;
 	void OnFilterChanged(wxCommandEvent& event);
-	OptionContainer** options;
+	OptionContainer** options = NULL;
 	void OnOkayClick(wxCommandEvent& event);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);

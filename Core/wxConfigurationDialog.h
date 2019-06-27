@@ -31,9 +31,9 @@ protected:
 	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
-	OptionContainer** encoderOptions;
-	OptionContainer** sideDataOptions;
-	FilterConfig** filterOptions;
+	OptionContainer** encoderOptions = NULL;
+	OptionContainer** sideDataOptions = NULL;
+	FilterConfig** filterOptions = NULL;
 	void Configure(EncoderInfo sideData);
 	void ExecuteFilters(wxOptionProperty* optionProperty);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);

@@ -24,60 +24,60 @@ WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 class wxVoukoderDialog: public wxDialog
 {
 protected:
-	wxNotebook* m_generalTab;
-	wxPanel* m_generalPanel;
-	wxNotebook* m_notebook2;
-	wxPanel* m_panel2;
-	wxStdDialogButtonSizer* m_sdbSizer1;
-	wxButton* m_btnOK;
-	wxButton* m_btnCancel;
-	wxPanel* m_btnPanel;
-	wxListbook* m_Categories;
-	wxPanel* m_MainCategory;
+	wxNotebook* m_generalTab = NULL;
+	wxPanel* m_generalPanel = NULL;
+	wxNotebook* m_notebook2 = NULL;
+	wxPanel* m_panel2 = NULL;
+	wxStdDialogButtonSizer* m_sdbSizer1 = NULL;
+	wxButton* m_btnOK = NULL;
+	wxButton* m_btnCancel = NULL;
+	wxPanel* m_btnPanel = NULL;
+	wxListbook* m_Categories = NULL;
+	wxPanel* m_MainCategory = NULL;
 
-	wxPanel* m_genPanel;
-	wxNotebook* m_genNotebook;
-	wxPanel* m_genTab1;
-	wxPanel* m_genEncPanel;
-	wxPanel* m_genEncFormPanel;
-	wxStaticText* m_genEncVideoLabel;
-	wxChoice* m_genEncVideoChoice;
-	wxButton* m_genEncVideoConfig;
-	wxStaticText* m_genEncAudioLabel;
-	wxChoice* m_genEncAudioChoice;
-	wxButton* m_genEncAudioConfig;
-	wxPanel* m_genMuxPanel;
-	wxPanel* m_genMuxFormPanel;
-	wxStaticText* m_genMuxFormatLabel;
-	wxChoice* m_genMuxFormatChoice;
-	wxCheckBox* m_genMuxFaststartCheck;
+	wxPanel* m_genPanel = NULL;
+	wxNotebook* m_genNotebook = NULL;
+	wxPanel* m_genTab1 = NULL;
+	wxPanel* m_genEncPanel = NULL;
+	wxPanel* m_genEncFormPanel = NULL;
+	wxStaticText* m_genEncVideoLabel = NULL;
+	wxChoice* m_genEncVideoChoice = NULL;
+	wxButton* m_genEncVideoConfig = NULL;
+	wxStaticText* m_genEncAudioLabel = NULL;
+	wxChoice* m_genEncAudioChoice = NULL;
+	wxButton* m_genEncAudioConfig = NULL;
+	wxPanel* m_genMuxPanel = NULL;
+	wxPanel* m_genMuxFormPanel = NULL;
+	wxStaticText* m_genMuxFormatLabel = NULL;
+	wxChoice* m_genMuxFormatChoice = NULL;
+	wxCheckBox* m_genMuxFaststartCheck = NULL;
 
-	wxPanel* m_genLocPanel;
-	wxPanel* m_genLocFormPanel;
-	wxStaticText* m_genLocFormatLabel;
-	wxChoice* m_genLocLanguageChoice;
-	wxCheckBox* m_genLocAutoLanguageCheck;
+	wxPanel* m_genLocPanel = NULL;
+	wxPanel* m_genLocFormPanel = NULL;
+	wxStaticText* m_genLocFormatLabel = NULL;
+	wxChoice* m_genLocLanguageChoice = NULL;
+	wxCheckBox* m_genLocAutoLanguageCheck = NULL;
 
-	wxPanel* m_generalOtherPanel;
-	wxPanel* m_generalAboutPanel;
-	wxPanel* m_headerPanel;
-	wxPanel* m_infoPanel;
+	wxPanel* m_generalOtherPanel = NULL;
+	wxPanel* m_generalAboutPanel = NULL;
+	wxPanel* m_headerPanel = NULL;
+	wxPanel* m_infoPanel = NULL;
 
-	wxPanel* m_settingsCategory;
-	wxNotebook* m_settingsNotebook;
-	wxPanel* m_settingsBasicPanel;
-	wxPanel* m_settingsPanel;
-	wxPanel* m_settingsLogPanel;
-	wxTextCtrl* m_generalLogText;
-	wxPanel* m_genLogButtonsPanel;
-	wxButton* m_genLogClear;
-	wxButton* m_genLogCopyToClipboard;
+	wxPanel* m_settingsCategory = NULL;
+	wxNotebook* m_settingsNotebook = NULL;
+	wxPanel* m_settingsBasicPanel = NULL;
+	wxPanel* m_settingsPanel = NULL;
+	wxPanel* m_settingsLogPanel = NULL;
+	wxTextCtrl* m_generalLogText = NULL;
+	wxPanel* m_genLogButtonsPanel = NULL;
+	wxButton* m_genLogClear = NULL;
+	wxButton* m_genLogCopyToClipboard = NULL;
 
-	wxPanel* m_updateCategory;
-	wxNotebook* m_updateNotebook;
-	wxPanel* m_updatePanel;
-	wxTextCtrl* m_updateText;
-	wxButton* m_updateButton;
+	wxPanel* m_updateCategory = NULL;
+	wxNotebook* m_updateNotebook = NULL;
+	wxPanel* m_updatePanel = NULL;
+	wxTextCtrl* m_updateText = NULL;
+	wxButton* m_updateButton = NULL;
 
 public:
 	wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo);
@@ -94,5 +94,4 @@ private:
 	void OnMuxerChanged(wxCommandEvent& event);
 	void OnFaststartChanged(wxCommandEvent& event);
 	void OnOkayClick(wxCommandEvent& event);
-
 };

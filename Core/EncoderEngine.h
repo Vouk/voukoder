@@ -24,7 +24,7 @@ public:
 	int pass = 1;
 
 private:
-	AVPacket *packet;
+	AVPacket *packet = NULL;
 	ExportInfo exportInfo;
 	AVFormatContext *formatContext;
 	EncoderContext videoContext;
@@ -37,6 +37,6 @@ private:
 	int receivePackets(AVCodecContext *context, AVStream *stream);
 	int injectStereoData(AVStream* stream);
 	int injectSphericalData(AVStream* stream);
-	int audioFrameSize;
+	int audioFrameSize = 0;
 	wxString passLogFile;
 };

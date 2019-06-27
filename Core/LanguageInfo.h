@@ -11,6 +11,6 @@ struct LanguageInfo
 {
 	wxString id;
 	wxString name;
-	LANGID langId;
+	LANGID langId = 0;
     std::map<wxString, wxString> translations;
 };

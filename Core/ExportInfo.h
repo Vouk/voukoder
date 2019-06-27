@@ -5,7 +5,6 @@
 #include "OptionContainer.h"
 #include "FilterConfig.h"
 
-
 struct ExportInfo
 {
 	wxString filename = wxEmptyString;

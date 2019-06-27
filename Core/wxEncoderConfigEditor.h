@@ -19,11 +19,11 @@ public:
 	void Configure(EncoderInfo encoderInfo, OptionContainer options);
 
 protected:
-	wxPropertyGrid* m_propertyGrid;
-	wxRichTextCtrl* m_preview;
-	wxPanel* m_btnPanel;
-	wxButton* m_btnReset;
-	wxButton* m_btnClear;
+	wxPropertyGrid* m_propertyGrid = NULL;
+	wxRichTextCtrl* m_preview = NULL;
+	wxPanel* m_btnPanel = NULL;
+	wxButton* m_btnReset = NULL;
+	wxButton* m_btnClear = NULL;
 
 private:
 	EncoderInfo encoderInfo;
