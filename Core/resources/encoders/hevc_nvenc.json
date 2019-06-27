@@ -676,20 +676,7 @@
           "control": {
             "type": "boolean",
             "value": false
-          },
-          "filters": [
-            {
-              "filter": "OnSelection",
-              "params": {
-                "ShowOptions": [
-                  {
-                    "id": "hevc_nvenc.quantizer.spatialaq.strength",
-                    "visible": true
-                  }
-                ]
-              }
-            }
-          ]
+          }
         },
         {
           "id": "hevc_nvenc.quantizer.spatialaq.strength",
@@ -699,8 +686,7 @@
             "minimum": 1,
             "maximum": 15,
             "singleStep": 1,
-            "value": 8,
-            "enabled": false
+            "value": 8
           }
         },
         {
@@ -709,20 +695,7 @@
           "control": {
             "type": "boolean",
             "value": false
-          },
-          "filters": [
-            {
-              "filter": "OnSelection",
-              "params": {
-                "ShowOptions": [
-                  {
-                    "id": "hevc_nvenc.quantizer.spatialaq.strength",
-                    "visible": false
-                  }
-                ]
-              }
-            }
-          ]
+          }
         }
       ]
     },
