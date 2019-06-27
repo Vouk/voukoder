@@ -31,7 +31,7 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 	{
 		m_sideDataOptions = new wxOptionEditor(m_notebook, false);
 		wxBoxSizer* bSideDataLayout = new wxBoxSizer(wxVERTICAL);
-		m_notebook->AddPage(m_sideDataOptions, Trans("ui.voukoder.confguration.sidedata"), true);
+		m_notebook->AddPage(m_sideDataOptions, Trans("ui.voukoder.confguration.sidedata"), false);
 
 		m_sideDataOptions->Configure(sideData, **sideDataOptions);
 	}
