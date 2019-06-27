@@ -382,7 +382,7 @@
             "minimum": 80,
             "singleStep": 1,
             "type": "integer",
-            "value": -1
+            "value": 80
           }
         },
         {
@@ -393,7 +393,7 @@
             "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": -1
+            "value": 1
           }
         }
       ]
