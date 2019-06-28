@@ -49,10 +49,10 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 	bDialogLayout->Add(m_notebook, 1, wxEXPAND | wxALL, 5);
 
 	m_sdbSizer1 = new wxStdDialogButtonSizer();
-	m_sdbSizer1OK = new wxButton(this, wxID_OK);
+	m_sdbSizer1OK = new wxButton(this, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1OK->Bind(wxEVT_BUTTON, &wxConfigurationDialog::OnOkayClick, this);
 	m_sdbSizer1->AddButton(m_sdbSizer1OK);
-	m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL);
+	m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1->AddButton(m_sdbSizer1Cancel);
 	m_sdbSizer1->Realize();
 

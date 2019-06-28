@@ -81,6 +81,8 @@
     "ui.voukoder.confguration.sidedata": "Information Side data du format",
     "ui.voukoder.confguration.filters": "Filtres",
 
+    "ui.encoderconfig.true": "Oui",
+    "ui.encoderconfig.false": "Non",
     "ui.encoderconfig.general": "Général",
     "ui.encoderconfig.general.encoders": "Encodeurs",
     "ui.encoderconfig.general.encoders.video": "Video encodeur",
