@@ -95,6 +95,7 @@
     "ui.encoderconfig.general.about.awesomefont": "Icons",
     "ui.encoderconfig.general.about.transmaint": "Translation Maintainers",
     "ui.encoderconfig.general.about.toppatrons": "Top patrons:",
+    "ui.encoderconfig.general.about.support.patreon": "Support Voukoder on patreon.com",
     "ui.encoderconfig.video": "视频",
     "ui.encoderconfig.audio": "音频",
     "ui.encoderconfig.filters": "滤波器",

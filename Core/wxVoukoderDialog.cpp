@@ -232,7 +232,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	aboutSizer->Add(m_label, 0, wxALIGN_LEFT | wxALL, 10);
 	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 10);
 
-	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("Support Voukoder on patreon.com"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, Trans("ui.encoderconfig.general.about.support.patreon"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
 	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
 
 	m_generalAboutPanel->SetSizer(aboutSizer);
