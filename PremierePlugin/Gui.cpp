@@ -230,8 +230,8 @@ void Gui::CheckSettings()
 	if (ReadEncoderOptions(VKDRVoukoderConfiguration, exportInfo))
 	{
 		muxer = Voukoder::GetResourceName(Voukoder::Config::Get().muxerInfos, exportInfo.format.id, none)
-			<< " - " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none)
-			<< ", " << Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none);
+			+ ", Video: " + Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.video.id, none)
+			+ ", Audio: " + Voukoder::GetResourceName(Voukoder::Config::Get().encoderInfos, exportInfo.audio.id, none);
 	}
 	else
 	{

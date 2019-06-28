@@ -219,12 +219,18 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
 
-	//
+	// Authors
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 20);
+
+	// (Top) patrons
+	wxStaticText* m_label = new wxStaticText(m_generalAboutPanel, wxID_ANY, Trans("ui.encoderconfig.general.about.toppatrons"), wxDefaultPosition, wxDefaultSize, wxALL);
+	m_label->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+	m_label->Wrap(-1);
+	aboutSizer->Add(m_label, 0, wxALIGN_LEFT | wxALL, 10);
+	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 10);
 
 	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, wxT("Support Voukoder on patreon.com"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
 	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
@@ -436,14 +442,6 @@ wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
 			wxString res;
 			wxStringOutputStream out_stream(&res);
 			httpStream->Read(out_stream);
-
-			richText->BeginBold();
-			richText->BeginFontSize(11);
-			richText->BeginUnderline();
-			richText->WriteText(Trans("ui.encoderconfig.general.about.toppatrons") + "\n");
-			richText->EndUnderline();
-			richText->EndFontSize();
-			richText->EndBold();
 
 			int i = 0;
 
