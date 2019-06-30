@@ -676,8 +676,8 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 		}
 
 		// Force constant frame rate (necessary?)
-		//if (codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO && packet->duration == 0)
-		//	packet->duration = 1;
+		if (codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO && packet->duration == 0)
+			packet->duration = 1;
 
 		av_packet_rescale_ts(packet, codecContext->time_base, stream->time_base);
 
