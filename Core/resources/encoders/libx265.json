@@ -83,6 +83,7 @@
       "bframe-bias",
       "b-pyramid",
       "no-b-pyramid",
+      "ref",
       "force-flush",
       "crf-max",
       "crf-min",
@@ -1975,6 +1976,17 @@
             "value": false
           },
           "preprendNoIfFalse": true
+        },
+        {
+          "id": "libx265.slicedecision.ref",
+          "parameter": "ref",
+          "control": {
+            "maximum": 16,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          }
         },
         {
           "id": "libx265.slicedecision.force-flush",

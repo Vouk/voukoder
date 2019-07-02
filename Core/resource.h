@@ -30,6 +30,7 @@
 #define IDR_ENC_PCM_S32LE               120
 #define IDR_ENC_PRORES                  121
 #define IDR_ENC_HAP                     122
+#define IDR_ENC_LIBX264RGB              123
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     200
 #define IDR_MUX_MOV                     201

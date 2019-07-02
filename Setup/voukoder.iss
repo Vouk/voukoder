@@ -80,7 +80,7 @@ begin
       if (Version = '') OR (StrToFloat(Versions[I]) > StrToFloat(Version)) then Version := Versions[I];
     if Version <> '' then
     begin
-      if RegQueryStringValue(HKLM64, 'Software\Adobe\After Effects\' + Version, 'PluginInstallPath', Path) then
+      if RegQueryStringValue(HKLM64, 'Software\Adobe\After Effects\' + Version, 'CommonPluginInstallPath', Path) then
       begin
         Result := Path;
         Exit;

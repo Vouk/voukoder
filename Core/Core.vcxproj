@@ -241,6 +241,7 @@
     <None Include="resources\encoders\libvpx-vp9.json" />
     <None Include="resources\encoders\libvpx.json" />
     <None Include="resources\encoders\libx264.json" />
+    <None Include="resources\encoders\libx264rgb.json" />
     <None Include="resources\encoders\libx265.json" />
     <None Include="resources\encoders\pcm_s16le.json" />
     <None Include="resources\encoders\pcm_s24le.json" />

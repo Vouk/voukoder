@@ -1078,6 +1078,9 @@
     <None Include="resources\audio_side_data.json">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="resources\encoders\libx264rgb.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

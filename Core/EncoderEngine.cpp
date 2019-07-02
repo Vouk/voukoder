@@ -675,7 +675,7 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 			return ret;
 		}
 
-		// Force constant frame rate (necessary?)
+		// Force constant frame rate (necessary, but why???)
 		if (codecContext->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO && packet->duration == 0)
 			packet->duration = 1;
 
