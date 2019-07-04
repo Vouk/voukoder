@@ -1,15 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "yadif"
-  },
+  "id": "filter.yadif",
+  "name": "yadif",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.yadif.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "mode",
+          "parameter": "mode",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
                 "value": "send_frame"
@@ -23,34 +27,34 @@
               {
                 "value": "send_field_nospatial"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.yadif.standard.mode",
-          "parameter": "mode"
+            ]
+          }
         },
         {
+          "id": "parity",
+          "parameter": "parity",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
+              {
+                "value": "auto"
+              },
               {
                 "value": "tff"
               },
               {
                 "value": "bff"
-              },
-              {
-                "value": "auto"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.yadif.standard.parity",
-          "parameter": "parity"
+            ]
+          }
         },
         {
+          "id": "deint",
+          "parameter": "deint",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
                 "value": "all"
@@ -58,17 +62,10 @@
               {
                 "value": "interlaced"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.yadif.standard.deint",
-          "parameter": "deint"
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.yadif",
-  "name": "yadif",
-  "type": "video"
+  ]
 }

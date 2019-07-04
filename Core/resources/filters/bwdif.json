@@ -1,31 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "bwdif"
-  },
+  "id": "filter.bwdif",
+  "name": "bwdif",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.bwdif.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "mode",
+          "parameter": "mode",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
-                "value": "send_frame"
+                "value": "send_field"
               },
               {
-                "value": "send_field"
+                "value": "send_frame"
               }
-            ],
-            "selectedIndex": 1,
-            "type": "combobox"
-          },
-          "id": "filter.bwdif.standard.mode",
-          "parameter": "mode"
+            ]
+          }
         },
         {
+          "id": "parity",
+          "parameter": "parity",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
                 "value": "tff"
@@ -36,15 +40,15 @@
               {
                 "value": "auto"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.bwdif.standard.parity",
-          "parameter": "parity"
+            ]
+          }
         },
         {
+          "id": "deint",
+          "parameter": "deint",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
                 "value": "all"
@@ -52,17 +56,10 @@
               {
                 "value": "interlaced"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.bwdif.standard.deint",
-          "parameter": "deint"
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.bwdif",
-  "name": "bwdif",
-  "type": "video"
+  ]
 }

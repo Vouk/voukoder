@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 #include "FilterConfig.h"
 #include "lavf.h"
+#include "LanguageUtils.h"
 
 class wxFilterMenuItem : public wxMenuItem
 {
@@ -11,7 +12,7 @@ public:
 		wxMenuItem(parentMenu, wxID_ANY) {};
 
 	wxFilterMenuItem(wxMenu *parentMenu, EncoderInfo filterInfo) :
-		wxMenuItem(parentMenu, wxID_ANY, filterInfo.name),
+		wxMenuItem(parentMenu, wxID_ANY, Trans(filterInfo.id)),
 		filterInfo(filterInfo) {};
 
 	EncoderInfo GetFilterInfo()

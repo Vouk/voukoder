@@ -325,12 +325,17 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		// Check for a zscaler filter
 		for (auto const& options : exportInfo.video.filters)
 		{
-			if (options->id.After('.') == "zscale" &&
+			wxString id = options->id.After('.');
+			if (id == "zscale" &&
 				options->find("width") != options->end() &&
 				options->find("height") != options->end())
 			{
 				encoderContext->codecContext->width = wxAtoi(options->at("width"));
 				encoderContext->codecContext->height = wxAtoi(options->at("height"));
+			}
+			else if (id == "yadif" || id == "bwdif")
+			{
+				encoderContext->codecContext->field_order = AV_FIELD_PROGRESSIVE;
 			}
 		}
 

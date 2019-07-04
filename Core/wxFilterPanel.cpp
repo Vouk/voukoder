@@ -1,6 +1,5 @@
 #include "wxFilterPanel.h"
 #include "wxEditFilterDialog.h"
-#include "LanguageUtils.h"
 #include "Voukoder.h"
 
 wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters) :
@@ -57,7 +56,7 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 		{
 			if (info.id == options->id)
 			{
-				int pos = m_filterList->Append(info.name, (void*)options);
+				int pos = m_filterList->Append(Trans(info.id), (void*)options);
 				m_filterList->SetSelection(pos);
 
 				break;
@@ -157,7 +156,7 @@ void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
 			options->id = info.id;
 
 			// Append the filter and select it
-			int pos = m_filterList->Append(info.name, (void*)options);
+			int pos = m_filterList->Append(Trans(info.id), (void*)options);
 			m_filterList->SetSelection(pos);
 
 			// There is always a filter selected so enable the remove button
