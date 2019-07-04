@@ -88,7 +88,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 			// Open the configure dialog
 			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncVideoChoice), Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, &encoderOptions, &sideData, &filterConfig);
-			dialog.SetTitle(m_genEncVideoConfig->GetLabelText());
 			dialog.ShowModal();
 		});
 	gbGenEncFormSizer->Add(m_genEncVideoConfig, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
@@ -117,7 +116,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 			// Open the configure dialog
 			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncAudioChoice), Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, &encoderOptions, &sideData, &filterConfig);
-			dialog.SetTitle(m_genEncAudioConfig->GetLabelText());
 			dialog.ShowModal();
 		});
 	gbGenEncFormSizer->Add(m_genEncAudioConfig, wxGBPosition(1, 2), wxGBSpan(1, 1), wxALL, 5);

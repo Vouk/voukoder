@@ -6,7 +6,6 @@
 #include "resource.h"
 #include "EncoderInfo.h"
 #include "MuxerInfo.h"
-#include "FilterInfo.h"
 #include "LanguageInfo.h"
 #include "json.hpp"
 #include "Version.h"
@@ -52,8 +51,8 @@ namespace Voukoder
 		EncoderInfo audioSideData;
 		std::vector<EncoderInfo> encoderInfos;
 		std::vector<MuxerInfo> muxerInfos;
-		std::vector<FilterInfo> videoFilterInfos;
-		std::vector<FilterInfo> audioFilterInfos;
+		std::vector<EncoderInfo> videoFilterInfos;
+		std::vector<EncoderInfo> audioFilterInfos;
 		std::vector<LanguageInfo> languageInfos;
 
 	private:

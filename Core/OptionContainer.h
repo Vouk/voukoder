@@ -9,6 +9,7 @@
 class OptionContainer : public std::map<std::string, std::string>
 {
 public:
+	wxString id;
 	OptionContainer() {};
 	OptionContainer(OptionContainer* options);
 	void Deserialize(const wxString input, const char parameterSeparator = PARAM_SEPARATOR[0], const char valueSeparator = VALUE_SEPARATOR[0]);

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FilterInfo.h"
 #include "json.hpp"
+#include "EncoderOptionInfo.h"
 
 using namespace nlohmann;
 

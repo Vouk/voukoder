@@ -1,11 +1,11 @@
 #include "wxFilterPanel.h"
-#include "wxAddFilterDialog.h"
+#include "wxEditFilterDialog.h"
 #include "LanguageUtils.h"
 #include "Voukoder.h"
 
-wxFilterPanel::wxFilterPanel(wxWindow *parent, AVMediaType type) :
+wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters) :
 	wxPanel(parent),
-	type(type)
+	filters(filters)
 {
 	wxBoxSizer* bFilterLayout = new wxBoxSizer(wxHORIZONTAL);
 
@@ -15,16 +15,16 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, AVMediaType type) :
 	m_filterButtons = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bFilterButtonsLayout = new wxBoxSizer(wxVERTICAL);
 
-	m_filterAdd = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.add"), wxDefaultPosition, wxDefaultSize, 0);
+	m_filterAdd = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.add"), wxDefaultPosition, wxDefaultSize, 0);
 	m_filterAdd->Bind(wxEVT_BUTTON, &wxFilterPanel::OnAddFilterClick, this);
 	bFilterButtonsLayout->Add(m_filterAdd, 0, wxALL, 5);
 
-	m_filterEdit = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.edit"), wxDefaultPosition, wxDefaultSize, 0);
+	m_filterEdit = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.edit"), wxDefaultPosition, wxDefaultSize, 0);
 	m_filterEdit->Bind(wxEVT_BUTTON, &wxFilterPanel::OnEditFilterClick, this);
 	m_filterEdit->Enable(false);
 	bFilterButtonsLayout->Add(m_filterEdit, 0, wxALL, 5);
 
-	m_filterRemove = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.encoderconfig.filters.remove"), wxDefaultPosition, wxDefaultSize, 0);
+	m_filterRemove = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.remove"), wxDefaultPosition, wxDefaultSize, 0);
 	m_filterRemove->Bind(wxEVT_BUTTON, &wxFilterPanel::OnRemoveFilterClick, this);
 	m_filterRemove->Enable(false);
 	bFilterButtonsLayout->Add(m_filterRemove, 0, wxALL, 5);
@@ -37,26 +37,35 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, AVMediaType type) :
 	this->SetSizer(bFilterLayout);
 	this->Layout();
 	bFilterLayout->Fit(this);
-}
 
-void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
-{
-	filterConfig.filters.clear();
-
-	for (unsigned int i = 0; i < m_filterList->GetCount(); i++)
+	// Populate filter menu
+	m_filterMenu = new wxMenu();
+	for (auto& filterInfo : filters)
 	{
-		OptionContainer *options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(i));
-		filterConfig.filters.push_back(options);
+		wxFilterMenuItem* item = new wxFilterMenuItem(m_filterMenu, filterInfo);
+		m_filterMenu->Append(item);
 	}
+	m_filterMenu->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(wxFilterPanel::OnPopupClick), NULL, this);
 }
 
-void wxFilterPanel::SetFilterConfig(FilterConfig filterConfig)
+void wxFilterPanel::Configure(FilterConfig filterConfig)
 {
-	// Append the filter
-	for (auto options : filterConfig.filters)
-		m_filterList->Append(Trans("filter." + options->at("_name")), (void*)options);
+	// Load the stored filters
+	for (auto& options : filterConfig)
+	{
+		for (auto info : filters)
+		{
+			if (info.id == options->id)
+			{
+				int pos = m_filterList->Append(info.name, (void*)options);
+				m_filterList->SetSelection(pos);
 
-	// There is always a filter selected so enable the remove button
+				break;
+			}
+		}
+	}
+
+	// Preselect first filter
 	if (m_filterList->GetCount() > 0)
 	{
 		m_filterList->SetSelection(0);
@@ -65,22 +74,20 @@ void wxFilterPanel::SetFilterConfig(FilterConfig filterConfig)
 	}
 }
 
+void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
+{
+	filterConfig.clear();
+
+	for (unsigned int i = 0; i < m_filterList->GetCount(); i++)
+	{
+		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(i));
+		filterConfig.push_back(options);
+	}
+}
+
 void wxFilterPanel::OnAddFilterClick(wxCommandEvent& event)
 {
-	OptionContainer *options = new OptionContainer;
-
-	// Show the filter creation dialog
-	wxAddFilterDialog dialog(this, &options, type);
-	if (dialog.ShowModal() == (int)wxID_OK)
-	{
-		// Append the filter and select it
-		int pos = m_filterList->Append(Trans("filter." + options->at("_name")), (void*)options);
-		m_filterList->SetSelection(pos);
-
-		// There is always a filter selected so enable the remove button
-		m_filterEdit->Enable();
-		m_filterRemove->Enable();
-	}
+	m_filterAdd->PopupMenu(m_filterMenu);
 }
 
 void wxFilterPanel::OnEditFilterClick(wxCommandEvent& event)
@@ -89,19 +96,18 @@ void wxFilterPanel::OnEditFilterClick(wxCommandEvent& event)
 	int pos = m_filterList->GetSelection();
 	if (pos != wxNOT_FOUND)
 	{
-		OptionContainer* options = (OptionContainer*)m_filterList->GetClientData(pos);
-		OptionContainer* newOptions = new OptionContainer(options);
+		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(pos));
 
-		// Show the filter creation dialog
-		wxAddFilterDialog dialog(this, &newOptions, type);
-		if (dialog.ShowModal() == (int)wxID_OK)
+		for (auto info : filters)
 		{
-			delete options;
-			m_filterList->SetClientData(pos, (void*)newOptions);
-		}
-		else
-		{
-			delete newOptions;
+			if (info.id == options->id)
+			{
+				// Show the filter editor dialog
+				wxEditFilterDialog dialog(this, info, &options);
+				dialog.ShowModal();
+
+				break;
+			}
 		}
 	}
 }
@@ -112,23 +118,51 @@ void wxFilterPanel::OnRemoveFilterClick(wxCommandEvent& event)
 	int pos = m_filterList->GetSelection();
 	if (pos != wxNOT_FOUND)
 	{
-		delete m_filterList->GetClientData(pos);
+		// Delete data from heap
+		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(pos));
+		if (options != NULL)
+			delete options;
+
+		// Remove entry
 		m_filterList->Delete(pos);
 
 		// There is no item left
 		if (m_filterList->GetCount() == 0)
 		{
+			m_filterEdit->Enable(false);
 			m_filterRemove->Enable(false);
-
-			return;
 		}
-
-		// If the last item has been removed
-		if (pos == m_filterList->GetCount())
+		else
 		{
-			pos = m_filterList->GetCount() - 1;
-		}
+			// If the last item has been removed
+			if (pos == m_filterList->GetCount())
+				pos = m_filterList->GetCount() - 1;
 
-		m_filterList->SetSelection(pos);
+			m_filterList->SetSelection(pos);
+		}
+	}
+}
+
+void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
+{
+	for (auto &item : m_filterMenu->GetMenuItems())
+	{
+		if (item->GetId() == evt.GetId())
+		{
+			wxFilterMenuItem* filterItem = reinterpret_cast<wxFilterMenuItem*>(item);
+			EncoderInfo info = filterItem->GetFilterInfo();
+
+			// Create the options config
+			OptionContainer* options = new OptionContainer;
+			options->id = info.id;
+
+			// Append the filter and select it
+			int pos = m_filterList->Append(info.name, (void*)options);
+			m_filterList->SetSelection(pos);
+
+			// There is always a filter selected so enable the remove button
+			m_filterEdit->Enable();
+			m_filterRemove->Enable();
+		}
 	}
 }

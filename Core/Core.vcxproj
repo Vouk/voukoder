@@ -168,8 +168,6 @@
     <ClInclude Include="EncoderUtils.h" />
     <ClInclude Include="ExportInfo.h" />
     <ClInclude Include="FilterConfig.h" />
-    <ClInclude Include="FilterInfo.h" />
-    <ClInclude Include="FilterUtils.h" />
     <ClInclude Include="EncoderOptionPresets.h" />
     <ClInclude Include="OptionResourceUtils.h" />
     <ClInclude Include="FrameFilter.h" />
@@ -194,7 +192,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
-    <ClInclude Include="wxAddFilterDialog.h" />
+    <ClInclude Include="wxEditFilterDialog.h" />
     <ClInclude Include="wxConfigurationDialog.h" />
     <ClInclude Include="wxFilterPanel.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
@@ -204,7 +202,6 @@
   <ItemGroup>
     <ClCompile Include="EncoderEngine.cpp" />
     <ClCompile Include="EncoderUtils.cpp" />
-    <ClCompile Include="FilterUtils.cpp" />
     <ClCompile Include="OptionResourceUtils.cpp" />
     <ClCompile Include="FrameFilter.cpp" />
     <ClCompile Include="LanguageUtils.cpp" />
@@ -213,7 +210,7 @@
     <ClCompile Include="NvidiaCustomOptions.cpp" />
     <ClCompile Include="OptionContainer.cpp" />
     <ClCompile Include="Voukoder.cpp" />
-    <ClCompile Include="wxAddFilterDialog.cpp" />
+    <ClCompile Include="wxEditFilterDialog.cpp" />
     <ClCompile Include="wxConfigurationDialog.cpp" />
     <ClCompile Include="wxFilterPanel.cpp" />
     <ClCompile Include="wxVoukoderDialog.cpp" />

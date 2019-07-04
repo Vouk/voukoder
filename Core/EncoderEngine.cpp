@@ -323,14 +323,14 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
 
 		// Check for a zscaler filter
-		for (auto const& filter : exportInfo.video.filters.filters)
+		for (auto const& options : exportInfo.video.filters)
 		{
-			if (filter->at("_name") == "zscale" &&
-				filter->find("width") != filter->end() &&
-				filter->find("height") != filter->end())
+			if (options->id.After('.') == "zscale" &&
+				options->find("width") != options->end() &&
+				options->find("height") != options->end())
 			{
-				encoderContext->codecContext->width = wxAtoi(filter->at("width"));
-				encoderContext->codecContext->height = wxAtoi(filter->at("height"));
+				encoderContext->codecContext->width = wxAtoi(options->at("width"));
+				encoderContext->codecContext->height = wxAtoi(options->at("height"));
 			}
 		}
 

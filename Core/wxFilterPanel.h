@@ -1,16 +1,34 @@
 #pragma once
 
 #include <wx/wx.h>
-#include "OptionContainer.h"
 #include "FilterConfig.h"
 #include "lavf.h"
+
+class wxFilterMenuItem : public wxMenuItem
+{
+public:
+	wxFilterMenuItem(wxMenu *parentMenu = NULL) :
+		wxMenuItem(parentMenu, wxID_ANY) {};
+
+	wxFilterMenuItem(wxMenu *parentMenu, EncoderInfo filterInfo) :
+		wxMenuItem(parentMenu, wxID_ANY, filterInfo.name),
+		filterInfo(filterInfo) {};
+
+	EncoderInfo GetFilterInfo()
+	{
+		return filterInfo;
+	}
+
+private:
+	EncoderInfo filterInfo;
+};
 
 class wxFilterPanel : public wxPanel
 {
 public:
-	wxFilterPanel(wxWindow *parent = NULL, AVMediaType type = AVMEDIA_TYPE_UNKNOWN);
+	wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters);
+	void Configure(FilterConfig filterConfig);
 	void GetFilterConfig(FilterConfig &filterConfig);
-	void SetFilterConfig(FilterConfig filterConfig);
 
 protected:
 	wxListBox* m_filterList = NULL;
@@ -18,10 +36,12 @@ protected:
 	wxButton* m_filterAdd = NULL;
 	wxButton* m_filterEdit = NULL;
 	wxButton* m_filterRemove = NULL;
+	wxMenu* m_filterMenu = NULL;
 
 private:
-	AVMediaType type;
+	std::vector<EncoderInfo> filters;
 	void OnAddFilterClick(wxCommandEvent& event);
 	void OnEditFilterClick(wxCommandEvent& event);
 	void OnRemoveFilterClick(wxCommandEvent& event);
+	void OnPopupClick(wxCommandEvent &evt);
 };

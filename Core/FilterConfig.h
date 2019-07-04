@@ -2,28 +2,32 @@
 
 #include <vector>
 #include <wx/tokenzr.h>
-#include "OptionContainer.h"
+#include "Voukoder.h"
 
 #define FF_FILTER_SEPARATOR ","
+#define FF_ID_SEPARATOR '#'
 #define FF_PARAM_SEPARATOR ':'
 #define FF_VALUE_SEPARATOR '='
 
-struct FilterConfig
+class FilterConfig : public std::vector<OptionContainer*>
 {
-	std::vector<OptionContainer*> filters;
-
+public:
 	void Deserialize(const wxString input)
 	{
-		filters.clear();
+		clear();
 
-		// Process each filter
+		// Tokenize serialized string
 		wxStringTokenizer tokenizer(input, FF_FILTER_SEPARATOR);
 		while (tokenizer.HasMoreTokens())
 		{
-			OptionContainer* options = new OptionContainer;
-			options->Deserialize(tokenizer.GetNextToken());
+			wxString token = tokenizer.GetNextToken();
 
-			filters.push_back(options);
+			// Create option container
+			OptionContainer* options = new OptionContainer;
+			options->id = token.Before(FF_ID_SEPARATOR);
+			options->Deserialize(token.After(FF_ID_SEPARATOR));
+
+			push_back(options);
 		}
 	}
 
@@ -31,21 +35,25 @@ struct FilterConfig
 	{
 		wxString config;
 
-		for (auto filter : filters)
-			config << FF_FILTER_SEPARATOR << filter->Serialize(true);
+		// Serialize stored options
+		for (auto options : *this)
+			config << FF_FILTER_SEPARATOR << options->id << FF_ID_SEPARATOR << options->Serialize(true);
 
-		return config.length() > 0 ? config.substr(1) : (wxString)wxEmptyString;
+		return config.length() > 0 ? config.substr(1) : "";
 	}
 
 	wxString AsFilterString()
 	{
 		wxString config;
 
-		for (auto filter : filters)
+		// Process each filter
+		for (auto options : *this)
 		{
-			config << FF_FILTER_SEPARATOR << filter->at("_name");
+			// Filter name
+			config << FF_FILTER_SEPARATOR << options->id.After('.');
 
-			wxString params = filter->Serialize(false, "", FF_PARAM_SEPARATOR, FF_VALUE_SEPARATOR);
+			// Filter options
+			wxString params = options->Serialize(false, "", FF_PARAM_SEPARATOR, FF_VALUE_SEPARATOR);
 			if (!params.IsEmpty())
 				config << FF_VALUE_SEPARATOR << params;
 		}

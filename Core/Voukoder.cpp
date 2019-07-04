@@ -2,7 +2,6 @@
 #include "Callback.h"
 #include "EncoderUtils.h"
 #include "MuxerUtils.h"
-#include "FilterUtils.h"
 #include "LanguageUtils.h"
 
 using namespace nlohmann;
@@ -84,8 +83,8 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_FILTER))
 				{
-					FilterInfo filterInfo;
-					if (FilterUtils::Create(filterInfo, jsonResource))
+					EncoderInfo filterInfo;
+					if (EncoderUtils::Create(filterInfo, jsonResource))
 					{
 						if (filterInfo.type == AVMEDIA_TYPE_VIDEO)
 						{

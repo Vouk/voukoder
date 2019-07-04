@@ -120,16 +120,7 @@
     <ClInclude Include="InstructionSet.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="FilterInfo.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="OptionResourceUtils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="FilterUtils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="wxAddFilterDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="wxFilterPanel.h">
@@ -148,6 +139,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="wxOptionEditor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEditFilterDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -188,12 +182,6 @@
     <ClCompile Include="OptionResourceUtils.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="FilterUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxAddFilterDialog.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="wxFilterPanel.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -201,6 +189,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxOptionEditor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEditFilterDialog.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
