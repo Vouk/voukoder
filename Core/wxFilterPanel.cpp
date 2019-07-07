@@ -37,12 +37,30 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters)
 	this->Layout();
 	bFilterLayout->Fit(this);
 
-	// Populate filter menu
+	// Populate a sorted filter menu
+	PopulateFilterMenu();
+}
+
+void wxFilterPanel::PopulateFilterMenu()
+{
 	m_filterMenu = new wxMenu();
 	for (auto& filterInfo : filters)
 	{
+		size_t pos = 0;
+
+		// Find insert position
+		for (auto item : m_filterMenu->GetMenuItems())
+		{
+			wxString name = Trans(filterInfo.id);
+			if (name.CmpNoCase(item->GetItemLabelText()) <= 0)
+				break;
+
+			pos++;
+		}
+
+		// Insert the item
 		wxFilterMenuItem* item = new wxFilterMenuItem(m_filterMenu, filterInfo);
-		m_filterMenu->Append(item);
+		m_filterMenu->Insert(pos, item);
 	}
 	m_filterMenu->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(wxFilterPanel::OnPopupClick), NULL, this);
 }
@@ -86,7 +104,8 @@ void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
 
 void wxFilterPanel::OnAddFilterClick(wxCommandEvent& event)
 {
-	m_filterAdd->PopupMenu(m_filterMenu);
+	wxPoint pos = m_filterAdd->GetPosition();
+	m_filterAdd->PopupMenu(m_filterMenu, pos);
 }
 
 void wxFilterPanel::OnEditFilterClick(wxCommandEvent& event)

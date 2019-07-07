@@ -41,6 +41,7 @@ protected:
 
 private:
 	std::vector<EncoderInfo> filters;
+	void PopulateFilterMenu();
 	void OnAddFilterClick(wxCommandEvent& event);
 	void OnEditFilterClick(wxCommandEvent& event);
 	void OnRemoveFilterClick(wxCommandEvent& event);
