@@ -8,7 +8,13 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters)
 {
 	wxBoxSizer* bFilterLayout = new wxBoxSizer(wxHORIZONTAL);
 
-	m_filterList = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	m_filterList = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+	m_filterList->InsertColumn(0, Trans("ui.voukoder.configuration.filters.column_0"), wxLIST_FORMAT_LEFT, 125);
+	m_filterList->InsertColumn(1, Trans("ui.voukoder.configuration.filters.column_1"), wxLIST_FORMAT_LEFT, 400);
+	m_filterList->SetDropTarget(new wxFilterDropTarget(m_filterList));
+	m_filterList->Bind(wxEVT_LIST_ITEM_SELECTED, &wxFilterPanel::OnSelected, this);
+	m_filterList->Bind(wxEVT_LIST_ITEM_DESELECTED, &wxFilterPanel::OnDeselected, this);
+	m_filterList->Bind(wxEVT_LIST_BEGIN_DRAG, &wxFilterPanel::OnStartDrag, this);
 	bFilterLayout->Add(m_filterList, 1, wxALL | wxEXPAND, 5);
 
 	m_filterButtons = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -20,12 +26,10 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters)
 
 	m_filterEdit = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.edit"), wxDefaultPosition, wxDefaultSize, 0);
 	m_filterEdit->Bind(wxEVT_BUTTON, &wxFilterPanel::OnEditFilterClick, this);
-	m_filterEdit->Enable(false);
 	bFilterButtonsLayout->Add(m_filterEdit, 0, wxALL, 5);
 
 	m_filterRemove = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.remove"), wxDefaultPosition, wxDefaultSize, 0);
 	m_filterRemove->Bind(wxEVT_BUTTON, &wxFilterPanel::OnRemoveFilterClick, this);
-	m_filterRemove->Enable(false);
 	bFilterButtonsLayout->Add(m_filterRemove, 0, wxALL, 5);
 
 	m_filterButtons->SetSizer(bFilterButtonsLayout);
@@ -39,6 +43,14 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters)
 
 	// Populate a sorted filter menu
 	PopulateFilterMenu();
+}
+
+void wxFilterPanel::OnStartDrag(wxListEvent& event)
+{
+	FilterDropSource dragSource(m_filterList);
+	wxTextDataObject textData(wxString::Format("%d", event.GetIndex())); // TODO!
+	dragSource.SetData(textData);
+	dragSource.DoDragDrop(0);
 }
 
 void wxFilterPanel::PopulateFilterMenu()
@@ -74,8 +86,14 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 		{
 			if (info.id == options->id)
 			{
-				int pos = m_filterList->Append(Trans(info.id), (void*)options);
-				m_filterList->SetSelection(pos);
+				wxListItem item;
+				item.m_itemId = 0;
+				item.SetText(Trans(info.id));
+				item.SetData(options);
+				m_filterList->InsertItem(item);
+				item.SetColumn(1);
+				item.SetText(options->Serialize(false, "", ','));
+				m_filterList->SetItem(item);
 
 				break;
 			}
@@ -83,9 +101,9 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 	}
 
 	// Preselect first filter
-	if (m_filterList->GetCount() > 0)
+	if (m_filterList->GetItemCount() > 0)
 	{
-		m_filterList->SetSelection(0);
+		//m_filterList->  ->SetSelection(0);
 		m_filterEdit->Enable();
 		m_filterRemove->Enable();
 	}
@@ -95,36 +113,59 @@ void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
 {
 	filterConfig.clear();
 
-	for (unsigned int i = 0; i < m_filterList->GetCount(); i++)
+	// Loop through all selected items
+	long itemId = wxNOT_FOUND;
+	while ((itemId = m_filterList->GetNextItem(itemId, wxLIST_NEXT_ALL, wxLIST_STATE_DONTCARE)) > wxNOT_FOUND)
 	{
-		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(i));
-		filterConfig.push_back(options);
+		wxListItem item;
+		item.m_itemId = itemId;
+
+		// Get the item
+		if (m_filterList->GetItem(item))
+		{
+			OptionContainer* options = (OptionContainer*)item.GetData();
+			if (options)
+				filterConfig.push_back(options);
+		}
 	}
 }
 
 void wxFilterPanel::OnAddFilterClick(wxCommandEvent& event)
 {
-	wxPoint pos = m_filterAdd->GetPosition();
-	m_filterAdd->PopupMenu(m_filterMenu, pos);
+	m_filterAdd->PopupMenu(m_filterMenu, m_filterAdd->GetPosition());
 }
 
 void wxFilterPanel::OnEditFilterClick(wxCommandEvent& event)
 {
 	// Get the item index to delete
-	int pos = m_filterList->GetSelection();
-	if (pos != wxNOT_FOUND)
+	long itemId = m_filterList->GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (itemId != wxNOT_FOUND)
 	{
-		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(pos));
+		wxListItem item;
+		item.m_itemId = itemId;
 
-		for (auto info : filters)
+		// Get the item
+		if (m_filterList->GetItem(item))
 		{
-			if (info.id == options->id)
-			{
-				// Show the filter editor dialog
-				wxEditFilterDialog dialog(this, info, &options);
-				dialog.ShowModal();
+			OptionContainer* options = (OptionContainer*)item.GetData();
 
-				break;
+			// Find Filter
+			for (auto info : filters)
+			{
+				if (info.id == options->id)
+				{
+					// Show the filter editor dialog
+					wxEditFilterDialog dialog(this, info, &options);
+					if (dialog.ShowModal() == (int)wxID_OK)
+					{
+						// Update parameters
+						item.SetColumn(1);
+						item.SetText(options->Serialize(false, "", ','));
+						m_filterList->SetItem(item);
+					}
+
+					break;
+				}
 			}
 		}
 	}
@@ -132,31 +173,19 @@ void wxFilterPanel::OnEditFilterClick(wxCommandEvent& event)
 
 void wxFilterPanel::OnRemoveFilterClick(wxCommandEvent& event)
 {
-	// Get the item index to delete
-	int pos = m_filterList->GetSelection();
-	if (pos != wxNOT_FOUND)
+	// Find the selected item
+	long itemId = m_filterList->GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (itemId != wxNOT_FOUND)
 	{
-		// Delete data from heap
-		OptionContainer* options = reinterpret_cast<OptionContainer*>(m_filterList->GetClientData(pos));
-		if (options != NULL)
-			delete options;
+		wxListItem item;
+		item.m_itemId = itemId;
 
-		// Remove entry
-		m_filterList->Delete(pos);
-
-		// There is no item left
-		if (m_filterList->GetCount() == 0)
+		// Get the item
+		if (m_filterList->GetItem(item))
 		{
-			m_filterEdit->Enable(false);
-			m_filterRemove->Enable(false);
-		}
-		else
-		{
-			// If the last item has been removed
-			if (pos == m_filterList->GetCount())
-				pos = m_filterList->GetCount() - 1;
-
-			m_filterList->SetSelection(pos);
+			// Delete it and the payload
+			delete (OptionContainer*)item.GetData();
+			m_filterList->DeleteItem(itemId);
 		}
 	}
 }
@@ -174,13 +203,46 @@ void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
 			OptionContainer* options = new OptionContainer;
 			options->id = info.id;
 
-			// Append the filter and select it
-			int pos = m_filterList->Append(Trans(info.id), (void*)options);
-			m_filterList->SetSelection(pos);
+			// Insert after selection or at the end
+			long itemId = m_filterList->GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+			if (itemId == wxNOT_FOUND)
+				itemId = m_filterList->GetItemCount();
+			else
+				itemId += 1;
 
-			// There is always a filter selected so enable the remove button
-			m_filterEdit->Enable();
-			m_filterRemove->Enable();
+			// Create a new filter item
+			wxListItem item;
+			item.SetId(itemId);
+			item.SetText(Trans(info.id));
+			item.SetData(options);
+			item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_DATA);
+			item.SetState(wxLIST_STATE_SELECTED);
+			m_filterList->InsertItem(item);
+
+			wxListItem item2;
+			item2.SetId(itemId);
+			item2.SetColumn(1);
+			item2.SetText(options->Serialize(false, "", ','));
+			m_filterList->SetItem(item2);
+
+			// Set focus
+			m_filterList->SetFocus();
 		}
 	}
+}
+
+void wxFilterPanel::OnSelected(wxListEvent& event)
+{
+	ValidateSelection(true);
+}
+
+void wxFilterPanel::OnDeselected(wxListEvent& event)
+{
+	ValidateSelection(false);
+}
+
+void wxFilterPanel::ValidateSelection(bool isSelected)
+{
+	m_filterEdit->Enable(isSelected);
+	m_filterRemove->Enable(isSelected);
 }

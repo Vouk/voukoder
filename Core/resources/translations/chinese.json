@@ -81,6 +81,8 @@
     "ui.voukoder.configuration.options": "Encoder options",
     "ui.voukoder.configuration.sidedata": "Side data",
     "ui.voukoder.configuration.filters": "Filters",
+    "ui.voukoder.configuration.filters.column_0": "*Filter",
+    "ui.voukoder.configuration.filters.column_1": "*Parameters",
     "ui.voukoder.configuration.filters.add": "Add",
     "ui.voukoder.configuration.filters.edit": "Edit ...",
     "ui.voukoder.configuration.filters.remove": "Remove",
