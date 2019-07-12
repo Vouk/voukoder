@@ -5,11 +5,9 @@
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
-wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, OptionContainer** encoderOptions, OptionContainer** sideDataOptions, FilterConfig** filterConfig) :
+wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
-	encoderOptions(encoderOptions),
-	sideDataOptions(sideDataOptions),
-	filterOptions(filterConfig)
+	settings(settings)
 {
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
@@ -25,7 +23,7 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 		wxBoxSizer* bVideoLayout = new wxBoxSizer(wxVERTICAL);
 		m_notebook->AddPage(m_encoderOptions, Trans("ui.voukoder.configuration.options"), true);
 
-		m_encoderOptions->Configure(encoderInfo, **encoderOptions);
+		m_encoderOptions->Configure(encoderInfo, settings.options);
 	}
 
 	// Side data
@@ -34,7 +32,7 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 		m_sideDataOptions = new wxOptionEditor(m_notebook, false);
 		m_notebook->AddPage(m_sideDataOptions, Trans("ui.voukoder.configuration.sidedata"), false);
 
-		m_sideDataOptions->Configure(sideData, **sideDataOptions);
+		m_sideDataOptions->Configure(sideData, settings.sideData);
 	}
 
 	// Filters
@@ -43,7 +41,7 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 		m_filterPanel = new wxFilterPanel(m_notebook, filterInfos);
 		m_notebook->AddPage(m_filterPanel, Trans("ui.voukoder.configuration.filters"), false);
 
-		m_filterPanel->Configure(**filterConfig);
+		m_filterPanel->Configure(settings.filters);
 	}
 
 	bDialogLayout->Add(m_notebook, 1, wxEXPAND | wxALL, 5);
@@ -71,21 +69,21 @@ void wxConfigurationDialog::OnOkayClick(wxCommandEvent& event)
 	// Set encoder config
 	if (m_encoderOptions)
 	{
-		(*encoderOptions)->clear();
-		(*encoderOptions)->insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
+		settings.options.clear();
+		settings.options.insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
 	}
 
 	// Set side data config
 	if (m_sideDataOptions)
 	{
-		(*sideDataOptions)->clear();
-		(*sideDataOptions)->insert(m_sideDataOptions->results.begin(), m_sideDataOptions->results.end());
+		settings.sideData.clear();
+		settings.sideData.insert(m_sideDataOptions->results.begin(), m_sideDataOptions->results.end());
 	}
 
 	// Filters
 	if (m_filterPanel)
 	{
-		m_filterPanel->GetFilterConfig(**filterOptions);
+		m_filterPanel->GetFilterConfig(settings.filters);
 	}
 
 	EndDialog(wxID_OK);

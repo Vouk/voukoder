@@ -18,7 +18,7 @@
 #include "wxPGOptionProperty.h"
 #include "ExportInfo.h"
 #include "wxFilterPanel.h"
-
+#include "wxConfigurationDialog.h"
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
@@ -82,13 +82,18 @@ protected:
 
 public:
 	wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo);
-	void SetConfiguration();
 
 private:
 	ExportInfo& exportInfo;
-	EncoderInfo* GetSelectedEncoder(wxChoice *choice);
+	TrackSettings videoSettings;
+	TrackSettings audioSettings;
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
+	template <class T> T FindInfoById(wxChoice *choice, wxString id);
+	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
+	void InitGUI();
+	template <class T> T SelectEncoder(wxChoice *choice, wxString id, wxString def);
+	void SetConfiguration();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);

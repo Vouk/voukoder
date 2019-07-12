@@ -9,10 +9,16 @@
 #include "wxFilterPanel.h"
 #include "Voukoder.h"
 
+struct TrackSettings {
+	OptionContainer options;
+	OptionContainer sideData;
+	FilterConfig filters;
+};
+
 class wxConfigurationDialog : public wxDialog
 {
 public:
-	wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, OptionContainer** encoderOptions, OptionContainer** sideDataOptions, FilterConfig** filterOptions);
+	wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings);
 	~wxConfigurationDialog();
 
 protected:
@@ -25,8 +31,6 @@ protected:
 	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
-	OptionContainer** encoderOptions = NULL;
-	OptionContainer** sideDataOptions = NULL;
-	FilterConfig** filterOptions = NULL;
+	TrackSettings& settings;
 	void OnOkayClick(wxCommandEvent& event);
 };

@@ -4,6 +4,15 @@
 #include "lavf.h"
 #include "OptionContainer.h"
 #include "FilterConfig.h"
+#include "json.hpp"
+
+#define JSON_GET_STRING(group, field) \
+  (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end()) ? j[#group][#field].get<std::string>() : ""
+
+#define JSON_GET_BOOL(group, field) \
+  (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end()) ? j[#group][#field].get<bool>() : false
+
+using namespace nlohmann;
 
 struct ExportInfo
 {
@@ -48,4 +57,49 @@ struct ExportInfo
 		wxString id = wxEmptyString;
 		bool faststart = false;
 	} format;
+
+	bool Deserialize(std::string data)
+	{
+		auto j = json::parse(data, nullptr, false);
+
+		// Error during parsing
+		if (j == json::value_t::discarded || !j.is_object())
+			return false;
+
+		video.id = JSON_GET_STRING(video, id);
+		video.options.Deserialize(JSON_GET_STRING(video, options));
+		video.sideData.Deserialize(JSON_GET_STRING(video, sidedata));
+		video.filters.Deserialize(JSON_GET_STRING(video, filters));
+		audio.id = JSON_GET_STRING(audio, id);
+		audio.options.Deserialize(JSON_GET_STRING(audio, options));
+		audio.sideData.Deserialize(JSON_GET_STRING(audio, sidedata));
+		audio.filters.Deserialize(JSON_GET_STRING(audio, filters));
+		format.id = JSON_GET_STRING(format, id);
+		format.faststart = JSON_GET_BOOL(format, faststart);
+
+		return true;
+	}
+
+	std::string Serialize()
+	{
+		json j;
+
+		// Video
+		j["video"]["id"] = video.id;
+		j["video"]["options"] = video.options.Serialize();
+		j["video"]["sidedata"] = video.sideData.Serialize();
+		j["video"]["filters"] = video.filters.Serialize();
+
+		// Audio
+		j["audio"]["id"] = audio.id;
+		j["audio"]["options"] = audio.options.Serialize();
+		j["audio"]["sidedata"] = audio.sideData.Serialize();
+		j["audio"]["filters"] = audio.filters.Serialize();
+
+		// Format
+		j["format"]["id"] = format.id;
+		j["format"]["faststart"] = format.faststart;
+
+		return j.dump();
+	}
 };

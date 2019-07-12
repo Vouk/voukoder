@@ -7,7 +7,7 @@
 #include "Images.h"
 #include "Voukoder.h"
 #include "Log.h"
-#include "wxConfigurationDialog.h"
+
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -15,9 +15,20 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(600, 640), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	exportInfo(exportInfo)
 {
+	// Configure dialog window
 	SetTitle(VKDR_APPNAME);
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
+	// 
+	videoSettings.options.insert(exportInfo.video.options.begin(), exportInfo.video.options.end());
+	videoSettings.sideData.insert(exportInfo.video.sideData.begin(), exportInfo.video.sideData.end());
+	videoSettings.filters.Deserialize(exportInfo.video.filters.Serialize());
+
+	InitGUI();
+}
+
+void wxVoukoderDialog::InitGUI()
+{
 	// Translate boolean options
 	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));
 	wxPGGlobalVars->m_boolChoices[1].SetText(Trans("ui.encoderconfig.true"));
@@ -67,14 +78,22 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncVideoLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncVideoLabel->Wrap(-1);
 	m_genEncVideoLabel->SetMinSize(wxSize(100, -1));
-
+	m_genEncVideoLabel->Enable(exportInfo.video.enabled);
 	gbGenEncFormSizer->Add(m_genEncVideoLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
 	wxArrayString m_genEncVideoChoiceChoices;
 	m_genEncVideoChoice = new wxChoice(m_genEncFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genEncVideoChoiceChoices, wxCB_SORT);
 	m_genEncVideoChoice->Enable(exportInfo.video.enabled);
 	m_genEncVideoChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnVideoEncoderChanged, this);
+	m_genEncVideoChoice->Enable(exportInfo.video.enabled);
 	gbGenEncFormSizer->Add(m_genEncVideoChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
+
+	// Populate encoders
+	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
+	{
+		if (encoder.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
+			m_genEncVideoChoice->Append(encoder.name, (void*)&encoder);
+	}
 
 	// General > Video > Side data
 
@@ -82,12 +101,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncVideoConfig->Enable(exportInfo.video.enabled);
 	m_genEncVideoConfig->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
 		{
-			OptionContainer* encoderOptions = &this->exportInfo.video.options;
-			OptionContainer* sideData = &this->exportInfo.video.sideData;
-			FilterConfig* filterConfig = &this->exportInfo.video.filters;
-
 			// Open the configure dialog
-			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncVideoChoice), Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, &encoderOptions, &sideData, &filterConfig);
+			wxConfigurationDialog dialog(this, *GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice), Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
 			dialog.ShowModal();
 		});
 	gbGenEncFormSizer->Add(m_genEncVideoConfig, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
@@ -95,14 +110,22 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncAudioLabel->Wrap(-1);
 	m_genEncAudioLabel->SetMinSize(wxSize(100, -1));
-
+	m_genEncAudioLabel->Enable(exportInfo.audio.enabled);
 	gbGenEncFormSizer->Add(m_genEncAudioLabel, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
 	wxArrayString m_genEncAudioChoiceChoices;
 	m_genEncAudioChoice = new wxChoice(m_genEncFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genEncAudioChoiceChoices, wxCB_SORT);
 	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
 	m_genEncAudioChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnAudioEncoderChanged, this);
+	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
 	gbGenEncFormSizer->Add(m_genEncAudioChoice, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
+
+	// Populate encoders
+	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
+	{
+		if (encoder.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
+			m_genEncAudioChoice->Append(encoder.name, (void*)&encoder);
+	}
 
 	// General > Audio > Side data
 
@@ -110,12 +133,12 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	m_genEncAudioConfig->Enable(exportInfo.audio.enabled);
 	m_genEncAudioConfig->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
 		{
-			OptionContainer* encoderOptions = &this->exportInfo.audio.options;
-			OptionContainer* sideData = &this->exportInfo.audio.sideData;
-			FilterConfig* filterConfig = &this->exportInfo.audio.filters;
-
 			// Open the configure dialog
-			wxConfigurationDialog dialog(this, *GetSelectedEncoder(m_genEncAudioChoice), Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, &encoderOptions, &sideData, &filterConfig);
+			wxConfigurationDialog dialog(this,
+				*GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice),
+				Voukoder::Config::Get().audioSideData,
+				Voukoder::Config::Get().audioFilterInfos,
+				audioSettings);
 			dialog.ShowModal();
 		});
 	gbGenEncFormSizer->Add(m_genEncAudioConfig, wxGBPosition(1, 2), wxGBSpan(1, 1), wxALL, 5);
@@ -417,6 +440,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	this->Centre(wxBOTH);
 
 	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
+
+	SetConfiguration();
 }
 
 wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
@@ -500,86 +525,24 @@ wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, w
 
 void wxVoukoderDialog::SetConfiguration()
 {
-	wxString vEncoder = DefaultVideoEncoder;
-	wxString aEncoder = DefaultAudioEncoder;
-	wxString format = DefaultMuxer;
-	bool faststart = false;
+	// Select correct items
+	EncoderInfo* videoEncoderInfo = SelectEncoder<EncoderInfo*>(m_genEncVideoChoice, exportInfo.video.id, DefaultVideoEncoder);
+	EncoderInfo* audioEncoderInfo = SelectEncoder<EncoderInfo*>(m_genEncAudioChoice, exportInfo.audio.id, DefaultAudioEncoder);
 
-	// Video encoder
-	if (!exportInfo.video.id.IsEmpty())
-	{
-		vEncoder = exportInfo.video.id;
-	}
-
-	// Audio encoder
-	if (!exportInfo.audio.id.IsEmpty())
-	{
-		aEncoder = exportInfo.audio.id;
-	}
-
-	// Format
-	if (!exportInfo.format.id.IsEmpty())
-	{
-		format = exportInfo.format.id;
-		faststart = exportInfo.format.faststart;
-	}
-
-	// Enable components
-	m_genEncVideoLabel->Enable(exportInfo.video.enabled);
-	m_genEncVideoChoice->Enable(exportInfo.video.enabled);
-	m_genEncAudioLabel->Enable(exportInfo.audio.enabled);
-	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
-
-	// Populate encoders
-	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
-	{
-		if (encoder.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
-		{
-			m_genEncVideoChoice->Append(encoder.name, (void*)&encoder);
-			
-			if (encoder.id == vEncoder)
-				m_genEncVideoChoice->SetStringSelection(encoder.name);
-		}
-		else if (encoder.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
-		{
-			m_genEncAudioChoice->Append(encoder.name, (void*)&encoder);
-
-			if (encoder.id == aEncoder)
-				m_genEncAudioChoice->SetStringSelection(encoder.name);
-		}
-	}
-
-	// Check if stored video encoder is still available
-	if (m_genEncVideoChoice->GetSelection() == wxNOT_FOUND)
-		m_genEncVideoChoice->SetSelection(0);
-
-	// Check if stored audio encoder is still available
-	if (m_genEncAudioChoice->GetSelection() == wxNOT_FOUND)
-		m_genEncAudioChoice->SetSelection(0);
-
-	// Init encoder infos
 	wxCommandEvent event;
-	OnVideoEncoderChanged(event);
-	OnAudioEncoderChanged(event);
 
-	// Select the right format
-	for (unsigned int i = 0; i < m_genMuxFormatChoice->GetCount(); i++)
-	{
-		MuxerInfo *muxerInfo = reinterpret_cast<MuxerInfo*>(m_genMuxFormatChoice->GetClientData(i));
-		if (muxerInfo->id == format)
-		{
-			m_genMuxFormatChoice->Select(i);
+	// Trigger onchanged events
+	if (videoEncoderInfo)
+		OnVideoEncoderChanged(event);
+	
+	if (audioEncoderInfo)
+		OnAudioEncoderChanged(event);
 
-			// Faststart
-			m_genMuxFaststartCheck->Enable(muxerInfo->capabilities.faststart);
-			m_genMuxFaststartCheck->SetValue(muxerInfo->capabilities.faststart ? faststart : false);
+	// Select the right muxer
+	if (SelectEncoder<MuxerInfo*>(m_genMuxFormatChoice, exportInfo.format.id, DefaultMuxer))
+		OnMuxerChanged(event);
 
-			OnMuxerChanged(event);
-
-			break;
-		}
-	}
-
+	// Get UI languages
 	Voukoder::Config &config = Voukoder::Config::Get();
 	LANGID langId = LanguageUtils::GetLanguageId(config.languageInfos);
 
@@ -601,8 +564,10 @@ void wxVoukoderDialog::UpdateFormats()
 		int index = m_genMuxFormatChoice->FindString(formatInfo.name);
 
 		// Decide on what muxer to add or remove
-		if ((!exportInfo.video.enabled || (find(formatInfo.videoCodecIds.begin(), formatInfo.videoCodecIds.end(), GetSelectedEncoder(m_genEncVideoChoice)->id) != formatInfo.videoCodecIds.end())) &&
-			(!exportInfo.audio.enabled || (find(formatInfo.audioCodecIds.begin(), formatInfo.audioCodecIds.end(), GetSelectedEncoder(m_genEncAudioChoice)->id) != formatInfo.audioCodecIds.end())))
+		if ((!exportInfo.video.enabled || 
+			(find(formatInfo.videoCodecIds.begin(), formatInfo.videoCodecIds.end(), GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice)->id) != formatInfo.videoCodecIds.end())) &&
+			(!exportInfo.audio.enabled || 
+			(find(formatInfo.audioCodecIds.begin(), formatInfo.audioCodecIds.end(), GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice)->id) != formatInfo.audioCodecIds.end())))
 		{
 			// Add supported format
 			if (index == wxNOT_FOUND)
@@ -616,20 +581,11 @@ void wxVoukoderDialog::UpdateFormats()
 			m_genMuxFormatChoice->Delete(index);
 		}
 	}
-
-	// Select the first entry by default
-	if (m_genMuxFormatChoice->GetSelection() == wxNOT_FOUND && m_genMuxFormatChoice->GetCount() > 0)
-	{
-		m_genMuxFormatChoice->SetSelection(0);
-	}
-
-	wxCommandEvent event;
-	OnMuxerChanged(event);
 }
 
 void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 {
-	EncoderInfo* encoderInfo = GetSelectedEncoder(m_genEncVideoChoice);
+	EncoderInfo* encoderInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
 	exportInfo.video.id = encoderInfo->id;
 
 	// Clear options when encoder changes (except on startup)
@@ -640,7 +596,6 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	m_genEncVideoConfig->Enable(encoderInfo->groups.size() > 0
 		|| Voukoder::Config::Get().videoSideData.groups.size() > 0
 		|| Voukoder::Config::Get().videoFilterInfos.size() > 0);
-
 
 	if (exportInfo.video.enabled)
 	{
@@ -702,7 +657,7 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 {
-	EncoderInfo* encoderInfo = GetSelectedEncoder(m_genEncAudioChoice);
+	EncoderInfo* encoderInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
 	exportInfo.audio.id = encoderInfo->id;
 
 	// Clear options when encoder changes (except on startup)
@@ -722,15 +677,18 @@ void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 {
-	MuxerInfo muxerInfo = *reinterpret_cast<MuxerInfo*>(m_genMuxFormatChoice->GetClientData(m_genMuxFormatChoice->GetSelection()));
-	exportInfo.format.id = muxerInfo.id;
+	MuxerInfo* muxerInfo = GetDataFromSelectedChoice<MuxerInfo*>(m_genEncAudioChoice);
+	exportInfo.format.id = muxerInfo->id;
 
-	if (!muxerInfo.capabilities.faststart)
+	// Faststart
+	m_genMuxFaststartCheck->Enable(muxerInfo->capabilities.faststart);
+
+	if (!muxerInfo->capabilities.faststart)
 	{
 		m_genMuxFaststartCheck->SetValue(false);
 	}
 
-	m_genMuxFaststartCheck->Enable(muxerInfo.capabilities.faststart);
+	m_genMuxFaststartCheck->Enable(muxerInfo->capabilities.faststart);
 
 	OnFaststartChanged(event);
 }
@@ -742,14 +700,72 @@ void wxVoukoderDialog::OnFaststartChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 {
+	if (exportInfo.video.enabled)
+	{
+		// Copy options
+		exportInfo.video.options.clear();
+		exportInfo.video.options.insert(videoSettings.options.begin(), videoSettings.options.end());
+
+		// Copy side data
+		exportInfo.video.sideData.clear();
+		exportInfo.video.sideData.insert(videoSettings.sideData.begin(), videoSettings.sideData.end());
+
+		// Copy filters
+		exportInfo.video.filters.Deserialize(videoSettings.filters.Serialize());
+	}
+
+
+	// Store muxer settings
+	MuxerInfo* info = GetDataFromSelectedChoice<MuxerInfo*>(m_genMuxFormatChoice);
+	exportInfo.format.id = info->id;
+	exportInfo.format.faststart = m_genMuxFaststartCheck->IsEnabled() && m_genMuxFaststartCheck->IsChecked();
+
 	// Store language setting
-	LanguageInfo *languageInfo = reinterpret_cast<LanguageInfo*>(m_genLocLanguageChoice->GetClientData(m_genLocLanguageChoice->GetSelection()));
+	LanguageInfo* languageInfo = GetDataFromSelectedChoice<LanguageInfo*>(m_genMuxFormatChoice);
 	LanguageUtils::StoreLanguageId(languageInfo->langId);
 
 	EndDialog(wxID_OK);
 }
 
-EncoderInfo* wxVoukoderDialog::GetSelectedEncoder(wxChoice* choice)
+template <class T>
+T wxVoukoderDialog::FindInfoById(wxChoice *choice, wxString id)
 {
-	return reinterpret_cast<EncoderInfo*>(choice->GetClientData(choice->GetSelection()));
+	for (unsigned int i = 0; i < choice->GetCount(); i++)
+	{
+		T info = reinterpret_cast<T>(choice->GetClientData(i));
+		if (info->id == id)
+			return info;
+	}
+	return NULL;
+}
+
+template <class T>
+T wxVoukoderDialog::SelectEncoder(wxChoice *choice, wxString id, wxString def)
+{
+	if (choice->GetSelection() == wxNOT_FOUND &&
+		choice->GetCount() > 0)
+	{
+		T info;
+		if ((info = FindInfoById<T>(choice, id)) == NULL)
+			info = FindInfoById<T>(choice, def);
+
+		if (info == NULL)
+			choice->SetSelection(0);
+		else
+			choice->SetStringSelection(info->name);
+
+		return info;
+	}
+
+	return NULL;
+}
+
+template <class T>
+T wxVoukoderDialog::GetDataFromSelectedChoice(wxChoice* choice)
+{
+	int sel = choice->GetSelection();
+	if (sel == wxNOT_FOUND)
+		return NULL;
+	else
+	  return reinterpret_cast<T>(choice->GetClientData(sel));
 }
