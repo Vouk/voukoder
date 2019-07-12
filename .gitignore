@@ -45,8 +45,9 @@
 /AfterEffectsPlugin/debug/
 /AfterEffectsPlugin/release/
 /AfterEffectsPlugin/GeneratedFiles/
-/VoukoderCore
-/x64/Debug
-
 /AfterEffectsPlugin/.vs/AfterEffectsPlugin/v15
 /AfterEffectsPlugin/logs
+/Voukoder/x64/
+/TestDLL/x64/
+/x64
+

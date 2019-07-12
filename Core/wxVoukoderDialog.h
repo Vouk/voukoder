@@ -92,12 +92,11 @@ private:
 	template <class T> T FindInfoById(wxChoice *choice, wxString id);
 	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
 	void InitGUI();
-	template <class T> T SelectEncoder(wxChoice *choice, wxString id, wxString def);
+	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);
 	void OnMuxerChanged(wxCommandEvent& event);
-	void OnFaststartChanged(wxCommandEvent& event);
 	void OnOkayClick(wxCommandEvent& event);
 };

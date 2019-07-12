@@ -136,28 +136,69 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 			return ret;
 		}
 
-		// Set the logfile for multi-pass encodes to a file in the temp directory
-		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO &&
-			exportInfo.passes > 1)
+		// Handle special encoder options
+		if (encoderContext->codecContext->codec_type == AVMEDIA_TYPE_VIDEO)
 		{
-			if (codecId == "libx265")
+			// Handle interlaced modes
+			if (exportInfo.video.id == "libx264" &&
+				exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_BB ||
+				exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
 			{
-				wxString params;
-				AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
-				if (entry != NULL)
-				{
-					params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
-				}
+				// Build interlaced string
+				wxString params = "interlaced=1:";
+				if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
+					params += "tff=1";
 				else
-				{
-					params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
-				}
+					params += "bff=1";
+
+				// Get existing params
+				AVDictionaryEntry* entry = av_dict_get(dictionary, "x264-params", NULL, 0);
+				if (entry)
+					params << ':' << entry->value;
+
+				av_dict_set(&dictionary, "x264-params", params.c_str(), 0);
+			}
+			else if (exportInfo.video.id == "libx265" &&
+				exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_BB ||
+				exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
+			{
+				// Build interlaced string
+				wxString params;
+				if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_TT)
+					params = "interlace=tff:top=1";
+				else
+					params = "interlace=bff:top=0";
+
+				// Get existing params
+				AVDictionaryEntry* entry = av_dict_get(dictionary, "x265-params", NULL, 0);
+				if (entry)
+					params << ':' << entry->value;
 
 				av_dict_set(&dictionary, "x265-params", params.c_str(), 0);
 			}
-			else
+
+			// Set the logfile for multi-pass encodes to a file in the temp directory
+			if (exportInfo.passes > 1)
 			{
-				av_dict_set(&dictionary, "passlogfile", passLogFile.c_str(), 0);
+				if (codecId == "libx265")
+				{
+					wxString params;
+					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
+					if (entry != NULL)
+					{
+						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
+					}
+					else
+					{
+						params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
+					}
+
+					av_dict_set(&dictionary, "x265-params", params.c_str(), 0);
+				}
+				else
+				{
+					av_dict_set(&dictionary, "passlogfile", passLogFile.c_str(), 0);
+				}
 			}
 		}
 
