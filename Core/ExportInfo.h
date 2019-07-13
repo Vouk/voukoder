@@ -6,7 +6,10 @@
 #include "FilterConfig.h"
 #include "json.hpp"
 
-#define JSON_GET_STRING(group, field, def) \
+#define JSON_GET_STRING(field, def) \
+  (j.find(#field) != j.end()) ? j[#field].get<std::string>() : def
+
+#define JSON_GET_GROUP_STRING(group, field, def) \
   (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end()) ? j[#group][#field].get<std::string>() : def
 
 #define JSON_GET_BOOL(group, field, def) \
@@ -60,32 +63,36 @@ struct ExportInfo
 
 	bool Deserialize(std::string data)
 	{
-		auto j = json::parse(data, nullptr, false);
+		auto j = json::parse(data, nullptr, true);
 
 		// Error during parsing
 		if (j == json::value_t::discarded || !j.is_object())
 			return false;
 
-		video.enabled = JSON_GET_BOOL(video, enabled, true);
-		video.id = JSON_GET_STRING(video, id, "");
-		video.options.Deserialize(JSON_GET_STRING(video, options, ""));
-		video.sideData.Deserialize(JSON_GET_STRING(video, sidedata, ""));
-		video.filters.Deserialize(JSON_GET_STRING(video, filters, ""));
-		audio.enabled = JSON_GET_BOOL(audio, enabled, true);
-		audio.id = JSON_GET_STRING(audio, id, "");
-		audio.options.Deserialize(JSON_GET_STRING(audio, options, ""));
-		audio.sideData.Deserialize(JSON_GET_STRING(audio, sidedata, ""));
-		audio.filters.Deserialize(JSON_GET_STRING(audio, filters, ""));
-		format.id = JSON_GET_STRING(format, id, "");
-		format.faststart = JSON_GET_BOOL(format, faststart, false);
+		filename = JSON_GET_STRING(filename, "");
 
-		wxString interlaced = JSON_GET_STRING(video, interlaced, "");
+		video.enabled = JSON_GET_BOOL(video, enabled, true);
+		video.id = JSON_GET_GROUP_STRING(video, id, "");
+		video.options.Deserialize(JSON_GET_GROUP_STRING(video, options, ""));
+		video.sideData.Deserialize(JSON_GET_GROUP_STRING(video, sidedata, ""));
+		video.filters.Deserialize(JSON_GET_GROUP_STRING(video, filters, ""));
+		
+		wxString interlaced = JSON_GET_GROUP_STRING(video, interlaced, "");
 		if (interlaced == "tff")
 			video.fieldOrder = AV_FIELD_TT;
 		else if (interlaced == "bff")
 			video.fieldOrder = AV_FIELD_BB;
 		else
 			video.fieldOrder = AV_FIELD_PROGRESSIVE;
+		
+		audio.enabled = JSON_GET_BOOL(audio, enabled, true);
+		audio.id = JSON_GET_GROUP_STRING(audio, id, "");
+		audio.options.Deserialize(JSON_GET_GROUP_STRING(audio, options, ""));
+		audio.sideData.Deserialize(JSON_GET_GROUP_STRING(audio, sidedata, ""));
+		audio.filters.Deserialize(JSON_GET_GROUP_STRING(audio, filters, ""));
+
+		format.id = JSON_GET_GROUP_STRING(format, id, "");
+		format.faststart = JSON_GET_BOOL(format, faststart, false);
 
 		return true;
 	}
@@ -93,6 +100,8 @@ struct ExportInfo
 	std::string Serialize()
 	{
 		json j;
+
+		j["filename"] = filename;
 
 		// Video
 		j["video"]["enabled"] = video.enabled;

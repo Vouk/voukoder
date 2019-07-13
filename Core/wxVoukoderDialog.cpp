@@ -653,7 +653,7 @@ void wxVoukoderDialog::UpdateFormats()
 
 void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 {
-	MuxerInfo* muxerInfo = GetDataFromSelectedChoice<MuxerInfo*>(m_genEncAudioChoice);
+	MuxerInfo* muxerInfo = GetDataFromSelectedChoice<MuxerInfo*>(m_genMuxFormatChoice);
 	exportInfo.format.id = muxerInfo->id;
 
 	// Faststart

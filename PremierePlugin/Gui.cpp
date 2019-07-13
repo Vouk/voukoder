@@ -310,7 +310,6 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
-		dialog.SetConfiguration();
 		result = dialog.ShowModal();
 
 		wxTopLevelWindows.DeleteObject(&parent);
