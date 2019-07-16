@@ -9,15 +9,16 @@ wxFilterPanel::wxFilterPanel(wxWindow *parent, std::vector<EncoderInfo> filters)
 	wxBoxSizer* bFilterLayout = new wxBoxSizer(wxHORIZONTAL);
 
 	m_filterList = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
-	m_filterList->InsertColumn(0, Trans("ui.voukoder.configuration.filters.column_0"), wxLIST_FORMAT_LEFT, 125);
-	m_filterList->InsertColumn(1, Trans("ui.voukoder.configuration.filters.column_1"), wxLIST_FORMAT_LEFT, 400);
+	m_filterList->InsertColumn(0, Trans("ui.voukoder.configuration.filters.column_0"), wxLIST_FORMAT_LEFT, wxDLG_UNIT(this, wxSize(80, -1)).x);
+	m_filterList->InsertColumn(1, Trans("ui.voukoder.configuration.filters.column_1"), wxLIST_FORMAT_LEFT, wxDLG_UNIT(this, wxSize(250, -1)).x);
 	m_filterList->SetDropTarget(new wxFilterDropTarget(m_filterList));
+	m_filterList->Bind(wxEVT_LIST_ITEM_ACTIVATED, &wxFilterPanel::OnItemActivate, this);
 	m_filterList->Bind(wxEVT_LIST_ITEM_SELECTED, &wxFilterPanel::OnSelected, this);
 	m_filterList->Bind(wxEVT_LIST_ITEM_DESELECTED, &wxFilterPanel::OnDeselected, this);
 	m_filterList->Bind(wxEVT_LIST_BEGIN_DRAG, &wxFilterPanel::OnStartDrag, this);
 	bFilterLayout->Add(m_filterList, 1, wxALL | wxEXPAND, 5);
 
-	m_filterButtons = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_filterButtons = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bFilterButtonsLayout = new wxBoxSizer(wxVERTICAL);
 
 	m_filterAdd = new wxButton(m_filterButtons, wxID_ANY, Trans("ui.voukoder.configuration.filters.add"), wxDefaultPosition, wxDefaultSize, 0);
@@ -128,6 +129,11 @@ void wxFilterPanel::GetFilterConfig(FilterConfig &filterConfig)
 				filterConfig.push_back(options);
 		}
 	}
+}
+
+void wxFilterPanel::OnItemActivate(wxListEvent& event)
+{
+	OnEditFilterClick(event);
 }
 
 void wxFilterPanel::OnAddFilterClick(wxCommandEvent& event)

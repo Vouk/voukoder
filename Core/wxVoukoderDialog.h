@@ -89,9 +89,9 @@ private:
 	TrackSettings audioSettings;
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
+	void InitGUI();
 	template <class T> T FindInfoById(wxChoice *choice, wxString id);
 	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
-	void InitGUI();
 	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
 	void UpdateFormats();

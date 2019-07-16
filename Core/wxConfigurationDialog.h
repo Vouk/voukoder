@@ -22,13 +22,9 @@ public:
 	~wxConfigurationDialog();
 
 protected:
-	wxNotebook* m_notebook = NULL;
 	wxOptionEditor* m_encoderOptions = NULL;
 	wxOptionEditor* m_sideDataOptions = NULL;
 	wxFilterPanel* m_filterPanel = NULL;
-	wxStdDialogButtonSizer* m_sdbSizer1 = NULL;
-	wxButton* m_sdbSizer1OK = NULL;
-	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
 	TrackSettings& settings;

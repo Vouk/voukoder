@@ -106,7 +106,6 @@ public:
 
 protected:
 	wxListCtrl* m_filterList = NULL;
-	wxPanel* m_filterButtons = NULL;
 	wxButton* m_filterAdd = NULL;
 	wxButton* m_filterEdit = NULL;
 	wxButton* m_filterRemove = NULL;
@@ -118,6 +117,7 @@ private:
 	void ValidateSelection(bool isSelected);
 	void OnAddFilterClick(wxCommandEvent& event);
 	void OnEditFilterClick(wxCommandEvent& event);
+	void OnItemActivate(wxListEvent& event);
 	void OnRemoveFilterClick(wxCommandEvent& event);
 	void OnPopupClick(wxCommandEvent &evt);
 	void OnSelected(wxListEvent& event);

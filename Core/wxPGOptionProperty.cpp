@@ -11,8 +11,7 @@ bool wxPGCheckedRenderer::Render(wxDC& dc, const wxRect& rect, const wxPropertyG
 		{
 			// Make a bitmap of a checkbox
 			wxRendererNative& renderer = wxRendererNative::Get();
-			wxSize sz = renderer.GetCheckBoxSize(
-				const_cast<wxPropertyGrid*>(propertyGrid));
+			wxSize sz = renderer.GetCheckBoxSize(const_cast<wxPropertyGrid*>(propertyGrid));
 
 			wxBitmap bmp(sz.GetWidth(), rect.GetHeight() - 1);
 			wxMemoryDC mem(bmp);

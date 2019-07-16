@@ -264,7 +264,6 @@ static int ShowVoukoderDialog(ExportInfo &exportInfo)
 
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
-		dialog.SetConfiguration();
 		result = dialog.ShowModal();
 
 		wxTopLevelWindows.DeleteObject(&parent);
@@ -711,7 +710,7 @@ static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 
 static A_Err My_GetDepths(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, AEIO_SupportedDepthFlags *which)
 {
-	*which = AEIO_SupportedDepthFlags_DEPTH_32;// | AEIO_SupportedDepthFlags_DEPTH_64;
+	*which = AEIO_SupportedDepthFlags_DEPTH_24 | AEIO_SupportedDepthFlags_DEPTH_32;// | AEIO_SupportedDepthFlags_DEPTH_64;
 
 	return A_Err_NONE;
 }

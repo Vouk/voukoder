@@ -4,18 +4,19 @@
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxEditFilterDialog::wxEditFilterDialog(wxWindow* parent, EncoderInfo filterInfo, OptionContainer **options) :
-	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
+	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	filterInfo(filterInfo),
 	options(options)
 {
-	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+	SetSize(wxDLG_UNIT(this, wxSize(220, 260)));
+	SetMinSize(wxDLG_UNIT(this, wxSize(150, 160)));
 
 	// Set the right window title
 	SetTitle(Trans("ui.voukoder.editfilter.title"));
 
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
-	m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	wxNotebook* m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 	wxBoxSizer* bTabLayout = new wxBoxSizer(wxVERTICAL);
 
 	// Filter options editor
@@ -27,10 +28,10 @@ wxEditFilterDialog::wxEditFilterDialog(wxWindow* parent, EncoderInfo filterInfo,
 
 	// Button bar
 	wxStdDialogButtonSizer* m_sdbSizer1 = new wxStdDialogButtonSizer();
-	m_sdbSizer1OK = new wxButton(this, wxID_OK, Trans("ui.voukoder.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_sdbSizer1OK = new wxButton(this, wxID_OK, Trans("ui.voukoder.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1OK->Bind(wxEVT_BUTTON, &wxEditFilterDialog::OnOkayClick, this);
 	m_sdbSizer1->AddButton(m_sdbSizer1OK);
-	m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL, Trans("ui.voukoder.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL, Trans("ui.voukoder.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1->AddButton(m_sdbSizer1Cancel);
 	m_sdbSizer1->Realize();
 

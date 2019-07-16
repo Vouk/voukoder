@@ -6,15 +6,16 @@
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings) :
-	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(480, 520), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
+	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	settings(settings)
 {
-	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+	SetSize(wxDLG_UNIT(this, wxSize(300, 320)));
+	SetMinSize(wxDLG_UNIT(this, wxSize(300, 250)));
 
 	SetTitle(Trans("ui.voukoder.configuration"));
 
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
-	m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	wxNotebook* m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 
 	// Encoder config
 	if (encoderInfo.groups.size() > 0)
@@ -46,11 +47,11 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 
 	bDialogLayout->Add(m_notebook, 1, wxEXPAND | wxALL, 5);
 
-	m_sdbSizer1 = new wxStdDialogButtonSizer();
-	m_sdbSizer1OK = new wxButton(this, wxID_OK, Trans("ui.voukoder.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStdDialogButtonSizer* m_sdbSizer1 = new wxStdDialogButtonSizer();
+	wxButton* m_sdbSizer1OK = new wxButton(this, wxID_OK, Trans("ui.voukoder.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1OK->Bind(wxEVT_BUTTON, &wxConfigurationDialog::OnOkayClick, this);
 	m_sdbSizer1->AddButton(m_sdbSizer1OK);
-	m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL, Trans("ui.voukoder.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_sdbSizer1Cancel = new wxButton(this, wxID_CANCEL, Trans("ui.voukoder.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
 	m_sdbSizer1->AddButton(m_sdbSizer1Cancel);
 	m_sdbSizer1->Realize();
 

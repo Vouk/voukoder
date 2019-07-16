@@ -19,7 +19,7 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview):
 
 	// Property grid
 	m_propertyGrid = new wxPropertyGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER);
-	m_propertyGrid->SetMinSize(wxSize(100, 100));
+	m_propertyGrid->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
 	m_propertyGrid->SetValidationFailureBehavior(0);
 	m_propertyGrid->SetExtraStyle(wxPG_EX_HELP_AS_TOOLTIPS);
 	m_propertyGrid->Bind(wxEVT_LEFT_DOWN, &wxOptionEditor::OnLeftDown, this);
@@ -32,7 +32,7 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview):
 	{
 		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
 		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
-		m_preview->SetMinSize(wxSize(100, 100));
+		m_preview->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
 		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
 	}
 

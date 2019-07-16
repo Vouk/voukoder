@@ -12,10 +12,7 @@ public:
 	wxEditFilterDialog(wxWindow* parent, EncoderInfo filterInfo, OptionContainer** options);
 
 protected:
-	wxNotebook* m_notebook = NULL;
 	wxOptionEditor* m_editor = NULL;
-	wxButton* m_sdbSizer1OK = NULL;
-	wxButton* m_sdbSizer1Cancel = NULL;
 
 private:
 	EncoderInfo filterInfo;

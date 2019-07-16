@@ -11,6 +11,7 @@
         {
           "id": "width",
           "parameter": "width",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 320,
@@ -22,6 +23,7 @@
         {
           "id": "height",
           "parameter": "height",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 240,
@@ -31,27 +33,9 @@
           }
         },
         {
-          "id": "dither",
-          "parameter": "dither",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "ordered"
-              },
-              {
-                "value": "random"
-              },
-              {
-                "value": "error_diffusion"
-              }
-            ]
-          }
-        },
-        {
           "id": "filter",
           "parameter": "filter",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 3,
@@ -83,6 +67,25 @@
       "class": "advanced",
       "id": "advanced",
       "properties": [
+        {
+          "id": "dither",
+          "parameter": "dither",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "ordered"
+              },
+              {
+                "value": "random"
+              },
+              {
+                "value": "error_diffusion"
+              }
+            ]
+          }
+        },
         {
           "id": "npl",
           "parameter": "npl",

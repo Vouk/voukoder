@@ -6,16 +6,14 @@
 #include "FilterConfig.h"
 #include "json.hpp"
 
-#define JSON_GET_STRING(field, def) \
-  (j.find(#field) != j.end()) ? j[#field].get<std::string>() : def
-
-#define JSON_GET_GROUP_STRING(group, field, def) \
-  (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end()) ? j[#group][#field].get<std::string>() : def
-
-#define JSON_GET_BOOL(group, field, def) \
-  (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end()) ? j[#group][#field].get<bool>() : def
-
 using namespace nlohmann;
+
+#define JSON_CONTAINS(field) (j.find(#field) != j.end())
+#define JSON_GROUP_CONTAINS(group, field) (j.find(#group) != j.end() && j[#group].find(#field) != j[#group].end())
+#define JSON_GET(field, type) j[#field].get<##type>()
+#define JSON_GROUP_GET(group, field, type) j[#group][#field].get<##type>()
+#define JSON_IMPORT(field, type) if JSON_CONTAINS(##field) ##field = JSON_GET(##field, ##type)
+#define JSON_GROUP_IMPORT(group, field, type) if JSON_GROUP_CONTAINS(##group, ##field) ##group.##field = JSON_GROUP_GET(##group, ##field, ##type)
 
 struct ExportInfo
 {
@@ -69,30 +67,85 @@ struct ExportInfo
 		if (j == json::value_t::discarded || !j.is_object())
 			return false;
 
-		filename = JSON_GET_STRING(filename, "");
+		// General
+		JSON_IMPORT(filename, std::string);
+		JSON_IMPORT(application, std::string);
 
-		video.enabled = JSON_GET_BOOL(video, enabled, true);
-		video.id = JSON_GET_GROUP_STRING(video, id, "");
-		video.options.Deserialize(JSON_GET_GROUP_STRING(video, options, ""));
-		video.sideData.Deserialize(JSON_GET_GROUP_STRING(video, sidedata, ""));
-		video.filters.Deserialize(JSON_GET_GROUP_STRING(video, filters, ""));
-		
-		wxString interlaced = JSON_GET_GROUP_STRING(video, interlaced, "");
-		if (interlaced == "tff")
-			video.fieldOrder = AV_FIELD_TT;
-		else if (interlaced == "bff")
-			video.fieldOrder = AV_FIELD_BB;
-		else
-			video.fieldOrder = AV_FIELD_PROGRESSIVE;
-		
-		audio.enabled = JSON_GET_BOOL(audio, enabled, true);
-		audio.id = JSON_GET_GROUP_STRING(audio, id, "");
-		audio.options.Deserialize(JSON_GET_GROUP_STRING(audio, options, ""));
-		audio.sideData.Deserialize(JSON_GET_GROUP_STRING(audio, sidedata, ""));
-		audio.filters.Deserialize(JSON_GET_GROUP_STRING(audio, filters, ""));
+		// Video
+		JSON_GROUP_IMPORT(video, enabled, bool);
+		JSON_GROUP_IMPORT(video, width, int);
+		JSON_GROUP_IMPORT(video, height, int);
+		JSON_GROUP_IMPORT(video, id, std::string);
+		if (JSON_GROUP_CONTAINS(video, options))
+			video.options.Deserialize(JSON_GROUP_GET(video, options, std::string));
+		if (JSON_GROUP_CONTAINS(video, sidedata))
+			video.options.Deserialize(JSON_GROUP_GET(video, sidedata, std::string));
+		if (JSON_GROUP_CONTAINS(video, filters))
+			video.options.Deserialize(JSON_GROUP_GET(video, filters, std::string));
+		if (JSON_GROUP_CONTAINS(video, timebase))
+		{
+			wxString timebase = JSON_GROUP_GET(video, timebase, std::string);
+			//if (timebase.Matches())
+		}
+		if (JSON_GROUP_CONTAINS(video, pixelFormat))
+			video.pixelFormat = av_get_pix_fmt(JSON_GROUP_GET(video, pixelFormat, std::string).c_str());
+		if (JSON_GROUP_CONTAINS(video, sar))
+		{
+			wxString sar = JSON_GROUP_GET(video, sar, std::string);
+			//if (timebase.Matches())
+		}
+		if (JSON_GROUP_CONTAINS(video, interlaced))
+		{
+			wxString interlaced = JSON_GROUP_GET(video, interlaced, std::string);
+			if (interlaced == "tff")
+				video.fieldOrder = AV_FIELD_TT;
+			else if (interlaced == "bff")
+				video.fieldOrder = AV_FIELD_BB;
+		}
+		if (JSON_GROUP_CONTAINS(video, colorRange))
+			video.colorRange = JSON_GROUP_GET(video, colorRange, std::string) == "full" ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
+		//if (JSON_GROUP_CONTAINS(video, colorSpace))
+		//	video.colorSpace = avcolor(JSON_GROUP_GET(video, colorSpace, std::string).c_str());
+		//if (JSON_GROUP_CONTAINS(video, colorPrimaries))
+		//	video.colorSpace = avcolor(JSON_GROUP_GET(video, colorSpace, std::string).c_str());
+		//if (JSON_GROUP_CONTAINS(video, colorTransferCharacteristics))
+		//	video.colorSpace = avcolor(JSON_GROUP_GET(video, colorSpace, std::string).c_str());
 
-		format.id = JSON_GET_GROUP_STRING(format, id, "");
-		format.faststart = JSON_GET_BOOL(format, faststart, false);
+		// Audio
+		JSON_GROUP_IMPORT(audio, enabled, bool);
+		JSON_GROUP_IMPORT(audio, id, std::string);
+		if (JSON_GROUP_CONTAINS(audio, options))
+			audio.options.Deserialize(JSON_GROUP_GET(audio, options, std::string));
+		if (JSON_GROUP_CONTAINS(audio, sidedata))
+			audio.options.Deserialize(JSON_GROUP_GET(audio, sidedata, std::string));
+		if (JSON_GROUP_CONTAINS(audio, filters))
+			audio.options.Deserialize(JSON_GROUP_GET(audio, filters, std::string));
+		if (JSON_GROUP_CONTAINS(audio, timebase))
+		{
+			wxString timebase = JSON_GROUP_GET(audio, timebase, std::string);
+			if (timebase.Matches("(\\d+):(\\d+)"))
+			{
+
+			}
+			//wxRegEx reEmail = "([^@]+)@([[:alnum:].-_].)+([[:alnum:]]+)";
+			//if (reEmail.Matches(text))
+			//{
+			//	wxString text = reEmail.GetMatch(email);
+			//	wxString username = reEmail.GetMatch(email, 1);
+			//	if (reEmail.GetMatch(email, 3) == "com") // .com TLD?
+			//	{
+			//		...
+			//	}
+			//}
+		}
+		if (JSON_GROUP_CONTAINS(audio, channelLayout))
+			audio.channelLayout = av_get_channel_layout(JSON_GROUP_GET(audio, channelLayout, std::string).c_str());
+		if (JSON_GROUP_CONTAINS(audio, sampleFormat))
+			audio.sampleFormat = av_get_sample_fmt(JSON_GROUP_GET(audio, sampleFormat, std::string).c_str());
+
+		// Format
+		JSON_GROUP_IMPORT(format, id, std::string);
+		JSON_GROUP_IMPORT(format, faststart, bool);
 
 		return true;
 	}
@@ -101,27 +154,70 @@ struct ExportInfo
 	{
 		json j;
 
-		j["filename"] = filename;
+		// General
+		if (!filename.IsEmpty())
+			j["filename"] = filename;
+		if (!application.IsEmpty())
+			j["application"] = filename;
 
 		// Video
 		j["video"]["enabled"] = video.enabled;
-		j["video"]["id"] = video.id;
-		j["video"]["options"] = video.options.Serialize(true);
-		j["video"]["sidedata"] = video.sideData.Serialize(true);
-		j["video"]["filters"] = video.filters.Serialize();
-		if (video.fieldOrder != AV_FIELD_PROGRESSIVE)
+		if (video.width > 0)
+			j["video"]["width"] = video.width;
+		if (video.height > 0)
+			j["video"]["height"] = video.height;
+		if (!video.id.IsEmpty())
+			j["video"]["id"] = video.id;
+		if (video.options.size() > 0)
+			j["video"]["options"] = video.options.Serialize(true);
+		if (video.sideData.size() > 0)
+			j["video"]["sidedata"] = video.sideData.Serialize(true);
+		if (video.filters.size() > 0)
+			j["video"]["filters"] = video.filters.Serialize();
+		if (video.sampleAspectRatio.num > 0 && video.sampleAspectRatio.den > 0)
+			j["video"]["sar"] = wxString::Format("%d:%d", video.sampleAspectRatio.num, video.sampleAspectRatio.den);
+		if (video.timebase.num > 0 && video.timebase.den > 0)
+			j["video"]["timebase"] = wxString::Format("%d:%d", video.timebase.num, video.timebase.den);
+		if (video.pixelFormat != AV_PIX_FMT_NONE)
+			j["video"]["pixelFormat"] = av_get_pix_fmt_name(video.pixelFormat);
+		if (video.colorRange != AVCOL_RANGE_UNSPECIFIED)
+			j["video"]["colorRange"] = video.colorRange == AVColorRange::AVCOL_RANGE_JPEG ? "full" : "limited";
+		if (video.colorSpace != AVCOL_SPC_UNSPECIFIED)
+			j["video"]["colorSpace"] = ""; // TODO
+		if (video.colorPrimaries != AVCOL_PRI_UNSPECIFIED)
+			j["video"]["colorPrimaries"] = ""; // TODO
+		if (video.colorTransferCharacteristics != AVCOL_TRC_UNSPECIFIED)
+			j["video"]["colorTrc"] = ""; // TODO
+		if (video.fieldOrder != AV_FIELD_PROGRESSIVE && video.fieldOrder != AV_FIELD_UNKNOWN)
 			j["video"]["interlaced"] = (video.fieldOrder != AV_FIELD_TT) ? "tff" : "bff";
 
 		// Audio
 		j["audio"]["enabled"] = audio.enabled;
-		j["audio"]["id"] = audio.id;
-		j["audio"]["options"] = audio.options.Serialize(true);
-		j["audio"]["sidedata"] = audio.sideData.Serialize(true);
-		j["audio"]["filters"] = audio.filters.Serialize();
+		if (!audio.id.IsEmpty())
+			j["audio"]["id"] = audio.id;
+		if (audio.options.size() > 0)
+			j["audio"]["options"] = audio.options.Serialize(true);
+		if (audio.sideData.size() > 0)
+			j["audio"]["sidedata"] = audio.sideData.Serialize(true);
+		if (audio.filters.size() > 0)
+			j["audio"]["filters"] = audio.filters.Serialize();
+		if (audio.timebase.num > 0 && audio.timebase.den > 0)
+			j["audio"]["timebase"] = wxString::Format("%d:%d", audio.timebase.num, audio.timebase.den);
+		if (audio.channelLayout > 0)
+		{
+			char buffer[32] = { 0 };
+			int buffer_size = 0;
+			av_get_channel_layout_string(buffer, buffer_size, NULL, audio.channelLayout);
+			j["audio"]["layout"] = buffer;
+		}
+		if (audio.sampleFormat != AV_SAMPLE_FMT_NONE)
+			j["audio"]["sampleFormat"] = av_get_sample_fmt_name(audio.sampleFormat);
 
 		// Format
-		j["format"]["id"] = format.id;
-		j["format"]["faststart"] = format.faststart;
+		if (!format.id.IsEmpty())
+			j["format"]["id"] = format.id;
+		if (format.faststart)
+			j["format"]["faststart"] = format.faststart;
 
 		return j.dump();
 	}

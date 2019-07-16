@@ -82,6 +82,10 @@
                     "params": {
                       "ShowOptions": [
                         {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
                           "id": "libx264.standard.profile420",
                           "visible": true
                         },
@@ -105,6 +109,10 @@
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
                         {
                           "id": "libx264.standard.profile420",
                           "visible": false
@@ -130,6 +138,10 @@
                     "params": {
                       "ShowOptions": [
                         {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
                           "id": "libx264.standard.profile420",
                           "visible": false
                         },
@@ -154,8 +166,12 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libx264.standard.profile420",
+                          "id": "libx264.standard.profile10",
                           "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
                         },
                         {
                           "id": "libx264.standard.profile422",
@@ -177,6 +193,10 @@
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
                         {
                           "id": "libx264.standard.profile420",
                           "visible": false
@@ -201,6 +221,10 @@
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
                         {
                           "id": "libx264.standard.profile420",
                           "visible": false
@@ -263,6 +287,19 @@
               },
               {
                 "value": "placebo"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile10",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "high10"
               }
             ]
           }

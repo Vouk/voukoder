@@ -8,15 +8,15 @@
 #include "Voukoder.h"
 #include "Log.h"
 
-
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
-	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(600, 640), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
+	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	exportInfo(exportInfo)
 {
 	// Configure dialog window
 	SetTitle(VKDR_APPNAME);
+	SetSize(wxDLG_UNIT(this, wxSize(340, 360)));
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	// Video settings
@@ -82,7 +82,6 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genEncVideoLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncVideoLabel->Wrap(-1);
-	m_genEncVideoLabel->SetMinSize(wxSize(100, -1));
 	m_genEncVideoLabel->Enable(exportInfo.video.enabled);
 	gbGenEncFormSizer->Add(m_genEncVideoLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -119,7 +118,6 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncAudioLabel->Wrap(-1);
-	m_genEncAudioLabel->SetMinSize(wxSize(100, -1));
 	m_genEncAudioLabel->Enable(exportInfo.audio.enabled);
 	gbGenEncFormSizer->Add(m_genEncAudioLabel, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -182,7 +180,6 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genMuxFormatLabel = new wxStaticText(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.container"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genMuxFormatLabel->Wrap(-1);
-	m_genMuxFormatLabel->SetMinSize(wxSize(100, -1));
 
 	gbGenMuxFormSizer->Add(m_genMuxFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
 
@@ -303,7 +300,6 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genLocFormatLabel->Wrap(-1);
-	m_genLocFormatLabel->SetMinSize(wxSize(100, -1));
 	gbGenLocFormSizer->Add(m_genLocFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
 
 	wxArrayString m_genLocLanguageChoices;
