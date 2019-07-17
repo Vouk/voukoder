@@ -95,12 +95,10 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "4444",
-                "_pixelFormat": "yuva444p10"
+                "value": "4444"
               },
               {
-                "value": "4444xq",
-                "_pixelFormat": "yuva444p10"
+                "value": "4444xq"
               }
             ]
           }
