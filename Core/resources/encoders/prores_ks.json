@@ -2,16 +2,71 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "prores_ks",
   "name": "ProRes",
-  "defaults": {
-    "_pixelFormat": "yuv422p10"
-  },
+  "defaults": {},
   "groups": [
+    {
+      "id": "prores_ks.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "prores_ks.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv422p10",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "prores_ks.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "prores_ks.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuva444p10",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "prores_ks.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "prores_ks.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "prores_ks.standard",
       "class": "standard",
       "properties": [
         {
-          "id": "prores_ks.standard.profile",
+          "id": "prores_ks.standard.profile422",
           "parameter": "profile",
           "control": {
             "type": "combobox",
@@ -28,7 +83,17 @@
               },
               {
                 "value": "hq"
-              },
+              }
+            ]
+          }
+        },
+        {
+          "id": "prores_ks.standard.profile444",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
               {
                 "value": "4444",
                 "_pixelFormat": "yuva444p10"
