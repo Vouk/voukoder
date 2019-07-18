@@ -8,3 +8,5 @@
 &bull; Paypal: https://www.paypal.me/voukoder
 
 &bull; Twitter: https://twitter.com/LordVouk
+
+**I am currently open for job offers / employments in the Rhine/Main (Frankfurt / Bad Vilbel) area in germany. Contact me at vouk@mailbox.org**
