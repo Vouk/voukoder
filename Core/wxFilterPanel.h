@@ -79,20 +79,6 @@ public:
 		m_listctrl = listctrl;
 	};
 
-	virtual bool GiveFeedback(wxDragResult effect)
-	{
-		wxLogDebug("MyDropSource::GiveFeedback");
-		int flags = 0;
-		long item = m_listctrl->HitTest(m_listctrl->ScreenToClient(wxGetMousePosition()), flags);
-		if (item != wxNOT_FOUND && (flags & wxLIST_HITTEST_ONITEM))
-		{
-			wxLogDebug("cursor over item %d", item);
-			//m_listctrl->SetItemState(item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-			m_listctrl->SetItemState(item, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED);
-		}
-		return false;
-	};
-
 private:
 	wxListCtrl *m_listctrl;
 };

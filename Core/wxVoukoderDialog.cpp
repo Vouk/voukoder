@@ -56,31 +56,27 @@ void wxVoukoderDialog::InitGUI()
 	
 	size_t imageIdx = 0;
 
-	m_Categories = new wxListbook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT);
+	wxListbook* m_Categories = new wxListbook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT);
 	m_Categories->AssignImageList(m_listbook1Images);
 
 	// Categories > General
 
-	m_genPanel = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bGenSizer;
-	bGenSizer = new wxBoxSizer(wxVERTICAL);
+	wxPanel* m_genPanel = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bGenSizer = new wxBoxSizer(wxVERTICAL);
 
-	m_genNotebook = new wxNotebook(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	m_genTab1 = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bGenTab1Sizer;
-	bGenTab1Sizer = new wxBoxSizer(wxVERTICAL);
+	wxNotebook* m_genNotebook = new wxNotebook(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	wxPanel* m_genTab1 = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bGenTab1Sizer = new wxBoxSizer(wxVERTICAL);
 
-	m_genEncPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer* sbGenEncSizer;
-	sbGenEncSizer = new wxStaticBoxSizer(new wxStaticBox(m_genEncPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders")), wxVERTICAL);
+	wxPanel* m_genEncPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxStaticBoxSizer* sbGenEncSizer = new wxStaticBoxSizer(new wxStaticBox(m_genEncPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders")), wxVERTICAL);
 
-	m_genEncFormPanel = new wxPanel(sbGenEncSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxGridBagSizer* gbGenEncFormSizer;
-	gbGenEncFormSizer = new wxGridBagSizer(0, 0);
+	wxPanel* m_genEncFormPanel = new wxPanel(sbGenEncSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxGridBagSizer* gbGenEncFormSizer = new wxGridBagSizer(0, 0);
 	gbGenEncFormSizer->SetFlexibleDirection(wxHORIZONTAL);
 	gbGenEncFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-	m_genEncVideoLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticText* m_genEncVideoLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncVideoLabel->Wrap(-1);
 	m_genEncVideoLabel->Enable(exportInfo.video.enabled);
 	gbGenEncFormSizer->Add(m_genEncVideoLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -116,7 +112,7 @@ void wxVoukoderDialog::InitGUI()
 		});
 	gbGenEncFormSizer->Add(m_genEncVideoConfig, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
 
-	m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticText* m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genEncAudioLabel->Wrap(-1);
 	m_genEncAudioLabel->Enable(exportInfo.audio.enabled);
 	gbGenEncFormSizer->Add(m_genEncAudioLabel, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -168,19 +164,17 @@ void wxVoukoderDialog::InitGUI()
 
 	// General > Muxer
 
-	m_genMuxPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genMuxPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenMuxSizer;
 	sbGenMuxSizer = new wxStaticBoxSizer(new wxStaticBox(m_genMuxPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers")), wxVERTICAL);
 
-	m_genMuxFormPanel = new wxPanel(sbGenMuxSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxGridBagSizer* gbGenMuxFormSizer;
-	gbGenMuxFormSizer = new wxGridBagSizer(0, 0);
+	wxPanel* m_genMuxFormPanel = new wxPanel(sbGenMuxSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxGridBagSizer* gbGenMuxFormSizer = new wxGridBagSizer(0, 0);
 	gbGenMuxFormSizer->SetFlexibleDirection(wxHORIZONTAL);
 	gbGenMuxFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-	m_genMuxFormatLabel = new wxStaticText(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.container"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticText* m_genMuxFormatLabel = new wxStaticText(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.container"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genMuxFormatLabel->Wrap(-1);
-
 	gbGenMuxFormSizer->Add(m_genMuxFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
 
 	wxArrayString m_genMuxFormatChoiceChoices;
@@ -190,8 +184,7 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genMuxFaststartCheck = new wxCheckBox(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.faststart"), wxDefaultPosition, wxDefaultSize, 0);
 	gbGenMuxFormSizer->Add(m_genMuxFaststartCheck, wxGBPosition(1, 0), wxGBSpan(1, 2), wxALL, 5);
-	
-	
+		
 	gbGenMuxFormSizer->AddGrowableCol(1);
 
 	m_genMuxFormPanel->SetSizer(gbGenMuxFormSizer);
@@ -207,7 +200,7 @@ void wxVoukoderDialog::InitGUI()
 
 	// General > ...
 
-	m_generalOtherPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_generalOtherPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	bGenTab1Sizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
 
 	m_genTab1->SetSizer(bGenTab1Sizer);
@@ -217,18 +210,18 @@ void wxVoukoderDialog::InitGUI()
 
 	// General > About
 
-	m_generalAboutPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_generalAboutPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
 
 	// General > About > Header
 
-	m_headerPanel = new wxPanel(m_generalAboutPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	wxPanel* m_headerPanel = new wxPanel(m_generalAboutPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
 	wxBoxSizer* headerSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	wxStaticBitmap* m_logo = new wxStaticBitmap(m_headerPanel, wxID_ANY, wxBITMAP_PNG_FROM_DATA(IMG_LOGO), wxDefaultPosition, wxDefaultSize, 0);
 	headerSizer->Add(m_logo, 0, wxALIGN_LEFT | wxALL, 5);
 
-	m_infoPanel = new wxPanel(m_headerPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_infoPanel = new wxPanel(m_headerPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* infoSizer = new wxBoxSizer(wxVERTICAL);
 	headerSizer->Add(m_infoPanel, 0, wxALIGN_CENTER | wxALL, 0);
 
@@ -280,25 +273,25 @@ void wxVoukoderDialog::InitGUI()
 
 	// Settings
 
-	m_settingsCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_settingsCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSettingsCategorySizer = new wxBoxSizer(wxVERTICAL);
 
-	m_settingsNotebook = new wxNotebook(m_settingsCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	wxNotebook* m_settingsNotebook = new wxNotebook(m_settingsCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 
 	// Settings > Basic
 
-	m_settingsBasicPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_settingsBasicPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSetBasicSizer = new wxBoxSizer(wxVERTICAL);
 
-	m_genLocPanel = new wxPanel(m_settingsBasicPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genLocPanel = new wxPanel(m_settingsBasicPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization")), wxVERTICAL);
 
-	m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxGridBagSizer* gbGenLocFormSizer = new wxGridBagSizer(0, 0);
 	gbGenLocFormSizer->SetFlexibleDirection(wxHORIZONTAL);
 	gbGenLocFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-	m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticText* m_genLocFormatLabel = new wxStaticText(m_genLocFormPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization.language"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genLocFormatLabel->Wrap(-1);
 	gbGenLocFormSizer->Add(m_genLocFormatLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
 
@@ -323,25 +316,25 @@ void wxVoukoderDialog::InitGUI()
 
 	// Settings > Log
 
-	m_settingsLogPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_settingsLogPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
 	
-	m_generalLogText = new wxTextCtrl(m_settingsLogPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL | wxTE_RICH2);
+	wxTextCtrl* m_generalLogText = new wxTextCtrl(m_settingsLogPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL | wxTE_RICH2);
 	m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
 	logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 5);
 
 	// Settings > Log > Buttons
 
-	m_genLogButtonsPanel = new wxPanel(m_settingsLogPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genLogButtonsPanel = new wxPanel(m_settingsLogPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genLogClear->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
 		Log::instance()->Clear();
 		m_generalLogText->Clear();
 		m_generalLogText->SetFocus();
 	});
 	btnSizer2->Add(m_genLogClear, 0, wxALL, 5);
-	m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
 	m_genLogCopyToClipboard->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
 		wxClipboard wxClip;
 		if (wxClip.Open())
@@ -380,24 +373,24 @@ void wxVoukoderDialog::InitGUI()
 	PluginUpdate update;
 	if (CheckForUpdate(curVersion, &update))
 	{
-		m_updateCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+		wxPanel* m_updateCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 		wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);
 
-		m_updateNotebook = new wxNotebook(m_updateCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-		m_updatePanel = new wxPanel(m_updateNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+		wxNotebook* m_updateNotebook = new wxNotebook(m_updateCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+		wxPanel* m_updatePanel = new wxPanel(m_updateNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 		wxBoxSizer* bUpdateLayout = new wxBoxSizer(wxVERTICAL);
 
 		// Show the update message
 		if (!update.message.IsEmpty())
 		{
-			m_updateText = new wxTextCtrl(m_updatePanel, wxID_ANY, update.message, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
+			wxTextCtrl* m_updateText = new wxTextCtrl(m_updatePanel, wxID_ANY, update.message, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
 			bUpdateLayout->Add(m_updateText, 1, wxALL | wxEXPAND, 5);
 		}
 
 		// Show the download button
 		if (!update.url.IsEmpty())
 		{
-			m_updateButton = new wxButton(m_updatePanel, wxID_ANY, Trans("ui.encoderconfig.update.button"), wxDefaultPosition, wxDefaultSize, 0);
+			wxButton* m_updateButton = new wxButton(m_updatePanel, wxID_ANY, Trans("ui.encoderconfig.update.button"), wxDefaultPosition, wxDefaultSize, 0);
 			m_updateButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
 			{
 				wxLaunchDefaultBrowser(update.url, wxBROWSER_NEW_WINDOW);
@@ -424,13 +417,13 @@ void wxVoukoderDialog::InitGUI()
 	bDialogLayout->Add(m_Categories, 1, wxEXPAND | wxALL, 5);
 
 	// Button panel
-	m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
 	btnSizer->Add(0, 0, 1, wxEXPAND, 5);
-	m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnOK->Bind(wxEVT_BUTTON, &wxVoukoderDialog::OnOkayClick, this);
 	btnSizer->Add(m_btnOK, 0, wxALL, 5);
-	m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
+	wxButton* m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
 	btnSizer->Add(m_btnCancel, 0, wxALL, 5);
 	m_btnPanel->SetSizer(btnSizer);
 	m_btnPanel->Layout();
@@ -532,16 +525,16 @@ wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, w
 void wxVoukoderDialog::SetConfiguration()
 {
 	// Select correct items
-	EncoderInfo* videoEncoderInfo = SelectChoiceById<EncoderInfo*>(m_genEncVideoChoice, exportInfo.video.id, DefaultVideoEncoder);
-	EncoderInfo* audioEncoderInfo = SelectChoiceById<EncoderInfo*>(m_genEncAudioChoice, exportInfo.audio.id, DefaultAudioEncoder);
+	EncoderInfo* videoInfo = SelectChoiceById<EncoderInfo*>(m_genEncVideoChoice, exportInfo.video.id, DefaultVideoEncoder);
+	EncoderInfo* audioInfo = SelectChoiceById<EncoderInfo*>(m_genEncAudioChoice, exportInfo.audio.id, DefaultAudioEncoder);
 
 	wxCommandEvent event;
 
 	// Trigger onchanged events
-	if (videoEncoderInfo)
+	if (videoInfo)
 		OnVideoEncoderChanged(event);
 	
-	if (audioEncoderInfo)
+	if (audioInfo)
 		OnAudioEncoderChanged(event);
 
 	// Get UI languages
@@ -560,9 +553,12 @@ void wxVoukoderDialog::SetConfiguration()
 
 void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 {
-	EncoderInfo* encoderInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
-	if (encoderInfo == NULL)
+	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
+	if (info == NULL)
+	{
+		vkLogError("Video info choice did not contain any data.");
 		return;
+	}
 
 	// Clear options when encoder changes (except on startup)
 	if (event.GetId() != 0)
@@ -570,14 +566,14 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	
 	// Enable or disable configure button
 	m_genEncVideoConfig->Enable(exportInfo.video.enabled &&
-		(encoderInfo->groups.size() > 0 ||
+		(info->groups.size() > 0 ||
 		Voukoder::Config::Get().videoSideData.groups.size() > 0 ||
 		Voukoder::Config::Get().videoFilterInfos.size() > 0));
 
 	UpdateFormats();
 
 	// Unfold param groups
-	for (auto& paramGroup : encoderInfo->paramGroups)
+	for (auto& paramGroup : info->paramGroups)
 	{
 		if (videoSettings.options.find(paramGroup.first) != videoSettings.options.end())
 		{
@@ -596,8 +592,14 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 {
-	EncoderInfo* encoderInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
-	exportInfo.audio.id = encoderInfo->id;
+	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
+	if (info == NULL)
+	{
+		vkLogError("Audio info choice did not contain any data.");
+		return;
+	}
+
+	exportInfo.audio.id = info->id;
 
 	// Clear options when encoder changes (except on startup)
 	if (event.GetId() != 0)
@@ -605,7 +607,7 @@ void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 
 	// Enable or disable configure button
 	m_genEncAudioConfig->Enable(exportInfo.audio.enabled &&
-		(encoderInfo->groups.size() > 0 ||
+		(info->groups.size() > 0 ||
 		Voukoder::Config::Get().audioSideData.groups.size() > 0 ||
 		Voukoder::Config::Get().audioFilterInfos.size() > 0));
 
@@ -616,7 +618,18 @@ void wxVoukoderDialog::UpdateFormats()
 {
 	// Get selected encoders
 	EncoderInfo* videoInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
+	if (videoInfo == NULL)
+	{
+		vkLogError("Video info choice did not contain any data.");
+		return;
+	}
+
 	EncoderInfo* audioInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
+	if (audioInfo == NULL)
+	{
+		vkLogError("Audio info choice did not contain any data.");
+		return;
+	}
 
 	// Refresh muxers
 	for (auto& info : Voukoder::Config::Get().muxerInfos)
@@ -649,14 +662,20 @@ void wxVoukoderDialog::UpdateFormats()
 
 void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 {
-	MuxerInfo* muxerInfo = GetDataFromSelectedChoice<MuxerInfo*>(m_genMuxFormatChoice);
-	exportInfo.format.id = muxerInfo->id;
+	MuxerInfo* info = GetDataFromSelectedChoice<MuxerInfo*>(m_genMuxFormatChoice);
+	if (info == NULL)
+	{
+		vkLogError("Muxer choice did not contain any data.");
+		return;
+	}
+
+	exportInfo.format.id = info->id;
 
 	// Faststart
-	m_genMuxFaststartCheck->Enable(muxerInfo->capabilities.faststart);
+	m_genMuxFaststartCheck->Enable(info->capabilities.faststart);
 
 	// Disable faststart if it is not supported
-	if (!muxerInfo->capabilities.faststart)
+	if (!info->capabilities.faststart)
 		m_genMuxFaststartCheck->SetValue(false);
 }
 
@@ -747,11 +766,11 @@ T wxVoukoderDialog::SelectChoiceById(wxChoice *choice, wxString id, wxString def
 template <class T>
 T wxVoukoderDialog::GetDataFromSelectedChoice(wxChoice* choice)
 {
-	int sel;
+	int sel = choice->GetSelection();
 
 	// Find data from selected choice or NULL if nothing is selected
-	if ((sel = choice->GetSelection()) == wxNOT_FOUND)
-		return NULL;
-	else
-	  return reinterpret_cast<T>(choice->GetClientData(sel));
+	if (sel != wxNOT_FOUND)
+		return reinterpret_cast<T>(choice->GetClientData(sel));
+
+	return NULL;
 }

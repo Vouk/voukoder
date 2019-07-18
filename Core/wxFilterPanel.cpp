@@ -209,6 +209,10 @@ void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
 			OptionContainer* options = new OptionContainer;
 			options->id = info.id;
 
+			// Apply default options
+			wxEditFilterDialog dialog(this, info, &options);
+			dialog.ApplyChanges();
+
 			// Insert after selection or at the end
 			long itemId = m_filterList->GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 			if (itemId == wxNOT_FOUND)

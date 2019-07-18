@@ -43,11 +43,16 @@ wxEditFilterDialog::wxEditFilterDialog(wxWindow* parent, EncoderInfo filterInfo,
 	this->Centre(wxBOTH);
 }
 
-void wxEditFilterDialog::OnOkayClick(wxCommandEvent& event)
+void wxEditFilterDialog::ApplyChanges()
 {
 	// Write new options
 	(*options)->clear();
 	(*options)->insert(m_editor->results.begin(), m_editor->results.end());
+}
+
+void wxEditFilterDialog::OnOkayClick(wxCommandEvent& event)
+{
+	ApplyChanges();
 
 	EndDialog(wxID_OK);
 }

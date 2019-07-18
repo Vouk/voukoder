@@ -10,6 +10,7 @@ class wxEditFilterDialog : public wxDialog
 {
 public:
 	wxEditFilterDialog(wxWindow* parent, EncoderInfo filterInfo, OptionContainer** options);
+	void ApplyChanges();
 
 protected:
 	wxOptionEditor* m_editor = NULL;
