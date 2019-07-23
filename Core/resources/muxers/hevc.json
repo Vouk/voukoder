@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hevc",
+  "name": "Raw",
+  "extension": "hevc",
+  "encoders": {
+    "video": [ "hevc_amf", "hevc_nvenc", "libx265", "hevc_qsv" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

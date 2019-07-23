@@ -553,6 +553,7 @@ void wxVoukoderDialog::SetConfiguration()
 
 void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 {
+	// Get selected encoder info
 	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
 	if (info == NULL)
 	{
@@ -564,11 +565,18 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 	if (event.GetId() != 0)
 		videoSettings.options.clear();
 	
+	EncoderInfo sideData = Voukoder::Config::Get().videoSideData;
+	std::vector<EncoderInfo> filters = Voukoder::Config::Get().videoFilterInfos;
+
 	// Enable or disable configure button
 	m_genEncVideoConfig->Enable(exportInfo.video.enabled &&
 		(info->groups.size() > 0 ||
-		Voukoder::Config::Get().videoSideData.groups.size() > 0 ||
-		Voukoder::Config::Get().videoFilterInfos.size() > 0));
+			sideData.groups.size() > 0 ||
+			filters.size() > 0));
+
+	// Get default options
+	wxConfigurationDialog dialog(this, *info, sideData, filters, videoSettings);
+	dialog.ApplyChanges();
 
 	UpdateFormats();
 
@@ -592,6 +600,7 @@ void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
 
 void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 {
+	// Get selected encoder info
 	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
 	if (info == NULL)
 	{
@@ -599,17 +608,22 @@ void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
 		return;
 	}
 
-	exportInfo.audio.id = info->id;
-
 	// Clear options when encoder changes (except on startup)
 	if (event.GetId() != 0)
-		exportInfo.audio.options.clear();
+		audioSettings.options.clear();
+
+	EncoderInfo sideData = Voukoder::Config::Get().audioSideData;
+	std::vector<EncoderInfo> filters = Voukoder::Config::Get().audioFilterInfos;
 
 	// Enable or disable configure button
 	m_genEncAudioConfig->Enable(exportInfo.audio.enabled &&
 		(info->groups.size() > 0 ||
-		Voukoder::Config::Get().audioSideData.groups.size() > 0 ||
-		Voukoder::Config::Get().audioFilterInfos.size() > 0));
+			sideData.groups.size() > 0 ||
+			filters.size() > 0));
+
+	// Get default options
+	wxConfigurationDialog dialog(this, *info, sideData, filters, audioSettings);
+	dialog.ApplyChanges();
 
 	UpdateFormats();
 }

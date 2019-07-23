@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libx264",
-  "name": "x264",
+  "name": "H.264 (x264)",
   "defaults": {},
   "parameterGroups": {
     "x264-params": [

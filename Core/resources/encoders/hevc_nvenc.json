@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "hevc_nvenc",
-  "name": "NVENC hevc",
+  "name": "HEVC (NVIDIA NVENC)",
   "defaults": {},
   "groups": [
     {

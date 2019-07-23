@@ -7,7 +7,8 @@ wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
-	settings(settings)
+	settings(settings),
+	info(encoderInfo)
 {
 	SetSize(wxDLG_UNIT(this, wxSize(300, 320)));
 	SetMinSize(wxDLG_UNIT(this, wxSize(300, 250)));
@@ -62,30 +63,31 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 	this->Centre(wxBOTH);
 }
 
-wxConfigurationDialog::~wxConfigurationDialog()
-{}
-
-void wxConfigurationDialog::OnOkayClick(wxCommandEvent& event)
+void wxConfigurationDialog::ApplyChanges()
 {
+	// Clear all current settings
+	settings.options.clear();
+	settings.sideData.clear();
+	settings.filters.clear();
+
 	// Set encoder config
 	if (m_encoderOptions)
-	{
-		settings.options.clear();
 		settings.options.insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
-	}
+	else
+		settings.options.insert(info.defaults.begin(), info.defaults.end());
 
 	// Set side data config
 	if (m_sideDataOptions)
-	{
-		settings.sideData.clear();
 		settings.sideData.insert(m_sideDataOptions->results.begin(), m_sideDataOptions->results.end());
-	}
 
 	// Filters
 	if (m_filterPanel)
-	{
 		m_filterPanel->GetFilterConfig(settings.filters);
-	}
+}
+
+void wxConfigurationDialog::OnOkayClick(wxCommandEvent& event)
+{
+	ApplyChanges();
 
 	EndDialog(wxID_OK);
 }

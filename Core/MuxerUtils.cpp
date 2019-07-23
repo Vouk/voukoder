@@ -15,8 +15,8 @@ bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 
 	// Parse encoder info
 	muxerInfo.id = muxerId;
-	muxerInfo.name = resource["name"].get<std::string>();
 	muxerInfo.extension = resource["extension"].get<std::string>();
+	muxerInfo.name = resource["name"].get<std::string>() + " (." + muxerInfo.extension + ")";
 	muxerInfo.videoCodecIds = resource["encoders"]["video"].get<std::vector<std::string>>();
 	muxerInfo.audioCodecIds = resource["encoders"]["audio"].get<std::vector<std::string>>();
 	muxerInfo.capabilities.faststart = resource["capabilities"]["faststart"].get<bool>();

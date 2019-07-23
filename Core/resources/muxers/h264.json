@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "h264",
+  "name": "Raw",
+  "extension": "h264",
+  "encoders": {
+    "video": [ "h264_amf", "h264_nvenc", "libx264", "libx264rgb", "h264_qsv" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

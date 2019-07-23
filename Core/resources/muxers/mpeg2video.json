@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "adts",
-  "name": "Advance Audio Coding",
-  "extension": "aac",
+  "id": "mpeg2video",
+  "name": "Raw",
+  "extension": "mpeg2",
   "encoders": {
-    "video": [],
-    "audio": [ "aac", "libfdk_aac" ]
+    "video": [ "mpeg2video" ],
+    "audio": []
   },
   "capabilities": {
     "faststart": false

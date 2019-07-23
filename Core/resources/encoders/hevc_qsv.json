@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hevc_qsv",
+  "name": "HEVC (Intel QSV)",
+  "defaults": {
+    "_pixelFormat": "nv12"
+  },
+  "groups": [
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "veryfast"
+              },
+              {
+                "value": "faster"
+              },
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "slower"
+              },
+              {
+                "value": "veryslow"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

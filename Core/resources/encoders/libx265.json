@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libx265",
-  "name": "x265",
+  "name": "HEVC (x265)",
   "defaults": {},
   "parameterGroups": {
     "x265-params": [

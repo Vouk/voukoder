@@ -38,7 +38,8 @@ extern "C" {
     #pragma comment(lib, "vorbisenc.lib")
     #pragma comment(lib, "vpx.lib")
     #pragma comment(lib, "opus.lib")
-    #pragma comment(lib, "snappy.lib")
+	#pragma comment(lib, "snappy.lib")    
+	#pragma comment(lib, "mfx.lib")
     #pragma comment(lib, "Bcrypt.lib")
 #else
     #pragma comment(lib, "libavformat.a")

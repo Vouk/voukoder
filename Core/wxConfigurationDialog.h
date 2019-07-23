@@ -19,7 +19,7 @@ class wxConfigurationDialog : public wxDialog
 {
 public:
 	wxConfigurationDialog(wxWindow* parent, EncoderInfo encoderInfo, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings);
-	~wxConfigurationDialog();
+	void ApplyChanges();
 
 protected:
 	wxOptionEditor* m_encoderOptions = NULL;
@@ -27,6 +27,7 @@ protected:
 	wxFilterPanel* m_filterPanel = NULL;
 
 private:
+	EncoderInfo info;
 	TrackSettings& settings;
 	void OnOkayClick(wxCommandEvent& event);
 };

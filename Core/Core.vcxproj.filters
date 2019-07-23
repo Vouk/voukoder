@@ -1072,6 +1072,24 @@
     <None Include="resources\encoders\libx264rgb.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\encoders\h264_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\h264.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\hevc.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mpeg2video.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mpegts.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

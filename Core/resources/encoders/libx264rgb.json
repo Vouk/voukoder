@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libx264rgb",
-  "name": "x264 (RGB)",
+  "name": "H.264 RGB (x264)",
   "defaults": {
     "_pixelFormat": "rgb24"
   },

@@ -228,9 +228,11 @@
     <None Include="resources\encoders\flac.json" />
     <None Include="resources\encoders\h264_amf.json" />
     <None Include="resources\encoders\h264_nvenc.json" />
+    <None Include="resources\encoders\h264_qsv.json" />
     <None Include="resources\encoders\hap.json" />
     <None Include="resources\encoders\hevc_amf.json" />
     <None Include="resources\encoders\hevc_nvenc.json" />
+    <None Include="resources\encoders\hevc_qsv.json" />
     <None Include="resources\encoders\libfdk_aac.json" />
     <None Include="resources\encoders\libmp3lame.json" />
     <None Include="resources\encoders\libopus.json" />
@@ -495,6 +497,10 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\h264.json" />
+    <None Include="resources\muxers\hevc.json" />
+    <None Include="resources\muxers\mpeg2video.json" />
+    <None Include="resources\muxers\mpegts.json" />
     <None Include="resources\video_side_data.json" />
     <None Include="resources\muxers\aac.json" />
     <None Include="resources\muxers\flac.json" />

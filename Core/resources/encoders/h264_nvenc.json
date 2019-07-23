@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "h264_nvenc",
-  "name": "NVENC h.264",
+  "name": "H.264 (NVIDIA NVENC)",
   "defaults": {
     "_pixelFormat": "yuv420p"
   },
