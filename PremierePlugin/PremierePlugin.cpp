@@ -410,9 +410,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 {
 	// This should normally not happen (blocked by the UI)
 	if (exportRecP->exportVideo == kPrFalse && exportRecP->exportAudio == kPrFalse)
-	{
 		return gui->ReportMessage("Neither video or audio was selected to export.");
-	}
 
 	// Create encoderinfo
 	ExportInfo exportInfo;
@@ -484,7 +482,9 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 	prMALError prError = malNoError;
 
 	// Create audio renderer
-	AudioRenderer audioRenderer(pluginId, exportRecP->startTime, exportRecP->endTime, encoder.getAudioFrameSize(), exportInfo, &suites);
+	AudioRenderer* audioRenderer = NULL;
+	if (exportInfo.audio.enabled)
+		audioRenderer = new AudioRenderer(pluginId, exportRecP->startTime, exportRecP->endTime, encoder.getAudioFrameSize(), exportInfo, &suites);
 
 	if (exportInfo.video.enabled)
 	{
@@ -516,10 +516,8 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 					}
 
 					// Reset audio renderer
-					if (exportInfo.audio.enabled)
-					{
-						audioRenderer.Reset();
-					}
+					if (audioRenderer)
+						audioRenderer->Reset();
 				}
 
 				auto tp_encStart = std::chrono::high_resolution_clock::now();
@@ -535,15 +533,15 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 				wxString audioLog;
 
-				if (exportInfo.audio.enabled)
+				if (audioRenderer)
 				{
 					// Does the muxer want more audio frames?
-					while ((av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer.GetPts(), exportInfo.audio.timebase) > 0))
+					while ((av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer->GetPts(), exportInfo.audio.timebase) > 0))
 					{
 						auto tp_render = std::chrono::high_resolution_clock::now();
 
 						// Abort loop if no samles are left
-						if (audioRenderer.GetNextFrame(*aFrame) == 0)
+						if (audioRenderer->GetNextFrame(*aFrame) == 0)
 						{
 							vkLogInfo("Aborting audio renderer loop: No audio samples left!.");
 							break;
@@ -592,10 +590,10 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 			msEncode / 1000,
 			frames * 1000 / msEncode);
 	}
-	else if (exportInfo.audio.enabled)
+	else if (audioRenderer)
 	{
 		// Export all audio only
-		while (audioRenderer.GetNextFrame(*aFrame) > 0)
+		while (audioRenderer->GetNextFrame(*aFrame) > 0)
 		{
 			if ((res = encoder.writeAudioFrame(aFrame)) < 0)
 			{
@@ -607,13 +605,9 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 	// Finalize
 	if (PrSuiteErrorSucceeded(prError))
-	{
 		encoder.finalize();
-	}
 	else
-	{
 		vkLogErrorVA("Encoding loop finished (Code: %d)", prError);
-	}
 
 	encoder.close();
 
@@ -622,6 +616,10 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 	vkLogSep();
 
 	av_frame_free(&aFrame);
+
+	// Delete audio renderer instance
+	if (audioRenderer)
+		delete(audioRenderer);
 
 	return prError;
 }
