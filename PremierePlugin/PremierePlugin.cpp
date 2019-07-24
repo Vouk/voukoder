@@ -464,14 +464,10 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 		wxString msg = Trans("ui.premiere.error.encoderError");
 
 		if (exportInfo.video.id == "h264_nvenc" || exportInfo.video.id == "hevc_nvenc")
-		{
 			msg += "\n\n" + Trans("ui.premiere.error.encoderError.nvenc.sessions");
-		}
 
 		if (exportInfo.video.options.find("level") != exportInfo.video.options.end())
-		{
 			msg += "\n\n" + Trans("ui.premiere.error.encoderError.level");
-		}
 
 		return gui->ReportMessage(msg);
 	}

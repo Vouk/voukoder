@@ -76,10 +76,7 @@ int AudioRenderer::GetNextFrame(AVFrame &frame)
 
 		// Get samples from premiere
 		if (pos == 0)
-		{
-			// Fill buffer initially
 			suites->sequenceAudioSuite->GetAudio(rendererId, chunk, (float**)frame.data, kPrFalse);
-		}
 		else
 		{
 			// Get next sample data chunk
@@ -104,13 +101,9 @@ PrTime AudioRenderer::GetPts()
 PrAudioChannelType AudioRenderer::GetChannelType()
 {
 	if (channelLayout == AV_CH_LAYOUT_MONO)
-	{
 		return kPrAudioChannelType_Mono;
-	}
 	else if (channelLayout == AV_CH_LAYOUT_5POINT1_BACK || channelLayout == AV_CH_LAYOUT_5POINT1)
-	{
 		return kPrAudioChannelType_51;
-	}
 
 	return kPrAudioChannelType_Stereo;
 }
