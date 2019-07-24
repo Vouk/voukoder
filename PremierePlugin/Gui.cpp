@@ -308,7 +308,7 @@ void Gui::OpenVoukoderConfigDialog(exParamButtonRec *paramButtonRecP)
 		parent.AdoptAttributesFromHWND();
 		wxTopLevelWindows.Append(&parent);
 
-		wxSetlocale(LC_ALL, "D");
+		wxSetlocale(LC_ALL, "C");
 
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
