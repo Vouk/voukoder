@@ -40,6 +40,11 @@ private:
 	ExportInfo& exportInfo;
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;
+	wxPanel* CreateGeneralPanel(wxWindow* parent);
+	wxPanel* CreateLogPanel(wxWindow* parent);
+	wxPanel* CreateSettingsPanel(wxWindow* parent);
+	wxPanel* CreateAboutPanel(wxWindow* parent);
+	wxPanel* CreateUpdatePanel(wxWindow* parent);
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
 	void InitGUI();

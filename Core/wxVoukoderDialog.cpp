@@ -51,6 +51,8 @@ void wxVoukoderDialog::InitGUI()
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_VIDEO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_AUDIO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_SETTINGS));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_LOGFILE));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_INFO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_UPDATE));
 	}
 	
@@ -59,16 +61,63 @@ void wxVoukoderDialog::InitGUI()
 	wxListbook* m_Categories = new wxListbook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT);
 	m_Categories->AssignImageList(m_listbook1Images);
 
-	// Categories > General
+	// General panel
+	m_Categories->AddPage(CreateGeneralPanel(m_Categories), Trans("ui.encoderconfig.general"), true);
+	m_Categories->SetPageImage(imageIdx++, 0);
 
-	wxPanel* m_genPanel = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	// Settings panel
+	m_Categories->AddPage(CreateSettingsPanel(m_Categories), Trans("ui.encoderconfig.settings"), false);
+	m_Categories->SetPageImage(imageIdx++, 3);
+
+	// Log panel
+	m_Categories->AddPage(CreateLogPanel(m_Categories), Trans("ui.encoderconfig.log"), false);
+	m_Categories->SetPageImage(imageIdx++, 4);
+
+	// About panel
+	m_Categories->AddPage(CreateAboutPanel(m_Categories), Trans("ui.encoderconfig.about"), false);
+	m_Categories->SetPageImage(imageIdx++, 5);
+
+	// Update panel
+	wxWindow* updatePanel = CreateUpdatePanel(m_Categories);
+	if (updatePanel)
+	{
+		m_Categories->AddPage(updatePanel, Trans("ui.encoderconfig.update"), false);
+		m_Categories->SetPageImage(imageIdx++, 6);
+	}
+
+	bDialogLayout->Add(m_Categories, 1, wxEXPAND | wxALL, 5);
+
+	// Button panel
+	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
+	btnSizer->Add(0, 0, 1, wxEXPAND, 5);
+	wxButton* m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
+	m_btnOK->Bind(wxEVT_BUTTON, &wxVoukoderDialog::OnOkayClick, this);
+	btnSizer->Add(m_btnOK, 0, wxALL, 5);
+	wxButton* m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
+	btnSizer->Add(m_btnCancel, 0, wxALL, 5);
+	m_btnPanel->SetSizer(btnSizer);
+	m_btnPanel->Layout();
+	btnSizer->Fit(m_btnPanel);
+
+	bDialogLayout->Add(m_btnPanel, 0, wxEXPAND | wxALL, 5);
+	   
+	this->SetSizer(bDialogLayout);
+	this->Layout();
+
+	SetMinSize({ 512, 380 });
+
+	this->Centre(wxBOTH);
+	   
+	SetConfiguration();
+}
+
+wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
+{
+	wxPanel* m_genPanel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bGenSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxNotebook* m_genNotebook = new wxNotebook(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	wxPanel* m_genTab1 = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bGenTab1Sizer = new wxBoxSizer(wxVERTICAL);
-
-	wxPanel* m_genEncPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genEncPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenEncSizer = new wxStaticBoxSizer(new wxStaticBox(m_genEncPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders")), wxVERTICAL);
 
 	wxPanel* m_genEncFormPanel = new wxPanel(sbGenEncSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -160,11 +209,11 @@ void wxVoukoderDialog::InitGUI()
 	m_genEncPanel->SetSizer(sbGenEncSizer);
 	m_genEncPanel->Layout();
 	sbGenEncSizer->Fit(m_genEncPanel);
-	bGenTab1Sizer->Add(m_genEncPanel, 0, wxEXPAND | wxALL, 5);
+	bGenSizer->Add(m_genEncPanel, 0, wxEXPAND | wxALL, 5);
 
 	// General > Muxer
 
-	wxPanel* m_genMuxPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genMuxPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenMuxSizer;
 	sbGenMuxSizer = new wxStaticBoxSizer(new wxStaticBox(m_genMuxPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers")), wxVERTICAL);
 
@@ -184,7 +233,7 @@ void wxVoukoderDialog::InitGUI()
 
 	m_genMuxFaststartCheck = new wxCheckBox(m_genMuxFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.muxers.faststart"), wxDefaultPosition, wxDefaultSize, 0);
 	gbGenMuxFormSizer->Add(m_genMuxFaststartCheck, wxGBPosition(1, 0), wxGBSpan(1, 2), wxALL, 5);
-		
+
 	gbGenMuxFormSizer->AddGrowableCol(1);
 
 	m_genMuxFormPanel->SetSizer(gbGenMuxFormSizer);
@@ -196,94 +245,74 @@ void wxVoukoderDialog::InitGUI()
 	m_genMuxPanel->SetSizer(sbGenMuxSizer);
 	m_genMuxPanel->Layout();
 	sbGenMuxSizer->Fit(m_genMuxPanel);
-	bGenTab1Sizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
+	bGenSizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
 
 	// General > ...
 
-	wxPanel* m_generalOtherPanel = new wxPanel(m_genTab1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	bGenTab1Sizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
-
-	m_genTab1->SetSizer(bGenTab1Sizer);
-	m_genTab1->Layout();
-	bGenTab1Sizer->Fit(m_genTab1);
-	m_genNotebook->AddPage(m_genTab1, Trans("ui.encoderconfig.general"), false);
-
-	// General > About
-
-	wxPanel* m_generalAboutPanel = new wxPanel(m_genNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
-
-	// General > About > Header
-
-	wxPanel* m_headerPanel = new wxPanel(m_generalAboutPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-	wxBoxSizer* headerSizer = new wxBoxSizer(wxHORIZONTAL);
-
-	wxStaticBitmap* m_logo = new wxStaticBitmap(m_headerPanel, wxID_ANY, wxBITMAP_PNG_FROM_DATA(IMG_LOGO), wxDefaultPosition, wxDefaultSize, 0);
-	headerSizer->Add(m_logo, 0, wxALIGN_LEFT | wxALL, 5);
-
-	wxPanel* m_infoPanel = new wxPanel(m_headerPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* infoSizer = new wxBoxSizer(wxVERTICAL);
-	headerSizer->Add(m_infoPanel, 0, wxALIGN_CENTER | wxALL, 0);
-
-	wxStaticText* m_aboutVoukoder = new wxStaticText(m_infoPanel, wxID_ANY, wxT("Voukoder"), wxDefaultPosition, wxDefaultSize, 0);
-	m_aboutVoukoder->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial")));
-	infoSizer->Add(m_aboutVoukoder, 0, wxALIGN_CENTER | wxALL, 5);
-
-	wxString version = wxString::Format(Trans("ui.encoderconfig.general.about.version") + " %d.%d.%d %s", VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH, VKDR_VERSION_SUFFIX);
-	wxStaticText* m_aboutVersion = new wxStaticText(m_infoPanel, wxID_ANY, version, wxDefaultPosition, wxDefaultSize, 0);
-	infoSizer->Add(m_aboutVersion, 0, wxALIGN_CENTER | wxALL, 0);
-	
-	m_infoPanel->SetSizer(infoSizer);
-	m_infoPanel->Layout();
-	m_headerPanel->SetSizer(headerSizer);
-	m_headerPanel->Layout();
-
-	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
-
-	// Authors
-	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(m_generalAboutPanel, Trans("ui.encoderconfig.general.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
-
-	// (Top) patrons
-	wxStaticText* m_label = new wxStaticText(m_generalAboutPanel, wxID_ANY, Trans("ui.encoderconfig.general.about.toppatrons"), wxDefaultPosition, wxDefaultSize, wxALL);
-	m_label->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-	m_label->Wrap(-1);
-	aboutSizer->Add(m_label, 0, wxALIGN_LEFT | wxALL, 10);
-	aboutSizer->Add(CreateTopPatrons(m_generalAboutPanel), 1, wxEXPAND | wxALL, 10);
-
-	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(m_generalAboutPanel, wxID_ANY, Trans("ui.encoderconfig.general.about.support.patreon"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
-	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
-
-	m_generalAboutPanel->SetSizer(aboutSizer);
-	m_generalAboutPanel->Layout();
-
-	m_genNotebook->AddPage(m_generalAboutPanel, Trans("ui.encoderconfig.general.about"), false);
+	wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	bGenSizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
 
 	//
 
-	bGenSizer->Add(m_genNotebook, 1, wxEXPAND | wxALL, 0);
 
 	m_genPanel->SetSizer(bGenSizer);
 	m_genPanel->Layout();
 	bGenSizer->Fit(m_genPanel);
-	m_Categories->AddPage(m_genPanel, Trans("ui.encoderconfig.general"), true);
-	m_Categories->SetPageImage(imageIdx++, 0);
 
-	// Settings
+	return m_genPanel;
+}
 
-	wxPanel* m_settingsCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+wxPanel* wxVoukoderDialog::CreateLogPanel(wxWindow* parent)
+{
+	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
+
+	wxTextCtrl* m_generalLogText = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL | wxTE_RICH2);
+	m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
+	logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 0);
+
+	// Settings > Log > Buttons
+
+	wxPanel* m_genLogButtonsPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	wxButton* m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLogClear->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
+		Log::instance()->Clear();
+		m_generalLogText->Clear();
+		m_generalLogText->SetFocus();
+		});
+	btnSizer2->Add(m_genLogClear, 0, wxALL, 5);
+	wxButton* m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
+	m_genLogCopyToClipboard->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
+		wxClipboard wxClip;
+		if (wxClip.Open())
+		{
+			wxClip.Clear();
+			wxClip.SetData(new wxTextDataObject(m_generalLogText->GetValue()));
+			wxClip.Flush();
+			wxClip.Close();
+		}
+		});
+	btnSizer2->Add(m_genLogCopyToClipboard, 0, wxALL, 5);
+	m_genLogButtonsPanel->SetSizer(btnSizer2);
+	m_genLogButtonsPanel->Layout();
+	btnSizer2->Fit(m_genLogButtonsPanel);
+	logSizer->Add(m_genLogButtonsPanel, 0, wxEXPAND | wxALL);
+
+	panel->SetSizer(logSizer);
+	panel->Layout();
+
+	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
+
+	return panel;
+}
+
+wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
+{
+	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSettingsCategorySizer = new wxBoxSizer(wxVERTICAL);
 
-	wxNotebook* m_settingsNotebook = new wxNotebook(m_settingsCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-
-	// Settings > Basic
-
-	wxPanel* m_settingsBasicPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bSetBasicSizer = new wxBoxSizer(wxVERTICAL);
-
-	wxPanel* m_genLocPanel = new wxPanel(m_settingsBasicPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxPanel* m_genLocPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization")), wxVERTICAL);
 
 	wxPanel* m_genLocFormPanel = new wxPanel(sbGenLocSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -308,61 +337,71 @@ void wxVoukoderDialog::InitGUI()
 	m_genLocPanel->SetSizer(sbGenLocSizer);
 	m_genLocPanel->Layout();
 	sbGenLocSizer->Fit(m_genLocPanel);
-	bSetBasicSizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
 
-	m_settingsBasicPanel->SetSizer(bSetBasicSizer);
-	m_settingsBasicPanel->Layout();
-	m_settingsNotebook->AddPage(m_settingsBasicPanel, Trans("ui.encoderconfig.settings"), false);
+	bSettingsCategorySizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
 
-	// Settings > Log
+	panel->SetSizer(bSettingsCategorySizer);
+	panel->Layout();
+	bSettingsCategorySizer->Fit(panel);
 
-	wxPanel* m_settingsLogPanel = new wxPanel(m_settingsNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
-	
-	wxTextCtrl* m_generalLogText = new wxTextCtrl(m_settingsLogPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL | wxTE_RICH2);
-	m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
-	logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 5);
+	return panel;
+}
 
-	// Settings > Log > Buttons
+wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
+{
+	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME | wxTAB_TRAVERSAL);
+	panel->SetBackgroundColour(wxColour(255, 255, 255));
+	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxPanel* m_genLogButtonsPanel = new wxPanel(m_settingsLogPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	wxButton* m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genLogClear->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
-		Log::instance()->Clear();
-		m_generalLogText->Clear();
-		m_generalLogText->SetFocus();
-	});
-	btnSizer2->Add(m_genLogClear, 0, wxALL, 5);
-	wxButton* m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.settings.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genLogCopyToClipboard->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
-		wxClipboard wxClip;
-		if (wxClip.Open())
-		{
-			wxClip.Clear();
-			wxClip.SetData(new wxTextDataObject(m_generalLogText->GetValue()));
-			wxClip.Flush();
-			wxClip.Close();
-		}
-	});
-	btnSizer2->Add(m_genLogCopyToClipboard, 0, wxALL, 5);
-	m_genLogButtonsPanel->SetSizer(btnSizer2);
-	m_genLogButtonsPanel->Layout();
-	btnSizer2->Fit(m_genLogButtonsPanel);
-	logSizer->Add(m_genLogButtonsPanel, 0, wxEXPAND | wxALL);
+	wxPanel* m_headerPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
+	wxBoxSizer* headerSizer = new wxBoxSizer(wxHORIZONTAL);
 
-	m_settingsLogPanel->SetSizer(logSizer);
-	m_settingsLogPanel->Layout();
-	m_settingsNotebook->AddPage(m_settingsLogPanel, Trans("ui.encoderconfig.settings.log"), false);
+	wxStaticBitmap* m_logo = new wxStaticBitmap(m_headerPanel, wxID_ANY, wxBITMAP_PNG_FROM_DATA(IMG_LOGO), wxDefaultPosition, wxDefaultSize, 0);
+	headerSizer->Add(m_logo, 0, wxALIGN_LEFT | wxALL, 5);
 
-	bSettingsCategorySizer->Add(m_settingsNotebook, 1, wxEXPAND | wxALL, 0);
+	wxPanel* m_infoPanel = new wxPanel(m_headerPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* infoSizer = new wxBoxSizer(wxVERTICAL);
+	headerSizer->Add(m_infoPanel, 0, wxALIGN_CENTER | wxALL, 0);
 
-	m_settingsCategory->SetSizer(bSettingsCategorySizer);
-	m_settingsCategory->Layout();
-	bSettingsCategorySizer->Fit(m_settingsCategory);
-	m_Categories->AddPage(m_settingsCategory, Trans("ui.encoderconfig.settings"), false);
-	m_Categories->SetPageImage(imageIdx++, 3);
+	wxStaticText* m_aboutVoukoder = new wxStaticText(m_infoPanel, wxID_ANY, wxT("Voukoder"), wxDefaultPosition, wxDefaultSize, 0);
+	m_aboutVoukoder->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial")));
+	infoSizer->Add(m_aboutVoukoder, 0, wxALIGN_CENTER | wxALL, 5);
 
+	wxString version = wxString::Format(Trans("ui.encoderconfig.about.version") + " %d.%d.%d %s", VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH, VKDR_VERSION_SUFFIX);
+	wxStaticText* m_aboutVersion = new wxStaticText(m_infoPanel, wxID_ANY, version, wxDefaultPosition, wxDefaultSize, 0);
+	infoSizer->Add(m_aboutVersion, 0, wxALIGN_CENTER | wxALL, 0);
+
+	m_infoPanel->SetSizer(infoSizer);
+	m_infoPanel->Layout();
+	m_headerPanel->SetSizer(headerSizer);
+	m_headerPanel->Layout();
+
+	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
+
+	// Authors
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
+
+	// (Top) patrons
+	wxStaticText* m_label = new wxStaticText(panel, wxID_ANY, Trans("ui.encoderconfig.about.toppatrons"), wxDefaultPosition, wxDefaultSize, wxALL);
+	m_label->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+	m_label->Wrap(-1);
+	aboutSizer->Add(m_label, 0, wxALIGN_LEFT | wxALL, 10);
+	aboutSizer->Add(CreateTopPatrons(panel), 1, wxEXPAND | wxALL, 10);
+
+	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(panel, wxID_ANY, Trans("ui.encoderconfig.about.support.patreon"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
+
+	panel->SetSizer(aboutSizer);
+	panel->Layout();
+
+	return panel;
+}
+
+wxPanel* wxVoukoderDialog::CreateUpdatePanel(wxWindow* parent)
+{
 	// Set current version
 	Version curVersion;
 	curVersion.number.major = VKDR_VERSION_MAJOR;
@@ -371,76 +410,46 @@ void wxVoukoderDialog::InitGUI()
 
 	// Check for update
 	PluginUpdate update;
-	if (CheckForUpdate(curVersion, &update))
+	if (!CheckForUpdate(curVersion, &update))
+		return NULL;
+
+	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);
+
+	wxNotebook* m_updateNotebook = new wxNotebook(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	wxPanel* m_updatePanel = new wxPanel(m_updateNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxBoxSizer* bUpdateLayout = new wxBoxSizer(wxVERTICAL);
+
+	// Show the update message
+	if (!update.message.IsEmpty())
 	{
-		wxPanel* m_updateCategory = new wxPanel(m_Categories, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-		wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);
+		wxTextCtrl* m_updateText = new wxTextCtrl(m_updatePanel, wxID_ANY, update.message, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
+		bUpdateLayout->Add(m_updateText, 1, wxALL | wxEXPAND, 5);
+	}
 
-		wxNotebook* m_updateNotebook = new wxNotebook(m_updateCategory, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-		wxPanel* m_updatePanel = new wxPanel(m_updateNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-		wxBoxSizer* bUpdateLayout = new wxBoxSizer(wxVERTICAL);
-
-		// Show the update message
-		if (!update.message.IsEmpty())
-		{
-			wxTextCtrl* m_updateText = new wxTextCtrl(m_updatePanel, wxID_ANY, update.message, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
-			bUpdateLayout->Add(m_updateText, 1, wxALL | wxEXPAND, 5);
-		}
-
-		// Show the download button
-		if (!update.url.IsEmpty())
-		{
-			wxButton* m_updateButton = new wxButton(m_updatePanel, wxID_ANY, Trans("ui.encoderconfig.update.button"), wxDefaultPosition, wxDefaultSize, 0);
-			m_updateButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
+	// Show the download button
+	if (!update.url.IsEmpty())
+	{
+		wxButton* m_updateButton = new wxButton(m_updatePanel, wxID_ANY, Trans("ui.encoderconfig.update.button"), wxDefaultPosition, wxDefaultSize, 0);
+		m_updateButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
 			{
 				wxLaunchDefaultBrowser(update.url, wxBROWSER_NEW_WINDOW);
 			});
-			bUpdateLayout->Add(m_updateButton, 0, wxALIGN_CENTER | wxALL, 5);
-		}
-
-		m_updatePanel->SetSizer(bUpdateLayout);
-		m_updatePanel->Layout();
-		bUpdateLayout->Fit(m_updatePanel);
-		m_updateNotebook->AddPage(m_updatePanel, update.headline, false);
-
-		bUpdateCategorySizer->Add(m_updateNotebook, 1, wxEXPAND | wxALL, 0);
-
-		m_updateCategory->SetSizer(bUpdateCategorySizer);
-		m_updateCategory->Layout();
-		bUpdateCategorySizer->Fit(m_updateCategory);
-		m_Categories->AddPage(m_updateCategory, Trans("ui.encoderconfig.update"), false);
-		m_Categories->SetPageImage(imageIdx++, 4);
+		bUpdateLayout->Add(m_updateButton, 0, wxALIGN_CENTER | wxALL, 5);
 	}
 
-	//
+	m_updatePanel->SetSizer(bUpdateLayout);
+	m_updatePanel->Layout();
+	bUpdateLayout->Fit(m_updatePanel);
+	m_updateNotebook->AddPage(m_updatePanel, update.headline, false);
 
-	bDialogLayout->Add(m_Categories, 1, wxEXPAND | wxALL, 5);
+	bUpdateCategorySizer->Add(m_updateNotebook, 1, wxEXPAND | wxALL, 0);
 
-	// Button panel
-	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
-	btnSizer->Add(0, 0, 1, wxEXPAND, 5);
-	wxButton* m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
-	m_btnOK->Bind(wxEVT_BUTTON, &wxVoukoderDialog::OnOkayClick, this);
-	btnSizer->Add(m_btnOK, 0, wxALL, 5);
-	wxButton* m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
-	btnSizer->Add(m_btnCancel, 0, wxALL, 5);
-	m_btnPanel->SetSizer(btnSizer);
-	m_btnPanel->Layout();
-	btnSizer->Fit(m_btnPanel);
+	panel->SetSizer(bUpdateCategorySizer);
+	panel->Layout();
+	bUpdateCategorySizer->Fit(panel);
 
-	bDialogLayout->Add(m_btnPanel, 0, wxEXPAND | wxALL, 5);
-	   
-	this->SetSizer(bDialogLayout);
-	this->Layout();
-
-	SetMinSize({ 512, 380 });
-
-	this->Centre(wxBOTH);
-
-	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
-
-	SetConfiguration();
+	return panel;
 }
 
 wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
