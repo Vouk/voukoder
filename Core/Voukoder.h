@@ -10,6 +10,7 @@
 #include "json.hpp"
 #include "Version.h"
 #include "Log.h"
+#include "PluginUpdate.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -54,6 +55,7 @@ namespace Voukoder
 		std::vector<EncoderInfo> videoFilterInfos;
 		std::vector<EncoderInfo> audioFilterInfos;
 		std::vector<LanguageInfo> languageInfos;
+		PluginUpdate update;
 
 	private:
 		Config();

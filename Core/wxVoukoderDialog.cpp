@@ -402,16 +402,8 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 
 wxPanel* wxVoukoderDialog::CreateUpdatePanel(wxWindow* parent)
 {
-	// Set current version
-	Version curVersion;
-	curVersion.number.major = VKDR_VERSION_MAJOR;
-	curVersion.number.minor = VKDR_VERSION_MINOR;
-	curVersion.number.patch = VKDR_VERSION_PATCH;
-
 	// Check for update
-	PluginUpdate update;
-	if (!CheckForUpdate(curVersion, &update))
-		return NULL;
+	PluginUpdate update = Voukoder::Config::Get().update;
 
 	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);

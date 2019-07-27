@@ -8,6 +8,16 @@ using namespace nlohmann;
 
 Voukoder::Config::Config()
 {
+	// Set current version
+	Version curVersion;
+	curVersion.number.major = VKDR_VERSION_MAJOR;
+	curVersion.number.minor = VKDR_VERSION_MINOR;
+	curVersion.number.patch = VKDR_VERSION_PATCH;
+
+	// Check for update
+	(new wxApp());
+	CheckForUpdate(curVersion, &update);
+
 #ifdef _WIN32
 	// Load translations first
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_TRANSLATION));
