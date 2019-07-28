@@ -93,7 +93,7 @@
 
     "ui.encoderconfig.true": "Yes",
     "ui.encoderconfig.false": "No",
-    "ui.encoderconfig.general": "General",
+    "ui.encoderconfig.general": "Output",
     "ui.encoderconfig.general.encoders": "Encoders",
     "ui.encoderconfig.general.encoders.video": "Video encoder",
     "ui.encoderconfig.general.encoders.video.configure": "Configure ...",

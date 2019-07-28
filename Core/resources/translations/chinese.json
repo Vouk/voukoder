@@ -93,7 +93,7 @@
 
     "ui.encoderconfig.true": "开",
     "ui.encoderconfig.false": "关",
-    "ui.encoderconfig.general": "常规",
+    "ui.encoderconfig.general": "Output",
     "ui.encoderconfig.general.encoders": "编码器",
     "ui.encoderconfig.general.encoders.video": "视频编码器",
     "ui.encoderconfig.general.encoders.video.configure": "Configure ...",
