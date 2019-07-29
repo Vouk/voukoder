@@ -123,11 +123,11 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 	return AVMEDIA_TYPE_UNKNOWN;
 }
 
-bool EncoderUtils::IsEncoderAvailable(const std::string name)
+bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
-	AVCodec *codec = avcodec_find_encoder_by_name(name.c_str());
+	AVCodec *codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
 	{
 		AVCodecContext *codecContext = avcodec_alloc_context3(codec);

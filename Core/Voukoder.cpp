@@ -51,7 +51,7 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 			try
 			{
 				json jsonResource = json::parse(resource);
-				std::string id = jsonResource["id"].get<std::string>();
+				wxString id = jsonResource["id"].get<std::string>();
 
 				// Create configs and store them
 				if (lpType == MAKEINTRESOURCE(ID_MISC))
@@ -67,52 +67,46 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_ENCODER))
 				{
-					vkLogInfoVA("Loading: encoders/%s.json", id.c_str());
+					vkLogInfoVA("Loading: encoders/%s.json", id);
 
 					// Is this encoder supported?
 					if (EncoderUtils::IsEncoderAvailable(id))
 					{
 						EncoderInfo encoderInfo;
 						if (EncoderUtils::Create(encoderInfo, jsonResource))
-						{
 							encoderInfos.push_back(encoderInfo);
-						}
 					}
 					else
-					{
-						vkLogInfoVA("Unloading: encoders/%s.json", id.c_str());
-					}
+						vkLogInfoVA("Unloading: encoders/%s.json", id);
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_MUXER))
 				{
 					MuxerInfo muxerInfo;
 					if (MuxerUtils::Create(muxerInfo, jsonResource))
-					{
 						muxerInfos.push_back(muxerInfo);
-					}
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_FILTER))
 				{
+					id = jsonResource["name"].get<std::string>();
+
+					vkLogInfoVA("Loading: filters/%s.json", id);
+
 					EncoderInfo filterInfo;
 					if (EncoderUtils::Create(filterInfo, jsonResource))
 					{
 						if (filterInfo.type == AVMEDIA_TYPE_VIDEO)
-						{
 							videoFilterInfos.push_back(filterInfo);
-						}
 						else if (filterInfo.type == AVMEDIA_TYPE_AUDIO)
-						{
 							audioFilterInfos.push_back(filterInfo);
-						}
+						else
+							vkLogInfoVA("Unloading: filters/%s.json", id);
 					}
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_TRANSLATION))
 				{
 					LanguageInfo languageInfo;
 					if (LanguageUtils::Create(languageInfo, jsonResource))
-					{
 						languageInfos.push_back(languageInfo);
-					}
 				}
 			}
 			catch (json::parse_error p)

@@ -13,7 +13,7 @@ public:
 	static bool Create(EncoderInfo &encoderInfo, const json json, bool validateEncoder = true);
 	static void InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer &options);
 	static std::string GetParameterGroup(EncoderInfo encoderInfo, std::string parameter);
-	static bool IsEncoderAvailable(const std::string codecId);
+	static bool IsEncoderAvailable(const wxString codecId);
 
 private:
 	static AVMediaType GetMediaType(const wxString codecId);
