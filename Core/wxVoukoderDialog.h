@@ -46,6 +46,7 @@ private:
 	wxPanel* CreateAboutPanel(wxWindow* parent);
 	wxPanel* CreateUpdatePanel(wxWindow* parent);
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
+	wxSize minLabelWidth;
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
 	void InitGUI();
 	template <class T> T FindInfoById(wxChoice *choice, wxString id);
