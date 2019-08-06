@@ -107,7 +107,7 @@ void wxVoukoderDialog::InitGUI()
 	this->SetSizer(bDialogLayout);
 	this->Layout();
 
-	SetMinSize({ 512, 380 });
+	SetMinSize(wxDLG_UNIT(this, wxSize(256, 190)));
 
 	this->Centre(wxBOTH);
 	   
