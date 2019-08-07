@@ -1090,6 +1090,9 @@
     <None Include="resources\muxers\mpegts.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
+    <None Include="resources\encoders\mpeg2_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

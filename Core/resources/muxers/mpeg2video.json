@@ -4,7 +4,7 @@
   "name": "Raw",
   "extension": "mpeg2",
   "encoders": {
-    "video": [ "mpeg2video" ],
+    "video": [ "mpeg2video", "mpeg2_qsv" ],
     "audio": []
   },
   "capabilities": {

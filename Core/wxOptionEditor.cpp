@@ -277,22 +277,36 @@ void wxOptionEditor::RefreshResults()
 		wxOptionProperty *prop = wxDynamicCast(*it, wxOptionProperty);
 		if (prop)
 		{
-			EncoderOptionInfo optionInfo = prop->GetOptionInfo();
-			wxString parameter = optionInfo.parameter;
+			EncoderOptionInfo info = prop->GetOptionInfo();
+			wxString parameter = info.parameter;
 
 			if (!parameter.IsEmpty() && prop->IsChecked())
 			{
 				wxString value;
 
-				// Format the value if required (Make sure parsing unformats the value!!)
-				if (optionInfo.control.type == EncoderOptionType::Integer)
+				// Extra options
+				this->results.insert(info.extraOptions.begin(), info.extraOptions.end());
+				if (info.control.type == EncoderOptionType::ComboBox)
 				{
-					int val = prop->GetValue().GetInteger() * optionInfo.multiplicationFactor;
+					for (auto item : info.control.items)
+					{
+						if (item.value == prop->GetValueAsString(wxPG_FULL_VALUE))
+						{
+							this->results.insert(item.extraOptions.begin(), item.extraOptions.end());
+							break;
+						}
+					}
+				}
+
+				// Format the value if required (Make sure parsing unformats the value!!)
+				if (info.control.type == EncoderOptionType::Integer)
+				{
+					int val = prop->GetValue().GetInteger() * info.multiplicationFactor;
 					value = wxString::Format(wxT("%d"), val);
 				}
-				else if (optionInfo.control.type == EncoderOptionType::Float)
+				else if (info.control.type == EncoderOptionType::Float)
 				{
-					double val = prop->GetValue().GetDouble() * optionInfo.multiplicationFactor;
+					double val = prop->GetValue().GetDouble() * info.multiplicationFactor;
 					value = wxString::Format(wxT("%.1f"), val);
 				}
 				else
@@ -304,7 +318,7 @@ void wxOptionEditor::RefreshResults()
 				if (!value.IsEmpty())
 				{
                     std::string param = parameter.ToStdString();
-					if (optionInfo.preprendNoIfFalse && value == "0")
+					if (info.preprendNoIfFalse && value == "0")
 					{
 						param = "no-" + param;
 						value = "1";

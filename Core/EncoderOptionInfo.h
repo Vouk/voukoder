@@ -22,6 +22,7 @@ struct EncoderOptionInfo
 	std::wstring name;
 	std::wstring description;
 	std::string parameter;
+	std::map<std::string, std::string> extraOptions;
 	int multiplicationFactor = 1;
 	std::vector<OptionFilterInfo> filters;
 	bool isForced = false;
@@ -33,6 +34,7 @@ struct EncoderOptionInfo
 		std::string id;
 		std::wstring name;
 		std::string value;
+		std::map<std::string, std::string> extraOptions;
 		std::vector<OptionFilterInfo> filters;
 	};
 

@@ -27,6 +27,13 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	}
 
 	// Optional: 
+	if (resource.find("extraOptions") != resource.end())
+	{
+		for (auto& el : resource["extraOptions"].items())
+			optionInfo.extraOptions.insert_or_assign(el.key(), el.value());
+	}
+
+	// Optional: 
 	if (resource.find("preprendNoIfFalse") != resource.end())
 	{
 		optionInfo.preprendNoIfFalse = resource["preprendNoIfFalse"].get<bool>();
@@ -86,6 +93,12 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 			if (item.find("value") != item.end())
 			{
 				comboItem.value = item["value"].get<std::string>();
+			}
+			
+			if (item.find("extraOptions") != item.end())
+			{
+				for (auto& el : item["extraOptions"].items())
+					comboItem.extraOptions.insert_or_assign(el.key(), el.value());
 			}
 
 			// Parse filters

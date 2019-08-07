@@ -16,10 +16,13 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 0,
+            "selectedIndex": 1,
             "items": [
               {
                 "value": "cqp",
+                "extraOptions": {
+                  "qscale": "1"
+                },
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -38,7 +41,106 @@
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.qscale",
+                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "la_cqp",
+                "extraOptions": {
+                  "qscale": "1",
+                  "look_ahead": "1"
+                },
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_qsv.standard.global_quality",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "icq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_qsv.standard.global_quality",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "la",
+                "extraOptions": {
+                  "look_ahead": "1"
+                },
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.maxrate",
                           "visible": true
                         },
                         {
@@ -55,22 +157,68 @@
                 ]
               },
               {
-                "value": "la_cqp"
+                "value": "cbr/vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
               },
               {
-                "value": "icq"
-              },
-              {
-                "value": "la"
-              },
-              {
-                "value": "cbr"
-              },
-              {
-                "value": "vbr"
-              },
-              {
-                "value": "avbr"
+                "value": "avbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_qsv.standard.avbr_convergence",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -85,16 +233,6 @@
             "maximum": 51,
             "singleStep": 1,
             "value": 25
-          }
-        },
-        {
-          "id": "qscale",
-          "parameter": "qscale",
-          "forced": true,
-          "control": {
-            "type": "boolean",
-            "value": true,
-            "enabled": false
           }
         },
         {
@@ -124,15 +262,6 @@
           "multiplicationFactor": 1000
         },
         {
-          "id": "look_ahead",
-          "parameter": "look_ahead",
-          "forced": true,
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
           "id": "avbr_accuracy",
           "parameter": "avbr_accuracy",
           "forced": true,
@@ -155,6 +284,56 @@
             "type": "integer",
             "value": 0
           }
+        },
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "veryfast"
+              },
+              {
+                "value": "faster"
+              },
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "slower"
+              },
+              {
+                "value": "veryslow"
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "baseline"
+              },
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
         }
       ]
     },
@@ -162,7 +341,257 @@
       "id": "advanced",
       "class": "advanced",
       "properties": [
-
+        {
+          "id": "look_ahead_depth",
+          "parameter": "look_ahead_depth",
+          "control": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "look_ahead_downsampling",
+          "parameter": "look_ahead_downsampling",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "off"
+              },
+              {
+                "value": "2x"
+              },
+              {
+                "value": "4x"
+              }
+            ]
+          }
+        },
+        {
+          "id": "async_depth",
+          "parameter": "async_depth",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "rdo",
+          "parameter": "rdo",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "max_frame_size",
+          "parameter": "max_frame_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "id": "max_slice_size",
+          "parameter": "max_slice_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "bitrate_limit",
+          "parameter": "bitrate_limit"
+        },
+        {
+          "id": "mbbrc",
+          "parameter": "mbbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "extbrc",
+          "parameter": "extbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_i",
+          "parameter": "adaptive_i",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_b",
+          "parameter": "adaptive_b",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "b_strategy",
+          "parameter": "b_strategy",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "forced_idr",
+          "parameter": "forced_idr",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "low_power",
+          "parameter": "low_power",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "cavlc",
+          "parameter": "cavlc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "idr_interval",
+          "parameter": "idr_interval",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "pic_timing_sei",
+          "parameter": "pic_timing_sei",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "single_sei_nal_unit",
+          "parameter": "single_sei_nal_unit",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "max_dec_frame_buffering",
+          "parameter": "max_dec_frame_buffering",
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "int_ref_type",
+          "parameter": "int_ref_type",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "vertical"
+              }
+            ]
+          }
+        },
+        {
+          "id": "int_ref_cycle_size",
+          "parameter": "int_ref_cycle_size",
+          "control": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "int_ref_qp_delta",
+          "parameter": "int_ref_qp_delta",
+          "control": {
+            "type": "integer",
+            "maximum": 32767,
+            "minimum": -32768,
+            "singleStep": 1,
+            "value": -32768
+          }
+        },
+        {
+          "id": "recovery_point_sei",
+          "parameter": "recovery_point_sei",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "a53cc",
+          "parameter": "a53cc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "repeat_pps",
+          "parameter": "repeat_pps",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
       ]
     }
   ]

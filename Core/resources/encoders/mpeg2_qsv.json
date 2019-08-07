@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mpeg2_qsv",
+  "name": "MPEG2 (Intel QSV)",
+  "defaults": {
+    "_pixelFormat": "nv12"
+  },
+  "groups": [
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "maxrate",
+          "parameter": "maxrate",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "veryfast"
+              },
+              {
+                "value": "faster"
+              },
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "slower"
+              },
+              {
+                "value": "veryslow"
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "simple"
+              },
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "async_depth",
+          "parameter": "async_depth",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "rdo",
+          "parameter": "rdo",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "max_frame_size",
+          "parameter": "max_frame_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "id": "max_slice_size",
+          "parameter": "max_slice_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "bitrate_limit",
+          "parameter": "bitrate_limit"
+        },
+        {
+          "id": "mbbrc",
+          "parameter": "mbbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "extbrc",
+          "parameter": "extbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_i",
+          "parameter": "adaptive_i",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_b",
+          "parameter": "adaptive_b",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "b_strategy",
+          "parameter": "b_strategy",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "forced_idr",
+          "parameter": "forced_idr",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "low_power",
+          "parameter": "low_power",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

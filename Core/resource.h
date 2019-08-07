@@ -33,6 +33,7 @@
 #define IDR_ENC_LIBX264RGB              123
 #define IDR_ENC_H264_QSV                124
 #define IDR_ENC_HEVC_QSV                125
+#define IDR_ENC_MPEG2_QSV               126
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202

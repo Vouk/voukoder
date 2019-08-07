@@ -4,7 +4,7 @@
   "name": "Matroska",
   "extension": "mkv",
   "encoders": {
-    "video": [ "ffv1", "h264_amf", "h264_nvenc", "hevc_amf", "hevc_nvenc", "libvpx", "libvpx-vp9", "libx264", "libx264rgb", "libx265", "prores_ks", "hap", "h264_qsv", "hevc_qsv" ],
+    "video": [ "ffv1", "h264_amf", "h264_nvenc", "hevc_amf", "hevc_nvenc", "libvpx", "libvpx-vp9", "libx264", "libx264rgb", "libx265", "prores_ks", "hap", "h264_qsv", "hevc_qsv", "mpeg2_qsv" ],
     "audio": [ "aac", "ac3", "eac3", "truehd", "dca", "alac", "flac", "libfdk_aac", "libmp3lame", "libopus", "libvorbis", "pcm_s16le", "pcm_s24le", "pcm_s32le" ]
   },
   "capabilities": {

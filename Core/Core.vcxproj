@@ -242,6 +242,7 @@
     <None Include="resources\encoders\libx264.json" />
     <None Include="resources\encoders\libx264rgb.json" />
     <None Include="resources\encoders\libx265.json" />
+    <None Include="resources\encoders\mpeg2_qsv.json" />
     <None Include="resources\encoders\pcm_s16le.json" />
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
