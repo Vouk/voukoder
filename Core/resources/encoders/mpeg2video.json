@@ -1,0 +1,605 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mpeg2video",
+  "name": "MPEG2",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv422p"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "gop_timecode",
+          "parameter": "gop_timecode",
+          "control": {
+            "type": "string",
+            "value": "hh:mm:ss.ff"
+          }
+        },
+        {
+          "id": "intra_vlc",
+          "parameter": "intra_vlc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "drop_frame_timecode",
+          "parameter": "drop_frame_timecode",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "scan_offset",
+          "parameter": "scan_offset",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "timecode_frame_start",
+          "parameter": "timecode_frame_start",
+          "control": {
+            "maximum": 2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "non_linear_quant",
+          "parameter": "non_linear_quant",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "alternate_scan",
+          "parameter": "alternate_scan",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "seq_disp_ext",
+          "parameter": "seq_disp_ext",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "never"
+              },
+              {
+                "value": "always"
+              }
+            ]
+          }
+        },
+        {
+          "id": "video_format",
+          "parameter": "video_format",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "component"
+              },
+              {
+                "value": "pal"
+              },
+              {
+                "value": "ntsc"
+              },
+              {
+                "value": "secam"
+              },
+              {
+                "value": "mac"
+              },
+              {
+                "value": "sad"
+              },
+              {
+                "value": "sse"
+              },
+              {
+                "value": "satd"
+              },
+              {
+                "value": "dct"
+              },
+              {
+                "value": "psnr"
+              },
+              {
+                "value": "bit"
+              },
+              {
+                "value": "rd"
+              },
+              {
+                "value": "zero"
+              },
+              {
+                "value": "vsad"
+              },
+              {
+                "value": "vsse"
+              },
+              {
+                "value": "nsse"
+              },
+              {
+                "value": "dct264"
+              },
+              {
+                "value": "dctmax"
+              },
+              {
+                "value": "chroma"
+              },
+              {
+                "value": "msad"
+              }
+            ]
+          }
+        },
+        {
+          "id": "mpv_flags",
+          "parameter": "mpv_flags",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "skip_rd"
+              },
+              {
+                "value": "strict_gop"
+              },
+              {
+                "value": "qp_rd"
+              },
+              {
+                "value": "cbp_rd"
+              },
+              {
+                "value": "naq"
+              },
+              {
+                "value": "mv0"
+              }
+            ]
+          }
+        },
+        {
+          "id": "luma_elim_threshold",
+          "parameter": "luma_elim_threshold",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "chroma_elim_threshold",
+          "parameter": "chroma_elim_threshold",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "quantizer_noise_shaping",
+          "parameter": "quantizer_noise_shaping",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "error_rate",
+          "parameter": "error_rate",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "qsquish",
+          "parameter": "qsquish",
+          "control": {
+            "maximum": 99.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.0
+          }
+        },
+        {
+          "id": "rc_qmod_amp",
+          "parameter": "rc_qmod_amp",
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          }
+        },
+        {
+          "id": "rc_qmod_freq",
+          "parameter": "rc_qmod_freq",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "rc_eq",
+          "parameter": "rc_eq",
+          "control": {
+            "type": "string",
+            "value": ""
+          }
+        },
+        {
+          "id": "rc_init_cplx",
+          "parameter": "rc_init_cplx",
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.0
+          }
+        },
+        {
+          "id": "border_mask",
+          "parameter": "border_mask",
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.0
+          }
+        },
+        {
+          "id": "lmin",
+          "parameter": "lmin",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "lmax",
+          "parameter": "lmax",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "ibias",
+          "parameter": "ibias",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "pbias",
+          "parameter": "pbias",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "motion_est",
+          "parameter": "motion_est",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "zero"
+              },
+              {
+                "value": "epzs"
+              },
+              {
+                "value": "xone"
+              }
+            ]
+          }
+        },
+        {
+          "id": "force_duplicated_matrix",
+          "parameter": "force_duplicated_matrix",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "b_strategy",
+          "parameter": "b_strategy",
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "b_sensitivity",
+          "parameter": "b_sensitivity",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "brd_scale",
+          "parameter": "brd_scale",
+          "control": {
+            "maximum": 3,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "skip_threshold",
+          "parameter": "skip_threshold",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "skip_factor",
+          "parameter": "skip_factor",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "skip_exp",
+          "parameter": "skip_exp",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "skip_cmp",
+          "parameter": "skip_cmp",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 12,
+            "items": [
+              {
+                "value": "sad"
+              },
+              {
+                "value": "sse"
+              },
+              {
+                "value": "satd"
+              },
+              {
+                "value": "dct"
+              },
+              {
+                "value": "psnr"
+              },
+              {
+                "value": "bit"
+              },
+              {
+                "value": "rd"
+              },
+              {
+                "value": "zero"
+              },
+              {
+                "value": "vsad"
+              },
+              {
+                "value": "vsse"
+              },
+              {
+                "value": "nsse"
+              },
+              {
+                "value": "dct264"
+              },
+              {
+                "value": "dctmax"
+              },
+              {
+                "value": "chroma"
+              },
+              {
+                "value": "msad"
+              }
+            ]
+          }
+        },
+        {
+          "id": "sc_threshold",
+          "parameter": "sc_threshold",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "noise_reduction",
+          "parameter": "noise_reduction",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "mpeg_quant",
+          "parameter": "mpeg_quant",
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "ps",
+          "parameter": "ps",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "mepc",
+          "parameter": "mepc",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "mepre",
+          "parameter": "mepre",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "a53cc",
+          "parameter": "a53cc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+          }

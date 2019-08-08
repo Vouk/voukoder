@@ -1,6 +1,7 @@
 #define MyAppName "Voukoder"
 #define MyAppPublisher "Daniel Stankewitz"
 #define MyAppURL "http://www.voukoder.org"
+#define MyAppVersion "2.1.3"
 
 [Setup]
 AppId={{9F919D76-F1AC-4813-8B10-AB22E8F5015D}
@@ -124,7 +125,7 @@ var
 begin
   if CurPageID = 100 then
   begin
-    IsPrm := WizardIsComponentSelected('prm');
+    IsPrm := WizardIsComponentSelected('prm') And Length(GetPrmPath('')) > 0;
     DirPage.PromptLabels[0].Enabled := IsPrm;
     DirPage.Edits[0].Enabled := IsPrm;
     DirPage.Buttons[0].Enabled := IsPrm;
@@ -132,7 +133,7 @@ begin
       DirPage.Values[0] := GetPreviousData('PrmDir', GetPrmPath(''))
     else
       DirPage.Values[0] := 'C:\';
-    IsAex := WizardIsComponentSelected('aex');
+    IsAex := WizardIsComponentSelected('aex') And Length(GetAexPath()) > 0;
     DirPage.PromptLabels[1].Enabled := IsAex;
     DirPage.Edits[1].Enabled := IsAex;
     DirPage.Buttons[1].Enabled := IsAex;
