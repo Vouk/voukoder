@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "mpeg2video",
-  "name": "MPEG2",
+  "name": "MPEG 2",
   "defaults": {},
   "groups": [
     {
@@ -32,21 +32,106 @@
       "class": "standard",
       "properties": [
         {
+          "id": "strategy",
+          "parameter": "_rc",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "cbr/vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "mpeg2video.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "mpeg2video.standard.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "mpeg2video.standard.qscale",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "quality",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "mpeg2video.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "mpeg2video.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "mpeg2video.standard.qscale",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
           "id": "bitrate",
           "parameter": "b",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 100,
             "maximum": 288000,
             "singleStep": 1000,
-            "value": 15000,
-            "visible": false
+            "value": 15000
           },
           "multiplicationFactor": 1000
+        },
+        {
+          "id": "maxrate",
+          "parameter": "maxrate",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "qscale",
+          "parameter": "qscale",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 31,
+            "singleStep": 1,
+            "value": 5
+          }
         }
       ]
     },
     {
+
       "class": "advanced",
       "id": "advanced",
       "properties": [
@@ -601,5 +686,5 @@
         }
       ]
     }
-  ]
+            ]
           }
