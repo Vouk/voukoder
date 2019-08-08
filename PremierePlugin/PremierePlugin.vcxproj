@@ -52,7 +52,7 @@
     <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;..\..\..\external\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>VoukoderR2</TargetName>
     <TargetExt>.prm</TargetExt>
