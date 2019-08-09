@@ -236,6 +236,7 @@
     <None Include="resources\encoders\libfdk_aac.json" />
     <None Include="resources\encoders\libmp3lame.json" />
     <None Include="resources\encoders\libopus.json" />
+    <None Include="resources\encoders\libsvt_av1.json" />
     <None Include="resources\encoders\libvorbis.json" />
     <None Include="resources\encoders\libvpx-vp9.json" />
     <None Include="resources\encoders\libvpx.json" />

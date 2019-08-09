@@ -40,7 +40,8 @@ extern "C" {
     #pragma comment(lib, "opus.lib")
 	#pragma comment(lib, "snappy.lib")    
 	#pragma comment(lib, "mfx.lib")
-    #pragma comment(lib, "Bcrypt.lib")
+	#pragma comment(lib, "Bcrypt.lib")
+	#pragma comment(lib, "SvtAv1Enc.lib")
 #else
     #pragma comment(lib, "libavformat.a")
     #pragma comment(lib, "libavcodec.a")
