@@ -1,7 +1,6 @@
 #define MyAppName "Voukoder"
 #define MyAppPublisher "Daniel Stankewitz"
 #define MyAppURL "http://www.voukoder.org"
-#define MyAppVersion "2.1.3"
 
 [Setup]
 AppId={{9F919D76-F1AC-4813-8B10-AB22E8F5015D}
@@ -123,9 +122,23 @@ var
   IsPrm: Boolean;
   IsAex: Boolean;
 begin
+  if CurPageID=wpSelectComponents then
+  begin
+    if Length(GetPrmPath('')) = 0 then
+    begin
+      Wizardform.ComponentsList.Checked[0] := false;
+      // Wizardform.ComponentsList.ItemEnabled[0] := false;
+    end;
+    if Length(GetAexPath()) = 0 then
+    begin
+      Wizardform.ComponentsList.Checked[1] := false;
+      // Wizardform.ComponentsList.ItemEnabled[1] := false;
+    end;
+  end;
+
   if CurPageID = 100 then
   begin
-    IsPrm := WizardIsComponentSelected('prm') And Length(GetPrmPath('')) > 0;
+    IsPrm := WizardIsComponentSelected('prm');
     DirPage.PromptLabels[0].Enabled := IsPrm;
     DirPage.Edits[0].Enabled := IsPrm;
     DirPage.Buttons[0].Enabled := IsPrm;
@@ -133,7 +146,7 @@ begin
       DirPage.Values[0] := GetPreviousData('PrmDir', GetPrmPath(''))
     else
       DirPage.Values[0] := 'C:\';
-    IsAex := WizardIsComponentSelected('aex') And Length(GetAexPath()) > 0;
+    IsAex := WizardIsComponentSelected('aex');
     DirPage.PromptLabels[1].Enabled := IsAex;
     DirPage.Edits[1].Enabled := IsAex;
     DirPage.Buttons[1].Enabled := IsAex;
