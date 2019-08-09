@@ -245,13 +245,8 @@ prMALError CPremierePluginApp::postProcessParams(exPostProcessParamsRec * instan
 	return gui->Update();
 }
 
-prMALError CPremierePluginApp::queryOutputSettings(exQueryOutputSettingsRec * outputSettingsRecP)
+prMALError CPremierePluginApp::queryOutputSettings(exQueryOutputSettingsRec* outputSettingsRecP)
 {
-	csSDK_uint32 bitrate = 0;
-
-	ExportInfo exportInfo;
-	bool hasData = gui->ReadEncoderOptions(VKDRVoukoderConfiguration, exportInfo);
-
 	if (outputSettingsRecP->inExportVideo)
 	{
 		exParamValues width;
@@ -274,12 +269,6 @@ prMALError CPremierePluginApp::queryOutputSettings(exQueryOutputSettingsRec * ou
 		exParamValues fieldType;
 		suites.exportParamSuite->GetParamValue(pluginId, outputSettingsRecP->inMultiGroupIndex, ADBEVideoFieldType, &fieldType);
 		outputSettingsRecP->outVideoFieldType = fieldType.value.intValue;
-
-		// Calculate bitrate
-		if (hasData && exportInfo.video.options.find("b") != exportInfo.video.options.end())
-		{
-			bitrate += atoi(exportInfo.video.options["b"].c_str());
-		}
 	}
 
 	if (outputSettingsRecP->inExportAudio)
@@ -292,31 +281,10 @@ prMALError CPremierePluginApp::queryOutputSettings(exQueryOutputSettingsRec * ou
 		exParamValues channelNum;
 		suites.exportParamSuite->GetParamValue(pluginId, outputSettingsRecP->inMultiGroupIndex, ADBEAudioNumChannels, &channelNum);
 		outputSettingsRecP->outAudioChannelType = (PrAudioChannelType)channelNum.value.intValue;
-
-		// Calculate bitrate
-		if (hasData)
-		{
-			if (exportInfo.audio.id == "pcm_s16le")
-			{
-				bitrate += channelNum.value.intValue = 16 * channelNum.value.intValue * sampleRate.value.floatValue;
-			}
-			else if (exportInfo.audio.id == "pcm_s24le")
-			{
-				bitrate += channelNum.value.intValue = 24 * channelNum.value.intValue * sampleRate.value.floatValue;
-			}
-			else if (exportInfo.audio.id == "pcm_s32le")
-			{
-				bitrate += channelNum.value.intValue = 32 * channelNum.value.intValue * sampleRate.value.floatValue;
-			}
-			else if (exportInfo.audio.options.find("b") != exportInfo.audio.options.end())
-			{
-				bitrate += atoi(exportInfo.audio.options["b"].c_str());
-			}
-		}
 	}
 
 	outputSettingsRecP->outUseMaximumRenderPrecision = kPrTrue;
-	outputSettingsRecP->outBitratePerSecond = hasData ? bitrate / 1000 : 0;
+	outputSettingsRecP->outBitratePerSecond = 0;
 
 	return malNoError;
 }

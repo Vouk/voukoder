@@ -183,7 +183,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
         {
           "id": "level",
           "parameter": "level",
@@ -265,13 +271,7 @@
               }
             ]
           }
-        }
-      ]
-    },
-    {
-      "class": "advanced",
-      "id": "advanced",
-      "properties": [
+        },
         {
           "id": "la_depth",
           "parameter": "la_depth",
