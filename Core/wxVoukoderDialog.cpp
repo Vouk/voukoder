@@ -34,7 +34,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 
 void wxVoukoderDialog::InitGUI()
 {
-	minLabelWidth = wxDLG_UNIT(this, wxSize(60, -1));
+	minLabelWidth = wxDLG_UNIT(this, wxSize(56, -1));
 
 	// Translate boolean options
 	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));

@@ -288,6 +288,7 @@
         {
           "id": "preset",
           "parameter": "preset",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 3,
@@ -319,10 +320,14 @@
         {
           "id": "profile",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 1,
+            "selectedIndex": 0,
             "items": [
+              {
+                "value": "unknown"
+              },
               {
                 "value": "baseline"
               },

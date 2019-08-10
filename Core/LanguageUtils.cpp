@@ -99,7 +99,9 @@ const wxString LanguageUtils::Translate(wxString key, const wxString sub)
 		key += "._" + sub;
 
 	wxString val = __translations.find(key) != __translations.end() ? __translations.at(key) : key;
-	val.Replace("*", "");
+
+	if (val.StartsWith("*"))
+		val = val.AfterFirst('*');
 
 	return val;
 }
