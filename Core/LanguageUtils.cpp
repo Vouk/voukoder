@@ -96,9 +96,10 @@ void LanguageUtils::StoreLanguageId(LANGID langId)
 const wxString LanguageUtils::Translate(wxString key, const wxString sub)
 {
 	if (sub.length() > 0)
-	{
 		key += "._" + sub;
-	}
 
-	return __translations.find(key) != __translations.end() ? __translations.at(key) : key;
+	wxString val = __translations.find(key) != __translations.end() ? __translations.at(key) : key;
+	val.Replace("*", "");
+
+	return val;
 }
