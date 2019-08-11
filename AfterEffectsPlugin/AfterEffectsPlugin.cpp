@@ -313,7 +313,6 @@ static A_Err My_UserOptionsDialog(AEIO_BasicData *basic_dataP, AEIO_OutSpecH out
 	exportInfo.video.sideData.Deserialize(arbData->videoSideData);
 	exportInfo.audio.sideData.Deserialize(arbData->audioSideData);
 
-
 	// Show voukoder dialog
 	int result = ShowVoukoderDialog(exportInfo);
 
@@ -451,6 +450,8 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	// ### Video settings ###
 	exportInfo.video.id = arbData->videoCodecId;
 	exportInfo.video.options.Deserialize(arbData->videoCodecOptions);
+	exportInfo.video.sideData.Deserialize(arbData->videoSideData);
+	exportInfo.video.filters.Deserialize(arbData->videoFilters);
 
 	// Video dimensions
 	A_long widthL = 0, heightL = 0;
@@ -504,6 +505,8 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	// ### Audio settings ###
 	exportInfo.audio.id = arbData->audioCodecId;
 	exportInfo.audio.options.Deserialize(arbData->audioCodecOptions);
+	exportInfo.audio.sideData.Deserialize(arbData->audioSideData);
+	exportInfo.audio.filters.Deserialize(arbData->audioFilters);
 
 	// Get audio timebase
 	A_FpLong soundRateF = 0.0;

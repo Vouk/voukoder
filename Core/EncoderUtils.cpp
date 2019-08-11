@@ -108,9 +108,7 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 	// Is this a codec?
 	AVCodec *codec = avcodec_find_encoder_by_name(codecId);
 	if (codec != NULL)
-	{
 		return codec->type;
-	}
 
 	// Is it a filter?
 	const AVFilter *filter = avfilter_get_by_name(codecId.After('.'));
@@ -119,6 +117,10 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 		if (avfilter_pad_count(filter->outputs) > 0)
 			return avfilter_pad_get_type(filter->outputs, 0);
 	}
+
+	// Workaround
+	if (codecId == "filter.zscale")
+		return AVMEDIA_TYPE_VIDEO;
 
 	return AVMEDIA_TYPE_UNKNOWN;
 }
