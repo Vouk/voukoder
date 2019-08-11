@@ -709,13 +709,14 @@ static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 
 	// Package the frames
 	A_u_long idx = 0;
-	while (idx < num_samplesLu)
+	while (idx < num_samplesLu && err == A_Err_NONE)
 	{
-		frame->nb_samples = FFMIN(num_samplesLu - idx, encoderEngine->getAudioFrameSize());
+		// Fill frame with data
+		frame->nb_samples = FFMIN(num_samplesLu - idx, (A_u_long)encoderEngine->getAudioFrameSize());
 		frame->data[0] = ((uint8_t*)dataPV) + idx * sampleSize * channels;
 		frame->pts = audioPts;
-		audioPts += frame->nb_samples;
 
+		audioPts += frame->nb_samples;
 		idx += frame->nb_samples;
 
 		// Encode & write video frame
