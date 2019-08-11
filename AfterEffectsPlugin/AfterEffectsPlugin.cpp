@@ -25,6 +25,7 @@ static EncoderEngine* encoderEngine;
 static std::chrono::time_point<std::chrono::steady_clock> tp_exportStart;
 static std::chrono::time_point<std::chrono::steady_clock> tp_framePrev;
 static int frame_count;
+static int64_t audioPts;
 
 class actctx_activator
 {
@@ -92,7 +93,7 @@ static A_Err AEIO_ConstructModuleInfo(AEIO_ModuleInfo *info)
 		info->flags = AEIO_MFlag_OUTPUT |
 			AEIO_MFlag_FILE |
 			AEIO_MFlag_VIDEO |
-			//AEIO_MFlag_AUDIO |
+			AEIO_MFlag_AUDIO |
 			AEIO_MFlag_NO_TIME;
 
 		info->create_kind.type = 'VKDR';
@@ -110,7 +111,7 @@ static A_Err AEIO_ConstructModuleInfo(AEIO_ModuleInfo *info)
 		{
 			// Add extension
 			info->read_kinds[i + 1].ext.pad = '.';
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < muxerInfos[i].extension.Length(); j++)
 				info->read_kinds[i + 1].ext.extension[j] = muxerInfos[i].extension.at(j);
 
 			// Set default extension
@@ -557,6 +558,8 @@ static A_Err My_StartAdding(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, A_l
 	tp_framePrev = tp_exportStart = std::chrono::high_resolution_clock::now();
 	frame_count = 0;
 
+	audioPts = 0;
+
 	return err;
 }
 
@@ -657,49 +660,70 @@ static A_Err My_AddSoundChunk(AEIO_BasicData *basic_dataP, AEIO_OutSpecH outH, c
 
 	AEGP_SuiteHandler suites(basic_dataP->pica_basicP);
 
-	// Create a frame with argb data
+	// Create a frame
 	AVFrame* frame = av_frame_alloc();
-	frame->nb_samples = num_samplesLu;
-	frame->data[0] = (uint8_t*)dataPV;
-	frame->pts = 0;
 
-	//
+	// Get sample rate
 	A_FpLong soundRateF = 0.0;
 	ERR(suites.IOOutSuite4()->AEGP_GetOutSpecSoundRate(outH, &soundRateF));
 	frame->sample_rate = (int)soundRateF;
 
-	//
+	// Get channels
 	AEIO_SndChannels channels;
 	suites.IOOutSuite4()->AEGP_GetOutSpecSoundChannels(outH, &channels);
 	frame->channels = channels;
 	frame->channel_layout = av_get_default_channel_layout(channels);
 
-	//
-	AEIO_SndSampleSize sampleSize = 0;
-	suites.IOOutSuite4()->AEGP_GetOutSpecSoundSampleSize(outH, &sampleSize);
-
 	// Get data encoding
 	AEIO_SndEncoding encoding;
 	suites.IOOutSuite4()->AEGP_GetOutSpecSoundEncoding(outH, &encoding);
 
+	// Get sample size
+	AEIO_SndSampleSize sampleSize = 0;
+	suites.IOOutSuite4()->AEGP_GetOutSpecSoundSampleSize(outH, &sampleSize);
+
+	// Map sample format
 	if (encoding == AEIO_E_UNSIGNED_PCM)
 	{
-		frame->format = AV_SAMPLE_FMT_U8P;
+		if (sampleSize == AEIO_SS_1)
+			frame->format = AV_SAMPLE_FMT_U8;
+		else 
+			return A_Err_PARAMETER; // Sample size not supported
 	}
 	else if (encoding == AEIO_E_SIGNED_PCM)
 	{
-		frame->format = AV_SAMPLE_FMT_S16;
+		if (sampleSize == AEIO_SS_1)
+			return A_Err_PARAMETER; // Sample size not supported
+		else if (sampleSize == AEIO_SS_2)
+			frame->format = AV_SAMPLE_FMT_S16;
+		else if (sampleSize == AEIO_SS_4)
+			frame->format = AV_SAMPLE_FMT_S32;
 	}
 	else if (encoding == AEIO_E_SIGNED_FLOAT)
 	{
-		frame->format = AV_SAMPLE_FMT_FLTP;
+		if (sampleSize == AEIO_SS_4)
+			frame->format = AV_SAMPLE_FMT_FLT;
+		else
+			return A_Err_PARAMETER; // Sample size not supported
 	}
-	   
-	// Encode & write video frame
-	if (encoderEngine->writeAudioFrame(frame) < 0)
+
+	// Package the frames
+	A_u_long idx = 0;
+	while (idx < num_samplesLu)
 	{
-		vkLogErrorVA("Unable to write audio frame #%lld.", frame->pts);
-		err = A_Err_GENERIC;
+		frame->nb_samples = FFMIN(num_samplesLu - idx, encoderEngine->getAudioFrameSize());
+		frame->data[0] = ((uint8_t*)dataPV) + idx * sampleSize * channels;
+		frame->pts = audioPts;
+		audioPts += frame->nb_samples;
+
+		idx += frame->nb_samples;
+
+		// Encode & write video frame
+		if (encoderEngine->writeAudioFrame(frame) < 0)
+		{
+			vkLogErrorVA("Unable to write audio frame #%lld.", frame->pts);
+			err = A_Err_GENERIC;
+		}
 	}
 
 	// Free the frame from memory again
