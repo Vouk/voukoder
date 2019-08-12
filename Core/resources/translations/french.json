@@ -1987,6 +1987,11 @@
     "pcm.standard.sampleFormat._item_1": "PCM 24 bits",
     "pcm.standard.sampleFormat._item_2": "PCM 32 bits",
 
+    "h264_qsv.basic": "*Basic",
+    "h264_qsv.basic.pixelFormat._label": "*Pixel format",
+    "h264_qsv.basic.pixelFormat._description": "*Pixel format",
+    "h264_qsv.basic.pixelFormat._item_0": "*YUV 4:2:0",
+    "h264_qsv.basic.pixelFormat._item_1": "*YUV 4:2:0 (10 bit)",
     "h264_qsv.standard": "*Standard",
     "h264_qsv.standard.strategy._label": "*Strategy",
     "h264_qsv.standard.strategy._description": "*The rate control method.",
@@ -2080,6 +2085,11 @@
     "h264_qsv.advanced.repeat_pps._label": "*Repeat pps",
     "h264_qsv.advanced.repeat_pps._description": "*repeat pps for every frame",
 
+    "hevc_qsv.basic": "*Basic",
+    "hevc_qsv.basic.pixelFormat._label": "*Pixel format",
+    "hevc_qsv.basic.pixelFormat._description": "*Pixel format",
+    "hevc_qsv.basic.pixelFormat._item_0": "*YUV 4:2:0",
+    "hevc_qsv.basic.pixelFormat._item_1": "*YUV 4:2:0 (10 bit)",
     "hevc_qsv.standard": "*Standard",
     "hevc_qsv.standard.strategy._label": "*Strategy",
     "hevc_qsv.standard.strategy._description": "*The rate control method.",
@@ -2143,6 +2153,8 @@
     "hevc_qsv.advanced.idr_interval._description": "*Distance (in I-frames) between IDR frames",
     "hevc_qsv.advanced.gpb._label": "*GPB",
     "hevc_qsv.advanced.gpb._description": "*1: GPB (generalized P/B frame); 0: regular P frame (default 1)",
+    "hevc_qsv.advanced.gpb._item_0": "*Regular P frame",
+    "hevc_qsv.advanced.gpb._item_1": "*GPB (generalized P/B frame)",
 
     "mpeg2_qsv.standard": "*Standard",
     "mpeg2_qsv.standard.bitrate._label": "*Bitrate [kbit]",

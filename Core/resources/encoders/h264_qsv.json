@@ -2,10 +2,31 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "h264_qsv",
   "name": "H.264 (Intel QSV)",
-  "defaults": {
-    "_pixelFormat": "nv12"
-  },
+  "defaults": {},
   "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "nv12"
+              },
+              {
+                "value": "p010le"
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "standard",
       "class": "standard",
@@ -421,12 +442,12 @@
           }
         },
         {
+          "id": "bitrate_limit",
+          "parameter": "bitrate_limit",
           "control": {
             "type": "boolean",
             "value": true
-          },
-          "id": "bitrate_limit",
-          "parameter": "bitrate_limit"
+          }
         },
         {
           "id": "mbbrc",
