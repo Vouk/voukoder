@@ -132,15 +132,15 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 	AVCodec *codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
 	{
-		AVCodecContext *codecContext = avcodec_alloc_context3(codec);
+		AVCodecContext* codecContext = avcodec_alloc_context3(codec);
 		if (codecContext != NULL)
 		{
 			codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
 			if (codec->type == AVMEDIA_TYPE_VIDEO)
 			{
-				codecContext->width = 160;
-				codecContext->height = 100;
+				codecContext->width = 320;
+				codecContext->height = 240;
 				codecContext->time_base = { 1, 25 };
 				codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
 			}
@@ -150,9 +150,8 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				codecContext->channels = 2;
 				codecContext->sample_rate = 48000;
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-				//codecContext->bit_rate = 0;
 			}
-
+			
 			// Open the codec
 			ret = (avcodec_open2(codecContext, codec, NULL) == 0);
 
