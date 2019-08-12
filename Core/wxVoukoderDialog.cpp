@@ -81,7 +81,7 @@ void wxVoukoderDialog::InitGUI()
 
 	// Update panel
 	wxWindow* updatePanel = CreateUpdatePanel(m_Categories);
-	if (updatePanel)
+	if (updatePanel != NULL)
 	{
 		m_Categories->AddPage(updatePanel, Trans("ui.encoderconfig.update"), false);
 		m_Categories->SetPageImage(imageIdx++, 6);
@@ -410,6 +410,10 @@ wxPanel* wxVoukoderDialog::CreateUpdatePanel(wxWindow* parent)
 {
 	// Check for update
 	PluginUpdate update = Voukoder::Config::Get().update;
+	if (!update.isUpdateAvailable)
+	{
+		return NULL;
+	}
 
 	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);
