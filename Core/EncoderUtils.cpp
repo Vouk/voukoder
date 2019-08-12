@@ -139,8 +139,8 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 
 			if (codec->type == AVMEDIA_TYPE_VIDEO)
 			{
-				codecContext->width = 1920;
-				codecContext->height = 1080;
+				codecContext->width = 160;
+				codecContext->height = 100;
 				codecContext->time_base = { 1, 25 };
 				codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
 			}

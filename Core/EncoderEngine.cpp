@@ -530,7 +530,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 		wxString filterconfig;
 
 		// Convert color space or range?
-		if (frame->format != AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
+		if (frame->format != (int)AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
 			videoContext.codecContext->colorspace != frame->colorspace ||
 			videoContext.codecContext->color_primaries != frame->color_primaries ||
 			videoContext.codecContext->color_trc != frame->color_trc))
@@ -562,7 +562,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 		}
 
 		// Convert pixel format
-		if (frame->format != videoContext.codecContext->pix_fmt)
+		if (frame->format != (int)videoContext.codecContext->pix_fmt)
 		{
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
 		}
@@ -607,7 +607,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		
 		// Convert sample format
 		if (audioContext.codecContext->channels != frame->channels ||
-			audioContext.codecContext->sample_fmt != frame->format ||
+			(int)audioContext.codecContext->sample_fmt != frame->format ||
 			audioContext.codecContext->sample_rate != frame->sample_rate)
 		{
 			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
