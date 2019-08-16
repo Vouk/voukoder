@@ -4,7 +4,7 @@
   "name": "Raw",
   "extension": "hevc",
   "encoders": {
-    "video": [ "hevc_amf", "hevc_nvenc", "libx265", "hevc_qsv" ],
+    "video": [ "hevc_amf", "hevc_nvenc", "libx265", "hevc_qsv", "libsvt_hevc" ],
     "audio": []
   },
   "capabilities": {
