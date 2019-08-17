@@ -1099,6 +1099,9 @@
     <None Include="resources\encoders\libsvt_av1.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\encoders\libsvt_hevc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

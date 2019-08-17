@@ -4,7 +4,7 @@
   "name": "Raw",
   "extension": "ts",
   "encoders": {
-    "video": [ "mpeg2video", "mpeg2_qsv" ],
+    "video": [ "mpeg2video", "mpeg2_qsv", "libsvt_hevc" ],
     "audio": []
   },
   "capabilities": {
