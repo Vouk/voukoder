@@ -480,7 +480,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 					}
 
 					// Reset audio renderer
-					if (audioRenderer)
+					if (exportInfo.audio.enabled)
 						audioRenderer->Reset();
 				}
 
@@ -497,33 +497,37 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 				wxString audioLog;
 
-				if (audioRenderer)
+				if (exportInfo.audio.enabled)
 				{
-					// Does the muxer want more audio frames?
-					while ((av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer->GetPts(), exportInfo.audio.timebase) > 0))
+					//When using 2pass avoid that audio is encoded twice
+					if (exportInfo.passes == 1 || encoder.pass == 2) 
 					{
-						auto tp_render = std::chrono::high_resolution_clock::now();
-
-						// Abort loop if no samles are left
-						if (audioRenderer->GetNextFrame(*aFrame) == 0)
+						// Does the muxer want more audio frames?
+						while ((av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer->GetPts(), exportInfo.audio.timebase) > 0))
 						{
-							vkLogInfo("Aborting audio renderer loop: No audio samples left!.");
-							break;
+							auto tp_render = std::chrono::high_resolution_clock::now();
+
+							// Abort loop if no samles are left
+							if (audioRenderer->GetNextFrame(*aFrame) == 0)
+							{
+								vkLogInfo("Aborting audio renderer loop: No audio samples left!.");
+								break;
+							}
+
+							auto tp_encode = std::chrono::high_resolution_clock::now();
+
+							// Write the audio frames
+							if ((res = encoder.writeAudioFrame(aFrame)) < 0)
+							{
+								gui->ReportMessage(wxString::Format("Failed writing audio frame #%lld. (Error code: %d)", aFrame->pts, res));
+								return false;
+							}
+
+							// Audio performance
+							audioLog = wxString::Format(", aRender: %d us, aEncoding: %d us",
+								(int)((tp_encode - tp_render) / std::chrono::microseconds(1)),
+								(int)((std::chrono::high_resolution_clock::now() - tp_encode) / std::chrono::microseconds(1)));
 						}
-
-						auto tp_encode = std::chrono::high_resolution_clock::now();
-
-						// Write the audio frames
-						if ((res = encoder.writeAudioFrame(aFrame)) < 0)
-						{
-							gui->ReportMessage(wxString::Format("Failed writing audio frame #%lld. (Error code: %d)", aFrame->pts, res));
-							return false;
-						}
-
-						// Audio performance
-						audioLog = wxString::Format(", aRender: %d us, aEncoding: %d us",
-							(int)((tp_encode - tp_render) / std::chrono::microseconds(1)),
-							(int)((std::chrono::high_resolution_clock::now() - tp_encode) / std::chrono::microseconds(1)));
 					}
 				}
 
@@ -554,7 +558,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 			msEncode / 1000,
 			frames * 1000 / msEncode);
 	}
-	else if (audioRenderer)
+	else if (exportInfo.audio.enabled)
 	{
 		// Export all audio only
 		while (audioRenderer->GetNextFrame(*aFrame) > 0)
