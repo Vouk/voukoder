@@ -480,7 +480,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 					}
 
 					// Reset audio renderer
-					if (exportInfo.audio.enabled)
+					if (audioRenderer)
 						audioRenderer->Reset();
 				}
 
@@ -497,7 +497,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 				wxString audioLog;
 
-				if (exportInfo.audio.enabled)
+				if (audioRenderer)
 				{
 					//When using 2pass avoid that audio is encoded twice
 					if (exportInfo.passes == 1 || encoder.pass == 2) 
@@ -558,7 +558,7 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 			msEncode / 1000,
 			frames * 1000 / msEncode);
 	}
-	else if (exportInfo.audio.enabled)
+	else if (audioRenderer)
 	{
 		// Export all audio only
 		while (audioRenderer->GetNextFrame(*aFrame) > 0)
