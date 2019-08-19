@@ -390,39 +390,47 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 	// Get additional export info
 	gui->GetExportInfo(exportInfo);
 
-	// Log video settings
 	vkLogSep();
 	vkLogInfo("Export started");
 	vkLogSep();
-	vkLogInfoVA("Frame size:      %dx%d", exportInfo.video.width, exportInfo.video.height);
-	vkLogInfoVA("Pixel aspect:    %d:%d", exportInfo.video.sampleAspectRatio.num, exportInfo.video.sampleAspectRatio.den);
-	vkLogInfoVA("Frame rate:      %.2f", (float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num);
 
-	// Log field order
-	switch (exportInfo.video.fieldOrder)
+	// Log video settings
+	if (exportInfo.video.enabled)
 	{
-	case AV_FIELD_PROGRESSIVE:
-		vkLogInfo("Interlaced:      No");
-		break;
-	case AV_FIELD_BB:
-	case AV_FIELD_BT:
-		vkLogInfo("Interlaced:      Bottom first");
-		break;
-	case AV_FIELD_TT:
-	case AV_FIELD_TB:
-		vkLogInfo("Interlaced:      Top first");
-		break;
+		vkLogInfoVA("Frame size:      %dx%d", exportInfo.video.width, exportInfo.video.height);
+		vkLogInfoVA("Pixel aspect:    %d:%d", exportInfo.video.sampleAspectRatio.num, exportInfo.video.sampleAspectRatio.den);
+		vkLogInfoVA("Frame rate:      %.2f", (float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num);
+
+		// Log field order
+		switch (exportInfo.video.fieldOrder)
+		{
+		case AV_FIELD_PROGRESSIVE:
+			vkLogInfo("Interlaced:      No");
+			break;
+		case AV_FIELD_BB:
+		case AV_FIELD_BT:
+			vkLogInfo("Interlaced:      Bottom first");
+			break;
+		case AV_FIELD_TT:
+		case AV_FIELD_TB:
+			vkLogInfo("Interlaced:      Top first");
+			break;
+		}
+
+		// Log color settings
+		vkLogInfoVA("Color range:     %s", av_color_range_name(exportInfo.video.colorRange));
+		vkLogInfoVA("Color space:     %s", av_color_space_name(exportInfo.video.colorSpace));
+		vkLogInfoVA("Color primaries: %s", av_color_primaries_name(exportInfo.video.colorPrimaries));
+		vkLogInfoVA("Color TRC:       %s", av_color_transfer_name(exportInfo.video.colorTransferCharacteristics));
 	}
 
-	// Log color settings
-	vkLogInfoVA("Color range:     %s", av_color_range_name(exportInfo.video.colorRange));
-	vkLogInfoVA("Color space:     %s", av_color_space_name(exportInfo.video.colorSpace));
-	vkLogInfoVA("Color primaries: %s", av_color_primaries_name(exportInfo.video.colorPrimaries));
-	vkLogInfoVA("Color TRC:       %s", av_color_transfer_name(exportInfo.video.colorTransferCharacteristics));
-
 	// Log audio settings
-	vkLogInfoVA("Sample rate:     %d", exportInfo.audio.timebase.den / exportInfo.audio.timebase.num);
-	vkLogInfoVA("Audio channels:  %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
+	if (exportInfo.audio.enabled)
+	{
+		vkLogInfoVA("Sample rate:     %d", exportInfo.audio.timebase.den / exportInfo.audio.timebase.num);
+		vkLogInfoVA("Audio channels:  %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
+	}
+
 	vkLogSep();
 
 	// Create encoder instance

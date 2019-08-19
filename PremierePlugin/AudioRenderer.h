@@ -12,7 +12,6 @@ public:
 	AudioRenderer(const csSDK_uint32 pluginId, const PrTime startTime, const PrTime endTime, csSDK_uint32 chunkSize, ExportInfo exportInfo, PrSuites *suites);
 	~AudioRenderer();
 	int GetNextFrame(AVFrame &frame);
-	void Reset();
 	PrTime GetPts();
 
 private:

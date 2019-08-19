@@ -35,12 +35,6 @@ AudioRenderer::~AudioRenderer()
 	suites->sequenceAudioSuite->ReleaseAudioRenderer(pluginId, rendererId);
 }
 
-void AudioRenderer::Reset()
-{
-	suites->sequenceAudioSuite->ResetAudioToBeginning(rendererId);
-	pts = 0;
-}
-
 int AudioRenderer::GetNextFrame(AVFrame &frame)
 {
 	// Create frame buffer
