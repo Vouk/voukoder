@@ -563,14 +563,14 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 			}
 		}
 
+		// Add users filter config
+		filterconfig << exportInfo.video.filters.AsFilterString();
+
 		// Convert pixel format
 		if (frame->format != (int)videoContext.codecContext->pix_fmt)
 		{
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
 		}
-
-		// Add users filter config
-		filterconfig << exportInfo.video.filters.AsFilterString();
 
 		// Create filter
 		if (filterconfig.size() > 0)
