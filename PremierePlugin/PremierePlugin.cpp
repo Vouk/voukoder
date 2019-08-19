@@ -376,16 +376,16 @@ const wxString CPremierePluginApp::GetFilename(csSDK_uint32 fileObject)
 
 prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 {
-	// This should normally not happen (blocked by the UI)
-	if (exportRecP->exportVideo == kPrFalse && exportRecP->exportAudio == kPrFalse)
-		return gui->ReportMessage("Neither video or audio was selected to export.");
-
 	// Create encoderinfo
 	ExportInfo exportInfo;
 	exportInfo.video.enabled = exportRecP->exportVideo == kPrTrue;
 	exportInfo.audio.enabled = exportRecP->exportAudio == kPrTrue;
 	exportInfo.filename = GetFilename(exportRecP->fileObject);
 	exportInfo.application = VKDR_APPNAME;
+
+	// This should normally not happen (blocked by the UI)
+	if (!exportInfo.video.enabled && !exportInfo.audio.enabled)
+		return gui->ReportMessage("Neither video or audio was selected to export.");
 
 	// Get additional export info
 	gui->GetExportInfo(exportInfo);
@@ -445,19 +445,17 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 	prMALError prError = malNoError;
 
-	// Create audio renderer
-	AudioRenderer* audioRenderer = NULL;
-	if (exportInfo.audio.enabled)
-		audioRenderer = new AudioRenderer(pluginId, exportRecP->startTime, exportRecP->endTime, encoder.getAudioFrameSize(), exportInfo, &suites);
-
-	if (exportInfo.video.enabled)
+	// Export video?
+	if (encoder.hasVideo())
 	{
-		bool renderWithMaxDepth = false;
-		auto tp_exportStart = std::chrono::high_resolution_clock::now();
+		AudioRenderer* audioRenderer = NULL;
+
 		int frames;
 
+		auto tp_exportStart = std::chrono::high_resolution_clock::now();
+
 		// Create video renderer
-		VideoRenderer videoRenderer(pluginId, exportInfo.video.width, exportInfo.video.height, renderWithMaxDepth, &suites, [&](AVFrame * vFrame, int pass, int usRender, int usProcess)
+		VideoRenderer videoRenderer(pluginId, exportInfo.video.width, exportInfo.video.height, false, &suites, [&](AVFrame * vFrame, int pass, int usRender, int usProcess)
 			{
 				frames = vFrame->pts;
 
@@ -475,14 +473,13 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 					if (encoder.open() < 0)
 					{
 						gui->ReportMessage(wxString::Format("Unable to start pass #%d", encoder.pass));
-
 						return false;
 					}
-
-					// Reset audio renderer
-					if (audioRenderer)
-						audioRenderer->Reset();
 				}
+
+				// Do we need to create the audio renderer?
+				if (encoder.hasAudio() && !audioRenderer)
+					audioRenderer = new AudioRenderer(pluginId, exportRecP->startTime, exportRecP->endTime, encoder.getAudioFrameSize(), exportInfo, &suites);
 
 				auto tp_encStart = std::chrono::high_resolution_clock::now();
 
@@ -497,34 +494,32 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 
 				wxString audioLog;
 
-				if (audioRenderer)
+				// Does the muxer want more audio frames?
+				while (encoder.hasAudio() &&
+					(av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer->GetPts(), exportInfo.audio.timebase) > 0))
 				{
-					// Does the muxer want more audio frames?
-					while ((av_compare_ts(vFrame->pts, exportInfo.video.timebase, audioRenderer->GetPts(), exportInfo.audio.timebase) > 0))
+					auto tp_render = std::chrono::high_resolution_clock::now();
+
+					// Abort loop if no samles are left
+					if (audioRenderer->GetNextFrame(*aFrame) == 0)
 					{
-						auto tp_render = std::chrono::high_resolution_clock::now();
-
-						// Abort loop if no samles are left
-						if (audioRenderer->GetNextFrame(*aFrame) == 0)
-						{
-							vkLogInfo("Aborting audio renderer loop: No audio samples left!.");
-							break;
-						}
-
-						auto tp_encode = std::chrono::high_resolution_clock::now();
-
-						// Write the audio frames
-						if ((res = encoder.writeAudioFrame(aFrame)) < 0)
-						{
-							gui->ReportMessage(wxString::Format("Failed writing audio frame #%lld. (Error code: %d)", aFrame->pts, res));
-							return false;
-						}
-
-						// Audio performance
-						audioLog = wxString::Format(", aRender: %d us, aEncoding: %d us",
-							(int)((tp_encode - tp_render) / std::chrono::microseconds(1)),
-							(int)((std::chrono::high_resolution_clock::now() - tp_encode) / std::chrono::microseconds(1)));
+						vkLogInfo("Aborting audio renderer loop: No audio samples left!");
+						break;
 					}
+
+					auto tp_encode = std::chrono::high_resolution_clock::now();
+
+					// Write the audio frames
+					if ((res = encoder.writeAudioFrame(aFrame)) < 0)
+					{
+						gui->ReportMessage(wxString::Format("Failed writing audio frame #%lld. (Error code: %d)", aFrame->pts, res));
+						return false;
+					}
+
+					// Audio performance
+					audioLog = wxString::Format(", aRender: %d us, aEncoding: %d us",
+						(int)((tp_encode - tp_render) / std::chrono::microseconds(1)),
+						(int)((std::chrono::high_resolution_clock::now() - tp_encode) / std::chrono::microseconds(1)));
 				}
 
 				// Write performance log
@@ -553,11 +548,18 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 			frames,
 			msEncode / 1000,
 			frames * 1000 / msEncode);
+
+		// Delete audio renderer instance
+		if (audioRenderer)
+			delete(audioRenderer);
 	}
-	else if (audioRenderer)
+	else if (encoder.hasAudio())
 	{
+		// Create audio renderer
+		AudioRenderer renderer = AudioRenderer(pluginId, exportRecP->startTime, exportRecP->endTime, encoder.getAudioFrameSize(), exportInfo, &suites);
+
 		// Export all audio only
-		while (audioRenderer->GetNextFrame(*aFrame) > 0)
+		while (renderer.GetNextFrame(*aFrame) > 0)
 		{
 			if ((res = encoder.writeAudioFrame(aFrame)) < 0)
 			{
@@ -580,10 +582,6 @@ prMALError CPremierePluginApp::StartExport(exDoExportRec * exportRecP)
 	vkLogSep();
 
 	av_frame_free(&aFrame);
-
-	// Delete audio renderer instance
-	if (audioRenderer)
-		delete(audioRenderer);
 
 	return prError;
 }

@@ -17,6 +17,8 @@ public:
 	void close();
 	void finalize();
 	void flushContext(EncoderContext *encoderContext);
+	bool hasVideo();
+	bool hasAudio();
 	int writeVideoFrame(AVFrame *frame);
 	int writeAudioFrame(AVFrame *frame);
 	int getAudioFrameSize();

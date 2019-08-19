@@ -59,7 +59,7 @@ int EncoderEngine::open()
 	}
 
 	// Try to open the audio encoder (if wanted)
-	if (exportInfo.audio.enabled)
+	if (exportInfo.audio.enabled && (exportInfo.passes == 1 || exportInfo.passes == pass))
 	{
 		if ((ret = openCodec(exportInfo.audio.id.ToStdString(), exportInfo.audio.options.Serialize().ToStdString(), &audioContext, 0)) < 0)
 		{
@@ -437,15 +437,11 @@ void EncoderEngine::finalize()
 {
 	vkLogInfo("Flushing encoders and finalizing ...");
 
-	if (exportInfo.video.enabled)
-	{
+	if (videoContext.codecContext)
 		flushContext(&videoContext);
-	}
 
-	if (exportInfo.audio.enabled)
-	{
+	if (audioContext.codecContext)
 		flushContext(&audioContext);
-	}
 
 	vkLogInfo("Video and audio buffers flushed.");
 
@@ -459,7 +455,7 @@ void EncoderEngine::finalize()
 	vkLogInfo("Trailer has been written.");
 
 	// Save stats data from first pass
-	if (exportInfo.video.enabled && exportInfo.video.id != "libx264")
+	if (videoContext.codecContext && exportInfo.video.id != "libx264")
 	{
 		AVCodecContext* codec = videoContext.codecContext;
 		if (codec->flags & AV_CODEC_FLAG_PASS1 && codec->stats_out)
@@ -480,16 +476,12 @@ void EncoderEngine::close()
 	vkLogInfo("Closing encoders ...");
 
 	// Free video context
-	if (videoContext.codecContext != NULL)
-	{
+	if (videoContext.codecContext)
 		avcodec_free_context(&videoContext.codecContext);
-	}
 
 	// Free audio context
-	if (audioContext.codecContext != NULL)
-	{
+	if (audioContext.codecContext)
 		avcodec_free_context(&audioContext.codecContext);
-	}
 
 	avio_close(formatContext->pb);
 
@@ -520,6 +512,16 @@ void EncoderEngine::flushContext(EncoderContext *encoderContext)
 int EncoderEngine::getAudioFrameSize()
 {
 	return audioFrameSize;
+}
+
+bool EncoderEngine::hasVideo()
+{
+	return exportInfo.video.enabled && videoContext.codecContext;
+}
+
+bool EncoderEngine::hasAudio()
+{
+	return exportInfo.audio.enabled && audioContext.codecContext && (exportInfo.passes == 1 || pass == exportInfo.passes);
 }
 
 int EncoderEngine::writeVideoFrame(AVFrame *frame)
