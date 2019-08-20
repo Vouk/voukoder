@@ -760,58 +760,6 @@
           }
         },
         {
-          "id": "libx265.standard.level",
-          "parameter": "level",
-          "control": {
-            "items": [
-              {
-                "value": "1"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "2.1"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "3.1"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "4.1"
-              },
-              {
-                "value": "5"
-              },
-              {
-                "value": "5.1"
-              },
-              {
-                "value": "5.2"
-              },
-              {
-                "value": "6"
-              },
-              {
-                "value": "6.1"
-              },
-              {
-                "value": "6.2"
-              },
-              {
-                "value": "8.5"
-              }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          }
-        },
-        {
           "id": "libx265.standard.high-tier",
           "parameter": "high-tier",
           "control": {
@@ -968,6 +916,58 @@
       "id": "libx265.qualityratedistortionoptions",
       "class": "advanced",
       "properties": [
+        {
+          "id": "libx265.qualityratedistortionoptions.level",
+          "parameter": "level",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              },
+              {
+                "value": "8.5"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
         {
           "id": "libx265.qualityratedistortionoptions.crf-max",
           "parameter": "crf-max",

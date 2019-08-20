@@ -17,8 +17,6 @@
 #endif
 
 #define VKDR_APPNAME L"Voukoder R2"
-#define VKDR_REG_ROOT "Software\\Voukoder"
-#define VKDR_REG_LANGUAGE "Language"
 
 #define DefaultVideoEncoder "libx264"
 #define DefaultAudioEncoder "aac"

@@ -15,7 +15,7 @@ class wxOptionEditor : public wxPanel
 public:
 	OptionContainer results;
 	wxOptionEditor() : wxOptionEditor(NULL) {};
-	wxOptionEditor(wxWindow *parent, bool hasPreview = true);
+	wxOptionEditor(wxWindow *parent, bool hasPreview = true, bool hasAdvancedSwitch = true);
 	void Configure(EncoderInfo encoderInfo, OptionContainer options);
 
 protected:
@@ -28,12 +28,15 @@ private:
 	EncoderInfo encoderInfo;
 	OptionContainer options;
 	bool hasPreview = true;
+	bool hasAdvancedSwitch = true;
+	bool hasAdvancedOptions = false;
 	void ExecuteFilters(wxOptionProperty *optionProperty);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);
 	void OnLeftDown(wxMouseEvent& event);
 	void OnResetClick(wxCommandEvent& event);
 	void OnClearClick(wxCommandEvent& event);
+	void OnShowAdvancedOptions(wxCommandEvent& event);
 	void RefreshResults();
 	bool SendEvent(wxEventType eventType, wxPGProperty* p);
 

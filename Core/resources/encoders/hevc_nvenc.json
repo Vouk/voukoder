@@ -201,55 +201,6 @@
           }
         },
         {
-          "id": "hevc_nvenc.standard.level",
-          "parameter": "level",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "1"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "2.1"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "3.1"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "4.1"
-              },
-              {
-                "value": "5"
-              },
-              {
-                "value": "5.1"
-              },
-              {
-                "value": "5.2"
-              },
-              {
-                "value": "6"
-              },
-              {
-                "value": "6.1"
-              },
-              {
-                "value": "6.2"
-              }
-            ]
-          }
-        },
-        {
           "id": "hevc_nvenc.standard.tier",
           "parameter": "tier",
           "control": {
@@ -703,6 +654,55 @@
       "id": "hevc_nvenc.misc",
       "class": "advanced",
       "properties": [
+        {
+          "id": "hevc_nvenc.misc.level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ]
+          }
+        },
         {
           "id": "hevc_nvenc.misc.surfaces",
           "parameter": "surfaces",

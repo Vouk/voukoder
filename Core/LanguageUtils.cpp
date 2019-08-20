@@ -1,7 +1,6 @@
 #include "LanguageUtils.h"
-#include "Voukoder.h"
+#include "RegistryUtils.h"
 #include "Log.h"
-#include <wx/msw/registry.h>
 
 static std::map<wxString, wxString> __translations;
 
@@ -27,29 +26,14 @@ LANGID LanguageUtils::GetLanguageId(std::vector<LanguageInfo> languageInfos)
 	// Fallback to english in worst case
 	LANGID langId = 1033;
 
-#ifdef _WIN32
-
 	// If users UI language is supported use this as fallback
 	if (IsLanguageAvailable(languageInfos, GetUserDefaultUILanguage()))
-	{
 		langId = GetUserDefaultUILanguage();
-	}
 
 	// Does the user have stored a selection in the registry?
-	wxRegKey key(wxRegKey::HKCU, VKDR_REG_ROOT);
-	if (key.Exists() && key.HasValue(VKDR_REG_LANGUAGE))
-	{
-		long val;
-		key.QueryValue(VKDR_REG_LANGUAGE, &val);
-
-		if (IsLanguageAvailable(languageInfos, val))
-		{
-			langId = val;
-		}
-
-	}
-
-#endif
+	long val = RegistryUtils::GetValue(VKDR_REG_LANGUAGE, -1L);
+	if (IsLanguageAvailable(languageInfos, val))
+		langId = val;
 
 	return langId;
 }
@@ -61,9 +45,7 @@ void LanguageUtils::InitTranslation(std::vector<LanguageInfo> languageInfos)
 	for (auto& languageInfo : languageInfos)
 	{
 		if (languageInfo.langId == langId)
-		{
 			__translations.insert(languageInfo.translations.begin(), languageInfo.translations.end());
-		}
 	}
 }
 
@@ -80,17 +62,7 @@ bool LanguageUtils::IsLanguageAvailable(std::vector<LanguageInfo> languageInfos,
 
 void LanguageUtils::StoreLanguageId(LANGID langId)
 {
-#ifdef _WIN32
-
-	wxRegKey key(wxRegKey::HKCU, VKDR_REG_ROOT);
-	if (!key.Exists())
-	{
-		key.Create();
-	}
-
-	key.SetValue(VKDR_REG_LANGUAGE, (long)langId);
-
-#endif
+	RegistryUtils::SetValue(VKDR_REG_LANGUAGE, (long)langId);
 }
 
 const wxString LanguageUtils::Translate(wxString key, const wxString sub)

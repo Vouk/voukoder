@@ -3,6 +3,7 @@
 #include "OnChangeValueOptionFilter.h"
 #include "OnSelectionOptionFilter.h"
 #include "EncoderUtils.h"
+#include "RegistryUtils.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -11,9 +12,10 @@ wxIMPLEMENT_DYNAMIC_CLASS(wxOptionEditor, wxPanel);
 wxBEGIN_EVENT_TABLE(wxOptionEditor, wxControl)
 wxEND_EVENT_TABLE()
 
-wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview):
+wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvancedSwitch):
 	wxPanel(parent),
-	hasPreview(hasPreview)
+	hasPreview(hasPreview),
+	hasAdvancedSwitch(hasAdvancedSwitch)
 {
 	wxBoxSizer* bSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -45,6 +47,16 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview):
 	m_btnClear = new wxButton(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.buttonClear"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnClear->Bind(wxEVT_BUTTON, &wxOptionEditor::OnClearClick, this);
 	btnSizer2->Add(m_btnClear, 0, wxALL, 5);
+	if (hasAdvancedSwitch)
+	{
+		hasAdvancedOptions = RegistryUtils::GetValue(VKDR_REG_SHOW_ADVANCED_OPTIONS, false);
+
+		btnSizer2->Add(0, 0, 1, wxEXPAND, 5);
+		wxCheckBox* m_advCheck = new wxCheckBox(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.advanceCheck"), wxDefaultPosition, wxDefaultSize, 0);
+		m_advCheck->SetValue(hasAdvancedOptions);
+		m_advCheck->Bind(wxEVT_CHECKBOX, &wxOptionEditor::OnShowAdvancedOptions, this);
+		btnSizer2->Add(m_advCheck, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	}
 	m_btnPanel->SetSizer(btnSizer2);
 	m_btnPanel->Layout();
 	btnSizer2->Fit(m_btnPanel);
@@ -71,8 +83,6 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 	// Build all groups and properties
 	for (const EncoderGroupInfo &group : encoderInfo.groups)
 	{
-		wxPGProperty *category = m_propertyGrid->Append(new wxPropertyCategory(group.name));
-
 		// Set background color
 		if (group.groupClass == "basic")
 		{
@@ -82,10 +92,14 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 		{
 			bgColor = wxColour(VKDR_GRID_COLOR_STANDARD);
 		}
-		else
+		else if (!hasAdvancedSwitch || hasAdvancedOptions)
 		{
 			bgColor = wxColour(VKDR_GRID_COLOR_OTHER);
 		}
+		else
+			continue;
+
+		wxPGProperty *category = m_propertyGrid->Append(new wxPropertyCategory(group.name));
 
 		// Add all options to the group
 		for (const EncoderOptionInfo &optionInfo : group.options)
@@ -261,6 +275,15 @@ void wxOptionEditor::OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event)
 	}
 
 	RefreshResults();
+}
+
+void wxOptionEditor::OnShowAdvancedOptions(wxCommandEvent& event)
+{
+	hasAdvancedOptions = event.IsChecked();
+
+	RegistryUtils::SetValue(VKDR_REG_SHOW_ADVANCED_OPTIONS, hasAdvancedOptions);
+
+	Configure(encoderInfo, results);
 }
 
 void wxOptionEditor::RefreshResults()

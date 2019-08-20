@@ -31,7 +31,7 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 	// Side data
 	if (sideData.groups.size() > 0)
 	{
-		m_sideDataOptions = new wxOptionEditor(m_notebook, false);
+		m_sideDataOptions = new wxOptionEditor(m_notebook, false, false);
 		m_notebook->AddPage(m_sideDataOptions, Trans("ui.voukoder.configuration.sidedata"), false);
 
 		m_sideDataOptions->Configure(sideData, settings.sideData);

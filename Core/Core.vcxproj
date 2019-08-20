@@ -187,6 +187,7 @@
     <ClInclude Include="OptionFilterInfo.h" />
     <ClInclude Include="OptionValue.h" />
     <ClInclude Include="PluginUpdate.h" />
+    <ClInclude Include="RegistryUtils.h" />
     <ClInclude Include="ResourceInfo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />

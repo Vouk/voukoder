@@ -381,61 +381,6 @@
           }
         },
         {
-          "id": "libx264.standard.level",
-          "parameter": "level",
-          "control": {
-            "selectedIndex": 0,
-            "type": "combobox",
-            "items": [
-              {
-                "value": "1"
-              },
-              {
-                "value": "11"
-              },
-              {
-                "value": "12"
-              },
-              {
-                "value": "13"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "21"
-              },
-              {
-                "value": "22"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "31"
-              },
-              {
-                "value": "32"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "41"
-              },
-              {
-                "value": "42"
-              },
-              {
-                "value": "5"
-              },
-              {
-                "value": "51"
-              }
-            ]
-          }
-        },
-        {
           "id": "libx264.standard.strategy",
           "parameter": "rc",
           "control": {
@@ -1245,6 +1190,61 @@
       "id": "libx264.misc",
       "class": "advanced",
       "properties": [
+        {
+          "id": "libx264.misc.level",
+          "parameter": "level",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "31"
+              },
+              {
+                "value": "32"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "41"
+              },
+              {
+                "value": "42"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "51"
+              }
+            ]
+          }
+        },
         {
           "id": "libx264.misc.nal-hrd",
           "parameter": "nal-hrd",

@@ -62,55 +62,6 @@
           }
         },
         {
-          "id": "hevc_amf.standard.level",
-          "parameter": "level",
-          "control": {
-            "items": [
-              {
-                "value": "1.0"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "2.1"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "3.1"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "4.1"
-              },
-              {
-                "value": "5"
-              },
-              {
-                "value": "5.1"
-              },
-              {
-                "value": "5.2"
-              },
-              {
-                "value": "6"
-              },
-              {
-                "value": "6.1"
-              },
-              {
-                "value": "6.2"
-              }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          }
-        },
-        {
           "id": "hevc_amf.standard.quality",
           "parameter": "quality",
           "control": {
@@ -378,6 +329,55 @@
       "id": "hevc_amf.misc",
       "class": "advanced",
       "properties": [
+        {
+          "id": "hevc_amf.misc.level",
+          "parameter": "level",
+          "control": {
+            "items": [
+              {
+                "value": "1.0"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
         {
           "id": "hevc_amf.misc.header_insertion_mode",
           "parameter": "header_insertion_mode",
