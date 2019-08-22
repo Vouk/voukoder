@@ -7,6 +7,7 @@
 #include "Images.h"
 #include "Voukoder.h"
 #include "Log.h"
+#include "wx/notifmsg.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -110,8 +111,21 @@ void wxVoukoderDialog::InitGUI()
 	SetMinSize(wxDLG_UNIT(this, wxSize(256, 190)));
 
 	this->Centre(wxBOTH);
+
+	//ShowUpdateNotification();
 	   
 	SetConfiguration();
+}
+
+void wxVoukoderDialog::ShowUpdateNotification()
+{
+	auto notif = new wxNotificationMessage(VKDR_APPNAME, "Update available!", this);
+	notif->SetFlags(wxICON_INFORMATION);
+	notif->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, [=](wxCommandEvent&)
+		{
+			wxLaunchDefaultBrowser("", wxBROWSER_NEW_WINDOW);
+		});
+	notif->Show(7);
 }
 
 wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)

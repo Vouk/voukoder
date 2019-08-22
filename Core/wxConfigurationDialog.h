@@ -29,5 +29,6 @@ protected:
 private:
 	EncoderInfo info;
 	TrackSettings& settings;
+	void GenerateEncoderTabs(wxNotebook* notebook);
 	void OnOkayClick(wxCommandEvent& event);
 };

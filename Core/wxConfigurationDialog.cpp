@@ -2,6 +2,7 @@
 #include "LanguageUtils.h"
 #include "OnChangeValueOptionFilter.h"
 #include "OnSelectionOptionFilter.h"
+#include <wx/gbsizer.h>
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -17,6 +18,8 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 	wxNotebook* m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+	//GenerateEncoderTabs(m_notebook);
 
 	// Encoder config
 	if (encoderInfo.groups.size() > 0)
@@ -61,6 +64,62 @@ wxConfigurationDialog::wxConfigurationDialog(wxWindow* parent, EncoderInfo encod
 	this->SetSizer(bDialogLayout);
 	this->Layout();
 	this->Centre(wxBOTH);
+}
+
+void wxConfigurationDialog::GenerateEncoderTabs(wxNotebook* notebook)
+{
+	for (const EncoderGroupInfo &group : info.groups)
+	{
+		wxPanel* page = new wxPanel(notebook);
+		wxGridBagSizer* sizer = new wxGridBagSizer(0, 0);
+		page->SetSizer(sizer);
+
+		int row = 0;
+		for (const EncoderOptionInfo &optionInfo : group.options)
+		{
+			wxCheckBox* checkBox = new wxCheckBox(page, wxID_ANY, optionInfo.name);
+			sizer->Add(checkBox, wxGBPosition(row, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 0);
+
+			switch (optionInfo.control.type)
+			{
+			case EncoderOptionType::ComboBox:
+			{
+				wxArrayString items;
+				for (int i = 0; i < optionInfo.control.items.size(); i++)
+					items.Add(optionInfo.control.items[i].name);
+
+				wxChoice* choice = new wxChoice(page, wxID_ANY, wxDefaultPosition, wxDefaultSize, items);
+				choice->Select((long)optionInfo.control.selectedIndex);
+				sizer->Add(choice, wxGBPosition(row, 1), wxGBSpan(1, 3), wxALL, 0);
+				break;
+			}
+			case EncoderOptionType::Integer:
+			{
+				wxTextCtrl* m_textCtrl1 = new wxTextCtrl(page, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+				sizer->Add(m_textCtrl1, wxGBPosition(row, 1), wxGBSpan(1, 1), wxALL, 5);
+
+				wxSlider* slider1 = new wxSlider(page, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL);
+				sizer->Add(slider1, wxGBPosition(row, 2), wxGBSpan(1, 1), wxALL, 5);
+				break;
+			}
+			case EncoderOptionType::Float:
+				break;
+			case EncoderOptionType::Boolean:
+				break;
+			case EncoderOptionType::String:
+				break;
+
+
+			}
+
+			row++;
+		}
+
+		page->Layout();
+		sizer->Fit(page);
+
+		notebook->AddPage(page, group.name);
+	}
 }
 
 void wxConfigurationDialog::ApplyChanges()

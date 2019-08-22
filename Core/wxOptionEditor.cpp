@@ -69,6 +69,20 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 
 void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 {
+	// Deflate the param groups as single options
+	for (auto& option : options)
+	{
+		if (encoderInfo.paramGroups.find(option.first) != encoderInfo.paramGroups.end())
+		{
+			wxStringTokenizer tokenizer(option.second, ":");
+			while (tokenizer.HasMoreTokens())
+			{
+				wxString token = tokenizer.GetNextToken();
+				options[token.Before('=').ToStdString()] = token.After('=');
+			}
+		}
+	}
+
 	this->encoderInfo = encoderInfo;
 	this->options = options;
 

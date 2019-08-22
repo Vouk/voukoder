@@ -53,6 +53,7 @@ private:
 	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
 	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
+	void ShowUpdateNotification();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);
