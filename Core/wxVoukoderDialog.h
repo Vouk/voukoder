@@ -19,6 +19,7 @@
 #include "ExportInfo.h"
 #include "wxFilterPanel.h"
 #include "wxConfigurationDialog.h"
+#include "wxVoukoderTaskBarIcon.h"
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
@@ -32,19 +33,19 @@ protected:
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
+	wxVoukoderTaskBarIcon* m_voukoderTaskBarIcon = NULL;
 
 public:
 	wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo);
+	~wxVoukoderDialog();
 
 private:
 	ExportInfo& exportInfo;
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;
 	wxPanel* CreateGeneralPanel(wxWindow* parent);
-	wxPanel* CreateLogPanel(wxWindow* parent);
 	wxPanel* CreateSettingsPanel(wxWindow* parent);
 	wxPanel* CreateAboutPanel(wxWindow* parent);
-	wxPanel* CreateUpdatePanel(wxWindow* parent);
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
 	wxSize minLabelWidth;
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
@@ -53,7 +54,6 @@ private:
 	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
 	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
-	void ShowUpdateNotification();
 	void UpdateFormats();
 	void OnVideoEncoderChanged(wxCommandEvent& event);
 	void OnAudioEncoderChanged(wxCommandEvent& event);

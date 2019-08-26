@@ -1,5 +1,6 @@
 #pragma once
 
+#include <wx/wx.h>
 #include <wx/url.h>
 #include <wx/sstream.h>
 #include <wx/protocol/http.h>

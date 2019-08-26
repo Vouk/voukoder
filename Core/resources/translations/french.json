@@ -91,6 +91,15 @@
     "ui.voukoder.editfilter.title": "Editer le filtre",
     "ui.voukoder.editfilter.options": "Options",
 
+    "ui.systray.menu.open_voukoder": "*Open voukoder.org ...",
+    "ui.systray.menu.log": "*Log",
+    "ui.systray.menu.log.view": "*View ...",
+    "ui.systray.menu.log.save": "*Save to file ...",
+    "ui.systray.menu.log.save.filter": "*Log files (*.log)|*.log",
+    "ui.systray.menu.log.copy": "*Copy to clipboard",
+    "ui.systray.menu.log.clear": "*Clear",
+    "ui.systray.menu.download": "*Download %s ...",
+
     "ui.encoderconfig.true": "Oui",
     "ui.encoderconfig.false": "Non",
     "ui.encoderconfig.general": "Sortie",

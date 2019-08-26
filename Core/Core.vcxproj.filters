@@ -147,6 +147,9 @@
     <ClInclude Include="RegistryUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="wxVoukoderTaskBarIcon.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -195,6 +198,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxEditFilterDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxVoukoderTaskBarIcon.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

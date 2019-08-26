@@ -7,7 +7,6 @@
 #include "Images.h"
 #include "Voukoder.h"
 #include "Log.h"
-#include "wx/notifmsg.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -15,8 +14,15 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	exportInfo(exportInfo)
 {
+	// Create id string
+	wxString id = wxString::Format("%s %d.%d%s",
+		VKDR_APPNAME,
+		VKDR_VERSION_MAJOR,
+		VKDR_VERSION_MINOR,
+		(VKDR_VERSION_PATCH > 0) ? " beta" + VKDR_VERSION_PATCH : "");
+
 	// Configure dialog window
-	SetTitle(VKDR_APPNAME);
+	SetTitle(Voukoder::GetApplicationName());
 	SetSize(wxDLG_UNIT(this, wxSize(340, 360)));
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
@@ -33,6 +39,12 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	InitGUI();
 }
 
+wxVoukoderDialog::~wxVoukoderDialog()
+{
+	if (m_voukoderTaskBarIcon)
+		delete m_voukoderTaskBarIcon;
+}
+
 void wxVoukoderDialog::InitGUI()
 {
 	minLabelWidth = wxDLG_UNIT(this, wxSize(56, -1));
@@ -45,6 +57,19 @@ void wxVoukoderDialog::InitGUI()
 
 	// Init image handlers
 	wxInitAllImageHandlers();
+
+	// Taskbar icon
+	if (wxTaskBarIcon::IsAvailable())
+	{
+		// Load icon
+		wxIcon icon;
+		icon.CopyFromBitmap(wxBITMAP_PNG_FROM_DATA(IMG_LOGO));
+
+		// Show taskbar icon
+		m_voukoderTaskBarIcon = new wxVoukoderTaskBarIcon();
+		m_voukoderTaskBarIcon->SetIcon(icon, Voukoder::GetApplicationName());
+		m_voukoderTaskBarIcon->CheckForUpdate();
+	}
 
 	// Categories
 	wxImageList* m_listbook1Images = new wxImageList(48, 48);
@@ -72,21 +97,9 @@ void wxVoukoderDialog::InitGUI()
 	m_Categories->AddPage(CreateSettingsPanel(m_Categories), Trans("ui.encoderconfig.settings"), false);
 	m_Categories->SetPageImage(imageIdx++, 3);
 
-	// Log panel
-	m_Categories->AddPage(CreateLogPanel(m_Categories), Trans("ui.encoderconfig.log"), false);
-	m_Categories->SetPageImage(imageIdx++, 4);
-
 	// About panel
 	m_Categories->AddPage(CreateAboutPanel(m_Categories), Trans("ui.encoderconfig.about"), false);
 	m_Categories->SetPageImage(imageIdx++, 5);
-
-	// Update panel
-	wxWindow* updatePanel = CreateUpdatePanel(m_Categories);
-	if (updatePanel != NULL)
-	{
-		m_Categories->AddPage(updatePanel, Trans("ui.encoderconfig.update"), false);
-		m_Categories->SetPageImage(imageIdx++, 6);
-	}
 
 	bDialogLayout->Add(m_Categories, 1, wxEXPAND | wxALL, 5);
 
@@ -111,21 +124,8 @@ void wxVoukoderDialog::InitGUI()
 	SetMinSize(wxDLG_UNIT(this, wxSize(256, 190)));
 
 	this->Centre(wxBOTH);
-
-	//ShowUpdateNotification();
-	   
+  
 	SetConfiguration();
-}
-
-void wxVoukoderDialog::ShowUpdateNotification()
-{
-	auto notif = new wxNotificationMessage(VKDR_APPNAME, "Update available!", this);
-	notif->SetFlags(wxICON_INFORMATION);
-	notif->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, [=](wxCommandEvent&)
-		{
-			wxLaunchDefaultBrowser("", wxBROWSER_NEW_WINDOW);
-		});
-	notif->Show(7);
 }
 
 wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
@@ -281,51 +281,6 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	return m_genPanel;
 }
 
-wxPanel* wxVoukoderDialog::CreateLogPanel(wxWindow* parent)
-{
-	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* logSizer = new wxBoxSizer(wxVERTICAL);
-
-	wxTextCtrl* m_generalLogText = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL | wxTE_RICH2);
-	m_generalLogText->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Consolas")));
-	logSizer->Add(m_generalLogText, 1, wxALL | wxEXPAND, 0);
-
-	// Settings > Log > Buttons
-
-	wxPanel* m_genLogButtonsPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	wxButton* m_genLogClear = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.log.clear"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genLogClear->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
-		Log::instance()->Clear();
-		m_generalLogText->Clear();
-		m_generalLogText->SetFocus();
-		});
-	btnSizer2->Add(m_genLogClear, 0, wxALL, 5);
-	wxButton* m_genLogCopyToClipboard = new wxButton(m_genLogButtonsPanel, wxID_ANY, Trans("ui.encoderconfig.log.copyToClipboard"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genLogCopyToClipboard->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
-		wxClipboard wxClip;
-		if (wxClip.Open())
-		{
-			wxClip.Clear();
-			wxClip.SetData(new wxTextDataObject(m_generalLogText->GetValue()));
-			wxClip.Flush();
-			wxClip.Close();
-		}
-		});
-	btnSizer2->Add(m_genLogCopyToClipboard, 0, wxALL, 5);
-	m_genLogButtonsPanel->SetSizer(btnSizer2);
-	m_genLogButtonsPanel->Layout();
-	btnSizer2->Fit(m_genLogButtonsPanel);
-	logSizer->Add(m_genLogButtonsPanel, 0, wxEXPAND | wxALL);
-
-	panel->SetSizer(logSizer);
-	panel->Layout();
-
-	m_generalLogText->ChangeValue(Log::instance()->GetAsString());
-
-	return panel;
-}
-
 wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 {
 	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -416,54 +371,6 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 
 	panel->SetSizer(aboutSizer);
 	panel->Layout();
-
-	return panel;
-}
-
-wxPanel* wxVoukoderDialog::CreateUpdatePanel(wxWindow* parent)
-{
-	// Check for update
-	PluginUpdate update = Voukoder::Config::Get().update;
-	if (!update.isUpdateAvailable)
-	{
-		return NULL;
-	}
-
-	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bUpdateCategorySizer = new wxBoxSizer(wxVERTICAL);
-
-	wxNotebook* m_updateNotebook = new wxNotebook(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	wxPanel* m_updatePanel = new wxPanel(m_updateNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxBoxSizer* bUpdateLayout = new wxBoxSizer(wxVERTICAL);
-
-	// Show the update message
-	if (!update.message.IsEmpty())
-	{
-		wxTextCtrl* m_updateText = new wxTextCtrl(m_updatePanel, wxID_ANY, update.message, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
-		bUpdateLayout->Add(m_updateText, 1, wxALL | wxEXPAND, 5);
-	}
-
-	// Show the download button
-	if (!update.url.IsEmpty())
-	{
-		wxButton* m_updateButton = new wxButton(m_updatePanel, wxID_ANY, Trans("ui.encoderconfig.update.button"), wxDefaultPosition, wxDefaultSize, 0);
-		m_updateButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
-			{
-				wxLaunchDefaultBrowser(update.url, wxBROWSER_NEW_WINDOW);
-			});
-		bUpdateLayout->Add(m_updateButton, 0, wxALIGN_CENTER | wxALL, 5);
-	}
-
-	m_updatePanel->SetSizer(bUpdateLayout);
-	m_updatePanel->Layout();
-	bUpdateLayout->Fit(m_updatePanel);
-	m_updateNotebook->AddPage(m_updatePanel, update.headline, false);
-
-	bUpdateCategorySizer->Add(m_updateNotebook, 1, wxEXPAND | wxALL, 0);
-
-	panel->SetSizer(bUpdateCategorySizer);
-	panel->Layout();
-	bUpdateCategorySizer->Fit(panel);
 
 	return panel;
 }

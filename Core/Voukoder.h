@@ -16,7 +16,7 @@
 #include <windows.h>
 #endif
 
-#define VKDR_APPNAME L"Voukoder R2"
+#define VKDR_APPNAME L"Voukoder"
 
 #define DefaultVideoEncoder "libx264"
 #define DefaultAudioEncoder "aac"
@@ -66,6 +66,15 @@ namespace Voukoder
 		Config(Config const&) = delete;
 		void operator=(Config const&) = delete;
 	};
+
+	static wxString GetApplicationName()
+	{
+		return wxString::Format("%s %d.%d%s",
+			VKDR_APPNAME,
+			VKDR_VERSION_MAJOR,
+			VKDR_VERSION_MINOR,
+			(VKDR_VERSION_PATCH > 0) ? " beta" + VKDR_VERSION_PATCH : "");
+	}
 
 	template <class T> static wxString GetResourceName(std::vector<T> items, wxString id, wxString def = "")
 	{

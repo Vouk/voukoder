@@ -199,6 +199,7 @@
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxOptionEditor.h" />
     <ClInclude Include="wxPGOptionProperty.h" />
+    <ClInclude Include="wxVoukoderTaskBarIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EncoderEngine.cpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="wxVoukoderDialog.cpp" />
     <ClCompile Include="wxOptionEditor.cpp" />
     <ClCompile Include="wxPGOptionProperty.cpp" />
+    <ClCompile Include="wxVoukoderTaskBarIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\audio_side_data.json" />
