@@ -16,7 +16,7 @@ protected:
 		if (RegCreateKeyEx(hRootKey, subKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyResult, &dwDisposition) != ERROR_SUCCESS)
 			return FALSE;
 
-		dataLength = wcslen(keyValue);
+		dataLength = (DWORD)wcslen(keyValue);
 		DWORD retVal = RegSetValueEx(hKeyResult, keyName, 0, REG_SZ, (const BYTE *)keyValue, dataLength);
 
 		RegCloseKey(hKeyResult);

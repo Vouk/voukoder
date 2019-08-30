@@ -1,9 +1,9 @@
 #pragma once
 
-#ifdef MYSERV_EXPORTS
-#define MYSERV_API __declspec(dllexport)
+#ifdef VOUKODER_EXPORTS
+#define VOUKODER_API __declspec(dllexport)
 #else
-#define MYSERV_API __declspec(dllimport)
+#define VOUKODER_API __declspec(dllimport)
 #endif
 
 #include <objbase.h>

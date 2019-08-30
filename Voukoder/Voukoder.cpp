@@ -27,8 +27,6 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 	return TRUE;
 }
 
-
-
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppvOut)
 {
 	*ppvOut = NULL;
@@ -46,6 +44,7 @@ STDAPI DllCanUnloadNow(void)
 	return (g_cRefThisDll == 0 ? S_OK : S_FALSE);
 }
 
+// TODO: The path in the registry is somehow cut off
 STDAPI DllRegisterServer(void)
 {
 	CDllRegistrar registrar;
