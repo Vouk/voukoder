@@ -789,6 +789,8 @@
     "libx264.ratecontrol.zones._description": "With this option you can specify different CRF rates for different parts of the video. For examle you specify CRF=20 for the full length of the video but you want to use CRF=18.5 from FRAME 27000 to 35000 and CRF=16.5 from 44000 to 49000 and CRF=17.5 from 75000 to 77500 and so on. This option is based on frame numbers.",
     "libx264.ratecontrol.rc-lookahead._label": "Frame lookahead",
     "libx264.ratecontrol.rc-lookahead._description": "Determines how many frames the mb-tree and VBV algorithms are allowed to look into the future. The higher the value, the more memory and computing time is required.",
+    "libx264.ratecontrol.lookahead-threads._label": "Lookahead threads",
+    "libx264.ratecontrol.lookahead-threads._description": "Set how many threads for frame lookahead will be used.",
     "libx264.ratecontrol.no-mbtree._label": "Disable MB-Tree",
     "libx264.ratecontrol.no-mbtree._description": "Disables the default active macroblock tree ratecontrol. Only interesting for very fast encodings at the expense of quality.",
     "libx264.analysis": "Analysis",
@@ -879,6 +881,8 @@
     "libx264.misc.nal-hrd._item_0": "Off",
     "libx264.misc.nal-hrd._item_1": "CBR",
     "libx264.misc.nal-hrd._item_2": "VBR",
+    "libx264.misc.threads._label": "Threads",
+    "libx264.misc.threads._description": "Set how many Threads will be used for encoding (a value above 16 can decrease quality)",
 
     "libx264rgb.standard": "Standard",
     "libx264rgb.standard.preset._label": "Preset",
