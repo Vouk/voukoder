@@ -1010,6 +1010,8 @@
     "libx264rgb.ratecontrol.zones._description": "Permet de spécifier différentes valeurs de CRF pour différentes parties de la vidéo. Par exemple, CRF = 20 pour toute la durée de la vidéo mais CRF = 18.5 de l’image 27000 à 35000. Cette option est basée sur les numéros d'image.",
     "libx264rgb.ratecontrol.rc-lookahead._label": "Image prédiction (Lookahead)",
     "libx264rgb.ratecontrol.rc-lookahead._description": "Détermine combien d'images les algorithmes du MB-Tree et VBV sont autorisées à regarder dans le futur. Plus la valeur est élevée, plus la mémoire et le temps de calcul nécessaires sont importants.",
+    "libx264rgb.ratecontrol.lookahead-threads._label": "*Lookahead threads",
+    "libx264rgb.ratecontrol.lookahead-threads._description": "*Set how many threads for frame lookahead will be used.",
     "libx264rgb.ratecontrol.no-mbtree._label": "Désactive le MB-Tree",
     "libx264rgb.ratecontrol.no-mbtree._description": "Désactive le MB-Tree des macroblocs. Intéressant uniquement pour les encodages très rapides au détriment de la qualité.",
     "libx264rgb.analysis": "Analyse",
@@ -1100,6 +1102,8 @@
     "libx264rgb.misc.nal-hrd._item_0": "Désactivé",
     "libx264rgb.misc.nal-hrd._item_1": "CBR",
     "libx264rgb.misc.nal-hrd._item_2": "VBR",
+    "libx264rgb.misc.threads._label": "*Threads",
+    "libx264rgb.misc.threads._description": "*Set how many Threads will be used for encoding (a value above 16 can decrease quality)",
 
     "libx265.basic": "De base",
     "libx265.basic.pixelFormat._label": "Format des couleurs",
