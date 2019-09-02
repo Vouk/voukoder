@@ -44,7 +44,6 @@ STDAPI DllCanUnloadNow(void)
 	return (g_cRefThisDll == 0 ? S_OK : S_FALSE);
 }
 
-// TODO: The path in the registry is somehow cut off
 STDAPI DllRegisterServer(void)
 {
 	CDllRegistrar registrar;

@@ -16,7 +16,8 @@ protected:
 		if (RegCreateKeyEx(hRootKey, subKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyResult, &dwDisposition) != ERROR_SUCCESS)
 			return FALSE;
 
-		dataLength = (DWORD)wcslen(keyValue);
+		dataLength = (DWORD)wcslen(keyValue) * sizeof(wchar_t);
+
 		DWORD retVal = RegSetValueEx(hKeyResult, keyName, 0, REG_SZ, (const BYTE *)keyValue, dataLength);
 
 		RegCloseKey(hKeyResult);
@@ -41,13 +42,6 @@ protected:
 			return false;
 
 		wcscpy(strCLSID, pOleStr);
-
-		//int bytesConv = ::WideCharToMultiByte(CP_ACP, 0, pOleStr, wcslen(pOleStr), strCLSID, MAX_PATH, NULL, NULL);
-		//CoTaskMemFree(pOleStr);
-		//strCLSID[bytesConv] = '\0';
-
-		//if (!bytesConv)
-		//	return false;
 
 		return true;
 	}
@@ -131,6 +125,9 @@ public:
 			return false;
 
 		swprintf_s(Buffer, L"CLSID\\%s\\InProcServer32", strCLSID);
+
+		if (!SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"ThreadingModel", L"Both"))
+			return false;
 
 		return SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"", Path) ? true : false;
 	}
