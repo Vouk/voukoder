@@ -5,7 +5,7 @@
 #include "EncoderUtils.h"
 #include "RegistryUtils.h"
 
-constexpr auto PRETENDNO = "no-";
+constexpr auto PREPENDNO = "no-";
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxIMPLEMENT_DYNAMIC_CLASS(wxOptionEditor, wxPanel);
@@ -125,7 +125,7 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 			// Import stored settings
 			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 			if (options.find(optionInfo.parameter) != options.end()
-			   || options.find(PRETENDNO + optionInfo.parameter) != options.end())
+			   || options.find(PREPENDNO + optionInfo.parameter) != options.end())
 			{
 				optionProperty->SetChecked();
 				
