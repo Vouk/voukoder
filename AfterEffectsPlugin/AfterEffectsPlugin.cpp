@@ -263,6 +263,8 @@ static int ShowVoukoderDialog(ExportInfo &exportInfo)
 		parent.AdoptAttributesFromHWND();
 		wxTopLevelWindows.Append(&parent);
 
+		wxSetlocale(LC_ALL, "C");
+
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
 		result = dialog.ShowModal();

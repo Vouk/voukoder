@@ -1,4 +1,5 @@
 #include "CVoukoder.h"
+#include "../Core/wxVoukoderDialog.h"
 
 #ifdef _DEBUG
 static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
@@ -10,6 +11,25 @@ static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 	OutputDebugStringA(logbuf);
 }
 #endif
+
+class actctx_activator
+{
+protected:
+	ULONG_PTR m_cookie;
+
+public:
+	actctx_activator(_In_ HANDLE hActCtx)
+	{
+		if (!ActivateActCtx(hActCtx, &m_cookie))
+			m_cookie = 0;
+	}
+
+	virtual ~actctx_activator()
+	{
+		if (m_cookie)
+			DeactivateActCtx(0, m_cookie);
+	}
+};
 
 CVoukoder::CVoukoder():
 	aPts(0),
@@ -48,21 +68,68 @@ STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 	return E_NOINTERFACE;
 }
 
-STDMETHODIMP CVoukoder::Open(VOUKODERINFO info)
+STDMETHODIMP CVoukoder::SetConfig(VOUKODER_CONFIG config)
 {
-	// General info
-	exportInfo.filename = info.filename;
-	exportInfo.application = info.application;
-	exportInfo.passes = info.passes;
+	// Video
+	exportInfo.video.id = config.video.encoder;
+	exportInfo.video.enabled = !exportInfo.video.id.IsEmpty();
+	exportInfo.video.options.Deserialize(config.video.options);
+	exportInfo.video.filters.Deserialize(config.video.filters);
+	exportInfo.video.sideData.Deserialize(config.video.sidedata);
+	exportInfo.video.pixelFormat = av_get_pix_fmt(config.video.format);
 
-	// Video info
-	exportInfo.video.enabled = (info.video.width > 0 && info.video.height > 0);
-	exportInfo.video.width = info.video.width;
-	exportInfo.video.height = info.video.height;
-	exportInfo.video.timebase = { info.video.timebase.num, info.video.timebase.den };
-	exportInfo.video.sampleAspectRatio = { info.video.aspectratio.num, info.video.aspectratio.den };
+	// Audio
+	exportInfo.audio.id = config.audio.encoder;
+	exportInfo.audio.enabled = !exportInfo.audio.id.IsEmpty();
+	exportInfo.audio.options.Deserialize(config.audio.options);
+	exportInfo.audio.filters.Deserialize(config.audio.filters);
+	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
+	exportInfo.audio.sampleFormat = av_get_sample_fmt(config.audio.format);
 
-	switch (info.video.fieldorder)
+	// Format
+	exportInfo.format.id = config.format.container;
+	exportInfo.format.faststart = config.format.faststart;
+
+	return S_OK;
+}
+
+STDMETHODIMP CVoukoder::GetConfig(VOUKODER_CONFIG* config)
+{
+	config->version = VOUKODER_CONFIG_VERSION;
+
+	// Video
+	strcpy_s(config->video.encoder, exportInfo.video.id);
+	strcpy_s(config->video.options, exportInfo.video.options.Serialize(true));
+	strcpy_s(config->video.filters, exportInfo.video.filters.Serialize());
+	strcpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true));
+	strcpy_s(config->video.format, av_get_pix_fmt_name(exportInfo.video.pixelFormat));
+
+	// Audio
+	strcpy_s(config->audio.encoder, exportInfo.audio.id);
+	strcpy_s(config->audio.options, exportInfo.audio.options.Serialize(true));
+	strcpy_s(config->audio.filters, exportInfo.audio.filters.Serialize());
+	strcpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true));
+	strcpy_s(config->audio.format, av_get_sample_fmt_name(exportInfo.audio.sampleFormat));
+	
+	// Format
+	strcpy_s(config->format.container, exportInfo.format.id);
+	config->format.faststart = exportInfo.format.faststart;
+
+	return S_OK;
+}
+
+STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout)
+{
+	// Set non-stored export settings
+	exportInfo.filename = filename;
+	exportInfo.application = application;
+	exportInfo.passes = passes;
+	exportInfo.video.width = width;
+	exportInfo.video.height = height;
+	exportInfo.video.timebase = { (int)timebase.num, (int)timebase.den };
+	exportInfo.video.sampleAspectRatio = { (int)aspectratio.num, (int)aspectratio.den };
+
+	switch (fieldorder)
 	{
 	case fieldorder::top:
 		exportInfo.video.fieldOrder = AV_FIELD_TT;
@@ -74,32 +141,13 @@ STDMETHODIMP CVoukoder::Open(VOUKODERINFO info)
 		exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
 	}
 
-	exportInfo.video.pixelFormat = av_get_pix_fmt(info.video.pixelformat);
-	exportInfo.video.id = info.video.encoder;
+	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_MPEG; // TODO
+	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709; // TODO
+	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709; // TODO
+	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709; // TODO
+	exportInfo.audio.timebase = { 1, samplerate };
+	exportInfo.audio.channelLayout = av_get_channel_layout(channellayout);
 
-	// Audio info
-	exportInfo.audio.enabled = info.audio.samplerate > 0;
-	exportInfo.audio.timebase = { 1, info.audio.samplerate };
-	exportInfo.audio.sampleFormat = av_get_sample_fmt(info.audio.sampleformat);
-	exportInfo.audio.channelLayout = av_get_channel_layout(info.audio.channellayout);
-	exportInfo.audio.id = info.audio.encoder;
-
-	// Format info
-	exportInfo.format.id = info.format.container;
-	exportInfo.format.faststart = info.format.faststart;
-
-	// TODO
-	exportInfo.video.options.Deserialize("");
-	exportInfo.video.filters.Deserialize("");
-	exportInfo.video.sideData.Deserialize("");
-	exportInfo.video.colorRange = AVCOL_RANGE_JPEG;
-	exportInfo.video.colorSpace = AVCOL_SPC_BT709;
-	exportInfo.video.colorPrimaries = AVCOL_PRI_BT709;
-	exportInfo.video.colorTransferCharacteristics = AVCOL_TRC_BT709;
-	exportInfo.audio.options.Deserialize("");
-	exportInfo.audio.filters.Deserialize("");
-	exportInfo.audio.sideData.Deserialize("");
-	
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
@@ -194,4 +242,41 @@ STDMETHODIMP CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsi
 	vFrame->pts = vPts = idx;
 
 	return encoder->writeVideoFrame(vFrame);
+}
+
+STDMETHODIMP CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)
+{
+	int result;
+
+	// Restore plugin's activation context.
+	if (act_ctx)
+		actctx_activator actctx(act_ctx);
+
+	// Initialize application.
+	new wxApp();
+	if (instance)
+		wxEntryStart(instance);
+
+	// Have an own scope
+	{
+		// Create wxWidget-approved parent window.
+		wxWindow parent;
+		parent.SetHWND((WXHWND)GetActiveWindow());
+		parent.AdoptAttributesFromHWND();
+		wxTopLevelWindows.Append(&parent);
+
+		wxSetlocale(LC_ALL, "C");
+
+		// Create and launch configuration dialog.
+		wxVoukoderDialog dialog(&parent, exportInfo);
+		result = dialog.ShowModal();
+
+		wxTopLevelWindows.DeleteObject(&parent);
+		parent.SetHWND((WXHWND)NULL);
+	}
+
+	// Clean-up and return.
+	wxEntryCleanup();
+
+	return result == (int)wxID_OK ? S_OK : E_ABORT;
 }
