@@ -165,6 +165,8 @@ STDMETHODIMP CVoukoder::Close(bool finalize)
 
 	encoder->close();
 
+	delete encoder;
+
 	return S_OK;
 }
 
