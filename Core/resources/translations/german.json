@@ -1183,7 +1183,7 @@
     "libx265.standard.strategy.multipass._label": "Mehrere Durchgänge",
     "libx265.standard.strategy.multipass._description": "Codierung mit mehreren Durchgängen.",
     "libx265.standard.strategy.multipass._item_0": "2 Durchgänge",
-    "libx265.standard.strategy.slow-firstpass._label": "Langsamer erste Durchgang",
+    "libx265.standard.strategy.slow-firstpass._label": "Langsamer erster Durchgang",
     "libx265.standard.strategy.slow-firstpass._description": "Aktiviert die First Pass Codierung mit den genauen Einstellungen. Die Qualität bei nachfolgenden Multi-Pass-Codierungen ist besser (im Vergleich zum ersten Durchgang), wenn die Einstellungen über jeden Durchgang hinweg übereinstimmen.",
     "libx265.standard.strategy.crf._label": "Konstanter Ratenfaktor",
     "libx265.standard.strategy.crf._description": "Niedrigere Werte resultieren in einer besseren Qualität und längeren Codierungsdauer.",
