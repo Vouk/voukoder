@@ -152,7 +152,7 @@ STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
 	{
-		return -1;
+		return S_FALSE;
 	}
 
 	return S_OK;
@@ -160,12 +160,15 @@ STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application
 
 STDMETHODIMP CVoukoder::Close(bool finalize)
 {
-	if (finalize)
-		encoder->finalize();
+	if (encoder)
+	{
+		if (finalize)
+			encoder->finalize();
 
-	encoder->close();
+		encoder->close();
 
-	delete encoder;
+		delete encoder;
+	}
 
 	return S_OK;
 }
