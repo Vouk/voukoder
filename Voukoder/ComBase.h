@@ -65,7 +65,6 @@ public:
 template <class ThreadModel = CSingleThreaded >
 class CComBase : public virtual CObjRoot, public ThreadModel
 {
-
 public:
 	CComBase() {};
 	virtual ~CComBase() {};
