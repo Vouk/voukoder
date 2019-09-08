@@ -5,8 +5,6 @@
 #include "IVoukoder.h"
 #include <EncoderEngine.h>
 
-#define MAX_CHANNELS 6
-
 class CVoukoder : public CComBase<>, public InterfaceImpl<IVoukoder>
 {
 public:
@@ -26,7 +24,7 @@ public:
 
 private:
 	ExportInfo exportInfo;
-	EncoderEngine* encoder;
+	EncoderEngine* encoder = NULL;
 	int64_t aPts;
 	int64_t vPts;
 	int audioBufferPos = 0;

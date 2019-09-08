@@ -32,23 +32,27 @@ public:
 };
 
 CVoukoder::CVoukoder():
-	aPts(0),
-	vPts(0)
+	aPts(0), vPts(0)
 {
 #ifdef _DEBUG
 	av_log_set_level(AV_LOG_TRACE);
 	av_log_set_callback(AvCallback);
 #endif
+	
+	// Create the audio buffer
+	audioBuffer = new uint8_t*[AV_NUM_DATA_POINTERS];
+	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
+		audioBuffer[p] = (uint8_t*)av_malloc(16000);
 
-	// Create a 64k audio buffer
-	audioBuffer = new uint8_t *[2]; // Stereo only
-	for (int p = 0; p < 2; p++)
-		audioBuffer[p] = new uint8_t[65536];
 	audioBufferPos = 0;
 }
 
 CVoukoder::~CVoukoder()
 {
+	// Free audio buffers
+	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
+		av_free(audioBuffer[p]);
+		
 	if (aFrame)
 		av_frame_free(&aFrame);
 
@@ -151,9 +155,7 @@ STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
-	{
 		return S_FALSE;
-	}
 
 	return S_OK;
 }
@@ -198,6 +200,8 @@ STDMETHODIMP CVoukoder::IsAudioWaiting()
 
 STDMETHODIMP CVoukoder::SendAudioSamples(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const char* layout, const char* format)
 {
+	assert(planes <= AV_NUM_DATA_POINTERS);
+
 	int chunkSize = encoder->getAudioFrameSize();
 
 	if (aFrame == NULL)
@@ -242,6 +246,8 @@ STDMETHODIMP CVoukoder::SendAudioSamples(uint8_t** buffer, int samples, int bloc
 
 STDMETHODIMP CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format)
 {
+	assert(planes <= AV_NUM_DATA_POINTERS);
+
 	if (vFrame == NULL)
 	{
 		vFrame = av_frame_alloc();
