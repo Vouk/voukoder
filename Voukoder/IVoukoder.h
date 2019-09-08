@@ -45,6 +45,13 @@ enum fieldorder
 	bottom
 };
 
+enum LogLevel
+{
+	Info = 0,
+	Warn,
+	Error
+};
+
 struct VOUKODER_TRACK_CONFIG
 {
 	char encoder[16];
@@ -72,6 +79,7 @@ interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IVoukoder : p
 {
 	STDMETHOD(Open)(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout)PURE;
 	STDMETHOD(Close)(bool finalize = true)PURE;
+	STDMETHOD(Log)(const wchar_t* text, LogLevel level = LogLevel::Info)PURE;
 	STDMETHOD(SetConfig)(VOUKODER_CONFIG config)PURE;
 	STDMETHOD(GetConfig)(VOUKODER_CONFIG* config)PURE;
 	STDMETHOD(IsAudioWaiting)()PURE;

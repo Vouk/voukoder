@@ -173,6 +173,23 @@ STDMETHODIMP CVoukoder::Close(bool finalize)
 	return S_OK;
 }
 
+STDMETHODIMP CVoukoder::Log(const wchar_t* text, LogLevel level)
+{
+	switch (level)
+	{
+	case LogLevel::Error:
+		vkLogError(text);
+		break;
+	case LogLevel::Warn:
+		vkLogWarn(text);
+		break;
+	default:
+		vkLogInfo(text);
+	}
+
+	return S_OK;
+}
+
 STDMETHODIMP CVoukoder::IsAudioWaiting()
 {
 	return encoder->hasAudio() &&

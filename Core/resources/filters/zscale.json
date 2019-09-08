@@ -38,7 +38,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 3,
+            "selectedIndex": 4,
             "items": [
               {
                 "value": "point"

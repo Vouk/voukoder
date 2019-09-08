@@ -16,6 +16,7 @@ public:
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID *ppv);
 	STDMETHOD(Open)(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout);
 	STDMETHOD(Close)(bool finalize = true);
+	STDMETHOD(Log)(const wchar_t* text, LogLevel level = LogLevel::Info);
 	STDMETHOD(SetConfig)(VOUKODER_CONFIG config);
 	STDMETHOD(GetConfig)(VOUKODER_CONFIG *config);
 	STDMETHOD(IsAudioWaiting)();
