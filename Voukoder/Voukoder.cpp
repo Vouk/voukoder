@@ -11,17 +11,10 @@ long * CObjRoot::p_ObjCount = NULL;
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-	switch (ul_reason_for_call)
+	if (ul_reason_for_call == DLL_PROCESS_ATTACH)
 	{
-	case DLL_PROCESS_ATTACH:
 		g_module = hModule;
 		CObjRoot::p_ObjCount = &g_cRefThisDll;
-		break;
-
-	case DLL_THREAD_ATTACH:
-	case DLL_THREAD_DETACH:
-	case DLL_PROCESS_DETACH:
-		break;
 	}
 	return TRUE;
 }

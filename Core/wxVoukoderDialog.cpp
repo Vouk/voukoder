@@ -14,13 +14,6 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	exportInfo(exportInfo)
 {
-	// Create id string
-	wxString id = wxString::Format("%s %d.%d%s",
-		VKDR_APPNAME,
-		VKDR_VERSION_MAJOR,
-		VKDR_VERSION_MINOR,
-		(VKDR_VERSION_PATCH > 0) ? " beta" + VKDR_VERSION_PATCH : "");
-
 	// Configure dialog window
 	SetTitle(Voukoder::GetApplicationName());
 	SetSize(wxDLG_UNIT(this, wxSize(340, 360)));
@@ -272,8 +265,7 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	bGenSizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
 
 	//
-
-
+	
 	m_genPanel->SetSizer(bGenSizer);
 	m_genPanel->Layout();
 	bGenSizer->Fit(m_genPanel);
@@ -342,7 +334,7 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 	m_aboutVoukoder->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial")));
 	infoSizer->Add(m_aboutVoukoder, 0, wxALIGN_CENTER | wxALL, 5);
 
-	wxString version = wxString::Format(Trans("ui.encoderconfig.about.version") + " %d.%d.%d %s", VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH, VKDR_VERSION_SUFFIX);
+	wxString version = Trans("ui.encoderconfig.about.version") + " " + Voukoder::GetAppVersion();
 	wxStaticText* m_aboutVersion = new wxStaticText(m_infoPanel, wxID_ANY, version, wxDefaultPosition, wxDefaultSize, 0);
 	infoSizer->Add(m_aboutVersion, 0, wxALIGN_CENTER | wxALL, 0);
 

@@ -67,23 +67,30 @@ namespace Voukoder
 		void operator=(Config const&) = delete;
 	};
 
-	static wxString GetApplicationName()
+	static wxString GetAppVersion()
 	{
-		return wxString::Format("%s %d.%d%s",
-			VKDR_APPNAME,
-			VKDR_VERSION_MAJOR,
-			VKDR_VERSION_MINOR,
-			(VKDR_VERSION_PATCH > 0) ? " beta" + VKDR_VERSION_PATCH : "");
+		if (VKDR_VERSION_PATCH > 0)
+			return wxString::Format("%d.%d beta%d",
+				VKDR_VERSION_MAJOR,
+				VKDR_VERSION_MINOR + 1,
+				VKDR_VERSION_PATCH);
+		else
+			return wxString::Format("%d.%d",
+				VKDR_VERSION_MAJOR,
+				VKDR_VERSION_MINOR);
 	}
 
+	static wxString GetApplicationName()
+	{
+		return wxString::Format("%s %s", VKDR_APPNAME, GetAppVersion());
+	}
+	   
 	template <class T> static wxString GetResourceName(std::vector<T> items, wxString id, wxString def = "")
 	{
 		for (auto& item : items)
 		{
 			if (item.id == id)
-			{
 				return item.name;
-			}
 		}
 
 		return def;
