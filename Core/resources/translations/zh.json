@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "chinese",
   "name": "简体中文",
   "langId": 2052,
@@ -76,7 +76,6 @@
     "ui.premiere.error.encoderError": "无法初始化编码器.\n\n这可能与无效的选项组合有关.",
     "ui.premiere.error.encoderError.nvenc.sessions": "确保至少有一个可用的 NVENC 会话，并关闭使用 NVENC 的所有其他程序.",
     "ui.premiere.error.encoderError.level": "请检查所使用的选项和预设是否符合选定的输出要求。即使编码器的默认配置（根本没有设置选项）也可能不符合所有级别.",
-
     "ui.voukoder.buttonOkay": "确定(&O)",
     "ui.voukoder.buttonCancel": "取消(&C)",
     "ui.voukoder.configuration": "Configuration",
@@ -90,7 +89,6 @@
     "ui.voukoder.configuration.filters.remove": "Remove",
     "ui.voukoder.editfilter.title": "编辑过滤器",
     "ui.voukoder.editfilter.options": "Options",
-
     "ui.systray.menu.open_voukoder": "*Open voukoder.org ...",
     "ui.systray.menu.log": "*Log",
     "ui.systray.menu.log.view": "*View ...",
@@ -99,7 +97,6 @@
     "ui.systray.menu.log.copy": "*Copy to clipboard",
     "ui.systray.menu.log.clear": "*Clear",
     "ui.systray.menu.download": "*Download %s ...",
-
     "ui.encoderconfig.true": "开",
     "ui.encoderconfig.false": "关",
     "ui.encoderconfig.general": "Output",
@@ -111,12 +108,8 @@
     "ui.encoderconfig.general.muxers": "复合视频格式",
     "ui.encoderconfig.general.muxers.container": "视频格式",
     "ui.encoderconfig.general.muxers.faststart": "启用快速启动",
-
     "ui.encoderconfig.video": "视频",
     "ui.encoderconfig.audio": "音频",
-    "ui.encoderconfig.log": "日志文件",
-    "ui.encoderconfig.log.clear": "清除",
-    "ui.encoderconfig.log.copyToClipboard": "复制到剪切板",
     "ui.encoderconfig.settings": "设置",
     "ui.encoderconfig.settings.localization": "语言切换 (更改后需要重新启动)",
     "ui.encoderconfig.settings.localization.language": "语言",
@@ -136,7 +129,7 @@
     "ui.encoderconfig.buttonClear": "清除(&l)",
     "ui.encoderconfig.buttonOkay": "确定(&O)",
     "ui.encoderconfig.buttonCancel": "取消(&C)",
-
+    "ui.encoderconfig.advanceCheck": "Show advanced options",
     "vsd.spherical": "Spherical",
     "vsd.spherical.projection._label": "Projection",
     "vsd.spherical.projection._description": "Projection of the video surface(s) on a sphere.",
@@ -175,7 +168,6 @@
     "vsd.stereo3d.view._item_0": "Packed",
     "vsd.stereo3d.view._item_1": "Left",
     "vsd.stereo3d.view._item_2": "Right",
-
     "prores_ks.basic": "Basic",
     "prores_ks.basic.pixelFormat._label": "Color Format",
     "prores_ks.basic.pixelFormat._description": "Color encoding system.",
@@ -188,6 +180,8 @@
     "prores_ks.standard.profile422._item_1": "LT",
     "prores_ks.standard.profile422._item_2": "标准",
     "prores_ks.standard.profile422._item_3": "高品质",
+    "prores_ks.standard.profile422._item_4": "4444",
+    "prores_ks.standard.profile422._item_5": "4444 XQ",
     "prores_ks.standard.profile444._label": "配置文件",
     "prores_ks.standard.profile444._description": "限制码率范围并控制其他属性，如压缩算法和色度格式.",
     "prores_ks.standard.profile444._item_0": "4444",
@@ -216,7 +210,6 @@
     "prores_ks.misc.alpha_bits._item_2": "16 bits",
     "prores_ks.misc.vendor._label": "供应商 ID",
     "prores_ks.misc.vendor._description": "FFMpeg 通常标识为 'Lavc'.",
-
     "ffv1.basic": "基本",
     "ffv1.basic.pixelFormat._label": "色彩空间",
     "ffv1.basic.pixelFormat._description": "色彩空间类型",
@@ -262,7 +255,6 @@
     "ffv1.misc.context._item_0": "小",
     "ffv1.misc.context._item_1": "大",
     "ffv1.misc.g._label": "最大 GOP 尺寸",
-
     "h264_amf.standard": "标准",
     "h264_amf.standard.usage._label": "使用",
     "h264_amf.standard.usage._description": "",
@@ -351,7 +343,6 @@
     "h264_amf.misc.aud._description": "Inserts AU Delimiter NAL unit",
     "h264_amf.misc.enforce_hrd._label": "Enforce HRD",
     "h264_amf.misc.enforce_hrd._description": "Enforce HRD",
-
     "hevc_amf.standard": "标准",
     "hevc_amf.standard.usage._label": "用法",
     "hevc_amf.standard.usage._description": "",
@@ -435,7 +426,6 @@
     "hevc_amf.misc.aud._description": "Inserts AU Delimiter NAL unit",
     "hevc_amf.misc.enforce_hrd._label": "Enforce HRD",
     "hevc_amf.misc.enforce_hrd._description": "Enforce HRD",
-
     "h264_nvenc.hardware": "硬件",
     "h264_nvenc.hardware.gpu._label": "GPU",
     "h264_nvenc.hardware.gpu._description": "CUDA 支持的显卡.",
@@ -545,7 +535,6 @@
     "h264_nvenc.misc.bdc._description": "创建与蓝光光盘兼容的视频文件.",
     "h264_nvenc.misc.aud._label": "使用 AUD",
     "h264_nvenc.misc.aud._description": "Access unit delimiter can be used for signaling about start of video frame.",
-
     "hevc_nvenc.hardware": "硬件",
     "hevc_nvenc.hardware.gpu._label": "GPU",
     "hevc_nvenc.hardware.gpu._description": "CUDA 支持的显卡.",
@@ -651,7 +640,6 @@
     "hevc_nvenc.misc.bdc._description": "创建与蓝光光盘兼容的视频文件。",
     "hevc_nvenc.misc.aud._label": "使用 AUD",
     "hevc_nvenc.misc.aud._description": "Access unit delimiter can be used for signaling about start of video frame.",
-
     "libx264.basic": "基本",
     "libx264.basic.pixelFormat._label": "像素格式",
     "libx264.basic.pixelFormat._description": "像素格式",
@@ -853,7 +841,7 @@
     "libx264.analysis.no-psy._description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
     "libx264.misc": "Miscellaneous",
     "libx264.misc.level._label": "级别",
-    "libx264.misc.level._description": "",
+    "libx264.misc.level._description": "Sets the level flag in the output bitstream (as defined by Annex A of the H.264 standard). This automatic detection is not perfect, and may underestimate the level if you are not using VBV controls to limit the max bitrate. If playback is intended on any consumer level product besides a HTPC, Level 4.1 is the maximum usually supported (Xbox 360, Playstation 3, Popcorn Hour A-100 Media Extender to name a few). The GPU-based DXVA decoders on PCs have a maximum level of 4.1 too. Blu-ray and HD DVD are Level 4.1. Note that x264 treats this setting as an output flag only. It does not take any measures to ensure compliance with the level you specify.",
     "libx264.misc.level._item_0": "1",
     "libx264.misc.level._item_1": "1.1",
     "libx264.misc.level._item_2": "1.2",
@@ -880,16 +868,6 @@
     "libx264.misc.nal-hrd._item_0": "Off",
     "libx264.misc.nal-hrd._item_1": "CBR",
     "libx264.misc.nal-hrd._item_2": "VBR",
-
-    "libx264rgb.basic": "基本",
-    "libx264rgb.basic.pixelFormat._label": "像素格式",
-    "libx264rgb.basic.pixelFormat._description": "像素格式",
-    "libx264rgb.basic.pixelFormat._item_0": "YUV 4:2:0",
-    "libx264rgb.basic.pixelFormat._item_1": "YUV 4:2:2",
-    "libx264rgb.basic.pixelFormat._item_2": "YUV 4:4:4",
-    "libx264rgb.basic.pixelFormat._item_3": "YUV 4:2:0 (10 bit)",
-    "libx264rgb.basic.pixelFormat._item_4": "YUV 4:2:2 (10 bit)",
-    "libx264rgb.basic.pixelFormat._item_5": "YUV 4:4:4 (10 bit)",
     "libx264rgb.standard": "标准",
     "libx264rgb.standard.preset._label": "预设",
     "libx264rgb.standard.preset._description": "每帧处理时间。较慢的值会提高整体视频质量，但需要更多的时间进行处理。",
@@ -1079,7 +1057,7 @@
     "libx264rgb.analysis.no-psy._description": "Turn off all psychovisual optimizations. This concerns PsyRD, PsyTrellis and AQ as well as some internal Psy optimizations.",
     "libx264rgb.misc": "Miscellaneous",
     "libx264rgb.misc.level._label": "级别",
-    "libx264rgb.misc.level._description": "",
+    "libx264rgb.misc.level._description": "Sets the level flag in the output bitstream (as defined by Annex A of the H.264 standard). This automatic detection is not perfect, and may underestimate the level if you are not using VBV controls to limit the max bitrate. If playback is intended on any consumer level product besides a HTPC, Level 4.1 is the maximum usually supported (Xbox 360, Playstation 3, Popcorn Hour A-100 Media Extender to name a few). The GPU-based DXVA decoders on PCs have a maximum level of 4.1 too. Blu-ray and HD DVD are Level 4.1. Note that x264 treats this setting as an output flag only. It does not take any measures to ensure compliance with the level you specify.",
     "libx264rgb.misc.level._item_0": "1",
     "libx264rgb.misc.level._item_1": "1.1",
     "libx264rgb.misc.level._item_2": "1.2",
@@ -1106,7 +1084,6 @@
     "libx264rgb.misc.nal-hrd._item_0": "Off",
     "libx264rgb.misc.nal-hrd._item_1": "CBR",
     "libx264rgb.misc.nal-hrd._item_2": "VBR",
-
     "libx265.basic": "基本",
     "libx265.basic.pixelFormat._label": "色彩空间",
     "libx265.basic.pixelFormat._description": "色彩空间类型",
@@ -1506,7 +1483,6 @@
     "libx265.bitstream.aud._description": "Emit an access unit delimiter NAL at the start of each slice access unit. If 'repeat-headers' is not enabled (indicating the user will be writing headers manually at the start of the stream) the very first AUD will be skipped since it cannot be placed at the start of the access unit, where it belongs.",
     "libx265.bitstream.hrd._label": "HRD",
     "libx265.bitstream.hrd._description": "Enable the signalling of HRD parameters to the decoder. The HRD parameters are carried by the Buffering Period SEI messages and Picture Timing SEI messages providing timing information to the decoder.",
-
     "libvpx.standard": "标准",
     "libvpx.standard.cpu-used._description": "Quality/Speed ratio modifier",
     "libvpx.standard.cpu-used._label": "CPU used",
@@ -1542,7 +1518,6 @@
     "libvpx.misc": "Miscellaneous",
     "libvpx.misc.sharpness._description": "Anything above 0 weakens the deblocking effect of the loop filter.",
     "libvpx.misc.sharpness._label": "Sharpness",
-
     "libvpx-vp9.basic": "基本",
     "libvpx-vp9.basic.pixelFormat._label": "色彩空间",
     "libvpx-vp9.basic.pixelFormat._description": "色彩空间类型",
@@ -1593,7 +1568,6 @@
     "libvpx-vp9.misc": "Miscellaneous",
     "libvpx-vp9.misc.sharpness._description": "Anything above 0 weakens the deblocking effect of the loop filter.",
     "libvpx-vp9.misc.sharpness._label": "Sharpness",
-
     "hap.standard": "标准",
     "hap.standard.chunks._description": "Specifies the number of chunks to split frames into, between 1 and 64. This permits multithreaded decoding of large frames, potentially at the cost of data-rate. The encoder may modify this value to divide frames evenly.",
     "hap.standard.chunks._label": "块",
@@ -1606,7 +1580,6 @@
     "hap.standard.format._item_1": "HAP Alpha",
     "hap.standard.format._item_2": "HAP Q",
     "hap.standard.format._label": "格式",
-
     "aac.standard": "标准",
     "aac.standard.profile._label": "配置文件",
     "aac.standard.profile._description": "控制压缩算法和复杂性等属性.",
@@ -1625,7 +1598,6 @@
     "aac.standard.bitrate._item_6": "384 kbit/s",
     "aac.standard.bitrate._item_7": "448 kbit/s",
     "aac.standard.bitrate._item_8": "512 kbit/s",
-
     "ac3.standard": "标准",
     "ac3.standard.bitrate._label": "码率",
     "ac3.standard.bitrate._description": "用于编码音频的码率.较高的码率意味着更好的质量.",
@@ -1731,7 +1703,6 @@
     "ac3.bitstream.ad_conv_type._description": "Indicates whether the audio has passed through HDCD A/D conversion.",
     "ac3.bitstream.ad_conv_type._item_0": "Standard A/D Converter (default)",
     "ac3.bitstream.ad_conv_type._item_1": "HDCD A/D Converter",
-
     "eac3.standard": "标准",
     "eac3.standard.bitrate._label": "码率",
     "eac3.standard.bitrate._description": "用于编码音频的码率，较高的码率意味着更好的质量。",
@@ -1836,9 +1807,7 @@
     "eac3.bitstream.ad_conv_type._description": "Indicates whether the audio has passed through HDCD A/D conversion.",
     "eac3.bitstream.ad_conv_type._item_0": "Standard A/D Converter (default)",
     "eac3.bitstream.ad_conv_type._item_1": "HDCD A/D Converter",
-
     "truehd.standard": "标准",
-
     "dca.standard": "标准",
     "dca.standard.bitrate._label": "码率",
     "dca.standard.bitrate._description": "用于编码音频的码率，较高的码率意味着更好的质量。",
@@ -1853,13 +1822,11 @@
     "dca.misc": "Miscellaneous",
     "dca.misc.dca_adpcm._label": "ADPCM",
     "dca.misc.dca_adpcm._description": "Use ADPCM encoding",
-
     "alac.prediction_order": "预测阶数",
     "alac.prediction_order.min_prediction_order._label": "最小值",
     "alac.prediction_order.min_prediction_order._description": "最小预测阶数.",
     "alac.prediction_order.max_prediction_order._label": "最大值",
     "alac.prediction_order.max_prediction_order._description": "最小预测阶数.",
-
     "libfdk_aac.standard": "标准",
     "libfdk_aac.standard.strategy._label": "模式",
     "libfdk_aac.standard.strategy._description": "要使用的编码模式.",
@@ -1900,7 +1867,6 @@
     "libfdk_aac.misc.signaling._item_0": "Implicit backwards compatible",
     "libfdk_aac.misc.signaling._item_1": "Explicit SBR, implicit PS",
     "libfdk_aac.misc.signaling._item_2": "Explicit hierarchical",
-
     "flac.basic": "基本",
     "flac.basic.sampleFormat._label": "采样格式",
     "flac.basic.sampleFormat._description": "恒定编码码率.",
@@ -1909,7 +1875,6 @@
     "flac.compression": "压缩",
     "flac.compression.compression_level._label": "压缩级别",
     "flac.compression.compression_level._description": "值越大文件越小，但编码时间越长.",
-
     "libmp3lame.standard": "标准",
     "libmp3lame.standard.abr._label": "启用 ABR",
     "libmp3lame.standard.abr._description": "",
@@ -1928,7 +1893,6 @@
     "libmp3lame.standard.b._item_10": "224 kbit/s",
     "libmp3lame.standard.b._item_11": "256 kbit/s",
     "libmp3lame.standard.b._item_12": "320 kbit/s",
-
     "libopus.standard": "标准",
     "libopus.standard.strategy._label": "编码模式",
     "libopus.standard.strategy._description": "要使用的编码模式.",
@@ -1968,10 +1932,9 @@
     "libopus.standard.strategy.vbr_constrained._item_6": "384 kbit/s",
     "libopus.standard.strategy.vbr_constrained._item_7": "448 kbit/s",
     "libopus.standard.strategy.vbr_constrained._item_8": "512 kbit/s",
-
     "libvorbis.standard": "标准",
     "libvorbis.standard.strategy._label": "编码模式",
-    "libvorbis.standard.strategy._description": "",
+    "libvorbis.standard.strategy._description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
     "libvorbis.standard.strategy._item_0": "平均码率",
     "libvorbis.standard.strategy._item_1": "恒定品质",
     "libvorbis.standard.strategy.abr._label": "码率",
@@ -1998,14 +1961,12 @@
     "libvorbis.standard.strategy.cqp._item_9": "0.8 - 256 kbit/s",
     "libvorbis.standard.strategy.cqp._item_10": "0.9 - 320 kbit/s",
     "libvorbis.standard.strategy.cqp._item_11": "1.0 - 500 kbit/s",
-
     "pcm.standard": "标准",
     "pcm.standard.sampleFormat._label": "采样格式",
     "pcm.standard.sampleFormat._description": "恒定码率编码.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
     "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
-
     "h264_qsv.basic": "*Basic",
     "h264_qsv.basic.pixelFormat._label": "*Pixel format",
     "h264_qsv.basic.pixelFormat._description": "*Pixel format",
@@ -2031,7 +1992,7 @@
     "h264_qsv.standard.avbr_convergence._label": "*AVBR Convergence",
     "h264_qsv.standard.avbr_convergence._description": "*Convergence of the AVBR ratecontrol",
     "h264_qsv.standard.preset._label": "*Preset",
-    "h264_qsv.standard.preset._description": "*",
+    "h264_qsv.standard.preset._description": "",
     "h264_qsv.standard.preset._item_0": "*Very fast",
     "h264_qsv.standard.preset._item_1": "*Faster",
     "h264_qsv.standard.preset._item_2": "*Fast",
@@ -2040,7 +2001,7 @@
     "h264_qsv.standard.preset._item_5": "*Slower",
     "h264_qsv.standard.preset._item_6": "*Very slow",
     "h264_qsv.standard.profile._label": "*Profile",
-    "h264_qsv.standard.profile._description": "*",
+    "h264_qsv.standard.profile._description": "",
     "h264_qsv.standard.profile._item_0": "*None",
     "h264_qsv.standard.profile._item_1": "*Baseline",
     "h264_qsv.standard.profile._item_2": "*Main",
@@ -2103,7 +2064,6 @@
     "h264_qsv.advanced.aud._description": "*Insert the Access Unit Delimiter NAL",
     "h264_qsv.advanced.repeat_pps._label": "*Repeat pps",
     "h264_qsv.advanced.repeat_pps._description": "*repeat pps for every frame",
-
     "hevc_qsv.basic": "*Basic",
     "hevc_qsv.basic.pixelFormat._label": "*Pixel format",
     "hevc_qsv.basic.pixelFormat._description": "*Pixel format",
@@ -2129,7 +2089,7 @@
     "hevc_qsv.standard.avbr_convergence._label": "*AVBR Convergence",
     "hevc_qsv.standard.avbr_convergence._description": "*Convergence of the AVBR ratecontrol",
     "hevc_qsv.standard.preset._label": "*Preset",
-    "hevc_qsv.standard.preset._description": "*",
+    "hevc_qsv.standard.preset._description": "",
     "hevc_qsv.standard.preset._item_0": "*Very fast",
     "hevc_qsv.standard.preset._item_1": "*Faster",
     "hevc_qsv.standard.preset._item_2": "*Fast",
@@ -2138,7 +2098,7 @@
     "hevc_qsv.standard.preset._item_5": "*Slower",
     "hevc_qsv.standard.preset._item_6": "*Very slow",
     "hevc_qsv.standard.profile._label": "*Profile",
-    "hevc_qsv.standard.profile._description": "*",
+    "hevc_qsv.standard.profile._description": "",
     "hevc_qsv.standard.profile._item_0": "*None",
     "hevc_qsv.standard.profile._item_1": "*Main",
     "hevc_qsv.standard.profile._item_2": "*Main 10",
@@ -2174,14 +2134,13 @@
     "hevc_qsv.advanced.gpb._description": "*1: GPB (generalized P/B frame); 0: regular P frame (default 1)",
     "hevc_qsv.advanced.gpb._item_0": "*Regular P frame",
     "hevc_qsv.advanced.gpb._item_1": "*GPB (generalized P/B frame)",
-
     "mpeg2_qsv.standard": "*Standard",
     "mpeg2_qsv.standard.bitrate._label": "*Bitrate [kbit]",
     "mpeg2_qsv.standard.bitrate._description": "*The data rate allowed by the encoder.",
     "mpeg2_qsv.standard.maxrate._label": "*Max. Bitrate [kbit]",
     "mpeg2_qsv.standard.maxrate._description": "*Higher value can improve maximum quality, but increases decoder requirements.",
     "mpeg2_qsv.standard.preset._label": "*Preset",
-    "mpeg2_qsv.standard.preset._description": "*",
+    "mpeg2_qsv.standard.preset._description": "",
     "mpeg2_qsv.standard.preset._item_0": "*Very fast",
     "mpeg2_qsv.standard.preset._item_1": "*Faster",
     "mpeg2_qsv.standard.preset._item_2": "*Fast",
@@ -2190,7 +2149,7 @@
     "mpeg2_qsv.standard.preset._item_5": "*Slower",
     "mpeg2_qsv.standard.preset._item_6": "*Very slow",
     "mpeg2_qsv.standard.profile._label": "*Profile",
-    "mpeg2_qsv.standard.profile._description": "*",
+    "mpeg2_qsv.standard.profile._description": "",
     "mpeg2_qsv.standard.profile._item_0": "*Simple",
     "mpeg2_qsv.standard.profile._item_1": "*Main",
     "mpeg2_qsv.standard.profile._item_2": "*High",
@@ -2219,12 +2178,12 @@
     "mpeg2_qsv.advanced.forced_idr._description": "*Forcing I frames as IDR frames",
     "mpeg2_qsv.advanced.low_power._label": "*Low power",
     "mpeg2_qsv.advanced.low_power._description": "*enable low power mode(experimental: many limitations by mfx version, BRC modes, etc.)",
-
     "mpeg2video.basic": "*Basic",
     "mpeg2video.basic.pixelFormat._label": "*Pixel format",
     "mpeg2video.basic.pixelFormat._description": "*Pixel format",
     "mpeg2video.basic.pixelFormat._item_0": "*YUV 4:2:0",
     "mpeg2video.basic.pixelFormat._item_1": "*YUV 4:2:2",
+    "mpeg2video.standard": "Standard",
     "mpeg2video.standard.strategy._label": "*Strategy",
     "mpeg2video.standard.strategy._description": "*The encoding mode to use. Choose Bitrate or Quality.",
     "mpeg2video.standard.strategy._item_0": "*CBR / VBR",
@@ -2290,7 +2249,7 @@
     "mpeg2video.advanced.chroma_elim_threshold._label": "*Chroma elim. threshold",
     "mpeg2video.advanced.chroma_elim_threshold._description": "*single coefficient elimination threshold for chrominance (negative values also consider dc coefficient)",
     "mpeg2video.advanced.quantizer_noise_shaping._label": "*Quantizer noise shaping",
-    "mpeg2video.advanced.quantizer_noise_shaping._description": "*",
+    "mpeg2video.advanced.quantizer_noise_shaping._description": "",
     "mpeg2video.advanced.error_rate._label": "*Error rate",
     "mpeg2video.advanced.error_rate._description": "*Simulate errors in the bitstream to test error concealment.",
     "mpeg2video.advanced.qsquish._label": "*QSquish",
@@ -2350,9 +2309,9 @@
     "mpeg2video.advanced.skip_cmp._item_13": "*Chroma",
     "mpeg2video.advanced.skip_cmp._item_14": "*MSAD",
     "mpeg2video.advanced.sc_threshold._label": "*Scene change threshold",
-    "mpeg2video.advanced.sc_threshold._description": "*",
+    "mpeg2video.advanced.sc_threshold._description": "",
     "mpeg2video.advanced.noise_reduction._label": "*Noise reduction",
-    "mpeg2video.advanced.noise_reduction._description": "*",
+    "mpeg2video.advanced.noise_reduction._description": "",
     "mpeg2video.advanced.mpeg_quant._label": "*Use MPEG quantizers",
     "mpeg2video.advanced.mpeg_quant._description": "*Use MPEG quantizers instead of H.263",
     "mpeg2video.advanced.ps._label": "*RTP payload size",
@@ -2363,7 +2322,6 @@
     "mpeg2video.advanced.mepre._description": "*pre motion estimation",
     "mpeg2video.advanced.a53cc._label": "*A53 CC",
     "mpeg2video.advanced.a53cc._description": "*Use A53 Closed Captions (if available)",
-
     "libsvt_av1.basic": "*Basic",
     "libsvt_av1.basic.pixelFormat._label": "*Pixel format",
     "libsvt_av1.basic.pixelFormat._description": "*Pixel format",
@@ -2438,7 +2396,6 @@
     "libsvt_av1.advanced.forced-idr._description": "*If forcing keyframes, force them as IDR frames.",
     "libsvt_av1.advanced.aud._label": "*AUD",
     "libsvt_av1.advanced.aud._description": "*Include AUD",
-
     "libsvt_hevc.basic": "*Basic",
     "libsvt_hevc.basic.pixelFormat._label": "*Pixel format",
     "libsvt_hevc.basic.pixelFormat._description": "*Pixel format",
@@ -2513,7 +2470,6 @@
     "libsvt_hevc.advanced.aud._description": "*Include AUD",
     "libsvt_hevc.advanced.asm_type._label": "*ASM",
     "libsvt_hevc.advanced.asm_type._description": "*Assembly instruction set type [false: C Only, true: Auto]",
-
     "filter.bwdif": "*Deinterlace (Bob)",
     "filter.bwdif.standard": "*Standard",
     "filter.bwdif.standard.mode._label": "*Mode",
