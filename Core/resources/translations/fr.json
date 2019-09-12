@@ -129,7 +129,7 @@
     "ui.encoderconfig.buttonClear": "&Supprimer ",
     "ui.encoderconfig.buttonOkay": "&Ok",
     "ui.encoderconfig.buttonCancel": "&Annuler",
-    "ui.encoderconfig.advanceCheck": "Show advanced options",
+    "ui.encoderconfig.advanceCheck": "Afficher les options avancées",
     "vsd.spherical": "Sphérique",
     "vsd.spherical.projection._label": "Projection",
     "vsd.spherical.projection._description": "Projection des surfaces vidéo sur une sphère.",
