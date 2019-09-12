@@ -519,10 +519,10 @@
     <None Include="resources\muxers\opus.json" />
     <None Include="resources\muxers\wav.json" />
     <None Include="resources\muxers\webm.json" />
-    <None Include="resources\translations\chinese.json" />
-    <None Include="resources\translations\english.json" />
-    <None Include="resources\translations\french.json" />
-    <None Include="resources\translations\german.json" />
+    <None Include="resources\translations\zh.json" />
+    <None Include="resources\translations\en.json" />
+    <None Include="resources\translations\fr.json" />
+    <None Include="resources\translations\de.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc" />
