@@ -2389,7 +2389,7 @@
     "libsvt_av1.advanced.hielevel._item_2": "3 niveaux",
     "libsvt_av1.advanced.hielevel._item_3": "4 niveaux",
     "libsvt_av1.advanced.sc_detection._label": "Détection des changements de scène",
-    "libsvt_av1.advanced.sc_detection._description": "Scene change detection",
+    "libsvt_av1.advanced.sc_detection._description": "Détection des changements de scène",
     "libsvt_av1.advanced.bl_mode._label": "Mode BL",
     "libsvt_av1.advanced.bl_mode._description": "Paramètre du type d'accès aléatoire de la prédiction.",
     "libsvt_av1.advanced.forced-idr._label": "IDR Forcé",
