@@ -76,7 +76,6 @@
     "ui.premiere.error.encoderError": "Impossible de démarrer le codage.\n\nCela est probablement dû à une combinaison d'options incompatibles.",
     "ui.premiere.error.encoderError.nvenc.sessions": "S'assurer qu'il y a au moins une session libre de NVENC et fermer tous les autres programmes qui utilisent NVENC.",
     "ui.premiere.error.encoderError.level": "Vérifier si les préréglages utilisés sont conformes avec le niveau de sortie sélectionné. Même les configurations par défaut (aucune option définie) peuvent ne pas être conforme avec un niveau.",
-
     "ui.voukoder.buttonOkay": "&Ok",
     "ui.voukoder.buttonCancel": "&Annuler",
     "ui.voukoder.configuration": "Configuration",
@@ -90,7 +89,6 @@
     "ui.voukoder.configuration.filters.remove": "Retirer",
     "ui.voukoder.editfilter.title": "Editer le filtre",
     "ui.voukoder.editfilter.options": "Options",
-
     "ui.systray.menu.open_voukoder": "*Open voukoder.org ...",
     "ui.systray.menu.log": "*Log",
     "ui.systray.menu.log.view": "*View ...",
@@ -99,7 +97,6 @@
     "ui.systray.menu.log.copy": "*Copy to clipboard",
     "ui.systray.menu.log.clear": "*Clear",
     "ui.systray.menu.download": "*Download %s ...",
-
     "ui.encoderconfig.true": "Oui",
     "ui.encoderconfig.false": "Non",
     "ui.encoderconfig.general": "Sortie",
@@ -113,9 +110,6 @@
     "ui.encoderconfig.general.muxers.faststart": "Active la lecture rapide",
     "ui.encoderconfig.video": "Vidéo",
     "ui.encoderconfig.audio": "Audio",
-    "ui.encoderconfig.log": "Fichier log",
-    "ui.encoderconfig.log.clear": "Effacer",
-    "ui.encoderconfig.log.copyToClipboard": "Copier dans le presse-papier",
     "ui.encoderconfig.settings": "Réglages",
     "ui.encoderconfig.settings.localization": "Localisation (Un changement nécessite un rédémarage)",
     "ui.encoderconfig.settings.localization.language": "Langage",
@@ -135,7 +129,7 @@
     "ui.encoderconfig.buttonClear": "&Supprimer ",
     "ui.encoderconfig.buttonOkay": "&Ok",
     "ui.encoderconfig.buttonCancel": "&Annuler",
-
+    "ui.encoderconfig.advanceCheck": "Show advanced options",
     "vsd.spherical": "Sphérique",
     "vsd.spherical.projection._label": "Projection",
     "vsd.spherical.projection._description": "Projection des surfaces vidéo sur une sphère.",
@@ -174,7 +168,6 @@
     "vsd.stereo3d.view._item_0": "Assemblée",
     "vsd.stereo3d.view._item_1": "Gauche",
     "vsd.stereo3d.view._item_2": "Droite",
-
     "prores_ks.basic": "De base",
     "prores_ks.basic.pixelFormat._label": "Format de couleur",
     "prores_ks.basic.pixelFormat._description": "Couleur d'encodage.",
@@ -187,6 +180,8 @@
     "prores_ks.standard.profile422._item_1": "LT",
     "prores_ks.standard.profile422._item_2": "Standard",
     "prores_ks.standard.profile422._item_3": "Haute Qualité (High Quality)",
+    "prores_ks.standard.profile422._item_4": "4444",
+    "prores_ks.standard.profile422._item_5": "4444 XQ",
     "prores_ks.standard.profile444._label": "Profile",
     "prores_ks.standard.profile444._description": "Contraint la plage de débits et contrôle d'autres propriétés telles que l'algorithme de compression et le format de la chrominance.",
     "prores_ks.standard.profile444._item_0": "4444",
@@ -215,7 +210,6 @@
     "prores_ks.misc.alpha_bits._item_2": "16 bits",
     "prores_ks.misc.vendor._label": "ID du vendeur",
     "prores_ks.misc.vendor._description": "FFMpeg généralement identifié comme 'Lavc'.",
-
     "ffv1.basic": "De base",
     "ffv1.basic.pixelFormat._label": "Sous-échantillonnage d’un pixel",
     "ffv1.basic.pixelFormat._description": "Sous-échantillonnage d’un pixel",
@@ -261,7 +255,6 @@
     "ffv1.misc.context._item_0": "Petit",
     "ffv1.misc.context._item_1": "Grand",
     "ffv1.misc.g._label": "Taille Max. du GOP",
-
     "h264_amf.standard": "Standard",
     "h264_amf.standard.usage._label": "Utilisation",
     "h264_amf.standard.usage._description": "",
@@ -350,7 +343,6 @@
     "h264_amf.misc.aud._description": "Inserérer unité AU Delimiteur NAL.",
     "h264_amf.misc.enforce_hrd._label": "Forcer HRD",
     "h264_amf.misc.enforce_hrd._description": "Forcer Hypothetical Reference Decoder.",
-
     "hevc_amf.standard": "Standard",
     "hevc_amf.standard.usage._label": "Utilisation",
     "hevc_amf.standard.usage._description": "",
@@ -434,7 +426,6 @@
     "hevc_amf.misc.aud._description": "Inserérer unité AU Delimiteur NAL.",
     "hevc_amf.misc.enforce_hrd._label": "Forcer HRD",
     "hevc_amf.misc.enforce_hrd._description": "Forcer Hypothetical Reference Decoder.",
-
     "h264_nvenc.hardware": "Matériel",
     "h264_nvenc.hardware.gpu._label": "GPU",
     "h264_nvenc.hardware.gpu._description": "Carte vidéo compatible CUDA.",
@@ -544,7 +535,6 @@
     "h264_nvenc.misc.bdc._description": "Créer des fichiers vidéo compatibles avec les disques Blu-Ray.",
     "h264_nvenc.misc.aud._label": "Utiliser AUD",
     "h264_nvenc.misc.aud._description": "L’Access Unit Delimiter peut être utilisé pour signaler le début d’une image.",
-
     "hevc_nvenc.hardware": "Matériel",
     "hevc_nvenc.hardware.gpu._label": "GPU",
     "hevc_nvenc.hardware.gpu._description": "Carte vidéo compatible CUDA.",
@@ -650,7 +640,6 @@
     "hevc_nvenc.misc.bdc._description": "Créer des fichiers vidéo compatibles avec les disques Blu-Ray.",
     "hevc_nvenc.misc.aud._label": "Utiliser AUD",
     "hevc_nvenc.misc.aud._description": "L’Access Unit Delimiter peut être utilisé pour signaler le début d’une image.",
-
     "libx264.basic": "De base",
     "libx264.basic.pixelFormat._label": "Sous-échantillonnage d’un pixel",
     "libx264.basic.pixelFormat._description": "Sous-échantillonnage d’un pixel",
@@ -708,7 +697,7 @@
     "libx264.standard.strategy.multipass._description": "Multiple passes",
     "libx264.standard.strategy.multipass._item_0": "2 passes",
     "libx264.standard.strategy.slowfirstpass._label": "Première passe lente",
-    "libx264.standard.strategy.slowfirstpass._description": "Affecte une première passe lente ce qui prendra nettement plus de temps à l’encodage, généralement ce paramètre n’est pas exploité.",
+    "libx264.standard.strategy.slowfirstpass._description": "",
     "libx264.standard.strategy.crf._label": "Qualité constante",
     "libx264.standard.strategy.crf._description": "Des valeurs plus basses signifient une meilleure qualité mais augmentent la taille du fichier.",
     "libx264.standard.strategy.qp._label": "Quantificateur constant",
@@ -879,7 +868,6 @@
     "libx264.misc.nal-hrd._item_0": "Désactivé",
     "libx264.misc.nal-hrd._item_1": "CBR",
     "libx264.misc.nal-hrd._item_2": "VBR",
-
     "libx264rgb.standard": "Standard",
     "libx264rgb.standard.preset._label": "Préréglage",
     "libx264rgb.standard.preset._description": "Temps de traitement de chaque image. Les valeurs lentes augmentent la qualité vidéo globale mais prennent plus de temps à calculer.",
@@ -925,7 +913,7 @@
     "libx264rgb.standard.strategy.multipass._description": "Multiple passes",
     "libx264rgb.standard.strategy.multipass._item_0": "2 passes",
     "libx264rgb.standard.strategy.slowfirstpass._label": "Première passe lente",
-    "libx264rgb.standard.strategy.slowfirstpass._description": "Affecte une première passe lente ce qui prendra nettement plus de temps à l’encodage, généralement ce paramètre n’est pas exploité.",
+    "libx264rgb.standard.strategy.slowfirstpass._description": "",
     "libx264rgb.standard.strategy.crf._label": "Qualité constante",
     "libx264rgb.standard.strategy.crf._description": "Des valeurs plus basses signifient une meilleure qualité mais augmentent la taille du fichier.",
     "libx264rgb.standard.strategy.qp._label": "Quantificateur constant",
@@ -1096,7 +1084,6 @@
     "libx264rgb.misc.nal-hrd._item_0": "Désactivé",
     "libx264rgb.misc.nal-hrd._item_1": "CBR",
     "libx264rgb.misc.nal-hrd._item_2": "VBR",
-
     "libx265.basic": "De base",
     "libx265.basic.pixelFormat._label": "Format des couleurs",
     "libx265.basic.pixelFormat._description": " Format d'encodage des couleurs.",
@@ -1496,7 +1483,6 @@
     "libx265.bitstream.aud._description": "Émet un délimiteur d'unité d'accès NAL au début de chaque unité d'accès de tranche. Si les 'en-têtes de répétition' ne sont pas activés (en indiquant que l'utilisateur écrira les en-têtes manuellement au début du flux), le tout premier AUD sera ignoré puisqu'il ne peut pas être placé au début de l'unité d'accès, à laquelle il appartient.",
     "libx265.bitstream.hrd._label": "HRD",
     "libx265.bitstream.hrd._description": "Activer la signalisation des paramètres HRD (Hypothetical Reference Decoder) au décodeur. Les paramètres HRD sont acheminés par les messages SEI de la période de mise en mémoire tampon et les messages SEI de synchronisation d'image fournissant des informations de synchronisation au décodeur.",
-
     "libvpx.standard": "Standard",
     "libvpx.standard.cpu-used._description": "Modificateur de rapport qualité/vitesse ",
     "libvpx.standard.cpu-used._label": "CPU utilisé",
@@ -1532,7 +1518,6 @@
     "libvpx.misc": "Divers",
     "libvpx.misc.sharpness._description": "Toute valeur supérieure à 0 affaiblit l’effet de déblocage du filtre.",
     "libvpx.misc.sharpness._label": "Piqué",
-
     "libvpx-vp9.basic": "De base",
     "libvpx-vp9.basic.pixelFormat._label": "Format de couleur",
     "libvpx-vp9.basic.pixelFormat._description": "Système d'encodage couleur.",
@@ -1583,7 +1568,6 @@
     "libvpx-vp9.misc": "Divers",
     "libvpx-vp9.misc.sharpness._description": "Toute valeur supérieure à 0 affaiblit l’effet du filtre de déblocage.",
     "libvpx-vp9.misc.sharpness._label": "Piqué",
-
     "hap.standard": "Standard",
     "hap.standard.chunks._description": "Spécifie le nombre de fragments pour fractionner les images, compris entre 1 et 64. Cela permet le décodage multithread de grandes images, éventuellement avec un coût sur débit. Le codeur peut modifier cette valeur pour diviser les images de manière uniforme.",
     "hap.standard.chunks._label": "Fragments",
@@ -1596,7 +1580,6 @@
     "hap.standard.format._item_1": "HAP Alpha",
     "hap.standard.format._item_2": "HAP Q",
     "hap.standard.format._label": "Format",
-
     "aac.standard": "Standard",
     "aac.standard.profile._label": "Profile",
     "aac.standard.profile._description": "Contrôle les propriétés telles que l'algorithme de compression et la complexité.",
@@ -1615,7 +1598,6 @@
     "aac.standard.bitrate._item_6": "384 Kbits/s",
     "aac.standard.bitrate._item_7": "448 Kbits/s",
     "aac.standard.bitrate._item_8": "512 Kbits/s",
-
     "ac3.standard": "Standard",
     "ac3.standard.bitrate._label": "Débit",
     "ac3.standard.bitrate._description": "Le débit utilisé pour l'encodage audio. Un débit plus élevé implique une meilleure qualité.",
@@ -1721,7 +1703,6 @@
     "ac3.bitstream.ad_conv_type._description": "Indique si le son est passé par la conversion HDCD A/D.",
     "ac3.bitstream.ad_conv_type._item_0": "Standard A/D conversion (défaut)",
     "ac3.bitstream.ad_conv_type._item_1": "HDCD A/D conversion",
-
     "eac3.standard": "Standard",
     "eac3.standard.bitrate._label": "Débit",
     "eac3.standard.bitrate._description": "Le débit utilisé pour l'encodage audio. Un débit plus élevé implique une meilleure qualité.",
@@ -1826,9 +1807,7 @@
     "eac3.bitstream.ad_conv_type._description": "Indique si le son est passé par la conversion HDCD A/D.",
     "eac3.bitstream.ad_conv_type._item_0": "Standard A/D conversion (défaut)",
     "eac3.bitstream.ad_conv_type._item_1": "HDCD A/D conversion",
-
     "truehd.standard": "Standard",
-
     "dca.standard": "Standard",
     "dca.standard.bitrate._label": "Débit",
     "dca.standard.bitrate._description": "Le débit utilisé pour l'encodage audio. Un débit plus élevé implique une meilleure qualité.",
@@ -1843,13 +1822,11 @@
     "dca.misc": "Divers",
     "dca.misc.dca_adpcm._label": "ADPCM",
     "dca.misc.dca_adpcm._description": "Utiliser l'encodage ADPCM",
-
     "alac.prediction_order": "Ordre de prédiction",
     "alac.prediction_order.min_prediction_order._label": "Minimum",
     "alac.prediction_order.min_prediction_order._description": "Quantité minimale d'ordre de prédiction.",
     "alac.prediction_order.max_prediction_order._label": "Maximum",
     "alac.prediction_order.max_prediction_order._description": "Quantité maximale d'ordre de prédiction.",
-
     "libfdk_aac.standard": "Standard",
     "libfdk_aac.standard.strategy._label": "Stratégie",
     "libfdk_aac.standard.strategy._description": "La stratégie d'encodage à utiliser.",
@@ -1890,7 +1867,6 @@
     "libfdk_aac.misc.signaling._item_0": "Implicite Rétrocompatible",
     "libfdk_aac.misc.signaling._item_1": "Explicit SBR, implicit PS",
     "libfdk_aac.misc.signaling._item_2": "Hiérarchique Explicite",
-
     "flac.basic": "De base",
     "flac.basic.sampleFormat._label": "Format",
     "flac.basic.sampleFormat._description": "Débit constant.",
@@ -1899,10 +1875,9 @@
     "flac.compression": "Compression",
     "flac.compression.compression_level._label": "Niveau de compression",
     "flac.compression.compression_level._description": "Des valeurs plus élevées entraînent des fichiers plus petits, mais d’une moins bonne qualité.",
-
     "libmp3lame.standard": "Standard",
     "libmp3lame.standard.abr._label": "Activer ABR",
-    "libmp3lame.standard.abr._description": "Débit moyen",
+    "libmp3lame.standard.abr._description": "",
     "libmp3lame.standard.b._label": "Débit",
     "libmp3lame.standard.b._description": "Débit constant.",
     "libmp3lame.standard.b._item_0": "32 Kbits/s",
@@ -1918,7 +1893,6 @@
     "libmp3lame.standard.b._item_10": "224 Kbits/s",
     "libmp3lame.standard.b._item_11": "256 Kbits/s",
     "libmp3lame.standard.b._item_12": "320 Kbits/s",
-
     "libopus.standard": "Standard",
     "libopus.standard.strategy._label": "Stratégie",
     "libopus.standard.strategy._description": "La stratégie d'encodage à utiliser.",
@@ -1958,7 +1932,6 @@
     "libopus.standard.strategy.vbr_constrained._item_6": "384 Kbits/s",
     "libopus.standard.strategy.vbr_constrained._item_7": "448 Kbits/s",
     "libopus.standard.strategy.vbr_constrained._item_8": "512 Kbits/s",
-
     "libvorbis.standard": "Standard",
     "libvorbis.standard.strategy._label": "Stratégie",
     "libvorbis.standard.strategy._description": "Le mode d'encodage à utiliser : Un débit binaire moyen (ABR), un quantificateur constant (CQP), un débit constant (CRF) ou sans perte.",
@@ -1988,14 +1961,12 @@
     "libvorbis.standard.strategy.cqp._item_9": "0.8 - 256 Kbits/s",
     "libvorbis.standard.strategy.cqp._item_10": "0.9 - 320 Kbits/s",
     "libvorbis.standard.strategy.cqp._item_11": "1.0 - 500 Kbits/s",
-
     "pcm.standard": "Standard",
     "pcm.standard.sampleFormat._label": "Format",
     "pcm.standard.sampleFormat._description": "Débit constant.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bits",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bits",
     "pcm.standard.sampleFormat._item_2": "PCM 32 bits",
-
     "h264_qsv.basic": "Standard",
     "h264_qsv.basic.pixelFormat._label": "Codage de Pixel",
     "h264_qsv.basic.pixelFormat._description": "Codage de Pixel.",
@@ -2021,7 +1992,7 @@
     "h264_qsv.standard.avbr_convergence._label": "Convergence AVBR",
     "h264_qsv.standard.avbr_convergence._description": "Convergence de l'AVBR du contrôle du débit.",
     "h264_qsv.standard.preset._label": "Préréglage",
-    "h264_qsv.standard.preset._description": "Préréglage sur la vitesse d'analyse.",
+    "h264_qsv.standard.preset._description": "",
     "h264_qsv.standard.preset._item_0": "Très rapide (Very fast)",
     "h264_qsv.standard.preset._item_1": "Plus rapide (Faster)",
     "h264_qsv.standard.preset._item_2": "Rapide (Fast)",
@@ -2030,7 +2001,7 @@
     "h264_qsv.standard.preset._item_5": "Plus lent (Slower)",
     "h264_qsv.standard.preset._item_6": "Très lent (Very slow)",
     "h264_qsv.standard.profile._label": "Profile",
-    "h264_qsv.standard.profile._description": "Profile d'encodage.",
+    "h264_qsv.standard.profile._description": "",
     "h264_qsv.standard.profile._item_0": "Aucun",
     "h264_qsv.standard.profile._item_1": "De base (Baseline)",
     "h264_qsv.standard.profile._item_2": "Pincipal (Main)",
@@ -2093,7 +2064,6 @@
     "h264_qsv.advanced.aud._description": "Insérez le NAL du séparateur d'unité d'accès",
     "h264_qsv.advanced.repeat_pps._label": "Répéter PPS",
     "h264_qsv.advanced.repeat_pps._description": "Répéter PPS pour chaque image.",
-
     "hevc_qsv.basic": "Standard",
     "hevc_qsv.basic.pixelFormat._label": "Codage de Pixel",
     "hevc_qsv.basic.pixelFormat._description": "Codage de Pixel.",
@@ -2119,7 +2089,7 @@
     "hevc_qsv.standard.avbr_convergence._label": "Convergence AVBR",
     "hevc_qsv.standard.avbr_convergence._description": "Convergence de l'AVBR du contrôle du débit.",
     "hevc_qsv.standard.preset._label": "Préréglage",
-    "hevc_qsv.standard.preset._description": "Préréglage sur la vitesse d'analyse.",
+    "hevc_qsv.standard.preset._description": "",
     "hevc_qsv.standard.preset._item_0": "Très rapide (Very fast)",
     "hevc_qsv.standard.preset._item_1": "Plus rapide (Faster)",
     "hevc_qsv.standard.preset._item_2": "Rapide (Fast)",
@@ -2128,7 +2098,7 @@
     "hevc_qsv.standard.preset._item_5": "Plus lent (Slower)",
     "hevc_qsv.standard.preset._item_6": "Très lent (Very slow)",
     "hevc_qsv.standard.profile._label": "Profile",
-    "hevc_qsv.standard.profile._description": "Profile d'encodage.",
+    "hevc_qsv.standard.profile._description": "",
     "hevc_qsv.standard.profile._item_0": "Aucun",
     "hevc_qsv.standard.profile._item_1": "Pincipal (Main)",
     "hevc_qsv.standard.profile._item_2": "Pincipal 10 (Main 10)",
@@ -2164,14 +2134,13 @@
     "hevc_qsv.advanced.gpb._description": "1: GPB (généralisé P/B-frame); 0: régulier P-frame (défault 1)",
     "hevc_qsv.advanced.gpb._item_0": "Régulier P-frame",
     "hevc_qsv.advanced.gpb._item_1": "GPB (généralisé P/B-frame)",
-
     "mpeg2_qsv.standard": "Standard",
     "mpeg2_qsv.standard.bitrate._label": "Débit [kbits]",
     "mpeg2_qsv.standard.bitrate._description": "Le débit autorisé par l'encodeur.",
     "mpeg2_qsv.standard.maxrate._label": "Débit Maximum [kbits]",
     "mpeg2_qsv.standard.maxrate._description": "Une valeur plus élevée peut améliorer la qualité maximale, mais augmente les exigences du décodeur.",
     "mpeg2_qsv.standard.preset._label": "Préréglage",
-    "mpeg2_qsv.standard.preset._description": "Préréglage sur la vitesse d'analyse.",
+    "mpeg2_qsv.standard.preset._description": "",
     "mpeg2_qsv.standard.preset._item_0": "Très rapide (Very fast)",
     "mpeg2_qsv.standard.preset._item_1": "Plus rapide (Faster)",
     "mpeg2_qsv.standard.preset._item_2": "Rapide (Fast)",
@@ -2180,7 +2149,7 @@
     "mpeg2_qsv.standard.preset._item_5": "Plus lent (Slower)",
     "mpeg2_qsv.standard.preset._item_6": "Très lent (Very slow)",
     "mpeg2_qsv.standard.profile._label": "Profile",
-    "mpeg2_qsv.standard.profile._description": "Profile d'encodage.",
+    "mpeg2_qsv.standard.profile._description": "",
     "mpeg2_qsv.standard.profile._item_0": "Simple",
     "mpeg2_qsv.standard.profile._item_1": "Pincipal (Main)",
     "mpeg2_qsv.standard.profile._item_2": "Haut (High)",
@@ -2209,12 +2178,12 @@
     "mpeg2_qsv.advanced.forced_idr._description": "Force les I-frames comme IDR-frames.",
     "mpeg2_qsv.advanced.low_power._label": "Faible consommation",
     "mpeg2_qsv.advanced.low_power._description": "Active la faible consommation (expérimental: beaucoup de limitations, version de mfx, modes de BRC, etc.)",
-
     "mpeg2video.basic": "Standard",
     "mpeg2video.basic.pixelFormat._label": "Codage de Pixel",
     "mpeg2video.basic.pixelFormat._description": "Codage de Pixel.",
     "mpeg2video.basic.pixelFormat._item_0": "YUV 4:2:0",
     "mpeg2video.basic.pixelFormat._item_1": "YUV 4:2:2",
+    "mpeg2video.standard": "Standard",
     "mpeg2video.standard.strategy._label": "Stratégie",
     "mpeg2video.standard.strategy._description": "Le mode d'encodage à utiliser. Choisir le débit ou la qualité.",
     "mpeg2video.standard.strategy._item_0": "CBR / VBR",
@@ -2353,7 +2322,6 @@
     "mpeg2video.advanced.mepre._description": "Pré-estimation du mouvement.",
     "mpeg2video.advanced.a53cc._label": "A53 CC",
     "mpeg2video.advanced.a53cc._description": "Utiliser les sous-titres codés A53 (si disponible).",
-
     "libsvt_av1.basic": "Standard",
     "libsvt_av1.basic.pixelFormat._label": "Codage de Pixel",
     "libsvt_av1.basic.pixelFormat._description": "Codage de Pixel.",
@@ -2421,14 +2389,13 @@
     "libsvt_av1.advanced.hielevel._item_2": "3 niveaux",
     "libsvt_av1.advanced.hielevel._item_3": "4 niveaux",
     "libsvt_av1.advanced.sc_detection._label": "Détection des changements de scène",
-    "libsvt_av1.advanced.sc_detection._description": "",
+    "libsvt_av1.advanced.sc_detection._description": "Scene change detection",
     "libsvt_av1.advanced.bl_mode._label": "Mode BL",
     "libsvt_av1.advanced.bl_mode._description": "Paramètre du type d'accès aléatoire de la prédiction.",
     "libsvt_av1.advanced.forced-idr._label": "IDR Forcé",
     "libsvt_av1.advanced.forced-idr._description": "Si les images clés sont forcées, alors c'est en tant qu'images IDR.",
     "libsvt_av1.advanced.aud._label": "AUD",
     "libsvt_av1.advanced.aud._description": "Inclure AUD.",
-
     "libsvt_hevc.basic": "*Basic",
     "libsvt_hevc.basic.pixelFormat._label": "*Pixel format",
     "libsvt_hevc.basic.pixelFormat._description": "*Pixel format",
@@ -2503,7 +2470,6 @@
     "libsvt_hevc.advanced.aud._description": "*Include AUD",
     "libsvt_hevc.advanced.asm_type._label": "*ASM",
     "libsvt_hevc.advanced.asm_type._description": "*Assembly instruction set type [false: C Only, true: Auto]",
-
     "filter.bwdif": "Désentrelacement (Bob)",
     "filter.bwdif.standard": "Standard",
     "filter.bwdif.standard.mode._label": "Mode",
