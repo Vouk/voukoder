@@ -37,7 +37,7 @@
     "ui.premiere.tab.video.framerate._item_14": "119.88",
     "ui.premiere.tab.video.framerate._item_15": "120",
     "ui.premiere.tab.video.fieldtype._label": "Feldreihenfolge",
-    "ui.premiere.tab.video.fieldtype._description": "Feldfolge von interlaced sources.",
+    "ui.premiere.tab.video.fieldtype._description": "Field order of interlaced sources.",
     "ui.premiere.tab.video.fieldtype._item_0": "Keins (Progressive)",
     "ui.premiere.tab.video.fieldtype._item_1": "Obere zuerst",
     "ui.premiere.tab.video.fieldtype._item_2": "Untere zuerst",
