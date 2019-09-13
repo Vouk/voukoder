@@ -76,7 +76,6 @@
     "ui.premiere.error.encoderError": "Unable to initialize the encoder.\n\nThis has most likely to do with an invalid combination of options.",
     "ui.premiere.error.encoderError.nvenc.sessions": "Make sure there is at least one free NVENC session and close all other programs that make use of NVENC.",
     "ui.premiere.error.encoderError.level": "Please check if the used options and presets comply to the selected output level. Even the encoders default configuration (no options set at all) might not comply with all levels.",
-
     "ui.voukoder.buttonOkay": "&OK",
     "ui.voukoder.buttonCancel": "&Cancel",
     "ui.voukoder.configuration": "Configuration",
@@ -90,7 +89,6 @@
     "ui.voukoder.configuration.filters.remove": "Remove",
     "ui.voukoder.editfilter.title": "Edit filter",
     "ui.voukoder.editfilter.options": "Options",
-
     "ui.systray.menu.open_voukoder": "Open voukoder.org ...",
     "ui.systray.menu.log": "Log",
     "ui.systray.menu.log.view": "View ...",
@@ -99,7 +97,6 @@
     "ui.systray.menu.log.copy": "Copy to clipboard",
     "ui.systray.menu.log.clear": "Clear",
     "ui.systray.menu.download": "Download %s ...",
-
     "ui.encoderconfig.true": "Yes",
     "ui.encoderconfig.false": "No",
     "ui.encoderconfig.general": "Output",
@@ -133,7 +130,6 @@
     "ui.encoderconfig.buttonOkay": "&OK",
     "ui.encoderconfig.buttonCancel": "&Cancel",
     "ui.encoderconfig.advanceCheck": "Show advanced options",
-
     "vsd.spherical": "Spherical",
     "vsd.spherical.projection._label": "Projection",
     "vsd.spherical.projection._description": "Projection of the video surface(s) on a sphere.",
@@ -172,7 +168,6 @@
     "vsd.stereo3d.view._item_0": "Packed",
     "vsd.stereo3d.view._item_1": "Left",
     "vsd.stereo3d.view._item_2": "Right",
-
     "prores_ks.basic": "Basic",
     "prores_ks.basic.pixelFormat._label": "Color Format",
     "prores_ks.basic.pixelFormat._description": "Color encoding system.",
@@ -213,7 +208,6 @@
     "prores_ks.misc.alpha_bits._item_2": "16 bits",
     "prores_ks.misc.vendor._label": "Vendor ID",
     "prores_ks.misc.vendor._description": "FFMpeg usually identifies as 'Lavc'.",
-
     "ffv1.basic": "Basic",
     "ffv1.basic.pixelFormat._label": "Pixel format",
     "ffv1.basic.pixelFormat._description": "Pixel format",
@@ -259,7 +253,6 @@
     "ffv1.misc.context._item_0": "Small",
     "ffv1.misc.context._item_1": "Large",
     "ffv1.misc.g._label": "Max. GOP Size",
-
     "h264_amf.standard": "Standard",
     "h264_amf.standard.usage._label": "Usage",
     "h264_amf.standard.usage._description": "Usage",
@@ -348,7 +341,6 @@
     "h264_amf.misc.aud._description": "Inserts AU Delimiter NAL unit",
     "h264_amf.misc.enforce_hrd._label": "Enforce HRD",
     "h264_amf.misc.enforce_hrd._description": "Enforce HRD",
-
     "hevc_amf.standard": "Standard",
     "hevc_amf.standard.usage._label": "Usage",
     "hevc_amf.standard.usage._description": "Usage",
@@ -432,7 +424,6 @@
     "hevc_amf.misc.aud._description": "Inserts AU Delimiter NAL unit",
     "hevc_amf.misc.enforce_hrd._label": "Enforce HRD",
     "hevc_amf.misc.enforce_hrd._description": "Enforce HRD",
-
     "h264_nvenc.hardware": "Hardware",
     "h264_nvenc.hardware.gpu._label": "GPU",
     "h264_nvenc.hardware.gpu._description": "CUDA capable video card.",
@@ -542,7 +533,6 @@
     "h264_nvenc.misc.bdc._description": "Create video files that will be compatible for Blu-Ray discs.",
     "h264_nvenc.misc.aud._label": "Use AUD",
     "h264_nvenc.misc.aud._description": "Access unit delimiter can be used for signaling about start of video frame.",
-
     "hevc_nvenc.hardware": "Hardware",
     "hevc_nvenc.hardware.gpu._label": "GPU",
     "hevc_nvenc.hardware.gpu._description": "CUDA capable video card.",
@@ -648,7 +638,6 @@
     "hevc_nvenc.misc.bdc._description": "Create video files that will be compatible for Blu-Ray discs.",
     "hevc_nvenc.misc.aud._label": "Use AUD",
     "hevc_nvenc.misc.aud._description": "Access unit delimiter can be used for signaling about start of video frame.",
-
     "libx264.basic": "Basic",
     "libx264.basic.pixelFormat._label": "Pixel format",
     "libx264.basic.pixelFormat._description": "Pixel format",
@@ -877,7 +866,6 @@
     "libx264.misc.nal-hrd._item_0": "Off",
     "libx264.misc.nal-hrd._item_1": "CBR",
     "libx264.misc.nal-hrd._item_2": "VBR",
-
     "libx264rgb.standard": "Standard",
     "libx264rgb.standard.preset._label": "Preset",
     "libx264rgb.standard.preset._description": "Processing time of each frame. Slower values increase the overall video quality but take more time to process.",
@@ -1094,7 +1082,6 @@
     "libx264rgb.misc.nal-hrd._item_0": "Off",
     "libx264rgb.misc.nal-hrd._item_1": "CBR",
     "libx264rgb.misc.nal-hrd._item_2": "VBR",
-
     "libx265.basic": "Basic",
     "libx265.basic.pixelFormat._label": "Color Format",
     "libx265.basic.pixelFormat._description": "Color encoding system.",
@@ -1494,7 +1481,6 @@
     "libx265.bitstream.aud._description": "Emit an access unit delimiter NAL at the start of each slice access unit. If 'repeat-headers' is not enabled (indicating the user will be writing headers manually at the start of the stream) the very first AUD will be skipped since it cannot be placed at the start of the access unit, where it belongs.",
     "libx265.bitstream.hrd._label": "HRD",
     "libx265.bitstream.hrd._description": "Enable the signalling of HRD parameters to the decoder. The HRD parameters are carried by the Buffering Period SEI messages and Picture Timing SEI messages providing timing information to the decoder.",
-
     "libvpx.standard": "Standard",
     "libvpx.standard.cpu-used._description": "Quality/Speed ratio modifier",
     "libvpx.standard.cpu-used._label": "CPU used",
@@ -1530,7 +1516,6 @@
     "libvpx.misc": "Miscellaneous",
     "libvpx.misc.sharpness._description": "Anything above 0 weakens the deblocking effect of the loop filter.",
     "libvpx.misc.sharpness._label": "Sharpness",
-
     "libvpx-vp9.basic": "Basic",
     "libvpx-vp9.basic.pixelFormat._label": "Color Format",
     "libvpx-vp9.basic.pixelFormat._description": "Color encoding system.",
@@ -1581,7 +1566,6 @@
     "libvpx-vp9.misc": "Miscellaneous",
     "libvpx-vp9.misc.sharpness._description": "Anything above 0 weakens the deblocking effect of the loop filter.",
     "libvpx-vp9.misc.sharpness._label": "Sharpness",
-
     "hap.standard": "Standard",
     "hap.standard.chunks._description": "Specifies the number of chunks to split frames into, between 1 and 64. This permits multithreaded decoding of large frames, potentially at the cost of data-rate. The encoder may modify this value to divide frames evenly.",
     "hap.standard.chunks._label": "Chunks",
@@ -1594,7 +1578,6 @@
     "hap.standard.format._item_1": "HAP Alpha",
     "hap.standard.format._item_2": "HAP Q",
     "hap.standard.format._label": "Format",
-
     "aac.standard": "Standard",
     "aac.standard.profile._label": "Profile",
     "aac.standard.profile._description": "Controls properties such as compression algorithm and complexity.",
@@ -1613,7 +1596,6 @@
     "aac.standard.bitrate._item_6": "384 kbit/s",
     "aac.standard.bitrate._item_7": "448 kbit/s",
     "aac.standard.bitrate._item_8": "512 kbit/s",
-
     "ac3.standard": "Standard",
     "ac3.standard.bitrate._label": "Bitrate",
     "ac3.standard.bitrate._description": "The bitrate used for encoding audio. Higher bitrate implies better quality.",
@@ -1719,7 +1701,6 @@
     "ac3.bitstream.ad_conv_type._description": "Indicates whether the audio has passed through HDCD A/D conversion.",
     "ac3.bitstream.ad_conv_type._item_0": "Standard A/D Converter (default)",
     "ac3.bitstream.ad_conv_type._item_1": "HDCD A/D Converter",
-
     "eac3.standard": "Standard",
     "eac3.standard.bitrate._label": "Bitrate",
     "eac3.standard.bitrate._description": "The bitrate used for encoding audio. Higher bitrate implies better quality.",
@@ -1824,9 +1805,7 @@
     "eac3.bitstream.ad_conv_type._description": "Indicates whether the audio has passed through HDCD A/D conversion.",
     "eac3.bitstream.ad_conv_type._item_0": "Standard A/D Converter (default)",
     "eac3.bitstream.ad_conv_type._item_1": "HDCD A/D Converter",
-
     "truehd.standard": "Standard",
-
     "dca.standard": "Standard",
     "dca.standard.bitrate._label": "Bitrate",
     "dca.standard.bitrate._description": "The bitrate used for encoding audio. Higher bitrate implies better quality.",
@@ -1841,13 +1820,11 @@
     "dca.misc": "Miscellaneous",
     "dca.misc.dca_adpcm._label": "ADPCM",
     "dca.misc.dca_adpcm._description": "Use ADPCM encoding",
-
     "alac.prediction_order": "Prediction Order",
     "alac.prediction_order.min_prediction_order._label": "Minimum",
     "alac.prediction_order.min_prediction_order._description": "Minimum amount of prediction order.",
     "alac.prediction_order.max_prediction_order._label": "Maximum",
     "alac.prediction_order.max_prediction_order._description": "Maximum amount of prediction order.",
-
     "libfdk_aac.standard": "Standard",
     "libfdk_aac.standard.strategy._label": "Strategy",
     "libfdk_aac.standard.strategy._description": "The encoding strategy to use.",
@@ -1888,7 +1865,6 @@
     "libfdk_aac.misc.signaling._item_0": "Implicit backwards compatible",
     "libfdk_aac.misc.signaling._item_1": "Explicit SBR, implicit PS",
     "libfdk_aac.misc.signaling._item_2": "Explicit hierarchical",
-
     "flac.basic": "Basic",
     "flac.basic.sampleFormat._label": "Sample format",
     "flac.basic.sampleFormat._description": "Constant encoding bitrate.",
@@ -1897,7 +1873,6 @@
     "flac.compression": "Compression",
     "flac.compression.compression_level._label": "Compression Level",
     "flac.compression.compression_level._description": "Higher values result in smaller files, but slightly longer encoding time.",
-
     "libmp3lame.standard": "Standard",
     "libmp3lame.standard.abr._label": "Enable ABR",
     "libmp3lame.standard.abr._description": "Enable ABR",
@@ -1916,7 +1891,6 @@
     "libmp3lame.standard.b._item_10": "224 kbit/s",
     "libmp3lame.standard.b._item_11": "256 kbit/s",
     "libmp3lame.standard.b._item_12": "320 kbit/s",
-
     "libopus.standard": "Standard",
     "libopus.standard.strategy._label": "Strategy",
     "libopus.standard.strategy._description": "The encoding strategy to use.",
@@ -1956,7 +1930,6 @@
     "libopus.standard.strategy.vbr_constrained._item_6": "384 kbit/s",
     "libopus.standard.strategy.vbr_constrained._item_7": "448 kbit/s",
     "libopus.standard.strategy.vbr_constrained._item_8": "512 kbit/s",
-
     "libvorbis.standard": "Standard",
     "libvorbis.standard.strategy._label": "Strategy",
     "libvorbis.standard.strategy._description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
@@ -1986,14 +1959,12 @@
     "libvorbis.standard.strategy.cqp._item_9": "0.8 - 256 kbit/s",
     "libvorbis.standard.strategy.cqp._item_10": "0.9 - 320 kbit/s",
     "libvorbis.standard.strategy.cqp._item_11": "1.0 - 500 kbit/s",
-
     "pcm.standard": "Standard",
     "pcm.standard.sampleFormat._label": "Sample format",
     "pcm.standard.sampleFormat._description": "Constant encoding bitrate.",
     "pcm.standard.sampleFormat._item_0": "PCM 16 bit",
     "pcm.standard.sampleFormat._item_1": "PCM 24 bit",
     "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
-
     "h264_qsv.basic": "Basic",
     "h264_qsv.basic.pixelFormat._label": "Pixel format",
     "h264_qsv.basic.pixelFormat._description": "Pixel format",
@@ -2091,7 +2062,6 @@
     "h264_qsv.advanced.aud._description": "Insert the Access Unit Delimiter NAL",
     "h264_qsv.advanced.repeat_pps._label": "Repeat pps",
     "h264_qsv.advanced.repeat_pps._description": "repeat pps for every frame",
-
     "hevc_qsv.basic": "Basic",
     "hevc_qsv.basic.pixelFormat._label": "Pixel format",
     "hevc_qsv.basic.pixelFormat._description": "Pixel format",
@@ -2162,7 +2132,6 @@
     "hevc_qsv.advanced.gpb._description": "1: GPB (generalized P/B frame); 0: regular P frame (default 1)",
     "hevc_qsv.advanced.gpb._item_0": "Regular P frame",
     "hevc_qsv.advanced.gpb._item_1": "GPB (generalized P/B frame)",
-
     "mpeg2_qsv.standard": "Standard",
     "mpeg2_qsv.standard.bitrate._label": "Bitrate [kbit]",
     "mpeg2_qsv.standard.bitrate._description": "The data rate allowed by the encoder.",
@@ -2207,7 +2176,6 @@
     "mpeg2_qsv.advanced.forced_idr._description": "Forcing I frames as IDR frames",
     "mpeg2_qsv.advanced.low_power._label": "Low power",
     "mpeg2_qsv.advanced.low_power._description": "enable low power mode(experimental: many limitations by mfx version, BRC modes, etc.)",
-
     "mpeg2video.basic": "Basic",
     "mpeg2video.basic.pixelFormat._label": "Pixel format",
     "mpeg2video.basic.pixelFormat._description": "Pixel format",
@@ -2352,7 +2320,6 @@
     "mpeg2video.advanced.mepre._description": "pre motion estimation",
     "mpeg2video.advanced.a53cc._label": "A53 CC",
     "mpeg2video.advanced.a53cc._description": "Use A53 Closed Captions (if available)",
-
     "libsvt_av1.basic": "Basic",
     "libsvt_av1.basic.pixelFormat._label": "Pixel format",
     "libsvt_av1.basic.pixelFormat._description": "Pixel format",
@@ -2427,7 +2394,6 @@
     "libsvt_av1.advanced.forced-idr._description": "If forcing keyframes, force them as IDR frames.",
     "libsvt_av1.advanced.aud._label": "AUD",
     "libsvt_av1.advanced.aud._description": "Include AUD",
-
     "libsvt_hevc.basic": "Basic",
     "libsvt_hevc.basic.pixelFormat._label": "Pixel format",
     "libsvt_hevc.basic.pixelFormat._description": "Pixel format",
@@ -2502,7 +2468,6 @@
     "libsvt_hevc.advanced.aud._description": "Include AUD",
     "libsvt_hevc.advanced.asm_type._label": "ASM",
     "libsvt_hevc.advanced.asm_type._description": "Assembly instruction set type [false: C Only, true: Auto]",
-
     "filter.bwdif": "Deinterlace (Bob)",
     "filter.bwdif.standard": "Standard",
     "filter.bwdif.standard.mode._label": "Mode",
