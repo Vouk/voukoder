@@ -1111,9 +1111,6 @@
     <None Include="resources\translations\de.json">
       <Filter>Ressourcendateien\Translations</Filter>
     </None>
-    <None Include="resources\translations.json">
-      <Filter>Ressourcendateien</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
