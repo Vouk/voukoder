@@ -1111,8 +1111,8 @@
     <None Include="resources\translations\de.json">
       <Filter>Ressourcendateien\Translations</Filter>
     </None>
-    <None Include="resources\translations\__en__.json">
-      <Filter>Ressourcendateien\Translations</Filter>
+    <None Include="resources\translations.json">
+      <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

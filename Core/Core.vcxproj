@@ -508,7 +508,7 @@
     <None Include="resources\muxers\hevc.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
-    <None Include="resources\translations\__en__.json" />
+    <None Include="resources\translations.json" />
     <None Include="resources\video_side_data.json" />
     <None Include="resources\muxers\aac.json" />
     <None Include="resources\muxers\flac.json" />

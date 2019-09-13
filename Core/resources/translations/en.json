@@ -185,8 +185,6 @@
     "prores_ks.standard.profile422._item_1": "LT",
     "prores_ks.standard.profile422._item_2": "Standard",
     "prores_ks.standard.profile422._item_3": "High Quality",
-    "prores_ks.standard.profile422._item_4": "4444",
-    "prores_ks.standard.profile422._item_5": "4444 XQ",
     "prores_ks.standard.profile444._label": "Profile",
     "prores_ks.standard.profile444._description": "Constraints the bitrate range and controls other properties such as compression algorithm and chroma format.",
     "prores_ks.standard.profile444._item_0": "4444",
