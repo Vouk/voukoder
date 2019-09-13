@@ -1149,7 +1149,7 @@
     "libx265.standard.tune._item_3": "Zero Latency",
     "libx265.standard.tune._item_4": "Fast Decode",
     "libx265.standard.high-tier._label": "Enable High-Tier",
-    "libx265.standard.high-tier._description": "The encoder will first attempt to encode at the specified level, main tier first, turning on high tier only if necessary and available at that level.If your requested level does not support a High tier, high tier will not be supported. If –no-high-tier has been specified, then the encoder will attempt to encode only at the main tier.",
+    "libx265.standard.high-tier._description": "The encoder will first attempt to encode at the specified level, main tier first, turning on high tier only if necessary and available at that level.If your requested level does not support a High tier, high tier will not be supported. If ?no-high-tier has been specified, then the encoder will attempt to encode only at the main tier.",
     "libx265.standard.strategy._label": "Strategy",
     "libx265.standard.strategy._description": "The encoding mode to use. Choose Average Bitrate (ABR), Constant Rate Factor (CRF) Constant Quantizer (CQP) or even Lossless.",
     "libx265.standard.strategy._item_0": "Average Bitrate (ABR)",
