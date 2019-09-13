@@ -49,15 +49,15 @@ CVoukoder::CVoukoder():
 
 CVoukoder::~CVoukoder()
 {
-	// Free audio buffers
-	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
-		av_free(audioBuffer[p]);
-		
 	if (aFrame)
 		av_frame_free(&aFrame);
 
 	if (vFrame)
 		av_frame_free(&vFrame);
+
+	// Free audio buffers
+	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
+		av_free(audioBuffer[p]);
 }
 
 STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
@@ -124,8 +124,23 @@ STDMETHODIMP CVoukoder::GetConfig(VOUKODER_CONFIG* config)
 
 STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout)
 {
+	// Replace file extension if necessary
+	std::wstring fname(filename);
+	std::wstring::size_type i = fname.rfind('.', fname.length());
+	for (auto info : Voukoder::Config::Get().muxerInfos)
+	{
+		if (info.id == exportInfo.format.id)
+		{
+			if (i != std::wstring::npos)
+			{
+				fname.replace(i + 1, info.extension.length(), info.extension);
+				break;
+			}
+		}
+	}
+
 	// Set non-stored export settings
-	exportInfo.filename = filename;
+	exportInfo.filename = fname;
 	exportInfo.application = application;
 	exportInfo.passes = passes;
 	exportInfo.video.width = width;
