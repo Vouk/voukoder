@@ -38,27 +38,10 @@ CVoukoder::CVoukoder():
 	av_log_set_level(AV_LOG_TRACE);
 	av_log_set_callback(AvCallback);
 #endif
-	
-	// Create the audio buffer
-	audioBuffer = new uint8_t*[AV_NUM_DATA_POINTERS];
-	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
-		audioBuffer[p] = (uint8_t*)av_malloc(16000);
-
-	audioBufferPos = 0;
 }
 
 CVoukoder::~CVoukoder()
-{
-	if (aFrame)
-		av_frame_free(&aFrame);
-
-	if (vFrame)
-		av_frame_free(&vFrame);
-
-	// Free audio buffers
-	for (int p = 0; p < AV_NUM_DATA_POINTERS; p++)
-		av_free(audioBuffer[p]);
-}
+{}
 
 STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 {
@@ -121,6 +104,13 @@ STDMETHODIMP CVoukoder::GetConfig(VOUKODER_CONFIG* config)
 
 	return S_OK;
 }
+
+STDMETHODIMP CVoukoder::GetAudioChunkSize(int* chunkSize)
+{
+	*chunkSize = encoder->getAudioFrameSize();
+	return S_OK;
+}
+
 
 STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout)
 {
@@ -217,74 +207,58 @@ STDMETHODIMP CVoukoder::SendAudioSamples(uint8_t** buffer, int samples, int bloc
 {
 	assert(planes <= AV_NUM_DATA_POINTERS);
 
-	int chunkSize = encoder->getAudioFrameSize();
+	AVFrame* frame = av_frame_alloc();
+	frame->format = av_get_sample_fmt(format);
+	frame->channel_layout = av_get_channel_layout(layout);
+	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
+	frame->sample_rate = sampleRate;
+	frame->nb_samples = samples;
 
-	if (aFrame == NULL)
-	{
-		aFrame = av_frame_alloc();
-		aFrame->format = av_get_sample_fmt(format);
-		aFrame->channel_layout = av_get_channel_layout(layout);
-		aFrame->sample_rate = sampleRate;
-		aFrame->nb_samples = chunkSize;
-
-		// Reserve buffer
-		if (av_frame_get_buffer(aFrame, av_cpu_max_align()) < 0)
-		{
-			vkLogError("Can not reserve audio buffer!");
-			return S_FALSE;
-		}
-	}
-
-	// Add samples to buffer
+	// Fill each plane
 	for (int p = 0; p < planes; p++)
-		memcpy(audioBuffer[p] + audioBufferPos, buffer[p], samples * blockSize);
-
-	audioBufferPos += samples * blockSize;
-
-	while (audioBufferPos >= encoder->getAudioFrameSize())
 	{
-		// Fill frame buffer
-		for (int p = 0; p < planes; p++)
-			memcpy(aFrame->data[p], audioBuffer[p], aFrame->nb_samples * blockSize);
-		
-		audioBufferPos -= aFrame->nb_samples * blockSize;
-
-		aFrame->pts = aPts;
-
-		aPts += aFrame->nb_samples;
-
-		int hr = encoder->writeAudioFrame(aFrame) == 0;
+		frame->data[p] = buffer[p];
+		frame->linesize[p] = samples * blockSize;
 	}
 
-	return S_OK;
+	frame->pts = aPts;
+
+	aPts += frame->nb_samples;
+
+	HRESULT hr = encoder->writeAudioFrame(frame) == 0 ? S_OK : S_FALSE;
+
+	av_frame_free(&frame);
+
+	return hr;
 }
 
 STDMETHODIMP CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format)
 {
 	assert(planes <= AV_NUM_DATA_POINTERS);
 
-	if (vFrame == NULL)
-	{
-		vFrame = av_frame_alloc();
-		vFrame->width = width;
-		vFrame->height = height;
-		vFrame->format = av_get_pix_fmt(format);
-		vFrame->color_range = AVColorRange::AVCOL_RANGE_MPEG;
-		vFrame->colorspace = AVColorSpace::AVCOL_SPC_BT709;
-		vFrame->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
-		vFrame->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-	}
+	AVFrame* frame = av_frame_alloc();
+	frame->width = width;
+	frame->height = height;
+	frame->format = av_get_pix_fmt(format);
+	frame->color_range = AVColorRange::AVCOL_RANGE_MPEG;
+	frame->colorspace = AVColorSpace::AVCOL_SPC_BT709;
+	frame->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
+	frame->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
 
 	// Fill each plane
-	for (int i = 0; i < FFMIN(planes, AV_NUM_DATA_POINTERS); i++)
+	for (int i = 0; i < planes; i++)
 	{
-		vFrame->data[i] = buffer[i];
-		vFrame->linesize[i] = rowsize[i];
+		frame->data[i] = buffer[i];
+		frame->linesize[i] = rowsize[i];
 	}
 
-	vFrame->pts = vPts = idx;
+	frame->pts = vPts = idx;
 
-	return encoder->writeVideoFrame(vFrame);
+	HRESULT hr = encoder->writeVideoFrame(frame) == 0 ? S_OK : S_FALSE;
+
+	av_frame_free(&frame);
+
+	return hr;
 }
 
 STDMETHODIMP CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)

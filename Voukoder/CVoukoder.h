@@ -17,6 +17,7 @@ public:
 	STDMETHOD(Log)(const wchar_t* text, LogLevel level = LogLevel::Info);
 	STDMETHOD(SetConfig)(VOUKODER_CONFIG config);
 	STDMETHOD(GetConfig)(VOUKODER_CONFIG *config);
+	STDMETHOD(GetAudioChunkSize)(int* chunkSize);
 	STDMETHOD(IsAudioWaiting)();
 	STDMETHOD(SendAudioSamples)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const char* layout, const char* format);
 	STDMETHOD(SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format);
@@ -27,8 +28,4 @@ private:
 	EncoderEngine* encoder = NULL;
 	int64_t aPts;
 	int64_t vPts;
-	int audioBufferPos = 0;
-	uint8_t** audioBuffer;
-	AVFrame* aFrame = NULL;
-	AVFrame* vFrame = NULL;
 };

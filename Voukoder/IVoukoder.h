@@ -82,6 +82,7 @@ interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IVoukoder : p
 	STDMETHOD(Log)(const wchar_t* text, LogLevel level = LogLevel::Info)PURE;
 	STDMETHOD(SetConfig)(VOUKODER_CONFIG config)PURE;
 	STDMETHOD(GetConfig)(VOUKODER_CONFIG* config)PURE;
+	STDMETHOD(GetAudioChunkSize)(int* chunkSize)PURE;
 	STDMETHOD(IsAudioWaiting)()PURE;
 	STDMETHOD(SendAudioSamples)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const char* layout, const char* format)PURE;
 	STDMETHOD(SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format)PURE;
