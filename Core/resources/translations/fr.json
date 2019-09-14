@@ -42,7 +42,7 @@
     "ui.premiere.tab.video.fieldtype._item_1": "Supérieur en premier",
     "ui.premiere.tab.video.fieldtype._item_2": "Inférieur en premier",
     "ui.premiere.tab.video.colorrange._label": "Plage de luminosité",
-    "ui.premiere.tab.video.colorrange._description": "Plage de luminosité.",
+    "ui.premiere.tab.video.colorrange._description": "Plage de couleur.",
     "ui.premiere.tab.video.colorrange._item_0": "Limitée (16-235)",
     "ui.premiere.tab.video.colorrange._item_1": "Complète (0-255)",
     "ui.premiere.tab.video.colorspace._label": "Espace des couleurs",
