@@ -18,9 +18,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="IVoukoder.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="ComBase.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -34,6 +31,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="CVoukoder.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="IMediaEncoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

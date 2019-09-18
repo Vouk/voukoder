@@ -46,16 +46,16 @@ CVoukoder::~CVoukoder()
 STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 {
 	*ppv = NULL;
-	if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, __uuidof(IVoukoder)))
+	if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, __uuidof(IMediaEncoder)))
 	{
-		*ppv = (IVoukoder *)this;
+		*ppv = (IMediaEncoder *)this;
 		_AddRef();
 		return S_OK;
 	}
 	return E_NOINTERFACE;
 }
 
-STDMETHODIMP CVoukoder::SetConfig(VOUKODER_CONFIG config)
+STDMETHODIMP_(void) CVoukoder::SetConfig(MediaEncoder::CONFIG config)
 {
 	// Video
 	exportInfo.video.id = config.video.encoder;
@@ -63,7 +63,14 @@ STDMETHODIMP CVoukoder::SetConfig(VOUKODER_CONFIG config)
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
 	exportInfo.video.sideData.Deserialize(config.video.sidedata);
-	exportInfo.video.pixelFormat = av_get_pix_fmt(config.video.format);
+
+	if (wcslen(config.video.format) == 0)
+	{
+		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
+			exportInfo.video.pixelFormat = av_get_pix_fmt(exportInfo.video.options.at("_pixelFormat").c_str());
+	}
+	else
+		exportInfo.video.pixelFormat = av_get_pix_fmt(wxString(config.video.format));
 
 	// Audio
 	exportInfo.audio.id = config.audio.encoder;
@@ -71,51 +78,82 @@ STDMETHODIMP CVoukoder::SetConfig(VOUKODER_CONFIG config)
 	exportInfo.audio.options.Deserialize(config.audio.options);
 	exportInfo.audio.filters.Deserialize(config.audio.filters);
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
-	exportInfo.audio.sampleFormat = av_get_sample_fmt(config.audio.format);
+
+	if (wcslen(config.audio.format) == 0)
+	{
+		if (exportInfo.audio.options.find("_sampleFormat") != exportInfo.audio.options.end())
+			exportInfo.audio.sampleFormat = av_get_sample_fmt(exportInfo.audio.options.at("_sampleFormat").c_str());
+	}
+	else
+		exportInfo.audio.sampleFormat = av_get_sample_fmt(wxString(config.audio.format));
 
 	// Format
 	exportInfo.format.id = config.format.container;
 	exportInfo.format.faststart = config.format.faststart;
 
-	return S_OK;
+	// Multipass encoding
+	if (exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
+	{
+		if (exportInfo.video.options.at("_2pass") == "1")
+			exportInfo.passes = 2;
+	}
+	else
+		exportInfo.passes = 1;
 }
 
-STDMETHODIMP CVoukoder::GetConfig(VOUKODER_CONFIG* config)
+STDMETHODIMP_(void) CVoukoder::GetConfig(MediaEncoder::CONFIG* config)
 {
-	config->version = VOUKODER_CONFIG_VERSION;
+	config->version = MEDIA_ENCODER_CONFIG_VERSION;
 
 	// Video
-	strcpy_s(config->video.encoder, exportInfo.video.id);
-	strcpy_s(config->video.options, exportInfo.video.options.Serialize(true));
-	strcpy_s(config->video.filters, exportInfo.video.filters.Serialize());
-	strcpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true));
-	strcpy_s(config->video.format, av_get_pix_fmt_name(exportInfo.video.pixelFormat));
+	wcscpy_s(config->video.encoder, exportInfo.video.id);
+	wcscpy_s(config->video.options, exportInfo.video.options.Serialize(true));
+	wcscpy_s(config->video.filters, exportInfo.video.filters.Serialize());
+	wcscpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true));
+	const char* vformat = av_get_pix_fmt_name(exportInfo.video.pixelFormat);
+	mbstowcs(config->video.format, vformat, strlen(vformat));
 
 	// Audio
-	strcpy_s(config->audio.encoder, exportInfo.audio.id);
-	strcpy_s(config->audio.options, exportInfo.audio.options.Serialize(true));
-	strcpy_s(config->audio.filters, exportInfo.audio.filters.Serialize());
-	strcpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true));
-	strcpy_s(config->audio.format, av_get_sample_fmt_name(exportInfo.audio.sampleFormat));
+	wcscpy_s(config->audio.encoder, exportInfo.audio.id);
+	wcscpy_s(config->audio.options, exportInfo.audio.options.Serialize(true));
+	wcscpy_s(config->audio.filters, exportInfo.audio.filters.Serialize());
+	wcscpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true));
+	const char* aformat = av_get_sample_fmt_name(exportInfo.audio.sampleFormat);
+	mbstowcs(config->audio.format, aformat, strlen(aformat));
 	
 	// Format
-	strcpy_s(config->format.container, exportInfo.format.id);
+	wcscpy_s(config->format.container, exportInfo.format.id);
 	config->format.faststart = exportInfo.format.faststart;
-
-	return S_OK;
 }
 
-STDMETHODIMP CVoukoder::GetAudioChunkSize(int* chunkSize)
+STDMETHODIMP_(void) CVoukoder::GetAudioChunkSize(int* chunkSize)
 {
 	*chunkSize = encoder->getAudioFrameSize();
-	return S_OK;
 }
 
+STDMETHODIMP_(bool) CVoukoder::GetFileExtension(std::wstring& extension)
+{
+	for (auto info : Voukoder::Config::Get().muxerInfos)
+	{
+		if (info.id == exportInfo.format.id)
+		{
+			extension = info.extension;
+			return true;
+		}
+	}
 
-STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout)
+	return false;
+}
+
+STDMETHODIMP_(int) CVoukoder::GetMaxPasses()
+{
+	return exportInfo.passes;
+}
+
+STDMETHODIMP_(bool) CVoukoder::Open(MediaEncoder::INFO info)
 {
 	// Replace file extension if necessary
-	std::wstring fname(filename);
+	std::wstring fname(info.filename);
 	std::wstring::size_type i = fname.rfind('.', fname.length());
 	for (auto info : Voukoder::Config::Get().muxerInfos)
 	{
@@ -131,41 +169,82 @@ STDMETHODIMP CVoukoder::Open(const wchar_t* filename, const wchar_t* application
 
 	// Set non-stored export settings
 	exportInfo.filename = fname;
-	exportInfo.application = application;
-	exportInfo.passes = passes;
-	exportInfo.video.width = width;
-	exportInfo.video.height = height;
-	exportInfo.video.timebase = { (int)timebase.num, (int)timebase.den };
-	exportInfo.video.sampleAspectRatio = { (int)aspectratio.num, (int)aspectratio.den };
+	exportInfo.application = info.application;
+	exportInfo.video.width = info.video.width;
+	exportInfo.video.height = info.video.height;
+	exportInfo.video.timebase = { (int)info.video.timebase.num, (int)info.video.timebase.den };
+	exportInfo.video.sampleAspectRatio = { (int)info.video.aspectratio.num, (int)info.video.aspectratio.den };
 
-	switch (fieldorder)
+	// Video field order
+	switch (info.video.fieldorder)
 	{
-	case fieldorder::top:
+	case MediaEncoder::FieldOrder::Top:
 		exportInfo.video.fieldOrder = AV_FIELD_TT;
 		break;
-	case fieldorder::bottom:
+	case MediaEncoder::FieldOrder::Bottom:
 		exportInfo.video.fieldOrder = AV_FIELD_BB;
 		break;
 	default:
 		exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
 	}
 
-	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_MPEG; // TODO
-	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709; // TODO
-	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709; // TODO
-	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709; // TODO
-	exportInfo.audio.timebase = { 1, samplerate };
-	exportInfo.audio.channelLayout = av_get_channel_layout(channellayout);
+	exportInfo.video.colorRange = info.video.colorRange == MediaEncoder::ColorRange::Full ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
+
+	// Video color space
+	switch (info.video.colorSpace)
+	{
+	case MediaEncoder::ColorSpace::bt709:
+		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+		break;
+	case MediaEncoder::ColorSpace::bt601_PAL:
+		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
+		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+	case MediaEncoder::ColorSpace::bt601_NTSC:
+		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+	case MediaEncoder::ColorSpace::bt2020_CL:
+		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_CL;
+		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+	case MediaEncoder::ColorSpace::bt2020_NCL:
+		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
+		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+		break;
+	}
+
+	exportInfo.audio.timebase = { 1, info.audio.samplerate };
+
+	// Audio channel layout
+	switch (info.audio.channellayout)
+	{
+	case MediaEncoder::ChannelLayout::Mono:
+		exportInfo.audio.channelLayout = AV_CH_LAYOUT_MONO;
+		break;
+	case MediaEncoder::ChannelLayout::Stereo:
+		exportInfo.audio.channelLayout = AV_CH_LAYOUT_STEREO;
+		break;
+	case MediaEncoder::ChannelLayout::FivePointOne:
+		if (exportInfo.audio.id == "dca")
+			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+		else
+			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+		break;
+	}
 
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
-		return S_FALSE;
+		return false;
 
-	return S_OK;
+	return true;
 }
 
-STDMETHODIMP CVoukoder::Close(bool finalize)
+STDMETHODIMP_(void) CVoukoder::Close(bool finalize)
 {
 	if (encoder)
 	{
@@ -176,43 +255,62 @@ STDMETHODIMP CVoukoder::Close(bool finalize)
 
 		delete encoder;
 	}
-
-	return S_OK;
 }
 
-STDMETHODIMP CVoukoder::Log(const wchar_t* text, LogLevel level)
+STDMETHODIMP_(void) CVoukoder::Log(std::wstring text, ...)
 {
-	switch (level)
-	{
-	case LogLevel::Error:
-		vkLogError(text);
-		break;
-	case LogLevel::Warn:
-		vkLogWarn(text);
-		break;
-	default:
-		vkLogInfo(text);
-	}
+	wchar_t log[1024];
 
-	return S_OK;
+	va_list args;
+	va_start(args, log);
+	vswprintf_s(log, text.c_str(), args);
+	va_end(args);
+
+	vkLogInfo(log);
 }
 
-STDMETHODIMP CVoukoder::IsAudioWaiting()
+STDMETHODIMP_(bool) CVoukoder::IsAudioActive()
+{
+	return encoder->hasAudio();
+}
+
+STDMETHODIMP_(bool) CVoukoder::IsAudioWaiting()
 {
 	return encoder->hasAudio() &&
-		(av_compare_ts(vPts, exportInfo.video.timebase, aPts, exportInfo.audio.timebase) > 0) ? S_OK : S_FALSE;
+		(av_compare_ts(vPts, exportInfo.video.timebase, aPts, exportInfo.audio.timebase) > 0);
 }
 
-STDMETHODIMP CVoukoder::SendAudioSamples(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const char* layout, const char* format)
+STDMETHODIMP_(bool) CVoukoder::IsVideoActive()
+{
+	return encoder->hasVideo();
+}
+
+STDMETHODIMP_(bool) CVoukoder::SendAudioSampleChunk(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, MediaEncoder::ChannelLayout layout, const char* format)
 {
 	assert(planes <= AV_NUM_DATA_POINTERS);
 
 	AVFrame* frame = av_frame_alloc();
 	frame->format = av_get_sample_fmt(format);
-	frame->channel_layout = av_get_channel_layout(layout);
-	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
 	frame->sample_rate = sampleRate;
 	frame->nb_samples = samples;
+
+	switch (layout)
+	{
+	case MediaEncoder::ChannelLayout::Mono:
+		frame->channel_layout = AV_CH_LAYOUT_MONO;
+		break;
+	case MediaEncoder::ChannelLayout::Stereo:
+		frame->channel_layout = AV_CH_LAYOUT_STEREO;
+		break;
+	case MediaEncoder::ChannelLayout::FivePointOne:
+		if (exportInfo.audio.id == "dca")
+			frame->channel_layout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+		else
+			frame->channel_layout = AV_CH_LAYOUT_5POINT1_BACK;
+		break;
+	}
+
+	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
 
 	// Fill each plane
 	for (int p = 0; p < planes; p++)
@@ -225,17 +323,36 @@ STDMETHODIMP CVoukoder::SendAudioSamples(uint8_t** buffer, int samples, int bloc
 
 	aPts += frame->nb_samples;
 
-	HRESULT hr = encoder->writeAudioFrame(frame) == 0 ? S_OK : S_FALSE;
+	bool ret = encoder->writeAudioFrame(frame) == 0;
 
 	av_frame_free(&frame);
 
-	return hr;
+	return ret;
 }
 
-STDMETHODIMP CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format)
+STDMETHODIMP_(bool) CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format)
 {
 	assert(planes <= AV_NUM_DATA_POINTERS);
 
+	// Multipass
+	if (pass > encoder->pass)
+	{
+		// Close current encoding pass
+		encoder->finalize();
+		encoder->close();
+
+		// Set new pass
+		encoder->pass = pass;
+
+		// Start new pass
+		if (encoder->open() < 0)
+		{
+			//gui->ReportMessage(wxString::Format("Unable to start pass #%d", encoder.pass));
+			return false;
+		}
+	}
+
+	// Fill frame
 	AVFrame* frame = av_frame_alloc();
 	frame->width = width;
 	frame->height = height;
@@ -254,14 +371,14 @@ STDMETHODIMP CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int* rowsi
 
 	frame->pts = vPts = idx;
 
-	HRESULT hr = encoder->writeVideoFrame(frame) == 0 ? S_OK : S_FALSE;
+	bool ret = encoder->writeVideoFrame(frame) == 0;
 
 	av_frame_free(&frame);
 
-	return hr;
+	return ret;
 }
 
-STDMETHODIMP CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)
+STDMETHODIMP_(bool) CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)
 {
 	int result;
 
@@ -295,5 +412,5 @@ STDMETHODIMP CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)
 	// Clean-up and return.
 	wxEntryCleanup();
 
-	return result == (int)wxID_OK ? S_OK : E_ABORT;
+	return result == (int)wxID_OK;
 }

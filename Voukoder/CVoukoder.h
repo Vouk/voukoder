@@ -2,26 +2,30 @@
 
 #include <stdint.h>
 #include "ComBase.h"
-#include "IVoukoder.h"
+#include "IMediaEncoder.h"
 #include <EncoderEngine.h>
 
-class CVoukoder : public CComBase<>, public InterfaceImpl<IVoukoder>
+class CVoukoder : public CComBase<>, public InterfaceImpl<IMediaEncoder>
 {
 public:
 	CVoukoder();
 	virtual ~CVoukoder();
 
+	STDMETHOD_(void, Close)(bool finalize = true);
+	STDMETHOD_(void, GetConfig)(MediaEncoder::CONFIG *config);
+	STDMETHOD_(void, GetAudioChunkSize)(int* chunkSize);
+	STDMETHOD_(bool, GetFileExtension)(std::wstring& extension);
+	STDMETHOD_(int, GetMaxPasses());
+	STDMETHOD_(bool, IsAudioActive());
+	STDMETHOD_(bool, IsAudioWaiting)();
+	STDMETHOD_(bool, IsVideoActive());
+	STDMETHOD_(void, Log)(std::wstring text, ...);
+	STDMETHOD_(bool, Open)(const MediaEncoder::INFO info);
+	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const MediaEncoder::ChannelLayout layout, const char* format);
+	STDMETHOD_(bool, SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format);
+	STDMETHOD_(bool, ShowVoukoderDialog)(HANDLE act_ctx = NULL, HINSTANCE instance = NULL);
+	STDMETHOD_(void, SetConfig)(MediaEncoder::CONFIG config);
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID *ppv);
-	STDMETHOD(Open)(const wchar_t* filename, const wchar_t* application, const int passes, const int width, const int height, const rational timebase, const rational aspectratio, const fieldorder fieldorder, const int samplerate, const char* channellayout);
-	STDMETHOD(Close)(bool finalize = true);
-	STDMETHOD(Log)(const wchar_t* text, LogLevel level = LogLevel::Info);
-	STDMETHOD(SetConfig)(VOUKODER_CONFIG config);
-	STDMETHOD(GetConfig)(VOUKODER_CONFIG *config);
-	STDMETHOD(GetAudioChunkSize)(int* chunkSize);
-	STDMETHOD(IsAudioWaiting)();
-	STDMETHOD(SendAudioSamples)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const char* layout, const char* format);
-	STDMETHOD(SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, const char* format);
-	STDMETHOD(ShowVoukoderDialog)(HANDLE act_ctx = NULL, HINSTANCE instance = NULL);
 
 private:
 	ExportInfo exportInfo;
