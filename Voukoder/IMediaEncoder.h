@@ -26,14 +26,14 @@
 #include <ComDef.h>
 #include <string>
 
-#define MEDIA_ENCODER_CONFIG_VERSION 1
+#define VOUKODER_CONFIG_VERSION 1
 
  // {E9661BFA-4B8E-4217-BCD8-24074D75000B}
-_declspec(selectany) GUID CLSID_MediaEncoder = {
+_declspec(selectany) GUID CLSID_Voukoder = {
 	0xe9661bfa, 0x4b8e, 0x4217, { 0xbc, 0xd8, 0x24, 0x7, 0x4d, 0x75, 0x0, 0xb }
 };
 
-namespace MediaEncoder
+namespace Voukoder
 {
 	struct Rational
 	{
@@ -121,10 +121,10 @@ namespace MediaEncoder
 	};
 }
 
-interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IMediaEncoder : public IUnknown
+interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IVoukoder : public IUnknown
 {
 	STDMETHOD_(void, Close)(bool finalize = true)PURE;
-	STDMETHOD_(void, GetConfig)(MediaEncoder::CONFIG* config)PURE;
+	STDMETHOD_(void, GetConfig)(Voukoder::CONFIG* config)PURE;
 	STDMETHOD_(void, GetAudioChunkSize)(int* chunkSize)PURE;
 	STDMETHOD_(bool, GetFileExtension)(std::wstring& extension)PURE;
 	STDMETHOD_(int, GetMaxPasses())PURE;
@@ -132,9 +132,9 @@ interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IMediaEncoder
 	STDMETHOD_(bool, IsAudioWaiting)()PURE;
 	STDMETHOD_(bool, IsVideoActive())PURE;
 	STDMETHOD_(void, Log)(std::wstring text, ...)PURE;
-	STDMETHOD_(bool, Open)(const MediaEncoder::INFO info)PURE;
-	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const MediaEncoder::ChannelLayout layout, const char* format)PURE;
+	STDMETHOD_(bool, Open)(const Voukoder::INFO info)PURE;
+	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const Voukoder::ChannelLayout layout, const char* format)PURE;
 	STDMETHOD_(bool, SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format)PURE;
 	STDMETHOD_(bool, ShowVoukoderDialog)(HANDLE act_ctx = NULL, HINSTANCE instance = NULL)PURE;
-	STDMETHOD_(void, SetConfig)(MediaEncoder::CONFIG config)PURE;
+	STDMETHOD_(void, SetConfig)(Voukoder::CONFIG config)PURE;
 };

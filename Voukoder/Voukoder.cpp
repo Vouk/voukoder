@@ -22,7 +22,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppvOut)
 {
 	*ppvOut = NULL;
-	if (IsEqualIID(rclsid, CLSID_MediaEncoder))
+	if (IsEqualIID(rclsid, CLSID_Voukoder))
 	{
 		CClassFactory<CVoukoder> *pcf = new  CClassFactory<CVoukoder>;
 		return pcf->QueryInterface(riid, ppvOut);
@@ -42,12 +42,12 @@ STDAPI DllRegisterServer(void)
 	wchar_t path[MAX_PATH];
 	GetModuleFileName((HMODULE)g_module, path, MAX_PATH);
 
-	return registrar.RegisterObject(CLSID_MediaEncoder, L"Voukoder", L"Voukoder", path) ? S_OK : S_FALSE;
+	return registrar.RegisterObject(CLSID_Voukoder, L"Voukoder", L"Voukoder", path) ? S_OK : S_FALSE;
 }
 
 STDAPI DllUnregisterServer(void)
 {
 	CDllRegistrar registrar;
 
-	return registrar.UnRegisterObject(CLSID_MediaEncoder, L"Voukoder", L"Voukoder") ? S_OK : S_FALSE;
+	return registrar.UnRegisterObject(CLSID_Voukoder, L"Voukoder", L"Voukoder") ? S_OK : S_FALSE;
 }
