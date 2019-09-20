@@ -385,6 +385,8 @@ STDMETHODIMP_(bool) CVoukoder::ShowVoukoderDialog(bool video, bool audio, HANDLE
 {
 	int result;
 
+	wxBeginBusyCursor();
+
 	exportInfo.video.enabled = video;
 	exportInfo.audio.enabled = audio;
 
@@ -409,6 +411,7 @@ STDMETHODIMP_(bool) CVoukoder::ShowVoukoderDialog(bool video, bool audio, HANDLE
 
 		// Create and launch configuration dialog.
 		wxVoukoderDialog dialog(&parent, exportInfo);
+		wxEndBusyCursor();
 		result = dialog.ShowModal();
 
 		wxTopLevelWindows.DeleteObject(&parent);
