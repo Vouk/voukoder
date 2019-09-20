@@ -33,7 +33,7 @@
     <ClInclude Include="CVoukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="IMediaEncoder.h">
+    <ClInclude Include="IVoukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

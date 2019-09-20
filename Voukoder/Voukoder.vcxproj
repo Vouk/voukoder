@@ -107,7 +107,7 @@
     <ClInclude Include="ClassFactory.h" />
     <ClInclude Include="ComBase.h" />
     <ClInclude Include="CVoukoder.h" />
-    <ClInclude Include="IMediaEncoder.h" />
+    <ClInclude Include="IVoukoder.h" />
     <ClInclude Include="Registrar.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Voukoder.h" />

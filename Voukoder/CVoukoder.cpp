@@ -55,11 +55,10 @@ STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 	return E_NOINTERFACE;
 }
 
-STDMETHODIMP_(void) CVoukoder::SetConfig(Voukoder::CONFIG config)
+STDMETHODIMP_(void) CVoukoder::SetConfig(Voukoder::CONFIG& config)
 {
 	// Video
 	exportInfo.video.id = config.video.encoder;
-	exportInfo.video.enabled = !exportInfo.video.id.IsEmpty();
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
 	exportInfo.video.sideData.Deserialize(config.video.sidedata);
@@ -74,7 +73,6 @@ STDMETHODIMP_(void) CVoukoder::SetConfig(Voukoder::CONFIG config)
 
 	// Audio
 	exportInfo.audio.id = config.audio.encoder;
-	exportInfo.audio.enabled = !exportInfo.audio.id.IsEmpty();
 	exportInfo.audio.options.Deserialize(config.audio.options);
 	exportInfo.audio.filters.Deserialize(config.audio.filters);
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
@@ -99,6 +97,9 @@ STDMETHODIMP_(void) CVoukoder::SetConfig(Voukoder::CONFIG config)
 	}
 	else
 		exportInfo.passes = 1;
+
+	// Refresh config (not so nice, but helps with format and stuff ..)
+	GetConfig(&config);
 }
 
 STDMETHODIMP_(void) CVoukoder::GetConfig(Voukoder::CONFIG* config)
@@ -170,6 +171,7 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 	// Set non-stored export settings
 	exportInfo.filename = fname;
 	exportInfo.application = info.application;
+	exportInfo.video.enabled = info.video.enabled;
 	exportInfo.video.width = info.video.width;
 	exportInfo.video.height = info.video.height;
 	exportInfo.video.timebase = { (int)info.video.timebase.num, (int)info.video.timebase.den };
@@ -217,6 +219,7 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 		break;
 	}
 
+	exportInfo.audio.enabled = info.audio.enabled;
 	exportInfo.audio.timebase = { 1, info.audio.samplerate };
 
 	// Audio channel layout
@@ -378,9 +381,12 @@ STDMETHODIMP_(bool) CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int
 	return ret;
 }
 
-STDMETHODIMP_(bool) CVoukoder::ShowVoukoderDialog(HANDLE act_ctx, HINSTANCE instance)
+STDMETHODIMP_(bool) CVoukoder::ShowVoukoderDialog(bool video, bool audio, HANDLE act_ctx, HINSTANCE instance)
 {
 	int result;
+
+	exportInfo.video.enabled = video;
+	exportInfo.audio.enabled = audio;
 
 	// Restore plugin's activation context.
 	if (act_ctx)

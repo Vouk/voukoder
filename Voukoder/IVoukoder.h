@@ -104,6 +104,7 @@ namespace Voukoder
 		std::wstring application;
 
 		struct {
+			bool enabled;
 			int width;
 			int height;
 			Rational timebase;
@@ -114,6 +115,7 @@ namespace Voukoder
 		} video;
 
 		struct {
+			bool enabled;
 			int samplerate;
 			ChannelLayout channellayout;
 			int numberChannels;
@@ -135,6 +137,6 @@ interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IVoukoder : p
 	STDMETHOD_(bool, Open)(const Voukoder::INFO info)PURE;
 	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const Voukoder::ChannelLayout layout, const char* format)PURE;
 	STDMETHOD_(bool, SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format)PURE;
-	STDMETHOD_(bool, ShowVoukoderDialog)(HANDLE act_ctx = NULL, HINSTANCE instance = NULL)PURE;
-	STDMETHOD_(void, SetConfig)(Voukoder::CONFIG config)PURE;
+	STDMETHOD_(bool, ShowVoukoderDialog)(bool video = true, bool audio = true, HANDLE act_ctx = NULL, HINSTANCE instance = NULL)PURE;
+	STDMETHOD_(void, SetConfig)(Voukoder::CONFIG& config)PURE;
 };
