@@ -33,6 +33,9 @@
     <ClInclude Include="IVoukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Registrar.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Core\Core.rc">

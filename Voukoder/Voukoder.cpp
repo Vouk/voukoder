@@ -5,6 +5,7 @@ HANDLE g_module;
 
 #include "ClassFactory.h"
 #include "CVoukoder.h"
+#include "Registrar.h"
 
 long * CObjRoot::p_ObjCount = NULL; 
 
@@ -36,10 +37,17 @@ STDAPI DllCanUnloadNow(void)
 
 STDAPI DllRegisterServer(void)
 {
-	return S_OK;
+	CDllRegistrar registrar;
+	
+	wchar_t path[MAX_PATH];
+	GetModuleFileName((HMODULE)g_module, path, MAX_PATH);
+
+	return registrar.RegisterObject(CLSID_Voukoder, L"Voukoder", L"COMServer", path) ? S_OK : S_FALSE;
 }
 
 STDAPI DllUnregisterServer(void)
 {
-	return S_OK;
+	CDllRegistrar registrar;
+
+	return registrar.UnRegisterObject(CLSID_Voukoder, L"Voukoder", L"COMServer") ? S_OK : S_FALSE;
 }
