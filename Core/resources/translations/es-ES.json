@@ -373,7 +373,7 @@
     "hevc_amf.quantizer": "Cuantizador",
     "hevc_amf.quantizer.qp_i._label": "QPI",
     "hevc_amf.quantizer.qp_i._description": "Parámetro de cuantización para el cuadro entrelazado (I-Frame)",
-    "hevc_amf.quantizer.min_qp_i._label": "Min. QPI",
+    "hevc_amf.quantizer.min_qp_i._label": "QPI mínimo",
     "hevc_amf.quantizer.min_qp_i._description": "Minimum Quantization Parameter for I-Frame",
     "hevc_amf.quantizer.max_qp_i._label": "Max. QPI",
     "hevc_amf.quantizer.max_qp_i._description": "Maximum Quantization Parameter for I-Frame",
