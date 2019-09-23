@@ -16,7 +16,6 @@
       Manufacturer="$(var.ManufacturerLegal)"
       Description="Installs the Voukoder COM server"
       Compressed="yes"
-      Platform="x64"
       InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -27,8 +26,8 @@
 			<ComponentRef Id="voukoder.dll" />
 		</Feature>
 
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\LICENSE.rtf" />
-    <WixVariable Id="WixUIDialogBmp" Value="fdsg_dialog.bmp" / -->
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
     <UIRef Id="WixUI_Minimal" />
  
@@ -38,7 +37,7 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="INSTALLDIR" Name="Voukoder">
-          <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4" Win64="yes">
+          <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4">
             <File Id="voukoder.dll" Source="$(var.Voukoder.TargetPath)" KeyPath="yes">
               <Class Id="E9661BFA-4B8E-4217-BCD8-24074D75000B" Advertise="no" Context="InprocServer32" ThreadingModel="apartment" Description="Voukoder media encoding library" />
             </File>
