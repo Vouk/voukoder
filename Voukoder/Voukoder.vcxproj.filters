@@ -27,9 +27,6 @@
     <ClInclude Include="Voukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Registrar.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="CVoukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
