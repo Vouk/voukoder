@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "amplify"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.amplify.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 63,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.amplify.standard.radius",
+          "parameter": "radius"
+        },
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.amplify.standard.factor",
+          "parameter": "factor"
+        },
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 10.0
+          },
+          "id": "filter.amplify.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.amplify.standard.tolerance",
+          "parameter": "tolerance"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.amplify.standard.low",
+          "parameter": "low"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.amplify.standard.high",
+          "parameter": "high"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.amplify.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.amplify",
+  "name": "amplify",
+  "type": "video"
+}

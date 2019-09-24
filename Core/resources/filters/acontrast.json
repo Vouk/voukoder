@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "acontrast"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.acontrast.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 33.0
+          },
+          "id": "filter.acontrast.standard.contrast",
+          "parameter": "contrast"
+        }
+      ]
+    }
+  ],
+  "id": "filter.acontrast",
+  "name": "acontrast",
+  "type": "audio"
+}

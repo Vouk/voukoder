@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "stereo3d"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.stereo3d.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "ab2l"
+              },
+              {
+                "value": "ab2r"
+              },
+              {
+                "value": "abl"
+              },
+              {
+                "value": "abr"
+              },
+              {
+                "value": "al"
+              },
+              {
+                "value": "ar"
+              },
+              {
+                "value": "sbs2l"
+              },
+              {
+                "value": "sbs2r"
+              },
+              {
+                "value": "sbsl"
+              },
+              {
+                "value": "sbsr"
+              },
+              {
+                "value": "irl"
+              },
+              {
+                "value": "irr"
+              },
+              {
+                "value": "icl"
+              },
+              {
+                "value": "icr"
+              }
+            ],
+            "selectedIndex": 18,
+            "type": "combobox"
+          },
+          "id": "filter.stereo3d.standard.in",
+          "parameter": "in"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "ab2l"
+              },
+              {
+                "value": "ab2r"
+              },
+              {
+                "value": "abl"
+              },
+              {
+                "value": "abr"
+              },
+              {
+                "value": "agmc"
+              },
+              {
+                "value": "agmd"
+              },
+              {
+                "value": "agmg"
+              },
+              {
+                "value": "agmh"
+              },
+              {
+                "value": "al"
+              },
+              {
+                "value": "ar"
+              },
+              {
+                "value": "arbg"
+              },
+              {
+                "value": "arcc"
+              },
+              {
+                "value": "arcd"
+              },
+              {
+                "value": "arcg"
+              },
+              {
+                "value": "arch"
+              },
+              {
+                "value": "argg"
+              },
+              {
+                "value": "aybc"
+              },
+              {
+                "value": "aybd"
+              },
+              {
+                "value": "aybg"
+              },
+              {
+                "value": "aybh"
+              },
+              {
+                "value": "irl"
+              },
+              {
+                "value": "irr"
+              },
+              {
+                "value": "ml"
+              },
+              {
+                "value": "mr"
+              },
+              {
+                "value": "sbs2l"
+              },
+              {
+                "value": "sbs2r"
+              },
+              {
+                "value": "sbsl"
+              },
+              {
+                "value": "sbsr"
+              },
+              {
+                "value": "chl"
+              },
+              {
+                "value": "chr"
+              },
+              {
+                "value": "icl"
+              },
+              {
+                "value": "icr"
+              },
+              {
+                "value": "hdmi"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.stereo3d.standard.out",
+          "parameter": "out"
+        }
+      ]
+    }
+  ],
+  "id": "filter.stereo3d",
+  "name": "stereo3d",
+  "type": "video"
+}

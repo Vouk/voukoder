@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "setrange"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.setrange.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "unspecified"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "limited"
+              },
+              {
+                "value": "tv"
+              },
+              {
+                "value": "mpeg"
+              },
+              {
+                "value": "full"
+              },
+              {
+                "value": "pc"
+              },
+              {
+                "value": "jpeg"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setrange.standard.range",
+          "parameter": "range"
+        }
+      ]
+    }
+  ],
+  "id": "filter.setrange",
+  "name": "setrange",
+  "type": "video"
+}

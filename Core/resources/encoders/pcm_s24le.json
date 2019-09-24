@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "pcm_s24le",
+  "name": "Uncompressed PCM (24 Bit)",
+  "defaults": {
+    "_sampleFormat": "s32"
+  },
+  "groups": []
+}

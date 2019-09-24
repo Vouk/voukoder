@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "kerndeint"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.kerndeint.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.kerndeint.standard.thresh",
+          "parameter": "thresh"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.kerndeint.standard.map",
+          "parameter": "map"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.kerndeint.standard.order",
+          "parameter": "order"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.kerndeint.standard.sharp",
+          "parameter": "sharp"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.kerndeint.standard.twoway",
+          "parameter": "twoway"
+        }
+      ]
+    }
+  ],
+  "id": "filter.kerndeint",
+  "name": "kerndeint",
+  "type": "video"
+}

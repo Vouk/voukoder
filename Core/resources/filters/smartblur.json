@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "smartblur"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.smartblur.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.smartblur.standard.luma_radius",
+          "parameter": "luma_radius"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.smartblur.standard.luma_strength",
+          "parameter": "luma_strength"
+        },
+        {
+          "control": {
+            "maximum": 30,
+            "minimum": -30,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.smartblur.standard.luma_threshold",
+          "parameter": "luma_threshold"
+        },
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.smartblur.standard.chroma_radius",
+          "parameter": "chroma_radius"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.smartblur.standard.chroma_strength",
+          "parameter": "chroma_strength"
+        },
+        {
+          "control": {
+            "maximum": 30,
+            "minimum": -31,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -31
+          },
+          "id": "filter.smartblur.standard.chroma_threshold",
+          "parameter": "chroma_threshold"
+        }
+      ]
+    }
+  ],
+  "id": "filter.smartblur",
+  "name": "smartblur",
+  "type": "video"
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fftdnoiz"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fftdnoiz.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.fftdnoiz.standard.sigma",
+          "parameter": "sigma"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.fftdnoiz.standard.amount",
+          "parameter": "amount"
+        },
+        {
+          "control": {
+            "maximum": 6,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          },
+          "id": "filter.fftdnoiz.standard.block",
+          "parameter": "block"
+        },
+        {
+          "control": {
+            "maximum": 0.800000011920929,
+            "minimum": 0.20000000298023224,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.fftdnoiz.standard.overlap",
+          "parameter": "overlap"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftdnoiz.standard.prev",
+          "parameter": "prev"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftdnoiz.standard.next",
+          "parameter": "next"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftdnoiz.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fftdnoiz",
+  "name": "fftdnoiz",
+  "type": "video"
+}

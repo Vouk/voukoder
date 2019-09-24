@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "pcm_s16le",
+  "name": "Uncompressed PCM (16 Bit)",
+  "defaults": {
+    "_sampleFormat": "s16"
+  },
+  "groups": []
+}

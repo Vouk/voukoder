@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "selectivecolor"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.selectivecolor.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "absolute"
+              },
+              {
+                "value": "relative"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.selectivecolor.standard.correction_method",
+          "parameter": "correction_method"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.reds",
+          "parameter": "reds"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.yellows",
+          "parameter": "yellows"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.greens",
+          "parameter": "greens"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.cyans",
+          "parameter": "cyans"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.blues",
+          "parameter": "blues"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.magentas",
+          "parameter": "magentas"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.whites",
+          "parameter": "whites"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.neutrals",
+          "parameter": "neutrals"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.blacks",
+          "parameter": "blacks"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.selectivecolor.standard.psfile",
+          "parameter": "psfile"
+        }
+      ]
+    }
+  ],
+  "id": "filter.selectivecolor",
+  "name": "selectivecolor",
+  "type": "video"
+}

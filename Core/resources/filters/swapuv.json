@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "swapuv"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.swapuv.standard",
+      "properties": []
+    }
+  ],
+  "id": "filter.swapuv",
+  "name": "swapuv",
+  "type": "video"
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "random"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.random.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.random.standard.frames",
+          "parameter": "frames"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.random.standard.seed",
+          "parameter": "seed"
+        }
+      ]
+    }
+  ],
+  "id": "filter.random",
+  "name": "random",
+  "type": "video"
+}

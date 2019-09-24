@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "curves"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.curves.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "color_negative"
+              },
+              {
+                "value": "cross_process"
+              },
+              {
+                "value": "darker"
+              },
+              {
+                "value": "increase_contrast"
+              },
+              {
+                "value": "lighter"
+              },
+              {
+                "value": "linear_contrast"
+              },
+              {
+                "value": "medium_contrast"
+              },
+              {
+                "value": "negative"
+              },
+              {
+                "value": "strong_contrast"
+              },
+              {
+                "value": "vintage"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.curves.standard.preset",
+          "parameter": "preset"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.master",
+          "parameter": "master"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.red",
+          "parameter": "red"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.green",
+          "parameter": "green"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.blue",
+          "parameter": "blue"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.all",
+          "parameter": "all"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.psfile",
+          "parameter": "psfile"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.curves.standard.plot",
+          "parameter": "plot"
+        }
+      ]
+    }
+  ],
+  "id": "filter.curves",
+  "name": "curves",
+  "type": "video"
+}

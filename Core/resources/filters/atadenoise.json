@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "atadenoise"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.atadenoise.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 0.30000001192092896,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.atadenoise.standard.0a",
+          "parameter": "0a"
+        },
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.03999999910593033
+          },
+          "id": "filter.atadenoise.standard.0b",
+          "parameter": "0b"
+        },
+        {
+          "control": {
+            "maximum": 0.30000001192092896,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.atadenoise.standard.1a",
+          "parameter": "1a"
+        },
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.03999999910593033
+          },
+          "id": "filter.atadenoise.standard.1b",
+          "parameter": "1b"
+        },
+        {
+          "control": {
+            "maximum": 0.30000001192092896,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.atadenoise.standard.2a",
+          "parameter": "2a"
+        },
+        {
+          "control": {
+            "maximum": 5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.03999999910593033
+          },
+          "id": "filter.atadenoise.standard.2b",
+          "parameter": "2b"
+        },
+        {
+          "control": {
+            "maximum": 129,
+            "minimum": 5,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          },
+          "id": "filter.atadenoise.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.atadenoise.standard.p",
+          "parameter": "p"
+        }
+      ]
+    }
+  ],
+  "id": "filter.atadenoise",
+  "name": "atadenoise",
+  "type": "video"
+}

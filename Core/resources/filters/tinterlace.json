@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tinterlace"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tinterlace.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "merge"
+              },
+              {
+                "value": "drop_even"
+              },
+              {
+                "value": "drop_odd"
+              },
+              {
+                "value": "pad"
+              },
+              {
+                "value": "interleave_top"
+              },
+              {
+                "value": "interleave_bottom"
+              },
+              {
+                "value": "interlacex2"
+              },
+              {
+                "value": "mergex2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.tinterlace.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "low_pass_filter"
+              },
+              {
+                "value": "vlpf"
+              },
+              {
+                "value": "complex_filter"
+              },
+              {
+                "value": "cvlpf"
+              },
+              {
+                "value": "exact_tb"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.tinterlace.standard.flags",
+          "parameter": "flags"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tinterlace",
+  "name": "tinterlace",
+  "type": "video"
+}

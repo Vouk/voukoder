@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "owdenoise"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.owdenoise.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 16,
+            "minimum": 8,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 8
+          },
+          "id": "filter.owdenoise.standard.depth",
+          "parameter": "depth"
+        },
+        {
+          "control": {
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.owdenoise.standard.luma_strength",
+          "parameter": "luma_strength"
+        },
+        {
+          "control": {
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.owdenoise.standard.chroma_strength",
+          "parameter": "chroma_strength"
+        }
+      ]
+    }
+  ],
+  "id": "filter.owdenoise",
+  "name": "owdenoise",
+  "type": "video"
+}

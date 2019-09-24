@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "atrim"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.atrim.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.atrim.standard.starti",
+          "parameter": "starti"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.atrim.standard.endi",
+          "parameter": "endi"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.atrim.standard.start_pts",
+          "parameter": "start_pts"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.atrim.standard.end_pts",
+          "parameter": "end_pts"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.atrim.standard.durationi",
+          "parameter": "durationi"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.atrim.standard.start_sample",
+          "parameter": "start_sample"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.atrim.standard.end_sample",
+          "parameter": "end_sample"
+        }
+      ]
+    }
+  ],
+  "id": "filter.atrim",
+  "name": "atrim",
+  "type": "audio"
+}

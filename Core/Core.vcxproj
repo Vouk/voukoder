@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{359C3690-9837-4368-9322-FD633464842C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Core</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;..\..\..\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Callback.h" />
+    <ClInclude Include="EncoderEngine.h" />
+    <ClInclude Include="EncoderGroupInfo.h" />
+    <ClInclude Include="EncoderInfo.h" />
+    <ClInclude Include="EncoderOptionInfo.h" />
+    <ClInclude Include="EncoderContext.h" />
+    <ClInclude Include="EncoderUtils.h" />
+    <ClInclude Include="ExportInfo.h" />
+    <ClInclude Include="FilterConfig.h" />
+    <ClInclude Include="EncoderOptionPresets.h" />
+    <ClInclude Include="OptionResourceUtils.h" />
+    <ClInclude Include="FrameFilter.h" />
+    <ClInclude Include="Images.h" />
+    <ClInclude Include="InstructionSet.h" />
+    <ClInclude Include="LanguageInfo.h" />
+    <ClInclude Include="LanguageUtils.h" />
+    <ClInclude Include="lavf.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="MuxerInfo.h" />
+    <ClInclude Include="MuxerUtils.h" />
+    <ClInclude Include="NvidiaCustomOptions.h" />
+    <ClInclude Include="OnChangeValueOptionFilter.h" />
+    <ClInclude Include="OnSelectionOptionFilter.h" />
+    <ClInclude Include="OptionContainer.h" />
+    <ClInclude Include="OptionFilter.h" />
+    <ClInclude Include="OptionFilterInfo.h" />
+    <ClInclude Include="OptionValue.h" />
+    <ClInclude Include="PluginUpdate.h" />
+    <ClInclude Include="RegistryUtils.h" />
+    <ClInclude Include="ResourceInfo.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="wxEditFilterDialog.h" />
+    <ClInclude Include="wxConfigurationDialog.h" />
+    <ClInclude Include="wxFilterPanel.h" />
+    <ClInclude Include="wxVoukoderDialog.h" />
+    <ClInclude Include="wxOptionEditor.h" />
+    <ClInclude Include="wxPGOptionProperty.h" />
+    <ClInclude Include="wxVoukoderTaskBarIcon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EncoderEngine.cpp" />
+    <ClCompile Include="EncoderUtils.cpp" />
+    <ClCompile Include="OptionResourceUtils.cpp" />
+    <ClCompile Include="FrameFilter.cpp" />
+    <ClCompile Include="LanguageUtils.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MuxerUtils.cpp" />
+    <ClCompile Include="NvidiaCustomOptions.cpp" />
+    <ClCompile Include="OptionContainer.cpp" />
+    <ClCompile Include="Voukoder.cpp" />
+    <ClCompile Include="wxEditFilterDialog.cpp" />
+    <ClCompile Include="wxConfigurationDialog.cpp" />
+    <ClCompile Include="wxFilterPanel.cpp" />
+    <ClCompile Include="wxVoukoderDialog.cpp" />
+    <ClCompile Include="wxOptionEditor.cpp" />
+    <ClCompile Include="wxPGOptionProperty.cpp" />
+    <ClCompile Include="wxVoukoderTaskBarIcon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\audio_side_data.json" />
+    <None Include="resources\encoders\aac.json" />
+    <None Include="resources\encoders\ac3.json" />
+    <None Include="resources\encoders\alac.json" />
+    <None Include="resources\encoders\dca.json" />
+    <None Include="resources\encoders\eac3.json" />
+    <None Include="resources\encoders\ffv1.json" />
+    <None Include="resources\encoders\flac.json" />
+    <None Include="resources\encoders\h264_amf.json" />
+    <None Include="resources\encoders\h264_nvenc.json" />
+    <None Include="resources\encoders\h264_qsv.json" />
+    <None Include="resources\encoders\hap.json" />
+    <None Include="resources\encoders\hevc_amf.json" />
+    <None Include="resources\encoders\hevc_nvenc.json" />
+    <None Include="resources\encoders\hevc_qsv.json" />
+    <None Include="resources\encoders\libfdk_aac.json" />
+    <None Include="resources\encoders\libmp3lame.json" />
+    <None Include="resources\encoders\libopus.json" />
+    <None Include="resources\encoders\libsvt_av1.json" />
+    <None Include="resources\encoders\libsvt_hevc.json" />
+    <None Include="resources\encoders\libvorbis.json" />
+    <None Include="resources\encoders\libvpx-vp9.json" />
+    <None Include="resources\encoders\libvpx.json" />
+    <None Include="resources\encoders\libx264.json" />
+    <None Include="resources\encoders\libx264rgb.json" />
+    <None Include="resources\encoders\libx265.json" />
+    <None Include="resources\encoders\mpeg2video.json" />
+    <None Include="resources\encoders\mpeg2_qsv.json" />
+    <None Include="resources\encoders\pcm_s16le.json" />
+    <None Include="resources\encoders\pcm_s24le.json" />
+    <None Include="resources\encoders\pcm_s32le.json" />
+    <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\encoders\truehd.json" />
+    <None Include="resources\filters\abench.json" />
+    <None Include="resources\filters\acompressor.json" />
+    <None Include="resources\filters\acontrast.json" />
+    <None Include="resources\filters\acrusher.json" />
+    <None Include="resources\filters\acue.json" />
+    <None Include="resources\filters\adeclick.json" />
+    <None Include="resources\filters\adeclip.json" />
+    <None Include="resources\filters\adelay.json" />
+    <None Include="resources\filters\aecho.json" />
+    <None Include="resources\filters\aemphasis.json" />
+    <None Include="resources\filters\aeval.json" />
+    <None Include="resources\filters\afade.json" />
+    <None Include="resources\filters\afftdn.json" />
+    <None Include="resources\filters\afftfilt.json" />
+    <None Include="resources\filters\aformat.json" />
+    <None Include="resources\filters\agate.json" />
+    <None Include="resources\filters\alimiter.json" />
+    <None Include="resources\filters\allpass.json" />
+    <None Include="resources\filters\aloop.json" />
+    <None Include="resources\filters\ametadata.json" />
+    <None Include="resources\filters\amplify.json" />
+    <None Include="resources\filters\anlmdn.json" />
+    <None Include="resources\filters\apad.json" />
+    <None Include="resources\filters\aperms.json" />
+    <None Include="resources\filters\aphaser.json" />
+    <None Include="resources\filters\apulsator.json" />
+    <None Include="resources\filters\arealtime.json" />
+    <None Include="resources\filters\aresample.json" />
+    <None Include="resources\filters\asendcmd.json" />
+    <None Include="resources\filters\asetnsamples.json" />
+    <None Include="resources\filters\asetpts.json" />
+    <None Include="resources\filters\asetrate.json" />
+    <None Include="resources\filters\asettb.json" />
+    <None Include="resources\filters\asidedata.json" />
+    <None Include="resources\filters\astats.json" />
+    <None Include="resources\filters\atadenoise.json" />
+    <None Include="resources\filters\atempo.json" />
+    <None Include="resources\filters\atrim.json" />
+    <None Include="resources\filters\avgblur.json" />
+    <None Include="resources\filters\bandpass.json" />
+    <None Include="resources\filters\bandreject.json" />
+    <None Include="resources\filters\bass.json" />
+    <None Include="resources\filters\bbox.json" />
+    <None Include="resources\filters\bench.json" />
+    <None Include="resources\filters\biquad.json" />
+    <None Include="resources\filters\bitplanenoise.json" />
+    <None Include="resources\filters\blackdetect.json" />
+    <None Include="resources\filters\blackframe.json" />
+    <None Include="resources\filters\boxblur.json" />
+    <None Include="resources\filters\bwdif.json" />
+    <None Include="resources\filters\channelmap.json" />
+    <None Include="resources\filters\chorus.json" />
+    <None Include="resources\filters\chromahold.json" />
+    <None Include="resources\filters\chromakey.json" />
+    <None Include="resources\filters\chromashift.json" />
+    <None Include="resources\filters\ciescope.json" />
+    <None Include="resources\filters\codecview.json" />
+    <None Include="resources\filters\colorbalance.json" />
+    <None Include="resources\filters\colorchannelmixer.json" />
+    <None Include="resources\filters\colorkey.json" />
+    <None Include="resources\filters\colorlevels.json" />
+    <None Include="resources\filters\colormatrix.json" />
+    <None Include="resources\filters\colorspace.json" />
+    <None Include="resources\filters\compand.json" />
+    <None Include="resources\filters\compensationdelay.json" />
+    <None Include="resources\filters\convolution.json" />
+    <None Include="resources\filters\cover_rect.json" />
+    <None Include="resources\filters\crop.json" />
+    <None Include="resources\filters\cropdetect.json" />
+    <None Include="resources\filters\crossfeed.json" />
+    <None Include="resources\filters\crystalizer.json" />
+    <None Include="resources\filters\cue.json" />
+    <None Include="resources\filters\curves.json" />
+    <None Include="resources\filters\datascope.json" />
+    <None Include="resources\filters\dcshift.json" />
+    <None Include="resources\filters\dctdnoiz.json" />
+    <None Include="resources\filters\deband.json" />
+    <None Include="resources\filters\deblock.json" />
+    <None Include="resources\filters\dedot.json" />
+    <None Include="resources\filters\deflate.json" />
+    <None Include="resources\filters\deflicker.json" />
+    <None Include="resources\filters\dejudder.json" />
+    <None Include="resources\filters\delogo.json" />
+    <None Include="resources\filters\deshake.json" />
+    <None Include="resources\filters\despill.json" />
+    <None Include="resources\filters\detelecine.json" />
+    <None Include="resources\filters\dilation.json" />
+    <None Include="resources\filters\doubleweave.json" />
+    <None Include="resources\filters\drawbox.json" />
+    <None Include="resources\filters\drawgraph.json" />
+    <None Include="resources\filters\drawgrid.json" />
+    <None Include="resources\filters\drmeter.json" />
+    <None Include="resources\filters\dynaudnorm.json" />
+    <None Include="resources\filters\edgedetect.json" />
+    <None Include="resources\filters\elbg.json" />
+    <None Include="resources\filters\entropy.json" />
+    <None Include="resources\filters\eq.json" />
+    <None Include="resources\filters\equalizer.json" />
+    <None Include="resources\filters\erosion.json" />
+    <None Include="resources\filters\extrastereo.json" />
+    <None Include="resources\filters\fade.json" />
+    <None Include="resources\filters\fftdnoiz.json" />
+    <None Include="resources\filters\fftfilt.json" />
+    <None Include="resources\filters\field.json" />
+    <None Include="resources\filters\fieldhint.json" />
+    <None Include="resources\filters\fieldorder.json" />
+    <None Include="resources\filters\fillborders.json" />
+    <None Include="resources\filters\find_rect.json" />
+    <None Include="resources\filters\firequalizer.json" />
+    <None Include="resources\filters\flanger.json" />
+    <None Include="resources\filters\floodfill.json" />
+    <None Include="resources\filters\format.json" />
+    <None Include="resources\filters\fps.json" />
+    <None Include="resources\filters\framerate.json" />
+    <None Include="resources\filters\framestep.json" />
+    <None Include="resources\filters\freezedetect.json" />
+    <None Include="resources\filters\fspp.json" />
+    <None Include="resources\filters\gblur.json" />
+    <None Include="resources\filters\geq.json" />
+    <None Include="resources\filters\gradfun.json" />
+    <None Include="resources\filters\graphmonitor.json" />
+    <None Include="resources\filters\greyedge.json" />
+    <None Include="resources\filters\haas.json" />
+    <None Include="resources\filters\hdcd.json" />
+    <None Include="resources\filters\hflip.json" />
+    <None Include="resources\filters\highpass.json" />
+    <None Include="resources\filters\highshelf.json" />
+    <None Include="resources\filters\histeq.json" />
+    <None Include="resources\filters\histogram.json" />
+    <None Include="resources\filters\hqdn3d.json" />
+    <None Include="resources\filters\hqx.json" />
+    <None Include="resources\filters\hue.json" />
+    <None Include="resources\filters\hwdownload.json" />
+    <None Include="resources\filters\hwmap.json" />
+    <None Include="resources\filters\hwupload.json" />
+    <None Include="resources\filters\hwupload_cuda.json" />
+    <None Include="resources\filters\idet.json" />
+    <None Include="resources\filters\il.json" />
+    <None Include="resources\filters\inflate.json" />
+    <None Include="resources\filters\interlace.json" />
+    <None Include="resources\filters\kerndeint.json" />
+    <None Include="resources\filters\lenscorrection.json" />
+    <None Include="resources\filters\limiter.json" />
+    <None Include="resources\filters\loop.json" />
+    <None Include="resources\filters\loudnorm.json" />
+    <None Include="resources\filters\lowpass.json" />
+    <None Include="resources\filters\lowshelf.json" />
+    <None Include="resources\filters\lumakey.json" />
+    <None Include="resources\filters\lut.json" />
+    <None Include="resources\filters\lut1d.json" />
+    <None Include="resources\filters\lut3d.json" />
+    <None Include="resources\filters\lutrgb.json" />
+    <None Include="resources\filters\lutyuv.json" />
+    <None Include="resources\filters\maskfun.json" />
+    <None Include="resources\filters\mcdeint.json" />
+    <None Include="resources\filters\mcompand.json" />
+    <None Include="resources\filters\mestimate.json" />
+    <None Include="resources\filters\metadata.json" />
+    <None Include="resources\filters\minterpolate.json" />
+    <None Include="resources\filters\mpdecimate.json" />
+    <None Include="resources\filters\negate.json" />
+    <None Include="resources\filters\nlmeans.json" />
+    <None Include="resources\filters\nnedi.json" />
+    <None Include="resources\filters\noformat.json" />
+    <None Include="resources\filters\noise.json" />
+    <None Include="resources\filters\normalize.json" />
+    <None Include="resources\filters\oscilloscope.json" />
+    <None Include="resources\filters\owdenoise.json" />
+    <None Include="resources\filters\pad.json" />
+    <None Include="resources\filters\palettegen.json" />
+    <None Include="resources\filters\pan.json" />
+    <None Include="resources\filters\perms.json" />
+    <None Include="resources\filters\perspective.json" />
+    <None Include="resources\filters\phase.json" />
+    <None Include="resources\filters\pixscope.json" />
+    <None Include="resources\filters\pp.json" />
+    <None Include="resources\filters\pp7.json" />
+    <None Include="resources\filters\prewitt.json" />
+    <None Include="resources\filters\pseudocolor.json" />
+    <None Include="resources\filters\pullup.json" />
+    <None Include="resources\filters\qp.json" />
+    <None Include="resources\filters\random.json" />
+    <None Include="resources\filters\readeia608.json" />
+    <None Include="resources\filters\readvitc.json" />
+    <None Include="resources\filters\realtime.json" />
+    <None Include="resources\filters\removegrain.json" />
+    <None Include="resources\filters\removelogo.json" />
+    <None Include="resources\filters\rgbashift.json" />
+    <None Include="resources\filters\roberts.json" />
+    <None Include="resources\filters\rotate.json" />
+    <None Include="resources\filters\sab.json" />
+    <None Include="resources\filters\scale.json" />
+    <None Include="resources\filters\selectivecolor.json" />
+    <None Include="resources\filters\sendcmd.json" />
+    <None Include="resources\filters\setdar.json" />
+    <None Include="resources\filters\setfield.json" />
+    <None Include="resources\filters\setparams.json" />
+    <None Include="resources\filters\setpts.json" />
+    <None Include="resources\filters\setrange.json" />
+    <None Include="resources\filters\setsar.json" />
+    <None Include="resources\filters\settb.json" />
+    <None Include="resources\filters\showinfo.json" />
+    <None Include="resources\filters\showpalette.json" />
+    <None Include="resources\filters\shuffleframes.json" />
+    <None Include="resources\filters\shuffleplanes.json" />
+    <None Include="resources\filters\sidedata.json" />
+    <None Include="resources\filters\signalstats.json" />
+    <None Include="resources\filters\silencedetect.json" />
+    <None Include="resources\filters\silenceremove.json" />
+    <None Include="resources\filters\smartblur.json" />
+    <None Include="resources\filters\sobel.json" />
+    <None Include="resources\filters\spp.json" />
+    <None Include="resources\filters\sr.json" />
+    <None Include="resources\filters\stereo3d.json" />
+    <None Include="resources\filters\stereotools.json" />
+    <None Include="resources\filters\stereowiden.json" />
+    <None Include="resources\filters\superequalizer.json" />
+    <None Include="resources\filters\surround.json" />
+    <None Include="resources\filters\swaprect.json" />
+    <None Include="resources\filters\swapuv.json" />
+    <None Include="resources\filters\tblend.json" />
+    <None Include="resources\filters\telecine.json" />
+    <None Include="resources\filters\thumbnail.json" />
+    <None Include="resources\filters\tile.json" />
+    <None Include="resources\filters\tinterlace.json" />
+    <None Include="resources\filters\tlut2.json" />
+    <None Include="resources\filters\tmix.json" />
+    <None Include="resources\filters\tonemap.json" />
+    <None Include="resources\filters\tpad.json" />
+    <None Include="resources\filters\transpose.json" />
+    <None Include="resources\filters\treble.json" />
+    <None Include="resources\filters\tremolo.json" />
+    <None Include="resources\filters\trim.json" />
+    <None Include="resources\filters\unsharp.json" />
+    <None Include="resources\filters\uspp.json" />
+    <None Include="resources\filters\vaguedenoiser.json" />
+    <None Include="resources\filters\vectorscope.json" />
+    <None Include="resources\filters\vflip.json" />
+    <None Include="resources\filters\vibrance.json" />
+    <None Include="resources\filters\vibrato.json" />
+    <None Include="resources\filters\vignette.json" />
+    <None Include="resources\filters\vmafmotion.json" />
+    <None Include="resources\filters\volume.json" />
+    <None Include="resources\filters\w3fdif.json" />
+    <None Include="resources\filters\waveform.json" />
+    <None Include="resources\filters\weave.json" />
+    <None Include="resources\filters\xbr.json" />
+    <None Include="resources\filters\yadif.json" />
+    <None Include="resources\filters\zoompan.json" />
+    <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\h264.json" />
+    <None Include="resources\muxers\hevc.json" />
+    <None Include="resources\muxers\mpeg2video.json" />
+    <None Include="resources\muxers\mpegts.json" />
+    <None Include="resources\video_side_data.json" />
+    <None Include="resources\muxers\aac.json" />
+    <None Include="resources\muxers\flac.json" />
+    <None Include="resources\muxers\mkv.json" />
+    <None Include="resources\muxers\mov.json" />
+    <None Include="resources\muxers\mp3.json" />
+    <None Include="resources\muxers\mp4.json" />
+    <None Include="resources\muxers\ogg.json" />
+    <None Include="resources\muxers\opus.json" />
+    <None Include="resources\muxers\wav.json" />
+    <None Include="resources\muxers\webm.json" />
+    <None Include="resources\translations\zh.json" />
+    <None Include="resources\translations\en.json" />
+    <None Include="resources\translations\fr.json" />
+    <None Include="resources\translations\de.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Core.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hqx"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.hqx.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.hqx.standard.n",
+          "parameter": "n"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hqx",
+  "name": "hqx",
+  "type": "video"
+}

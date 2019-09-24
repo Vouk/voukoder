@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fftfilt"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fftfilt.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1000,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftfilt.standard.dc_Y",
+          "parameter": "dc_Y"
+        },
+        {
+          "control": {
+            "maximum": 1000,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftfilt.standard.dc_U",
+          "parameter": "dc_U"
+        },
+        {
+          "control": {
+            "maximum": 1000,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fftfilt.standard.dc_V",
+          "parameter": "dc_V"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "1"
+          },
+          "id": "filter.fftfilt.standard.weight_Y",
+          "parameter": "weight_Y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.fftfilt.standard.weight_U",
+          "parameter": "weight_U"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.fftfilt.standard.weight_V",
+          "parameter": "weight_V"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "init"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.fftfilt.standard.eval",
+          "parameter": "eval"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fftfilt",
+  "name": "fftfilt",
+  "type": "video"
+}

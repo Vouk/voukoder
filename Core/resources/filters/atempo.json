@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "atempo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.atempo.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.5,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.atempo.standard.tempo",
+          "parameter": "tempo"
+        }
+      ]
+    }
+  ],
+  "id": "filter.atempo",
+  "name": "atempo",
+  "type": "audio"
+}

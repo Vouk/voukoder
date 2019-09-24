@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pullup"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pullup.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.pullup.standard.jl",
+          "parameter": "jl"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.pullup.standard.jr",
+          "parameter": "jr"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.pullup.standard.jt",
+          "parameter": "jt"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.pullup.standard.jb",
+          "parameter": "jb"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.pullup.standard.sb",
+          "parameter": "sb"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "y"
+              },
+              {
+                "value": "u"
+              },
+              {
+                "value": "v"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.pullup.standard.mp",
+          "parameter": "mp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pullup",
+  "name": "pullup",
+  "type": "video"
+}

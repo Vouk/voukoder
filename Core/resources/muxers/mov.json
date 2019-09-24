@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mov",
+  "name": "Quicktime",
+  "extension": "mov",
+  "encoders": {
+    "video": [ "prores_ks", "h264_amf", "h264_nvenc", "hevc_amf", "hevc_nvenc", "libx264", "libx265", "hap", "h264_qsv", "hevc_qsv", "libsvt_hevc" ],
+    "audio": [ "aac", "libfdk_aac", "alac", "pcm_s16le", "pcm_s24le", "pcm_s32le" ]
+  },
+  "capabilities": {
+    "faststart": true
+  }
+}

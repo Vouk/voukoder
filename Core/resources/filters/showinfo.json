@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "showinfo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.showinfo.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.showinfo.standard.checksum",
+          "parameter": "checksum"
+        }
+      ]
+    }
+  ],
+  "id": "filter.showinfo",
+  "name": "showinfo",
+  "type": "video"
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "deflicker"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.deflicker.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 129,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.deflicker.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "am"
+              },
+              {
+                "value": "gm"
+              },
+              {
+                "value": "hm"
+              },
+              {
+                "value": "qm"
+              },
+              {
+                "value": "cm"
+              },
+              {
+                "value": "pm"
+              },
+              {
+                "value": "median"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.deflicker.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.deflicker.standard.bypass",
+          "parameter": "bypass"
+        }
+      ]
+    }
+  ],
+  "id": "filter.deflicker",
+  "name": "deflicker",
+  "type": "video"
+}

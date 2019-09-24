@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "afade"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.afade.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "in"
+              },
+              {
+                "value": "out"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.afade.standard.type",
+          "parameter": "type"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.afade.standard.start_sample",
+          "parameter": "start_sample"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.afade.standard.nb_samples",
+          "parameter": "nb_samples"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.afade.standard.start_time",
+          "parameter": "start_time"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.afade.standard.duration",
+          "parameter": "duration"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tri"
+              },
+              {
+                "value": "qsin"
+              },
+              {
+                "value": "esin"
+              },
+              {
+                "value": "hsin"
+              },
+              {
+                "value": "log"
+              },
+              {
+                "value": "ipar"
+              },
+              {
+                "value": "qua"
+              },
+              {
+                "value": "cub"
+              },
+              {
+                "value": "squ"
+              },
+              {
+                "value": "cbr"
+              },
+              {
+                "value": "par"
+              },
+              {
+                "value": "exp"
+              },
+              {
+                "value": "iqsin"
+              },
+              {
+                "value": "ihsin"
+              },
+              {
+                "value": "dese"
+              },
+              {
+                "value": "desi"
+              },
+              {
+                "value": "losi"
+              },
+              {
+                "value": "nofade"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.afade.standard.curve",
+          "parameter": "curve"
+        }
+      ]
+    }
+  ],
+  "id": "filter.afade",
+  "name": "afade",
+  "type": "audio"
+}

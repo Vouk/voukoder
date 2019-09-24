@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "telecine"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.telecine.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "top"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "bottom"
+              },
+              {
+                "value": "b"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.telecine.standard.first_field",
+          "parameter": "first_field"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "23"
+          },
+          "id": "filter.telecine.standard.pattern",
+          "parameter": "pattern"
+        }
+      ]
+    }
+  ],
+  "id": "filter.telecine",
+  "name": "telecine",
+  "type": "video"
+}

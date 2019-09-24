@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "boxblur"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.boxblur.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "2"
+          },
+          "id": "filter.boxblur.standard.luma_radius",
+          "parameter": "luma_radius"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.boxblur.standard.luma_power",
+          "parameter": "luma_power"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.boxblur.standard.chroma_radius",
+          "parameter": "chroma_radius"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.boxblur.standard.chroma_power",
+          "parameter": "chroma_power"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.boxblur.standard.alpha_radius",
+          "parameter": "alpha_radius"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.boxblur.standard.alpha_power",
+          "parameter": "alpha_power"
+        }
+      ]
+    }
+  ],
+  "id": "filter.boxblur",
+  "name": "boxblur",
+  "type": "video"
+}

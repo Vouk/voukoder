@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aformat"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aformat.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.aformat.standard.sample_fmts",
+          "parameter": "sample_fmts"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.aformat.standard.sample_rates",
+          "parameter": "sample_rates"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.aformat.standard.channel_layouts",
+          "parameter": "channel_layouts"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aformat",
+  "name": "aformat",
+  "type": "audio"
+}

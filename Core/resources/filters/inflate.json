@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "inflate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.inflate.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.inflate.standard.threshold0",
+          "parameter": "threshold0"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.inflate.standard.threshold1",
+          "parameter": "threshold1"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.inflate.standard.threshold2",
+          "parameter": "threshold2"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.inflate.standard.threshold3",
+          "parameter": "threshold3"
+        }
+      ]
+    }
+  ],
+  "id": "filter.inflate",
+  "name": "inflate",
+  "type": "video"
+}

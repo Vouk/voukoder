@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dedot"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dedot.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "dotcrawl"
+              },
+              {
+                "value": "rainbows"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.dedot.standard.m",
+          "parameter": "m"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.07900000363588333
+          },
+          "id": "filter.dedot.standard.lt",
+          "parameter": "lt"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.07900000363588333
+          },
+          "id": "filter.dedot.standard.tl",
+          "parameter": "tl"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.057999998331069946
+          },
+          "id": "filter.dedot.standard.tc",
+          "parameter": "tc"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.01899999938905239
+          },
+          "id": "filter.dedot.standard.ct",
+          "parameter": "ct"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dedot",
+  "name": "dedot",
+  "type": "video"
+}

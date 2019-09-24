@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "prores_ks",
+  "name": "ProRes",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "prores_ks.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "prores_ks.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv422p10",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "prores_ks.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "prores_ks.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuva444p10",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "prores_ks.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "prores_ks.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "prores_ks.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "prores_ks.standard.profile422",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "proxy"
+              },
+              {
+                "value": "lt"
+              },
+              {
+                "value": "standard"
+              },
+              {
+                "value": "hq"
+              }
+            ]
+          }
+        },
+        {
+          "id": "prores_ks.standard.profile444",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "4444"
+              },
+              {
+                "value": "4444xq"
+              }
+            ]
+          }
+        },
+        {
+          "id": "prores_ks.standard.quant_mat",
+          "parameter": "quant_mat",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "proxy"
+              },
+              {
+                "value": "lt"
+              },
+              {
+                "value": "standard"
+              },
+              {
+                "value": "hq"
+              },
+              {
+                "value": "default"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "prores_ks.frametype",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "prores_ks.frametype.mbs_per_slice",
+          "parameter": "mbs_per_slice",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "8"
+              }
+            ]
+          }
+        },
+        {
+          "id": "prores_ks.frametype.bits_per_mb",
+          "parameter": "bits_per_mb",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 1,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prores_ks.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "prores_ks.misc.alpha_bits",
+          "parameter": "alpha_bits",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "16"
+              }
+            ]
+          }
+        },
+        {
+          "id": "prores_ks.misc.vendor",
+          "parameter": "vendor",
+          "control": {
+            "type": "string",
+            "value": "apl0",
+            "regex": "^[a-zA-Z0-9]{0,4}$"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien\Encoders">
+      <UniqueIdentifier>{71e7dde0-0d0b-4120-9127-6054c50272b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Muxers">
+      <UniqueIdentifier>{850437f9-1437-4b28-bb45-05b2cb3a06cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Translations">
+      <UniqueIdentifier>{86908c3e-1ced-46a6-abbc-c828fba05cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Filters">
+      <UniqueIdentifier>{2e6e6b05-3efe-475d-a67f-7e8ccd931fe8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderContext.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="lavf.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Callback.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OnSelectionOptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OnChangeValueOptionFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionContainer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginUpdate.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderEngine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MuxerInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderGroupInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionFilterInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderOptionInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="NvidiaCustomOptions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MuxerUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxPGOptionProperty.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Images.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Voukoder.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxVoukoderDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ExportInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructionSet.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionResourceUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxFilterPanel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderOptionPresets.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterConfig.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxConfigurationDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxOptionEditor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEditFilterDialog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistryUtils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxVoukoderTaskBarIcon.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FrameFilter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderEngine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="NvidiaCustomOptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionContainer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="MuxerUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxPGOptionProperty.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Voukoder.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxVoukoderDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionResourceUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxFilterPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxConfigurationDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxOptionEditor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEditFilterDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxVoukoderTaskBarIcon.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\encoders\aac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\ac3.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\alac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\ffv1.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\flac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\h264_amf.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\h264_nvenc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_amf.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_nvenc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libfdk_aac.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libopus.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libmp3lame.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvorbis.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvpx.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libvpx-vp9.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libx264.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libx265.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s16le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s24le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\pcm_s32le.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\prores_ks.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\webm.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mp4.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mov.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mkv.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\encoders\hap.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\aac.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\flac.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mp3.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\ogg.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\opus.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\wav.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\filters\abench.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\acompressor.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\acontrast.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\acrusher.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\acue.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\adeclick.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\adeclip.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\adelay.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aecho.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aemphasis.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aeval.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\afade.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\afftdn.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\afftfilt.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aformat.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\agate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\alimiter.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\allpass.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aloop.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\ametadata.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\amplify.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\anlmdn.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\apad.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aperms.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aphaser.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\apulsator.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\arealtime.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\aresample.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asendcmd.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asetnsamples.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asetpts.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asetrate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asettb.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\asidedata.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\astats.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\atadenoise.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\atempo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\atrim.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\avgblur.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bandpass.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bandreject.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bass.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bbox.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bench.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\biquad.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bitplanenoise.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\blackdetect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\blackframe.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\boxblur.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\bwdif.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\channelmap.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\chorus.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\chromahold.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\chromakey.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\chromashift.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\ciescope.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\codecview.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colorbalance.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colorchannelmixer.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colorkey.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colorlevels.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colormatrix.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\colorspace.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\compand.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\compensationdelay.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\convolution.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\cover_rect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\crop.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\cropdetect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\crossfeed.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\crystalizer.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\cue.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\curves.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\datascope.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dcshift.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dctdnoiz.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\deband.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\deblock.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dedot.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\deflate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\deflicker.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dejudder.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\delogo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\deshake.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\despill.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\detelecine.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dilation.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\doubleweave.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\drawbox.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\drawgraph.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\drawgrid.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\drmeter.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\dynaudnorm.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\edgedetect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\elbg.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\entropy.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\eq.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\equalizer.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\erosion.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\extrastereo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fade.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fftdnoiz.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fftfilt.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\field.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fieldhint.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fieldorder.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fillborders.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\find_rect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\firequalizer.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\flanger.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\floodfill.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\format.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fps.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\framerate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\framestep.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\freezedetect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\fspp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\gblur.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\geq.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\gradfun.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\graphmonitor.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\greyedge.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\haas.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hdcd.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hflip.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\highpass.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\highshelf.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\histeq.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\histogram.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hqdn3d.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hqx.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hue.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hwdownload.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hwmap.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hwupload.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\hwupload_cuda.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\idet.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\il.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\inflate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\interlace.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\kerndeint.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lenscorrection.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\limiter.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\loop.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\loudnorm.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lowpass.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lowshelf.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lumakey.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lut.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lut1d.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lut3d.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lutrgb.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\lutyuv.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\maskfun.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\mcdeint.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\mcompand.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\mestimate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\metadata.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\minterpolate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\mpdecimate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\negate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\nlmeans.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\nnedi.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\noformat.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\noise.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\normalize.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\oscilloscope.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\owdenoise.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pad.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\palettegen.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pan.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\perms.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\perspective.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\phase.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pixscope.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pp7.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\prewitt.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pseudocolor.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\pullup.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\qp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\random.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\readeia608.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\readvitc.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\realtime.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\removegrain.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\removelogo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\rgbashift.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\roberts.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\rotate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\sab.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\scale.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\selectivecolor.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\sendcmd.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setdar.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setfield.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setparams.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setpts.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setrange.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\setsar.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\settb.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\showinfo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\showpalette.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\shuffleframes.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\shuffleplanes.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\sidedata.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\signalstats.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\silencedetect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\silenceremove.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\smartblur.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\sobel.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\spp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\sr.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\stereo3d.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\stereotools.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\stereowiden.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\superequalizer.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\surround.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\swaprect.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\swapuv.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tblend.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\telecine.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\thumbnail.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tile.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tinterlace.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tlut2.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tmix.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tonemap.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tpad.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\transpose.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\treble.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\tremolo.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\trim.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\unsharp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\uspp.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vaguedenoiser.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vectorscope.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vflip.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vibrance.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vibrato.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vignette.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\vmafmotion.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\volume.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\w3fdif.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\waveform.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\weave.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\xbr.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\yadif.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\zoompan.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\filters\zscale.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\encoders\dca.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\eac3.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\truehd.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\video_side_data.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="resources\audio_side_data.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="resources\encoders\libx264rgb.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\h264_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\hevc_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\h264.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\hevc.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mpeg2video.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\mpegts.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\encoders\mpeg2_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\mpeg2video.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libsvt_av1.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\libsvt_hevc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\translations\zh.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\en.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\fr.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\de.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Core.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "acue"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.acue.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.acue.standard.cue",
+          "parameter": "cue"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.acue.standard.preroll",
+          "parameter": "preroll"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.acue.standard.buffer",
+          "parameter": "buffer"
+        }
+      ]
+    }
+  ],
+  "id": "filter.acue",
+  "name": "acue",
+  "type": "audio"
+}

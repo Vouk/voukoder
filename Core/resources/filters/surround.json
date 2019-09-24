@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "surround"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.surround.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "5.1"
+          },
+          "id": "filter.surround.standard.chl_out",
+          "parameter": "chl_out"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "stereo"
+          },
+          "id": "filter.surround.standard.chl_in",
+          "parameter": "chl_in"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.level_out",
+          "parameter": "level_out"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.surround.standard.lfe",
+          "parameter": "lfe"
+        },
+        {
+          "control": {
+            "maximum": 256,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.surround.standard.lfe_low",
+          "parameter": "lfe_low"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.surround.standard.lfe_high",
+          "parameter": "lfe_high"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.fc_in",
+          "parameter": "fc_in"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.fc_out",
+          "parameter": "fc_out"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.lfe_in",
+          "parameter": "lfe_in"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.surround.standard.lfe_out",
+          "parameter": "lfe_out"
+        }
+      ]
+    }
+  ],
+  "id": "filter.surround",
+  "name": "surround",
+  "type": "audio"
+}

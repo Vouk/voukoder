@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "entropy"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.entropy.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "normal"
+              },
+              {
+                "value": "diff"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.entropy.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.entropy",
+  "name": "entropy",
+  "type": "video"
+}

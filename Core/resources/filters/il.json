@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "il"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.il.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "interleave"
+              },
+              {
+                "value": "i"
+              },
+              {
+                "value": "deinterleave"
+              },
+              {
+                "value": "d"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.il.standard.luma_mode",
+          "parameter": "luma_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "interleave"
+              },
+              {
+                "value": "i"
+              },
+              {
+                "value": "deinterleave"
+              },
+              {
+                "value": "d"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.il.standard.chroma_mode",
+          "parameter": "chroma_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "interleave"
+              },
+              {
+                "value": "i"
+              },
+              {
+                "value": "deinterleave"
+              },
+              {
+                "value": "d"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.il.standard.alpha_mode",
+          "parameter": "alpha_mode"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.il.standard.luma_swap",
+          "parameter": "luma_swap"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.il.standard.chroma_swap",
+          "parameter": "chroma_swap"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.il.standard.alpha_swap",
+          "parameter": "alpha_swap"
+        }
+      ]
+    }
+  ],
+  "id": "filter.il",
+  "name": "il",
+  "type": "video"
+}

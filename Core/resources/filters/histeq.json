@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "histeq"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.histeq.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.20000000298023224
+          },
+          "id": "filter.histeq.standard.strength",
+          "parameter": "strength"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.20999999344348907
+          },
+          "id": "filter.histeq.standard.intensity",
+          "parameter": "intensity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "weak"
+              },
+              {
+                "value": "strong"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.histeq.standard.antibanding",
+          "parameter": "antibanding"
+        }
+      ]
+    }
+  ],
+  "id": "filter.histeq",
+  "name": "histeq",
+  "type": "video"
+}

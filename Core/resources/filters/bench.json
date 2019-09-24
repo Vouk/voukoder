@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "bench"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.bench.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "start"
+              },
+              {
+                "value": "stop"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.bench.standard.action",
+          "parameter": "action"
+        }
+      ]
+    }
+  ],
+  "id": "filter.bench",
+  "name": "bench",
+  "type": "video"
+}

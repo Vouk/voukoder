@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asetpts"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asetpts.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "PTS"
+          },
+          "id": "filter.asetpts.standard.expr",
+          "parameter": "expr"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asetpts",
+  "name": "asetpts",
+  "type": "audio"
+}

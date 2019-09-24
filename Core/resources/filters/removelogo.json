@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "removelogo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.removelogo.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.removelogo.standard.filename",
+          "parameter": "filename"
+        }
+      ]
+    }
+  ],
+  "id": "filter.removelogo",
+  "name": "removelogo",
+  "type": "video"
+}

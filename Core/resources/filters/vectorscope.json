@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vectorscope"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vectorscope.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "gray"
+              },
+              {
+                "value": "color"
+              },
+              {
+                "value": "color2"
+              },
+              {
+                "value": "color3"
+              },
+              {
+                "value": "color4"
+              },
+              {
+                "value": "color5"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vectorscope.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.vectorscope.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.vectorscope.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.004000000189989805
+          },
+          "id": "filter.vectorscope.standard.intensity",
+          "parameter": "intensity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "instant"
+              },
+              {
+                "value": "peak"
+              },
+              {
+                "value": "peak+instant"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vectorscope.standard.envelope",
+          "parameter": "envelope"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "green"
+              },
+              {
+                "value": "color"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vectorscope.standard.graticule",
+          "parameter": "graticule"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.vectorscope.standard.opacity",
+          "parameter": "opacity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "white"
+              },
+              {
+                "value": "black"
+              },
+              {
+                "value": "name"
+              }
+            ],
+            "selectedIndex": 4,
+            "type": "combobox"
+          },
+          "id": "filter.vectorscope.standard.flags",
+          "parameter": "flags"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.30000001192092896
+          },
+          "id": "filter.vectorscope.standard.bgopacity",
+          "parameter": "bgopacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.vectorscope.standard.lthreshold",
+          "parameter": "lthreshold"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.vectorscope.standard.hthreshold",
+          "parameter": "hthreshold"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "601"
+              },
+              {
+                "value": "709"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.vectorscope.standard.colorspace",
+          "parameter": "colorspace"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vectorscope",
+  "name": "vectorscope",
+  "type": "video"
+}

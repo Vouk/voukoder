@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pixscope"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pixscope.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.pixscope.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.pixscope.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 80,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.pixscope.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "maximum": 80,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.pixscope.standard.h",
+          "parameter": "h"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.pixscope.standard.o",
+          "parameter": "o"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.pixscope.standard.wx",
+          "parameter": "wx"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.pixscope.standard.wy",
+          "parameter": "wy"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pixscope",
+  "name": "pixscope",
+  "type": "video"
+}

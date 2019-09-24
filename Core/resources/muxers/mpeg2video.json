@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mpeg2video",
+  "name": "Raw",
+  "extension": "mpeg2",
+  "encoders": {
+    "video": [ "mpeg2video", "mpeg2_qsv" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dilation"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dilation.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.dilation.standard.threshold0",
+          "parameter": "threshold0"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.dilation.standard.threshold1",
+          "parameter": "threshold1"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.dilation.standard.threshold2",
+          "parameter": "threshold2"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.dilation.standard.threshold3",
+          "parameter": "threshold3"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.dilation.standard.coordinates",
+          "parameter": "coordinates"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dilation",
+  "name": "dilation",
+  "type": "video"
+}

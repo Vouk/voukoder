@@ -1,0 +1,335 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libsvt_hevc",
+  "name": "HEVC (SVT)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv420p10le"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv422p10le"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv444p10le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "rc",
+          "parameter": "rc",
+          "forced": false,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "cqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvt_hevc.standard.qp",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvt_hevc.standard.bitrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvt_hevc.standard.qp",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvt_hevc.standard.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "qp",
+          "parameter": "qp",
+          "forced": false,
+          "control": {
+            "type": "integer",
+            "maximum": 51,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 32
+          }
+        },
+        {
+          "id": "bitrate",
+          "parameter": "b",
+          "forced": false,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "forced": false,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 7,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tier",
+          "parameter": "tier",
+          "forced": false,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tune",
+          "parameter": "tune",
+          "forced": false,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "sq"
+              },
+              {
+                "value": "oq"
+              },
+              {
+                "value": "vmaf"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "2.0"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3.0"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4.0"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5.0"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "6.0"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "la_depth",
+          "parameter": "la_depth",
+          "control": {
+            "type": "integer",
+            "maximum": 256,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hielevel",
+          "parameter": "hielevel",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "flat"
+              },
+              {
+                "value": "1level"
+              },
+              {
+                "value": "2level"
+              },
+              {
+                "value": "3level"
+              }
+            ]
+          }
+        },
+        {
+          "id": "sc_detection",
+          "parameter": "sc_detection",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "bl_mode",
+          "parameter": "bl_mode",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "forced-idr",
+          "parameter": "forced-idr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "asm_type",
+          "parameter": "asm_type",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

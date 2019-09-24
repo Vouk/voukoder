@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "waveform"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.waveform.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "row"
+              },
+              {
+                "value": "column"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.03999999910593033
+          },
+          "id": "filter.waveform.standard.intensity",
+          "parameter": "intensity"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.waveform.standard.mirror",
+          "parameter": "mirror"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "overlay"
+              },
+              {
+                "value": "stack"
+              },
+              {
+                "value": "parade"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.display",
+          "parameter": "display"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.waveform.standard.components",
+          "parameter": "components"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "instant"
+              },
+              {
+                "value": "peak"
+              },
+              {
+                "value": "peak+instant"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.envelope",
+          "parameter": "envelope"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "lowpass"
+              },
+              {
+                "value": "flat"
+              },
+              {
+                "value": "aflat"
+              },
+              {
+                "value": "chroma"
+              },
+              {
+                "value": "color"
+              },
+              {
+                "value": "acolor"
+              },
+              {
+                "value": "xflat"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.filter",
+          "parameter": "filter"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "green"
+              },
+              {
+                "value": "orange"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.graticule",
+          "parameter": "graticule"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.waveform.standard.opacity",
+          "parameter": "opacity"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "numbers"
+              },
+              {
+                "value": "dots"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.flags",
+          "parameter": "flags"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "digital"
+              },
+              {
+                "value": "millivolts"
+              },
+              {
+                "value": "ire"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.waveform.standard.scale",
+          "parameter": "scale"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.waveform.standard.bgopacity",
+          "parameter": "bgopacity"
+        }
+      ]
+    }
+  ],
+  "id": "filter.waveform",
+  "name": "waveform",
+  "type": "video"
+}

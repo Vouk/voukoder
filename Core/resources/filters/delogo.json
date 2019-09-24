@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "delogo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.delogo.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.delogo.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.delogo.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.delogo.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.delogo.standard.h",
+          "parameter": "h"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.delogo.standard.show",
+          "parameter": "show"
+        }
+      ]
+    }
+  ],
+  "id": "filter.delogo",
+  "name": "delogo",
+  "type": "video"
+}

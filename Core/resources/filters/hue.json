@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hue"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.hue.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.hue.standard.h",
+          "parameter": "h"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "1"
+          },
+          "id": "filter.hue.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.hue.standard.H",
+          "parameter": "H"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.hue.standard.b",
+          "parameter": "b"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hue",
+  "name": "hue",
+  "type": "video"
+}

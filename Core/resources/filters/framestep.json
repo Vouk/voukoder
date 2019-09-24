@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "framestep"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.framestep.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.framestep.standard.step",
+          "parameter": "step"
+        }
+      ]
+    }
+  ],
+  "id": "filter.framestep",
+  "name": "framestep",
+  "type": "video"
+}

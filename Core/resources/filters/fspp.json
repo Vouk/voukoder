@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fspp"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fspp.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 5,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.fspp.standard.quality",
+          "parameter": "quality"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fspp.standard.qp",
+          "parameter": "qp"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": -15,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.fspp.standard.strength",
+          "parameter": "strength"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.fspp.standard.use_bframe_qp",
+          "parameter": "use_bframe_qp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fspp",
+  "name": "fspp",
+  "type": "video"
+}

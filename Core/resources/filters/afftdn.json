@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "afftdn"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.afftdn.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 97.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 12.0
+          },
+          "id": "filter.afftdn.standard.nr",
+          "parameter": "nr"
+        },
+        {
+          "control": {
+            "maximum": -20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.afftdn.standard.nf",
+          "parameter": "nf"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "w"
+              },
+              {
+                "value": "v"
+              },
+              {
+                "value": "s"
+              },
+              {
+                "value": "c"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.afftdn.standard.nt",
+          "parameter": "nt"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.afftdn.standard.bn",
+          "parameter": "bn"
+        },
+        {
+          "control": {
+            "maximum": -20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.afftdn.standard.rf",
+          "parameter": "rf"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.afftdn.standard.tn",
+          "parameter": "tn"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.afftdn.standard.tr",
+          "parameter": "tr"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "i"
+              },
+              {
+                "value": "o"
+              },
+              {
+                "value": "n"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.afftdn.standard.om",
+          "parameter": "om"
+        }
+      ]
+    }
+  ],
+  "id": "filter.afftdn",
+  "name": "afftdn",
+  "type": "audio"
+}

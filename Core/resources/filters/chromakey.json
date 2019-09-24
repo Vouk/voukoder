@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "chromakey"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.chromakey.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.chromakey.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.009999999776482582
+          },
+          "id": "filter.chromakey.standard.similarity",
+          "parameter": "similarity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.chromakey.standard.blend",
+          "parameter": "blend"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.chromakey.standard.yuv",
+          "parameter": "yuv"
+        }
+      ]
+    }
+  ],
+  "id": "filter.chromakey",
+  "name": "chromakey",
+  "type": "video"
+}

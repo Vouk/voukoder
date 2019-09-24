@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vflip"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vflip.standard",
+      "properties": []
+    }
+  ],
+  "id": "filter.vflip",
+  "name": "vflip",
+  "type": "video"
+}

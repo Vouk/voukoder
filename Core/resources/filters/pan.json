@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pan"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pan.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.pan.standard.args",
+          "parameter": "args"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pan",
+  "name": "pan",
+  "type": "audio"
+}

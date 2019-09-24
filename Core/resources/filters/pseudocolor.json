@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "pseudocolor"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.pseudocolor.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "val"
+          },
+          "id": "filter.pseudocolor.standard.c0",
+          "parameter": "c0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "val"
+          },
+          "id": "filter.pseudocolor.standard.c1",
+          "parameter": "c1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "val"
+          },
+          "id": "filter.pseudocolor.standard.c2",
+          "parameter": "c2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "val"
+          },
+          "id": "filter.pseudocolor.standard.c3",
+          "parameter": "c3"
+        },
+        {
+          "control": {
+            "maximum": 3,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.pseudocolor.standard.i",
+          "parameter": "i"
+        }
+      ]
+    }
+  ],
+  "id": "filter.pseudocolor",
+  "name": "pseudocolor",
+  "type": "video"
+}

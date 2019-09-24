@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libopus",
+  "name": "Opus",
+  "defaults": {
+    "_sampleFormat": "s16"
+  },
+  "groups": [
+    {
+      "id": "libopus.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "libopus.standard.strategy",
+          "parameter": "vbr",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "on",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libopus.standard.strategy.vbr_on",
+                          "visible": true
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_off",
+                          "visible": false
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_constrained",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "off",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libopus.standard.strategy.vbr_on",
+                          "visible": false
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_off",
+                          "visible": true
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_constrained",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "constrained",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libopus.standard.strategy.vbr_on",
+                          "visible": false
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_off",
+                          "visible": false
+                        },
+                        {
+                          "id": "libopus.standard.strategy.vbr_constrained",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "libopus.standard.strategy.vbr_on",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "64000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libopus.standard.strategy.vbr_off",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "64000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libopus.standard.strategy.vbr_constrained",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "64000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

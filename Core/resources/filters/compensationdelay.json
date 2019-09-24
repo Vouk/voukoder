@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "compensationdelay"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.compensationdelay.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 10,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.compensationdelay.standard.mm",
+          "parameter": "mm"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.compensationdelay.standard.cm",
+          "parameter": "cm"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.compensationdelay.standard.m",
+          "parameter": "m"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.compensationdelay.standard.dry",
+          "parameter": "dry"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.compensationdelay.standard.wet",
+          "parameter": "wet"
+        },
+        {
+          "control": {
+            "maximum": 50,
+            "minimum": -50,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.compensationdelay.standard.temp",
+          "parameter": "temp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.compensationdelay",
+  "name": "compensationdelay",
+  "type": "audio"
+}

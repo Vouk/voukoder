@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "colormatrix"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.colormatrix.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.colormatrix.standard.src",
+          "parameter": "src"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "fcc"
+              },
+              {
+                "value": "bt601"
+              },
+              {
+                "value": "bt470"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "bt2020"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.colormatrix.standard.dst",
+          "parameter": "dst"
+        }
+      ]
+    }
+  ],
+  "id": "filter.colormatrix",
+  "name": "colormatrix",
+  "type": "video"
+}

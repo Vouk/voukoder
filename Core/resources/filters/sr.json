@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "sr"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.sr.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "native"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.sr.standard.dnn_backend",
+          "parameter": "dnn_backend"
+        },
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.sr.standard.scale_factor",
+          "parameter": "scale_factor"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.sr.standard.model",
+          "parameter": "model"
+        }
+      ]
+    }
+  ],
+  "id": "filter.sr",
+  "name": "sr",
+  "type": "video"
+}

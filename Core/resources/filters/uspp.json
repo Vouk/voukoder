@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "uspp"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.uspp.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 8,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.uspp.standard.quality",
+          "parameter": "quality"
+        },
+        {
+          "control": {
+            "maximum": 63,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.uspp.standard.qp",
+          "parameter": "qp"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.uspp.standard.use_bframe_qp",
+          "parameter": "use_bframe_qp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.uspp",
+  "name": "uspp",
+  "type": "video"
+}

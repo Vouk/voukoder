@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vaguedenoiser"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vaguedenoiser.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.vaguedenoiser.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "hard"
+              },
+              {
+                "value": "soft"
+              },
+              {
+                "value": "garrote"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.vaguedenoiser.standard.method",
+          "parameter": "method"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.vaguedenoiser.standard.nsteps",
+          "parameter": "nsteps"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 85.0
+          },
+          "id": "filter.vaguedenoiser.standard.percent",
+          "parameter": "percent"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.vaguedenoiser.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vaguedenoiser",
+  "name": "vaguedenoiser",
+  "type": "video"
+}

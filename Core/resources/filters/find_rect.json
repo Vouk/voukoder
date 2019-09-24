@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "find_rect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.find_rect.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.find_rect.standard.object",
+          "parameter": "object"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.find_rect.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "maximum": 5,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.find_rect.standard.mipmaps",
+          "parameter": "mipmaps"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.find_rect.standard.xmin",
+          "parameter": "xmin"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.find_rect.standard.ymin",
+          "parameter": "ymin"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.find_rect.standard.xmax",
+          "parameter": "xmax"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.find_rect.standard.ymax",
+          "parameter": "ymax"
+        }
+      ]
+    }
+  ],
+  "id": "filter.find_rect",
+  "name": "find_rect",
+  "type": "video"
+}

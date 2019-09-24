@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "metadata"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.metadata.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "select"
+              },
+              {
+                "value": "add"
+              },
+              {
+                "value": "modify"
+              },
+              {
+                "value": "delete"
+              },
+              {
+                "value": "print"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.metadata.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.metadata.standard.key",
+          "parameter": "key"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.metadata.standard.value",
+          "parameter": "value"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "same_str"
+              },
+              {
+                "value": "starts_with"
+              },
+              {
+                "value": "less"
+              },
+              {
+                "value": "equal"
+              },
+              {
+                "value": "greater"
+              },
+              {
+                "value": "expr"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.metadata.standard.function",
+          "parameter": "function"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.metadata.standard.expr",
+          "parameter": "expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.metadata.standard.file",
+          "parameter": "file"
+        }
+      ]
+    }
+  ],
+  "id": "filter.metadata",
+  "name": "metadata",
+  "type": "video"
+}

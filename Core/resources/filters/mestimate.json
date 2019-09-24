@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "mestimate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.mestimate.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "esa"
+              },
+              {
+                "value": "tss"
+              },
+              {
+                "value": "tdls"
+              },
+              {
+                "value": "ntss"
+              },
+              {
+                "value": "fss"
+              },
+              {
+                "value": "ds"
+              },
+              {
+                "value": "hexbs"
+              },
+              {
+                "value": "epzs"
+              },
+              {
+                "value": "umh"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.mestimate.standard.method",
+          "parameter": "method"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 8,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 8
+          },
+          "id": "filter.mestimate.standard.mb_size",
+          "parameter": "mb_size"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.mestimate.standard.search_param",
+          "parameter": "search_param"
+        }
+      ]
+    }
+  ],
+  "id": "filter.mestimate",
+  "name": "mestimate",
+  "type": "video"
+}

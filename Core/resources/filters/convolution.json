@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "convolution"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.convolution.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0 0 0 0 1 0 0 0 0"
+          },
+          "id": "filter.convolution.standard.0m",
+          "parameter": "0m"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0 0 0 0 1 0 0 0 0"
+          },
+          "id": "filter.convolution.standard.1m",
+          "parameter": "1m"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0 0 0 0 1 0 0 0 0"
+          },
+          "id": "filter.convolution.standard.2m",
+          "parameter": "2m"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0 0 0 0 1 0 0 0 0"
+          },
+          "id": "filter.convolution.standard.3m",
+          "parameter": "3m"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.0rdiv",
+          "parameter": "0rdiv"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.1rdiv",
+          "parameter": "1rdiv"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.2rdiv",
+          "parameter": "2rdiv"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.3rdiv",
+          "parameter": "3rdiv"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.0bias",
+          "parameter": "0bias"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.1bias",
+          "parameter": "1bias"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.2bias",
+          "parameter": "2bias"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.convolution.standard.3bias",
+          "parameter": "3bias"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.convolution.standard.0mode",
+          "parameter": "0mode"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.convolution.standard.1mode",
+          "parameter": "1mode"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.convolution.standard.2mode",
+          "parameter": "2mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "square"
+              },
+              {
+                "value": "row"
+              },
+              {
+                "value": "column"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.convolution.standard.3mode",
+          "parameter": "3mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.convolution",
+  "name": "convolution",
+  "type": "video"
+}

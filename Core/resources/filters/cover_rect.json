@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "cover_rect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.cover_rect.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.cover_rect.standard.cover",
+          "parameter": "cover"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "cover"
+              },
+              {
+                "value": "blur"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.cover_rect.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.cover_rect",
+  "name": "cover_rect",
+  "type": "video"
+}

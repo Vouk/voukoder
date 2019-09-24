@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lut3d"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lut3d.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.lut3d.standard.file",
+          "parameter": "file"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "nearest"
+              },
+              {
+                "value": "trilinear"
+              },
+              {
+                "value": "tetrahedral"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.lut3d.standard.interp",
+          "parameter": "interp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lut3d",
+  "name": "lut3d",
+  "type": "video"
+}

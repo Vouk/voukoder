@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "loudnorm"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.loudnorm.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": -5.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.i",
+          "parameter": "i"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 7.0
+          },
+          "id": "filter.loudnorm.standard.lra",
+          "parameter": "lra"
+        },
+        {
+          "control": {
+            "maximum": 0.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.tp",
+          "parameter": "tp"
+        },
+        {
+          "control": {
+            "maximum": 0.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.measured_i",
+          "parameter": "measured_i"
+        },
+        {
+          "control": {
+            "maximum": 99.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.measured_lra",
+          "parameter": "measured_lra"
+        },
+        {
+          "control": {
+            "maximum": 99.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 99.0
+          },
+          "id": "filter.loudnorm.standard.measured_tp",
+          "parameter": "measured_tp"
+        },
+        {
+          "control": {
+            "maximum": 0.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.measured_thresh",
+          "parameter": "measured_thresh"
+        },
+        {
+          "control": {
+            "maximum": 99.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.loudnorm.standard.offset",
+          "parameter": "offset"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.loudnorm.standard.linear",
+          "parameter": "linear"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.loudnorm.standard.dual_mono",
+          "parameter": "dual_mono"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "json"
+              },
+              {
+                "value": "summary"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.loudnorm.standard.print_format",
+          "parameter": "print_format"
+        }
+      ]
+    }
+  ],
+  "id": "filter.loudnorm",
+  "name": "loudnorm",
+  "type": "audio"
+}

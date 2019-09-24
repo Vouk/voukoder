@@ -1,0 +1,215 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "superequalizer"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.superequalizer.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.1b",
+          "parameter": "1b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.2b",
+          "parameter": "2b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.3b",
+          "parameter": "3b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.4b",
+          "parameter": "4b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.5b",
+          "parameter": "5b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.6b",
+          "parameter": "6b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.7b",
+          "parameter": "7b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.8b",
+          "parameter": "8b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.9b",
+          "parameter": "9b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.10b",
+          "parameter": "10b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.11b",
+          "parameter": "11b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.12b",
+          "parameter": "12b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.13b",
+          "parameter": "13b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.14b",
+          "parameter": "14b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.15b",
+          "parameter": "15b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.16b",
+          "parameter": "16b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.17b",
+          "parameter": "17b"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.superequalizer.standard.18b",
+          "parameter": "18b"
+        }
+      ]
+    }
+  ],
+  "id": "filter.superequalizer",
+  "name": "superequalizer",
+  "type": "audio"
+}

@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "setparams"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.setparams.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "bff"
+              },
+              {
+                "value": "tff"
+              },
+              {
+                "value": "prog"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setparams.standard.field_mode",
+          "parameter": "field_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "unspecified"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "limited"
+              },
+              {
+                "value": "tv"
+              },
+              {
+                "value": "mpeg"
+              },
+              {
+                "value": "full"
+              },
+              {
+                "value": "pc"
+              },
+              {
+                "value": "jpeg"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setparams.standard.range",
+          "parameter": "range"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "film"
+              },
+              {
+                "value": "bt2020"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "smpte431"
+              },
+              {
+                "value": "smpte432"
+              },
+              {
+                "value": "jedec-p22"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setparams.standard.color_primaries",
+          "parameter": "color_primaries"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "log100"
+              },
+              {
+                "value": "log316"
+              },
+              {
+                "value": "iec61966-2-4"
+              },
+              {
+                "value": "bt1361e"
+              },
+              {
+                "value": "iec61966-2-1"
+              },
+              {
+                "value": "bt2020-10"
+              },
+              {
+                "value": "bt2020-12"
+              },
+              {
+                "value": "smpte2084"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "arib-std-b67"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setparams.standard.color_trc",
+          "parameter": "color_trc"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "gbr"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "fcc"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "ycgco"
+              },
+              {
+                "value": "bt2020nc"
+              },
+              {
+                "value": "bt2020c"
+              },
+              {
+                "value": "smpte2085"
+              },
+              {
+                "value": "chroma-derived-nc"
+              },
+              {
+                "value": "chroma-derived-c"
+              },
+              {
+                "value": "ictcp"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setparams.standard.colorspace",
+          "parameter": "colorspace"
+        }
+      ]
+    }
+  ],
+  "id": "filter.setparams",
+  "name": "setparams",
+  "type": "video"
+}

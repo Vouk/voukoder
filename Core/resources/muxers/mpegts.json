@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mpegts",
+  "name": "Raw",
+  "extension": "ts",
+  "encoders": {
+    "video": [ "mpeg2video", "mpeg2_qsv", "libsvt_hevc" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

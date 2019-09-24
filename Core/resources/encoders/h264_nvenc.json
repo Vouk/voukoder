@@ -1,0 +1,678 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "h264_nvenc",
+  "name": "H.264 (NVIDIA NVENC)",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
+  "presets": [
+    {
+      "id": "firstgroup",
+      "presets": [
+        {
+          "id": "test1",
+          "options": "bf=2 preset=slow profile=high qp=19 rc=constqp g=%(fps*10)"
+        }
+      ],
+      "group": [
+        {
+          "id": "testgroup",
+          "presets": []
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "h264_nvenc.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "h264_nvenc.standard.preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "slow",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "medium",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "fast",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "hq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "bd",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "lossless",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.standard.profile",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "baseline"
+              },
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              },
+              {
+                "value": "high444"
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "constqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.buffersize",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+
+                        {
+                          "id": "h264_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "h264_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.cq",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_nvenc.standard.strategy.twopass",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.cqp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "h264_nvenc.standard.strategy.maxrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.maxrate",
+          "parameter": "maxrate",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "h264_nvenc.standard.strategy.bitrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.buffersize",
+          "parameter": "bufsize",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 288000,
+            "singleStep": 100,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.cq",
+          "parameter": "cq",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0,
+            "visible": false
+          }
+        },
+        {
+          "id": "h264_nvenc.standard.strategy.twopass",
+          "parameter": "2pass",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "h264_nvenc.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_nvenc.frames.rclookahead",
+          "parameter": "rc-lookahead",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.bdapt",
+          "parameter": "b_adapt",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.gopsize",
+          "parameter": "g",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1200,
+            "singleStep": 1,
+            "value": 300
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.strictgop",
+          "parameter": "strict-gop",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.bframes",
+          "parameter": "bf",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "singleStep": 1,
+            "value": 2
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.refs",
+          "parameter": "refs",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16,
+            "singleStep": 1,
+            "value": 3
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.brefmode",
+          "parameter": "b_ref_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "disabled"
+              },
+              {
+                "value": "each"
+              },
+              {
+                "value": "middle"
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.noscenecut",
+          "parameter": "no-scenecut",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.forcedidr",
+          "parameter": "forced-idr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.frames.nonrefp",
+          "parameter": "nonref_p",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "h264_nvenc.quantizer",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_nvenc.quantizer.qpi",
+          "parameter": "init_qpI",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.qpp",
+          "parameter": "init_qpP",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.qpb",
+          "parameter": "init_qpB",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.spatialaq",
+          "parameter": "spatial-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.spatialaq.strength",
+          "parameter": "aq-strength",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 15,
+            "singleStep": 1,
+            "value": 8
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.temporalaq",
+          "parameter": "temporal-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "h264_nvenc.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_nvenc.misc.level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "1b"
+              },
+              {
+                "value": "1.1"
+              },
+              {
+                "value": "1.2"
+              },
+              {
+                "value": "1.3"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "2.2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "3.2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "4.2"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.coder",
+          "parameter": "coder",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "cabac"
+              },
+              {
+                "value": "cavlc"
+              },
+              {
+                "value": "ac"
+              },
+              {
+                "value": "vlc"
+              }
+            ]
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.surfaces",
+          "parameter": "surfaces",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 64,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.zerolat",
+          "parameter": "zerolatency",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.weightedpred",
+          "parameter": "weighted_pred",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.bdc",
+          "parameter": "bluray-compat",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "h264_nvenc.misc.aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

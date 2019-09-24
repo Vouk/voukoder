@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "edgedetect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.edgedetect.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.19607843458652496
+          },
+          "id": "filter.edgedetect.standard.high",
+          "parameter": "high"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0784313753247261
+          },
+          "id": "filter.edgedetect.standard.low",
+          "parameter": "low"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "wires"
+              },
+              {
+                "value": "colormix"
+              },
+              {
+                "value": "canny"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.edgedetect.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "y"
+              },
+              {
+                "value": "u"
+              },
+              {
+                "value": "v"
+              },
+              {
+                "value": "r"
+              },
+              {
+                "value": "g"
+              },
+              {
+                "value": "b"
+              }
+            ],
+            "selectedIndex": 7,
+            "type": "combobox"
+          },
+          "id": "filter.edgedetect.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.edgedetect",
+  "name": "edgedetect",
+  "type": "video"
+}

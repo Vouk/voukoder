@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tpad"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tpad.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tpad.standard.start",
+          "parameter": "start"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tpad.standard.stop",
+          "parameter": "stop"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "add"
+              },
+              {
+                "value": "clone"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.tpad.standard.start_mode",
+          "parameter": "start_mode"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tpad.standard.stop_mode",
+          "parameter": "stop_mode"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tpad.standard.start_duration",
+          "parameter": "start_duration"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.tpad.standard.stop_duration",
+          "parameter": "stop_duration"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.tpad.standard.color",
+          "parameter": "color"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tpad",
+  "name": "tpad",
+  "type": "video"
+}

@@ -1,0 +1,435 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "hevc_amf",
+  "name": "HEVC (AMD AMF)",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
+  "groups": [
+    {
+      "id": "hevc_amf.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "hevc_amf.standard.usage",
+          "parameter": "usage",
+          "control": {
+            "items": [
+              {
+                "value": "transcoding"
+              },
+              {
+                "value": "ultralowlatency"
+              },
+              {
+                "value": "lowlatency"
+              },
+              {
+                "value": "webcam"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.profile",
+          "parameter": "profile",
+          "control": {
+            "items": [
+              {
+                "value": "main"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.profile_tier",
+          "parameter": "profile_tier",
+          "control": {
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.quality",
+          "parameter": "quality",
+          "control": {
+            "items": [
+              {
+                "value": "speed"
+              },
+              {
+                "value": "balanced"
+              },
+              {
+                "value": "quality"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "items": [
+              {
+                "value": "cqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_peak",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_latency",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_amf.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_amf.standard.strategy.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy.cqp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "hevc_amf.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        }
+      ]
+    },
+    {
+      "id": "hevc_amf.quantizer",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_amf.quantizer.qp_i",
+          "parameter": "qp_i",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.min_qp_i",
+          "parameter": "min_qp_i",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.max_qp_i",
+          "parameter": "max_qp_i",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.qp_p",
+          "parameter": "qp_p",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.min_qp_p",
+          "parameter": "min_qp_p",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.max_qp_p",
+          "parameter": "max_qp_p",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_amf.quantizer.vbaq",
+          "parameter": "vbaq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "hevc_amf.analysis",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_amf.analysis.me_half_pel",
+          "parameter": "me_half_pel",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "hevc_amf.analysis.me_quarter_pel",
+          "parameter": "me_quarter_pel",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "hevc_amf.analysis.skip_frame",
+          "parameter": "skip_frame",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_amf.analysis.preanalysis",
+          "parameter": "preanalysis",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_amf.analysis.max_au_size",
+          "parameter": "max_au_size",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999,
+            "singleStep": 1,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "hevc_amf.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_amf.misc.level",
+          "parameter": "level",
+          "control": {
+            "items": [
+              {
+                "value": "1.0"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "hevc_amf.misc.header_insertion_mode",
+          "parameter": "header_insertion_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "gop"
+              },
+              {
+                "value": "idr"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hevc_amf.misc.gops_per_idr",
+          "parameter": "gops_per_idr",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999,
+            "singleStep": 1,
+            "value": 60
+          }
+        },
+        {
+          "id": "hevc_amf.misc.filler_data",
+          "parameter": "filler_data",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_amf.misc.aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "hevc_amf.misc.enforce_hrd",
+          "parameter": "enforce_hrd",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

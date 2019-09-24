@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "transpose"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.transpose.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "cclock_flip"
+              },
+              {
+                "value": "clock"
+              },
+              {
+                "value": "cclock"
+              },
+              {
+                "value": "clock_flip"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.transpose.standard.dir",
+          "parameter": "dir"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "portrait"
+              },
+              {
+                "value": "landscape"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.transpose.standard.passthrough",
+          "parameter": "passthrough"
+        }
+      ]
+    }
+  ],
+  "id": "filter.transpose",
+  "name": "transpose",
+  "type": "video"
+}

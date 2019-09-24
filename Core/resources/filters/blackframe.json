@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "blackframe"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.blackframe.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.blackframe.standard.amount",
+          "parameter": "amount"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.blackframe.standard.threshold",
+          "parameter": "threshold"
+        }
+      ]
+    }
+  ],
+  "id": "filter.blackframe",
+  "name": "blackframe",
+  "type": "video"
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "signalstats"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.signalstats.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tout"
+              },
+              {
+                "value": "vrep"
+              },
+              {
+                "value": "brng"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.signalstats.standard.stat",
+          "parameter": "stat"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tout"
+              },
+              {
+                "value": "vrep"
+              },
+              {
+                "value": "brng"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.signalstats.standard.out",
+          "parameter": "out"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "yellow"
+          },
+          "id": "filter.signalstats.standard.color",
+          "parameter": "color"
+        }
+      ]
+    }
+  ],
+  "id": "filter.signalstats",
+  "name": "signalstats",
+  "type": "video"
+}

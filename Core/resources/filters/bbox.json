@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "bbox"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.bbox.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 254,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.bbox.standard.min_val",
+          "parameter": "min_val"
+        }
+      ]
+    }
+  ],
+  "id": "filter.bbox",
+  "name": "bbox",
+  "type": "video"
+}

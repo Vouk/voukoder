@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "adeclip"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.adeclip.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 10.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 55.0
+          },
+          "id": "filter.adeclip.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "maximum": 95.0,
+            "minimum": 50.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 75.0
+          },
+          "id": "filter.adeclip.standard.o",
+          "parameter": "o"
+        },
+        {
+          "control": {
+            "maximum": 25.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 8.0
+          },
+          "id": "filter.adeclip.standard.a",
+          "parameter": "a"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 10.0
+          },
+          "id": "filter.adeclip.standard.t",
+          "parameter": "t"
+        },
+        {
+          "control": {
+            "maximum": 9999,
+            "minimum": 100,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 100
+          },
+          "id": "filter.adeclip.standard.n",
+          "parameter": "n"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "s"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.adeclip.standard.m",
+          "parameter": "m"
+        }
+      ]
+    }
+  ],
+  "id": "filter.adeclip",
+  "name": "adeclip",
+  "type": "audio"
+}

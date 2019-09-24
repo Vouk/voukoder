@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "sobel"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.sobel.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.sobel.standard.planes",
+          "parameter": "planes"
+        },
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.sobel.standard.scale",
+          "parameter": "scale"
+        },
+        {
+          "control": {
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.sobel.standard.delta",
+          "parameter": "delta"
+        }
+      ]
+    }
+  ],
+  "id": "filter.sobel",
+  "name": "sobel",
+  "type": "video"
+}

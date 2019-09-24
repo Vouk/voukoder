@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "deshake"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.deshake.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.deshake.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.deshake.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.deshake.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.deshake.standard.h",
+          "parameter": "h"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deshake.standard.rx",
+          "parameter": "rx"
+        },
+        {
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deshake.standard.ry",
+          "parameter": "ry"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "blank"
+              },
+              {
+                "value": "original"
+              },
+              {
+                "value": "clamp"
+              },
+              {
+                "value": "mirror"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.deshake.standard.edge",
+          "parameter": "edge"
+        },
+        {
+          "control": {
+            "maximum": 128,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.deshake.standard.blocksize",
+          "parameter": "blocksize"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.deshake.standard.contrast",
+          "parameter": "contrast"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "exhaustive"
+              },
+              {
+                "value": "less"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.deshake.standard.search",
+          "parameter": "search"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.deshake.standard.filename",
+          "parameter": "filename"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.deshake.standard.opencl",
+          "parameter": "opencl"
+        }
+      ]
+    }
+  ],
+  "id": "filter.deshake",
+  "name": "deshake",
+  "type": "video"
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "nlmeans"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.nlmeans.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 30.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.nlmeans.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "maximum": 99,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nlmeans.standard.p",
+          "parameter": "p"
+        },
+        {
+          "control": {
+            "maximum": 99,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nlmeans.standard.pc",
+          "parameter": "pc"
+        },
+        {
+          "control": {
+            "maximum": 99,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nlmeans.standard.r",
+          "parameter": "r"
+        },
+        {
+          "control": {
+            "maximum": 99,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nlmeans.standard.rc",
+          "parameter": "rc"
+        }
+      ]
+    }
+  ],
+  "id": "filter.nlmeans",
+  "name": "nlmeans",
+  "type": "video"
+}

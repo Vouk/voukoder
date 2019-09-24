@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libvpx-vp9",
+  "name": "VP9",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "libvpx-vp9.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "libvpx-vp9.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv420p10le"
+              },
+              {
+                "value": "yuv422p10le"
+              },
+              {
+                "value": "yuv444p10le"
+              },
+              {
+                "value": "yuv420p12le"
+              },
+              {
+                "value": "yuv422p12le"
+              },
+              {
+                "value": "yuv444p12le"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        }
+      ]
+    },
+    {
+      "id": "libvpx-vp9.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "libvpx-vp9.standard.strategy",
+          "parameter": "_strategy",
+          "control": {
+            "items": [
+              {
+                "filters": [
+                  {
+                    "value": "bitrate",
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx-vp9.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.crf",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "crf",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx-vp9.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.crf",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "bitrate_crf",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx-vp9.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx-vp9.standard.strategy.crf",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx-vp9.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "libvpx-vp9.standard.strategy.multipass",
+          "parameter": "_2pass",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx-vp9.standard.strategy.crf",
+          "parameter": "crf",
+          "control": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 63,
+            "singleStep": 1,
+            "value": 10
+          }
+        },
+        {
+          "id": "libvpx-vp9.standard.quality",
+          "parameter": "quality",
+          "control": {
+            "items": [
+              {
+                "value": "good"
+              },
+              {
+                "value": "best"
+              },
+              {
+                "value": "realtime"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx-vp9.standard.cpu-used",
+          "parameter": "cpu-used",
+          "control": {
+            "maximum": 8,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "libvpx-vp9.frame",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libvpx-vp9.frame.g",
+          "parameter": "g",
+          "control": {
+            "maximum": 600,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 250
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.auto-alt-ref",
+          "parameter": "auto-alt-ref",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.threads",
+          "parameter": "threads",
+          "control": {
+            "maximum": 24,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 8
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.frame-parallel",
+          "parameter": "frame-parallel",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.lag-in-frames",
+          "parameter": "lag-in-frames",
+          "control": {
+            "maximum": 25,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.tile-columns",
+          "parameter": "tile-columns",
+          "control": {
+            "maximum": 6,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 6
+          }
+        },
+        {
+          "id": "libvpx-vp9.frame.tile-rows",
+          "parameter": "tile-rows",
+          "control": {
+            "maximum": 2,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "libvpx-vp9.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libvpx-vp9.misc.sharpness",
+          "parameter": "sharpness",
+          "control": {
+            "maximum": 7,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        }
+      ]
+    }
+  ]
+}

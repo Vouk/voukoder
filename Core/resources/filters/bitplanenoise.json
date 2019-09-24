@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "bitplanenoise"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.bitplanenoise.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 16,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.bitplanenoise.standard.bitplane",
+          "parameter": "bitplane"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.bitplanenoise.standard.filter",
+          "parameter": "filter"
+        }
+      ]
+    }
+  ],
+  "id": "filter.bitplanenoise",
+  "name": "bitplanenoise",
+  "type": "video"
+}

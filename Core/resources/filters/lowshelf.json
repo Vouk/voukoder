@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lowshelf"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lowshelf.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 999999.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 100.0
+          },
+          "id": "filter.lowshelf.standard.frequency",
+          "parameter": "frequency"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "h"
+              },
+              {
+                "value": "q"
+              },
+              {
+                "value": "o"
+              },
+              {
+                "value": "s"
+              },
+              {
+                "value": "k"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          },
+          "id": "filter.lowshelf.standard.width_type",
+          "parameter": "width_type"
+        },
+        {
+          "control": {
+            "maximum": 99999.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.lowshelf.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "maximum": 900.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.lowshelf.standard.gain",
+          "parameter": "gain"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": -2147483648,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -2147483648
+          },
+          "id": "filter.lowshelf.standard.channels",
+          "parameter": "channels"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lowshelf",
+  "name": "lowshelf",
+  "type": "audio"
+}

@@ -1,0 +1,240 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libvpx",
+  "name": "VP8",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
+  "groups": [
+    {
+      "id": "libvpx.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "libvpx.standard.strategy",
+          "parameter": "_strategy",
+          "control": {
+            "items": [
+              {
+                "value": "bitrate",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.crf",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "crf",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.crf",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "bitrate_crf",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libvpx.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libvpx.standard.strategy.crf",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "libvpx.standard.strategy.multipass",
+          "parameter": "_2pass",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx.standard.strategy.crf",
+          "parameter": "crf",
+          "control": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 63,
+            "singleStep": 1,
+            "value": 10
+          }
+        },
+        {
+          "id": "libvpx.standard.quality",
+          "parameter": "quality",
+          "control": {
+            "items": [
+              {
+                "value": "good"
+              },
+              {
+                "value": "best"
+              },
+              {
+                "value": "realtime"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx.standard.cpu-used",
+          "parameter": "cpu-used",
+          "control": {
+            "maximum": 16,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "libvpx.frame",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libvpx.frame.g",
+          "parameter": "g",
+          "control": {
+            "maximum": 600,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 250
+          }
+        },
+        {
+          "id": "libvpx.frame.auto-alt-ref",
+          "parameter": "auto-alt-ref",
+          "control": {
+            "items": [
+              {
+                "value": "-1"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libvpx.frame.threads",
+          "parameter": "threads",
+          "control": {
+            "maximum": 24,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 8
+          }
+        },
+        {
+          "id": "libvpx.frame.lag-in-frames",
+          "parameter": "lag-in-frames",
+          "control": {
+            "maximum": 25,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "libvpx.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libvpx.misc.sharpness",
+          "parameter": "sharpness",
+          "control": {
+            "maximum": 7,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        }
+      ]
+    }
+  ]
+}

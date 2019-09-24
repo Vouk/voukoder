@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "interlace"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.interlace.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "tff"
+              },
+              {
+                "value": "bff"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.interlace.standard.scan",
+          "parameter": "scan"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "off"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "complex"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.interlace.standard.lowpass",
+          "parameter": "lowpass"
+        }
+      ]
+    }
+  ],
+  "id": "filter.interlace",
+  "name": "interlace",
+  "type": "video"
+}

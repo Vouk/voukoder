@@ -1,0 +1,237 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "noise"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.noise.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.noise.standard.all_seed",
+          "parameter": "all_seed"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.noise.standard.all_strength",
+          "parameter": "all_strength"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "u"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.noise.standard.all_flags",
+          "parameter": "all_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.noise.standard.c0_seed",
+          "parameter": "c0_seed"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.noise.standard.c0_strength",
+          "parameter": "c0_strength"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "u"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.noise.standard.c0_flags",
+          "parameter": "c0_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.noise.standard.c1_seed",
+          "parameter": "c1_seed"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.noise.standard.c1_strength",
+          "parameter": "c1_strength"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "u"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.noise.standard.c1_flags",
+          "parameter": "c1_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.noise.standard.c2_seed",
+          "parameter": "c2_seed"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.noise.standard.c2_strength",
+          "parameter": "c2_strength"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "u"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.noise.standard.c2_flags",
+          "parameter": "c2_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.noise.standard.c3_seed",
+          "parameter": "c3_seed"
+        },
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.noise.standard.c3_strength",
+          "parameter": "c3_strength"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "p"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "u"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.noise.standard.c3_flags",
+          "parameter": "c3_flags"
+        }
+      ]
+    }
+  ],
+  "id": "filter.noise",
+  "name": "noise",
+  "type": "video"
+}

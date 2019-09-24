@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "xbr"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.xbr.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.xbr.standard.n",
+          "parameter": "n"
+        }
+      ]
+    }
+  ],
+  "id": "filter.xbr",
+  "name": "xbr",
+  "type": "video"
+}

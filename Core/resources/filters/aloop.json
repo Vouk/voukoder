@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "aloop"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.aloop.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aloop.standard.loop",
+          "parameter": "loop"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aloop.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "maximum": -2147483648,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.aloop.standard.start",
+          "parameter": "start"
+        }
+      ]
+    }
+  ],
+  "id": "filter.aloop",
+  "name": "aloop",
+  "type": "audio"
+}

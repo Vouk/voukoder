@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "deblock"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.deblock.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "weak"
+              },
+              {
+                "value": "strong"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.deblock.standard.filter",
+          "parameter": "filter"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.deblock.standard.block",
+          "parameter": "block"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.09799999743700027
+          },
+          "id": "filter.deblock.standard.alpha",
+          "parameter": "alpha"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.05000000074505806
+          },
+          "id": "filter.deblock.standard.beta",
+          "parameter": "beta"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.05000000074505806
+          },
+          "id": "filter.deblock.standard.gamma",
+          "parameter": "gamma"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.05000000074505806
+          },
+          "id": "filter.deblock.standard.delta",
+          "parameter": "delta"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.deblock.standard.planes",
+          "parameter": "planes"
+        }
+      ]
+    }
+  ],
+  "id": "filter.deblock",
+  "name": "deblock",
+  "type": "video"
+}

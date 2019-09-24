@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "qp"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.qp.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.qp.standard.qp",
+          "parameter": "qp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.qp",
+  "name": "qp",
+  "type": "video"
+}

@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "drawgraph"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.drawgraph.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.drawgraph.standard.m1",
+          "parameter": "m1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0xffff0000"
+          },
+          "id": "filter.drawgraph.standard.fg1",
+          "parameter": "fg1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.drawgraph.standard.m2",
+          "parameter": "m2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0xff00ff00"
+          },
+          "id": "filter.drawgraph.standard.fg2",
+          "parameter": "fg2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.drawgraph.standard.m3",
+          "parameter": "m3"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0xffff00ff"
+          },
+          "id": "filter.drawgraph.standard.fg3",
+          "parameter": "fg3"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.drawgraph.standard.m4",
+          "parameter": "m4"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0xffffff00"
+          },
+          "id": "filter.drawgraph.standard.fg4",
+          "parameter": "fg4"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "white"
+          },
+          "id": "filter.drawgraph.standard.bg",
+          "parameter": "bg"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.drawgraph.standard.min",
+          "parameter": "min"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.drawgraph.standard.max",
+          "parameter": "max"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bar"
+              },
+              {
+                "value": "dot"
+              },
+              {
+                "value": "line"
+              }
+            ],
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.drawgraph.standard.max",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bar"
+              },
+              {
+                "value": "dot"
+              },
+              {
+                "value": "line"
+              },
+              {
+                "value": "frame"
+              },
+              {
+                "value": "replace"
+              },
+              {
+                "value": "scroll"
+              },
+              {
+                "value": "rscroll"
+              },
+              {
+                "value": "picture"
+              }
+            ],
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.drawgraph.standard.max"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "900x256"
+          },
+          "id": "filter.drawgraph.standard.size",
+          "parameter": "size"
+        }
+      ]
+    }
+  ],
+  "id": "filter.drawgraph",
+  "name": "drawgraph",
+  "type": "video"
+}

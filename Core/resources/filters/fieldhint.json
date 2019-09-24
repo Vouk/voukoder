@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "fieldhint"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.fieldhint.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.fieldhint.standard.hint",
+          "parameter": "hint"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "absolute"
+              },
+              {
+                "value": "relative"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.fieldhint.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.fieldhint",
+  "name": "fieldhint",
+  "type": "video"
+}

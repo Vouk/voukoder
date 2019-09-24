@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "gradfun"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.gradfun.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.5099999904632568,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.2000000476837158
+          },
+          "id": "filter.gradfun.standard.strength",
+          "parameter": "strength"
+        },
+        {
+          "control": {
+            "maximum": 32,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.gradfun.standard.radius",
+          "parameter": "radius"
+        }
+      ]
+    }
+  ],
+  "id": "filter.gradfun",
+  "name": "gradfun",
+  "type": "video"
+}

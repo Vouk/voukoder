@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "spp"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.spp.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 6,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.spp.standard.quality",
+          "parameter": "quality"
+        },
+        {
+          "control": {
+            "maximum": 63,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.spp.standard.qp",
+          "parameter": "qp"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "hard"
+              },
+              {
+                "value": "soft"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.spp.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.spp.standard.use_bframe_qp",
+          "parameter": "use_bframe_qp"
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "filter.spp.avdct",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "fastint"
+              },
+              {
+                "value": "int"
+              },
+              {
+                "value": "mmx"
+              },
+              {
+                "value": "altivec"
+              },
+              {
+                "value": "faan"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.spp.avdct.dct",
+          "parameter": "dct"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "int"
+              },
+              {
+                "value": "simple"
+              },
+              {
+                "value": "simplemmx"
+              },
+              {
+                "value": "arm"
+              },
+              {
+                "value": "altivec"
+              },
+              {
+                "value": "simplearm"
+              },
+              {
+                "value": "simplearmv5te"
+              },
+              {
+                "value": "simplearmv6"
+              },
+              {
+                "value": "simpleneon"
+              },
+              {
+                "value": "xvid"
+              },
+              {
+                "value": "xvidmmx"
+              },
+              {
+                "value": "faani"
+              },
+              {
+                "value": "simpleauto"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.spp.avdct.idct",
+          "parameter": "idct"
+        },
+        {
+          "control": {
+            "maximum": 14,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.spp.avdct.bits_per_sample",
+          "parameter": "bits_per_sample"
+        }
+      ]
+    }
+  ],
+  "id": "filter.spp",
+  "name": "spp",
+  "type": "video"
+}

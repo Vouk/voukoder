@@ -1,0 +1,491 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "scale"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.scale.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.standard.width",
+          "parameter": "width"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.standard.height",
+          "parameter": "height"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "bilinear"
+          },
+          "id": "filter.scale.standard.flags",
+          "parameter": "flags"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.scale.standard.interl",
+          "parameter": "interl"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "auto"
+          },
+          "id": "filter.scale.standard.in_color_matrix",
+          "parameter": "in_color_matrix"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.standard.out_color_matrix",
+          "parameter": "out_color_matrix"
+        },
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.scale.standard.in_range",
+          "parameter": "in_range"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "full"
+              },
+              {
+                "value": "limited"
+              },
+              {
+                "value": "jpeg"
+              },
+              {
+                "value": "mpeg"
+              },
+              {
+                "value": "tv"
+              },
+              {
+                "value": "pc"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.scale.standard.out_range",
+          "parameter": "out_range"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.standard.in_v_chr_pos",
+          "parameter": "in_v_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.standard.in_h_chr_pos",
+          "parameter": "in_h_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.standard.out_v_chr_pos",
+          "parameter": "out_v_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.standard.out_h_chr_pos",
+          "parameter": "out_h_chr_pos"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "disable"
+              },
+              {
+                "value": "decrease"
+              },
+              {
+                "value": "increase"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.scale.standard.force_original_aspect_ratio",
+          "parameter": "force_original_aspect_ratio"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 123456.0
+          },
+          "id": "filter.scale.standard.param0",
+          "parameter": "param0"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 123456.0
+          },
+          "id": "filter.scale.standard.param1",
+          "parameter": "param1"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.scale.standard.nb_slices",
+          "parameter": "nb_slices"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "init"
+              },
+              {
+                "value": "frame"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.scale.standard.eval",
+          "parameter": "eval"
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "filter.scale.swscaler",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "fast_bilinear"
+              },
+              {
+                "value": "bilinear"
+              },
+              {
+                "value": "bicubic"
+              },
+              {
+                "value": "experimental"
+              },
+              {
+                "value": "neighbor"
+              },
+              {
+                "value": "area"
+              },
+              {
+                "value": "bicublin"
+              },
+              {
+                "value": "gauss"
+              },
+              {
+                "value": "sinc"
+              },
+              {
+                "value": "lanczos"
+              },
+              {
+                "value": "spline"
+              },
+              {
+                "value": "print_info"
+              },
+              {
+                "value": "accurate_rnd"
+              },
+              {
+                "value": "full_chroma_int"
+              },
+              {
+                "value": "full_chroma_inp"
+              },
+              {
+                "value": "bitexact"
+              },
+              {
+                "value": "error_diffusion"
+              }
+            ],
+            "selectedIndex": 4,
+            "type": "combobox"
+          },
+          "id": "filter.scale.swscaler.sws_flags",
+          "parameter": "sws_flags"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.scale.swscaler.srcw",
+          "parameter": "srcw"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.scale.swscaler.srch",
+          "parameter": "srch"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.scale.swscaler.dstw",
+          "parameter": "dstw"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.scale.swscaler.dsth",
+          "parameter": "dsth"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.swscaler.src_format",
+          "parameter": "src_format"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.scale.swscaler.dst_format",
+          "parameter": "dst_format"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.scale.swscaler.src_range",
+          "parameter": "src_range"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.scale.swscaler.dst_range",
+          "parameter": "dst_range"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 123456.0
+          },
+          "id": "filter.scale.swscaler.param0",
+          "parameter": "param0"
+        },
+        {
+          "control": {
+            "maximum": 2147483648.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 123456.0
+          },
+          "id": "filter.scale.swscaler.param1",
+          "parameter": "param1"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.swscaler.src_v_chr_pos",
+          "parameter": "src_v_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.swscaler.src_h_chr_pos",
+          "parameter": "src_h_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.swscaler.dst_v_chr_pos",
+          "parameter": "dst_v_chr_pos"
+        },
+        {
+          "control": {
+            "maximum": 512,
+            "minimum": -513,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -513
+          },
+          "id": "filter.scale.swscaler.dst_h_chr_pos",
+          "parameter": "dst_h_chr_pos"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "bayer"
+              },
+              {
+                "value": "ed"
+              },
+              {
+                "value": "a_dither"
+              },
+              {
+                "value": "x_dither"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.scale.swscaler.sws_dither",
+          "parameter": "sws_dither"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.scale.swscaler.gamma",
+          "parameter": "gamma"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "uniform_color"
+              },
+              {
+                "value": "checkerboard"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.scale.swscaler.alphablend",
+          "parameter": "alphablend"
+        }
+      ]
+    }
+  ],
+  "id": "filter.scale",
+  "name": "scale",
+  "type": "video"
+}

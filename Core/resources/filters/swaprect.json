@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "swaprect"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.swaprect.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "w/2"
+          },
+          "id": "filter.swaprect.standard.w",
+          "parameter": "w"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "h/2"
+          },
+          "id": "filter.swaprect.standard.h",
+          "parameter": "h"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "w/2"
+          },
+          "id": "filter.swaprect.standard.x1",
+          "parameter": "x1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "h/2"
+          },
+          "id": "filter.swaprect.standard.y1",
+          "parameter": "y1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.swaprect.standard.x2",
+          "parameter": "x2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.swaprect.standard.y2",
+          "parameter": "y2"
+        }
+      ]
+    }
+  ],
+  "id": "filter.swaprect",
+  "name": "swaprect",
+  "type": "video"
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "palettegen"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.palettegen.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 256,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.palettegen.standard.max_colors",
+          "parameter": "max_colors"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.palettegen.standard.reserve_transparent",
+          "parameter": "reserve_transparent"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "lime"
+          },
+          "id": "filter.palettegen.standard.transparency_color",
+          "parameter": "transparency_color"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "full"
+              },
+              {
+                "value": "diff"
+              },
+              {
+                "value": "single"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.palettegen.standard.stats_mode",
+          "parameter": "stats_mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.palettegen",
+  "name": "palettegen",
+  "type": "video"
+}

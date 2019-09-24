@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tmix"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tmix.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 128,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.tmix.standard.frames",
+          "parameter": "frames"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "1 1 1"
+          },
+          "id": "filter.tmix.standard.weights",
+          "parameter": "weights"
+        },
+        {
+          "control": {
+            "maximum": 32767.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.tmix.standard.scale",
+          "parameter": "scale"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tmix",
+  "name": "tmix",
+  "type": "video"
+}

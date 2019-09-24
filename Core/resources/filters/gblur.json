@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "gblur"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.gblur.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.gblur.standard.sigma",
+          "parameter": "sigma"
+        },
+        {
+          "control": {
+            "maximum": 6,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.gblur.standard.steps",
+          "parameter": "steps"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.gblur.standard.planes",
+          "parameter": "planes"
+        },
+        {
+          "control": {
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.gblur.standard.sigmaV",
+          "parameter": "sigmaV"
+        }
+      ]
+    }
+  ],
+  "id": "filter.gblur",
+  "name": "gblur",
+  "type": "video"
+}

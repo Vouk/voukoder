@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "field"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.field.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "top"
+              },
+              {
+                "value": "bottom"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.field.standard.type",
+          "parameter": "type"
+        }
+      ]
+    }
+  ],
+  "id": "filter.field",
+  "name": "field",
+  "type": "video"
+}

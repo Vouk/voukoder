@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "minterpolate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.minterpolate.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "60"
+          },
+          "id": "filter.minterpolate.standard.fps",
+          "parameter": "fps"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "dup"
+              },
+              {
+                "value": "blend"
+              },
+              {
+                "value": "mci"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.minterpolate.standard.mi_mode",
+          "parameter": "mi_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "obmc"
+              },
+              {
+                "value": "aobmc"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.minterpolate.standard.mc_mode",
+          "parameter": "mc_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "bidir"
+              },
+              {
+                "value": "bilat"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.minterpolate.standard.me_mode",
+          "parameter": "me_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "esa"
+              },
+              {
+                "value": "tss"
+              },
+              {
+                "value": "tdls"
+              },
+              {
+                "value": "ntss"
+              },
+              {
+                "value": "fss"
+              },
+              {
+                "value": "ds"
+              },
+              {
+                "value": "hexbs"
+              },
+              {
+                "value": "epzs"
+              },
+              {
+                "value": "umh"
+              }
+            ],
+            "selectedIndex": 8,
+            "type": "combobox"
+          },
+          "id": "filter.minterpolate.standard.me",
+          "parameter": "me"
+        },
+        {
+          "control": {
+            "maximum": 16,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.minterpolate.standard.mb_size",
+          "parameter": "mb_size"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          },
+          "id": "filter.minterpolate.standard.search_param",
+          "parameter": "search_param"
+        },
+        {
+          "control": {
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.minterpolate.standard.vsbmc",
+          "parameter": "vsbmc"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "fdiff"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.minterpolate.standard.scd",
+          "parameter": "scd"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 5.0
+          },
+          "id": "filter.minterpolate.standard.scd_threshold",
+          "parameter": "scd_threshold"
+        }
+      ]
+    }
+  ],
+  "id": "filter.minterpolate",
+  "name": "minterpolate",
+  "type": "video"
+}

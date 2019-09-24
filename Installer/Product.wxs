@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Properties.wxi?>
+  
+  <Product 
+    Id="*" 
+    Name="$(var.ProductName)"
+    Manufacturer="$(var.ManufacturerLegal)" 
+    Version="2.2.0.0" 
+    Language="1033" 
+    UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
+ 
+    <Package
+      InstallerVersion="200" 
+      Manufacturer="$(var.ManufacturerLegal)"
+      Description="Installs the Voukoder COM server"
+      Compressed="yes"
+      InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		
+    <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <Feature Id="Voukoder" Title="$(var.ProductName)" Level="1">
+			<ComponentRef Id="voukoder.dll" />
+		</Feature>
+
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+
+    <UIRef Id="WixUI_Minimal" />
+ 
+  </Product>
+
+  <Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="Voukoder">
+          <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4">
+            <File Id="voukoder.dll" Source="$(var.Voukoder.TargetPath)" KeyPath="yes">
+              <Class Id="E9661BFA-4B8E-4217-BCD8-24074D75000B" Advertise="no" Context="InprocServer32" ThreadingModel="apartment" Description="Voukoder media encoding library">
+                <Interface Id="E26427F6-CBCA-4859-BCC3-162AF1E06CEE" Name="IVoukoder" />
+                <ProgId Id="Voukoder.COMServer" Description="Voukoder media encoding library" />
+              </Class>
+            </File>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+	</Fragment>
+
+</Wix>

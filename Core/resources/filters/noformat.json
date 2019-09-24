@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "noformat"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.noformat.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.noformat.standard.pix_fmts",
+          "parameter": "pix_fmts"
+        }
+      ]
+    }
+  ],
+  "id": "filter.noformat",
+  "name": "noformat",
+  "type": "video"
+}

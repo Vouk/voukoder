@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "compand"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.compand.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.compand.standard.attacks",
+          "parameter": "attacks"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0.8"
+          },
+          "id": "filter.compand.standard.decays",
+          "parameter": "decays"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "-70/-70|-60/-20|1/0"
+          },
+          "id": "filter.compand.standard.points",
+          "parameter": "points"
+        },
+        {
+          "control": {
+            "maximum": 900.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.009999999776482582
+          },
+          "id": "filter.compand.standard.soft-knee",
+          "parameter": "soft-knee"
+        },
+        {
+          "control": {
+            "maximum": 900.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.compand.standard.gain",
+          "parameter": "gain"
+        },
+        {
+          "control": {
+            "maximum": 0.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.compand.standard.volume",
+          "parameter": "volume"
+        },
+        {
+          "control": {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.compand.standard.delay",
+          "parameter": "delay"
+        }
+      ]
+    }
+  ],
+  "id": "filter.compand",
+  "name": "compand",
+  "type": "audio"
+}

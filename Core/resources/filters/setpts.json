@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "setpts"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.setpts.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "PTS"
+          },
+          "id": "filter.setpts.standard.expr",
+          "parameter": "expr"
+        }
+      ]
+    }
+  ],
+  "id": "filter.setpts",
+  "name": "setpts",
+  "type": "video"
+}

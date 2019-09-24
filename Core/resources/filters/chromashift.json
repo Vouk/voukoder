@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "chromashift"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.chromashift.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.chromashift.standard.cbh",
+          "parameter": "cbh"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.chromashift.standard.cbv",
+          "parameter": "cbv"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.chromashift.standard.crh",
+          "parameter": "crh"
+        },
+        {
+          "control": {
+            "maximum": 255,
+            "minimum": -255,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.chromashift.standard.crv",
+          "parameter": "crv"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "smear"
+              },
+              {
+                "value": "wrap"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.chromashift.standard.edge",
+          "parameter": "edge"
+        }
+      ]
+    }
+  ],
+  "id": "filter.chromashift",
+  "name": "chromashift",
+  "type": "video"
+}

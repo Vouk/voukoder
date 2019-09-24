@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "setfield"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.setfield.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "bff"
+              },
+              {
+                "value": "tff"
+              },
+              {
+                "value": "prog"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.setfield.standard.mode",
+          "parameter": "mode"
+        }
+      ]
+    }
+  ],
+  "id": "filter.setfield",
+  "name": "setfield",
+  "type": "video"
+}

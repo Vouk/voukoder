@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "readeia608"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.readeia608.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.readeia608.standard.scan_min",
+          "parameter": "scan_min"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.readeia608.standard.scan_max",
+          "parameter": "scan_max"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.20000000298023224
+          },
+          "id": "filter.readeia608.standard.mac",
+          "parameter": "mac"
+        },
+        {
+          "control": {
+            "maximum": 0.699999988079071,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.27000001072883606
+          },
+          "id": "filter.readeia608.standard.spw",
+          "parameter": "spw"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.10000000149011612
+          },
+          "id": "filter.readeia608.standard.mhd",
+          "parameter": "mhd"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.10000000149011612
+          },
+          "id": "filter.readeia608.standard.mpd",
+          "parameter": "mpd"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.019999999552965164
+          },
+          "id": "filter.readeia608.standard.msd",
+          "parameter": "msd"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.readeia608.standard.bhd",
+          "parameter": "bhd"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.3499999940395355
+          },
+          "id": "filter.readeia608.standard.th_w",
+          "parameter": "th_w"
+        },
+        {
+          "control": {
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.15000000596046448
+          },
+          "id": "filter.readeia608.standard.th_b",
+          "parameter": "th_b"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.readeia608.standard.chp",
+          "parameter": "chp"
+        }
+      ]
+    }
+  ],
+  "id": "filter.readeia608",
+  "name": "readeia608",
+  "type": "video"
+}

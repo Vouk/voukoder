@@ -1,0 +1,343 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libsvt_av1",
+  "name": "AV1 (SVT)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv420p10le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "rc",
+          "parameter": "rc",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "cqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvt_av1.standard.qp",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvt_av1.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvt_av1.standard.maxrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvt_av1.standard.qp",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvt_av1.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvt_av1.standard.maxrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "qp",
+          "parameter": "qp",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "maximum": 63,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 50
+          }
+        },
+        {
+          "id": "bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "maxrate",
+          "parameter": "maxrate",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 8,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tier",
+          "parameter": "tier",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "2.0"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "2.2"
+              },
+              {
+                "value": "2.3"
+              },
+              {
+                "value": "3.0"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "3.2"
+              },
+              {
+                "value": "3.3"
+              },
+              {
+                "value": "4.0"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "4.2"
+              },
+              {
+                "value": "4.3"
+              },
+              {
+                "value": "5.0"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "5.3"
+              },
+              {
+                "value": "6.0"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              },
+              {
+                "value": "6.3"
+              },
+              {
+                "value": "7.0"
+              },
+              {
+                "value": "7.1"
+              },
+              {
+                "value": "7.2"
+              },
+              {
+                "value": "7.3"
+              }
+            ]
+          }
+        },
+        {
+          "id": "la_depth",
+          "parameter": "la_depth",
+          "control": {
+            "type": "integer",
+            "maximum": 256,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hielevel",
+          "parameter": "hielevel",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "flat"
+              },
+              {
+                "value": "2level"
+              },
+              {
+                "value": "3level"
+              },
+              {
+                "value": "4level"
+              }
+            ]
+          }
+        },
+        {
+          "id": "sc_detection",
+          "parameter": "sc_detection",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "bl_mode",
+          "parameter": "bl_mode",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "forced-idr",
+          "parameter": "forced-idr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

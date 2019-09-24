@@ -1,0 +1,1294 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libx264",
+  "name": "H.264 (x264)",
+  "defaults": {},
+  "parameterGroups": {
+    "x264-params": [
+      "interlaced",
+      "bff",
+      "tff",
+      "keyint",
+      "min-keyint",
+      "open-gop",
+      "ref",
+      "slices",
+      "slices-max",
+      "slice-max-size",
+      "slices-min-mbs",
+      "slices-max-mbs",
+      "bframes",
+      "b-bias",
+      "b-adapt",
+      "b-pyramid",
+      "deblock",
+      "no-deblock",
+      "scenecut",
+      "no-weightb",
+      "qpmin",
+      "qpmax",
+      "qpstep",
+      "ratetol",
+      "ipratio",
+      "pbratio",
+      "chroma-qp-offset",
+      "aq-mode",
+      "aq-strength",
+      "qcomp",
+      "cplxblur",
+      "zones",
+      "qblur",
+      "partitions",
+      "vbv-bufsize",
+      "vbv-maxrate",
+      "vbv-init",
+      "rc-lookahead",
+      "no-mbtree",
+      "fake-interlaced",
+      "me",
+      "merange",
+      "mvrange",
+      "subme",
+      "no-chroma-me",
+      "direct",
+      "direct-8x8",
+      "psy-rd",
+      "trellis",
+      "no-fast-pskip",
+      "no-mixed-refs",
+      "no-dct-decimate",
+      "no-psy",
+      "no-cabac"
+    ]
+  },
+  "groups": [
+    {
+      "id": "libx264.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "libx264.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv422p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv444p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv420p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv422p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv444p10le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.profile10",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile420",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile422",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.profile444",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx264.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "libx264.standard.preset",
+          "parameter": "preset",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 5,
+            "items": [
+              {
+                "value": "ultrafast"
+              },
+              {
+                "value": "superfast"
+              },
+              {
+                "value": "veryfast"
+              },
+              {
+                "value": "faster"
+              },
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "slower"
+              },
+              {
+                "value": "veryslow"
+              },
+              {
+                "value": "placebo"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile10",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "high10"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile420",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 1,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "baseline"
+              },
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile422",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "high422"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.profile444",
+          "parameter": "profile",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "high444"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.tune",
+          "parameter": "tune",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "film"
+              },
+              {
+                "value": "animation"
+              },
+              {
+                "value": "grain"
+              },
+              {
+                "value": "stillimage"
+              },
+              {
+                "value": "psnr"
+              },
+              {
+                "value": "ssim"
+              },
+              {
+                "value": "fastdecode"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.strategy",
+          "parameter": "rc",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "abr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.strategy.slowfirstpass",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.strategy.crf",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.qp",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "crf",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.slowfirstpass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.crf",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx264.standard.strategy.qp",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libx264.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.slowfirstpass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.crf",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx264.standard.strategy.qp",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.standard.strategy.bitrate",
+          "parameter": "b",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "libx264.standard.strategy.multipass",
+          "parameter": "_2pass",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.standard.strategy.slowfirstpass",
+          "parameter": "slow-firstpass",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.standard.strategy.crf",
+          "parameter": "crf",
+          "control": {
+            "type": "float",
+            "minimum": 0.0,
+            "maximum": 51.0,
+            "singleStep": 0.1,
+            "value": 23.0
+          }
+        },
+        {
+          "id": "libx264.standard.strategy.qp",
+          "parameter": "qp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 69,
+            "singleStep": 1,
+            "value": 23
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx264.ratecontrol",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx264.ratecontrol.vbv-maxrate",
+          "parameter": "vbv-maxrate",
+          "control": {
+            "maximum": 512000,
+            "minimum": 0,
+            "singleStep": 1000,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.vbv-bufsize",
+          "parameter": "vbv-bufsize",
+          "control": {
+            "maximum": 512000,
+            "minimum": 0,
+            "singleStep": 1000,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.vbv-init",
+          "parameter": "vbv-init",
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.9
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.qpmin",
+          "parameter": "qpmin",
+          "control": {
+            "maximum": 69,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "libx264.ratecontrol.qpmax"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "libx264.ratecontrol.qpmax",
+          "parameter": "qpmax",
+          "control": {
+            "maximum": 69,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 69
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "libx264.ratecontrol.qpmin"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "libx264.ratecontrol.qpstep",
+          "parameter": "qpstep",
+          "control": {
+            "maximum": 51,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.ratetol",
+          "parameter": "ratetol",
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 1.0,
+            "type": "float",
+            "value": 1.0
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.ipratio",
+          "parameter": "ipratio",
+          "control": {
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 1.4
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.pbratio",
+          "parameter": "pbratio",
+          "control": {
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 1.3
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.chroma-qp-offset",
+          "parameter": "chroma-qp-offset",
+          "control": {
+            "maximum": 12,
+            "minimum": -12,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.aq-mode",
+          "parameter": "aq-mode",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.aq-strength",
+          "parameter": "aq-strength",
+          "control": {
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 1.0
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.qcomp",
+          "parameter": "qcomp",
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.6
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.cplxblur",
+          "parameter": "cplxblur",
+          "control": {
+            "maximum": 999,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 20
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.qblur",
+          "parameter": "qblur",
+          "control": {
+            "maximum": 99.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.5
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.zones",
+          "parameter": "zones",
+          "control": {
+            "type": "string",
+            "value": ""
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.rc-lookahead",
+          "parameter": "rc-lookahead",
+          "control": {
+            "maximum": 250,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 40
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.no-mbtree",
+          "parameter": "no-mbtree",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx264.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx264.frames.keyint",
+          "parameter": "keyint",
+          "control": {
+            "maximum": 600,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 250
+          }
+        },
+        {
+          "id": "libx264.frames.min-keyint",
+          "parameter": "min-keyint",
+          "control": {
+            "maximum": 60,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 25
+          }
+        },
+        {
+          "id": "libx264.frames.scenecut",
+          "parameter": "scenecut",
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 40
+          }
+        },
+        {
+          "id": "libx264.frames.bframes",
+          "parameter": "bframes",
+          "control": {
+            "maximum": 16,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          }
+        },
+        {
+          "id": "libx264.frames.b-adapt",
+          "parameter": "b-adapt",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.frames.b-bias",
+          "parameter": "b-bias",
+          "control": {
+            "maximum": 100,
+            "minimum": -90,
+            "singleStep": 10,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.frames.b-pyramid",
+          "parameter": "b-pyramid",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.frames.ref",
+          "parameter": "ref",
+          "control": {
+            "maximum": 16,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          }
+        },
+        {
+          "id": "libx264.frames.slices",
+          "parameter": "slices",
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 10,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.frames.slices-max",
+          "parameter": "slices-max",
+          "control": {
+            "maximum": 100,
+            "minimum": 0,
+            "singleStep": 10,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.frames.slice-max-size",
+          "parameter": "slice-max-size",
+          "control": {
+            "maximum": 250,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.frames.deblock",
+          "parameter": "deblock",
+          "control": {
+            "type": "string",
+            "value": "0,0",
+            "regex": "^-?[0-9]+,-?[0-9]+$"
+          }
+        },
+        {
+          "id": "libx264.frames.no-deblock",
+          "parameter": "no-deblock",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.frames.open-gop",
+          "parameter": "open-gop",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.frames.no-cabac",
+          "parameter": "no-cabac",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx264.analysis",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx264.analysis.partitions",
+          "parameter": "partitions",
+          "control": {
+            "type": "string",
+            "value": "p8x8,b8x8,i8x8,i4x4",
+            "regex": "^[0-9a-z,]+$"
+          }
+        },
+        {
+          "id": "libx264.analysis.direct",
+          "parameter": "direct",
+          "control": {
+            "items": [
+              {
+                "value": "spatial"
+              },
+              {
+                "value": "temporal"
+              },
+              {
+                "value": "auto"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.analysis.direct-8x8",
+          "parameter": "direct-8x8",
+          "control": {
+            "items": [
+              {
+                "value": "-1"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.analysis.no-weightb",
+          "parameter": "no-weightb",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.analysis.me",
+          "parameter": "me",
+          "control": {
+            "items": [
+              {
+                "value": "dia"
+              },
+              {
+                "value": "hex"
+              },
+              {
+                "value": "umh"
+              },
+              {
+                "value": "esa"
+              },
+              {
+                "value": "tesa"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.analysis.merange",
+          "parameter": "merange",
+          "control": {
+            "maximum": 1024,
+            "minimum": 4,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 16
+          }
+        },
+        {
+          "id": "libx264.analysis.mvrange",
+          "parameter": "mvrange",
+          "control": {
+            "maximum": 1024,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "libx264.analysis.subme",
+          "parameter": "subme",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              }
+            ],
+            "selectedIndex": 7,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.analysis.psy-rd",
+          "parameter": "psy-rd",
+          "control": {
+            "type": "string",
+            "value": "1.0,0.0",
+            "regex": "^[0-9\\.]+,[0-9\\.]+$"
+          }
+        },
+        {
+          "id": "libx264.analysis.no-chroma-me",
+          "parameter": "no-chroma-me",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.analysis.no-mixed-refs",
+          "parameter": "no-mixed-refs",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.analysis.trellis",
+          "parameter": "trellis",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.analysis.no-dct-decimate",
+          "parameter": "no-dct-decimate",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.analysis.nr",
+          "parameter": "noise_reduction",
+          "control": {
+            "maximum": 10000,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx264.analysis.no-fast-pskip",
+          "parameter": "no-fast-pskip",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.analysis.no-psy",
+          "parameter": "no-psy",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx264.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx264.misc.level",
+          "parameter": "level",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "31"
+              },
+              {
+                "value": "32"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "41"
+              },
+              {
+                "value": "42"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "51"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libx264.misc.nal-hrd",
+          "parameter": "nal-hrd",
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "cbr"
+              },
+              {
+                "value": "vbr"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx264.misc.bluray-compat",
+          "parameter": "bluray-compat",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.misc.aud",
+          "parameter": "aud",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx264.misc.fake-interlaced",
+          "parameter": "fake-interlaced",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

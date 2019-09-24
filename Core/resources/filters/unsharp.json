@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "filter.unsharp",
+  "name": "unsharp",
+  "defaults": {},
+  "groups": [
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "luma_msize_x",
+          "parameter": "luma_msize_x",
+          "control": {
+            "maximum": 23,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          }
+        },
+        {
+          "id": "luma_msize_y",
+          "parameter": "luma_msize_y",
+          "control": {
+            "maximum": 23,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          }
+        },
+        {
+          "id": "luma_amount",
+          "parameter": "luma_amount",
+          "control": {
+            "maximum": 1.5,
+            "minimum": -1.5,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 1.0
+          }
+        },
+        {
+          "id": "chroma_msize_x",
+          "parameter": "chroma_msize_x",
+          "control": {
+            "maximum": 23,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          }
+        },
+        {
+          "id": "chroma_msize_y",
+          "parameter": "chroma_msize_y",
+          "control": {
+            "maximum": 23,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 5
+          }
+        },
+        {
+          "id": "chroma_amount",
+          "parameter": "chroma_amount",
+          "control": {
+            "maximum": 1.5,
+            "minimum": -1.5,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 0.0
+          }
+        }
+      ]
+    }
+  ]
+}

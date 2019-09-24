@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "datascope"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.datascope.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "hd720"
+          },
+          "id": "filter.datascope.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.datascope.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.datascope.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "mono"
+              },
+              {
+                "value": "color"
+              },
+              {
+                "value": "color2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.datascope.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.datascope.standard.axis",
+          "parameter": "axis"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.datascope.standard.opacity",
+          "parameter": "opacity"
+        }
+      ]
+    }
+  ],
+  "id": "filter.datascope",
+  "name": "datascope",
+  "type": "video"
+}

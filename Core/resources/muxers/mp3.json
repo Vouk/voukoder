@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mp3",
+  "name": "MPEG 1 Layer 3",
+  "extension": "mp3",
+  "encoders": {
+    "video": [],
+    "audio": [ "libmp3lame" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

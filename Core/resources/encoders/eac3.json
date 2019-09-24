@@ -1,0 +1,402 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "eac3",
+  "name": "EAC-3 (DD+)",
+  "defaults": {
+    "_sampleFormat": "fltp"
+  },
+  "groups": [
+    {
+      "id": "eac3.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "eac3.standard.bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 9,
+            "items": [
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              },
+              {
+                "value": "576000"
+              },
+              {
+                "value": "640000"
+              },
+              {
+                "value": "768000"
+              },
+              {
+                "value": "896000"
+              },
+              {
+                "value": "1152000"
+              },
+              {
+                "value": "1408000"
+              },
+              {
+                "value": "1920000"
+              },
+              {
+                "value": "2432000"
+              },
+              {
+                "value": "3456000"
+              },
+              {
+                "value": "4480000"
+              },
+              {
+                "value": "6144000"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "eac3.metadata",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "eac3.metadata.copyright",
+          "parameter": "copyright",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "eac3.metadata.dsur_mode",
+          "parameter": "dsur_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "notindicated"
+              },
+              {
+                "value": "off"
+              },
+              {
+                "value": "on"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.metadata.original",
+          "parameter": "original",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "eac3.metadata.dialnorm",
+          "parameter": "dialnorm",
+          "control": {
+            "maximum": -1,
+            "minimum": -31,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -31
+          }
+        }
+      ]
+    },
+    {
+      "id": "eac3.bitstream",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "eac3.bitstream.dmix_mode",
+          "parameter": "dmix_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "notindicated"
+              },
+              {
+                "value": "ltrt"
+              },
+              {
+                "value": "loro"
+              },
+              {
+                "value": "dplii"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.ltrt_cmixlev",
+          "parameter": "ltrt_cmixlev",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 5,
+            "items": [
+              {
+                "value": "1.414"
+              },
+              {
+                "value": "1.189"
+              },
+              {
+                "value": "1.000"
+              },
+              {
+                "value": "0.841"
+              },
+              {
+                "value": "0.707"
+              },
+              {
+                "value": "0.595"
+              },
+              {
+                "value": "0.500"
+              },
+              {
+                "value": "0.000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.ltrt_surmixlev",
+          "parameter": "ltrt_surmixlev",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "0.841"
+              },
+              {
+                "value": "0.707"
+              },
+              {
+                "value": "0.595"
+              },
+              {
+                "value": "0.500"
+              },
+              {
+                "value": "0.000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.loro_cmixlev",
+          "parameter": "loro_cmixlev",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 5,
+            "items": [
+              {
+                "value": "1.414"
+              },
+              {
+                "value": "1.189"
+              },
+              {
+                "value": "1.000"
+              },
+              {
+                "value": "0.841"
+              },
+              {
+                "value": "0.707"
+              },
+              {
+                "value": "0.595"
+              },
+              {
+                "value": "0.500"
+              },
+              {
+                "value": "0.000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.loro_surmixlev",
+          "parameter": "loro_surmixlev",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "0.841"
+              },
+              {
+                "value": "0.707"
+              },
+              {
+                "value": "0.595"
+              },
+              {
+                "value": "0.500"
+              },
+              {
+                "value": "0.000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.dsurex_mode",
+          "parameter": "dsurex_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "notindicated"
+              },
+              {
+                "value": "on"
+              },
+              {
+                "value": "off"
+              },
+              {
+                "value": "dpliiz"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.dheadphone_mode",
+          "parameter": "dheadphone_mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "notindicated"
+              },
+              {
+                "value": "on"
+              },
+              {
+                "value": "off"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.bitstream.ad_conv_type",
+          "parameter": "ad_conv_type",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "standard"
+              },
+              {
+                "value": "hdcd"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "eac3.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "eac3.misc.room_type",
+          "parameter": "room_type",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "notindicated"
+              },
+              {
+                "value": "large"
+              },
+              {
+                "value": "small"
+              }
+            ]
+          }
+        },
+        {
+          "id": "eac3.misc.stereo_rematrixing",
+          "parameter": "stereo_rematrixing",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "eac3.misc.channel_coupling",
+          "parameter": "channel_coupling",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "eac3.misc.mixing_level",
+          "parameter": "mixing_level",
+          "control": {
+            "maximum": 111,
+            "minimum": 80,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 80
+          }
+        },
+        {
+          "id": "eac3.misc.cpl_start_band",
+          "parameter": "cpl_start_band",
+          "control": {
+            "maximum": 15,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        }
+      ]
+    }
+  ]
+}

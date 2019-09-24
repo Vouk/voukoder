@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "codecview"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.codecview.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "pf"
+              },
+              {
+                "value": "bf"
+              },
+              {
+                "value": "bb"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.codecview.standard.mv",
+          "parameter": "mv"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.codecview.standard.qp",
+          "parameter": "qp"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "fp"
+              },
+              {
+                "value": "bp"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.codecview.standard.mv_type",
+          "parameter": "mv_type"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "if"
+              },
+              {
+                "value": "pf"
+              },
+              {
+                "value": "bf"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.codecview.standard.frame_type",
+          "parameter": "frame_type"
+        }
+      ]
+    }
+  ],
+  "id": "filter.codecview",
+  "name": "codecview",
+  "type": "video"
+}

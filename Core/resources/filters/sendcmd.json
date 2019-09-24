@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "sendcmd"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.sendcmd.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.sendcmd.standard.commands",
+          "parameter": "commands"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.sendcmd.standard.filename",
+          "parameter": "filename"
+        }
+      ]
+    }
+  ],
+  "id": "filter.sendcmd",
+  "name": "sendcmd",
+  "type": "video"
+}

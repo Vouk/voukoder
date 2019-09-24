@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "nnedi"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.nnedi.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "nnedi3_weights.bin"
+          },
+          "id": "filter.nnedi.standard.weights",
+          "parameter": "weights"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "all"
+              },
+              {
+                "value": "interlaced"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.deint",
+          "parameter": "deint"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "af"
+              },
+              {
+                "value": "a"
+              },
+              {
+                "value": "t"
+              },
+              {
+                "value": "b"
+              },
+              {
+                "value": "tf"
+              },
+              {
+                "value": "bf"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.field",
+          "parameter": "field"
+        },
+        {
+          "control": {
+            "maximum": 7,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nnedi.standard.planes",
+          "parameter": "planes"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "s8x6"
+              },
+              {
+                "value": "s16x6"
+              },
+              {
+                "value": "s32x6"
+              },
+              {
+                "value": "s48x6"
+              },
+              {
+                "value": "s8x4"
+              },
+              {
+                "value": "s16x4"
+              },
+              {
+                "value": "s32x4"
+              }
+            ],
+            "selectedIndex": 6,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.nsize",
+          "parameter": "nsize"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "n16"
+              },
+              {
+                "value": "n32"
+              },
+              {
+                "value": "n64"
+              },
+              {
+                "value": "n128"
+              },
+              {
+                "value": "n256"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.nns",
+          "parameter": "nns"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "fast"
+              },
+              {
+                "value": "slow"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.qual",
+          "parameter": "qual"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "a"
+              },
+              {
+                "value": "s"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.etype",
+          "parameter": "etype"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "original"
+              },
+              {
+                "value": "new"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.nnedi.standard.pscrn",
+          "parameter": "pscrn"
+        },
+        {
+          "control": {
+            "maximum": 3,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.nnedi.standard.fapprox",
+          "parameter": "fapprox"
+        }
+      ]
+    }
+  ],
+  "id": "filter.nnedi",
+  "name": "nnedi",
+  "type": "video"
+}

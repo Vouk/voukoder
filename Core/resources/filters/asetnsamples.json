@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "asetnsamples"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.asetnsamples.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.asetnsamples.standard.nb_out_samples",
+          "parameter": "nb_out_samples"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.asetnsamples.standard.pad",
+          "parameter": "pad"
+        }
+      ]
+    }
+  ],
+  "id": "filter.asetnsamples",
+  "name": "asetnsamples",
+  "type": "audio"
+}

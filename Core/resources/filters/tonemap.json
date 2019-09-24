@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "tonemap"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.tonemap.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "gamma"
+              },
+              {
+                "value": "clip"
+              },
+              {
+                "value": "reinhard"
+              },
+              {
+                "value": "hable"
+              },
+              {
+                "value": "mobius"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.tonemap.standard.tonemap",
+          "parameter": "tonemap"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.tonemap.standard.param",
+          "parameter": "param"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.tonemap.standard.desat",
+          "parameter": "desat"
+        },
+        {
+          "control": {
+            "maximum": 3.4028234663852886e+38,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.tonemap.standard.peak",
+          "parameter": "peak"
+        }
+      ]
+    }
+  ],
+  "id": "filter.tonemap",
+  "name": "tonemap",
+  "type": "video"
+}

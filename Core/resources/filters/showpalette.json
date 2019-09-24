@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "showpalette"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.showpalette.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 100,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.showpalette.standard.s",
+          "parameter": "s"
+        }
+      ]
+    }
+  ],
+  "id": "filter.showpalette",
+  "name": "showpalette",
+  "type": "video"
+}

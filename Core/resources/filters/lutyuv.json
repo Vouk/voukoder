@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "lutyuv"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.lutyuv.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.c0",
+          "parameter": "c0"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.c1",
+          "parameter": "c1"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.c2",
+          "parameter": "c2"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.c3",
+          "parameter": "c3"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.u",
+          "parameter": "u"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.v",
+          "parameter": "v"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.r",
+          "parameter": "r"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.g",
+          "parameter": "g"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.b",
+          "parameter": "b"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "clipval"
+          },
+          "id": "filter.lutyuv.standard.a",
+          "parameter": "a"
+        }
+      ]
+    }
+  ],
+  "id": "filter.lutyuv",
+  "name": "lutyuv",
+  "type": "video"
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "maskfun"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.maskfun.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.maskfun.standard.low",
+          "parameter": "low"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.maskfun.standard.high",
+          "parameter": "high"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.maskfun.standard.planes",
+          "parameter": "planes"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.maskfun.standard.fill",
+          "parameter": "fill"
+        },
+        {
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.maskfun.standard.sum",
+          "parameter": "sum"
+        }
+      ]
+    }
+  ],
+  "id": "filter.maskfun",
+  "name": "maskfun",
+  "type": "video"
+}

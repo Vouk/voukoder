@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "avgblur"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.avgblur.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 1024,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.avgblur.standard.sizeX",
+          "parameter": "sizeX"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.avgblur.standard.planes",
+          "parameter": "planes"
+        },
+        {
+          "control": {
+            "maximum": 1024,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.avgblur.standard.sizeY",
+          "parameter": "sizeY"
+        }
+      ]
+    }
+  ],
+  "id": "filter.avgblur",
+  "name": "avgblur",
+  "type": "video"
+}

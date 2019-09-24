@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "vmafmotion"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.vmafmotion.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.vmafmotion.standard.stats_file",
+          "parameter": "stats_file"
+        }
+      ]
+    }
+  ],
+  "id": "filter.vmafmotion",
+  "name": "vmafmotion",
+  "type": "video"
+}

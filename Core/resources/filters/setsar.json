@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "setsar"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.setsar.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.setsar.standard.ratio",
+          "parameter": "ratio"
+        },
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.setsar.standard.max",
+          "parameter": "max"
+        }
+      ]
+    }
+  ],
+  "id": "filter.setsar",
+  "name": "setsar",
+  "type": "video"
+}

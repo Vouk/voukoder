@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "w3fdif"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.w3fdif.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "simple"
+              },
+              {
+                "value": "complex"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.w3fdif.standard.filter",
+          "parameter": "filter"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "all"
+              },
+              {
+                "value": "interlaced"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.w3fdif.standard.deint",
+          "parameter": "deint"
+        }
+      ]
+    }
+  ],
+  "id": "filter.w3fdif",
+  "name": "w3fdif",
+  "type": "video"
+}

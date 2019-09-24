@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libfdk_aac",
+  "name": "AAC (Fraunhofer)",
+  "defaults": {
+    "_sampleFormat": "s16"
+  },
+  "groups": [
+    {
+      "id": "libfdk_aac.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "libfdk_aac.standard.strategy",
+          "parameter": "_strategy",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libfdk_aac.standard.strategy.b",
+                          "visible": true
+                        },
+                        {
+                          "id": "libfdk_aac.standard.strategy.vbr",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libfdk_aac.standard.strategy.b",
+                          "visible": false
+                        },
+                        {
+                          "id": "libfdk_aac.standard.strategy.vbr",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "libfdk_aac.standard.strategy.b",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "64000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              },
+              {
+                "value": "448000"
+              },
+              {
+                "value": "512000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libfdk_aac.standard.strategy.vbr",
+          "parameter": "vbr",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libfdk_aac.standard.profile",
+          "parameter": "profile",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "aac_low"
+              },
+              {
+                "value": "aac_he"
+              },
+              {
+                "value": "aac_he_v2"
+              },
+              {
+                "value": "aac_ld"
+              },
+              {
+                "value": "aac_eld"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "libfdk_aac.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libfdk_aac.misc.latm",
+          "parameter": "latm",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libfdk_aac.misc.signaling",
+          "parameter": "signaling",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "implicit"
+              },
+              {
+                "value": "explicit_sbr"
+              },
+              {
+                "value": "explicit_hierarchical"
+              }
+            ]
+          }
+        },
+        {
+          "id": "libfdk_aac.misc.header_period",
+          "parameter": "header_period",
+          "control": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 0
+          }
+        }
+      ]
+    }
+  ]
+}

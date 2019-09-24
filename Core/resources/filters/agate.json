@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "agate"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.agate.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.agate.standard.level_in",
+          "parameter": "level_in"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.061250001192092896
+          },
+          "id": "filter.agate.standard.range",
+          "parameter": "range"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.125
+          },
+          "id": "filter.agate.standard.threshold",
+          "parameter": "threshold"
+        },
+        {
+          "control": {
+            "maximum": 9000.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.0
+          },
+          "id": "filter.agate.standard.ratio",
+          "parameter": "ratio"
+        },
+        {
+          "control": {
+            "maximum": 9000.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 20.0
+          },
+          "id": "filter.agate.standard.attack",
+          "parameter": "attack"
+        },
+        {
+          "control": {
+            "maximum": 9000.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 250.0
+          },
+          "id": "filter.agate.standard.release",
+          "parameter": "release"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.agate.standard.makeup",
+          "parameter": "makeup"
+        },
+        {
+          "control": {
+            "maximum": 8.0,
+            "minimum": 1.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.8284270763397217
+          },
+          "id": "filter.agate.standard.knee",
+          "parameter": "knee"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "peak"
+              },
+              {
+                "value": "rms"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          },
+          "id": "filter.agate.standard.detection",
+          "parameter": "detection"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "average"
+              },
+              {
+                "value": "maximum"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.agate.standard.link",
+          "parameter": "link"
+        },
+        {
+          "control": {
+            "maximum": 64.0,
+            "minimum": 0.015625,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.agate.standard.level_sc",
+          "parameter": "level_sc"
+        }
+      ]
+    }
+  ],
+  "id": "filter.agate",
+  "name": "agate",
+  "type": "audio"
+}

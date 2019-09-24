@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "histogram"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.histogram.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2048,
+            "minimum": 50,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 50
+          },
+          "id": "filter.histogram.standard.level_height",
+          "parameter": "level_height"
+        },
+        {
+          "control": {
+            "maximum": 40,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.histogram.standard.scale_height",
+          "parameter": "scale_height"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "overlay"
+              },
+              {
+                "value": "parade"
+              },
+              {
+                "value": "stack"
+              }
+            ],
+            "selectedIndex": 2,
+            "type": "combobox"
+          },
+          "id": "filter.histogram.standard.display_mode",
+          "parameter": "display_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "linear"
+              },
+              {
+                "value": "logarithmic"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.histogram.standard.levels_mode",
+          "parameter": "levels_mode"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          },
+          "id": "filter.histogram.standard.components",
+          "parameter": "components"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.699999988079071
+          },
+          "id": "filter.histogram.standard.fgopacity",
+          "parameter": "fgopacity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.histogram.standard.bgopacity",
+          "parameter": "bgopacity"
+        }
+      ]
+    }
+  ],
+  "id": "filter.histogram",
+  "name": "histogram",
+  "type": "video"
+}

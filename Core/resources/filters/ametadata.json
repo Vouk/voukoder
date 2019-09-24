@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "ametadata"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.ametadata.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "select"
+              },
+              {
+                "value": "add"
+              },
+              {
+                "value": "modify"
+              },
+              {
+                "value": "delete"
+              },
+              {
+                "value": "print"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.ametadata.standard.mode",
+          "parameter": "mode"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.ametadata.standard.key",
+          "parameter": "key"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.ametadata.standard.value",
+          "parameter": "value"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "same_str"
+              },
+              {
+                "value": "starts_with"
+              },
+              {
+                "value": "less"
+              },
+              {
+                "value": "equal"
+              },
+              {
+                "value": "greater"
+              },
+              {
+                "value": "expr"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.ametadata.standard.function",
+          "parameter": "function"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.ametadata.standard.expr",
+          "parameter": "expr"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.ametadata.standard.file",
+          "parameter": "file"
+        }
+      ]
+    }
+  ],
+  "id": "filter.ametadata",
+  "name": "ametadata",
+  "type": "audio"
+}

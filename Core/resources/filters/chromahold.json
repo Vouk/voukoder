@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "chromahold"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.chromahold.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "black"
+          },
+          "id": "filter.chromahold.standard.color",
+          "parameter": "color"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.009999999776482582,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.009999999776482582
+          },
+          "id": "filter.chromahold.standard.similarity",
+          "parameter": "similarity"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.chromahold.standard.yuv",
+          "parameter": "yuv"
+        }
+      ]
+    }
+  ],
+  "id": "filter.chromahold",
+  "name": "chromahold",
+  "type": "video"
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dctdnoiz"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dctdnoiz.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 999.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.dctdnoiz.standard.sigma",
+          "parameter": "sigma"
+        },
+        {
+          "control": {
+            "maximum": 15,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          },
+          "id": "filter.dctdnoiz.standard.overlap",
+          "parameter": "overlap"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": ""
+          },
+          "id": "filter.dctdnoiz.standard.expr",
+          "parameter": "expr"
+        },
+        {
+          "control": {
+            "maximum": 4,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 3
+          },
+          "id": "filter.dctdnoiz.standard.n",
+          "parameter": "n"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dctdnoiz",
+  "name": "dctdnoiz",
+  "type": "video"
+}

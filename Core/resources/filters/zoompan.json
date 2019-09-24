@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "zoompan"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.zoompan.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "string",
+            "value": "1"
+          },
+          "id": "filter.zoompan.standard.zoom",
+          "parameter": "zoom"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.zoompan.standard.x",
+          "parameter": "x"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "0"
+          },
+          "id": "filter.zoompan.standard.y",
+          "parameter": "y"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "90"
+          },
+          "id": "filter.zoompan.standard.d",
+          "parameter": "d"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "hd720"
+          },
+          "id": "filter.zoompan.standard.s",
+          "parameter": "s"
+        },
+        {
+          "control": {
+            "type": "string",
+            "value": "25"
+          },
+          "id": "filter.zoompan.standard.fps",
+          "parameter": "fps"
+        }
+      ]
+    }
+  ],
+  "id": "filter.zoompan",
+  "name": "zoompan",
+  "type": "video"
+}

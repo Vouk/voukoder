@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "ciescope"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.ciescope.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "ntsc"
+              },
+              {
+                "value": "470m"
+              },
+              {
+                "value": "ebu"
+              },
+              {
+                "value": "470bg"
+              },
+              {
+                "value": "smpte"
+              },
+              {
+                "value": "240m"
+              },
+              {
+                "value": "apple"
+              },
+              {
+                "value": "widergb"
+              },
+              {
+                "value": "cie1931"
+              },
+              {
+                "value": "hdtv"
+              },
+              {
+                "value": "rec709"
+              },
+              {
+                "value": "uhdtv"
+              },
+              {
+                "value": "rec2020"
+              }
+            ],
+            "selectedIndex": 7,
+            "type": "combobox"
+          },
+          "id": "filter.ciescope.standard.system",
+          "parameter": "system"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "xyy"
+              },
+              {
+                "value": "ucs"
+              },
+              {
+                "value": "luv"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.ciescope.standard.cie",
+          "parameter": "cie"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "ntsc"
+              },
+              {
+                "value": "470m"
+              },
+              {
+                "value": "ebu"
+              },
+              {
+                "value": "470bg"
+              },
+              {
+                "value": "smpte"
+              },
+              {
+                "value": "240m"
+              },
+              {
+                "value": "apple"
+              },
+              {
+                "value": "widergb"
+              },
+              {
+                "value": "cie1931"
+              },
+              {
+                "value": "hdtv"
+              },
+              {
+                "value": "rec709"
+              },
+              {
+                "value": "uhdtv"
+              },
+              {
+                "value": "rec2020"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.ciescope.standard.gamuts",
+          "parameter": "gamuts"
+        },
+        {
+          "control": {
+            "maximum": 8192,
+            "minimum": 256,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 256
+          },
+          "id": "filter.ciescope.standard.size",
+          "parameter": "size"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0010000000474974513
+          },
+          "id": "filter.ciescope.standard.intensity",
+          "parameter": "intensity"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.75
+          },
+          "id": "filter.ciescope.standard.contrast",
+          "parameter": "contrast"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.ciescope.standard.corrgamma",
+          "parameter": "corrgamma"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.ciescope.standard.showwhite",
+          "parameter": "showwhite"
+        },
+        {
+          "control": {
+            "maximum": 6.0,
+            "minimum": 0.10000000149011612,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.5999999046325684
+          },
+          "id": "filter.ciescope.standard.gamma",
+          "parameter": "gamma"
+        }
+      ]
+    }
+  ],
+  "id": "filter.ciescope",
+  "name": "ciescope",
+  "type": "video"
+}

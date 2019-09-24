@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "filter.yadif",
+  "name": "yadif",
+  "defaults": {},
+  "groups": [
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "mode",
+          "parameter": "mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "send_frame"
+              },
+              {
+                "value": "send_field"
+              },
+              {
+                "value": "send_frame_nospatial"
+              },
+              {
+                "value": "send_field_nospatial"
+              }
+            ]
+          }
+        },
+        {
+          "id": "parity",
+          "parameter": "parity",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "auto"
+              },
+              {
+                "value": "tff"
+              },
+              {
+                "value": "bff"
+              }
+            ]
+          }
+        },
+        {
+          "id": "deint",
+          "parameter": "deint",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "all"
+              },
+              {
+                "value": "interlaced"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

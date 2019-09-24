@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "hdcd"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.hdcd.standard",
+      "properties": [
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.hdcd.standard.disable_autoconvert",
+          "parameter": "disable_autoconvert"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.hdcd.standard.process_stereo",
+          "parameter": "process_stereo"
+        },
+        {
+          "control": {
+            "maximum": 60000,
+            "minimum": 100,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 100
+          },
+          "id": "filter.hdcd.standard.cdt_ms",
+          "parameter": "cdt_ms"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.hdcd.standard.force_pe",
+          "parameter": "force_pe"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "off"
+              },
+              {
+                "value": "lle"
+              },
+              {
+                "value": "pe"
+              },
+              {
+                "value": "cdt"
+              },
+              {
+                "value": "tgm"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.hdcd.standard.analyze_mode",
+          "parameter": "analyze_mode"
+        },
+        {
+          "control": {
+            "items": [
+              {
+                "value": "16"
+              },
+              {
+                "value": "20"
+              },
+              {
+                "value": "24"
+              }
+            ],
+            "selectedIndex": 16,
+            "type": "combobox"
+          },
+          "id": "filter.hdcd.standard.bits_per_sample",
+          "parameter": "bits_per_sample"
+        }
+      ]
+    }
+  ],
+  "id": "filter.hdcd",
+  "name": "hdcd",
+  "type": "audio"
+}

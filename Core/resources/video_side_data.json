@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "vsd",
+  "name": "Video Side Data",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "spherical",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "projection",
+          "parameter": "sph_projection",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "equirectangular",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vsd.spherical.bound-left",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-top",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-right",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-bottom",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.padding",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cubemap",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vsd.spherical.bound-left",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-top",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-right",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.bound-bottom",
+                          "visible": false
+                        },
+                        {
+                          "id": "vsd.spherical.padding",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "equirectangular_tile",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vsd.spherical.bound-left",
+                          "visible": true
+                        },
+                        {
+                          "id": "vsd.spherical.bound-top",
+                          "visible": true
+                        },
+                        {
+                          "id": "vsd.spherical.bound-right",
+                          "visible": true
+                        },
+                        {
+                          "id": "vsd.spherical.bound-bottom",
+                          "visible": true
+                        },
+                        {
+                          "id": "vsd.spherical.padding",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "yaw",
+          "parameter": "sph_yaw",
+          "control": {
+            "type": "integer",
+            "minimum": -180,
+            "maximum": 180,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "pitch",
+          "parameter": "sph_pitch",
+          "control": {
+            "type": "integer",
+            "minimum": -90,
+            "maximum": 90,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "roll",
+          "parameter": "sph_roll",
+          "control": {
+            "type": "integer",
+            "minimum": -180,
+            "maximum": 180,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "bound-left",
+          "parameter": "sph_bound-left",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "singleStep": 16,
+            "value": 0
+          }
+        },
+        {
+          "id": "bound-top",
+          "parameter": "sph_bound-top",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "singleStep": 16,
+            "value": 0
+          }
+        },
+        {
+          "id": "bound-right",
+          "parameter": "sph_bound-right",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "singleStep": 16,
+            "value": 0
+          }
+        },
+        {
+          "id": "bound-bottom",
+          "parameter": "sph_bound-bottom",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "singleStep": 16,
+            "value": 0
+          }
+        },
+        {
+          "id": "padding",
+          "parameter": "sph_padding",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "singleStep": 16,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "stereo3d",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "type",
+          "parameter": "s3d_type",
+          "control": {
+            "items": [
+              {
+                "value": "2d"
+              },
+              {
+                "value": "sidebyside"
+              },
+              {
+                "value": "topbottom"
+              },
+              {
+                "value": "framesequence"
+              },
+              {
+                "value": "checkerboard"
+              },
+              {
+                "value": "sidebyside_quincunx"
+              },
+              {
+                "value": "lines"
+              },
+              {
+                "value": "columns"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "view",
+          "parameter": "s3d_view",
+          "control": {
+            "items": [
+              {
+                "value": "packed"
+              },
+              {
+                "value": "left"
+              },
+              {
+                "value": "right"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        }
+      ]
+    }
+  ]
+}

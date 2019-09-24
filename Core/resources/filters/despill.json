@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "despill"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.despill.standard",
+      "properties": [
+        {
+          "control": {
+            "items": [
+              {
+                "value": "green"
+              },
+              {
+                "value": "blue"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          },
+          "id": "filter.despill.standard.type",
+          "parameter": "type"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.5
+          },
+          "id": "filter.despill.standard.mix",
+          "parameter": "mix"
+        },
+        {
+          "control": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.despill.standard.expand",
+          "parameter": "expand"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.despill.standard.red",
+          "parameter": "red"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.despill.standard.green",
+          "parameter": "green"
+        },
+        {
+          "control": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.despill.standard.blue",
+          "parameter": "blue"
+        },
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 0.0
+          },
+          "id": "filter.despill.standard.brightness",
+          "parameter": "brightness"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "id": "filter.despill.standard.alpha",
+          "parameter": "alpha"
+        }
+      ]
+    }
+  ],
+  "id": "filter.despill",
+  "name": "despill",
+  "type": "video"
+}

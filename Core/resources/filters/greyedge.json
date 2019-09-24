@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "greyedge"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.greyedge.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.greyedge.standard.difford",
+          "parameter": "difford"
+        },
+        {
+          "control": {
+            "maximum": 20,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "id": "filter.greyedge.standard.minknorm",
+          "parameter": "minknorm"
+        },
+        {
+          "control": {
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 1.0
+          },
+          "id": "filter.greyedge.standard.sigma",
+          "parameter": "sigma"
+        }
+      ]
+    }
+  ],
+  "id": "filter.greyedge",
+  "name": "greyedge",
+  "type": "video"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "dejudder"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.dejudder.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 240,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.dejudder.standard.cycle",
+          "parameter": "cycle"
+        }
+      ]
+    }
+  ],
+  "id": "filter.dejudder",
+  "name": "dejudder",
+  "type": "video"
+}

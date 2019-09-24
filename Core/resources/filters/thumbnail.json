@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "thumbnail"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.thumbnail.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 2,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 2
+          },
+          "id": "filter.thumbnail.standard.n",
+          "parameter": "n"
+        }
+      ]
+    }
+  ],
+  "id": "filter.thumbnail",
+  "name": "thumbnail",
+  "type": "video"
+}

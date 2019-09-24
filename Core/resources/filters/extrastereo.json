@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "defaults": {
+    "_name": "extrastereo"
+  },
+  "groups": [
+    {
+      "class": "standard",
+      "id": "filter.extrastereo.standard",
+      "properties": [
+        {
+          "control": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.10000000149011612,
+            "type": "float",
+            "value": 2.5
+          },
+          "id": "filter.extrastereo.standard.m",
+          "parameter": "m"
+        },
+        {
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "id": "filter.extrastereo.standard.c",
+          "parameter": "c"
+        }
+      ]
+    }
+  ],
+  "id": "filter.extrastereo",
+  "name": "extrastereo",
+  "type": "audio"
+}
