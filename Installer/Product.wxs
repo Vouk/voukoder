@@ -5,31 +5,34 @@
   
   <Product 
     Id="*" 
-    Name="$(var.ProductName)"
-    Manufacturer="$(var.ManufacturerLegal)" 
-    Version="2.2.0.0" 
+    Name="Voukoder Core"
+    Manufacturer="Daniel Stankewitz" 
+    Version="$(var.ProductVersion)" 
     Language="1033" 
     UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
  
     <Package
       InstallerVersion="200" 
-      Manufacturer="$(var.ManufacturerLegal)"
-      Description="Installs the Voukoder COM server"
+      Manufacturer="Daniel Stankewitz"
+      Description="Installs the Voukoder Core component"
       Compressed="yes"
       InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of Voukoder Core is already installed." />
 		
     <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
 
-    <Feature Id="Voukoder" Title="$(var.ProductName)" Level="1">
+    <Feature Id="Voukoder" Title="Voukoder Core" Level="1">
 			<ComponentRef Id="voukoder.dll" />
 		</Feature>
-
+    
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
 
-    <UIRef Id="WixUI_Minimal" />
+    <UIRef Id="WixUI_InstallDir" />
  
   </Product>
 

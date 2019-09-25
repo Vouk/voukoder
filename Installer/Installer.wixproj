@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>28f27aff-4920-4de6-9000-1be251c85c1f</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>voukoder-comserver</OutputName>
+    <OutputName>voukodercore</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -49,6 +49,7 @@
   <ItemGroup>
     <None Include="dialog.bmp" />
     <None Include="LICENSE.rtf" />
+    <Content Include="banner.bmp" />
     <Content Include="Properties.wxi" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
