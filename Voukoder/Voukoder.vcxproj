@@ -76,6 +76,7 @@
       <RandomizedBaseAddress>
       </RandomizedBaseAddress>
       <ModuleDefinitionFile>Voukoder.def</ModuleDefinitionFile>
+      <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -102,6 +103,7 @@
       <RandomizedBaseAddress>
       </RandomizedBaseAddress>
       <ModuleDefinitionFile>Voukoder.def</ModuleDefinitionFile>
+      <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

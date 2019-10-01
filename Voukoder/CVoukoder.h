@@ -19,7 +19,7 @@ public:
 	STDMETHOD_(bool, IsAudioActive());
 	STDMETHOD_(bool, IsAudioWaiting)();
 	STDMETHOD_(bool, IsVideoActive());
-	STDMETHOD_(void, Log)(std::wstring text, ...);
+	STDMETHOD_(void, Log)(std::string text);
 	STDMETHOD_(bool, Open)(const Voukoder::INFO info);
 	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const Voukoder::ChannelLayout layout, const char* format);
 	STDMETHOD_(bool, SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format);

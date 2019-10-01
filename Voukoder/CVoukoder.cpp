@@ -38,6 +38,10 @@ CVoukoder::CVoukoder():
 	av_log_set_level(AV_LOG_TRACE);
 	av_log_set_callback(AvCallback);
 #endif
+
+	wchar_t wnd_title[256];
+	HWND hwnd = GetForegroundWindow(); // get handle of currently active window
+	GetWindowText(hwnd, wnd_title, sizeof(wnd_title));
 }
 
 CVoukoder::~CVoukoder()
@@ -170,12 +174,12 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 
 	// Set non-stored export settings
 	exportInfo.filename = fname;
-	exportInfo.application = info.application;
+	exportInfo.application = wxString::Format("%s (%s)", VKDR_APPNAME, info.application);
 	exportInfo.video.enabled = info.video.enabled;
 	exportInfo.video.width = info.video.width;
 	exportInfo.video.height = info.video.height;
-	exportInfo.video.timebase = { (int)info.video.timebase.num, (int)info.video.timebase.den };
-	exportInfo.video.sampleAspectRatio = { (int)info.video.aspectratio.num, (int)info.video.aspectratio.den };
+	exportInfo.video.timebase = { info.video.timebase.num, info.video.timebase.den };
+	exportInfo.video.sampleAspectRatio = { info.video.aspectratio.num, info.video.aspectratio.den };
 
 	// Video field order
 	switch (info.video.fieldorder)
@@ -243,6 +247,74 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
 		return false;
+	
+	vkLogInfo("---------------------------------------------");
+	vkLogInfo("Export started");
+	vkLogInfo("---------------------------------------------");
+
+	// Log video
+	if (IsVideoActive())
+	{
+		vkLogInfoVA("Frame size:      %dx%d", info.video.width, info.video.height);
+		vkLogInfoVA("Pixel aspect:    %d:%d", info.video.aspectratio.num, info.video.aspectratio.den);
+		vkLogInfoVA("Frame rate:      %.2f", ((float)info.video.timebase.den / (float)info.video.timebase.num));
+
+		// Log field order
+		switch (info.video.fieldorder)
+		{
+		case Voukoder::FieldOrder::Progressive:
+			vkLogInfo("Interlaced:      No");
+			break;
+		case Voukoder::FieldOrder::Bottom:
+			vkLogInfo("Interlaced:      Bottom first");
+			break;
+		case Voukoder::FieldOrder::Top:
+			vkLogInfo("Interlaced:      Top first");
+			break;
+		}
+
+		// Color range
+		switch (info.video.colorRange)
+		{
+		case Voukoder::ColorRange::Full:
+			vkLogInfo("Color range:     Full");
+			break;
+		case Voukoder::ColorRange::Limited:
+			vkLogInfo("Color range:     Limited");
+			break;
+		}
+
+		// Color space
+		switch (info.video.colorSpace)
+		{
+		case Voukoder::ColorSpace::bt601_NTSC:
+			vkLogInfo("Color space:     bt.601 (NTSC)");
+			break;
+		case Voukoder::ColorSpace::bt601_PAL:
+			vkLogInfo("Color space:     bt.601 (PAL)");
+			break;
+		case Voukoder::ColorSpace::bt709:
+			vkLogInfo("Color space:     bt.709");
+			break;
+		case Voukoder::ColorSpace::bt2020_CL:
+			vkLogInfo("Color space:     bt.2020 (CL)");
+			break;
+		case Voukoder::ColorSpace::bt2020_NCL:
+			vkLogInfo("Color space:     bt.2020 (NCL)");
+			break;
+		}
+
+		vkLogInfoVA("Passes:          %d", GetMaxPasses());
+	}
+
+	// Log audio
+	if (IsAudioActive())
+	{
+		vkLogInfoVA("Sample rate:     %d Hz", info.audio.samplerate);
+		vkLogInfoVA("Audio channels:  %d", info.audio.numberChannels);
+	}
+
+	vkLogInfo("---------------------------------------------");
 
 	return true;
 }
@@ -258,18 +330,15 @@ STDMETHODIMP_(void) CVoukoder::Close(bool finalize)
 
 		delete encoder;
 	}
+
+	vkLogInfo("---------------------------------------------");
+	vkLogInfo("Export finished");
+	vkLogInfo("---------------------------------------------");
 }
 
-STDMETHODIMP_(void) CVoukoder::Log(std::wstring text, ...)
+STDMETHODIMP_(void) CVoukoder::Log(std::string text)
 {
-	wchar_t log[1024];
-
-	va_list args;
-	va_start(args, log);
-	vswprintf_s(log, text.c_str(), args);
-	va_end(args);
-
-	vkLogInfo(log);
+	vkLogInfo(text);
 }
 
 STDMETHODIMP_(bool) CVoukoder::IsAudioActive()
@@ -350,7 +419,7 @@ STDMETHODIMP_(bool) CVoukoder::SendVideoFrame(int64_t idx, uint8_t** buffer, int
 		// Start new pass
 		if (encoder->open() < 0)
 		{
-			//gui->ReportMessage(wxString::Format("Unable to start pass #%d", encoder.pass));
+			vkLogErrorVA("Unable to start pass #%d", encoder->pass);
 			return false;
 		}
 	}
