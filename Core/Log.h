@@ -1,6 +1,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <wx/filename.h>
 
 #define vkLogInfo(msg) Log::instance()->AddLine(msg);
 #define vkLogWarn(msg) Log::instance()->AddLine(msg);
@@ -13,13 +14,17 @@
 class Log
 {
 private:
-	wxString _log;
+	wxFile file;
+	wxString filename;
 	Log();
+	~Log();
+	wxString GetBaseDir();
+	wxString CreateFileName();
+	void Clean(int days = 7);
 
 public:
 	static Log* instance();
 	void AddSep();
 	void AddLine(wxString line);
-	void Clear();
-	wxString GetAsString();
+	wxString GetFilename();
 };

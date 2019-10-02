@@ -42,9 +42,6 @@ private:
 	PluginUpdate pluginUpdate;
 	void OnOpenHomepage(wxCommandEvent&);
 	void OnLogView(wxCommandEvent&);
-	void OnLogSave(wxCommandEvent&);
-	void OnLogCopy(wxCommandEvent&);
-	void OnLogClear(wxCommandEvent&);
 	void OnOpenUpdatePage(wxCommandEvent&);
 
 	wxDECLARE_EVENT_TABLE();
