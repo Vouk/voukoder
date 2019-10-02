@@ -104,21 +104,15 @@ wxString Log::GetFilename()
 
 wxString Log::GetBaseDir()
 {
-	wchar_t path[MAX_PATH];
-	HMODULE hm = NULL;
+	wxString baseDir;
+	if (!wxGetEnv("LOCALAPPDATA", &baseDir))
+		return "";
 
-	// Get Module instance
-	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCWSTR)& instance, &hm) != 0)
-	{
-		// Get instance (dll) filename
-		if (GetModuleFileName(hm, path, sizeof(path)) != 0)
-		{
-			wxFileName filename(path);
-			return filename.GetPath() + wxFileName::GetPathSeparator();
-		}
-	}
+	// Does the logs dir exist?
+	if (!wxDirExists(baseDir + wxFileName::GetPathSeparator() + "Voukoder"))
+		wxMkDir(baseDir + wxFileName::GetPathSeparator() + "Voukoder");
 
-	return "";
+	return baseDir + wxFileName::GetPathSeparator() + "Voukoder" + wxFileName::GetPathSeparator();
 }
 
 wxString Log::CreateFileName()

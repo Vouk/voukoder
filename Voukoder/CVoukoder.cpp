@@ -192,6 +192,10 @@ STDMETHODIMP_(int) CVoukoder::GetMaxPasses()
 
 STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 {
+	vkLogSep();
+	vkLogInfo("Export started");
+	vkLogSep();
+
 	// Replace file extension if necessary
 	std::wstring fname(info.filename);
 	std::wstring::size_type i = fname.rfind('.', fname.length());
@@ -281,12 +285,13 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
+	{
+		vkLogInfo("Opening encoder failed! Aborting ...")
 		return false;
-	
-	vkLogInfo("---------------------------------------------");
-	vkLogInfo("Export started");
-	vkLogInfo("---------------------------------------------");
+	}
 
+	vkLogSep();
+	
 	// Log video
 	if (IsVideoActive())
 	{
@@ -349,7 +354,7 @@ STDMETHODIMP_(bool) CVoukoder::Open(Voukoder::INFO info)
 		vkLogInfoVA("Audio channels:  %d", info.audio.numberChannels);
 	}
 
-	vkLogInfo("---------------------------------------------");
+	vkLogSep();
 
 	return true;
 }
@@ -366,9 +371,9 @@ STDMETHODIMP_(void) CVoukoder::Close(bool finalize)
 		delete encoder;
 	}
 
-	vkLogInfo("---------------------------------------------");
+	vkLogSep();
 	vkLogInfo("Export finished");
-	vkLogInfo("---------------------------------------------");
+	vkLogSep();
 }
 
 STDMETHODIMP_(void) CVoukoder::Log(std::string text)
