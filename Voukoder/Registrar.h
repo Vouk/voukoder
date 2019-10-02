@@ -126,7 +126,7 @@ public:
 
 		swprintf_s(Buffer, L"CLSID\\%s\\InProcServer32", strCLSID);
 
-		if (!SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"ThreadingModel", L"Both"))
+		if (!SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"ThreadingModel", L"Apartment"))
 			return false;
 
 		return SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"", Path) ? true : false;

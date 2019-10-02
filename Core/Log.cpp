@@ -22,6 +22,8 @@ Log::Log()
 	filename = CreateFileName();
 	file.Open(filename, wxFile::OpenMode::write_append);
 	
+	AddLine("=============================================");
+
 	// Report voukoder version
 	AddLine(wxString::Format("Voukoder %d.%d.%d",
 		VKDR_VERSION_MAJOR,

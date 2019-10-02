@@ -12,6 +12,36 @@ static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 }
 #endif
 
+struct handle_data {
+	unsigned long process_id;
+	HWND window_handle;
+};
+
+BOOL IsMainWindow(HWND handle)
+{
+	return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
+}
+
+BOOL CALLBACK EnumWindowsCallback(HWND handle, LPARAM lParam)
+{
+	handle_data& data = *(handle_data*)lParam;
+	unsigned long process_id = 0;
+	GetWindowThreadProcessId(handle, &process_id);
+	if (data.process_id != process_id || !IsMainWindow(handle))
+		return TRUE;
+	data.window_handle = handle;
+	return FALSE;
+}
+
+HWND FindMainWindow(unsigned long process_id)
+{
+	handle_data data;
+	data.process_id = process_id;
+	data.window_handle = 0;
+	EnumWindows(EnumWindowsCallback, (LPARAM)&data);
+	return data.window_handle;
+}
+
 class actctx_activator
 {
 protected:
@@ -39,9 +69,14 @@ CVoukoder::CVoukoder():
 	av_log_set_callback(AvCallback);
 #endif
 
-	wchar_t wnd_title[256];
-	HWND hwnd = GetForegroundWindow(); // get handle of currently active window
-	GetWindowText(hwnd, wnd_title, sizeof(wnd_title));
+	// Add window title to log
+	wchar_t text[256];
+	HWND hwnd = FindMainWindow(GetCurrentProcessId());
+	if (GetWindowText(hwnd, text, sizeof(text)))
+	{
+		vkLogInfo(wxString::Format("Plugin running in %s", text));
+		vkLogInfo("---------------------------------------------");
+	}
 }
 
 CVoukoder::~CVoukoder()
