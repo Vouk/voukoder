@@ -43,9 +43,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ComBase.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="ClassFactory.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
