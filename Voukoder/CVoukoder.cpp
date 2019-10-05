@@ -151,7 +151,8 @@ STDMETHODIMP_(void) CVoukoder::GetConfig(Voukoder::CONFIG* config)
 	wcscpy_s(config->video.filters, exportInfo.video.filters.Serialize());
 	wcscpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true));
 	const char* vformat = av_get_pix_fmt_name(exportInfo.video.pixelFormat);
-	mbstowcs(config->video.format, vformat, strlen(vformat));
+	if (vformat)
+		mbstowcs(config->video.format, vformat, strlen(vformat));
 
 	// Audio
 	wcscpy_s(config->audio.encoder, exportInfo.audio.id);
@@ -159,7 +160,8 @@ STDMETHODIMP_(void) CVoukoder::GetConfig(Voukoder::CONFIG* config)
 	wcscpy_s(config->audio.filters, exportInfo.audio.filters.Serialize());
 	wcscpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true));
 	const char* aformat = av_get_sample_fmt_name(exportInfo.audio.sampleFormat);
-	mbstowcs(config->audio.format, aformat, strlen(aformat));
+	if (aformat)
+		mbstowcs(config->audio.format, aformat, strlen(aformat));
 	
 	// Format
 	wcscpy_s(config->format.container, exportInfo.format.id);

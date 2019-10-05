@@ -28,7 +28,7 @@
 
 #define VOUKODER_CONFIG_VERSION 1
 
-// {E9661BFA-4B8E-4217-BCD8-24074D75000B}
+ // {E9661BFA-4B8E-4217-BCD8-24074D75000B}
 _declspec(selectany) GUID CLSID_Voukoder = {
 	0xe9661bfa, 0x4b8e, 0x4217, { 0xbc, 0xd8, 0x24, 0x7, 0x4d, 0x75, 0x0, 0xb }
 };
@@ -86,8 +86,8 @@ namespace Voukoder
 
 	struct FORMAT_CONFIG
 	{
-		wchar_t container[16];
-		bool faststart;
+		wchar_t container[16] = {};
+		bool faststart = false;
 	};
 
 	struct CONFIG
