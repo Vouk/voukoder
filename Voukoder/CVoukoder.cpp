@@ -173,18 +173,20 @@ STDMETHODIMP_(void) CVoukoder::GetAudioChunkSize(int* chunkSize)
 	*chunkSize = encoder->getAudioFrameSize();
 }
 
-STDMETHODIMP_(bool) CVoukoder::GetFileExtension(std::wstring& extension)
+STDMETHODIMP CVoukoder::GetFileExtension(BSTR* extension)
 {
 	for (auto info : Voukoder::Config::Get().muxerInfos)
 	{
 		if (info.id == exportInfo.format.id)
 		{
-			extension = info.extension;
-			return true;
+			_bstr_t _bstr(info.extension.ToStdWstring().c_str());
+			*extension = _bstr.copy();
+
+			return S_OK;
 		}
 	}
 
-	return false;
+	return E_FAIL;
 }
 
 STDMETHODIMP_(int) CVoukoder::GetMaxPasses()

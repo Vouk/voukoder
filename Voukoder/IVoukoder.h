@@ -128,7 +128,7 @@ interface __declspec(uuid("E26427F6-CBCA-4859-BCC3-162AF1E06CEE")) IVoukoder : p
 	STDMETHOD_(void, Close)(bool finalize = true)PURE;
 	STDMETHOD_(void, GetConfig)(Voukoder::CONFIG* config)PURE;
 	STDMETHOD_(void, GetAudioChunkSize)(int* chunkSize)PURE;
-	STDMETHOD_(bool, GetFileExtension)(std::wstring& extension)PURE;
+	STDMETHOD(GetFileExtension)(BSTR* extension)PURE;
 	STDMETHOD_(int, GetMaxPasses)()PURE;
 	STDMETHOD_(bool, IsAudioActive)()PURE;
 	STDMETHOD_(bool, IsAudioWaiting)()PURE;

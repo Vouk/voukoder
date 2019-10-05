@@ -14,7 +14,7 @@ public:
 	STDMETHOD_(void, Close)(bool finalize = true);
 	STDMETHOD_(void, GetConfig)(Voukoder::CONFIG *config);
 	STDMETHOD_(void, GetAudioChunkSize)(int* chunkSize);
-	STDMETHOD_(bool, GetFileExtension)(std::wstring& extension);
+	STDMETHOD(GetFileExtension)(BSTR* extension);
 	STDMETHOD_(int, GetMaxPasses());
 	STDMETHOD_(bool, IsAudioActive());
 	STDMETHOD_(bool, IsAudioWaiting)();
