@@ -91,6 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <DebugInformationFormat>None</DebugInformationFormat>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

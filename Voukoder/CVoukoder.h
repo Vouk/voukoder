@@ -11,20 +11,20 @@ public:
 	CVoukoder();
 	virtual ~CVoukoder();
 
-	STDMETHOD_(void, Close)(bool finalize = true);
-	STDMETHOD_(void, GetConfig)(Voukoder::CONFIG *config);
-	STDMETHOD_(void, GetAudioChunkSize)(int* chunkSize);
+	STDMETHOD(Close)(BOOL finalize);
+	STDMETHOD(GetConfig)(VKENCODERCONFIG *config);
+	STDMETHOD(GetAudioChunkSize)(UINT* chunkSize);
 	STDMETHOD(GetFileExtension)(BSTR* extension);
-	STDMETHOD_(int, GetMaxPasses());
-	STDMETHOD_(bool, IsAudioActive());
-	STDMETHOD_(bool, IsAudioWaiting)();
-	STDMETHOD_(bool, IsVideoActive());
-	STDMETHOD_(void, Log)(std::string text);
-	STDMETHOD_(bool, Open)(const Voukoder::INFO info);
-	STDMETHOD_(bool, SendAudioSampleChunk)(uint8_t** buffer, int samples, int blockSize, int planes, int sampleRate, const Voukoder::ChannelLayout layout, const char* format);
-	STDMETHOD_(bool, SendVideoFrame)(int64_t idx, uint8_t** buffer, int* rowsize, int planes, int width, int height, int pass, const char* format);
-	STDMETHOD_(bool, ShowVoukoderDialog)(bool video = true, bool audio = true, HANDLE act_ctx = NULL, HINSTANCE instance = NULL);
-	STDMETHOD_(void, SetConfig)(Voukoder::CONFIG& config);
+	STDMETHOD(GetMaxPasses(UINT* passes));
+	STDMETHOD(IsAudioActive(BOOL* isActive));
+	STDMETHOD(IsAudioWaiting)(BOOL* isWaiting);
+	STDMETHOD(IsVideoActive(BOOL* isActive));
+	STDMETHOD(Log)(BSTR text);
+	STDMETHOD(Open)(const VKENCODERINFO info);
+	STDMETHOD(SendAudioSampleChunk)(VKAUDIOCHUNK chunk);
+	STDMETHOD(SendVideoFrame)(VKVIDEOFRAME frame);
+	STDMETHOD(ShowVoukoderDialog)(BOOL video, BOOL audio, BOOL* isOkay, HANDLE act_ctx, HINSTANCE instance);
+	STDMETHOD(SetConfig)(VKENCODERCONFIG& config);
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID *ppv);
 
 private:
