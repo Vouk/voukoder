@@ -1,14 +1,14 @@
 ﻿{
   "id": "russian",
   "name": "Русский",
-  "langId": 1033,
+  "langId": 1049,
   "translations": {
     "ui.premiere.tab.video": "Видео",
     "ui.premiere.tab.video.width._label": "Ширина",
     "ui.premiere.tab.video.width._description": "Ширина видеокадра.",
     "ui.premiere.tab.video.height._label": "Высота",
     "ui.premiere.tab.video.height._description": "Высота видеокадра.",
-    "ui.premiere.tab.video.aspect._label": "Соотношение сторон",
+    "ui.premiere.tab.video.aspect._label": "Пропорции",
     "ui.premiere.tab.video.aspect._description": "PAR указывает соотношение ширины пикселя с его высотой.",
     "ui.premiere.tab.video.aspect._item_0": "Квадратные пиксели (1.0)",
     "ui.premiere.tab.video.aspect._item_1": "D1/DV NTSC (0.9091)",
