@@ -360,7 +360,7 @@
     "hevc_amf.standard.quality._item_0": "Скорость",
     "hevc_amf.standard.quality._item_1": "Сбалансированный",
     "hevc_amf.standard.quality._item_2": "Качество",
-    "hevc_amf.standard.strategy._label": "Strategy",
+    "hevc_amf.standard.strategy._label": "Режим кодирования",
     "hevc_amf.standard.strategy._description": "The encoding mode to use. Choose Constant Bitrate (CBR), Constant Quantizer (CQP) or Variable Bitrate (VBR) and if two encoding passes should be used (VBR only).",
     "hevc_amf.standard.strategy._item_0": "Constant Quantizer (CQP)",
     "hevc_amf.standard.strategy._item_1": "Constant Bitrate (CBR)",
