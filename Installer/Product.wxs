@@ -8,9 +8,9 @@
     Name="Voukoder Core"
     Manufacturer="Daniel Stankewitz" 
     Version="$(var.ProductVersion)" 
-    Language="1033" 
+    Language="1033"
     UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
- 
+
     <Package
       InstallerVersion="200" 
       Manufacturer="Daniel Stankewitz"
