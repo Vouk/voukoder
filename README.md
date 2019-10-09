@@ -2,6 +2,7 @@
 <br><a href="https://www.voukoder.org" style="font-size:20pt;">WWW.VOUKODER.ORG</a></p>
 
 **Available application connectors:**
+
 Find these connectors at the [application connectors page](https://github.com/Vouk/voukoder-connectors):
 - Adobe Premiere / Media Encoder
 - Adobe After Effects (soon)
