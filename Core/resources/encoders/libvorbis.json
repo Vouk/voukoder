@@ -19,6 +19,7 @@
             "selectedIndex": 0,
             "items": [
               {
+                "value": "abr",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -38,6 +39,7 @@
                 ]
               },
               {
+                "value": "cqp",
                 "filters": [
                   {
                     "filter": "OnSelection",
