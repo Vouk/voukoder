@@ -721,7 +721,7 @@
     "libx264.frames.b-pyramid._item_0": "Отключено",
     "libx264.frames.b-pyramid._item_1": "Строгий",
     "libx264.frames.b-pyramid._item_2": "Нормальный",
-    "libx264.frames.ref._label": "Ref",
+    "libx264.frames.ref._label": "Ссылки",
     "libx264.frames.ref._description": "Controls the size of the DPB (Decoded Picture Buffer). In short, this value is the number of previous frames each P-frame can use as references. B-frames can use one or two fewer, depending on if they are used as references or not.",
     "libx264.frames.slices._label": "Slices per Frame",
     "libx264.frames.slices._description": "The encoder divides each frame into X regions and searches for redundancies in other frames only within the respective region.",
