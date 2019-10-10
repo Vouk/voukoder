@@ -154,7 +154,7 @@ STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 	wcscpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true));
 	const char* vformat = av_get_pix_fmt_name(exportInfo.video.pixelFormat);
 	if (vformat)
-		mbstowcs(config->video.format, vformat, strlen(vformat));
+		mbstowcs(config->video.format, vformat, strlen(vformat) + 1);
 
 	// Audio
 	wcscpy_s(config->audio.encoder, exportInfo.audio.id);
@@ -163,7 +163,7 @@ STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 	wcscpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true));
 	const char* aformat = av_get_sample_fmt_name(exportInfo.audio.sampleFormat);
 	if (aformat)
-		mbstowcs(config->audio.format, aformat, strlen(aformat));
+		mbstowcs(config->audio.format, aformat, strlen(aformat) + 1);
 	
 	// Format
 	wcscpy_s(config->format.container, exportInfo.format.id);

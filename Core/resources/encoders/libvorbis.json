@@ -12,6 +12,7 @@
       "properties": [
         {
           "id": "libvorbis.standard.strategy",
+          "parameter": "_strategy",
           "forced": true,
           "control": {
             "type": "combobox",
