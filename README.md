@@ -3,22 +3,15 @@
 
 **Available application connectors:**
 
-&bull; Adobe Premiere / Media Encoder
-
-&bull; Adobe After Effects
-
-&bull; Magix Vegas (soon)
-
-&bull; tbc
-
+Find these connectors at the [application connectors page](https://github.com/Vouk/voukoder-connectors):
+- Adobe Premiere / Media Encoder
+- Adobe After Effects (soon)
+- Magix Vegas (soon)
 
 **Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.**
-
-&bull; Patreon: https://www.patreon.com/voukoder
-
-&bull; Paypal: https://www.paypal.me/voukoder
-
-&bull; Twitter: https://twitter.com/LordVouk
+- Patreon: https://www.patreon.com/voukoder
+- Paypal: https://www.paypal.me/voukoder
+- Twitter: https://twitter.com/LordVouk
 
 **I am currently open for job offers / employments in the Rhine/Main (Frankfurt / Bad Vilbel) area in germany. Contact me at vouk@mailbox.org**
 
