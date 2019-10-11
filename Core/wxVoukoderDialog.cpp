@@ -42,10 +42,6 @@ void wxVoukoderDialog::InitGUI()
 {
 	minLabelWidth = wxDLG_UNIT(this, wxSize(56, -1));
 
-	// Translate boolean options
-	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));
-	wxPGGlobalVars->m_boolChoices[1].SetText(Trans("ui.encoderconfig.true"));
-
 	wxBoxSizer* bDialogLayout = new wxBoxSizer(wxVERTICAL);
 
 	// Init image handlers
@@ -81,6 +77,10 @@ void wxVoukoderDialog::InitGUI()
 
 	wxListbook* m_Categories = new wxListbook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT);
 	m_Categories->AssignImageList(m_listbook1Images);
+
+	// Translate boolean options
+	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));
+	wxPGGlobalVars->m_boolChoices[1].SetText(Trans("ui.encoderconfig.true"));
 
 	// General panel
 	m_Categories->AddPage(CreateGeneralPanel(m_Categories), Trans("ui.encoderconfig.general"), true);
