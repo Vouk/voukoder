@@ -30,6 +30,4 @@ public:
 private:
 	ExportInfo exportInfo;
 	EncoderEngine* encoder = NULL;
-	int64_t aPts;
-	int64_t vPts;
 };

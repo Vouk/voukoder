@@ -33,6 +33,9 @@ int EncoderEngine::open()
 	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
 
+	audioContext.firstData = true;
+	videoContext.firstData = true;
+
 	// Mark myself as encoding tool in the mp4/mov container
 	av_dict_set(&formatContext->metadata, "encoding_tool", exportInfo.application.c_str(), 0);
 	// MOV
@@ -185,32 +188,22 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 					wxString params;
 					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
 					if (entry != NULL)
-					{
 						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
-					}
 					else
-					{
 						params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
-					}
 
 					av_dict_set(&dictionary, "x265-params", params.c_str(), 0);
 				}
 				else
-				{
 					av_dict_set(&dictionary, "passlogfile", passLogFile.c_str(), 0);
-				}
 			}
 		}
 
 		// Open the codec
 		if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
-		{
 			ret = avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
-		}
 		else
-		{
 			vkLogErrorVA("Failed opening codec: %s", codecId.c_str());
-		}
 	}
 
 	return ret;
@@ -286,9 +279,7 @@ int EncoderEngine::injectSphericalData(AVStream *stream)
 	// Do we have spherical projection data?
 	wxString projection = GetSideData(exportInfo.video.sideData, "sph_projection", "");
 	if (projection.IsEmpty())
-	{
 		return 0;
-	}
 
 	size_t size;
 	
@@ -325,9 +316,7 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	// Is this codec supported?
 	const AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
 	if (codec == NULL)
-	{
 		return AVERROR_ENCODER_NOT_FOUND;
-	}
 
 	// No frame server so far
 	encoderContext->frameFilter = NULL;
@@ -375,9 +364,7 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 				encoderContext->codecContext->height = wxAtoi(options->at("height"));
 			}
 			else if (id == "yadif" || id == "bwdif")
-			{
 				encoderContext->codecContext->field_order = AV_FIELD_PROGRESSIVE;
-			}
 		}
 
 		// Add stats_info to second pass
@@ -397,9 +384,7 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	}
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
-	{
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-	}
 
 	return 0;
 }
@@ -527,8 +512,10 @@ bool EncoderEngine::hasAudio()
 int EncoderEngine::writeVideoFrame(AVFrame *frame)
 {
 	// Do we need a frame filter?
-	if (frame->pts == 0)
+	if (videoContext.firstData)
 	{
+		videoContext.firstData = false;
+
 		wxString filterconfig;
 
 		// Convert color space or range?
@@ -597,14 +584,19 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
 	frame->sample_aspect_ratio = videoContext.codecContext->sample_aspect_ratio;
 
+	frame->pts = videoContext.next_pts;
+	videoContext.next_pts++;
+
 	// Send the frame to the encoder
 	return encodeAndWriteFrame(&videoContext, frame);
 }
 
 int EncoderEngine::writeAudioFrame(AVFrame *frame)
 {
-	if (frame->pts == 0)
+	if (audioContext.firstData)
 	{
+		audioContext.firstData = false;
+
 		wxString filterconfig;
 		
 		// Convert sample format
@@ -638,6 +630,10 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));
 		}
 	}
+
+	frame->pts = audioContext.next_pts;
+
+	audioContext.next_pts += frame->nb_samples;
 
 	// Send the frame to the encoder
 	return encodeAndWriteFrame(&audioContext, frame);

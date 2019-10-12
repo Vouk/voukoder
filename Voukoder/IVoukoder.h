@@ -132,7 +132,7 @@ struct VKAUDIOCHUNK
 
 struct VKVIDEOFRAME
 {
-	LONGLONG idx;
+	LONGLONG idx; // Not needed anymore
 	BYTE** buffer;
 	INT* rowsize;
 	INT planes;

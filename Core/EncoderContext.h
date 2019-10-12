@@ -5,9 +5,10 @@
 
 struct EncoderContext
 {
-	AVCodecContext* codecContext = NULL;
-	AVStream* stream = NULL;
-	FrameFilter* frameFilter = NULL;
-	int64_t next_pts = 0;
-	char *stats_info = NULL;
+	AVCodecContext* codecContext;
+	AVStream* stream;
+	FrameFilter* frameFilter;
+	int64_t next_pts;
+	char *stats_info;
+	bool firstData;
 };

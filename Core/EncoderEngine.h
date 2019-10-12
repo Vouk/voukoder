@@ -29,8 +29,8 @@ private:
 	AVPacket *packet = NULL;
 	ExportInfo exportInfo;
 	AVFormatContext *formatContext;
-	EncoderContext videoContext;
-	EncoderContext audioContext;
+	EncoderContext videoContext = { 0 };
+	EncoderContext audioContext = { 0 };
 	int createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags);
 	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 	int getCodecFlags(const AVMediaType type);

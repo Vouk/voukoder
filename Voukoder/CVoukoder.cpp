@@ -61,8 +61,7 @@ public:
 	}
 };
 
-CVoukoder::CVoukoder():
-	aPts(0), vPts(0)
+CVoukoder::CVoukoder()
 {
 #ifdef _DEBUG
 	av_log_set_level(AV_LOG_TRACE);
@@ -412,8 +411,7 @@ STDMETHODIMP CVoukoder::IsAudioActive(BOOL* isActive)
 
 STDMETHODIMP CVoukoder::IsAudioWaiting(BOOL* isWaiting)
 {
-	*isWaiting = encoder->hasAudio() &&
-		(av_compare_ts(vPts, exportInfo.video.timebase, aPts, exportInfo.audio.timebase) > 0);
+	*isWaiting = encoder->hasAudio() && encoder->getNextFrameType() == AVMEDIA_TYPE_AUDIO;
 
 	return S_OK;
 }
@@ -458,10 +456,6 @@ STDMETHODIMP CVoukoder::SendAudioSampleChunk(VKAUDIOCHUNK chunk)
 		frame->data[p] = chunk.buffer[p];
 		frame->linesize[p] = chunk.samples * chunk.blockSize;
 	}
-
-	frame->pts = aPts;
-
-	aPts += frame->nb_samples;
 
 	bool ret = encoder->writeAudioFrame(frame) == 0;
 
@@ -508,8 +502,6 @@ STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
 		f->data[i] = frame.buffer[i];
 		f->linesize[i] = frame.rowsize[i];
 	}
-
-	f->pts = vPts = frame.idx;
 
 	bool ret = encoder->writeVideoFrame(f) == 0;
 
