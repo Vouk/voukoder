@@ -76,13 +76,9 @@ int EncoderEngine::open()
 		if (audioFrameSize == 0)
 		{
 			if (exportInfo.video.enabled)
-			{
 				audioFrameSize = (int)av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
-			}
 			else
-			{
 				audioFrameSize = 1024;
-			}
 		}
 	}
 
@@ -90,9 +86,7 @@ int EncoderEngine::open()
 
 	wxString filename;
 	if (pass < exportInfo.passes)
-	{
 		filename = "NUL";
-	}
 	else
 	{
 		filename = exportInfo.filename;
@@ -100,9 +94,7 @@ int EncoderEngine::open()
 
 		// Set the faststart flag in the last pass
 		if (exportInfo.format.faststart)
-		{
 			av_dict_set(&options, "movflags", "faststart", 0);
-		}
 
 		/*
 			av_dict_set(&formatContext->metadata, "major_brand", type, 0);
@@ -214,9 +206,7 @@ int EncoderEngine::injectStereoData(AVStream* stream)
 	// Do we have stereo 3d data?
 	wxString type = GetSideData(exportInfo.video.sideData, "s3d_type", "");
 	if (type.IsEmpty())
-	{
 		return 0;
-	}
 
 	// Add basic data
 	AVStereo3D* stereo_3d = av_stereo3d_alloc();
@@ -224,52 +214,30 @@ int EncoderEngine::injectStereoData(AVStream* stream)
 
 	// Add type
 	if (type == "2d")
-	{
 		stereo_3d->type = AV_STEREO3D_2D;
-	}
 	else if (type == "sidebyside")
-	{
 		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE;
-	}
 	else if (type == "topbottom")
-	{
 		stereo_3d->type = AV_STEREO3D_TOPBOTTOM;
-	}
 	else if (type == "framesequence")
-	{
 		stereo_3d->type = AV_STEREO3D_FRAMESEQUENCE;
-	}
 	else if (type == "checkerboard")
-	{
 		stereo_3d->type = AV_STEREO3D_CHECKERBOARD;
-	}
 	else if (type == "sidebyside_quincunx")
-	{
 		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE_QUINCUNX;
-	}
 	else if (type == "lines")
-	{
 		stereo_3d->type = AV_STEREO3D_LINES;
-	}
 	else if (type == "columns")
-	{
 		stereo_3d->type = AV_STEREO3D_COLUMNS;
-	}
 
 	// Add views
 	wxString view = GetSideData(exportInfo.video.sideData, "s3d_view", "");
 	if (view == "2d")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_PACKED;
-	}
 	else if (view == "left")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_LEFT;
-	}
 	else if (view == "right")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_RIGHT;
-	}
 
 	return av_stream_add_side_data(stream, AV_PKT_DATA_STEREO3D, (uint8_t*)stereo_3d, sizeof(*stereo_3d));
 }
