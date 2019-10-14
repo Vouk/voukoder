@@ -120,7 +120,7 @@
     "ui.encoderconfig.about.awesomefont": "图标",
     "ui.encoderconfig.about.transmaint": "翻译维护者",
     "ui.encoderconfig.about.toppatrons": "主要赞助者：",
-    "ui.encoderconfig.about.support.patreon": "在 patrone.com 上支持 Voukoder ",
+    "ui.encoderconfig.about.support.patreon": "在 patreon.com 上支持 Voukoder",
     "ui.encoderconfig.update": "更新\n可用",
     "ui.encoderconfig.update.title": "版本 %d.%d.%d",
     "ui.encoderconfig.update.button": "打开下载页面",
