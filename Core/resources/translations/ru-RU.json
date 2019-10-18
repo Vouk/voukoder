@@ -1193,7 +1193,7 @@
     "libx265.qualityratedistortionoptions.vbv-init._description": "Начальное заполнение буфера. Часть буфера декодирования должна быть заполнена, прежде чем декодер начнет работу. Определяет максимальный размер кадра. Должен быть указан как дробное значение от 0 до 1.",
     "libx265.qualityratedistortionoptions.vbv-end._label": "VBV Конец",
     "libx265.qualityratedistortionoptions.vbv-end._description": "Final buffer emptiness. The portion of the decode buffer that must be available after all the specified frames have been inserted into the decode buffer. Specified as a fractional value between 0 and 1.\n\nThis enables basic support for chunk-parallel encoding where each segment can specify the starting and ending state of the VBV buffer so that VBV compliance can be maintained when chunks are independently encoded and stitched together.",
-    "libx265.qualityratedistortionoptions.aq-mode._label": "AQ Mode",
+    "libx265.qualityratedistortionoptions.aq-mode._label": "Режим AQ",
     "libx265.qualityratedistortionoptions.aq-mode._description": "Adaptive Quantization operating mode. Raise or lower per-block quantization based on complexity analysis of the source image. The more complex the block, the more quantization is used. This offsets the tendency of the encoder to spend too many bits on complex areas and not enough in flat areas.",
     "libx265.qualityratedistortionoptions.aq-mode._item_0": "Отключено",
     "libx265.qualityratedistortionoptions.aq-mode._item_1": "AQ enabled",
