@@ -1192,7 +1192,7 @@
     "libx265.qualityratedistortionoptions.vbv-init._label": "Инициализация VBV",
     "libx265.qualityratedistortionoptions.vbv-init._description": "Начальное заполнение буфера. Часть буфера декодирования должна быть заполнена, прежде чем декодер начнет работу. Определяет максимальный размер кадра. Должен быть указан как дробное значение от 0 до 1.",
     "libx265.qualityratedistortionoptions.vbv-end._label": "Очистка VBV",
-    "libx265.qualityratedistortionoptions.vbv-end._description": "Очистка последнего буфера. Часть буфера декодирования, которая должна быть доступна после того, как все определённые кадры были помещены в буфер декодирования. Указывается в виде дробного значения от 0 до 1.",
+    "libx265.qualityratedistortionoptions.vbv-end._description": "Конечная очистка буфера. Часть буфера декодирования, которая должна быть доступна после того, как все определённые кадры были помещены в буфер декодирования. Указывается в виде дробного значения от 0 до 1.\n\nЭто включает поддержку параллельно-фрагментного кодирования, где где каждый сегмент может указывать начальное и конечное состояние буфера VBV. Таким образом соответствие VBV сохраняется, когда фрагменты независимо кодируются и соединяются.",
     "libx265.qualityratedistortionoptions.aq-mode._label": "Режим AQ",
     "libx265.qualityratedistortionoptions.aq-mode._description": "Adaptive Quantization operating mode. Raise or lower per-block quantization based on complexity analysis of the source image. The more complex the block, the more quantization is used. This offsets the tendency of the encoder to spend too many bits on complex areas and not enough in flat areas.",
     "libx265.qualityratedistortionoptions.aq-mode._item_0": "Отключено",
