@@ -115,11 +115,14 @@
     <ClInclude Include="Registrar.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="VoukoderTypeLib_h.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassFactory.cpp" />
     <ClCompile Include="CVoukoder.cpp" />
     <ClCompile Include="Voukoder.cpp" />
+    <ClCompile Include="VoukoderTypeLib_i.c" />
+    <ClCompile Include="VoukoderTypeLib_p.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
@@ -128,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Core\Core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="VoukoderTypeLib.idl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

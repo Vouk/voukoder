@@ -1,0 +1,163 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2019 Daniel Stankewitz
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+import "oaidl.idl";
+
+typedef struct
+{
+	INT num;
+	INT den;
+} Rational;
+
+[uuid(BD56E1A7-AB59-418E-BDF9-229F970B86D7), v1_enum]
+typedef enum FieldOrder
+{
+	Progressive = 0,
+	Top,
+	Bottom
+} FieldOrder;
+
+[uuid(95D62B35-8A87-49A4-B2F5-A7497D112740), v1_enum]
+typedef enum ChannelLayout
+{
+	Mono = 0,
+	Stereo,
+	FivePointOne
+} ChannelLayout;
+
+[uuid(8A05B5F6-3335-4DFE-AC5C-9F0250C2D995), v1_enum]
+typedef enum ColorRange
+{
+	Limited = 0,
+	Full
+} ColorRange;
+
+[uuid(3E609B2E-7D5F-4355-8F6B-71AF7E218555), v1_enum]
+typedef enum
+{
+	bt601_PAL = 0,
+	bt601_NTSC,
+	bt709,
+	bt2020_CL,
+	bt2020_NCL
+} ColorSpace;
+
+typedef struct
+{
+	CHAR encoder[16];
+	CHAR options[8192];
+	CHAR filters[8192];
+	CHAR sidedata[8192];
+	CHAR format[16];
+} VKTRACKCONFIG;
+
+typedef struct
+{
+	INT version;
+	VKTRACKCONFIG video;
+	VKTRACKCONFIG audio;
+
+	struct
+	{
+		CHAR container[16];
+		BOOL faststart;
+	} format;
+} VKENCODERCONFIG;
+
+typedef struct
+{
+	WCHAR filename[255];
+	WCHAR application[32];
+
+	struct {
+		BOOL enabled;
+		INT width;
+		INT height;
+		Rational timebase;
+		Rational aspectratio;
+		FieldOrder fieldorder;
+		ColorRange colorRange;
+		ColorSpace colorSpace;
+	} video;
+
+	struct {
+		BOOL enabled;
+		INT samplerate;
+		ChannelLayout channellayout;
+		INT numberChannels;
+	} audio;
+} VKENCODERINFO;
+
+typedef struct
+{
+	BYTE** buffer;
+	INT samples;
+	INT blockSize;
+	INT planes;
+	INT sampleRate;
+	ChannelLayout layout;
+	CHAR format[16];
+} VKAUDIOCHUNK;
+
+typedef struct
+{
+	BYTE** buffer;
+	INT* rowsize;
+	INT planes;
+	INT width;
+	INT height;
+	INT pass;
+	CHAR format[16];
+} VKVIDEOFRAME;
+
+[object, uuid(E9661BFA-4B8E-4217-BCD8-24074D75000B), oleautomation]
+interface IVoukoder : IUnknown
+{
+	HRESULT Close([in]BOOL finalize);
+	HRESULT GetConfig([out, retval] VKENCODERCONFIG* config);
+	HRESULT GetAudioChunkSize([out, retval] UINT* chunkSize);
+	HRESULT GetFileExtension([out, retval] BSTR* extension);
+	HRESULT GetMaxPasses([out, retval] UINT* passes);
+	HRESULT IsAudioActive([out, retval] BOOL* isActive);
+	HRESULT IsAudioWaiting([out, retval] BOOL* isWaiting);
+	HRESULT IsVideoActive([out, retval] BOOL* isActive);
+	HRESULT Log([in] BSTR text);
+	HRESULT Open([in] VKENCODERINFO info);
+	HRESULT SendAudioSampleChunk([in] VKAUDIOCHUNK chunk);
+	HRESULT SendVideoFrame([in] VKVIDEOFRAME frame);
+	HRESULT ShowVoukoderDialog([in] BOOL video, [in] BOOL audio, [out, retval] BOOL* isOkay);
+	HRESULT SetConfig([in] VKENCODERCONFIG config);
+};
+
+/*
+[uuid(AE35D6AB-269D-4CB7-8FA8-6FB0FD37698F), version(1.0)]
+library VoukoderLocalServerLib
+{
+	importlib("stdole32.tlb");
+	[uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F)]
+	coclass CVoukoder
+	{
+		[default] interface IVoukoder;
+	};
+};
+*/
