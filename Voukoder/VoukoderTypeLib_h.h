@@ -51,6 +51,18 @@ typedef interface IVoukoder IVoukoder;
 #endif 	/* __IVoukoder_FWD_DEFINED__ */
 
 
+#ifndef __CoVoukoder_FWD_DEFINED__
+#define __CoVoukoder_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class CoVoukoder CoVoukoder;
+#else
+typedef struct CoVoukoder CoVoukoder;
+#endif /* __cplusplus */
+
+#endif 	/* __CoVoukoder_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "oaidl.h"
 
@@ -184,7 +196,7 @@ EXTERN_C const IID IID_IVoukoder;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    MIDL_INTERFACE("E9661BFA-4B8E-4217-BCD8-24074D75000B")
+    MIDL_INTERFACE("57DAA67D-A35F-4737-856A-F26A460C9C7F")
     IVoukoder : public IUnknown
     {
     public:
@@ -224,10 +236,12 @@ EXTERN_C const IID IID_IVoukoder;
         virtual HRESULT STDMETHODCALLTYPE SendVideoFrame( 
             /* [in] */ VKVIDEOFRAME frame) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE ShowVoukoderDialog( 
+        virtual /* [local] */ HRESULT STDMETHODCALLTYPE ShowVoukoderDialog( 
             /* [in] */ BOOL video,
             /* [in] */ BOOL audio,
-            /* [retval][out] */ BOOL *isOkay) = 0;
+            /* [out] */ BOOL *isOkay,
+            HANDLE act_ctx,
+            HINSTANCE instance) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE SetConfig( 
             /* [in] */ VKENCODERCONFIG config) = 0;
@@ -301,11 +315,13 @@ EXTERN_C const IID IID_IVoukoder;
             IVoukoder * This,
             /* [in] */ VKVIDEOFRAME frame);
         
-        HRESULT ( STDMETHODCALLTYPE *ShowVoukoderDialog )( 
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *ShowVoukoderDialog )( 
             IVoukoder * This,
             /* [in] */ BOOL video,
             /* [in] */ BOOL audio,
-            /* [retval][out] */ BOOL *isOkay);
+            /* [out] */ BOOL *isOkay,
+            HANDLE act_ctx,
+            HINSTANCE instance);
         
         HRESULT ( STDMETHODCALLTYPE *SetConfig )( 
             IVoukoder * This,
@@ -370,8 +386,8 @@ EXTERN_C const IID IID_IVoukoder;
 #define IVoukoder_SendVideoFrame(This,frame)	\
     ( (This)->lpVtbl -> SendVideoFrame(This,frame) ) 
 
-#define IVoukoder_ShowVoukoderDialog(This,video,audio,isOkay)	\
-    ( (This)->lpVtbl -> ShowVoukoderDialog(This,video,audio,isOkay) ) 
+#define IVoukoder_ShowVoukoderDialog(This,video,audio,isOkay,act_ctx,instance)	\
+    ( (This)->lpVtbl -> ShowVoukoderDialog(This,video,audio,isOkay,act_ctx,instance) ) 
 
 #define IVoukoder_SetConfig(This,config)	\
     ( (This)->lpVtbl -> SetConfig(This,config) ) 
@@ -386,6 +402,25 @@ EXTERN_C const IID IID_IVoukoder;
 
 #endif 	/* __IVoukoder_INTERFACE_DEFINED__ */
 
+
+
+#ifndef __VoukoderLocalServerLib_LIBRARY_DEFINED__
+#define __VoukoderLocalServerLib_LIBRARY_DEFINED__
+
+/* library VoukoderLocalServerLib */
+/* [version][uuid] */ 
+
+
+EXTERN_C const IID LIBID_VoukoderLocalServerLib;
+
+EXTERN_C const CLSID CLSID_CoVoukoder;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("E9661BFA-4B8E-4217-BCD8-24074D75000B")
+CoVoukoder;
+#endif
+#endif /* __VoukoderLocalServerLib_LIBRARY_DEFINED__ */
 
 /* Additional Prototypes for ALL interfaces */
 

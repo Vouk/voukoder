@@ -47,7 +47,7 @@
 #include "VoukoderTypeLib_h.h"
 
 #define TYPE_FORMAT_STRING_SIZE   275                               
-#define PROC_FORMAT_STRING_SIZE   545                               
+#define PROC_FORMAT_STRING_SIZE   495                               
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
 #define WIRE_MARSHAL_TABLE_SIZE   1            
@@ -481,81 +481,35 @@ static const VoukoderTypeLib_MIDL_PROC_FORMAT_STRING VoukoderTypeLib__MIDL_ProcF
 /* 454 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
-	/* Procedure ShowVoukoderDialog */
+	/* Procedure SetConfig */
 
 /* 456 */	0x33,		/* FC_AUTO_HANDLE */
 			0x6c,		/* Old Flags:  object, Oi2 */
 /* 458 */	NdrFcLong( 0x0 ),	/* 0 */
-/* 462 */	NdrFcShort( 0xf ),	/* 15 */
-/* 464 */	NdrFcShort( 0x28 ),	/* X64 Stack size/offset = 40 */
-/* 466 */	NdrFcShort( 0x10 ),	/* 16 */
-/* 468 */	NdrFcShort( 0x24 ),	/* 36 */
+/* 462 */	NdrFcShort( 0x10 ),	/* 16 */
+/* 464 */	NdrFcShort( 0x18 ),	/* X64 Stack size/offset = 24 */
+/* 466 */	NdrFcShort( 0xc15c ),	/* -16036 */
+/* 468 */	NdrFcShort( 0x8 ),	/* 8 */
 /* 470 */	0x44,		/* Oi2 Flags:  has return, has ext, */
-			0x4,		/* 4 */
+			0x2,		/* 2 */
 /* 472 */	0xa,		/* 10 */
-			0x1,		/* Ext Flags:  new corr desc, */
+			0x81,		/* Ext Flags:  new corr desc, has big byval param */
 /* 474 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 476 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 478 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 480 */	NdrFcShort( 0x0 ),	/* 0 */
 
-	/* Parameter video */
-
-/* 482 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 484 */	NdrFcShort( 0x8 ),	/* X64 Stack size/offset = 8 */
-/* 486 */	0x8,		/* FC_LONG */
-			0x0,		/* 0 */
-
-	/* Parameter audio */
-
-/* 488 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 490 */	NdrFcShort( 0x10 ),	/* X64 Stack size/offset = 16 */
-/* 492 */	0x8,		/* FC_LONG */
-			0x0,		/* 0 */
-
-	/* Parameter isOkay */
-
-/* 494 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
-/* 496 */	NdrFcShort( 0x18 ),	/* X64 Stack size/offset = 24 */
-/* 498 */	0x8,		/* FC_LONG */
-			0x0,		/* 0 */
-
-	/* Return value */
-
-/* 500 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
-/* 502 */	NdrFcShort( 0x20 ),	/* X64 Stack size/offset = 32 */
-/* 504 */	0x8,		/* FC_LONG */
-			0x0,		/* 0 */
-
-	/* Procedure SetConfig */
-
-/* 506 */	0x33,		/* FC_AUTO_HANDLE */
-			0x6c,		/* Old Flags:  object, Oi2 */
-/* 508 */	NdrFcLong( 0x0 ),	/* 0 */
-/* 512 */	NdrFcShort( 0x10 ),	/* 16 */
-/* 514 */	NdrFcShort( 0x18 ),	/* X64 Stack size/offset = 24 */
-/* 516 */	NdrFcShort( 0xc15c ),	/* -16036 */
-/* 518 */	NdrFcShort( 0x8 ),	/* 8 */
-/* 520 */	0x44,		/* Oi2 Flags:  has return, has ext, */
-			0x2,		/* 2 */
-/* 522 */	0xa,		/* 10 */
-			0x81,		/* Ext Flags:  new corr desc, has big byval param */
-/* 524 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 526 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 528 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 530 */	NdrFcShort( 0x0 ),	/* 0 */
-
 	/* Parameter config */
 
-/* 532 */	NdrFcShort( 0x10a ),	/* Flags:  must free, in, simple ref, */
-/* 534 */	NdrFcShort( 0x8 ),	/* X64 Stack size/offset = 8 */
-/* 536 */	NdrFcShort( 0x36 ),	/* Type Offset=54 */
+/* 482 */	NdrFcShort( 0x10a ),	/* Flags:  must free, in, simple ref, */
+/* 484 */	NdrFcShort( 0x8 ),	/* X64 Stack size/offset = 8 */
+/* 486 */	NdrFcShort( 0x36 ),	/* Type Offset=54 */
 
 	/* Return value */
 
-/* 538 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
-/* 540 */	NdrFcShort( 0x10 ),	/* X64 Stack size/offset = 16 */
-/* 542 */	0x8,		/* FC_LONG */
+/* 488 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 490 */	NdrFcShort( 0x10 ),	/* X64 Stack size/offset = 16 */
+/* 492 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 			0x0
@@ -823,7 +777,7 @@ static const USER_MARSHAL_ROUTINE_QUADRUPLE UserMarshalRoutines[ WIRE_MARSHAL_TA
 
 
 /* Object interface: IVoukoder, ver. 0.0,
-   GUID={0xE9661BFA,0x4B8E,0x4217,{0xBC,0xD8,0x24,0x07,0x4D,0x75,0x00,0x0B}} */
+   GUID={0x57DAA67D,0xA35F,0x4737,{0x85,0x6A,0xF2,0x6A,0x46,0x0C,0x9C,0x7F}} */
 
 #pragma code_seg(".orpc")
 static const unsigned short IVoukoder_FormatStringOffsetTable[] =
@@ -840,8 +794,8 @@ static const unsigned short IVoukoder_FormatStringOffsetTable[] =
     342,
     380,
     418,
-    456,
-    506
+    (unsigned short) -1,
+    456
     };
 
 
@@ -884,13 +838,13 @@ extern const USER_MARSHAL_ROUTINE_QUADRUPLE UserMarshalRoutines[ WIRE_MARSHAL_TA
 
 typedef 
 NDR64_FORMAT_CHAR
-__midl_frag69_t;
-extern const __midl_frag69_t __midl_frag69;
+__midl_frag63_t;
+extern const __midl_frag63_t __midl_frag63;
 
 typedef 
 struct _NDR64_POINTER_FORMAT
-__midl_frag68_t;
-extern const __midl_frag68_t __midl_frag68;
+__midl_frag62_t;
+extern const __midl_frag62_t __midl_frag62;
 
 typedef 
 struct 
@@ -898,23 +852,6 @@ struct
     struct _NDR64_PROC_FORMAT frag1;
     struct _NDR64_PARAM_FORMAT frag2;
     struct _NDR64_PARAM_FORMAT frag3;
-}
-__midl_frag67_t;
-extern const __midl_frag67_t __midl_frag67;
-
-typedef 
-struct _NDR64_POINTER_FORMAT
-__midl_frag64_t;
-extern const __midl_frag64_t __midl_frag64;
-
-typedef 
-struct 
-{
-    struct _NDR64_PROC_FORMAT frag1;
-    struct _NDR64_PARAM_FORMAT frag2;
-    struct _NDR64_PARAM_FORMAT frag3;
-    struct _NDR64_PARAM_FORMAT frag4;
-    struct _NDR64_PARAM_FORMAT frag5;
 }
 __midl_frag61_t;
 extern const __midl_frag61_t __midl_frag61;
@@ -1073,6 +1010,11 @@ __midl_frag38_t;
 extern const __midl_frag38_t __midl_frag38;
 
 typedef 
+struct _NDR64_POINTER_FORMAT
+__midl_frag35_t;
+extern const __midl_frag35_t __midl_frag35;
+
+typedef 
 struct 
 {
     struct _NDR64_PROC_FORMAT frag1;
@@ -1171,10 +1113,10 @@ NDR64_FORMAT_UINT32
 __midl_frag1_t;
 extern const __midl_frag1_t __midl_frag1;
 
-static const __midl_frag69_t __midl_frag69 =
+static const __midl_frag63_t __midl_frag63 =
 0x5    /* FC64_INT32 */;
 
-static const __midl_frag68_t __midl_frag68 =
+static const __midl_frag62_t __midl_frag62 =
 { 
 /* *VKENCODERCONFIG */
     0x20,    /* FC64_RP */
@@ -1183,7 +1125,7 @@ static const __midl_frag68_t __midl_frag68 =
     &__midl_frag7
 };
 
-static const __midl_frag67_t __midl_frag67 =
+static const __midl_frag61_t __midl_frag61 =
 { 
 /* SetConfig */
     { 
@@ -1223,7 +1165,7 @@ static const __midl_frag67_t __midl_frag67 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -1244,127 +1186,6 @@ static const __midl_frag67_t __midl_frag67 =
         },    /* [out], IsReturn, Basetype, ByValue */
         (NDR64_UINT16) 0 /* 0x0 */,
         16 /* 0x10 */,   /* Stack offset */
-    }
-};
-
-static const __midl_frag64_t __midl_frag64 =
-{ 
-/* *BOOL */
-    0x20,    /* FC64_RP */
-    (NDR64_UINT8) 12 /* 0xc */,
-    (NDR64_UINT16) 0 /* 0x0 */,
-    &__midl_frag69
-};
-
-static const __midl_frag61_t __midl_frag61 =
-{ 
-/* ShowVoukoderDialog */
-    { 
-    /* ShowVoukoderDialog */      /* procedure ShowVoukoderDialog */
-        (NDR64_UINT32) 524611 /* 0x80143 */,    /* auto handle */ /* IsIntrepreted, [object], HasReturn */
-        (NDR64_UINT32) 40 /* 0x28 */ ,  /* Stack size */
-        (NDR64_UINT32) 16 /* 0x10 */,
-        (NDR64_UINT32) 40 /* 0x28 */,
-        (NDR64_UINT16) 0 /* 0x0 */,
-        (NDR64_UINT16) 0 /* 0x0 */,
-        (NDR64_UINT16) 4 /* 0x4 */,
-        (NDR64_UINT16) 0 /* 0x0 */
-    },
-    { 
-    /* video */      /* parameter video */
-        &__midl_frag69,
-        { 
-        /* video */
-            0,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            (NDR64_UINT16) 0 /* 0x0 */,
-            0
-        },    /* [in], Basetype, ByValue */
-        (NDR64_UINT16) 0 /* 0x0 */,
-        8 /* 0x8 */,   /* Stack offset */
-    },
-    { 
-    /* audio */      /* parameter audio */
-        &__midl_frag69,
-        { 
-        /* audio */
-            0,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            (NDR64_UINT16) 0 /* 0x0 */,
-            0
-        },    /* [in], Basetype, ByValue */
-        (NDR64_UINT16) 0 /* 0x0 */,
-        16 /* 0x10 */,   /* Stack offset */
-    },
-    { 
-    /* isOkay */      /* parameter isOkay */
-        &__midl_frag69,
-        { 
-        /* isOkay */
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            0,
-            0,
-            0,
-            (NDR64_UINT16) 0 /* 0x0 */,
-            1
-        },    /* [out], Basetype, SimpleRef, UseCache */
-        (NDR64_UINT16) 0 /* 0x0 */,
-        24 /* 0x18 */,   /* Stack offset */
-    },
-    { 
-    /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
-        { 
-        /* HRESULT */
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            (NDR64_UINT16) 0 /* 0x0 */,
-            0
-        },    /* [out], IsReturn, Basetype, ByValue */
-        (NDR64_UINT16) 0 /* 0x0 */,
-        32 /* 0x20 */,   /* Stack offset */
     }
 };
 
@@ -1439,7 +1260,7 @@ static const __midl_frag56_t __midl_frag56 =
             0x21,    /* FC64_UP */
             (NDR64_UINT8) 8 /* 0x8 */,
             (NDR64_UINT16) 0 /* 0x0 */,
-            &__midl_frag69
+            &__midl_frag63
         },
         0x93    /* FC64_END */
     }
@@ -1494,7 +1315,7 @@ static const __midl_frag54_t __midl_frag54 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -1613,7 +1434,7 @@ static const __midl_frag48_t __midl_frag48 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -1887,7 +1708,7 @@ static const __midl_frag42_t __midl_frag42 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -1973,7 +1794,7 @@ static const __midl_frag38_t __midl_frag38 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -1997,6 +1818,15 @@ static const __midl_frag38_t __midl_frag38 =
     }
 };
 
+static const __midl_frag35_t __midl_frag35 =
+{ 
+/* *BOOL */
+    0x20,    /* FC64_RP */
+    (NDR64_UINT8) 12 /* 0xc */,
+    (NDR64_UINT16) 0 /* 0x0 */,
+    &__midl_frag63
+};
+
 static const __midl_frag34_t __midl_frag34 =
 { 
 /* IsVideoActive */
@@ -2013,7 +1843,7 @@ static const __midl_frag34_t __midl_frag34 =
     },
     { 
     /* isActive */      /* parameter isActive */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* isActive */
             0,
@@ -2037,7 +1867,7 @@ static const __midl_frag34_t __midl_frag34 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -2201,7 +2031,7 @@ static const __midl_frag13_t __midl_frag13 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -2288,7 +2118,7 @@ static const __midl_frag5_t __midl_frag5 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -2328,7 +2158,7 @@ static const __midl_frag2_t __midl_frag2 =
     },
     { 
     /* finalize */      /* parameter finalize */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* finalize */
             0,
@@ -2352,7 +2182,7 @@ static const __midl_frag2_t __midl_frag2 =
     },
     { 
     /* HRESULT */      /* parameter HRESULT */
-        &__midl_frag69,
+        &__midl_frag63,
         { 
         /* HRESULT */
             0,
@@ -2406,7 +2236,7 @@ static const USER_MARSHAL_ROUTINE_QUADRUPLE NDR64_UserMarshalRoutines[ WIRE_MARS
 
 
 /* Object interface: IVoukoder, ver. 0.0,
-   GUID={0xE9661BFA,0x4B8E,0x4217,{0xBC,0xD8,0x24,0x07,0x4D,0x75,0x00,0x0B}} */
+   GUID={0x57DAA67D,0xA35F,0x4737,{0x85,0x6A,0xF2,0x6A,0x46,0x0C,0x9C,0x7F}} */
 
 #pragma code_seg(".orpc")
 static const FormatInfoRef IVoukoder_Ndr64ProcTable[] =
@@ -2423,8 +2253,8 @@ static const FormatInfoRef IVoukoder_Ndr64ProcTable[] =
     &__midl_frag42,
     &__midl_frag48,
     &__midl_frag54,
-    &__midl_frag61,
-    &__midl_frag67
+    (FormatInfoRef)(LONG_PTR) -1,
+    &__midl_frag61
     };
 
 
@@ -2494,7 +2324,7 @@ CINTERFACE_PROXY_VTABLE(17) _IVoukoderProxyVtbl =
     (void *) (INT_PTR) -1 /* IVoukoder::Open */ ,
     (void *) (INT_PTR) -1 /* IVoukoder::SendAudioSampleChunk */ ,
     (void *) (INT_PTR) -1 /* IVoukoder::SendVideoFrame */ ,
-    (void *) (INT_PTR) -1 /* IVoukoder::ShowVoukoderDialog */ ,
+    0 /* IVoukoder::ShowVoukoderDialog */ ,
     (void *) (INT_PTR) -1 /* IVoukoder::SetConfig */
 };
 

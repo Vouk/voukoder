@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include "ComBase.h"
-#include "IVoukoder.h"
+#include "VoukoderTypeLib_h.h"
 #include <EncoderEngine.h>
 
 class CVoukoder : public CComBase<>, public InterfaceImpl<IVoukoder>
@@ -24,7 +24,7 @@ public:
 	STDMETHOD(SendAudioSampleChunk)(VKAUDIOCHUNK chunk);
 	STDMETHOD(SendVideoFrame)(VKVIDEOFRAME frame);
 	STDMETHOD(ShowVoukoderDialog)(BOOL video, BOOL audio, BOOL* isOkay, HANDLE act_ctx, HINSTANCE instance);
-	STDMETHOD(SetConfig)(VKENCODERCONFIG& config);
+	STDMETHOD(SetConfig)(VKENCODERCONFIG config);
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID *ppv);
 
 private:

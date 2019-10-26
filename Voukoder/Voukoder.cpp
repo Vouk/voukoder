@@ -6,6 +6,7 @@ HANDLE g_module;
 #include "ClassFactory.h"
 #include "CVoukoder.h"
 #include "Registrar.h"
+#include "VoukoderTypeLib_i.c"
 
 long * CObjRoot::p_ObjCount = NULL; 
 
@@ -22,7 +23,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppvOut)
 {
 	*ppvOut = NULL;
-	if (IsEqualIID(rclsid, CLSID_Voukoder))
+	if (IsEqualIID(rclsid, CLSID_CoVoukoder))
 	{
 		CClassFactory<CVoukoder> *pcf = new CClassFactory<CVoukoder>;
 		return pcf->QueryInterface(riid, ppvOut);
@@ -42,12 +43,12 @@ STDAPI DllRegisterServer(void)
 	wchar_t path[MAX_PATH];
 	GetModuleFileName((HMODULE)g_module, path, MAX_PATH);
 
-	return registrar.RegisterObject(CLSID_Voukoder, L"Voukoder", L"COMServer", path) ? S_OK : S_FALSE;
+	return registrar.RegisterObject(CLSID_CoVoukoder, L"Voukoder", L"COMServer", path) ? S_OK : S_FALSE;
 }
 
 STDAPI DllUnregisterServer(void)
 {
 	CDllRegistrar registrar;
 
-	return registrar.UnRegisterObject(CLSID_Voukoder, L"Voukoder", L"COMServer") ? S_OK : S_FALSE;
+	return registrar.UnRegisterObject(CLSID_CoVoukoder, L"Voukoder", L"COMServer") ? S_OK : S_FALSE;
 }

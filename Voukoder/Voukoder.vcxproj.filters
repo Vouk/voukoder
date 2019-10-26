@@ -30,9 +30,6 @@
     <ClInclude Include="CVoukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="IVoukoder.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Registrar.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -46,19 +43,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClassFactory.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Voukoder.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="CVoukoder.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="VoukoderTypeLib_i.c">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="VoukoderTypeLib_p.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

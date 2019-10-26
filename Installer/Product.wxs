@@ -47,6 +47,7 @@
                 <ProgId Id="Voukoder.COMServer" Description="Voukoder media encoding library" />
               </Class>
             </File>
+            <File Id="voukoder.tlb" Source="$(var.Voukoder.TargetPath)" KeyPath="yes" />
           </Component>
         </Directory>
       </Directory>

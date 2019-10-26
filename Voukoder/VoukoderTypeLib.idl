@@ -130,7 +130,7 @@ typedef struct
 	CHAR format[16];
 } VKVIDEOFRAME;
 
-[object, uuid(E9661BFA-4B8E-4217-BCD8-24074D75000B), oleautomation]
+[object, uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F), oleautomation]
 interface IVoukoder : IUnknown
 {
 	HRESULT Close([in]BOOL finalize);
@@ -145,19 +145,17 @@ interface IVoukoder : IUnknown
 	HRESULT Open([in] VKENCODERINFO info);
 	HRESULT SendAudioSampleChunk([in] VKAUDIOCHUNK chunk);
 	HRESULT SendVideoFrame([in] VKVIDEOFRAME frame);
-	HRESULT ShowVoukoderDialog([in] BOOL video, [in] BOOL audio, [out, retval] BOOL* isOkay);
+	[local] HRESULT ShowVoukoderDialog([in] BOOL video, [in] BOOL audio, [out] BOOL* isOkay, HANDLE act_ctx, HINSTANCE instance);
 	HRESULT SetConfig([in] VKENCODERCONFIG config);
 };
 
-/*
 [uuid(AE35D6AB-269D-4CB7-8FA8-6FB0FD37698F), version(1.0)]
 library VoukoderLocalServerLib
 {
 	importlib("stdole32.tlb");
-	[uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F)]
-	coclass CVoukoder
+	[uuid(E9661BFA-4B8E-4217-BCD8-24074D75000B)]
+	coclass CoVoukoder
 	{
 		[default] interface IVoukoder;
 	};
 };
-*/

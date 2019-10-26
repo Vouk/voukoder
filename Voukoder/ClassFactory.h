@@ -7,7 +7,8 @@ template <class comObj >
 class CClassFactory : public CComBase<>, public InterfaceImpl<IClassFactory>
 {
 public:
-	CClassFactory() {};
+	CClassFactory() {
+	};
 	virtual ~CClassFactory() {};
 
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID *ppv)
