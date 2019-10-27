@@ -1262,7 +1262,7 @@
     "libx265.analysis.limit-tu._item_2": "Уровень 2",
     "libx265.analysis.limit-tu._item_3": "Уровень 3",
     "libx265.analysis.limit-tu._item_4": "Уровень 4",
-    "libx265.analysis.limit-tu._label": "Limit TU",
+    "libx265.analysis.limit-tu._label": "Предел TU",
     "libx265.analysis.max-tu-size._description": "Maximum TU size (width and height). The residual can be more efficiently compressed by the DCT transform when the max TU size is larger, but at the expense of more computation. Transform unit quad-tree begins at the same depth of the coded tree unit, but if the maximum TU size is smaller than the CU size then transform QT begins at the depth of the max-tu-size.",
     "libx265.analysis.max-tu-size._item_0": "32",
     "libx265.analysis.max-tu-size._item_1": "16",
