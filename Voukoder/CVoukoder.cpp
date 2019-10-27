@@ -1,7 +1,6 @@
 #include "CVoukoder.h"
 #include "../Core/wxVoukoderDialog.h"
 
-#ifdef _DEBUG
 static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 {
 	char logbuf[2000];
@@ -10,7 +9,6 @@ static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 
 	OutputDebugStringA(logbuf);
 }
-#endif
 
 struct handle_data {
 	unsigned long process_id;
@@ -63,10 +61,8 @@ public:
 
 CVoukoder::CVoukoder()
 {
-#ifdef _DEBUG
-	av_log_set_level(AV_LOG_TRACE);
+	av_log_set_level(AV_LOG_DEBUG);
 	av_log_set_callback(AvCallback);
-#endif
 
 	// Add window title to log
 	wchar_t text[256];
@@ -74,7 +70,7 @@ CVoukoder::CVoukoder()
 	if (GetWindowText(hwnd, text, sizeof(text)))
 	{
 		vkLogInfo(wxString::Format("Plugin running in %s", text));
-		vkLogInfo("---------------------------------------------");
+		vkLogSep();
 	}
 }
 

@@ -240,8 +240,8 @@ EXTERN_C const IID IID_IVoukoder;
             /* [in] */ BOOL video,
             /* [in] */ BOOL audio,
             /* [out] */ BOOL *isOkay,
-            HANDLE act_ctx,
-            HINSTANCE instance) = 0;
+            /* [in] */ HANDLE act_ctx,
+            /* [in] */ HINSTANCE instance) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE SetConfig( 
             /* [in] */ VKENCODERCONFIG config) = 0;
@@ -320,8 +320,8 @@ EXTERN_C const IID IID_IVoukoder;
             /* [in] */ BOOL video,
             /* [in] */ BOOL audio,
             /* [out] */ BOOL *isOkay,
-            HANDLE act_ctx,
-            HINSTANCE instance);
+            /* [in] */ HANDLE act_ctx,
+            /* [in] */ HINSTANCE instance);
         
         HRESULT ( STDMETHODCALLTYPE *SetConfig )( 
             IVoukoder * This,

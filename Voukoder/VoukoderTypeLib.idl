@@ -145,7 +145,7 @@ interface IVoukoder : IUnknown
 	HRESULT Open([in] VKENCODERINFO info);
 	HRESULT SendAudioSampleChunk([in] VKAUDIOCHUNK chunk);
 	HRESULT SendVideoFrame([in] VKVIDEOFRAME frame);
-	[local] HRESULT ShowVoukoderDialog([in] BOOL video, [in] BOOL audio, [out] BOOL* isOkay, HANDLE act_ctx, HINSTANCE instance);
+	[local] HRESULT ShowVoukoderDialog([in] BOOL video, [in] BOOL audio, [out] BOOL* isOkay, [in] HANDLE act_ctx, [in] HINSTANCE instance); // Improve this
 	HRESULT SetConfig([in] VKENCODERCONFIG config);
 };
 
