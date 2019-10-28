@@ -119,7 +119,6 @@ typedef /* [public][public][public][public][public][public][public] */ struct __
     CHAR options[ 8192 ];
     CHAR filters[ 8192 ];
     CHAR sidedata[ 8192 ];
-    CHAR format[ 16 ];
     } 	VKTRACKCONFIG;
 
 typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0004

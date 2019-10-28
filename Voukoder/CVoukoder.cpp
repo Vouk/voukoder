@@ -97,27 +97,11 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.video.filters.Deserialize(config.video.filters);
 	exportInfo.video.sideData.Deserialize(config.video.sidedata);
 
-	if (strlen(config.video.format) == 0)
-	{
-		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
-			exportInfo.video.pixelFormat = av_get_pix_fmt(exportInfo.video.options.at("_pixelFormat").c_str());
-	}
-	else
-		exportInfo.video.pixelFormat = av_get_pix_fmt(wxString(config.video.format));
-
 	// Audio
 	exportInfo.audio.id = config.audio.encoder;
 	exportInfo.audio.options.Deserialize(config.audio.options);
 	exportInfo.audio.filters.Deserialize(config.audio.filters);
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
-
-	if (strlen(config.audio.format) == 0)
-	{
-		if (exportInfo.audio.options.find("_sampleFormat") != exportInfo.audio.options.end())
-			exportInfo.audio.sampleFormat = av_get_sample_fmt(exportInfo.audio.options.at("_sampleFormat").c_str());
-	}
-	else
-		exportInfo.audio.sampleFormat = av_get_sample_fmt(wxString(config.audio.format));
 
 	// Format
 	exportInfo.format.id = config.format.container;
@@ -145,19 +129,11 @@ STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 	strcpy_s(config->video.filters, exportInfo.video.filters.Serialize().mb_str());
 	strcpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true).mb_str());
 
-	// Video pixel format
-	if (exportInfo.video.pixelFormat != AV_PIX_FMT_NONE)
-		strcpy_s(config->video.format, av_get_pix_fmt_name(exportInfo.video.pixelFormat));
-
 	// Audio
 	strcpy_s(config->audio.encoder, exportInfo.audio.id.mb_str());
 	strcpy_s(config->audio.options, exportInfo.audio.options.Serialize(true).mb_str());
 	strcpy_s(config->audio.filters, exportInfo.audio.filters.Serialize().mb_str());
 	strcpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true).mb_str());
-
-	// Audio sample format
-	if (exportInfo.audio.sampleFormat != AV_SAMPLE_FMT_NONE)
-		strcpy_s(config->audio.format, av_get_sample_fmt_name(exportInfo.audio.sampleFormat));
 
 	// Format
 	strcpy_s(config->format.container, exportInfo.format.id.mb_str());

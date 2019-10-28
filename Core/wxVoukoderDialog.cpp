@@ -625,17 +625,11 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 		EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
 		exportInfo.video.id = info->id;
 
-		// Copy pixel format
-		if (videoSettings.options.find("_pixelFormat") != videoSettings.options.end())
-			exportInfo.video.pixelFormat = av_get_pix_fmt(videoSettings.options.at("_pixelFormat").c_str());
-		else if (info->defaults.find("_pixelFormat") != info->defaults.end())
-			exportInfo.video.pixelFormat = av_get_pix_fmt(info->defaults.at("_pixelFormat").c_str());
-		else
-			exportInfo.video.pixelFormat = AV_PIX_FMT_YUV420P;
-
 		// Copy options
 		exportInfo.video.options.clear();
-		exportInfo.video.options.insert(videoSettings.options.begin(), videoSettings.options.end());
+		exportInfo.video.options.insert(info->defaults.begin(), info->defaults.end());
+		for (auto item : videoSettings.options)
+			exportInfo.video.options[item.first] = item.second;
 
 		// Copy side data
 		exportInfo.video.sideData.clear();
@@ -651,17 +645,11 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 		EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
 		exportInfo.audio.id = info->id;
 
-		// Copy sample format
-		if (audioSettings.options.find("_sampleFormat") != audioSettings.options.end())
-			exportInfo.audio.sampleFormat = av_get_sample_fmt(audioSettings.options.at("_sampleFormat").c_str());
-		else if (info->defaults.find("_sampleFormat") != info->defaults.end())
-			exportInfo.audio.sampleFormat = av_get_sample_fmt(info->defaults.at("_sampleFormat").c_str());
-		else
-			exportInfo.audio.sampleFormat = AV_SAMPLE_FMT_FLTP;
-
 		// Copy options
 		exportInfo.audio.options.clear();
-		exportInfo.audio.options.insert(audioSettings.options.begin(), audioSettings.options.end());
+		exportInfo.audio.options.insert(info->defaults.begin(), info->defaults.end());
+		for (auto item : audioSettings.options)
+			exportInfo.audio.options[item.first] = item.second;
 
 		// Copy side data
 		exportInfo.audio.sideData.clear();

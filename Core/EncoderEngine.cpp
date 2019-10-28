@@ -312,13 +312,21 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->height = exportInfo.video.height;
 		encoderContext->codecContext->time_base = exportInfo.video.timebase;
 		encoderContext->codecContext->framerate = av_inv_q(encoderContext->codecContext->time_base);
-		encoderContext->codecContext->pix_fmt = exportInfo.video.pixelFormat;
 		encoderContext->codecContext->colorspace = exportInfo.video.colorSpace;
 		encoderContext->codecContext->color_range = exportInfo.video.colorRange;
 		encoderContext->codecContext->color_primaries = exportInfo.video.colorPrimaries;
 		encoderContext->codecContext->color_trc = exportInfo.video.colorTransferCharacteristics;
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
+
+		// Find pixel format in options
+		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
+		{
+			auto format = exportInfo.video.options.at("_pixelFormat");
+			encoderContext->codecContext->pix_fmt = av_get_pix_fmt(format.c_str());
+		}
+		else
+			return -1;
 
 		// Check for a zscaler filter
 		for (auto const& options : exportInfo.video.filters)
@@ -346,9 +354,17 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->channel_layout = exportInfo.audio.channelLayout;
 		encoderContext->codecContext->channels = av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout);
 		encoderContext->codecContext->time_base = exportInfo.audio.timebase;
-		encoderContext->codecContext->sample_fmt = exportInfo.audio.sampleFormat;
 		encoderContext->codecContext->sample_rate = exportInfo.audio.timebase.den;
 		encoderContext->codecContext->bit_rate = 0;
+
+		// Find sample format in options
+		if (exportInfo.audio.options.find("_sampleFormat") != exportInfo.audio.options.end())
+		{
+			auto format = exportInfo.audio.options.at("_sampleFormat");
+			encoderContext->codecContext->sample_fmt = av_get_sample_fmt(format.c_str());
+		}
+		else
+			return -1;
 	}
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)

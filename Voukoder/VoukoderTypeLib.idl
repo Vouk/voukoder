@@ -68,7 +68,6 @@ typedef struct
 	CHAR options[8192];
 	CHAR filters[8192];
 	CHAR sidedata[8192];
-	CHAR format[16];
 } VKTRACKCONFIG;
 
 typedef struct

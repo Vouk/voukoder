@@ -31,7 +31,6 @@ struct ExportInfo
 		OptionContainer sideData;
 		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
-		AVPixelFormat pixelFormat = AVPixelFormat::AV_PIX_FMT_NONE;
 		AVRational sampleAspectRatio = { 0, 0 };
 		AVFieldOrder fieldOrder = AVFieldOrder::AV_FIELD_UNKNOWN;
 		AVColorRange colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
@@ -49,7 +48,6 @@ struct ExportInfo
 		OptionContainer sideData;
 		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
-		AVSampleFormat sampleFormat = AVSampleFormat::AV_SAMPLE_FMT_NONE;
 		uint64_t channelLayout = 0;
 	} audio;
 
@@ -87,8 +85,6 @@ struct ExportInfo
 			wxString timebase = JSON_GROUP_GET(video, timebase, std::string);
 			//if (timebase.Matches())
 		}
-		if (JSON_GROUP_CONTAINS(video, pixelFormat))
-			video.pixelFormat = av_get_pix_fmt(JSON_GROUP_GET(video, pixelFormat, std::string).c_str());
 		if (JSON_GROUP_CONTAINS(video, sar))
 		{
 			wxString sar = JSON_GROUP_GET(video, sar, std::string);
@@ -140,8 +136,6 @@ struct ExportInfo
 		}
 		if (JSON_GROUP_CONTAINS(audio, channelLayout))
 			audio.channelLayout = av_get_channel_layout(JSON_GROUP_GET(audio, channelLayout, std::string).c_str());
-		if (JSON_GROUP_CONTAINS(audio, sampleFormat))
-			audio.sampleFormat = av_get_sample_fmt(JSON_GROUP_GET(audio, sampleFormat, std::string).c_str());
 
 		// Format
 		JSON_GROUP_IMPORT(format, id, std::string);
@@ -178,8 +172,6 @@ struct ExportInfo
 			j["video"]["sar"] = wxString::Format("%d:%d", video.sampleAspectRatio.num, video.sampleAspectRatio.den);
 		if (video.timebase.num > 0 && video.timebase.den > 0)
 			j["video"]["timebase"] = wxString::Format("%d:%d", video.timebase.num, video.timebase.den);
-		if (video.pixelFormat != AV_PIX_FMT_NONE)
-			j["video"]["pixelFormat"] = av_get_pix_fmt_name(video.pixelFormat);
 		if (video.colorRange != AVCOL_RANGE_UNSPECIFIED)
 			j["video"]["colorRange"] = video.colorRange == AVColorRange::AVCOL_RANGE_JPEG ? "full" : "limited";
 		if (video.colorSpace != AVCOL_SPC_UNSPECIFIED)
@@ -210,8 +202,6 @@ struct ExportInfo
 			av_get_channel_layout_string(buffer, buffer_size, NULL, audio.channelLayout);
 			j["audio"]["layout"] = buffer;
 		}
-		if (audio.sampleFormat != AV_SAMPLE_FMT_NONE)
-			j["audio"]["sampleFormat"] = av_get_sample_fmt_name(audio.sampleFormat);
 
 		// Format
 		if (!format.id.IsEmpty())
