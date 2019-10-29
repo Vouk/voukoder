@@ -1278,7 +1278,7 @@
     "libx265.analysis.amp._label": "Amp",
     "libx265.analysis.b-intra._description": "Включает оценку внутренних режимов в B-слайсах.",
     "libx265.analysis.b-intra._label": "B Intra",
-    "libx265.analysis.cu-lossless._description": "For each CU, evaluate lossless (transform and quant bypass) encode of the best non-lossless mode option as a potential rate distortion optimization. If the global option --lossless has been specified, all CUs will be encoded as lossless unconditionally regardless of whether this option was enabled.\n\nOnly effective at RD levels 3 and above, which perform RDO mode decisions.",
+    "libx265.analysis.cu-lossless._description": "Для каждого CU оценивается кодирование без потерь (преобразование и обход квантования) исходя и лучшего варианта режима с потерями в качестве оптимизации потенциального искажения битрейта. Если включена глобальная опция \"--lossless\", все CU будут кодироваться без потерь, независимо от того, включена ли эта настройка.\n\nЭффективно только на уровнях RD 3 и выше, где работают режимы оценки.",
     "libx265.analysis.cu-lossless._label": "CU Без потерь",
     "libx265.analysis.dynamic-refine._description": "Dynamically switches --refine-inter levels 0-3 based on the content and the encoder settings. It is recommended to use --refine-intra 4 with dynamic refinement.",
     "libx265.analysis.dynamic-refine._label": "Dynamic Refine",
