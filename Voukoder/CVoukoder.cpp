@@ -239,6 +239,15 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		break;
 	}
 
+	// Multipass encoding
+	if (exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
+	{
+		if (exportInfo.video.options.at("_2pass") == "1")
+			exportInfo.passes = 2;
+	}
+	else
+		exportInfo.passes = 1;
+
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
