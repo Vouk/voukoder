@@ -91,53 +91,33 @@ STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 
 STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 {
-	// Video
 	exportInfo.video.id = config.video.encoder;
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
 	exportInfo.video.sideData.Deserialize(config.video.sidedata);
-
-	// Audio
 	exportInfo.audio.id = config.audio.encoder;
 	exportInfo.audio.options.Deserialize(config.audio.options);
 	exportInfo.audio.filters.Deserialize(config.audio.filters);
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
-
-	// Format
 	exportInfo.format.id = config.format.container;
 	exportInfo.format.faststart = config.format.faststart;
-
-	// Multipass encoding
-	if (exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
-	{
-		if (exportInfo.video.options.at("_2pass") == "1")
-			exportInfo.passes = 2;
-	}
-	else
-		exportInfo.passes = 1;
 
 	return S_OK;
 }
 
 STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 {
-	config->version = 1;
-
-	// Video
 	strcpy_s(config->video.encoder, exportInfo.video.id.mb_str());
 	strcpy_s(config->video.options, exportInfo.video.options.Serialize(true).mb_str());
 	strcpy_s(config->video.filters, exportInfo.video.filters.Serialize().mb_str());
 	strcpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true).mb_str());
-
-	// Audio
 	strcpy_s(config->audio.encoder, exportInfo.audio.id.mb_str());
 	strcpy_s(config->audio.options, exportInfo.audio.options.Serialize(true).mb_str());
 	strcpy_s(config->audio.filters, exportInfo.audio.filters.Serialize().mb_str());
 	strcpy_s(config->audio.sidedata, exportInfo.audio.sideData.Serialize(true).mb_str());
-
-	// Format
 	strcpy_s(config->format.container, exportInfo.format.id.mb_str());
 	config->format.faststart = exportInfo.format.faststart;
+	config->version = 1;
 
 	return S_OK;
 }
@@ -177,23 +157,19 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	vkLogInfo("Export started");
 	vkLogSep();
 
-	// Replace file extension if necessary
-	std::wstring fname(info.filename);
-	std::wstring::size_type i = fname.rfind('.', fname.length());
+	// Replace file extension if necessary (req'd for vegas)
+	wxString filename(info.filename);
 	for (auto info : Voukoder::Config::Get().muxerInfos)
 	{
 		if (info.id == exportInfo.format.id)
 		{
-			if (i != std::wstring::npos)
-			{
-				fname.replace(i + 1, info.extension.length(), info.extension);
-				break;
-			}
+			filename = filename.BeforeLast('.') + "." + info.extension;
+			break;
 		}
 	}
 
 	// Set non-stored export settings
-	exportInfo.filename = fname;
+	exportInfo.filename = filename;
 	exportInfo.application = wxString::Format("%s (%s)", VKDR_APPNAME, std::wstring(info.application));
 	exportInfo.video.enabled = info.video.enabled;
 	exportInfo.video.width = info.video.width;
@@ -427,11 +403,11 @@ STDMETHODIMP CVoukoder::SendAudioSampleChunk(VKAUDIOCHUNK chunk)
 		frame->linesize[p] = chunk.samples * chunk.blockSize;
 	}
 
-	bool ret = encoder->writeAudioFrame(frame) == 0;
+	HRESULT hr = encoder->writeAudioFrame(frame) == 0 ? S_OK : E_FAIL;
 
 	av_frame_free(&frame);
 
-	return ret ? S_OK : E_FAIL;
+	return hr;
 }
 
 STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
@@ -473,11 +449,11 @@ STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
 		f->linesize[i] = frame.rowsize[i];
 	}
 
-	bool ret = encoder->writeVideoFrame(f) == 0;
+	HRESULT hr = encoder->writeVideoFrame(f) == 0 ? S_OK : E_FAIL;
 
 	av_frame_free(&f);
 
-	return ret ? S_OK : E_FAIL;
+	return hr;
 }
 
 STDMETHODIMP CVoukoder::ShowVoukoderDialog(BOOL video, BOOL audio, BOOL* isOkay, HANDLE act_ctx, HINSTANCE instance)
