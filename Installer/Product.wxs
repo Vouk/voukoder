@@ -43,11 +43,11 @@
           <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4">
             <File Id="voukoder.dll" Source="$(var.Voukoder.TargetPath)" KeyPath="yes">
               <Class Id="E9661BFA-4B8E-4217-BCD8-24074D75000B" Advertise="no" Context="InprocServer32" ThreadingModel="both" Description="Voukoder media encoding library">
-                <Interface Id="E26427F6-CBCA-4859-BCC3-162AF1E06CEE" Name="IVoukoder" />
+                <Interface Id="57DAA67D-A35F-4737-856A-F26A460C9C7F" Name="IVoukoder" />
                 <ProgId Id="Voukoder.COMServer" Description="Voukoder media encoding library" />
               </Class>
             </File>
-            <File Id="voukoder.tlb" Source="$(var.Voukoder.TargetPath)" KeyPath="yes" />
+            <File Id="voukoder.tlb" Source="$(var.Voukoder.TargetPath)" />
           </Component>
         </Directory>
       </Directory>
