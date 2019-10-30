@@ -20,12 +20,6 @@
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of Voukoder Core is already installed." />
 		
-    <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
-
-    <Feature Id="Voukoder" Title="Voukoder Core" Level="1">
-			<ComponentRef Id="voukoder.dll" />
-		</Feature>
-    
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
@@ -33,25 +27,34 @@
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
 
     <UIRef Id="WixUI_InstallDir" />
- 
-  </Product>
 
-  <Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
+    <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="INSTALLDIR" Name="Voukoder">
-          <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4">
-            <File Id="voukoder.dll" Source="$(var.Voukoder.TargetPath)" KeyPath="yes">
-              <Class Id="E9661BFA-4B8E-4217-BCD8-24074D75000B" Advertise="no" Context="InprocServer32" ThreadingModel="both" Description="Voukoder media encoding library">
-                <Interface Id="57DAA67D-A35F-4737-856A-F26A460C9C7F" Name="IVoukoder" />
-                <ProgId Id="Voukoder.COMServer" Description="Voukoder media encoding library" />
-              </Class>
-            </File>
-            <File Id="voukoder.tlb" Source="$(var.Voukoder.TargetPath)" />
-          </Component>
-        </Directory>
+        <Directory Id="INSTALLDIR" Name="Voukoder Core"/>
       </Directory>
     </Directory>
-	</Fragment>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="voukoder.dll" Guid="7FA80C39-0A6E-4DC7-8ADB-DF792A1B69C4">
+        <File Id="voukoder.dll" Source="$(var.Voukoder.TargetPath)" KeyPath="yes">
+          <Class Id="E9661BFA-4B8E-4217-BCD8-24074D75000B" Advertise="no" Context="InprocServer32" ThreadingModel="both" Description="Voukoder media encoding library">
+            <Interface Id="57DAA67D-A35F-4737-856A-F26A460C9C7F" Name="IVoukoder" />
+            <ProgId Id="Voukoder.COMServer" Description="Voukoder media encoding library" />
+          </Class>
+        </File>
+      </Component>
+      <Component Id="voukoder.tlb" Guid="FD9AF2D8-BF6A-46A5-AD24-E5A930DD0BD7">
+        <File Id="voukoder.tlb" Source="$(var.Voukoder.ProjectDir)$(var.Platform)\$(var.Configuration)\voukoder.tlb" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Voukoder" Title="Voukoder Core" Level="1">
+      <ComponentRef Id="voukoder.dll" />
+      <ComponentRef Id="voukoder.tlb" />
+    </Feature>
+
+  </Product>
 
 </Wix>
