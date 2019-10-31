@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Include>
-  <?define ProductVersion = "2.2.0.0" ?>
+  <?define PrivateProductVersion = "2.2.0.0" ?>
+  <?define PublicProductVersion = "2.2.0.0" ?>
 </Include>
