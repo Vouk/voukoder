@@ -240,7 +240,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	}
 
 	// Multipass encoding
-	if (exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
+	if (exportInfo.video.enabled && exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
 	{
 		if (exportInfo.video.options.at("_2pass") == "1")
 			exportInfo.passes = 2;

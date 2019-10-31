@@ -33,6 +33,9 @@ int EncoderEngine::open()
 	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
 
+	// Reset contexts
+	audioContext.next_pts = 0;
+	videoContext.next_pts = 0;
 	audioContext.firstData = true;
 	videoContext.firstData = true;
 
