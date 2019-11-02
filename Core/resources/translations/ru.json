@@ -1298,7 +1298,7 @@
     "libx265.analysis.ssim-rd._label": "SSIM RD",
     "libx265.analysis.tskip-fast._description": "Оценивает только пропуск преобразования для внутреннего предсказания NxN (блоки 4x4). Применяется только тогда, когда включен пропуск преобразования. Для цветности оценивается только если для яркости  использован Т-Пропуск. Межблочный анализ Т-Пропуска не меняется.",
     "libx265.analysis.tskip-fast._label": "Быстрый Пропуск Преобразования",
-    "libx265.analysis.tskip._description": "Enable evaluation of transform skip (bypass DCT but still use quantization) coding for 4x4 TU coded blocks.\n\nOnly effective at RD levels 3 and above, which perform RDO mode decisions.",
+    "libx265.analysis.tskip._description": "Включает оценку кодирования с пропуском преобразования (обход DCT, но все еще используя квантование) для кодирования 4x4 TU блоков.\n\nЭффективно только на уровнях RD 3 и выше, где работают режимы оценки.",
     "libx265.analysis.tskip._label": "T-Пропуск",
     "libx265.analysis.nr-inter._description": "Noise reduction - an adaptive deadzone applied after DCT (subtracting from DCT coefficients), before quantization. It does no pixel-level filtering, doesnt cross DCT block boundaries, has no overlap, The higher the strength value parameter, the more aggressively it will reduce noise.\n\nEnabling noise reduction will make outputs diverge between different numbers of frame threads. Outputs will be deterministic but the outputs of -F2 will no longer match the outputs of -F3, etc.",
     "libx265.analysis.nr-inter._label": "Noise Reduction (Inter)",
