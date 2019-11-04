@@ -1336,7 +1336,7 @@
     "libx265.psychovisual.psy-rd._label": "Psy RD",
     "libx265.psychovisual.psy-rdoq._description": "Influence rate distortion optimized quantization by favoring higher energy in the reconstructed image. This generally improves perceived visual quality at the cost of lower quality metric scores. It only has effect when --rdoq-level is 1 or 2. High values can be beneficial in preserving high-frequency detail.",
     "libx265.psychovisual.psy-rdoq._label": "Psy RDPQ",
-    "libx265.quantization": "Quantization",
+    "libx265.quantization": "Квантование",
     "libx265.quantization.max-ausize-factor._description": "It controls the maximum AU size defined in specification. It represents the percentage of maximum AU size used.",
     "libx265.quantization.max-ausize-factor._label": "Max. AU Size Factor",
     "libx265.quantization.limit-sao._description": "Limit SAO filter computation by early terminating SAO process based on inter prediction mode, CTU spatial-domain correlations, and relations between luma and chroma.",
