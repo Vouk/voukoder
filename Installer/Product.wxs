@@ -18,7 +18,9 @@
       Compressed="yes"
       InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of Voukoder is already installed." />
+    <MajorUpgrade Schedule="afterInstallInitialize"
+              DowngradeErrorMessage="A later version of Voukoder is already installed"
+              AllowSameVersionUpgrades="yes" />
 		
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     
