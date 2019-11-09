@@ -139,7 +139,10 @@
       "range",
       "aud",
       "hrd",
-      "repeat-headers"
+      "repeat-headers",
+      "colorprim",
+      "colormatrix",
+      "transfer"
     ]
   },
   "groups": [
@@ -2089,6 +2092,169 @@
       "id": "libx265.vui",
       "class": "advanced",
       "properties": [
+        {
+          "id": "libx265.vui.range",
+          "parameter": "colorprim",
+          "control": {
+            "items": [
+              {
+                "value": "full"
+              },
+              {
+                "value": "limited"
+              }
+            ],
+            "selectedIndex": 1,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.vui.colorprim",
+          "parameter": "colorprim",
+          "control": {
+            "items": [
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt2020"
+              },
+              {
+                "value": "film"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "smpte431"
+              },
+              {
+                "value": "smpte432"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.vui.transfer",
+          "parameter": "transfer",
+          "control": {
+            "items": [
+              {
+                "value": "bt470m"
+              },
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt1361e"
+              },
+              {
+                "value": "bt2020-10"
+              },
+              {
+                "value": "bt2020-12"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "smpte428"
+              },
+              {
+                "value": "smpte2084"
+              },
+              {
+                "value": "linear"
+              },
+              {
+                "value": "log100"
+              },
+              {
+                "value": "log316"
+              },
+              {
+                "value": "iec61966-2-1"
+              },
+              {
+                "value": "iec61966-2-4"
+              },
+              {
+                "value": "arib-std-b67"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.vui.colormatrix",
+          "parameter": "colormatrix",
+          "control": {
+            "items": [
+              {
+                "value": "bt470bg"
+              },
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "bt2020nc"
+              },
+              {
+                "value": "bt2020c"
+              },
+              {
+                "value": "smpte170m"
+              },
+              {
+                "value": "smpte240m"
+              },
+              {
+                "value": "smpte2085"
+              },
+              {
+                "value": "fcc"
+              },
+              {
+                "value": "GBR"
+              },
+              {
+                "value": "YCgCo"
+              },
+              {
+                "value": "chroma-derived-nc"
+              },
+              {
+                "value": "chroma-derived-c"
+              },
+              {
+                "value": "ictcp"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
         {
           "id": "libx265.vui.sar",
           "parameter": "sar",

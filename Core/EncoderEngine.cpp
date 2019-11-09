@@ -527,10 +527,10 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 				filterconfig << ":space=bt709:trc=bt709:primaries=bt709";
 				break;
 			case AVColorSpace::AVCOL_SPC_BT2020_CL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
+				filterconfig << ":space=bt2020cl:trc=smtpe2084:primaries=bt2020";
 				break;
 			case AVColorSpace::AVCOL_SPC_BT2020_NCL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
+				filterconfig << ":space=bt2020ncl:trc=smtpe2084:primaries=bt2020";
 				break;
 			default:
 				break;

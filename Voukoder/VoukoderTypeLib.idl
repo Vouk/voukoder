@@ -127,6 +127,8 @@ typedef struct
 	INT height;
 	INT pass;
 	CHAR format[16];
+	INT colorRange;
+	INT colorSpace;
 } VKVIDEOFRAME;
 
 [object, uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F), oleautomation]

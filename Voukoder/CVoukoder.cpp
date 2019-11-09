@@ -437,7 +437,7 @@ STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
 		if (encoder->open() < 0)
 		{
 			vkLogErrorVA("Unable to start pass #%d", encoder->pass);
-			return false;
+			return E_FAIL;
 		}
 	}
 
@@ -446,10 +446,45 @@ STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
 	f->width = frame.width;
 	f->height = frame.height;
 	f->format = av_get_pix_fmt(frame.format);
-	f->color_range = AVColorRange::AVCOL_RANGE_MPEG;
-	f->colorspace = AVColorSpace::AVCOL_SPC_BT709;
-	f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
-	f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+
+	// Color range
+	if (frame.colorRange == ColorRange::Full)
+		f->color_range = AVColorRange::AVCOL_RANGE_JPEG;
+	else
+		f->color_range = AVColorRange::AVCOL_RANGE_MPEG;
+
+	// Color space
+	switch (frame.colorSpace)
+	{
+	case ColorSpace::bt601_NTSC:
+		f->colorspace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+		f->color_primaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+		break;
+	case ColorSpace::bt601_PAL:
+		f->colorspace = AVColorSpace::AVCOL_SPC_BT470BG;
+		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
+		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+		break;
+	case ColorSpace::bt709:
+		f->colorspace = AVColorSpace::AVCOL_SPC_BT709;
+		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
+		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+		break;
+	case ColorSpace::bt2020_CL:
+		f->colorspace = AVColorSpace::AVCOL_SPC_BT2020_CL;
+		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+		break;
+	case ColorSpace::bt2020_NCL:
+		f->colorspace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
+		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+		break;
+	default:
+		vkLogErrorVA("Unsupported color space: #%d", frame.colorSpace);
+		return E_INVALIDARG;
+	}
 
 	// Fill each plane
 	for (int i = 0; i < frame.planes; i++)

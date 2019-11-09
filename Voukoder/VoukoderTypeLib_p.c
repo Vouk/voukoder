@@ -46,7 +46,7 @@
 
 #include "VoukoderTypeLib_h.h"
 
-#define TYPE_FORMAT_STRING_SIZE   271                               
+#define TYPE_FORMAT_STRING_SIZE   273                               
 #define PROC_FORMAT_STRING_SIZE   495                               
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
@@ -725,9 +725,9 @@ static const VoukoderTypeLib_MIDL_TYPE_FORMAT_STRING VoukoderTypeLib__MIDL_TypeF
 /* 242 */	
 			0x1a,		/* FC_BOGUS_STRUCT */
 			0x3,		/* 3 */
-/* 244 */	NdrFcShort( 0x30 ),	/* 48 */
+/* 244 */	NdrFcShort( 0x38 ),	/* 56 */
 /* 246 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 248 */	NdrFcShort( 0xe ),	/* Offset= 14 (262) */
+/* 248 */	NdrFcShort( 0x10 ),	/* Offset= 16 (264) */
 /* 250 */	0x36,		/* FC_POINTER */
 			0x36,		/* FC_POINTER */
 /* 252 */	0x8,		/* FC_LONG */
@@ -737,14 +737,16 @@ static const VoukoderTypeLib_MIDL_TYPE_FORMAT_STRING VoukoderTypeLib__MIDL_TypeF
 /* 256 */	0x4c,		/* FC_EMBEDDED_COMPLEX */
 			0x0,		/* 0 */
 /* 258 */	NdrFcShort( 0xff04 ),	/* Offset= -252 (6) */
-/* 260 */	0x5c,		/* FC_PAD */
+/* 260 */	0x8,		/* FC_LONG */
+			0x8,		/* FC_LONG */
+/* 262 */	0x5c,		/* FC_PAD */
 			0x5b,		/* FC_END */
-/* 262 */	
+/* 264 */	
 			0x12, 0x10,	/* FC_UP [pointer_deref] */
-/* 264 */	NdrFcShort( 0xffca ),	/* Offset= -54 (210) */
-/* 266 */	
+/* 266 */	NdrFcShort( 0xffc8 ),	/* Offset= -56 (210) */
+/* 268 */	
 			0x12, 0x8,	/* FC_UP [simple_pointer] */
-/* 268 */	0x8,		/* FC_LONG */
+/* 270 */	0x8,		/* FC_LONG */
 			0x5c,		/* FC_PAD */
 
 			0x0
@@ -1217,7 +1219,7 @@ static const __midl_frag56_t __midl_frag56 =
             0
         },
         (NDR64_UINT8) 0 /* 0x0 */,
-        (NDR64_UINT32) 48 /* 0x30 */
+        (NDR64_UINT32) 56 /* 0x38 */
     },
     { 
     /*  */
@@ -1279,7 +1281,7 @@ static const __midl_frag54_t __midl_frag54 =
     /* SendVideoFrame */      /* procedure SendVideoFrame */
         (NDR64_UINT32) 34079043 /* 0x2080143 */,    /* auto handle */ /* IsIntrepreted, [object], HasReturn, actual guaranteed */
         (NDR64_UINT32) 24 /* 0x18 */ ,  /* Stack size */
-        (NDR64_UINT32) 173 /* 0xad */,
+        (NDR64_UINT32) 181 /* 0xb5 */,
         (NDR64_UINT32) 8 /* 0x8 */,
         (NDR64_UINT16) 0 /* 0x0 */,
         (NDR64_UINT16) 0 /* 0x0 */,

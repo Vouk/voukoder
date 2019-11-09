@@ -177,6 +177,8 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
     INT height;
     INT pass;
     CHAR format[ 16 ];
+    INT colorRange;
+    INT colorSpace;
     } 	VKVIDEOFRAME;
 
 
