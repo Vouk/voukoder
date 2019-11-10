@@ -95,6 +95,11 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
 	exportInfo.video.sideData.Deserialize(config.video.sidedata);
+	exportInfo.video.colorRange = (AVColorRange)av_color_range_from_name(config.video.colorRange);
+	exportInfo.video.colorSpace = (AVColorSpace)av_color_space_from_name(config.video.colorSpace);
+	exportInfo.video.colorPrimaries = (AVColorPrimaries)av_color_primaries_from_name(config.video.colorPrimaries);
+	exportInfo.video.colorTransferCharacteristics = (AVColorTransferCharacteristic)av_color_transfer_from_name(config.video.colorTrc);
+	exportInfo.video.colorConvert = config.video.colorConvert;
 	exportInfo.audio.id = config.audio.encoder;
 	exportInfo.audio.options.Deserialize(config.audio.options);
 	exportInfo.audio.filters.Deserialize(config.audio.filters);
@@ -111,6 +116,11 @@ STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 	strcpy_s(config->video.options, exportInfo.video.options.Serialize(true).mb_str());
 	strcpy_s(config->video.filters, exportInfo.video.filters.Serialize().mb_str());
 	strcpy_s(config->video.sidedata, exportInfo.video.sideData.Serialize(true).mb_str());
+	strcpy_s(config->video.colorRange, av_color_range_name(exportInfo.video.colorRange));
+	strcpy_s(config->video.colorSpace, av_color_space_name(exportInfo.video.colorSpace));
+	strcpy_s(config->video.colorPrimaries, av_color_primaries_name(exportInfo.video.colorPrimaries));
+	strcpy_s(config->video.colorTrc, av_color_transfer_name(exportInfo.video.colorTransferCharacteristics));
+	config->video.colorConvert = exportInfo.video.colorConvert;
 	strcpy_s(config->audio.encoder, exportInfo.audio.id.mb_str());
 	strcpy_s(config->audio.options, exportInfo.audio.options.Serialize(true).mb_str());
 	strcpy_s(config->audio.filters, exportInfo.audio.filters.Serialize().mb_str());
@@ -190,34 +200,34 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
 	}
 
-	exportInfo.video.colorRange = info.video.colorRange == ColorRange::Full ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
+	//exportInfo.video.colorRange = info.video.colorRange == ColorRange::Full ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
 
-	// Video color space
-	switch (info.video.colorSpace)
-	{
-	case ColorSpace::bt709:
-		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-		break;
-	case ColorSpace::bt601_PAL:
-		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
-		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
-		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-	case ColorSpace::bt601_NTSC:
-		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-	case ColorSpace::bt2020_CL:
-		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_CL;
-		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
-	case ColorSpace::bt2020_NCL:
-		exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
-		exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-		exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
-		break;
-	}
+	//// Video color space
+	//switch (info.video.colorSpace)
+	//{
+	//case ColorSpace::bt709:
+	//	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+	//	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+	//	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+	//	break;
+	//case ColorSpace::bt601_PAL:
+	//	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
+	//	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
+	//	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+	//case ColorSpace::bt601_NTSC:
+	//	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+	//	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+	//	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+	//case ColorSpace::bt2020_CL:
+	//	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_CL;
+	//	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+	//	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+	//case ColorSpace::bt2020_NCL:
+	//	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
+	//	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+	//	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
+	//	break;
+	//}
 
 	exportInfo.audio.enabled = info.audio.enabled;
 	exportInfo.audio.timebase = { 1, info.audio.samplerate };
@@ -282,36 +292,36 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 			break;
 		}
 
-		// Color range
-		switch (info.video.colorRange)
-		{
-		case ColorRange::Full:
-			vkLogInfo("Color range:     Full");
-			break;
-		case ColorRange::Limited:
-			vkLogInfo("Color range:     Limited");
-			break;
-		}
+		//// Color range
+		//switch (config.video.colorRange)
+		//{
+		//case ColorRange::Full:
+		//	vkLogInfo("Color range:     Full");
+		//	break;
+		//case ColorRange::Limited:
+		//	vkLogInfo("Color range:     Limited");
+		//	break;
+		//}
 
-		// Color space
-		switch (info.video.colorSpace)
-		{
-		case ColorSpace::bt601_NTSC:
-			vkLogInfo("Color space:     bt.601 (NTSC)");
-			break;
-		case ColorSpace::bt601_PAL:
-			vkLogInfo("Color space:     bt.601 (PAL)");
-			break;
-		case ColorSpace::bt709:
-			vkLogInfo("Color space:     bt.709");
-			break;
-		case ColorSpace::bt2020_CL:
-			vkLogInfo("Color space:     bt.2020 (CL)");
-			break;
-		case ColorSpace::bt2020_NCL:
-			vkLogInfo("Color space:     bt.2020 (NCL)");
-			break;
-		}
+		//// Color space
+		//switch (info.video.colorSpace)
+		//{
+		//case ColorSpace::bt601_NTSC:
+		//	vkLogInfo("Color space:     bt.601 (NTSC)");
+		//	break;
+		//case ColorSpace::bt601_PAL:
+		//	vkLogInfo("Color space:     bt.601 (PAL)");
+		//	break;
+		//case ColorSpace::bt709:
+		//	vkLogInfo("Color space:     bt.709");
+		//	break;
+		//case ColorSpace::bt2020_CL:
+		//	vkLogInfo("Color space:     bt.2020 (CL)");
+		//	break;
+		//case ColorSpace::bt2020_NCL:
+		//	vkLogInfo("Color space:     bt.2020 (NCL)");
+		//	break;
+		//}
 
 		UINT passes = 0;
 		GetMaxPasses(&passes);
@@ -446,45 +456,10 @@ STDMETHODIMP CVoukoder::SendVideoFrame(VKVIDEOFRAME frame)
 	f->width = frame.width;
 	f->height = frame.height;
 	f->format = av_get_pix_fmt(frame.format);
-
-	// Color range
-	if (frame.colorRange == ColorRange::Full)
-		f->color_range = AVColorRange::AVCOL_RANGE_JPEG;
-	else
-		f->color_range = AVColorRange::AVCOL_RANGE_MPEG;
-
-	// Color space
-	switch (frame.colorSpace)
-	{
-	case ColorSpace::bt601_NTSC:
-		f->colorspace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-		f->color_primaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-		break;
-	case ColorSpace::bt601_PAL:
-		f->colorspace = AVColorSpace::AVCOL_SPC_BT470BG;
-		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
-		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-		break;
-	case ColorSpace::bt709:
-		f->colorspace = AVColorSpace::AVCOL_SPC_BT709;
-		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT709;
-		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-		break;
-	case ColorSpace::bt2020_CL:
-		f->colorspace = AVColorSpace::AVCOL_SPC_BT2020_CL;
-		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
-		break;
-	case ColorSpace::bt2020_NCL:
-		f->colorspace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
-		f->color_primaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-		f->color_trc = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
-		break;
-	default:
-		vkLogErrorVA("Unsupported color space: #%d", frame.colorSpace);
-		return E_INVALIDARG;
-	}
+	f->color_range = (AVColorRange)av_color_range_from_name(frame.colorRange);
+	f->colorspace = (AVColorSpace)av_color_space_from_name(frame.colorSpace);
+	f->color_primaries = (AVColorPrimaries)av_color_primaries_from_name(frame.colorPrimaries);
+	f->color_trc = (AVColorTransferCharacteristic)av_color_transfer_from_name(frame.colorTrc);
 
 	// Fill each plane
 	for (int i = 0; i < frame.planes; i++)

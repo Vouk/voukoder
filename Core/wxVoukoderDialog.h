@@ -32,6 +32,10 @@ protected:
 	wxButton* m_genEncAudioConfig = NULL;
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
+	wxChoice* m_genColSpaceChoice = NULL;
+	wxChoice* m_genColPrimariesChoice = NULL;
+	wxChoice* m_genColTrcChoice = NULL;
+	wxCheckBox* m_genColConvertCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
 	wxVoukoderTaskBarIcon* m_voukoderTaskBarIcon = NULL;
 

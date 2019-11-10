@@ -72,8 +72,21 @@ typedef struct
 
 typedef struct
 {
+	CHAR encoder[16];
+	CHAR options[8192];
+	CHAR filters[8192];
+	CHAR sidedata[8192];
+	CHAR colorRange[16];
+	CHAR colorSpace[16];
+	CHAR colorPrimaries[16];
+	CHAR colorTrc[16];
+	BOOL colorConvert;
+} VKVIDEOTRACKCONFIG;
+
+typedef struct
+{
 	INT version;
-	VKTRACKCONFIG video;
+	VKVIDEOTRACKCONFIG video;
 	VKTRACKCONFIG audio;
 
 	struct
@@ -95,8 +108,6 @@ typedef struct
 		Rational timebase;
 		Rational aspectratio;
 		FieldOrder fieldorder;
-		ColorRange colorRange;
-		ColorSpace colorSpace;
 	} video;
 
 	struct {
@@ -127,8 +138,10 @@ typedef struct
 	INT height;
 	INT pass;
 	CHAR format[16];
-	INT colorRange;
-	INT colorSpace;
+	CHAR colorRange[16];
+	CHAR colorSpace[16];
+	CHAR colorPrimaries[16];
+	CHAR colorTrc[16];
 } VKVIDEOFRAME;
 
 [object, uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F), oleautomation]

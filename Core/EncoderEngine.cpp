@@ -503,48 +503,33 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	{
 		videoContext.firstData = false;
 
-		wxString filterconfig;
+		wxString filterconfig, filterColorSpace;
 
-		// Convert color space or range?
-		if (frame->format != (int)AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
-			videoContext.codecContext->colorspace != frame->colorspace ||
-			videoContext.codecContext->color_primaries != frame->color_primaries ||
-			videoContext.codecContext->color_trc != frame->color_trc))
+		// Convert if colorrange is different
+		if (exportInfo.video.colorRange != frame->color_range)
+			filterColorSpace << "range=" << av_color_range_name(exportInfo.video.colorRange);
+
+		// Convert if colorspaces are different and implicit conversion is enabled
+		if (exportInfo.video.colorConvert && (exportInfo.video.colorSpace != frame->colorspace || exportInfo.video.colorPrimaries != frame->color_primaries || exportInfo.video.colorTransferCharacteristics != frame->color_trc))
 		{
-			// Color range
-			filterconfig << ",colorspace=range=" << (videoContext.codecContext->color_range == AVColorRange::AVCOL_RANGE_MPEG ? "mpeg" : "jpeg");
+			if (!filterColorSpace.IsEmpty())
+				filterColorSpace << ":";
 
-			// Color space
-			switch (videoContext.codecContext->colorspace)
-			{
-			case AVColorSpace::AVCOL_SPC_BT470BG:
-				filterconfig << ":space=bt470bg:trc=bt470bg:primaries=bt470bg";
-				break;
-			case AVColorSpace::AVCOL_SPC_SMPTE170M:
-				filterconfig << ":space=smpte170m:trc=smpte170m:primaries=smpte170m";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT709:
-				filterconfig << ":space=bt709:trc=bt709:primaries=bt709";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_CL:
-				filterconfig << ":space=bt2020cl:trc=smtpe2084:primaries=bt2020";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_NCL:
-				filterconfig << ":space=bt2020ncl:trc=smtpe2084:primaries=bt2020";
-				break;
-			default:
-				break;
-			}
+			filterColorSpace << "space=" << av_color_space_name(exportInfo.video.colorSpace) << ":";
+			filterColorSpace << "primaries=" << av_color_primaries_name(exportInfo.video.colorPrimaries) << ":";
+			filterColorSpace << "trc=" << av_color_transfer_name(exportInfo.video.colorTransferCharacteristics);
 		}
+
+		// Use conversion only if export is non ARGB
+		if (frame->format != (int)AV_PIX_FMT_ARGB && !filterColorSpace.IsEmpty())
+			filterconfig << ",colorspace=" << filterColorSpace;
 
 		// Add users filter config
 		filterconfig << exportInfo.video.filters.AsFilterString();
 
 		// Convert pixel format
 		if (frame->format != (int)videoContext.codecContext->pix_fmt)
-		{
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
-		}
 
 		// Create filter
 		if (filterconfig.size() > 0)

@@ -103,7 +103,7 @@ enum ColorRange
         Full	= ( Limited + 1 ) 
     } 	ColorRange;
 
-typedef /* [public][public][public][v1_enum][uuid] */  DECLSPEC_UUID("3E609B2E-7D5F-4355-8F6B-71AF7E218555") 
+typedef /* [public][v1_enum][uuid] */  DECLSPEC_UUID("3E609B2E-7D5F-4355-8F6B-71AF7E218555") 
 enum __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0002
     {
         bt601_PAL	= 0,
@@ -113,7 +113,7 @@ enum __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0002
         bt2020_NCL	= ( bt2020_CL + 1 ) 
     } 	ColorSpace;
 
-typedef /* [public][public][public][public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0003
+typedef /* [public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0003
     {
     CHAR encoder[ 16 ];
     CHAR options[ 8192 ];
@@ -121,10 +121,23 @@ typedef /* [public][public][public][public][public][public][public] */ struct __
     CHAR sidedata[ 8192 ];
     } 	VKTRACKCONFIG;
 
-typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0004
+typedef /* [public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0004
+    {
+    CHAR encoder[ 16 ];
+    CHAR options[ 8192 ];
+    CHAR filters[ 8192 ];
+    CHAR sidedata[ 8192 ];
+    CHAR colorRange[ 16 ];
+    CHAR colorSpace[ 16 ];
+    CHAR colorPrimaries[ 16 ];
+    CHAR colorTrc[ 16 ];
+    BOOL colorConvert;
+    } 	VKVIDEOTRACKCONFIG;
+
+typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0005
     {
     INT version;
-    VKTRACKCONFIG video;
+    VKVIDEOTRACKCONFIG video;
     VKTRACKCONFIG audio;
     struct 
         {
@@ -133,7 +146,7 @@ typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_
         } 	format;
     } 	VKENCODERCONFIG;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0006
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0007
     {
     WCHAR filename[ 255 ];
     WCHAR application[ 32 ];
@@ -145,8 +158,6 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
         Rational timebase;
         Rational aspectratio;
         FieldOrder fieldorder;
-        ColorRange colorRange;
-        ColorSpace colorSpace;
         } 	video;
     struct 
         {
@@ -157,7 +168,7 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
         } 	audio;
     } 	VKENCODERINFO;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0009
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0010
     {
     BYTE **buffer;
     INT samples;
@@ -168,7 +179,7 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
     CHAR format[ 16 ];
     } 	VKAUDIOCHUNK;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0010
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0011
     {
     BYTE **buffer;
     INT *rowsize;
@@ -177,8 +188,10 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
     INT height;
     INT pass;
     CHAR format[ 16 ];
-    INT colorRange;
-    INT colorSpace;
+    CHAR colorRange[ 16 ];
+    CHAR colorSpace[ 16 ];
+    CHAR colorPrimaries[ 16 ];
+    CHAR colorTrc[ 16 ];
     } 	VKVIDEOFRAME;
 
 
