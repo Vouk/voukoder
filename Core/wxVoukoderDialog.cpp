@@ -11,41 +11,6 @@
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
-std::map<AVColorSpace, wxString> ColorSpaces = {
-	{ AVCOL_SPC_BT709, "BT.709" },
-	{ AVCOL_SPC_FCC, "FCC" },
-	{ AVCOL_SPC_BT470BG, "BT.470BG, BT.601-6 625" },
-	{ AVCOL_SPC_SMPTE170M, "SMPTE-170M, BT.601-6 525" },
-	{ AVCOL_SPC_SMPTE240M , "SMPTE-240M" },
-	{ AVCOL_SPC_YCGCO, "YCgCo" },
-	{ AVCOL_SPC_BT2020_NCL, "BT.2020 (NCL)" }
-};
-
-std::map<AVColorPrimaries, wxString> ColorPrimaries = {
-	{ AVCOL_PRI_BT709, "BT.709" },
-	{ AVCOL_PRI_BT470M, "BT.470M" },
-	{ AVCOL_PRI_BT470BG, "BT.470BG, BT.601-6 625" },
-	{ AVCOL_PRI_SMPTE170M, "SMPTE-170M, BT.601-6 525" },
-	{ AVCOL_PRI_SMPTE240M, "SMPTE-240M" },
-	{ AVCOL_PRI_FILM, "Film" },
-	{ AVCOL_PRI_BT2020, "BT.2020" },
-	{ AVCOL_PRI_SMPTE431, "SMPTE-431" },
-	{ AVCOL_PRI_SMPTE432, "SMPTE-432" },
-	{ AVCOL_PRI_JEDEC_P22, "JEDEC P22" }
-};
-
-std::map<AVColorTransferCharacteristic, wxString> ColorTrcs = {
-	{ AVCOL_TRC_BT709, "BT.709" },
-	{ AVCOL_TRC_GAMMA22, "BT.470M" },
-	{ AVCOL_TRC_GAMMA28, "BT.470BG" },
-	{ AVCOL_TRC_SMPTE170M, "SMPTE-170M, BT.601-6 625, BT.601-6 525" },
-	{ AVCOL_TRC_SMPTE240M, "SMPTE-240M" },
-	{ AVCOL_TRC_IEC61966_2_1, "IEC 61966-2-1" },
-	{ AVCOL_TRC_IEC61966_2_4, "IEC 61966-2-4" },
-	{ AVCOL_TRC_BT2020_10, "BT.2020 - 10 bit" },
-	{ AVCOL_TRC_BT2020_12, "BT.2020 - 12 bit" }
-};
-
 wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	wxDialog(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER),
 	exportInfo(exportInfo)
@@ -294,64 +259,7 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	m_genMuxPanel->Layout();
 	sbGenMuxSizer->Fit(m_genMuxPanel);
 	bGenSizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
-
-	// General > Color space
-
-	wxPanel* m_genColPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer* sbGenColSizer;
-	sbGenColSizer = new wxStaticBoxSizer(new wxStaticBox(m_genColPanel, wxID_ANY, Trans("ui.encoderconfig.general.colorspace")), wxVERTICAL);
-
-	wxPanel* m_genColFormPanel = new wxPanel(sbGenColSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxGridBagSizer* gbGenColFormSizer = new wxGridBagSizer(0, 0);
-	gbGenColFormSizer->SetFlexibleDirection(wxHORIZONTAL);
-	gbGenColFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-	wxStaticText* m_genColSpaceLabel = new wxStaticText(m_genColFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.colorspace.space"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genColSpaceLabel->Wrap(-1);
-	m_genColSpaceLabel->SetMinSize(minLabelWidth);
-	gbGenColFormSizer->Add(m_genColSpaceLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
-
-	wxArrayString m_genColSpaceChoiceChoices;
-	m_genColSpaceChoice = new wxChoice(m_genColFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genColSpaceChoiceChoices, wxCB_SORT);
-	m_genColSpaceChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnMuxerChanged, this);
-	gbGenColFormSizer->Add(m_genColSpaceChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-
-	wxStaticText* m_genColPrimaryLabel = new wxStaticText(m_genColFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.colorspace.primaries"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genColPrimaryLabel->Wrap(-1);
-	m_genColPrimaryLabel->SetMinSize(minLabelWidth);
-	gbGenColFormSizer->Add(m_genColPrimaryLabel, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
-
-	wxArrayString m_genColPrimariesChoiceChoices;
-	m_genColPrimariesChoice = new wxChoice(m_genColFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genColPrimariesChoiceChoices, wxCB_SORT);
-	m_genColPrimariesChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnMuxerChanged, this);
-	gbGenColFormSizer->Add(m_genColPrimariesChoice, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-	
-	wxStaticText* m_genColTrcLabel = new wxStaticText(m_genColFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.colorspace.trc"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genColTrcLabel->Wrap(-1);
-	m_genColTrcLabel->SetMinSize(minLabelWidth);
-	gbGenColFormSizer->Add(m_genColTrcLabel, wxGBPosition(2, 0), wxGBSpan(1, 1), wxALIGN_CENTER | wxALL, 5);
-
-	wxArrayString m_genColTrcChoiceChoices;
-	m_genColTrcChoice = new wxChoice(m_genColFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genColTrcChoiceChoices, wxCB_SORT);
-	m_genColTrcChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnMuxerChanged, this);
-	gbGenColFormSizer->Add(m_genColTrcChoice, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-
-	m_genColConvertCheck = new wxCheckBox(m_genColFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.colorspace.convert"), wxDefaultPosition, wxDefaultSize, 0);
-	gbGenColFormSizer->Add(m_genColConvertCheck, wxGBPosition(3, 0), wxGBSpan(1, 2), wxALL, 5);
-
-	gbGenColFormSizer->AddGrowableCol(1);
-
-	m_genColFormPanel->SetSizer(gbGenColFormSizer);
-	m_genColFormPanel->Layout();
-	gbGenColFormSizer->Fit(m_genColFormPanel);
-	sbGenColSizer->Add(m_genColFormPanel, 1, wxEXPAND | wxALL, 5);
-
-
-	m_genColPanel->SetSizer(sbGenColSizer);
-	m_genColPanel->Layout();
-	sbGenColSizer->Fit(m_genColPanel);
-	bGenSizer->Add(m_genColPanel, 0, wxEXPAND | wxALL, 5);
-
+		
 	// General > ...
 
 	wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
@@ -566,29 +474,6 @@ void wxVoukoderDialog::SetConfiguration()
 		if (languageInfo.langId == langId)
 			m_genLocLanguageChoice->SetStringSelection(languageInfo.name);
 	}
-
-	for (auto colorSpace : ColorSpaces)
-	{
-		m_genColSpaceChoice->Append(colorSpace.second, (void*)colorSpace.first);
-		if (colorSpace.first == exportInfo.video.colorSpace)
-			m_genColSpaceChoice->SetStringSelection(colorSpace.second);
-	}
-
-	for (auto colorPrimary : ColorPrimaries)
-	{
-		m_genColPrimariesChoice->Append(colorPrimary.second, (void*)colorPrimary.first);
-		if (colorPrimary.first == exportInfo.video.colorPrimaries)
-			m_genColPrimariesChoice->SetStringSelection(colorPrimary.second);
-	}
-
-	for (auto colorTrc : ColorTrcs)
-	{
-		m_genColTrcChoice->Append(colorTrc.second, (void*)colorTrc.first);
-		if (colorTrc.first == exportInfo.video.colorTransferCharacteristics)
-			m_genColTrcChoice->SetStringSelection(colorTrc.second);
-	}
-
-	m_genColConvertCheck->SetValue(exportInfo.video.colorConvert);
 }
 
 void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
@@ -779,39 +664,6 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	MuxerInfo* info = GetDataFromSelectedChoice<MuxerInfo*>(m_genMuxFormatChoice);
 	exportInfo.format.id = info->id;
 	exportInfo.format.faststart = m_genMuxFaststartCheck->IsEnabled() && m_genMuxFaststartCheck->IsChecked();
-
-	// Color space
-	for (auto colorSpace : ColorSpaces)
-	{
-		if (colorSpace.second == m_genColSpaceChoice->GetStringSelection())
-		{
-			exportInfo.video.colorSpace = colorSpace.first;
-			break;
-		}
-	}
-
-	// Color primaries
-	for (auto colorPrimary : ColorPrimaries)
-	{
-		if (colorPrimary.second == m_genColPrimariesChoice->GetStringSelection())
-		{
-			exportInfo.video.colorPrimaries = colorPrimary.first;
-			break;
-		}
-	}
-
-	// Color trc
-	for (auto colorTrc : ColorTrcs)
-	{
-		if (colorTrc.second == m_genColTrcChoice->GetStringSelection())
-		{
-			exportInfo.video.colorTransferCharacteristics = colorTrc.first;
-			break;
-		}
-	}
-
-	// Color space conversion
-	exportInfo.video.colorConvert = m_genColConvertCheck->GetValue();
 
 	// Store language setting
 	LanguageInfo* languageInfo = GetDataFromSelectedChoice<LanguageInfo*>(m_genLocLanguageChoice);

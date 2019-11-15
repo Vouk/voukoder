@@ -37,7 +37,6 @@ struct ExportInfo
 		AVColorSpace colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
 		AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
 		AVColorTransferCharacteristic colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
-		bool colorConvert = true;
 		int64_t ticksPerFrame = 0;
 	} video;
 

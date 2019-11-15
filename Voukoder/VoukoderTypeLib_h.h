@@ -113,7 +113,7 @@ enum __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0002
         bt2020_NCL	= ( bt2020_CL + 1 ) 
     } 	ColorSpace;
 
-typedef /* [public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0003
+typedef /* [public][public][public][public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0003
     {
     CHAR encoder[ 16 ];
     CHAR options[ 8192 ];
@@ -121,23 +121,10 @@ typedef /* [public][public][public][public] */ struct __MIDL___MIDL_itf_Voukoder
     CHAR sidedata[ 8192 ];
     } 	VKTRACKCONFIG;
 
-typedef /* [public][public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0004
-    {
-    CHAR encoder[ 16 ];
-    CHAR options[ 8192 ];
-    CHAR filters[ 8192 ];
-    CHAR sidedata[ 8192 ];
-    CHAR colorRange[ 16 ];
-    CHAR colorSpace[ 16 ];
-    CHAR colorPrimaries[ 16 ];
-    CHAR colorTrc[ 16 ];
-    BOOL colorConvert;
-    } 	VKVIDEOTRACKCONFIG;
-
-typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0005
+typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0004
     {
     INT version;
-    VKVIDEOTRACKCONFIG video;
+    VKTRACKCONFIG video;
     VKTRACKCONFIG audio;
     struct 
         {
@@ -146,7 +133,7 @@ typedef /* [public][public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_
         } 	format;
     } 	VKENCODERCONFIG;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0007
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0006
     {
     WCHAR filename[ 255 ];
     WCHAR application[ 32 ];
@@ -168,7 +155,7 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
         } 	audio;
     } 	VKENCODERINFO;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0010
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0009
     {
     BYTE **buffer;
     INT samples;
@@ -179,7 +166,7 @@ typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_000
     CHAR format[ 16 ];
     } 	VKAUDIOCHUNK;
 
-typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0011
+typedef /* [public][public] */ struct __MIDL___MIDL_itf_VoukoderTypeLib_0000_0000_0010
     {
     BYTE **buffer;
     INT *rowsize;

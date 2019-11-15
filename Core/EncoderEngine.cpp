@@ -503,29 +503,8 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	{
 		videoContext.firstData = false;
 
-		wxString filterconfig, filterColorSpace;
-
-		// Convert if colorrange is different
-		if (exportInfo.video.colorRange != frame->color_range)
-			filterColorSpace << "range=" << av_color_range_name(exportInfo.video.colorRange);
-
-		// Convert if colorspaces are different and implicit conversion is enabled
-		if (exportInfo.video.colorConvert && (exportInfo.video.colorSpace != frame->colorspace || exportInfo.video.colorPrimaries != frame->color_primaries || exportInfo.video.colorTransferCharacteristics != frame->color_trc))
-		{
-			if (!filterColorSpace.IsEmpty())
-				filterColorSpace << ":";
-
-			filterColorSpace << "space=" << av_color_space_name(exportInfo.video.colorSpace) << ":";
-			filterColorSpace << "primaries=" << av_color_primaries_name(exportInfo.video.colorPrimaries) << ":";
-			filterColorSpace << "trc=" << av_color_transfer_name(exportInfo.video.colorTransferCharacteristics);
-		}
-
-		// Use conversion only if export is non ARGB
-		if (frame->format != (int)AV_PIX_FMT_ARGB && !filterColorSpace.IsEmpty())
-			filterconfig << ",colorspace=" << filterColorSpace;
-
 		// Add users filter config
-		filterconfig << exportInfo.video.filters.AsFilterString();
+		wxString filterconfig = exportInfo.video.filters.AsFilterString();
 
 		// Convert pixel format
 		if (frame->format != (int)videoContext.codecContext->pix_fmt)

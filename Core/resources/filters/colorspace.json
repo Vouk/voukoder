@@ -1,49 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "colorspace"
-  },
+  "id": "filter.colorspace",
+  "name": "colorspace",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.colorspace.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "range",
+          "parameter": "range",
           "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
             "items": [
               {
-                "value": "bt470m"
+                "value": "tv"
               },
               {
-                "value": "bt470bg"
-              },
-              {
-                "value": "bt601-6-525"
-              },
-              {
-                "value": "bt601-6-625"
-              },
-              {
-                "value": "bt709"
-              },
-              {
-                "value": "smpte170m"
-              },
-              {
-                "value": "smpte240m"
-              },
-              {
-                "value": "bt2020"
+                "value": "pc"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.all",
-          "parameter": "all"
+            ]
+          }
         },
         {
+          "id": "space",
+          "parameter": "space",
           "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
             "items": [
               {
                 "value": "bt709"
@@ -72,37 +58,15 @@
               {
                 "value": "bt2020ncl"
               }
-            ],
-            "selectedIndex": 2,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.space",
-          "parameter": "space"
+            ]
+          }
         },
         {
+          "id": "primaries",
+          "parameter": "primaries",
           "control": {
-            "items": [
-              {
-                "value": "tv"
-              },
-              {
-                "value": "mpeg"
-              },
-              {
-                "value": "pc"
-              },
-              {
-                "value": "jpeg"
-              }
-            ],
             "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.range",
-          "parameter": "range"
-        },
-        {
-          "control": {
+            "type": "combobox",
             "items": [
               {
                 "value": "bt709"
@@ -137,15 +101,15 @@
               {
                 "value": "jedec-p22"
               }
-            ],
-            "selectedIndex": 2,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.primaries",
-          "parameter": "primaries"
+            ]
+          }
         },
         {
+          "id": "trc",
+          "parameter": "trc",
           "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
             "items": [
               {
                 "value": "bt709"
@@ -186,76 +150,42 @@
               {
                 "value": "bt2020-12"
               }
-            ],
-            "selectedIndex": 2,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.trc",
-          "parameter": "trc"
-        },
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
         {
-          "control": {
-            "items": [
-              {
-                "value": "yuv420p"
-              },
-              {
-                "value": "yuv420p10"
-              },
-              {
-                "value": "yuv420p12"
-              },
-              {
-                "value": "yuv422p"
-              },
-              {
-                "value": "yuv422p10"
-              },
-              {
-                "value": "yuv422p12"
-              },
-              {
-                "value": "yuv444p"
-              },
-              {
-                "value": "yuv444p10"
-              },
-              {
-                "value": "yuv444p12"
-              }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.format",
-          "parameter": "format"
-        },
-        {
+          "id": "fast",
+          "parameter": "fast",
           "control": {
             "type": "boolean",
             "value": false
-          },
-          "id": "filter.colorspace.standard.fast",
-          "parameter": "fast"
+          }
         },
         {
+          "id": "dither",
+          "parameter": "dither",
           "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
             "items": [
-              {
-                "value": "none"
-              },
               {
                 "value": "fsb"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.dither",
-          "parameter": "dither"
+            ]
+          }
         },
         {
+          "id": "wpadapt",
+          "parameter": "wpadapt",
           "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
             "items": [
               {
                 "value": "bradford"
@@ -266,72 +196,10 @@
               {
                 "value": "identity"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.colorspace.standard.wpadapt",
-          "parameter": "wpadapt"
-        },
-        {
-          "control": {
-            "maximum": 8,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.colorspace.standard.iall",
-          "parameter": "iall"
-        },
-        {
-          "control": {
-            "maximum": 22,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.colorspace.standard.ispace",
-          "parameter": "ispace"
-        },
-        {
-          "control": {
-            "maximum": 2,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.colorspace.standard.irange",
-          "parameter": "irange"
-        },
-        {
-          "control": {
-            "maximum": 22,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.colorspace.standard.iprimaries",
-          "parameter": "iprimaries"
-        },
-        {
-          "control": {
-            "maximum": 18,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.colorspace.standard.itrc",
-          "parameter": "itrc"
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.colorspace",
-  "name": "colorspace",
-  "type": "video"
+  ]
 }
