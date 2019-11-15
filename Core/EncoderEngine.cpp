@@ -549,6 +549,9 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		audioContext.firstData = false;
 
 		wxString filterconfig;
+
+		// Keep the number of samples constant
+		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
 		
 		// Convert sample format
 		if (audioContext.codecContext->channels != frame->channels ||
@@ -575,7 +578,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 			// Set up filter config
 			audioContext.frameFilter = new FrameFilter();
-			audioContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+			audioContext.frameFilter->configure(options, filterconfig.c_str());
 
 			// Log filters
 			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));
