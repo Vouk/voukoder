@@ -207,9 +207,6 @@ EXTERN_C const IID IID_IVoukoder;
         virtual HRESULT STDMETHODCALLTYPE GetConfig( 
             /* [retval][out] */ VKENCODERCONFIG *config) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetAudioChunkSize( 
-            /* [retval][out] */ UINT *chunkSize) = 0;
-        
         virtual HRESULT STDMETHODCALLTYPE GetFileExtension( 
             /* [retval][out] */ BSTR *extension) = 0;
         
@@ -275,10 +272,6 @@ EXTERN_C const IID IID_IVoukoder;
         HRESULT ( STDMETHODCALLTYPE *GetConfig )( 
             IVoukoder * This,
             /* [retval][out] */ VKENCODERCONFIG *config);
-        
-        HRESULT ( STDMETHODCALLTYPE *GetAudioChunkSize )( 
-            IVoukoder * This,
-            /* [retval][out] */ UINT *chunkSize);
         
         HRESULT ( STDMETHODCALLTYPE *GetFileExtension )( 
             IVoukoder * This,
@@ -356,9 +349,6 @@ EXTERN_C const IID IID_IVoukoder;
 
 #define IVoukoder_GetConfig(This,config)	\
     ( (This)->lpVtbl -> GetConfig(This,config) ) 
-
-#define IVoukoder_GetAudioChunkSize(This,chunkSize)	\
-    ( (This)->lpVtbl -> GetAudioChunkSize(This,chunkSize) ) 
 
 #define IVoukoder_GetFileExtension(This,extension)	\
     ( (This)->lpVtbl -> GetFileExtension(This,extension) ) 

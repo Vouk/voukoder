@@ -294,13 +294,6 @@ STDMETHODIMP CVoukoder::GetConfig(VKENCODERCONFIG* config)
 	return S_OK;
 }
 
-STDMETHODIMP CVoukoder::GetAudioChunkSize(UINT* chunkSize)
-{
-	*chunkSize = encoder->getAudioFrameSize();
-
-	return S_OK;
-}
-
 STDMETHODIMP CVoukoder::GetFileExtension(BSTR* extension)
 {
 	for (auto info : Voukoder::Config::Get().muxerInfos)

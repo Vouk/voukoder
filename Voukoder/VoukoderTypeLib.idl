@@ -136,7 +136,6 @@ interface IVoukoder : IUnknown
 {
 	HRESULT Close([in]BOOL finalize);
 	HRESULT GetConfig([out, retval] VKENCODERCONFIG* config);
-	HRESULT GetAudioChunkSize([out, retval] UINT* chunkSize);
 	HRESULT GetFileExtension([out, retval] BSTR* extension);
 	HRESULT GetMaxPasses([out, retval] UINT* passes);
 	HRESULT IsAudioActive([out, retval] BOOL* isActive);
