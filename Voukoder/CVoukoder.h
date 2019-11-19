@@ -13,7 +13,6 @@ public:
 
 	STDMETHOD(Close)(BOOL finalize);
 	STDMETHOD(GetConfig)(VKENCODERCONFIG *config);
-	STDMETHOD(GetAudioChunkSize)(UINT* chunkSize);
 	STDMETHOD(GetFileExtension)(BSTR* extension);
 	STDMETHOD(GetMaxPasses(UINT* passes));
 	STDMETHOD(IsAudioActive(BOOL* isActive));

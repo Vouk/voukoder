@@ -589,6 +589,28 @@
       "class": "advanced",
       "properties": [
         {
+          "id": "hevc_nvenc.quantizer.qmin",
+          "parameter": "qmin",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "hevc_nvenc.quantizer.qmax",
+          "parameter": "qmax",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
           "id": "hevc_nvenc.quantizer.qpi",
           "parameter": "init_qpI",
           "control": {

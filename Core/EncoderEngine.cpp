@@ -33,6 +33,9 @@ int EncoderEngine::open()
 	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
 
+	// Reset contexts
+	audioContext.next_pts = 0;
+	videoContext.next_pts = 0;
 	audioContext.firstData = true;
 	videoContext.firstData = true;
 
@@ -500,48 +503,12 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	{
 		videoContext.firstData = false;
 
-		wxString filterconfig;
-
-		// Convert color space or range?
-		if (frame->format != (int)AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
-			videoContext.codecContext->colorspace != frame->colorspace ||
-			videoContext.codecContext->color_primaries != frame->color_primaries ||
-			videoContext.codecContext->color_trc != frame->color_trc))
-		{
-			// Color range
-			filterconfig << ",colorspace=range=" << (videoContext.codecContext->color_range == AVColorRange::AVCOL_RANGE_MPEG ? "mpeg" : "jpeg");
-
-			// Color space
-			switch (videoContext.codecContext->colorspace)
-			{
-			case AVColorSpace::AVCOL_SPC_BT470BG:
-				filterconfig << ":space=bt470bg:trc=bt470bg:primaries=bt470bg";
-				break;
-			case AVColorSpace::AVCOL_SPC_SMPTE170M:
-				filterconfig << ":space=smpte170m:trc=smpte170m:primaries=smpte170m";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT709:
-				filterconfig << ":space=bt709:trc=bt709:primaries=bt709";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_CL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_NCL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
-				break;
-			default:
-				break;
-			}
-		}
-
 		// Add users filter config
-		filterconfig << exportInfo.video.filters.AsFilterString();
+		wxString filterconfig = exportInfo.video.filters.AsFilterString();
 
 		// Convert pixel format
 		if (frame->format != (int)videoContext.codecContext->pix_fmt)
-		{
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
-		}
 
 		// Create filter
 		if (filterconfig.size() > 0)
@@ -582,6 +549,9 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		audioContext.firstData = false;
 
 		wxString filterconfig;
+
+		// Keep the number of samples constant
+		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
 		
 		// Convert sample format
 		if (audioContext.codecContext->channels != frame->channels ||
@@ -608,7 +578,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 			// Set up filter config
 			audioContext.frameFilter = new FrameFilter();
-			audioContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+			audioContext.frameFilter->configure(options, filterconfig.c_str());
 
 			// Log filters
 			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));

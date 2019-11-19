@@ -5,20 +5,22 @@
   
   <Product 
     Id="*" 
-    Name="Voukoder Core"
+    Name="Voukoder $(var.PublicProductVersion)"
     Manufacturer="Daniel Stankewitz" 
-    Version="$(var.ProductVersion)" 
+    Version="$(var.PrivateProductVersion)" 
     Language="1033"
     UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
 
     <Package
       InstallerVersion="200" 
       Manufacturer="Daniel Stankewitz"
-      Description="Installs the Voukoder Core component"
+      Description="Installs the Voukoder component"
       Compressed="yes"
       InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of Voukoder Core is already installed." />
+    <MajorUpgrade Schedule="afterInstallInitialize"
+              DowngradeErrorMessage="A later version of Voukoder is already installed"
+              AllowSameVersionUpgrades="yes" />
 		
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     
@@ -32,7 +34,7 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="INSTALLDIR" Name="Voukoder Core"/>
+        <Directory Id="INSTALLDIR" Name="Voukoder"/>
       </Directory>
     </Directory>
 

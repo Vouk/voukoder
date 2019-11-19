@@ -95,8 +95,6 @@ typedef struct
 		Rational timebase;
 		Rational aspectratio;
 		FieldOrder fieldorder;
-		ColorRange colorRange;
-		ColorSpace colorSpace;
 	} video;
 
 	struct {
@@ -127,6 +125,10 @@ typedef struct
 	INT height;
 	INT pass;
 	CHAR format[16];
+	CHAR colorRange[16];
+	CHAR colorSpace[16];
+	CHAR colorPrimaries[16];
+	CHAR colorTrc[16];
 } VKVIDEOFRAME;
 
 [object, uuid(57DAA67D-A35F-4737-856A-F26A460C9C7F), oleautomation]
@@ -134,7 +136,6 @@ interface IVoukoder : IUnknown
 {
 	HRESULT Close([in]BOOL finalize);
 	HRESULT GetConfig([out, retval] VKENCODERCONFIG* config);
-	HRESULT GetAudioChunkSize([out, retval] UINT* chunkSize);
 	HRESULT GetFileExtension([out, retval] BSTR* extension);
 	HRESULT GetMaxPasses([out, retval] UINT* passes);
 	HRESULT IsAudioActive([out, retval] BOOL* isActive);

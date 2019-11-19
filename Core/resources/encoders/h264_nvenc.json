@@ -484,6 +484,28 @@
       "class": "advanced",
       "properties": [
         {
+          "id": "h264_nvenc.quantizer.qmin",
+          "parameter": "qmin",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.qmax",
+          "parameter": "qmax",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
           "id": "h264_nvenc.quantizer.qpi",
           "parameter": "init_qpI",
           "control": {

@@ -1,4 +1,5 @@
 #include "wxVoukoderDialog.h"
+#include <map>
 #include <wx/clipbrd.h>
 #include <wx/msw/registry.h>
 #include "EncoderUtils.h"
@@ -258,7 +259,7 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	m_genMuxPanel->Layout();
 	sbGenMuxSizer->Fit(m_genMuxPanel);
 	bGenSizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
-
+		
 	// General > ...
 
 	wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
