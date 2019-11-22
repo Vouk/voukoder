@@ -33,6 +33,7 @@
     <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+	    <Merge Id="VCRedist" SourceFile="Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0" />
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="INSTALLDIR" Name="Voukoder"/>
       </Directory>
@@ -55,6 +56,7 @@
     <Feature Id="Voukoder" Title="Voukoder Core" Level="1">
       <ComponentRef Id="voukoder.dll" />
       <ComponentRef Id="voukoder.tlb" />
+	    <MergeRef Id="VCRedist" />
     </Feature>
 
   </Product>
