@@ -1382,7 +1382,7 @@
     "libx265.motionsearch.weightp._description": "Включить взвешенное прогнозирование в P-слайсах. Это позволяет выполнять взвешенный анализ в прогнозировании, что влияет на определение слайсов и включает взвешенный анализ в основном кодеке, что позволяет референсным P-образцам иметь функцию взвешенности перед использованием их для компенсации движения. В видео, где изменяется освещение, это может значительно повысить эффективность сжатия.",
     "libx265.motionsearch.weightp._label": "Взвешенное прогнозирование",
     "libx265.motionsearch.subme._description": "Amount of subpel refinement to perform. The higher the number the more subpel iterations and steps are performed. At -subme values larger than 2, chroma residual cost is included in all subpel refinement steps and chroma residual is included in all motion estimation decisions (selecting the best reference picture in each list, and chosing between merge, uni-directional motion and bi-directional motion). The 'slow' preset is the first preset to enable the use of chroma residual.",
-    "libx265.motionsearch.subme._label": "Subpel refinement",
+    "libx265.motionsearch.subme._label": "Субпиксельное уточнение",
     "libx265.slicedecision": "Slice Decision",
     "libx265.slicedecision.b-adapt._description": "Set the level of effort in determining B frame placement.\n\nWith b-adapt 0, the GOP structure is fixed based on the values of --keyint and --bframes.\n\nWith b-adapt 1 a light lookahead is used to choose B frame placement.\n\nWith b-adapt 2 (trellis) a viterbi B path selection is performed.",
     "libx265.slicedecision.b-adapt._item_0": "Нет",
