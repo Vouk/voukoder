@@ -254,6 +254,7 @@
     <None Include="resources\encoders\pcm_s32le.json" />
     <None Include="resources\encoders\prores_ks.json" />
     <None Include="resources\encoders\truehd.json" />
+    <None Include="resources\encoders\vp9_qsv.json" />
     <None Include="resources\filters\abench.json" />
     <None Include="resources\filters\acompressor.json" />
     <None Include="resources\filters\acontrast.json" />

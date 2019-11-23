@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "h264_qsv",
-  "name": "H.264 (Intel QSV)",
+  "id": "vp9_qsv",
+  "name": "VP9 (Intel QSV)",
   "defaults": {},
   "groups": [
     {
@@ -18,6 +18,9 @@
             "items": [
               {
                 "value": "nv12"
+              },
+              {
+                "value": "p010le"
               }
             ]
           }
@@ -47,23 +50,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -83,23 +86,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -115,23 +118,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -150,23 +153,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -182,23 +185,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -214,23 +217,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_qsv.standard.global_quality",
+                          "id": "hevc_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.bitrate",
+                          "id": "hevc_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.maxrate",
+                          "id": "hevc_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_accuracy",
+                          "id": "hevc_qsv.standard.avbr_accuracy",
                           "visible": true
                         },
                         {
-                          "id": "h264_qsv.standard.avbr_convergence",
+                          "id": "hevc_qsv.standard.avbr_convergence",
                           "visible": true
                         }
                       ]
@@ -347,13 +350,16 @@
                 "value": "unknown"
               },
               {
-                "value": "baseline"
+                "value": "profile0"
               },
               {
-                "value": "main"
+                "value": "profile1"
               },
               {
-                "value": "high"
+                "value": "profile2"
+              },
+              {
+                "value": "profile3"
               }
             ]
           }
@@ -364,39 +370,6 @@
       "id": "advanced",
       "class": "advanced",
       "properties": [
-        {
-          "id": "look_ahead_depth",
-          "parameter": "look_ahead_depth",
-          "control": {
-            "type": "integer",
-            "maximum": 100,
-            "minimum": 0,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
-          "id": "look_ahead_downsampling",
-          "parameter": "look_ahead_downsampling",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "auto"
-              },
-              {
-                "value": "off"
-              },
-              {
-                "value": "2x"
-              },
-              {
-                "value": "4x"
-              }
-            ]
-          }
-        },
         {
           "id": "async_depth",
           "parameter": "async_depth",
@@ -497,119 +470,6 @@
         {
           "id": "low_power",
           "parameter": "low_power",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "cavlc",
-          "parameter": "cavlc",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "idr_interval",
-          "parameter": "idr_interval",
-          "control": {
-            "maximum": 2147483647,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          }
-        },
-        {
-          "id": "pic_timing_sei",
-          "parameter": "pic_timing_sei",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "single_sei_nal_unit",
-          "parameter": "single_sei_nal_unit",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "max_dec_frame_buffering",
-          "parameter": "max_dec_frame_buffering",
-          "control": {
-            "maximum": 65535,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          }
-        },
-        {
-          "id": "int_ref_type",
-          "parameter": "int_ref_type",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "vertical"
-              }
-            ]
-          }
-        },
-        {
-          "id": "int_ref_cycle_size",
-          "parameter": "int_ref_cycle_size",
-          "control": {
-            "type": "integer",
-            "maximum": 65535,
-            "minimum": 0,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
-          "id": "int_ref_qp_delta",
-          "parameter": "int_ref_qp_delta",
-          "control": {
-            "type": "integer",
-            "maximum": 32767,
-            "minimum": -32768,
-            "singleStep": 1,
-            "value": -32768
-          }
-        },
-        {
-          "id": "recovery_point_sei",
-          "parameter": "recovery_point_sei",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "a53cc",
-          "parameter": "a53cc",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "aud",
-          "parameter": "aud",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "repeat_pps",
-          "parameter": "repeat_pps",
           "control": {
             "type": "boolean",
             "value": true

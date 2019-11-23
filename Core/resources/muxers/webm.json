@@ -4,7 +4,7 @@
   "name": "WebM (.webm)",
   "extension": "webm",
   "encoders": {
-    "video": [ "libvpx", "libvpx-vp9" ],
+    "video": [ "libvpx", "libvpx-vp9", "vp9_qsv" ],
     "audio": [ "libopus", "libvorbis" ]
   },
   "capabilities": {

@@ -1111,6 +1111,9 @@
     <None Include="resources\translations\de.json">
       <Filter>Ressourcendateien\Translations</Filter>
     </None>
+    <None Include="resources\encoders\vp9_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
