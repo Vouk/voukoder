@@ -614,7 +614,9 @@ void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 	m_genMuxFaststartCheck->Enable(info->capabilities.faststart);
 
 	// Disable faststart if it is not supported
-	if (!info->capabilities.faststart)
+	if (info->capabilities.faststart)
+		m_genMuxFaststartCheck->SetValue(exportInfo.format.faststart);
+	else
 		m_genMuxFaststartCheck->SetValue(false);
 }
 
