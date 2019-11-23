@@ -50,23 +50,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -86,23 +86,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -118,23 +118,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -153,23 +153,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -185,23 +185,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": false
                         }
                       ]
@@ -217,23 +217,23 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_qsv.standard.global_quality",
+                          "id": "vp9_qsv.standard.global_quality",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.bitrate",
+                          "id": "vp9_qsv.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.maxrate",
+                          "id": "vp9_qsv.standard.maxrate",
                           "visible": false
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_accuracy",
+                          "id": "vp9_qsv.standard.avbr_accuracy",
                           "visible": true
                         },
                         {
-                          "id": "hevc_qsv.standard.avbr_convergence",
+                          "id": "vp9_qsv.standard.avbr_convergence",
                           "visible": true
                         }
                       ]
