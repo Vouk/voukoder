@@ -18,6 +18,9 @@
             "items": [
               {
                 "value": "nv12"
+              },
+              {
+                "value": "p010le"
               }
             ]
           }
