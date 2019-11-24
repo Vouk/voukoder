@@ -1389,7 +1389,7 @@
     "libx265.slicedecision.b-adapt._item_1": "Быстрый",
     "libx265.slicedecision.b-adapt._item_2": "Полный (Trellis)",
     "libx265.slicedecision.b-adapt._label": "Адаптивные B-кадры",
-    "libx265.slicedecision.bframe-bias._description": "Bias towards B frames in slicetype decision. The higher the bias the more likely x265 is to use B frames.",
+    "libx265.slicedecision.bframe-bias._description": "Смещение к B-кадрам при определении типа слайса. Чем выше смещение, тем больше вероятность, что x265 будет использовать B-кадры.",
     "libx265.slicedecision.bframe-bias._label": "Смещение B-кадров",
     "libx265.slicedecision.bframes._description": "Maximum number of consecutive b-frames. Use --bframes 0 to force all P/I low-latency encodes. This parameter has a quadratic effect on the amount of memory allocated and the amount of work performed by the full trellis version of --b-adapt lookahead.",
     "libx265.slicedecision.bframes._label": "B-Кадры",
