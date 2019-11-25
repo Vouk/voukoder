@@ -290,7 +290,7 @@
           "parameter": "b",
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 100,
             "value": 15000,
