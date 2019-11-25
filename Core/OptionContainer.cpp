@@ -9,6 +9,8 @@ OptionContainer::OptionContainer(OptionContainer* options)
 
 void OptionContainer::Deserialize(const wxString input, const char parameterSeparator, const char valueSeparator)
 {
+	clear();
+
 	std::istringstream iss(input.ToStdString());
 
 	std::string token;
