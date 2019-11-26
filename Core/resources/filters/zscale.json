@@ -11,6 +11,7 @@
         {
           "id": "width",
           "parameter": "width",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 320,
@@ -22,6 +23,7 @@
         {
           "id": "height",
           "parameter": "height",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 240,
@@ -33,6 +35,7 @@
         {
           "id": "filter",
           "parameter": "filter",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 4,
