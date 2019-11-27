@@ -87,34 +87,38 @@ int EncoderEngine::open()
 
 	AVDictionary *options = NULL;
 
-	wxString filename;
+	char filename[MAX_PATH];
 	if (pass < exportInfo.passes)
-		filename = "NUL";
+		strcpy_s(filename, "NUL");
 	else
 	{
-		filename = exportInfo.filename;
-		formatContext->url = av_strdup(exportInfo.filename.c_str());
+		// Convert filename to utf8 char*
+		strcpy(filename, (const char*)exportInfo.filename.mb_str(wxConvUTF8));
+		formatContext->url = av_strdup(filename);
 
 		// Set the faststart flag in the last pass
 		if (exportInfo.format.faststart)
 			av_dict_set(&options, "movflags", "faststart", 0);
-
-		/*
-			av_dict_set(&formatContext->metadata, "major_brand", type, 0);
-			av_dict_set_int(&formatContext->metadata, "minor_version", minor_ver, 0);
-		*/
 	}
 
 	// Open file writer
-	ret = avio_open(&formatContext->pb, filename.c_str(), AVIO_FLAG_WRITE);
+	ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE);
 	if (ret < 0)
 	{
 		vkLogError("Unable to open file buffer.");
 		return ret;
 	}
 
+	// Still images should be numbered
+	if (exportInfo.format.id == "image2")
+		av_dict_set(&options, "frame_pts", "1", 0);
+
+	/*
+		av_dict_set(&options, "brand", "abcd", 0);
+	*/
+
 	// Dump format settings
-	av_dump_format(formatContext, 0, filename.c_str(), 1);
+	av_dump_format(formatContext, 0, filename, 1);
 
 	return avformat_write_header(formatContext, &options);
 }
