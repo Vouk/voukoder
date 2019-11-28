@@ -102,175 +102,106 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
 	exportInfo.format.id = config.format.container;
 	exportInfo.format.faststart = config.format.faststart;
-	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_MPEG;
-	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
+	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
+	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
+	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 
 	// Deal with color spaces
 	for(const auto & options: exportInfo.video.filters)
 	{
-		if (options->id == "filter.colorspace")
+		if (options->id == "filter.colorspace" &&
+			options->find("range") != options->end() &&
+			options->find("space") != options->end() &&
+			options->find("primaries") != options->end() &&
+			options->find("transfer") != options->end())
 		{
 			// Color range
-			if (options->find("range") != options->end())
-				exportInfo.video.colorRange = (AVColorRange)av_color_range_from_name(options->at("range").c_str());
+			auto range = options->at("range");
+			exportInfo.video.colorRange = (AVColorRange)av_color_range_from_name(range.c_str());
+			if (exportInfo.video.colorRange == AVColorRange::AVCOL_RANGE_UNSPECIFIED)
+				vkLogInfoVA("Unknown color range supplied: %s", range.c_str());
 
 			// Color space
-			if (options->find("space") != options->end())
-			{
-				std::string space = options->at("space");
-				if (space == "bt709")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-				else if (space == "fcc")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_FCC;
-				else if (space == "bt470bg")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
-				else if (space == "smpte170m")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-				else if (space == "smpte240m")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE240M;
-				else if (space == "ycgco")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_YCGCO;
-				else if (space == "gbr")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_RGB;
-				else if (space == "bt2020nc")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
-				else if (space == "bt2020ncl")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
-				else
-					vkLogInfoVA("Unknown color space supplied: %s", space.c_str());
-			}
+			auto space = options->at("space");
+			if (space == "bt709")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
+			else if (space == "fcc")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_FCC;
+			else if (space == "bt470bg")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
+			else if (space == "smpte170m")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
+			else if (space == "smpte240m")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE240M;
+			else if (space == "ycgco")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_YCGCO;
+			else if (space == "gbr")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_RGB;
+			else if (space == "bt2020nc")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
+			else if (space == "bt2020ncl")
+				exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
+			else
+				vkLogInfoVA("Unknown color space supplied: %s", space.c_str());
 
 			// Color primaries
-			if (options->find("primaries") != options->end())
-			{
-				std::string primaries = options->at("primaries");
-				if (primaries == "bt709")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-				else if (primaries == "bt470m")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470M;
-				else if (primaries == "bt470bg")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
-				else if (primaries == "smpte170m")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-				else if (primaries == "smpte240m")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE240M;
-				else if (primaries == "smpte428")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE428;
-				else if (primaries == "film")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_FILM;
-				else if (primaries == "smpte431")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE431;
-				else if (primaries == "smpte432")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE432;
-				else if (primaries == "bt2020")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-				else if (primaries == "jedec-p22")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_JEDEC_P22;
-				else
-					vkLogInfoVA("Unknown color primaries supplied: %s", primaries.c_str());
-			}
+			auto primaries = options->at("primaries");
+			if (primaries == "bt709")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
+			else if (primaries == "bt470m")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470M;
+			else if (primaries == "bt470bg")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT470BG;
+			else if (primaries == "smpte170m")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
+			else if (primaries == "smpte240m")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE240M;
+			else if (primaries == "smpte428")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE428;
+			else if (primaries == "film")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_FILM;
+			else if (primaries == "smpte431")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE431;
+			else if (primaries == "smpte432")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE432;
+			else if (primaries == "bt2020")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
+			else if (primaries == "jedec-p22")
+				exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_JEDEC_P22;
+			else
+				vkLogInfoVA("Unknown color primaries supplied: %s", primaries.c_str());
 
 			// Color transfer
-			if (options->find("transfer") != options->end())
-			{
-				std::string transfer = options->at("transfer");
-				if (transfer == "bt709")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-				else if (transfer == "bt470m")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
-				else if (transfer == "bt470bg")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-				else if (transfer == "gamma22")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
-				else if (transfer == "gamma28")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-				else if (transfer == "smpte170m")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-				else if (transfer == "smpte240m")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE240M;
-				else if (transfer == "srgb")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
-				else if (transfer == "iec61966-2-1")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
-				else if (transfer == "iec61966-2-4")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
-				else if (transfer == "xvycc")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
-				else if (transfer == "bt2020-10")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
-				else if (transfer == "bt2020-12")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
-				else
-					vkLogInfoVA("Unknown color transfer supplied: %s", transfer.c_str());
-			}
-		}
-		else if (options->id == "filter.zscale") // Not used because it is really slow
-		{
-			// Color range
-			if (options->find("range") != options->end())
-				exportInfo.video.colorRange = options->at("range") == "full" ? AVColorRange::AVCOL_RANGE_JPEG : AVColorRange::AVCOL_RANGE_MPEG;
-
-			// Color matrix
-			if (options->find("matrix") != options->end())
-			{
-				std::string matrix = options->at("matrix");
-				if (matrix == "709")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT709;
-				else if (matrix == "470bg")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT470BG;
-				else if (matrix == "170m")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE170M;
-				else if (matrix == "240m")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_SMPTE240M;
-				else if (matrix == "2020_ncl")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_NCL;
-				else if (matrix == "2020_cl")
-					exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_BT2020_CL;
-				else
-					vkLogInfoVA("Unknown color matrix supplied: %s", matrix.c_str());
-			}
-
-			// Color primaries
-			if (options->find("primaries") != options->end())
-			{
-				std::string primaries = options->at("primaries");
-				if (primaries == "709")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT709;
-				else if (primaries == "170m")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE170M;
-				else if (primaries == "240m")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_SMPTE240M;
-				else if (primaries == "2020")
-					exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_BT2020;
-				else
-					vkLogInfoVA("Unknown color primaries supplied: %s", primaries.c_str());
-			}
-
-			// Color transfer
-			if (options->find("transfer") != options->end())
-			{
-				std::string transfer = options->at("transfer");
-				if (transfer == "709")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-				else if (transfer == "601")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-				else if (transfer == "linear")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_LINEAR;
-				else if (transfer == "2020_10")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
-				else if (transfer == "2020_12")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
-				else if (transfer == "smpte2084")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE2084;
-				else if (transfer == "iec61966-2-1")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
-				else if (transfer == "arib-std-b67")
-					exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_ARIB_STD_B67;
-				else
-					vkLogInfoVA("Unknown color transfer supplied: %s", transfer.c_str());
-			}
+			auto transfer = options->at("transfer");
+			if (transfer == "bt709")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
+			else if (transfer == "bt470m")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
+			else if (transfer == "bt470bg")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+			else if (transfer == "gamma22")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
+			else if (transfer == "gamma28")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
+			else if (transfer == "smpte170m")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
+			else if (transfer == "smpte240m")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE240M;
+			else if (transfer == "srgb")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
+			else if (transfer == "iec61966-2-1")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
+			else if (transfer == "iec61966-2-4")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
+			else if (transfer == "xvycc")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
+			else if (transfer == "bt2020-10")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
+			else if (transfer == "bt2020-12")
+				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
+			else
+				vkLogInfoVA("Unknown color transfer supplied: %s", transfer.c_str());
 		}
 	}
 

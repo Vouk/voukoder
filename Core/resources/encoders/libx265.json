@@ -2094,7 +2094,7 @@
       "properties": [
         {
           "id": "libx265.vui.range",
-          "parameter": "colorprim",
+          "parameter": "range",
           "control": {
             "items": [
               {

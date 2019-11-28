@@ -11,6 +11,7 @@
         {
           "id": "range",
           "parameter": "range",
+          "forced": true,
           "control": {
             "selectedIndex": 0,
             "type": "combobox",
@@ -27,6 +28,7 @@
         {
           "id": "space",
           "parameter": "space",
+          "forced": true,
           "control": {
             "selectedIndex": 0,
             "type": "combobox",
@@ -64,6 +66,7 @@
         {
           "id": "primaries",
           "parameter": "primaries",
+          "forced": true,
           "control": {
             "selectedIndex": 0,
             "type": "combobox",
@@ -107,6 +110,7 @@
         {
           "id": "trc",
           "parameter": "trc",
+          "forced": true,
           "control": {
             "selectedIndex": 0,
             "type": "combobox",
