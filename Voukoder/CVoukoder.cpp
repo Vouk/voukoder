@@ -114,7 +114,7 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 			options->find("range") != options->end() &&
 			options->find("space") != options->end() &&
 			options->find("primaries") != options->end() &&
-			options->find("transfer") != options->end())
+			options->find("trc") != options->end())
 		{
 			// Color range
 			auto range = options->at("range");
@@ -173,35 +173,35 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 				vkLogInfoVA("Unknown color primaries supplied: %s", primaries.c_str());
 
 			// Color transfer
-			auto transfer = options->at("transfer");
-			if (transfer == "bt709")
+			auto trc = options->at("trc");
+			if (trc == "bt709")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT709;
-			else if (transfer == "bt470m")
+			else if (trc == "bt470m")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
-			else if (transfer == "bt470bg")
+			else if (trc == "bt470bg")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-			else if (transfer == "gamma22")
+			else if (trc == "gamma22")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA22;
-			else if (transfer == "gamma28")
+			else if (trc == "gamma28")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_GAMMA28;
-			else if (transfer == "smpte170m")
+			else if (trc == "smpte170m")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE170M;
-			else if (transfer == "smpte240m")
+			else if (trc == "smpte240m")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_SMPTE240M;
-			else if (transfer == "srgb")
+			else if (trc == "srgb")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
-			else if (transfer == "iec61966-2-1")
+			else if (trc == "iec61966-2-1")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_1;
-			else if (transfer == "iec61966-2-4")
+			else if (trc == "iec61966-2-4")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
-			else if (transfer == "xvycc")
+			else if (trc == "xvycc")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_IEC61966_2_4;
-			else if (transfer == "bt2020-10")
+			else if (trc == "bt2020-10")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_10;
-			else if (transfer == "bt2020-12")
+			else if (trc == "bt2020-12")
 				exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_BT2020_12;
 			else
-				vkLogInfoVA("Unknown color transfer supplied: %s", transfer.c_str());
+				vkLogInfoVA("Unknown color transfer supplied: %s", trc.c_str());
 		}
 	}
 
