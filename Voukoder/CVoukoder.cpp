@@ -315,25 +315,18 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	else
 		exportInfo.passes = 1;
 
-	// Create encoder instance
-	encoder = new EncoderEngine(exportInfo);
-	if (encoder->open() < 0)
-	{
-		vkLogInfo("Opening encoder failed! Aborting ...")
-		return E_FAIL;
-	}
+	// Dump
+	vkLogInfoVA("Filename:        %s", exportInfo.filename);
+	vkLogInfoVA("Application:     %s", exportInfo.application);
+	vkLogInfoVA("Passes:          %d", exportInfo.passes);
 
-	vkLogSep();
-	
-	BOOL isActive = false;
-
-	// Log video
-	IsVideoActive(&isActive);
-	if (isActive)
+	// Video
+	if (exportInfo.video.enabled)
 	{
-		vkLogInfoVA("Frame size:      %dx%d", info.video.width, info.video.height);
-		vkLogInfoVA("Pixel aspect:    %d:%d", info.video.aspectratio.num, info.video.aspectratio.den);
-		vkLogInfoVA("Frame rate:      %.2f", ((float)info.video.timebase.den / (float)info.video.timebase.num));
+		vkLogInfo("- Video -------------------------------------");
+		vkLogInfoVA("Frame size:      %dx%d", exportInfo.video.width, exportInfo.video.height);
+		vkLogInfoVA("Pixel aspect:    %d:%d", exportInfo.video.sampleAspectRatio.num, exportInfo.video.sampleAspectRatio.den);
+		vkLogInfoVA("Timebase:        %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num));
 
 		// Log field order
 		switch (info.video.fieldorder)
@@ -349,21 +342,37 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 			break;
 		}
 
-		// Video passes
-		UINT passes = 0;
-		GetMaxPasses(&passes);
-		vkLogInfoVA("Passes:          %d", passes);
+		vkLogInfoVA("Encoder:         %s", exportInfo.video.id);
+		vkLogInfoVA("Options:         %s", exportInfo.video.options.Serialize(true, "", ' '));
+		vkLogInfoVA("Side data:       %s", exportInfo.video.sideData.Serialize(true, "", ' '));
+		vkLogInfoVA("Filters:         %s", exportInfo.video.filters.Serialize());
+		vkLogInfoVA("Color range:     %s", av_color_range_name(exportInfo.video.colorRange));
+		vkLogInfoVA("Color space:     %s", av_color_space_name(exportInfo.video.colorSpace));
+		vkLogInfoVA("Color primaries: %s", av_color_primaries_name(exportInfo.video.colorPrimaries));
+		vkLogInfoVA("Color transfer:  %s", av_color_transfer_name(exportInfo.video.colorTransferCharacteristics));
 	}
 
-	// Log audio
-	IsAudioActive(&isActive);
-	if (isActive)
+	// Audio
+	if (exportInfo.audio.enabled)
 	{
-		vkLogInfoVA("Sample rate:     %d Hz", info.audio.samplerate);
-		vkLogInfoVA("Audio channels:  %d", info.audio.numberChannels);
+		vkLogInfo("- Audio -------------------------------------");
+		vkLogInfoVA("Timebase:        %d/%d", exportInfo.audio.timebase.num, exportInfo.audio.timebase.den);
+		vkLogInfoVA("Channels:        %s", av_get_channel_description(exportInfo.audio.channelLayout));
+		vkLogInfoVA("Encoder:         %s", exportInfo.audio.id);
+		vkLogInfoVA("Options:         %s", exportInfo.audio.options.Serialize(true, "", ' '));
+		vkLogInfoVA("Side data:       %s", exportInfo.audio.sideData.Serialize(true, "", ' '));
+		vkLogInfoVA("Filters:         %s", exportInfo.audio.filters.Serialize());
 	}
 
 	vkLogSep();
+
+	// Create encoder instance
+	encoder = new EncoderEngine(exportInfo);
+	if (encoder->open() < 0)
+	{
+		vkLogInfo("Opening encoder failed! Aborting ...")
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
