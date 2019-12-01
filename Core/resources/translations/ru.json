@@ -1412,7 +1412,7 @@
     "libx265.slicedecision.ref._label": "Реф.",
     "libx265.slicedecision.open-gop._description": "Включить открытые GOP, разрешить I-слайсам быть не IDR.",
     "libx265.slicedecision.open-gop._label": "Открытые GOP",
-    "libx265.slicedecision.radl._description": "Number of RADL pictures allowed infront of IDR. Requires fixed keyframe interval. Recommended value is 2-3.",
+    "libx265.slicedecision.radl._description": "Количество изображений RADL, разрешенных перед IDR. Требует фиксированный интервал ключевых кадров. Рекомендуемое значение 2-3.",
     "libx265.slicedecision.radl._label": "RADL",
     "libx265.slicedecision.rc-lookahead._description": "Number of frames for slice-type decision lookahead (a key determining factor for encoder latency). The longer the lookahead buffer the more accurate scenecut decisions will be, and the more effective cuTree will be at improving adaptive quant. Having a lookahead larger than the max keyframe interval is not helpful.",
     "libx265.slicedecision.rc-lookahead._label": "RC Прогнозирование",
