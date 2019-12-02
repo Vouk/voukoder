@@ -10,7 +10,7 @@ Find these connectors at the [application connectors page](https://github.com/Vo
 
 **Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.**
 - Patreon: https://www.patreon.com/voukoder
-- Paypal: https://www.paypal.me/voukoder
+- Paypal: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S6LGDW9QZYBTL&source=url
 - Twitter: https://twitter.com/LordVouk
 
 ## Contributors
