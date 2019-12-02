@@ -46,7 +46,7 @@ private:
 	wxPanel* CreateGeneralPanel(wxWindow* parent);
 	wxPanel* CreateSettingsPanel(wxWindow* parent);
 	wxPanel* CreateAboutPanel(wxWindow* parent);
-	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value);
+	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value, wxString link = "");
 	wxSize minLabelWidth;
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);
 	void InitGUI();

@@ -347,7 +347,7 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 	aboutSizer->Add(m_headerPanel, 0, wxALIGN_CENTER | wxALL, 10);
 
 	// Authors
-	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.author"), wxT("Daniel Stankewitz")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.author"), wxT("Daniel Stankewitz - @LordVouk"), wxT("https://twitter.com/LordVouk")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
@@ -359,8 +359,12 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 	aboutSizer->Add(m_label, 0, wxALIGN_LEFT | wxALL, 10);
 	aboutSizer->Add(CreateTopPatrons(panel), 1, wxEXPAND | wxALL, 10);
 
-	wxHyperlinkCtrl *m_hyperlink1 = new wxHyperlinkCtrl(panel, wxID_ANY, Trans("ui.encoderconfig.about.support.patreon"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
-	aboutSizer->Add(m_hyperlink1, 0, wxALIGN_CENTER | wxALL, 5);
+	wxBoxSizer* bSizerSupport = new wxBoxSizer(wxHORIZONTAL);
+	wxHyperlinkCtrl* m_hyperlink1 = new wxHyperlinkCtrl(panel, wxID_ANY, Trans("ui.encoderconfig.about.support.patreon"), wxT("https://www.patreon.com/voukoder"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	bSizerSupport->Add(m_hyperlink1, 0, wxALL, 5);
+	wxHyperlinkCtrl* m_hyperlink2 = new wxHyperlinkCtrl(panel, wxID_ANY, Trans("ui.encoderconfig.about.support.paypal"), wxT("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S6LGDW9QZYBTL&source=url"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+	bSizerSupport->Add(m_hyperlink2, 0, wxALL, 5);
+	aboutSizer->Add(bSizerSupport, 0, wxALIGN_CENTER, 0);
 
 	panel->SetSizer(aboutSizer);
 	panel->Layout();
@@ -426,7 +430,7 @@ wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
 	return richText;
 }
 
-wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, wxString text)
+wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, wxString text, wxString link)
 {
 	wxPanel* m_panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -436,9 +440,18 @@ wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, w
 	m_label->Wrap(-1);
 	bSizer->Add(m_label, 1, wxALL, 5);
 
-	wxStaticText* m_text = new wxStaticText(m_panel, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, 0);
-	m_text->Wrap(-1);
-	bSizer->Add(m_text, 1, wxALL, 5);
+	if (link.IsEmpty())
+	{
+		wxStaticText* m_text = new wxStaticText(m_panel, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, 0);
+		m_text->Wrap(-1);
+		bSizer->Add(m_text, 1, wxALL, 5);
+	}
+	else
+	{
+		wxHyperlinkCtrl* m_hyperlink1 = new wxHyperlinkCtrl(m_panel, wxID_ANY, text, link, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
+		m_hyperlink1->SetToolTip(link);
+		bSizer->Add(m_hyperlink1, 1, wxALL, 5);
+	}
 
 	m_panel->SetSizer(bSizer);
 	m_panel->Layout();
