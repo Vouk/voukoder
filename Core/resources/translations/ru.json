@@ -1472,7 +1472,7 @@
     "libx265.vui.colormatrix._item_10": "Chroma derived nc",
     "libx265.vui.colormatrix._item_11": "Chroma derived c",
     "libx265.vui.colormatrix._item_12": "ICTCP",
-    "libx265.vui.chromaloc._label": "Chroma Location",
+    "libx265.vui.chromaloc._label": "Расположение образца цветности",
     "libx265.vui.chromaloc._description": "Specify chroma sample location for 4:2:0 inputs. Consult the HEVC specification for a description of these values.",
     "libx265.vui.master-display._label": "Master Display",
     "libx265.vui.master-display._description": "SMPTE ST 2086 mastering display color volume SEI info, specified as a string which is parsed when the stream header SEI are emitted.",
