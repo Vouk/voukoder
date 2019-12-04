@@ -69,15 +69,7 @@ namespace Voukoder
 
 	static wxString GetAppVersion()
 	{
-		if (VKDR_VERSION_PATCH > 0)
-			return wxString::Format("%d.%d beta%d",
-				VKDR_VERSION_MAJOR,
-				VKDR_VERSION_MINOR + 1,
-				VKDR_VERSION_PATCH);
-		else
-			return wxString::Format("%d.%d",
-				VKDR_VERSION_MAJOR,
-				VKDR_VERSION_MINOR);
+		return VKDR_VERSION_PUBLIC;
 	}
 
 	static wxString GetApplicationName()

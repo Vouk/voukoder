@@ -25,7 +25,8 @@ Log::Log()
 	AddLine("=============================================");
 
 	// Report voukoder version
-	AddLine(wxString::Format("Voukoder %d.%d.%d",
+	AddLine(wxString::Format("Voukoder %s (%d.%d.%d)",
+		VKDR_VERSION_PUBLIC,
 		VKDR_VERSION_MAJOR,
 		VKDR_VERSION_MINOR,
 		VKDR_VERSION_PATCH));
