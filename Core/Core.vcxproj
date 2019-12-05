@@ -533,7 +533,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+      <UserProperties resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

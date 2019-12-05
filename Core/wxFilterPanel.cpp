@@ -64,7 +64,7 @@ void wxFilterPanel::PopulateFilterMenu()
 		// Find insert position
 		for (auto item : m_filterMenu->GetMenuItems())
 		{
-			wxString name = Trans(filterInfo.id);
+			wxString name = filterInfo.name + " - " + Trans(filterInfo.id);
 			if (name.CmpNoCase(item->GetItemLabelText()) <= 0)
 				break;
 

@@ -14,7 +14,7 @@ public:
 		wxMenuItem(parentMenu, wxID_ANY) {};
 
 	wxFilterMenuItem(wxMenu *parentMenu, EncoderInfo filterInfo) :
-		wxMenuItem(parentMenu, wxID_ANY, Trans(filterInfo.id)),
+		wxMenuItem(parentMenu, wxID_ANY, filterInfo.name + " - " + Trans(filterInfo.id)),
 		filterInfo(filterInfo) {};
 
 	EncoderInfo GetFilterInfo()

@@ -102,6 +102,7 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
 	exportInfo.format.id = config.format.container;
 	exportInfo.format.faststart = config.format.faststart;
+	exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
 	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
 	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
 	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
@@ -110,7 +111,59 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	// Deal with color spaces
 	for(const auto & options: exportInfo.video.filters)
 	{
-		if (options->id == "filter.colorspace" &&
+		if (options->id == "filter.setparams")
+		{
+			// Field mode
+			if (options->find("field_mode") != options->end())
+			{
+				auto field_mode = options->at("field_mode");
+				if (field_mode == "prog")
+					exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
+				else if (field_mode == "bff")
+					exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_BB;
+				else if (field_mode == "tff")
+					exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_TT;
+				else
+					vkLogInfoVA("Unknown field mode supplied: %s", field_mode.c_str());
+			}
+
+			// Color range
+			if (options->find("range") != options->end())
+			{
+				auto range = options->at("range");
+				exportInfo.video.colorRange = (AVColorRange)av_color_range_from_name(range.c_str());
+				if (exportInfo.video.colorRange == AVColorRange::AVCOL_RANGE_UNSPECIFIED)
+					vkLogInfoVA("Unknown color range supplied: %s", range.c_str());
+			}
+
+			// Color space
+			if (options->find("colorspace") != options->end())
+			{
+				auto colorspace = options->at("colorspace");
+				exportInfo.video.colorSpace = (AVColorSpace)av_color_space_from_name(colorspace.c_str());
+				if (exportInfo.video.colorSpace == AVColorSpace::AVCOL_SPC_UNSPECIFIED)
+					vkLogInfoVA("Unknown color space supplied: %s", colorspace.c_str());
+			}
+
+			// Color primaries
+			if (options->find("color_primaries") != options->end())
+			{
+				auto color_primaries = options->at("color_primaries");
+				exportInfo.video.colorPrimaries = (AVColorPrimaries)av_color_primaries_from_name(color_primaries.c_str());
+				if (exportInfo.video.colorPrimaries == AVColorPrimaries::AVCOL_PRI_UNSPECIFIED)
+					vkLogInfoVA("Unknown color primaries supplied: %s", color_primaries.c_str());
+			}
+
+			// Color transfer
+			if (options->find("color_trc") != options->end())
+			{
+				auto color_trc = options->at("color_trc");
+				exportInfo.video.colorTransferCharacteristics = (AVColorTransferCharacteristic)av_color_transfer_from_name(color_trc.c_str());
+				if (exportInfo.video.colorTransferCharacteristics == AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED)
+					vkLogInfoVA("Unknown color transfer supplied: %s", color_trc.c_str());
+			}
+		}
+		else if (options->id == "filter.colorspace" &&
 			options->find("range") != options->end() &&
 			options->find("space") != options->end() &&
 			options->find("primaries") != options->end() &&
