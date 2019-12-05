@@ -223,7 +223,7 @@ void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
 			// Create a new filter item
 			wxListItem item;
 			item.SetId(itemId);
-			item.SetText(Trans(info.id));
+			item.SetText(Trans(info.name));
 			item.SetData(options);
 			item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_DATA);
 			item.SetState(wxLIST_STATE_SELECTED);
