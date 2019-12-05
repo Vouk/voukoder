@@ -1503,7 +1503,7 @@
     "libvpx-vp9.misc.sharpness._description": "Все, что выше 0, ослабляет эффект фильтра деблокинга.",
     "libvpx-vp9.misc.sharpness._label": "Резкость",
     "hap.standard": "Стандартные",
-    "hap.standard.chunks._description": "Specifies the number of chunks to split frames into, between 1 and 64. This permits multithreaded decoding of large frames, potentially at the cost of data-rate. The encoder may modify this value to divide frames evenly.",
+    "hap.standard.chunks._description": "Определяет количество фрагментов, на которые нужно разделить кадры, от 1 до 64. Это позволяет декодировать большие кадры в несколько потоков, потенциально за счет скорости передачи данных. Кодек может изменить это значение чтобы разделить кадры равномерно.",
     "hap.standard.chunks._label": "Фрагменты",
     "hap.standard.compressor._description": "Specifies the second-stage compressor to use. If set to none, chunks will be limited to 1, as chunked uncompressed frames offer no benefit.",
     "hap.standard.compressor._item_0": "Нет",
