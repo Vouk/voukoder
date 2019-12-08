@@ -410,7 +410,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	{
 		vkLogInfo("- Audio -------------------------------------");
 		vkLogInfoVA("Timebase:        %d/%d", exportInfo.audio.timebase.num, exportInfo.audio.timebase.den);
-		vkLogInfoVA("Channels:        %s", av_get_channel_description(exportInfo.audio.channelLayout));
+		vkLogInfoVA("Channels:        %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
 		vkLogInfoVA("Encoder:         %s", exportInfo.audio.id);
 		vkLogInfoVA("Options:         %s", exportInfo.audio.options.Serialize(true, "", ' '));
 		vkLogInfoVA("Side data:       %s", exportInfo.audio.sideData.Serialize(true, "", ' '));
