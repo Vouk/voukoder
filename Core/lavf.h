@@ -42,7 +42,7 @@ extern "C" {
 	#pragma comment(lib, "mfx.lib")
 	#pragma comment(lib, "Bcrypt.lib")
     //#pragma comment(lib, "SvtHevcEnc.lib")
-	//#pragma comment(lib, "SvtAv1Enc.lib")
+	#pragma comment(lib, "SvtAv1Enc.lib")
 	//#pragma comment(lib, "SvtVp9Enc.lib")
 #else
     #pragma comment(lib, "libavformat.a")
