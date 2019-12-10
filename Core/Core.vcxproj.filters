@@ -1111,6 +1111,9 @@
     <None Include="resources\encoders\vp9_qsv.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\filters\decimate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

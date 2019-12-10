@@ -332,6 +332,7 @@
     <None Include="resources\filters\dctdnoiz.json" />
     <None Include="resources\filters\deband.json" />
     <None Include="resources\filters\deblock.json" />
+    <None Include="resources\filters\decimate.json" />
     <None Include="resources\filters\dedot.json" />
     <None Include="resources\filters\deflate.json" />
     <None Include="resources\filters\deflicker.json" />

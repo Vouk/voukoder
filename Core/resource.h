@@ -309,3 +309,4 @@
 #define IDR_FLT_TREMOLO					648
 #define IDR_FLT_VIBRATO					649
 #define IDR_FLT_VOLUME					650
+#define IDR_FLT_DECIMATE                651

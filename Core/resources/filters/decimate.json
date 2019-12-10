@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "filter.decimate",
+  "name": "decimate",
+  "defaults": {},
+  "groups": [
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "cycle",
+          "parameter": "cycle",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 25,
+            "singleStep": 1,
+            "value": 5
+          }
+        },
+        {
+          "id": "dupthresh",
+          "parameter": "dupthresh",
+          "forced": true,
+          "control": {
+            "type": "float",
+            "minimum": 0,
+            "maximum": 100,
+            "singleStep": 1,
+            "value": 1.1
+          }
+        },
+        {
+          "id": "scthresh",
+          "parameter": "scthresh",
+          "forced": true,
+          "control": {
+            "type": "float",
+            "minimum": 0,
+            "maximum": 100,
+            "singleStep": 1,
+            "value": 15
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "blockx",
+          "parameter": "blockx",
+          "control": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 512,
+            "singleStep": 1,
+            "value": 32
+          }
+        },
+        {
+          "id": "blocky",
+          "parameter": "blocky",
+          "control": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 512,
+            "singleStep": 1,
+            "value": 32
+          }
+        },
+        {
+          "id": "ppsrc",
+          "parameter": "ppsrc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "chroma",
+          "parameter": "chroma",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

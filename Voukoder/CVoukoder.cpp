@@ -111,7 +111,15 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	// Deal with color spaces
 	for(const auto & options: exportInfo.video.filters)
 	{
-		if (options->id == "filter.crop")
+		if (options->id == "filter.pad")
+		{
+			if (options->find("width") != options->end())
+				exportInfo.video.width = stoi(options->at("width"));
+
+			if (options->find("height") != options->end())
+				exportInfo.video.height = stoi(options->at("height"));
+		}
+		else if (options->id == "filter.crop")
 		{
 			if (options->find("out_w") != options->end())
 				exportInfo.video.width = stoi(options->at("out_w"));
