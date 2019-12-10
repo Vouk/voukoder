@@ -388,9 +388,6 @@
     <None Include="resources\filters\asendcmd.json">
       <Filter>Ressourcendateien\Filters</Filter>
     </None>
-    <None Include="resources\filters\asetnsamples.json">
-      <Filter>Ressourcendateien\Filters</Filter>
-    </None>
     <None Include="resources\filters\asetpts.json">
       <Filter>Ressourcendateien\Filters</Filter>
     </None>

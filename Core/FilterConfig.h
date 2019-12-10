@@ -49,6 +49,10 @@ public:
 		// Process each filter
 		for (auto options : *this)
 		{
+			// Ignore filter as we only need it to set it in the codec context
+			if (options->id == "filter.setparams")
+				continue;
+
 			// Filter name
 			config << FF_FILTER_SEPARATOR << options->id.After('.');
 

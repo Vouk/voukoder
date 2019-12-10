@@ -1,65 +1,82 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "crop"
-  },
+  "id": "filter.crop",
+  "name": "crop",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.crop.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "out_w",
+          "parameter": "out_w",
+          "forced": true,
           "control": {
-            "type": "string",
-            "value": "iw"
-          },
-          "id": "filter.crop.standard.out_w",
-          "parameter": "out_w"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 16,
+            "value": 800
+          }
         },
         {
+          "id": "out_h",
+          "parameter": "out_h",
+          "forced": true,
           "control": {
-            "type": "string",
-            "value": "ih"
-          },
-          "id": "filter.crop.standard.out_h",
-          "parameter": "out_h"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 8,
+            "value": 600
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "x",
+          "parameter": "x",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 16,
+            "value": 0
+          }
         },
         {
+          "id": "y",
+          "parameter": "y",
           "control": {
-            "type": "string",
-            "value": "(in_w-out_w)/2"
-          },
-          "id": "filter.crop.standard.x",
-          "parameter": "x"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 8,
+            "value": 0
+          }
         },
         {
-          "control": {
-            "type": "string",
-            "value": "(in_h-out_h)/2"
-          },
-          "id": "filter.crop.standard.y",
-          "parameter": "y"
-        },
-        {
+          "id": "keep_aspect",
+          "parameter": "keep_aspect",
           "control": {
             "type": "boolean",
             "value": false
-          },
-          "id": "filter.crop.standard.keep_aspect",
-          "parameter": "keep_aspect"
+          }
         },
         {
+          "id": "exact",
+          "parameter": "exact",
           "control": {
             "type": "boolean",
             "value": false
-          },
-          "id": "filter.crop.standard.exact",
-          "parameter": "exact"
+          }
         }
       ]
     }
-  ],
-  "id": "filter.crop",
-  "name": "crop",
-  "type": "video"
+  ]
 }

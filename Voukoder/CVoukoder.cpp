@@ -111,7 +111,15 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	// Deal with color spaces
 	for(const auto & options: exportInfo.video.filters)
 	{
-		if (options->id == "filter.setparams")
+		if (options->id == "filter.crop")
+		{
+			if (options->find("out_w") != options->end())
+				exportInfo.video.width = stoi(options->at("out_w"));
+
+			if (options->find("out_h") != options->end())
+				exportInfo.video.height = stoi(options->at("out_h"));
+		}
+		else if (options->id == "filter.setparams")
 		{
 			// Field mode
 			if (options->find("field_mode") != options->end())
@@ -321,8 +329,15 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	exportInfo.filename = filename;
 	exportInfo.application = wxString::Format("%s (%s)", VKDR_APPNAME, std::wstring(info.application));
 	exportInfo.video.enabled = info.video.enabled;
-	exportInfo.video.width = info.video.width;
-	exportInfo.video.height = info.video.height;
+	
+	// Width (overwrite if width by filter is set)
+	if (exportInfo.video.width == 0)
+		exportInfo.video.width = info.video.width;
+
+	// Height (overwrite if height by filter is set)
+	if (exportInfo.video.height == 0)
+		exportInfo.video.height = info.video.height;
+
 	exportInfo.video.timebase = { info.video.timebase.num, info.video.timebase.den };
 	exportInfo.video.sampleAspectRatio = { info.video.aspectratio.num, info.video.aspectratio.den };
 
