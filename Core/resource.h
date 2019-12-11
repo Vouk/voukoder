@@ -38,6 +38,7 @@
 #define IDR_ENC_SVTAV1                  128
 #define IDR_ENC_SVTHEVC                 129
 #define IDR_ENC_VP9_QSV                 130
+#define IDR_ENC_SVTVP9                  131
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202

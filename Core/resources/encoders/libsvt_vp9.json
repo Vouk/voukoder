@@ -1,32 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "libsvt_av1",
-  "name": "AV1",
-  "defaults": {},
+  "id": "libsvt_vp9",
+  "name": "VP9 (SVT)",
+  "defaults": {
+    "_pixelFormat": "yuv420p"
+  },
   "groups": [
-    {
-      "id": "basic",
-      "class": "basic",
-      "properties": [
-        {
-          "id": "pixelFormat",
-          "parameter": "_pixelFormat",
-          "forced": true,
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "yuv420p"
-              },
-              {
-                "value": "yuv420p10le"
-              }
-            ]
-          }
-        }
-      ]
-    },
     {
       "class": "standard",
       "id": "standard",
@@ -34,7 +13,7 @@
         {
           "id": "rc",
           "parameter": "rc",
-          "forced": true,
+          "forced": false,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -47,16 +26,32 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvt_av1.standard.qp",
+                          "id": "libsvt_vp9.standard.qp",
                           "visible": true
                         },
                         {
-                          "id": "libsvt_av1.standard.bitrate",
+                          "id": "libsvt_vp9.standard.bitrate",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvt_vp9.standard.qp",
                           "visible": false
                         },
                         {
-                          "id": "libsvt_av1.standard.maxrate",
-                          "visible": false
+                          "id": "libsvt_vp9.standard.bitrate",
+                          "visible": true
                         }
                       ]
                     }
@@ -71,15 +66,11 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvt_av1.standard.qp",
+                          "id": "libsvt_vp9.standard.qp",
                           "visible": false
                         },
                         {
-                          "id": "libsvt_av1.standard.bitrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "libsvt_av1.standard.maxrate",
+                          "id": "libsvt_vp9.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -93,19 +84,19 @@
         {
           "id": "qp",
           "parameter": "qp",
-          "forced": true,
+          "forced": false,
           "control": {
             "type": "integer",
-            "maximum": 63,
+            "maximum": 51,
             "minimum": 0,
             "singleStep": 1,
-            "value": 50
+            "value": 32
           }
         },
         {
           "id": "bitrate",
           "parameter": "b",
-          "forced": true,
+          "forced": false,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -117,25 +108,12 @@
           "multiplicationFactor": 1000
         },
         {
-          "id": "maxrate",
-          "parameter": "maxrate",
-          "forced": true,
-          "control": {
-            "type": "integer",
-            "minimum": 100,
-            "maximum": 288000,
-            "singleStep": 1000,
-            "value": 15000
-          },
-          "multiplicationFactor": 1000
-        },
-        {
           "id": "preset",
           "parameter": "preset",
-          "forced": true,
+          "forced": false,
           "control": {
             "type": "combobox",
-            "selectedIndex": 8,
+            "selectedIndex": 9,
             "items": [
               {
                 "value": "0"
@@ -163,23 +141,29 @@
               },
               {
                 "value": "8"
+              },
+              {
+                "value": "9"
               }
             ]
           }
         },
         {
-          "id": "tier",
-          "parameter": "tier",
-          "forced": true,
+          "id": "tune",
+          "parameter": "tune",
+          "forced": false,
           "control": {
             "type": "combobox",
-            "selectedIndex": 0,
+            "selectedIndex": 1,
             "items": [
               {
-                "value": "main"
+                "value": "vq"
               },
               {
-                "value": "high"
+                "value": "ssim"
+              },
+              {
+                "value": "vmaf"
               }
             ]
           }
@@ -198,43 +182,28 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "2.0"
+                "value": "1"
+              },
+              {
+                "value": "2"
               },
               {
                 "value": "2.1"
               },
               {
-                "value": "2.2"
-              },
-              {
-                "value": "2.3"
-              },
-              {
-                "value": "3.0"
+                "value": "3"
               },
               {
                 "value": "3.1"
               },
               {
-                "value": "3.2"
-              },
-              {
-                "value": "3.3"
-              },
-              {
-                "value": "4.0"
+                "value": "4"
               },
               {
                 "value": "4.1"
               },
               {
-                "value": "4.2"
-              },
-              {
-                "value": "4.3"
-              },
-              {
-                "value": "5.0"
+                "value": "5"
               },
               {
                 "value": "5.1"
@@ -243,31 +212,13 @@
                 "value": "5.2"
               },
               {
-                "value": "5.3"
-              },
-              {
-                "value": "6.0"
+                "value": "6"
               },
               {
                 "value": "6.1"
               },
               {
                 "value": "6.2"
-              },
-              {
-                "value": "6.3"
-              },
-              {
-                "value": "7.0"
-              },
-              {
-                "value": "7.1"
-              },
-              {
-                "value": "7.2"
-              },
-              {
-                "value": "7.3"
               }
             ]
           }
@@ -294,23 +245,15 @@
                 "value": "flat"
               },
               {
+                "value": "1level"
+              },
+              {
                 "value": "2level"
               },
               {
                 "value": "3level"
-              },
-              {
-                "value": "4level"
               }
             ]
-          }
-        },
-        {
-          "id": "sc_detection",
-          "parameter": "sc_detection",
-          "control": {
-            "type": "boolean",
-            "value": false
           }
         },
         {
@@ -324,14 +267,6 @@
         {
           "id": "forced-idr",
           "parameter": "forced-idr",
-          "control": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "id": "aud",
-          "parameter": "aud",
           "control": {
             "type": "boolean",
             "value": false

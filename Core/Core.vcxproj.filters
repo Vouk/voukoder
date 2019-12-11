@@ -1114,6 +1114,9 @@
     <None Include="resources\filters\decimate.json">
       <Filter>Ressourcendateien\Filters</Filter>
     </None>
+    <None Include="resources\encoders\libsvt_vp9.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
