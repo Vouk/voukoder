@@ -335,26 +335,9 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		else
 			return -1;
 
-		// Check for a zscaler filter
-		for (auto const& options : exportInfo.video.filters)
-		{
-			wxString id = options->id.After('.');
-			if (id == "zscale" &&
-				options->find("width") != options->end() &&
-				options->find("height") != options->end())
-			{
-				encoderContext->codecContext->width = wxAtoi(options->at("width"));
-				encoderContext->codecContext->height = wxAtoi(options->at("height"));
-			}
-			else if (id == "yadif" || id == "bwdif")
-				encoderContext->codecContext->field_order = AV_FIELD_PROGRESSIVE;
-		}
-
 		// Add stats_info to second pass
 		if (codecId != "libx264" && encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
-		{
 			encoderContext->codecContext->stats_in = encoderContext->stats_info;
-		}
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{

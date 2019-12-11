@@ -108,10 +108,12 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
 	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 
-	// Deal with color spaces
+	// Apply filter outputs
 	for(const auto & options: exportInfo.video.filters)
 	{
-		if (options->id == "filter.pad")
+		if (options->id == "filter.yadif" || options->id == "filter.bwdif")
+			exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
+		else if (options->id == "filter.pad" || options->id == "filter.zscale")
 		{
 			if (options->find("width") != options->end())
 				exportInfo.video.width = stoi(options->at("width"));
