@@ -1797,7 +1797,7 @@
     "libfdk_aac.misc.latm._label": "Вывод инкапсулированных данных LATM/LOAS",
     "libfdk_aac.misc.latm._description": "Вывод инкапсулированных данных LATM/LOAS",
     "libfdk_aac.misc.signaling._label": "Сигнализирование",
-    "libfdk_aac.misc.signaling._description": "Set SBR/PS signaling style.\n\nIt can assume one of the following values:\n\n'default'\nchoose signaling implicitly (explicit hierarchical by default, implicit if global header is disabled)\n\n'implicit'\nimplicit backwards compatible signaling\n\n'explicit_sbr'\nexplicit SBR, implicit PS signaling\n\n'explicit_hierarchical'\nexplicit hierarchical signaling",
+    "libfdk_aac.misc.signaling._description": "Установить стиль сигнализирования SBR/PS.\n\nМожет принимать одно из следующих значений:\n\n'default'\nвыбрать сигнализирование косвенно (явная иерархическая по умолчанию; неявная, если глобальный заголовок отключен)\n\n'implicit'\nобратно-совместимое неявное сигнализирование\n\n'explicit_sbr'\nявный SBR, неявное PS-сигнализирование\n\n'explicit_hierarchical'\nявное иерархическое сигнализирование",
     "libfdk_aac.misc.signaling._item_0": "Implicit backwards compatible",
     "libfdk_aac.misc.signaling._item_1": "Explicit SBR, implicit PS",
     "libfdk_aac.misc.signaling._item_2": "Explicit hierarchical",
