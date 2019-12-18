@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "video": [
+    {
+      "id": "A0CB3A42-BB07-4663-B2EC-9DAE4AC5C7D1",
+      "name": "YouTube Quality (NVENC)",
+      "description": "8 bit YUV 4:2:0",
+      "encoder": "h264_nvenc",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "constq",
+        "qp": "15",
+        "preset": "slow",
+        "profile": "high",
+        "bf": "3"
+      },
+      "sidedata": {},
+      "filters": []
+    }
+  ],
+  "audio": [
+  ]
+}

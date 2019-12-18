@@ -7,6 +7,7 @@
 #define ID_MISC                         50
 #define IDR_VIDEO_SIDE_DATA             51
 #define IDR_AUDIO_SIDE_DATA             52
+#define IDR_PRESETS                     53
 #define ID_ENCODER                      100
 #define IDR_ENC_AAC                     101
 #define IDR_ENC_AC3                     102

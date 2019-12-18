@@ -3,6 +3,38 @@
   "id": "libx264",
   "name": "H.264 (x264)",
   "defaults": {},
+  "presets": [
+    {
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "crf",
+        "crf": "19.0",
+        "preset": "medium"
+      }
+    },
+    {
+      "name": "High quality",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "crf",
+        "crf": "17.0",
+        "preset": "medium"
+      }
+    },
+    {
+      "name": "Lossless",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "crf",
+        "crf": "0.0",
+        "preset": "medium"
+      }
+    }
+  ],
   "parameterGroups": {
     "x264-params": [
       "interlaced",

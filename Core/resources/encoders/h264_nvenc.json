@@ -5,23 +5,6 @@
   "defaults": {
     "_pixelFormat": "yuv420p"
   },
-  "presets": [
-    {
-      "id": "firstgroup",
-      "presets": [
-        {
-          "id": "test1",
-          "options": "bf=2 preset=slow profile=high qp=19 rc=constqp g=%(fps*10)"
-        }
-      ],
-      "group": [
-        {
-          "id": "testgroup",
-          "presets": []
-        }
-      ]
-    }
-  ],
   "groups": [
     {
       "id": "h264_nvenc.standard",

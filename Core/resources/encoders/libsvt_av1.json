@@ -3,6 +3,7 @@
   "id": "libsvt_av1",
   "name": "AV1",
   "defaults": {},
+  "presets": [],
   "groups": [
     {
       "id": "basic",

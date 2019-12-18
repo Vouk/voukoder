@@ -29,15 +29,6 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxOptionEditor::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
 	bSizer->Add(m_propertyGrid, 1, wxALL | wxEXPAND, 5);
 
-	// Preview
-	if (hasPreview)
-	{
-		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
-		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
-		m_preview->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
-		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
-	}
-
 	// Buttons
 	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -61,6 +52,15 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 	m_btnPanel->Layout();
 	btnSizer2->Fit(m_btnPanel);
 	bSizer->Add(m_btnPanel, 0, wxEXPAND | wxALL);
+
+	// Preview
+	if (hasPreview)
+	{
+		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
+		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
+		m_preview->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
+		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
+	}
 
 	this->SetSizer(bSizer);
 	this->Layout();

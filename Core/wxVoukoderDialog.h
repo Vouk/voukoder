@@ -18,22 +18,20 @@
 #include "wxPGOptionProperty.h"
 #include "ExportInfo.h"
 #include "wxFilterPanel.h"
-#include "wxConfigurationDialog.h"
 #include "wxVoukoderTaskBarIcon.h"
+#include "wxEncoderPage.h"
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
 class wxVoukoderDialog: public wxDialog
 {
 protected:
-	wxChoice* m_genEncVideoChoice = NULL;
-	wxButton* m_genEncVideoConfig = NULL;
-	wxChoice* m_genEncAudioChoice = NULL;
-	wxButton* m_genEncAudioConfig = NULL;
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
 	wxVoukoderTaskBarIcon* m_voukoderTaskBarIcon = NULL;
+	wxEncoderPage* m_videoPanel = NULL;
+	wxEncoderPage* m_audioPanel = NULL;
 
 public:
 	wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo);
@@ -43,7 +41,7 @@ private:
 	ExportInfo& exportInfo;
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;
-	wxPanel* CreateGeneralPanel(wxWindow* parent);
+	wxControl* CreateGeneralPanel(wxWindow* parent);
 	wxPanel* CreateSettingsPanel(wxWindow* parent);
 	wxPanel* CreateAboutPanel(wxWindow* parent);
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value, wxString link = "");
@@ -55,8 +53,7 @@ private:
 	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
 	void UpdateFormats();
-	void OnVideoEncoderChanged(wxCommandEvent& event);
-	void OnAudioEncoderChanged(wxCommandEvent& event);
+	void OnEncoderChanged(wxEncoderChangedEvent& event);
 	void OnMuxerChanged(wxCommandEvent& event);
 	void OnOkayClick(wxCommandEvent& event);
 };

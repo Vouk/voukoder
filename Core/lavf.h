@@ -17,6 +17,7 @@ extern "C" {
 #include "libavutil/mathematics.h"
 #include "libavutil/spherical.h"
 #include "libavutil/stereo3D.h"
+#include "libavutil/mastering_display_metadata.h"
 #include "x264.h"
 #include "x265.h"
 }

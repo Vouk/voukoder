@@ -17,5 +17,4 @@ public:
 
 private:
 	static AVMediaType GetMediaType(const wxString codecId);
-	static void CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup &parent, const json json);
 };

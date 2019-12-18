@@ -7,6 +7,7 @@
 #include "PluginUpdate.h"
 #include "Images.h"
 #include "Voukoder.h"
+#include "wxEncoderPage.h"
 #include "Log.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
@@ -65,13 +66,11 @@ void wxVoukoderDialog::InitGUI()
 	wxImageList* m_listbook1Images = new wxImageList(48, 48);
 	{
 		wxLogNull logNo;
-		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_HOME));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_OUTPUT));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_VIDEO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_AUDIO));
 		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_SETTINGS));
-		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_LOGFILE));
-		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_INFO));
-		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_UPDATE));
+		m_listbook1Images->Add(wxBITMAP_PNG_FROM_DATA(IMG_ICON_ABOUT));
 	}
 	
 	size_t imageIdx = 0;
@@ -87,13 +86,28 @@ void wxVoukoderDialog::InitGUI()
 	m_Categories->AddPage(CreateGeneralPanel(m_Categories), Trans("ui.encoderconfig.general"), true);
 	m_Categories->SetPageImage(imageIdx++, 0);
 
+	// Video panel
+	m_videoPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().videoEncoderInfos, Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
+	m_videoPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
+	if (!m_videoPanel->SetEncoder(exportInfo.video.id))
+		m_videoPanel->SetEncoder(DefaultVideoEncoder);
+	m_Categories->AddPage(m_videoPanel, Trans("ui.encoderconfig.video"), false);
+	m_Categories->SetPageImage(imageIdx++, 1);
+
+	// Audio panel
+	m_audioPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().audioEncoderInfos, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
+	if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
+		m_audioPanel->SetEncoder(DefaultAudioEncoder);
+	m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), false);
+	m_Categories->SetPageImage(imageIdx++, 2);
+	
 	// Settings panel
 	m_Categories->AddPage(CreateSettingsPanel(m_Categories), Trans("ui.encoderconfig.settings"), false);
 	m_Categories->SetPageImage(imageIdx++, 3);
 
 	// About panel
 	m_Categories->AddPage(CreateAboutPanel(m_Categories), Trans("ui.encoderconfig.about"), false);
-	m_Categories->SetPageImage(imageIdx++, 5);
+	m_Categories->SetPageImage(imageIdx++, 4);
 
 	bDialogLayout->Add(m_Categories, 1, wxEXPAND | wxALL, 5);
 
@@ -122,106 +136,12 @@ void wxVoukoderDialog::InitGUI()
 	SetConfiguration();
 }
 
-wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
+wxControl* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 {
-	wxPanel* m_genPanel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxNotebook* m_notebook = new wxNotebook(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+	wxPanel* m_genPanel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bGenSizer = new wxBoxSizer(wxVERTICAL);
-
-	wxPanel* m_genEncPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer* sbGenEncSizer = new wxStaticBoxSizer(new wxStaticBox(m_genEncPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders")), wxVERTICAL);
-
-	wxPanel* m_genEncFormPanel = new wxPanel(sbGenEncSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxGridBagSizer* gbGenEncFormSizer = new wxGridBagSizer(0, 0);
-	gbGenEncFormSizer->SetFlexibleDirection(wxHORIZONTAL);
-	gbGenEncFormSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-	wxStaticText* m_genEncVideoLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genEncVideoLabel->Wrap(-1);
-	m_genEncVideoLabel->Enable(exportInfo.video.enabled);
-	m_genEncVideoLabel->SetMinSize(minLabelWidth);
-	gbGenEncFormSizer->Add(m_genEncVideoLabel, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-	wxArrayString m_genEncVideoChoiceChoices;
-	m_genEncVideoChoice = new wxChoice(m_genEncFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genEncVideoChoiceChoices, wxCB_SORT);
-	m_genEncVideoChoice->Enable(exportInfo.video.enabled);
-	m_genEncVideoChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnVideoEncoderChanged, this);
-	m_genEncVideoChoice->Enable(exportInfo.video.enabled);
-	gbGenEncFormSizer->Add(m_genEncVideoChoice, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-
-	// Populate encoders
-	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
-	{
-		if (encoder.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
-			m_genEncVideoChoice->Append(encoder.name, (void*)&encoder);
-	}
-
-	// General > Video > Side data
-
-	m_genEncVideoConfig = new wxButton(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.video.configure"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genEncVideoConfig->Enable(exportInfo.video.enabled);
-	m_genEncVideoConfig->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
-		{
-			// Open the configure dialog
-			wxConfigurationDialog dialog(this,
-				*GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice),
-				Voukoder::Config::Get().videoSideData,
-				Voukoder::Config::Get().videoFilterInfos,
-				videoSettings);
-
-			dialog.ShowModal();
-		});
-	gbGenEncFormSizer->Add(m_genEncVideoConfig, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
-
-	wxStaticText* m_genEncAudioLabel = new wxStaticText(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genEncAudioLabel->Wrap(-1);
-	m_genEncAudioLabel->Enable(exportInfo.audio.enabled);
-	m_genEncAudioLabel->SetMinSize(minLabelWidth);
-	gbGenEncFormSizer->Add(m_genEncAudioLabel, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-	wxArrayString m_genEncAudioChoiceChoices;
-	m_genEncAudioChoice = new wxChoice(m_genEncFormPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_genEncAudioChoiceChoices, wxCB_SORT);
-	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
-	m_genEncAudioChoice->Bind(wxEVT_COMMAND_CHOICE_SELECTED, &wxVoukoderDialog::OnAudioEncoderChanged, this);
-	m_genEncAudioChoice->Enable(exportInfo.audio.enabled);
-	gbGenEncFormSizer->Add(m_genEncAudioChoice, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL | wxEXPAND, 5);
-
-	// Populate encoders
-	for (auto& encoder : Voukoder::Config::Get().encoderInfos)
-	{
-		if (encoder.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
-			m_genEncAudioChoice->Append(encoder.name, (void*)&encoder);
-	}
-
-	// General > Audio > Side data
-
-	m_genEncAudioConfig = new wxButton(m_genEncFormPanel, wxID_ANY, Trans("ui.encoderconfig.general.encoders.audio.configure"), wxDefaultPosition, wxDefaultSize, 0);
-	m_genEncAudioConfig->Enable(exportInfo.audio.enabled);
-	m_genEncAudioConfig->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
-		{
-			// Open the configure dialog
-			wxConfigurationDialog dialog(this,
-				*GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice),
-				Voukoder::Config::Get().audioSideData,
-				Voukoder::Config::Get().audioFilterInfos,
-				audioSettings);
-
-			dialog.ShowModal();
-		});
-	gbGenEncFormSizer->Add(m_genEncAudioConfig, wxGBPosition(1, 2), wxGBSpan(1, 1), wxALL, 5);
-
-
-	gbGenEncFormSizer->AddGrowableCol(1);
-
-	m_genEncFormPanel->SetSizer(gbGenEncFormSizer);
-	m_genEncFormPanel->Layout();
-	gbGenEncFormSizer->Fit(m_genEncFormPanel);
-	sbGenEncSizer->Add(m_genEncFormPanel, 1, wxEXPAND | wxALL, 5);
-
-
-	m_genEncPanel->SetSizer(sbGenEncSizer);
-	m_genEncPanel->Layout();
-	sbGenEncSizer->Fit(m_genEncPanel);
-	bGenSizer->Add(m_genEncPanel, 0, wxEXPAND | wxALL, 5);
 
 	// General > Muxer
 
@@ -262,8 +182,8 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 		
 	// General > ...
 
-	wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	bGenSizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
+	//wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	//bGenSizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
 
 	//
 	
@@ -271,7 +191,9 @@ wxPanel* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	m_genPanel->Layout();
 	bGenSizer->Fit(m_genPanel);
 
-	return m_genPanel;
+	m_notebook->AddPage(m_genPanel, Trans("ui.encoderconfig.general"), true);
+
+	return m_notebook;
 }
 
 wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
@@ -317,8 +239,7 @@ wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 
 wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 {
-	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME | wxTAB_TRAVERSAL);
-	panel->SetBackgroundColour(wxColour(255, 255, 255));
+	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
 
 	wxPanel* m_headerPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
@@ -350,7 +271,6 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.author"), wxT("Daniel Stankewitz - @LordVouk"), wxT("https://twitter.com/LordVouk")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.awesomefont"), wxT("Dave Gandy / CC 3.0 BY")), 0, wxALIGN_CENTER | wxALL, 0);
 
 	// (Top) patrons
 	wxStaticText* m_label = new wxStaticText(panel, wxID_ANY, Trans("ui.encoderconfig.about.toppatrons"), wxDefaultPosition, wxDefaultSize, wxALL);
@@ -462,18 +382,9 @@ wxPanel* wxVoukoderDialog::CreateCenteredText(wxPanel* parent, wxString label, w
 
 void wxVoukoderDialog::SetConfiguration()
 {
-	// Select correct items
-	EncoderInfo* videoInfo = SelectChoiceById<EncoderInfo*>(m_genEncVideoChoice, exportInfo.video.id, DefaultVideoEncoder);
-	EncoderInfo* audioInfo = SelectChoiceById<EncoderInfo*>(m_genEncAudioChoice, exportInfo.audio.id, DefaultAudioEncoder);
-
-	wxCommandEvent event;
-
-	// Trigger onchanged events
-	if (videoInfo)
-		OnVideoEncoderChanged(event);
-	
-	if (audioInfo)
-		OnAudioEncoderChanged(event);
+	// Populate muxers
+	wxEncoderChangedEvent event;
+	OnEncoderChanged(event);
 
 	// Get UI languages
 	Voukoder::Config &config = Voukoder::Config::Get();
@@ -489,94 +400,17 @@ void wxVoukoderDialog::SetConfiguration()
 	}
 }
 
-void wxVoukoderDialog::OnVideoEncoderChanged(wxCommandEvent& event)
-{
-	// Get selected encoder info
-	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
-	if (info == NULL)
-	{
-		vkLogError("Video info choice did not contain any data.");
-		return;
-	}
-
-	// Clear options when encoder changes (except on startup)
-	if (event.GetId() != 0)
-		videoSettings.options.clear();
-	
-	EncoderInfo sideData = Voukoder::Config::Get().videoSideData;
-	std::vector<EncoderInfo> filters = Voukoder::Config::Get().videoFilterInfos;
-
-	// Enable or disable configure button
-	m_genEncVideoConfig->Enable(exportInfo.video.enabled &&
-		(info->groups.size() > 0 ||
-			sideData.groups.size() > 0 ||
-			filters.size() > 0));
-
-	// Get default options
-	wxConfigurationDialog dialog(this, *info, sideData, filters, videoSettings);
-	dialog.ApplyChanges();
-
-	UpdateFormats();
-
-	// Unfold param groups
-	for (auto& paramGroup : info->paramGroups)
-	{
-		if (videoSettings.options.find(paramGroup.first) != videoSettings.options.end())
-		{
-			wxStringTokenizer tokens(videoSettings.options[paramGroup.first], ":");
-			while (tokens.HasMoreTokens())
-			{
-				wxString token = tokens.GetNextToken();
-				videoSettings.options.insert(
-					std::make_pair(token.BeforeFirst('='), token.AfterFirst('=')));
-			}
-
-			videoSettings.options.erase(paramGroup.first);
-		}
-	}
-}
-
-void wxVoukoderDialog::OnAudioEncoderChanged(wxCommandEvent& event)
-{
-	// Get selected encoder info
-	EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
-	if (info == NULL)
-	{
-		vkLogError("Audio info choice did not contain any data.");
-		return;
-	}
-
-	// Clear options when encoder changes (except on startup)
-	if (event.GetId() != 0)
-		audioSettings.options.clear();
-
-	EncoderInfo sideData = Voukoder::Config::Get().audioSideData;
-	std::vector<EncoderInfo> filters = Voukoder::Config::Get().audioFilterInfos;
-
-	// Enable or disable configure button
-	m_genEncAudioConfig->Enable(exportInfo.audio.enabled &&
-		(info->groups.size() > 0 ||
-			sideData.groups.size() > 0 ||
-			filters.size() > 0));
-
-	// Get default options
-	wxConfigurationDialog dialog(this, *info, sideData, filters, audioSettings);
-	dialog.ApplyChanges();
-
-	UpdateFormats();
-}
-
-void wxVoukoderDialog::UpdateFormats()
+void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
 {
 	// Get selected encoders
-	EncoderInfo* videoInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
+	EncoderInfo* videoInfo = m_videoPanel->GetSelectedEncoder();
 	if (videoInfo == NULL)
 	{
 		vkLogError("Video info choice did not contain any data.");
 		return;
 	}
 
-	EncoderInfo* audioInfo = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
+	EncoderInfo* audioInfo = m_audioPanel->GetSelectedEncoder();
 	if (audioInfo == NULL)
 	{
 		vkLogError("Audio info choice did not contain any data.");
@@ -638,14 +472,19 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	// Video
 	if (exportInfo.video.enabled)
 	{
-		EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncVideoChoice);
-		exportInfo.video.id = info->id;
+		m_videoPanel->ApplyChanges();
 
-		// Copy options
-		exportInfo.video.options.clear();
-		exportInfo.video.options.insert(info->defaults.begin(), info->defaults.end());
-		for (auto item : videoSettings.options)
-			exportInfo.video.options[item.first] = item.second;
+		EncoderInfo* info = m_videoPanel->GetSelectedEncoder();
+		if (info)
+		{
+			exportInfo.video.id = info->id;
+
+			// Copy options
+			exportInfo.video.options.clear();
+			exportInfo.video.options.insert(info->defaults.begin(), info->defaults.end());
+			for (auto item : videoSettings.options)
+				exportInfo.video.options[item.first] = item.second;
+		}
 
 		// Copy side data
 		exportInfo.video.sideData.clear();
@@ -658,14 +497,19 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	// Audio
 	if (exportInfo.audio.enabled)
 	{
-		EncoderInfo* info = GetDataFromSelectedChoice<EncoderInfo*>(m_genEncAudioChoice);
-		exportInfo.audio.id = info->id;
+		m_audioPanel->ApplyChanges();
 
-		// Copy options
-		exportInfo.audio.options.clear();
-		exportInfo.audio.options.insert(info->defaults.begin(), info->defaults.end());
-		for (auto item : audioSettings.options)
-			exportInfo.audio.options[item.first] = item.second;
+		EncoderInfo* info = m_audioPanel->GetSelectedEncoder();
+		if (info)
+		{
+			exportInfo.audio.id = info->id;
+
+			// Copy options
+			exportInfo.audio.options.clear();
+			exportInfo.audio.options.insert(info->defaults.begin(), info->defaults.end());
+			for (auto item : audioSettings.options)
+				exportInfo.audio.options[item.first] = item.second;
+		}
 
 		// Copy side data
 		exportInfo.audio.sideData.clear();

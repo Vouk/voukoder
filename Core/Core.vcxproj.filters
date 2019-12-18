@@ -135,9 +135,6 @@
     <ClInclude Include="FilterConfig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxConfigurationDialog.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="wxOptionEditor.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -148,6 +145,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="wxVoukoderTaskBarIcon.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEncoderPage.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEncoderPanel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PresetInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -191,9 +197,6 @@
     <ClCompile Include="wxFilterPanel.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="wxConfigurationDialog.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="wxOptionEditor.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -201,6 +204,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxVoukoderTaskBarIcon.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEncoderPage.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEncoderPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PresetInfo.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1116,6 +1128,9 @@
     </None>
     <None Include="resources\encoders\libsvt_vp9.json">
       <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\presets.json">
+      <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,8 @@ namespace Voukoder
 		}
 		EncoderInfo videoSideData;
 		EncoderInfo audioSideData;
-		std::vector<EncoderInfo> encoderInfos;
+		std::vector<EncoderInfo> videoEncoderInfos;
+		std::vector<EncoderInfo> audioEncoderInfos;
 		std::vector<MuxerInfo> muxerInfos;
 		std::vector<EncoderInfo> videoFilterInfos;
 		std::vector<EncoderInfo> audioFilterInfos;
