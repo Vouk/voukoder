@@ -2201,7 +2201,7 @@
     "mpeg2video.advanced.drop_frame_timecode._label": "Таймкод пропуска кадра",
     "mpeg2video.advanced.drop_frame_timecode._description": "Таймкод в формате пропуска кадра.",
     "mpeg2video.advanced.scan_offset._label": "Смещение сканирования",
-    "mpeg2video.advanced.scan_offset._description": "Reserve space for SVCD scan offset user data.",
+    "mpeg2video.advanced.scan_offset._description": "Зарезервировать место для смещений пользовательских данных сканирования SVCD.",
     "mpeg2video.advanced.timecode_frame_start._label": "Timecode frame start",
     "mpeg2video.advanced.timecode_frame_start._description": "GOP timecode frame start number, in non-drop-frame format",
     "mpeg2video.advanced.non_linear_quant._label": "Nonlinear quantizer",
