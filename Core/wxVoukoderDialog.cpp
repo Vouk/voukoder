@@ -96,6 +96,7 @@ void wxVoukoderDialog::InitGUI()
 
 	// Audio panel
 	m_audioPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().audioEncoderInfos, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
+	m_audioPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
 	if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
 		m_audioPanel->SetEncoder(DefaultAudioEncoder);
 	m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), false);

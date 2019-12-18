@@ -33,7 +33,7 @@ wxEncoderPanel::wxEncoderPanel(wxWindow* parent, std::vector<EncoderInfo> encode
 	// Presets
 
 	wxPanel* m_presetsPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer* sbPresetsSizer = new wxStaticBoxSizer(new wxStaticBox(m_presetsPanel, wxID_ANY, Trans("ui.voukoder.configuration.encoder.preset")), wxVERTICAL);
+	wxStaticBoxSizer* sbPresetsSizer = new wxStaticBoxSizer(new wxStaticBox(m_presetsPanel, wxID_ANY, Trans("ui.voukoder.configuration.encoder.presets")), wxVERTICAL);
 
 	m_presetList = new wxListBox(m_presetsPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 , NULL, 0);
 	m_presetList->SetMinSize(wxSize(-1, 100));
