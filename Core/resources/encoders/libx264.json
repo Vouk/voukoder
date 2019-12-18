@@ -11,7 +11,8 @@
         "_pixelFormat": "yuv420p",
         "rc": "crf",
         "crf": "19.0",
-        "preset": "medium"
+        "preset": "medium",
+        "profile": "high"
       }
     },
     {
@@ -21,7 +22,8 @@
         "_pixelFormat": "yuv420p",
         "rc": "crf",
         "crf": "17.0",
-        "preset": "medium"
+        "preset": "medium",
+        "profile": "high"
       }
     },
     {
@@ -31,7 +33,8 @@
         "_pixelFormat": "yuv420p",
         "rc": "crf",
         "crf": "0.0",
-        "preset": "medium"
+        "preset": "medium",
+        "profile": "high"
       }
     }
   ],
