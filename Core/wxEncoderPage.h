@@ -20,7 +20,6 @@ public:
 	wxEncoderPage(wxWindow* parent, std::vector<EncoderInfo> encoders, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings);
 	bool SetEncoder(wxString id);
 	EncoderInfo* GetSelectedEncoder();
-	void Change(EncoderInfo info);
 	void ApplyChanges();
 
 protected:
@@ -30,7 +29,6 @@ protected:
 	wxFilterPanel* m_filterPanel = NULL;
 
 private:
-	EncoderInfo info;
 	TrackSettings& settings;
 	void OnEncoderChanged(wxEncoderChangedEvent& event);
 	void OnApplyPreset(wxApplyPresetEvent& event);

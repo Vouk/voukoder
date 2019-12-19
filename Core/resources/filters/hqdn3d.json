@@ -1,61 +1,62 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "hqdn3d"
-  },
+  "id": "filter.hqdn3d",
+  "name": "hqdn3d",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.hqdn3d.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "luma_spatial",
+          "parameter": "luma_spatial",
+          "forced": true,
           "control": {
-            "maximum": 3.4028234663852886e+38,
-            "minimum": 0.0,
-            "singleStep": 0.10000000149011612,
             "type": "float",
-            "value": 0.0
-          },
-          "id": "filter.hqdn3d.standard.luma_spatial",
-          "parameter": "luma_spatial"
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "value": 4.0
+          }
         },
         {
+          "id": "chroma_spatial",
+          "parameter": "chroma_spatial",
+          "forced": true,
           "control": {
-            "maximum": 3.4028234663852886e+38,
-            "minimum": 0.0,
-            "singleStep": 0.10000000149011612,
             "type": "float",
-            "value": 0.0
-          },
-          "id": "filter.hqdn3d.standard.chroma_spatial",
-          "parameter": "chroma_spatial"
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
+            "value": 3.0
+          }
         },
         {
+          "id": "luma_tmp",
+          "parameter": "luma_tmp",
+          "forced": true,
           "control": {
-            "maximum": 3.4028234663852886e+38,
-            "minimum": 0.0,
-            "singleStep": 0.10000000149011612,
             "type": "float",
-            "value": 0.0
-          },
-          "id": "filter.hqdn3d.standard.luma_tmp",
-          "parameter": "luma_tmp"
+            "maximum": 100.0,
+            "minimum": -100.0,
+            "singleStep": 0.1,
+            "value": 6.0
+          }
         },
         {
+          "id": "chroma_tmp",
+          "parameter": "chroma_tmp",
+          "forced": true,
           "control": {
-            "maximum": 3.4028234663852886e+38,
-            "minimum": 0.0,
-            "singleStep": 0.10000000149011612,
             "type": "float",
-            "value": 0.0
-          },
-          "id": "filter.hqdn3d.standard.chroma_tmp",
-          "parameter": "chroma_tmp"
+            "maximum": 100.0,
+            "minimum": -100.0,
+            "singleStep": 0.1,
+            "value": 4.5
+          }
         }
       ]
     }
-  ],
-  "id": "filter.hqdn3d",
-  "name": "hqdn3d",
-  "type": "video"
+  ]
 }

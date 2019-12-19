@@ -60,6 +60,23 @@ EncoderInfo* wxEncoderPage::GetSelectedEncoder()
 	return m_encoderPanel->GetSelectedEncoder();
 }
 
+void wxEncoderPage::ApplyChanges()
+{
+	// Set encoder config
+	settings.options.clear();
+	settings.options.insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
+
+	// Set side data config
+	settings.sideData.clear();
+	if (m_sideDataOptions)
+		settings.sideData.insert(m_sideDataOptions->results.begin(), m_sideDataOptions->results.end());
+
+	// Filters
+	settings.filters.clear();
+	if (m_filterPanel)
+		m_filterPanel->GetFilterConfig(settings.filters);
+}
+
 void wxEncoderPage::OnEncoderChanged(wxEncoderChangedEvent& event)
 {
 	// Get selected encoder info
@@ -105,31 +122,4 @@ void wxEncoderPage::OnApplyPreset(wxApplyPresetEvent& event)
 	m_encoderOptions->Configure(*encoderInfo, settings.options);
 
 	wxMessageBox(Trans("ui.voukoder.configuration.encoder.confirmation"), VKDR_APPNAME, wxICON_INFORMATION);
-}
-
-void wxEncoderPage::Change(EncoderInfo info)
-{
-	m_encoderOptions->Configure(info, settings.options);
-}
-
-void wxEncoderPage::ApplyChanges()
-{
-	// Clear all current settings
-	settings.options.clear();
-	settings.sideData.clear();
-	settings.filters.clear();
-
-	// Set encoder config
-	if (m_encoderOptions)
-		settings.options.insert(m_encoderOptions->results.begin(), m_encoderOptions->results.end());
-	else
-		settings.options.insert(info.defaults.begin(), info.defaults.end());
-
-	// Set side data config
-	if (m_sideDataOptions)
-		settings.sideData.insert(m_sideDataOptions->results.begin(), m_sideDataOptions->results.end());
-
-	// Filters
-	if (m_filterPanel)
-		m_filterPanel->GetFilterConfig(settings.filters);
 }

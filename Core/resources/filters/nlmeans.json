@@ -1,72 +1,74 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "nlmeans"
-  },
+  "id": "filter.nlmeans",
+  "name": "nlmeans",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.nlmeans.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "s",
+          "parameter": "s",
+          "forced": true,
           "control": {
+            "type": "float",
             "maximum": 30.0,
             "minimum": 1.0,
-            "singleStep": 0.10000000149011612,
-            "type": "float",
+            "singleStep": 1.0,
             "value": 1.0
-          },
-          "id": "filter.nlmeans.standard.s",
-          "parameter": "s"
+          }
         },
         {
+          "id": "p",
+          "parameter": "p",
+          "forced": true,
           "control": {
+            "type": "integer",
             "maximum": 99,
             "minimum": 0,
             "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.nlmeans.standard.p",
-          "parameter": "p"
+            "value": 7
+          }
         },
         {
+          "id": "pc",
+          "parameter": "pc",
+          "forced": true,
           "control": {
+            "type": "integer",
             "maximum": 99,
             "minimum": 0,
             "singleStep": 1,
-            "type": "integer",
             "value": 0
-          },
-          "id": "filter.nlmeans.standard.pc",
-          "parameter": "pc"
+          }
         },
         {
+          "id": "r",
+          "parameter": "r",
+          "forced": true,
           "control": {
+            "type": "integer",
             "maximum": 99,
             "minimum": 0,
             "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.nlmeans.standard.r",
-          "parameter": "r"
+            "value": 15
+          }
         },
         {
+          "id": "rc",
+          "parameter": "rc",
+          "forced": true,
           "control": {
+            "type": "integer",
             "maximum": 99,
             "minimum": 0,
             "singleStep": 1,
-            "type": "integer",
             "value": 0
-          },
-          "id": "filter.nlmeans.standard.rc",
-          "parameter": "rc"
+          }
         }
       ]
     }
-  ],
-  "id": "filter.nlmeans",
-  "name": "nlmeans",
-  "type": "video"
+  ]
 }
