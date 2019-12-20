@@ -10,7 +10,7 @@
     "ui.voukoder.configuration.encoder.codec": "Codec",
     "ui.voukoder.configuration.encoder.presets": "Préréglages",
     "ui.voukoder.configuration.encoder.apply": "Appliquer",
-    "ui.voukoder.configuration.encoder.confirmation": "The selected preset has been loaded.",
+    "ui.voukoder.configuration.encoder.confirmation": "Le préréglage sélectionné a été chargé.",
     "ui.voukoder.configuration.options": "Options",
     "ui.voukoder.configuration.sidedata": "Données complémentaires du format",
     "ui.voukoder.configuration.filters": "Filtres",
