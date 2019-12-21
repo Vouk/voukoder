@@ -2668,7 +2668,7 @@
     "filter.nlmeans.standard.rc._description": "Установить размер поиска цветности.",
     "filter.removegrain": "Удаление зерна",
     "filter.removegrain.standard": "Стандартные",
-    "filter.removegrain.standard.m0._label": "Режим (1-й уровень)",
+    "filter.removegrain.standard.m0._label": "Mode (1st plane)",
     "filter.removegrain.standard.m0._description": "Set mode for the first plane.",
     "filter.removegrain.standard.m0._item_0": "0 - Leave input plane unchanged",
     "filter.removegrain.standard.m0._item_1": "1 - Clips the pixel with the minimum and maximum of the 8 neighbour pixels",
