@@ -47,6 +47,8 @@
     "ui.encoderconfig.settings": "Configuración",
     "ui.encoderconfig.settings.localization": "Localización (requiere reiniciar)",
     "ui.encoderconfig.settings.localization.language": "Idioma",
+    "ui.encoderconfig.settings.logging": "Logging",
+    "ui.encoderconfig.settings.logging.separate": "Create a log file next to the export file",
     "ui.encoderconfig.about": "Acerca de",
     "ui.encoderconfig.about.version": "Versión",
     "ui.encoderconfig.about.author": "Líder de proyecto y desarrollo",
