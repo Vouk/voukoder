@@ -29,6 +29,7 @@ protected:
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
+	wxCheckBox* m_checkBox1;
 	wxVoukoderTaskBarIcon* m_voukoderTaskBarIcon = NULL;
 	wxEncoderPage* m_videoPanel = NULL;
 	wxEncoderPage* m_audioPanel = NULL;
@@ -52,7 +53,6 @@ private:
 	template <class T> T GetDataFromSelectedChoice(wxChoice *choice);
 	template <class T> T SelectChoiceById(wxChoice *choice, wxString id, wxString def);
 	void SetConfiguration();
-	void UpdateFormats();
 	void OnEncoderChanged(wxEncoderChangedEvent& event);
 	void OnMuxerChanged(wxCommandEvent& event);
 	void OnOkayClick(wxCommandEvent& event);

@@ -6,11 +6,12 @@
 #define VKDR_REG_ROOT "Software\\Voukoder"
 #define VKDR_REG_SHOW_ADVANCED_OPTIONS "ShowAdvancedOptions"
 #define VKDR_REG_LANGUAGE "Language"
+#define VKDR_REG_SEP_LOG_FILES "SeparateLogFiles"
 
 class RegistryUtils
 {
 public:
-	static long GetValue(wxString regkey, long default)
+	static long GetValue(wxString regkey, long def)
 	{
 #ifdef _WIN32
 		// Does the user have stored a selection in the registry?
@@ -23,12 +24,12 @@ public:
 			return val;
 		}
 #endif
-		return default;
+		return def;
 	}
 
-	static bool GetValue(wxString regkey, bool default)
+	static bool GetValue(wxString regkey, bool def)
 	{
-		return GetValue(regkey, (long)default);
+		return GetValue(regkey, (long)def);
 	}
 
 	static void SetValue(wxString regkey, long value)

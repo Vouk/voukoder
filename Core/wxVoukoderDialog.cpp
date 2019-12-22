@@ -4,6 +4,7 @@
 #include <wx/msw/registry.h>
 #include "EncoderUtils.h"
 #include "LanguageUtils.h"
+#include "RegistryUtils.h"
 #include "PluginUpdate.h"
 #include "Images.h"
 #include "Voukoder.h"
@@ -202,6 +203,8 @@ wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSettingsCategorySizer = new wxBoxSizer(wxVERTICAL);
 
+	// Language
+
 	wxPanel* m_genLocPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer* sbGenLocSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLocPanel, wxID_ANY, Trans("ui.encoderconfig.settings.localization")), wxVERTICAL);
 
@@ -230,6 +233,22 @@ wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 	sbGenLocSizer->Fit(m_genLocPanel);
 
 	bSettingsCategorySizer->Add(m_genLocPanel, 0, wxEXPAND | wxALL, 5);
+
+	// Logging
+
+	wxPanel* m_genLogPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxStaticBoxSizer* sbGenLogSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLogPanel, wxID_ANY, Trans("ui.encoderconfig.settings.logging")), wxVERTICAL);
+
+	m_checkBox1 = new wxCheckBox(sbGenLogSizer->GetStaticBox(), wxID_ANY, Trans("ui.encoderconfig.settings.logging.separate"), wxDefaultPosition, wxDefaultSize, 0);
+	sbGenLogSizer->Add(m_checkBox1, 0, wxALL, 10);
+
+	m_genLogPanel->SetSizer(sbGenLogSizer);
+	m_genLogPanel->Layout();
+	sbGenLogSizer->Fit(m_genLogPanel);
+
+	bSettingsCategorySizer->Add(m_genLogPanel, 0, wxEXPAND | wxALL, 5);
+
+	//
 
 	panel->SetSizer(bSettingsCategorySizer);
 	panel->Layout();
@@ -399,6 +418,9 @@ void wxVoukoderDialog::SetConfiguration()
 		if (languageInfo.langId == langId)
 			m_genLocLanguageChoice->SetStringSelection(languageInfo.name);
 	}
+
+	bool sepLogFiles = RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false);
+	m_checkBox1->SetValue(sepLogFiles);
 }
 
 void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
@@ -528,6 +550,9 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	// Store language setting
 	LanguageInfo* languageInfo = GetDataFromSelectedChoice<LanguageInfo*>(m_genLocLanguageChoice);
 	LanguageUtils::StoreLanguageId(languageInfo->langId);
+
+	// Store logging settings
+	RegistryUtils::SetValue(VKDR_REG_SEP_LOG_FILES, m_checkBox1->GetValue());
 
 	EndDialog(wxID_OK);
 }

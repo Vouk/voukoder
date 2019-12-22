@@ -1,5 +1,6 @@
 #include "CVoukoder.h"
 #include "../Core/wxVoukoderDialog.h"
+#include "../Core/RegistryUtils.h"
 
 static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 {
@@ -58,6 +59,11 @@ public:
 			DeactivateActCtx(0, m_cookie);
 	}
 };
+
+static inline wxString NoneIfEmpty(wxString text)
+{
+	return (text.IsEmpty()) ? "<none>" : text;
+}
 
 CVoukoder::CVoukoder()
 {
@@ -320,10 +326,6 @@ STDMETHODIMP CVoukoder::GetMaxPasses(UINT* passes)
 
 STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 {
-	vkLogSep();
-	vkLogInfo("Export started");
-	vkLogSep();
-
 	// Replace file extension if necessary (req'd for vegas)
 	wxString filename(info.filename);
 	for (auto info : Voukoder::Config::Get().muxerInfos)
@@ -334,6 +336,14 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 			break;
 		}
 	}
+
+	// Do we want to have per-export-logging?
+	if (RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false))
+		Log::instance()->AddFile(filename.BeforeLast('.') + ".log");
+
+	vkLogSep();
+	vkLogInfo("Export started");
+	vkLogSep();
 
 	// Set non-stored export settings
 	exportInfo.filename = filename;
@@ -421,9 +431,9 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		}
 
 		vkLogInfoVA("Encoder:         %s", exportInfo.video.id);
-		vkLogInfoVA("Options:         %s", exportInfo.video.options.Serialize(true, "", ' '));
-		vkLogInfoVA("Side data:       %s", exportInfo.video.sideData.Serialize(true, "", ' '));
-		vkLogInfoVA("Filters:         %s", exportInfo.video.filters.Serialize());
+		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.video.options.Serialize(true, "", ' ')));
+		vkLogInfoVA("Side data:       %s", NoneIfEmpty(exportInfo.video.sideData.Serialize(true, "", ' ')));
+		vkLogInfoVA("Filters:         %s", NoneIfEmpty(exportInfo.video.filters.Serialize()));
 		vkLogInfoVA("Color range:     %s", av_color_range_name(exportInfo.video.colorRange));
 		vkLogInfoVA("Color space:     %s", av_color_space_name(exportInfo.video.colorSpace));
 		vkLogInfoVA("Color primaries: %s", av_color_primaries_name(exportInfo.video.colorPrimaries));
@@ -437,9 +447,9 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		vkLogInfoVA("Timebase:        %d/%d", exportInfo.audio.timebase.num, exportInfo.audio.timebase.den);
 		vkLogInfoVA("Channels:        %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
 		vkLogInfoVA("Encoder:         %s", exportInfo.audio.id);
-		vkLogInfoVA("Options:         %s", exportInfo.audio.options.Serialize(true, "", ' '));
-		vkLogInfoVA("Side data:       %s", exportInfo.audio.sideData.Serialize(true, "", ' '));
-		vkLogInfoVA("Filters:         %s", exportInfo.audio.filters.Serialize());
+		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.audio.options.Serialize(true, "", ' ')));
+		vkLogInfoVA("Side data:       %s", NoneIfEmpty(exportInfo.audio.sideData.Serialize(true, "", ' ')));
+		vkLogInfoVA("Filters:         %s", NoneIfEmpty(exportInfo.audio.filters.Serialize()));
 	}
 
 	vkLogSep();

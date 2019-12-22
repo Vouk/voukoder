@@ -1,8 +1,6 @@
 #include "Log.h"
 #include <wx/dir.h>
-#ifdef _WIN32
 #include <intrin.h>
-#endif
 #include "Version.h"
 
 #define LOGDIR "Logs"
@@ -20,20 +18,36 @@ Log::Log()
 
 	// Open log file for writing / appending
 	filename = CreateFileName();
-	file.Open(filename, wxFile::OpenMode::write_append);
-	
-	AddLine("=============================================");
+	auto file = new wxFile(filename, wxFile::OpenMode::write_append);
+	files.push_back(file);
+
+	Init(file);
+}
+
+Log::~Log()
+{
+	// Close all open files
+	for (auto& file : files)
+	{
+		if (file->IsOpened())
+			file->Close();
+	}
+}
+
+void Log::Init(wxFile* file)
+{
+	AddLineToFile(file, "=============================================");
 
 	// Report voukoder version
-	AddLine(wxString::Format("Voukoder %s (%d.%d.%d)",
+	AddLineToFile(file, wxString::Format("Voukoder %s (%d.%d.%d)",
 		VKDR_VERSION_PUBLIC,
 		VKDR_VERSION_MAJOR,
 		VKDR_VERSION_MINOR,
 		VKDR_VERSION_PATCH));
 
-	AddLine("by Daniel Stankewitz");
-	AddSep();
-#ifdef _WIN32
+	AddLineToFile(file, "by Daniel Stankewitz");
+	AddLineToFile(file, "---------------------------------------------");
+
 	int CPUInfo[4] = { -1 };
 	unsigned   nExIds, i = 0;
 	char name[0x40];
@@ -49,18 +63,18 @@ Log::Log()
 		else if (i == 0x80000004)
 			memcpy(name + 32, CPUInfo, sizeof(CPUInfo));
 	}
-	AddLine(name);
+	AddLineToFile(file, name);
 
 	// Get CPU cores information
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);
-	AddLine(wxString::Format("%d logical cores", (int)sysInfo.dwNumberOfProcessors));
+	AddLineToFile(file, wxString::Format("%d logical cores", (int)sysInfo.dwNumberOfProcessors));
 
 	// Get RAM information
 	MEMORYSTATUSEX statex;
 	statex.dwLength = sizeof(statex);
 	GlobalMemoryStatusEx(&statex);
-	AddLine(wxString::Format("%d MB system memory", (int)(statex.ullTotalPhys / 1024) / 1024));
+	AddLineToFile(file, wxString::Format("%d MB system memory", (int)(statex.ullTotalPhys / 1024) / 1024));
 
 	// Get GPU information
 	DISPLAY_DEVICE DispDev;
@@ -71,20 +85,22 @@ Log::Log()
 	while (EnumDisplayDevices(NULL, nDeviceIndex, &DispDev, 0))
 	{
 		if (DispDev.StateFlags & DISPLAY_DEVICE_ACTIVE)
-			AddLine(wxString::Format("Display #%d on: %S",
+			AddLineToFile(file, wxString::Format("Display #%d on: %S",
 				gpu++,
 				DispDev.DeviceString));
 
 		nDeviceIndex++;
 	}
-#endif
-	AddSep();
+
+	AddLineToFile(file, "---------------------------------------------");
 }
 
-Log::~Log()
+void Log::AddFile(wxString filename)
 {
-	if (file.IsOpened())
-		file.Close();
+	auto file = new wxFile(filename, wxFile::OpenMode::write);
+	files.push_back(file);
+
+	Init(file);
 }
 
 void Log::AddSep()
@@ -94,8 +110,16 @@ void Log::AddSep()
 
 void Log::AddLine(wxString line)
 {
-	if (file.IsOpened())
-		file.Write ("[" + wxDateTime::Now().FormatISOTime() + "] " + line + "\n");
+	// Append to all open files
+	for (auto& file : files)
+		AddLineToFile(file, line);
+}
+
+void Log::AddLineToFile(wxFile* file, wxString line)
+{
+	// Append to a single file
+	if (file->IsOpened())
+		file->Write("[" + wxDateTime::Now().FormatISOTime() + "] " + line + "\n");
 }
 
 wxString Log::GetFilename()

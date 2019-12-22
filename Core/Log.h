@@ -14,17 +14,20 @@
 class Log
 {
 private:
-	wxFile file;
+	std::vector<wxFile*> files;
 	wxString filename;
 	Log();
 	~Log();
+	void Init(wxFile* file);
 	wxString GetBaseDir();
 	wxString CreateFileName();
 	void Clean(int days = 7);
 
 public:
 	static Log* instance();
+	void AddFile(wxString filename);
 	void AddSep();
 	void AddLine(wxString line);
+	void AddLineToFile(wxFile* file, wxString line);
 	wxString GetFilename();
 };
