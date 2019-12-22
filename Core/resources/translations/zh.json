@@ -47,6 +47,8 @@
     "ui.encoderconfig.settings": "设置",
     "ui.encoderconfig.settings.localization": "语言切换 (更改后需要重新启动)",
     "ui.encoderconfig.settings.localization.language": "语言",
+    "ui.encoderconfig.settings.logging": "Logging",
+    "ui.encoderconfig.settings.logging.separate": "Create a log file next to the export file",
     "ui.encoderconfig.about": "关于",
     "ui.encoderconfig.about.version": "版本",
     "ui.encoderconfig.about.author": "项目领导和开发",
