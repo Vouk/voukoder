@@ -2686,7 +2686,7 @@
     "filter.removegrain.standard.m0._item_11": "14 - режим Bob, интерполирует нижнее поле из строк, где соседние пиксели являются ближайшими",
     "filter.removegrain.standard.m0._item_12": "15 - режим Bob, интерполирует верхнее поле. То же, что и \"13\", но с более сложной формулой интерполяции",
     "filter.removegrain.standard.m0._item_13": "16 - режим Bob, интерполирует нижнее поле. То же, что и \"14\", но с более сложной формулой интерполяции",
-    "filter.removegrain.standard.m0._item_14": "17 - Clips the pixel with the minimum and maximum of respectively the maximum and minimum of each pair of opposite neighbour pixels",
+    "filter.removegrain.standard.m0._item_14": "17 - Заменяет пиксели минимума и максимума максимумом и минимумом противоположной соседней пары соответственно",
     "filter.removegrain.standard.m0._item_15": "18 - Line-sensitive clipping using opposite neighbours whose greatest distance from the current pixel is minimal",
     "filter.removegrain.standard.m0._item_16": "19 - Replaces the pixel with the average of its 8 neighbours",
     "filter.removegrain.standard.m0._item_17": "20 - Averages the 9 pixels ([1 1 1] horizontal and vertical blur)",
