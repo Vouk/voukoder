@@ -43,8 +43,8 @@ private:
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;
 	wxControl* CreateGeneralPanel(wxWindow* parent);
-	wxPanel* CreateSettingsPanel(wxWindow* parent);
-	wxPanel* CreateAboutPanel(wxWindow* parent);
+	wxControl* CreateSettingsPanel(wxWindow* parent);
+	wxControl* CreateAboutPanel(wxWindow* parent);
 	wxPanel* CreateCenteredText(wxPanel* parent, wxString label, wxString value, wxString link = "");
 	wxSize minLabelWidth;
 	wxRichTextCtrl* CreateTopPatrons(wxPanel* parent);

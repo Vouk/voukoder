@@ -3,6 +3,39 @@
   "id": "libx265",
   "name": "HEVC (x265)",
   "defaults": {},
+  "presets": [
+    {
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "_strategy": "crf",
+        "crf": "19.0",
+        "preset": "medium",
+        "profile": "main"
+      }
+    },
+    {
+      "name": "High quality",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "_strategy": "crf",
+        "crf": "17.0",
+        "preset": "medium",
+        "profile": "main"
+      }
+    },
+    {
+      "name": "Lossless",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "preset": "medium",
+        "lossless": "1"
+      }
+    }
+  ],
   "parameterGroups": {
     "x265-params": [
       "interlace",

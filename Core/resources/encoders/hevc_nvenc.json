@@ -3,6 +3,19 @@
   "id": "hevc_nvenc",
   "name": "HEVC (NVIDIA NVENC)",
   "defaults": {},
+  "presets": [
+    {
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "constq",
+        "qp": "15",
+        "preset": "slow",
+        "profile": "high"
+      }
+    }
+  ],
   "groups": [
     {
       "id": "hevc_nvenc.basic",

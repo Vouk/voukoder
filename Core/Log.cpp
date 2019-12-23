@@ -32,6 +32,8 @@ Log::~Log()
 		if (file->IsOpened())
 			file->Close();
 	}
+
+	files.clear();
 }
 
 void Log::Init(wxFile* file)

@@ -19,7 +19,7 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 {
 	// Configure dialog window
 	SetTitle(Voukoder::GetApplicationName());
-	SetSize(wxDLG_UNIT(this, wxSize(340, 360)));
+	SetSize(wxDLG_UNIT(this, wxSize(340, 340)));
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	// Video settings
@@ -182,11 +182,6 @@ wxControl* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	sbGenMuxSizer->Fit(m_genMuxPanel);
 	bGenSizer->Add(m_genMuxPanel, 0, wxEXPAND | wxALL, 5);
 		
-	// General > ...
-
-	//wxPanel* m_generalOtherPanel = new wxPanel(m_genPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-	//bGenSizer->Add(m_generalOtherPanel, 1, wxEXPAND | wxALL, 5);
-
 	//
 	
 	m_genPanel->SetSizer(bGenSizer);
@@ -198,9 +193,11 @@ wxControl* wxVoukoderDialog::CreateGeneralPanel(wxWindow* parent)
 	return m_notebook;
 }
 
-wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
+wxControl* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 {
-	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxNotebook* m_notebook = new wxNotebook(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+	wxPanel* panel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* bSettingsCategorySizer = new wxBoxSizer(wxVERTICAL);
 
 	// Language
@@ -254,12 +251,16 @@ wxPanel* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 	panel->Layout();
 	bSettingsCategorySizer->Fit(panel);
 
-	return panel;
+	m_notebook->AddPage(panel, Trans("ui.encoderconfig.settings"), true);
+
+	return m_notebook;
 }
 
-wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
+wxControl* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 {
-	wxPanel* panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxNotebook* m_notebook = new wxNotebook(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+	wxPanel* panel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* aboutSizer = new wxBoxSizer(wxVERTICAL);
 
 	wxPanel* m_headerPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
@@ -308,8 +309,10 @@ wxPanel* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 
 	panel->SetSizer(aboutSizer);
 	panel->Layout();
+	
+	m_notebook->AddPage(panel, Trans("ui.encoderconfig.about"), true);
 
-	return panel;
+	return m_notebook;
 }
 
 wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)

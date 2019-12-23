@@ -1,6 +1,6 @@
 #pragma once
 
-#define VKDR_VERSION_MAJOR 2
-#define VKDR_VERSION_MINOR 4
+#define VKDR_VERSION_MAJOR 3
+#define VKDR_VERSION_MINOR 0
 #define VKDR_VERSION_PATCH 0
-#define VKDR_VERSION_PUBLIC "2.4 (Dev)"
+#define VKDR_VERSION_PUBLIC "3 (Dev)"

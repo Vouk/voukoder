@@ -515,6 +515,7 @@
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
     <None Include="resources\presets.json" />
+    <None Include="resources\translations\ru.json" />
     <None Include="resources\video_side_data.json" />
     <None Include="resources\muxers\aac.json" />
     <None Include="resources\muxers\flac.json" />
@@ -539,7 +540,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -5,6 +5,19 @@
   "defaults": {
     "_pixelFormat": "yuv420p"
   },
+  "presets": [
+    {
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "constq",
+        "qp": "15",
+        "preset": "slow",
+        "profile": "high"
+      }
+    }
+  ],
   "groups": [
     {
       "id": "h264_nvenc.standard",

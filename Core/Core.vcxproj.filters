@@ -1132,6 +1132,9 @@
     <None Include="resources\presets.json">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="resources\translations\ru.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
