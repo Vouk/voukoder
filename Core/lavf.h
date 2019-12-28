@@ -37,6 +37,7 @@ extern "C" {
 #pragma comment(lib, "libswscale.lib")
 #pragma comment(lib, "libpostproc.lib")
 #pragma comment(lib, "libswresample.lib")
+#pragma comment(lib, "Bcrypt.lib")
 
 #if __has_include("zimg.h")
 #  pragma comment(lib, "zimg.lib")
@@ -66,7 +67,6 @@ extern "C" {
 
 #if __has_include("mfx/mfxenc.h")
 #  pragma comment(lib, "mfx.lib")
-#  pragma comment(lib, "Bcrypt.lib")
 #endif
 
 #if __has_include("svt-av1/EbSvtAv1.h")
