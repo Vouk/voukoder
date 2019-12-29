@@ -19,7 +19,7 @@ Log::Log()
 	// Open log file for writing / appending
 	filename = CreateFileName();
 	auto file = new wxFile(filename, wxFile::OpenMode::write_append);
-	files.push_back(file);
+	files.insert_or_assign(filename, file);
 
 	Init(file);
 }
@@ -29,8 +29,8 @@ Log::~Log()
 	// Close all open files
 	for (auto& file : files)
 	{
-		if (file->IsOpened())
-			file->Close();
+		if (file.second->IsOpened())
+			file.second->Close();
 	}
 
 	files.clear();
@@ -100,9 +100,26 @@ void Log::Init(wxFile* file)
 void Log::AddFile(wxString filename)
 {
 	auto file = new wxFile(filename, wxFile::OpenMode::write);
-	files.push_back(file);
+	files.insert_or_assign(filename, file);
 
 	Init(file);
+}
+
+void Log::RemoveFile(wxString filename)
+{
+	wxFile* file = NULL;
+	try
+	{
+		file = files.at(filename);
+		file->Flush();
+		file->Close();
+
+		files.erase(filename);
+	}
+	catch (const std::out_of_range & e)
+	{
+		AddLine("Unable to remove file " + filename + " from logging.");
+	}
 }
 
 void Log::AddSep()
@@ -114,7 +131,7 @@ void Log::AddLine(wxString line)
 {
 	// Append to all open files
 	for (auto& file : files)
-		AddLineToFile(file, line);
+		AddLineToFile(file.second, line);
 }
 
 void Log::AddLineToFile(wxFile* file, wxString line)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <wx/wx.h>
 #include <wx/filename.h>
 
@@ -14,7 +15,7 @@
 class Log
 {
 private:
-	std::vector<wxFile*> files;
+	std::map<wxString, wxFile*> files;
 	wxString filename;
 	Log();
 	~Log();
@@ -30,4 +31,5 @@ public:
 	void AddLine(wxString line);
 	void AddLineToFile(wxFile* file, wxString line);
 	wxString GetFilename();
+	void RemoveFile(wxString filename);
 };

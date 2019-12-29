@@ -481,6 +481,10 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 	vkLogInfo("Export finished");
 	vkLogSep();
 
+	// Do we want to have per-export-logging?
+	if (RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false))
+		Log::instance()->RemoveFile(exportInfo.filename.BeforeLast('.') + ".log");
+
 	return S_OK;
 }
 
