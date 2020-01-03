@@ -290,7 +290,7 @@ wxControl* wxVoukoderDialog::CreateAboutPanel(wxWindow* parent)
 
 	// Authors
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.author"), wxT("Daniel Stankewitz - @LordVouk"), wxT("https://twitter.com/LordVouk")), 0, wxALIGN_CENTER | wxALL, 0);
-	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R.")), 0, wxALIGN_CENTER | wxALL, 0);
+	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.transmaint"), wxT("Bruno T. \"MyPOV\", Cedric R., Atreides")), 0, wxALIGN_CENTER | wxALL, 0);
 	aboutSizer->Add(CreateCenteredText(panel, Trans("ui.encoderconfig.about.logo"), wxT("Noar")), 0, wxALIGN_CENTER | wxALL, 0);
 
 	// (Top) patrons
