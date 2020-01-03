@@ -434,7 +434,7 @@
     "h264_nvenc.quantizer.qpb._description": "Включить изменение параметра квантования для B-кадров.",
     "h264_nvenc.quantizer.spatialaq._label": "Пространственный AQ",
     "h264_nvenc.quantizer.spatialaq._description": "Выбор режима адаптивного квантования (AQ), который распределяет доступные биты между всеми макроблоками в видео.",
-    "h264_nvenc.quantizer.spatialaq.strength._label": "Сила",
+    "h264_nvenc.quantizer.spatialaq.strength._label": "Сила AQ",
     "h264_nvenc.quantizer.spatialaq.strength._description": "Сила режима AQ от 1 (слабо), до 15 (агрессивно).",
     "h264_nvenc.quantizer.temporalaq._label": "Временной AQ",
     "h264_nvenc.quantizer.temporalaq._description": "Выбор режима адаптивного квантования (AQ), который распределяет доступные биты между всеми макроблоками в видео.",
