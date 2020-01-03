@@ -639,7 +639,7 @@
     "libx264.standard.strategy.multipass._description": "Кодирование в несколько проходов.",
     "libx264.standard.strategy.multipass._item_0": "Двухпроходный",
     "libx264.standard.strategy.slowfirstpass._label": "Медленный первый проход",
-    "libx264.standard.strategy.slowfirstpass._description": "Медленный первый проход",
+    "libx264.standard.strategy.slowfirstpass._description": "Медленный первый проход. Улучшает качество.",
     "libx264.standard.strategy.crf._label": "Постоянное качество",
     "libx264.standard.strategy.crf._description": "Меньшие значения дают лучшее качество, но увеличивают время кодирования.",
     "libx264.standard.strategy.qp._label": "Постоянное квантование",
