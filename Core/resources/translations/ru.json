@@ -414,7 +414,7 @@
     "h264_nvenc.frames.brefmode._description": "Использовать B-кадры как референсные.",
     "h264_nvenc.frames.brefmode._item_0": "Отключено",
     "h264_nvenc.frames.brefmode._item_1": "Каждый",
-    "h264_nvenc.frames.brefmode._item_2": "Средний",
+    "h264_nvenc.frames.brefmode._item_2": "Половина",
     "h264_nvenc.frames.noscenecut._label": "Отключить определение сцен",
     "h264_nvenc.frames.noscenecut._description": "Когда \"lookahead\" включен, установите \"1\" для отключения адаптивной расстановки I-кадров при определении сцен.",
     "h264_nvenc.frames.forcedidr._label": "Использовать ключевые кадры как как IDR",
