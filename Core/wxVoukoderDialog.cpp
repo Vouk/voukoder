@@ -237,7 +237,10 @@ wxControl* wxVoukoderDialog::CreateSettingsPanel(wxWindow* parent)
 	wxStaticBoxSizer* sbGenLogSizer = new wxStaticBoxSizer(new wxStaticBox(m_genLogPanel, wxID_ANY, Trans("ui.encoderconfig.settings.logging")), wxVERTICAL);
 
 	m_checkBox1 = new wxCheckBox(sbGenLogSizer->GetStaticBox(), wxID_ANY, Trans("ui.encoderconfig.settings.logging.separate"), wxDefaultPosition, wxDefaultSize, 0);
-	sbGenLogSizer->Add(m_checkBox1, 0, wxALL, 10);
+	sbGenLogSizer->Add(m_checkBox1, 0, wxALL, 5);
+
+	m_checkBox2 = new wxCheckBox(sbGenLogSizer->GetStaticBox(), wxID_ANY, Trans("ui.encoderconfig.settings.logging.lowlevel"), wxDefaultPosition, wxDefaultSize, 0);
+	sbGenLogSizer->Add(m_checkBox2, 0, wxALL, 5);
 
 	m_genLogPanel->SetSizer(sbGenLogSizer);
 	m_genLogPanel->Layout();
@@ -424,6 +427,9 @@ void wxVoukoderDialog::SetConfiguration()
 
 	bool sepLogFiles = RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false);
 	m_checkBox1->SetValue(sepLogFiles);
+
+	bool lowLevelLogging = RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false);
+	m_checkBox2->SetValue(lowLevelLogging);
 }
 
 void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
@@ -556,6 +562,9 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 
 	// Store logging settings
 	RegistryUtils::SetValue(VKDR_REG_SEP_LOG_FILES, m_checkBox1->GetValue());
+
+	// Store low level logging
+	RegistryUtils::SetValue(VKDR_REG_LOW_LEVEL_LOGGING, m_checkBox2->GetValue());
 
 	EndDialog(wxID_OK);
 }

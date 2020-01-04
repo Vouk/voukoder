@@ -7,6 +7,7 @@
 #define VKDR_REG_SHOW_ADVANCED_OPTIONS "ShowAdvancedOptions"
 #define VKDR_REG_LANGUAGE "Language"
 #define VKDR_REG_SEP_LOG_FILES "SeparateLogFiles"
+#define VKDR_REG_LOW_LEVEL_LOGGING "LowLevelLogging"
 
 class RegistryUtils
 {

@@ -8,7 +8,7 @@ static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
 	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
 	logbuf[sizeof(logbuf) - 1] = '\0';
 
-	OutputDebugStringA(logbuf);
+	Log::instance()->AddLine(wxT("FFmpeg: ") + wxString(logbuf).Trim());
 }
 
 struct handle_data {
@@ -67,9 +67,6 @@ static inline wxString NoneIfEmpty(wxString text)
 
 CVoukoder::CVoukoder()
 {
-	av_log_set_level(AV_LOG_DEBUG);
-	av_log_set_callback(AvCallback);
-
 	// Add window title to log
 	wchar_t text[256];
 	HWND hwnd = FindMainWindow(GetCurrentProcessId());
@@ -454,6 +451,13 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 
 	vkLogSep();
 
+	// FFmpeg logging
+	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
+	{
+		av_log_set_level(AV_LOG_DEBUG);
+		av_log_set_callback(AvCallback);
+	}
+
 	// Create encoder instance
 	encoder = new EncoderEngine(exportInfo);
 	if (encoder->open() < 0)
@@ -475,6 +479,13 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 		encoder->close();
 
 		delete encoder;
+	}
+
+	// FFmpeg logging
+	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
+	{
+		av_log_set_level(AV_LOG_PANIC);
+		av_log_set_callback(av_log_default_callback);
 	}
 
 	vkLogSep();

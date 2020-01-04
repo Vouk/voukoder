@@ -30,6 +30,7 @@ protected:
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
 	wxCheckBox* m_checkBox1;
+	wxCheckBox* m_checkBox2;
 	wxVoukoderTaskBarIcon* m_voukoderTaskBarIcon = NULL;
 	wxEncoderPage* m_videoPanel = NULL;
 	wxEncoderPage* m_audioPanel = NULL;
