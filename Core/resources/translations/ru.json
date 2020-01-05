@@ -419,7 +419,7 @@
     "h264_nvenc.frames.noscenecut._label": "Отключить определение сцен",
     "h264_nvenc.frames.noscenecut._description": "Когда \"lookahead\" включен, установите \"1\" для отключения адаптивной расстановки I-кадров при определении сцен.",
     "h264_nvenc.frames.forcedidr._label": "Использовать ключевые кадры как как IDR",
-    "h264_nvenc.frames.forcedidr._description": "При принудительно расстановке ключевых кадров использовать их как IDR (разделители).",
+    "h264_nvenc.frames.forcedidr._description": "При принудительной расстановке ключевых кадров использовать их как IDR (разделители).",
     "h264_nvenc.frames.nonrefp._label": "Автоматические P-кадры",
     "h264_nvenc.frames.nonrefp._description": "Включает автоматическую вставку нереференсных P-кадров.",
     "h264_nvenc.quantizer": "Квантование",
