@@ -49,7 +49,7 @@
     "ui.encoderconfig.settings.localization.language": "Язык",
     "ui.encoderconfig.settings.logging": "Логирование",
     "ui.encoderconfig.settings.logging.separate": "Создать лог-файл рядом с выходным файлом",
-    "ui.encoderconfig.settings.logging.lowlevel": "Enable low-level logging",
+    "ui.encoderconfig.settings.logging.lowlevel": "Включить низкоуровневое журналирование",
     "ui.encoderconfig.about": "О программе",
     "ui.encoderconfig.about.version": "Версия",
     "ui.encoderconfig.about.author": "Руководитель проекта и разработчик",
