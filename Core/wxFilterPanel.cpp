@@ -87,7 +87,7 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 			if (info.id == options->id)
 			{
 				wxListItem item;
-				item.m_itemId = 0;
+				item.m_itemId = m_filterList->GetItemCount();
 				item.SetText(Trans(info.id));
 				item.SetData(options);
 				m_filterList->InsertItem(item);
@@ -103,7 +103,6 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 	// Preselect first filter
 	if (m_filterList->GetItemCount() > 0)
 	{
-		//m_filterList->  ->SetSelection(0);
 		m_filterEdit->Enable();
 		m_filterRemove->Enable();
 	}
