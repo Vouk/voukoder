@@ -153,7 +153,7 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 					wxString val = options[optionInfo.parameter];
 					val.ToDouble(&doubleVal);
 
-					optionProperty->SetValueFromString(wxString::Format(wxT("%.1f"), doubleVal));
+					optionProperty->SetValueFromString(wxString::Format(wxT("%.3f"), doubleVal));
 				}
 				else
 				{
@@ -344,7 +344,7 @@ void wxOptionEditor::RefreshResults()
 				else if (info.control.type == EncoderOptionType::Float)
 				{
 					double val = prop->GetValue().GetDouble() * info.multiplicationFactor;
-					value = wxString::Format(wxT("%.1f"), val);
+					value = wxString::Format(wxT("%.3f"), val);
 				}
 				else
 				{

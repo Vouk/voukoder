@@ -128,7 +128,7 @@ wxString wxOptionProperty::ValueToString(wxVariant& value, int argFlags) const
 	}
 	else if (type == EncoderOptionType::Float)
 	{
-		return wxNumberFormatter::ToString(value.GetDouble(), 1);
+		return wxNumberFormatter::ToString(value.GetDouble(), 3);
 	}
 	else if (type == EncoderOptionType::Boolean)
 	{
