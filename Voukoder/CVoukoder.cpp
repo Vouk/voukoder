@@ -95,7 +95,6 @@ STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 {
 	// Standard fields
-	exportInfo = {};
 	exportInfo.video.id = config.video.encoder;
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
@@ -472,6 +471,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 
 STDMETHODIMP CVoukoder::Close(BOOL finalize)
 {
+	// Flush and close encoder
 	if (encoder)
 	{
 		if (finalize)
@@ -481,6 +481,9 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 
 		delete encoder;
 	}
+
+	// Reset ExportInfo
+	exportInfo = {};
 
 	// FFmpeg logging
 	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
