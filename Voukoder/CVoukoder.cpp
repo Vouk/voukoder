@@ -95,6 +95,7 @@ STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
 STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 {
 	// Standard fields
+	exportInfo = {};
 	exportInfo.video.id = config.video.encoder;
 	exportInfo.video.options.Deserialize(config.video.options);
 	exportInfo.video.filters.Deserialize(config.video.filters);
