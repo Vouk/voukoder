@@ -40,6 +40,7 @@
 #define IDR_ENC_SVTHEVC                 129
 #define IDR_ENC_VP9_QSV                 130
 #define IDR_ENC_SVTVP9                  131
+#define IDR_ENC_GIF                     132
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202
@@ -55,6 +56,7 @@
 #define IDR_MUX_HEVC                    212
 #define IDR_MUX_MPEG2VIDEO              213
 #define IDR_MUX_MPEGTS                  214
+#define IDR_MUX_GIF                     215
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302

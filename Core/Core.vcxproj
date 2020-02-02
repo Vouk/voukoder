@@ -233,6 +233,7 @@
     <None Include="resources\encoders\eac3.json" />
     <None Include="resources\encoders\ffv1.json" />
     <None Include="resources\encoders\flac.json" />
+    <None Include="resources\encoders\gif.json" />
     <None Include="resources\encoders\h264_amf.json" />
     <None Include="resources\encoders\h264_nvenc.json" />
     <None Include="resources\encoders\h264_qsv.json" />
@@ -510,6 +511,7 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\gif.json" />
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />
     <None Include="resources\muxers\mpeg2video.json" />

@@ -4,6 +4,7 @@
     <LocalDebuggerCommandArguments>
     </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand>
+    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro 2020\Adobe Premiere Pro.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro 2020</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

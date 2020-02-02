@@ -88,20 +88,26 @@ void wxVoukoderDialog::InitGUI()
 	m_Categories->SetPageImage(imageIdx++, 0);
 
 	// Video panel
-	m_videoPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().videoEncoderInfos, Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
-	m_videoPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
-	if (!m_videoPanel->SetEncoder(exportInfo.video.id))
-		m_videoPanel->SetEncoder(DefaultVideoEncoder);
-	m_Categories->AddPage(m_videoPanel, Trans("ui.encoderconfig.video"), false);
-	m_Categories->SetPageImage(imageIdx++, 1);
+	if (exportInfo.video.enabled)
+	{
+		m_videoPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().videoEncoderInfos, Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
+		m_videoPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
+		if (!m_videoPanel->SetEncoder(exportInfo.video.id))
+			m_videoPanel->SetEncoder(DefaultVideoEncoder);
+		m_Categories->AddPage(m_videoPanel, Trans("ui.encoderconfig.video"), false);
+		m_Categories->SetPageImage(imageIdx++, 1);
+	}
 
 	// Audio panel
-	m_audioPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().audioEncoderInfos, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
-	m_audioPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
-	if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
-		m_audioPanel->SetEncoder(DefaultAudioEncoder);
-	m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), false);
-	m_Categories->SetPageImage(imageIdx++, 2);
+	if (exportInfo.audio.enabled)
+	{
+		m_audioPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().audioEncoderInfos, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
+		m_audioPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
+		if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
+			m_audioPanel->SetEncoder(DefaultAudioEncoder);
+		m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), false);
+		m_Categories->SetPageImage(imageIdx++, 2);
+	}
 	
 	// Settings panel
 	m_Categories->AddPage(CreateSettingsPanel(m_Categories), Trans("ui.encoderconfig.settings"), false);
@@ -434,27 +440,36 @@ void wxVoukoderDialog::SetConfiguration()
 
 void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
 {
+	EncoderInfo* videoInfo = NULL;
+	EncoderInfo* audioInfo = NULL;
+
 	// Get selected encoders
-	EncoderInfo* videoInfo = m_videoPanel->GetSelectedEncoder();
-	if (videoInfo == NULL)
+	if (m_videoPanel)
 	{
-		vkLogError("Video info choice did not contain any data.");
-		return;
+		videoInfo = m_videoPanel->GetSelectedEncoder();
+		if (videoInfo == NULL)
+		{
+			vkLogError("Video info choice did not contain any data.");
+			return;
+		}
 	}
 
-	EncoderInfo* audioInfo = m_audioPanel->GetSelectedEncoder();
-	if (audioInfo == NULL)
+	if (m_audioPanel)
 	{
-		vkLogError("Audio info choice did not contain any data.");
-		return;
+		audioInfo = m_audioPanel->GetSelectedEncoder();
+		if (audioInfo == NULL)
+		{
+			vkLogError("Audio info choice did not contain any data.");
+			return;
+		}
 	}
 
 	// Refresh muxers
 	for (auto& info : Voukoder::Config::Get().muxerInfos)
 	{
 		int index = m_genMuxFormatChoice->FindString(info.name);
-		bool videoSupported = find(info.videoCodecIds.begin(), info.videoCodecIds.end(), videoInfo->id) != info.videoCodecIds.end();
-		bool audioSupported = find(info.audioCodecIds.begin(), info.audioCodecIds.end(), audioInfo->id) != info.audioCodecIds.end();
+		bool videoSupported = videoInfo && find(info.videoCodecIds.begin(), info.videoCodecIds.end(), videoInfo->id) != info.videoCodecIds.end();
+		bool audioSupported = audioInfo && find(info.audioCodecIds.begin(), info.audioCodecIds.end(), audioInfo->id) != info.audioCodecIds.end();
 
 		// Decide on what muxer to add or remove
 		if ((!exportInfo.video.enabled || videoSupported) && (!exportInfo.audio.enabled || audioSupported))
@@ -502,7 +517,7 @@ void wxVoukoderDialog::OnMuxerChanged(wxCommandEvent& event)
 void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 {
 	// Video
-	if (exportInfo.video.enabled)
+	if (m_videoPanel)
 	{
 		m_videoPanel->ApplyChanges();
 
@@ -527,7 +542,7 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	}
 
 	// Audio
-	if (exportInfo.audio.enabled)
+	if (m_audioPanel)
 	{
 		m_audioPanel->ApplyChanges();
 

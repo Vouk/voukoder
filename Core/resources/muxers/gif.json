@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "gif",
+  "name": "Animated GIF",
+  "extension": "gif",
+  "encoders": {
+    "video": [ "gif" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}
