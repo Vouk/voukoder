@@ -7,6 +7,7 @@ Find these connectors at the [application connectors page](https://github.com/Vo
 - Adobe Premiere / Media Encoder
 - Adobe After Effects 
 - VEGAS Pro
+- VirtualDub 2
 
 **Stay up-to-date, discuss on the forums and get all announcements and news at https://www.voukoder.org.**
 - Patreon: https://www.patreon.com/voukoder
