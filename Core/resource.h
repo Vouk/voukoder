@@ -59,11 +59,10 @@
 #define IDR_MUX_HEVC                    212
 #define IDR_MUX_MPEG2VIDEO              213
 #define IDR_MUX_MPEGTS                  214
-#define IDR_MUX_GIF                     215
+#define IDR_MUX_ANIM_GIF                215
 #define IDR_MUX_IMAGE2_BMP              216
-#define IDR_MUX_IMAGE2_GIF              217
-#define IDR_MUX_IMAGE2_PNG              218
-#define IDR_MUX_IMAGE2_TIFF             219
+#define IDR_MUX_IMAGE2_PNG              217
+#define IDR_MUX_IMAGE2_TIFF             218
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302

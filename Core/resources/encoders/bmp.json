@@ -17,10 +17,10 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "rgb24"
+                "value": "bgr24"
               },
               {
-                "value": "rgba"
+                "value": "bgra"
               }
             ]
           }

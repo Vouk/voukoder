@@ -1153,9 +1153,6 @@
     <None Include="resources\muxers\image2-bmp.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
-    <None Include="resources\muxers\image2-gif.json">
-      <Filter>Ressourcendateien\Muxers</Filter>
-    </None>
     <None Include="resources\muxers\image2-png.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>

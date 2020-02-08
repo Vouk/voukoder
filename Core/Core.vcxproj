@@ -518,7 +518,6 @@
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />
     <None Include="resources\muxers\image2-bmp.json" />
-    <None Include="resources\muxers\image2-gif.json" />
     <None Include="resources\muxers\image2-png.json" />
     <None Include="resources\muxers\image2-tiff.json" />
     <None Include="resources\muxers\mpeg2video.json" />

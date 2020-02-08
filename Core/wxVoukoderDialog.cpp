@@ -107,10 +107,6 @@ void wxVoukoderDialog::InitGUI()
 	wxPGGlobalVars->m_boolChoices[0].SetText(Trans("ui.encoderconfig.false"));
 	wxPGGlobalVars->m_boolChoices[1].SetText(Trans("ui.encoderconfig.true"));
 
-	// General panel
-	m_Categories->AddPage(CreateGeneralPanel(m_Categories), Trans("ui.encoderconfig.general"), true);
-	m_Categories->SetPageImage(imageIdx++, 0);
-
 	// Video panel
 	if (exportInfo.video.enabled)
 	{
@@ -118,7 +114,7 @@ void wxVoukoderDialog::InitGUI()
 		m_videoPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
 		if (!m_videoPanel->SetEncoder(exportInfo.video.id))
 			m_videoPanel->SetEncoder(DefaultVideoEncoder);
-		m_Categories->AddPage(m_videoPanel, Trans("ui.encoderconfig.video"), false);
+		m_Categories->AddPage(m_videoPanel, Trans("ui.encoderconfig.video"), true);
 		m_Categories->SetPageImage(imageIdx++, 1);
 	}
 
@@ -129,9 +125,13 @@ void wxVoukoderDialog::InitGUI()
 		m_audioPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
 		if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
 			m_audioPanel->SetEncoder(DefaultAudioEncoder);
-		m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), false);
+		m_Categories->AddPage(m_audioPanel, Trans("ui.encoderconfig.audio"), !exportInfo.video.enabled);
 		m_Categories->SetPageImage(imageIdx++, 2);
 	}
+
+	// General panel
+	m_Categories->AddPage(CreateGeneralPanel(m_Categories), Trans("ui.encoderconfig.general"), false);
+	m_Categories->SetPageImage(imageIdx++, 0);
 	
 	// Settings panel
 	m_Categories->AddPage(CreateSettingsPanel(m_Categories), Trans("ui.encoderconfig.settings"), false);
