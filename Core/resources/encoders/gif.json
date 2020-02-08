@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "gif",
-  "name": "GIF",
+  "name": "Image series (GIF)",
   "defaults": {
     "_pixelFormat": "rgb8"
   },

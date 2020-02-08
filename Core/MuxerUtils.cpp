@@ -1,15 +1,14 @@
 #include "MuxerUtils.h"
+#include "wx/wx.h"
 #include "Log.h"
 
 bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 {
-	std::string muxerId = resource["id"].get<std::string>();
+	wxString muxerId = resource["id"].get<std::string>();
 
 	// Is this encoder supported?
-	if (!IsAvailable(muxerId))
-	{
+	if (!IsAvailable(muxerId.BeforeFirst('#')))
 		return false;
-	}
 
 	vkLogInfoVA("Loading: muxers/%s.json", muxerId.c_str());
 
@@ -24,7 +23,7 @@ bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 	return true;
 }
 
-bool MuxerUtils::IsAvailable(const std::string id)
+bool MuxerUtils::IsAvailable(const wxString id)
 {
 	return av_guess_format(id.c_str(), NULL, NULL) != NULL;
 }

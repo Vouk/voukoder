@@ -485,6 +485,10 @@ bool EncoderEngine::hasAudio()
 
 int EncoderEngine::writeVideoFrame(AVFrame *frame)
 {
+	// Return false
+	if (!videoContext.codecContext)
+		return -1;
+
 	// Do we need a frame filter?
 	if (videoContext.firstData)
 	{
@@ -531,6 +535,10 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 
 int EncoderEngine::writeAudioFrame(AVFrame *frame)
 {
+	// Return false
+	if (!audioContext.codecContext)
+		return -1;
+
 	if (audioContext.firstData)
 	{
 		audioContext.firstData = false;

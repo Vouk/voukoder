@@ -323,20 +323,30 @@ STDMETHODIMP CVoukoder::GetMaxPasses(UINT* passes)
 
 STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 {
-	// Replace file extension if necessary (req'd for vegas)
+	// Rebuild the filename
 	wxString filename(info.filename);
 	for (auto info : Voukoder::Config::Get().muxerInfos)
 	{
+		// Find fiel format
 		if (info.id == exportInfo.format.id)
 		{
-			filename = filename.BeforeLast('.') + "." + info.extension;
+			// Strip extension
+			filename = filename.BeforeLast('.');
+
+			// Add frame counter if not present and is image series
+			if (info.id.BeforeFirst('#') == "image2" && !filename.Contains("%d"))
+				filename += "_%d";
+
+			// Add extension
+			filename += "." + info.extension;
+
 			break;
 		}
 	}
 
 	// Do we want to have per-export-logging?
 	if (RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false))
-		Log::instance()->AddFile(filename.BeforeLast('.') + ".log");
+		Log::instance()->AddFile(filename.BeforeLast('.').Replace("_%d", "") + ".log");
 
 	vkLogSep();
 	vkLogInfo("Export started");

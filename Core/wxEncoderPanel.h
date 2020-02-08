@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <wx/wx.h>
 #include "EncoderInfo.h"
 #include "PresetInfo.h"
@@ -51,7 +52,7 @@ protected:
 class wxEncoderPanel : public wxPanel
 {
 public:
-	wxEncoderPanel(wxWindow* parent, std::vector<EncoderInfo> encoders);
+	wxEncoderPanel(wxWindow* parent, std::set<EncoderInfo> encoders);
 	bool SelectEncoder(wxString id);
     EncoderInfo* GetSelectedEncoder();
 
@@ -61,7 +62,7 @@ protected:
     wxButton* m_apply = NULL;
 
 private:
-	std::vector<EncoderInfo> encoders;
+	std::set<EncoderInfo> encoders;
     void PopulatePresets(std::vector<PresetInfo>& presets);
 	void OnEncoderChanged(wxCommandEvent& event);
     void OnApplyPresetClick(wxCommandEvent& event);

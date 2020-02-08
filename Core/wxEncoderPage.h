@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include "EncoderInfo.h"
@@ -17,7 +18,7 @@ struct TrackSettings
 class wxEncoderPage : public wxPanel
 {
 public:
-	wxEncoderPage(wxWindow* parent, std::vector<EncoderInfo> encoders, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings);
+	wxEncoderPage(wxWindow* parent, std::set<EncoderInfo> encoders, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings);
 	bool SetEncoder(wxString id);
 	EncoderInfo* GetSelectedEncoder();
 	void ApplyChanges();

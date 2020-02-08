@@ -15,4 +15,9 @@ struct MuxerInfo : public ResourceInfo
 	{
 		bool faststart;
 	} capabilities;
+
+	bool operator< (const MuxerInfo& other) const
+	{
+		return (id < other.id);
+	}
 };

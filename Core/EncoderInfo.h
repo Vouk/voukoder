@@ -15,4 +15,9 @@ struct EncoderInfo : public ResourceInfo
 	std::vector<PresetInfo> presets;
 	std::vector<EncoderGroupInfo> groups;
 	std::map<std::string, std::vector<std::string>> paramGroups;
+
+	bool operator< (const EncoderInfo& other) const
+	{
+		return (id < other.id);
+	}
 };

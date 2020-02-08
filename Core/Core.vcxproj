@@ -229,6 +229,7 @@
     <None Include="resources\encoders\aac.json" />
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
+    <None Include="resources\encoders\bmp.json" />
     <None Include="resources\encoders\dca.json" />
     <None Include="resources\encoders\eac3.json" />
     <None Include="resources\encoders\ffv1.json" />
@@ -258,7 +259,9 @@
     <None Include="resources\encoders\pcm_s16le.json" />
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
+    <None Include="resources\encoders\png.json" />
     <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\encoders\tiff.json" />
     <None Include="resources\encoders\truehd.json" />
     <None Include="resources\encoders\vp9_qsv.json" />
     <None Include="resources\filters\abench.json" />
@@ -514,6 +517,10 @@
     <None Include="resources\muxers\gif.json" />
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />
+    <None Include="resources\muxers\image2-bmp.json" />
+    <None Include="resources\muxers\image2-gif.json" />
+    <None Include="resources\muxers\image2-png.json" />
+    <None Include="resources\muxers\image2-tiff.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
     <None Include="resources\presets.json" />
@@ -542,7 +549,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4png_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

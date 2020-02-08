@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listbook.h>
@@ -40,6 +41,9 @@ public:
 	~wxVoukoderDialog();
 
 private:
+	std::set<MuxerInfo> muxers;
+	std::set<EncoderInfo> videoEncoders;
+	std::set<EncoderInfo> audioEncoders;
 	ExportInfo& exportInfo;
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;

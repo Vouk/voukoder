@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "image2#bmp",
+  "name": "Image series",
+  "extension": "bmp",
+  "encoders": {
+    "video": [ "bmp" ],
+    "audio": []
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

@@ -41,6 +41,9 @@
 #define IDR_ENC_VP9_QSV                 130
 #define IDR_ENC_SVTVP9                  131
 #define IDR_ENC_GIF                     132
+#define IDR_ENC_BMP                     133
+#define IDR_ENC_PNG                     134
+#define IDR_ENC_TIFF                    135
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202
@@ -57,6 +60,10 @@
 #define IDR_MUX_MPEG2VIDEO              213
 #define IDR_MUX_MPEGTS                  214
 #define IDR_MUX_GIF                     215
+#define IDR_MUX_IMAGE2_BMP              216
+#define IDR_MUX_IMAGE2_GIF              217
+#define IDR_MUX_IMAGE2_PNG              218
+#define IDR_MUX_IMAGE2_TIFF             219
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302

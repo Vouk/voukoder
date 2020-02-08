@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "png",
+  "name": "Image series (PNG)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "rgb24"
+              },
+              {
+                "value": "rgba"
+              },
+              {
+                "value": "rgb48be"
+              },
+              {
+                "value": "rgb64be"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "dpi",
+          "parameter": "dpi",
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "dpm",
+          "parameter": "dpm",
+          "control": {
+            "maximum": 65535,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "pred",
+          "parameter": "pred",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "sub"
+              },
+              {
+                "value": "up"
+              },
+              {
+                "value": "avg"
+              },
+              {
+                "value": "paeth"
+              },
+              {
+                "value": "mixed"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

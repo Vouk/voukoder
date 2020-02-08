@@ -32,6 +32,30 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	audioSettings.sideData.insert(exportInfo.audio.sideData.begin(), exportInfo.audio.sideData.end());
 	audioSettings.filters.Deserialize(exportInfo.audio.filters.Serialize());
 
+	// Build up list of supported muxers
+	for (auto muxer : Voukoder::Config::Get().muxerInfos)
+	{
+		if (exportInfo.video.enabled != muxer.videoCodecIds.empty() &&
+			exportInfo.audio.enabled != muxer.audioCodecIds.empty())
+		{
+			// Build up list of supported video encoders
+			for (auto encoder : Voukoder::Config::Get().videoEncoderInfos)
+			{
+				if (find(muxer.videoCodecIds.begin(), muxer.videoCodecIds.end(), encoder.id) != muxer.videoCodecIds.end())
+					videoEncoders.insert(encoder);
+			}
+
+			// Build up list of supported audio encoders
+			for (auto& encoder : Voukoder::Config::Get().audioEncoderInfos)
+			{
+				if (find(muxer.audioCodecIds.begin(), muxer.audioCodecIds.end(), encoder.id) != muxer.audioCodecIds.end())
+					audioEncoders.insert(encoder);
+			}
+
+			muxers.insert(muxer);
+		}
+	}
+
 	InitGUI();
 }
 
@@ -90,7 +114,7 @@ void wxVoukoderDialog::InitGUI()
 	// Video panel
 	if (exportInfo.video.enabled)
 	{
-		m_videoPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().videoEncoderInfos, Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
+		m_videoPanel = new wxEncoderPage(m_Categories, videoEncoders, Voukoder::Config::Get().videoSideData, Voukoder::Config::Get().videoFilterInfos, videoSettings);
 		m_videoPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
 		if (!m_videoPanel->SetEncoder(exportInfo.video.id))
 			m_videoPanel->SetEncoder(DefaultVideoEncoder);
@@ -101,7 +125,7 @@ void wxVoukoderDialog::InitGUI()
 	// Audio panel
 	if (exportInfo.audio.enabled)
 	{
-		m_audioPanel = new wxEncoderPage(m_Categories, Voukoder::Config::Get().audioEncoderInfos, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
+		m_audioPanel = new wxEncoderPage(m_Categories, audioEncoders, Voukoder::Config::Get().audioSideData, Voukoder::Config::Get().audioFilterInfos, audioSettings);
 		m_audioPanel->Bind(wxEVT_ENCODER_CHANGED, &wxVoukoderDialog::OnEncoderChanged, this);
 		if (!m_audioPanel->SetEncoder(exportInfo.audio.id))
 			m_audioPanel->SetEncoder(DefaultAudioEncoder);
@@ -465,7 +489,7 @@ void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
 	}
 
 	// Refresh muxers
-	for (auto& info : Voukoder::Config::Get().muxerInfos)
+	for (auto& info : muxers)
 	{
 		int index = m_genMuxFormatChoice->FindString(info.name);
 		bool videoSupported = videoInfo && find(info.videoCodecIds.begin(), info.videoCodecIds.end(), videoInfo->id) != info.videoCodecIds.end();
@@ -479,10 +503,7 @@ void wxVoukoderDialog::OnEncoderChanged(wxEncoderChangedEvent& event)
 				m_genMuxFormatChoice->Append(info.name, (void*)&info);
 		}
 		else if (index != wxNOT_FOUND)
-		{
-			// Remove not supported format
 			m_genMuxFormatChoice->Delete(index);
-		}
 	}
 
 	// Select the right muxer

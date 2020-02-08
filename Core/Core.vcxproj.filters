@@ -1141,6 +1141,27 @@
     <None Include="resources\encoders\gif.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\encoders\bmp.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\png.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\tiff.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\image2-bmp.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\image2-gif.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\image2-png.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\image2-tiff.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

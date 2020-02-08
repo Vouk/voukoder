@@ -3,7 +3,7 @@
 #include <wx/gbsizer.h>
 #include <wx/statline.h>
 
-wxEncoderPanel::wxEncoderPanel(wxWindow* parent, std::vector<EncoderInfo> encoders):
+wxEncoderPanel::wxEncoderPanel(wxWindow* parent, std::set<EncoderInfo> encoders):
 	wxPanel(parent),
 	encoders(encoders)
 {
@@ -58,7 +58,7 @@ wxEncoderPanel::wxEncoderPanel(wxWindow* parent, std::vector<EncoderInfo> encode
 
 bool wxEncoderPanel::SelectEncoder(wxString id)
 {
-	for (auto& encoder : encoders)
+	for (auto encoder : encoders)
 	{
 		if (encoder.id == id)
 		{

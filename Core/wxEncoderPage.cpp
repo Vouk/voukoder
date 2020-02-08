@@ -5,7 +5,7 @@ wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 wxDEFINE_EVENT(wxEVT_ENCODER_CHANGED, wxEncoderChangedEvent);
 wxDEFINE_EVENT(wxEVT_APPLY_PRESET, wxApplyPresetEvent);
 
-wxEncoderPage::wxEncoderPage(wxWindow* parent, std::vector<EncoderInfo> encoders, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings) :
+wxEncoderPage::wxEncoderPage(wxWindow* parent, std::set<EncoderInfo> encoders, EncoderInfo sideData, std::vector<EncoderInfo> filterInfos, TrackSettings& settings) :
 	wxPanel(parent), settings(settings)
 {
 	wxBoxSizer* bLayout = new wxBoxSizer(wxVERTICAL);
