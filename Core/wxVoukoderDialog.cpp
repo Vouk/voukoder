@@ -41,18 +41,20 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 			// Build up list of supported video encoders
 			for (auto encoder : Voukoder::Config::Get().videoEncoderInfos)
 			{
-				if (find(muxer.videoCodecIds.begin(), muxer.videoCodecIds.end(), encoder.id) != muxer.videoCodecIds.end())
-					videoEncoders.insert(encoder);
+				if (find(muxer.videoCodecIds.begin(), muxer.videoCodecIds.end(), encoder.id) != muxer.videoCodecIds.end() &&
+					find(videoEncoders.begin(), videoEncoders.end(), encoder) == videoEncoders.end())
+					videoEncoders.push_back(encoder);
 			}
 
 			// Build up list of supported audio encoders
 			for (auto& encoder : Voukoder::Config::Get().audioEncoderInfos)
 			{
-				if (find(muxer.audioCodecIds.begin(), muxer.audioCodecIds.end(), encoder.id) != muxer.audioCodecIds.end())
-					audioEncoders.insert(encoder);
+				if (find(muxer.audioCodecIds.begin(), muxer.audioCodecIds.end(), encoder.id) != muxer.audioCodecIds.end() &&
+					find(audioEncoders.begin(), audioEncoders.end(), encoder) == audioEncoders.end())
+					audioEncoders.push_back(encoder);
 			}
 
-			muxers.insert(muxer);
+			muxers.push_back(muxer);
 		}
 	}
 
