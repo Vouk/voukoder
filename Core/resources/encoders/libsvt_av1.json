@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libsvt_av1",
-  "name": "AV1",
+  "name": "AV1 (experimental)",
   "defaults": {},
   "presets": [],
   "groups": [
