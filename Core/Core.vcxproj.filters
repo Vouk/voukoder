@@ -129,9 +129,6 @@
     <ClInclude Include="Version.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderOptionPresets.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="FilterConfig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
