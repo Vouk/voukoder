@@ -2501,7 +2501,7 @@
     "png.advanced.pred._item_1": "Up",
     "png.advanced.pred._item_2": "Average",
     "png.advanced.pred._item_3": "Paeth",
-    "png.advanced.pred._item_4": "Mixed",
+    "png.advanced.pred._item_4": "Смешанный",
     "tiff.basic": "Базовые",
     "tiff.basic.pixelFormat._label": "Формат пикселя",
     "tiff.basic.pixelFormat._description": "Формат пикселя",
