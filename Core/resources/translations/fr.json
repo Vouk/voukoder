@@ -2499,7 +2499,7 @@
     "png.advanced.pred._description": "Méthode de prédiction (de 0 à 5)",
     "png.advanced.pred._item_0": "Bas (Sub)",
     "png.advanced.pred._item_1": "Haut",
-    "png.advanced.pred._item_2": "Moyen",
+    "png.advanced.pred._item_2": "Moyen (Average)",
     "png.advanced.pred._item_3": "Paeth",
     "png.advanced.pred._item_4": "Mixé",
     "tiff.basic": "De base",
