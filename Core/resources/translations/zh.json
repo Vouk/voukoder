@@ -331,7 +331,7 @@
     "hevc_amf.analysis.skip_frame._description": "基于速率控制的跳帧",
     "hevc_amf.analysis.preanalysis._label": "预分析模式",
     "hevc_amf.analysis.preanalysis._description": "预分析模式",
-    "hevc_amf.analysis.max_au_size._label": "最大. AU大小",
+    "hevc_amf.analysis.max_au_size._label": "最大 AU 大小",
     "hevc_amf.analysis.max_au_size._description": "速率控制的最大访问单位大小 (以比特为单位)",
     "hevc_amf.misc": "杂项",
     "hevc_amf.misc.level._label": "级别",
