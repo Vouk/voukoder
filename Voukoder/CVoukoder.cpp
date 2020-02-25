@@ -532,7 +532,11 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 
 	// Do we want to have per-export-logging?
 	if (RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false))
-		Log::instance()->RemoveFile(exportInfo.filename.BeforeLast('.') + ".log");
+	{
+		wxString fname = exportInfo.filename.BeforeLast('.') + ".log";
+		fname.Replace("_%d", "");
+		Log::instance()->RemoveFile(fname);
+	}
 
 	return S_OK;
 }
