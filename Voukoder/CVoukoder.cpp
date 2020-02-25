@@ -366,7 +366,11 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 
 	// Do we want to have per-export-logging?
 	if (RegistryUtils::GetValue(VKDR_REG_SEP_LOG_FILES, false))
-		Log::instance()->AddFile(filename.BeforeLast('.').Replace("_%d", "") + ".log");
+	{
+		wxString fname = filename.BeforeLast('.') + ".log";
+		fname.Replace("_%d", "");
+		Log::instance()->AddFile(fname);
+	}
 
 	vkLogSep();
 	vkLogInfo("Export started");
