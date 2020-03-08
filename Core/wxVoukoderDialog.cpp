@@ -52,30 +52,37 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	audioSettings.sideData.insert(exportInfo.audio.sideData.begin(), exportInfo.audio.sideData.end());
 	audioSettings.filters.Deserialize(exportInfo.audio.filters.Serialize());
 
-	// Build up list of supported muxers
+	// Build up list of supported muxers & encoders
 	for (auto muxer : Voukoder::Config::Get().muxerInfos)
 	{
-		if (exportInfo.video.enabled != muxer.videoCodecIds.empty() &&
-			exportInfo.audio.enabled != muxer.audioCodecIds.empty())
+		// Skip formats not capable of selected stream types
+		if (exportInfo.video.enabled && muxer.videoCodecIds.empty() ||
+			exportInfo.audio.enabled && muxer.audioCodecIds.empty())
+			continue;
+
+		// Filter video encoders
+		if (exportInfo.video.enabled && !muxer.videoCodecIds.empty())
 		{
-			// Build up list of supported video encoders
 			for (auto encoder : Voukoder::Config::Get().videoEncoderInfos)
 			{
 				if (find(muxer.videoCodecIds.begin(), muxer.videoCodecIds.end(), encoder.id) != muxer.videoCodecIds.end() &&
 					find(videoEncoders.begin(), videoEncoders.end(), encoder) == videoEncoders.end())
 					videoEncoders.push_back(encoder);
 			}
+		}
 
-			// Build up list of supported audio encoders
+		// Filter audio encoders
+		if (exportInfo.audio.enabled && !muxer.audioCodecIds.empty())
+		{
 			for (auto& encoder : Voukoder::Config::Get().audioEncoderInfos)
 			{
 				if (find(muxer.audioCodecIds.begin(), muxer.audioCodecIds.end(), encoder.id) != muxer.audioCodecIds.end() &&
 					find(audioEncoders.begin(), audioEncoders.end(), encoder) == audioEncoders.end())
 					audioEncoders.push_back(encoder);
 			}
-
-			muxers.push_back(muxer);
 		}
+	
+		muxers.push_back(muxer);
 	}
 
 	InitGUI();

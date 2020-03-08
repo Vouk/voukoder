@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "opus",
-  "name": "OPUS (.opus)",
+  "name": "OPUS",
   "extension": "opus",
   "encoders": {
     "video": [],

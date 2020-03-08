@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "ogg",
-  "name": "OGG (.ogg)",
+  "name": "OGG",
   "extension": "ogg",
   "encoders": {
     "video": [],

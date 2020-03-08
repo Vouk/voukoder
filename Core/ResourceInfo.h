@@ -32,8 +32,18 @@ struct ResourceInfo
 		return (id < other.id);
 	}
 
+    bool operator> (const ResourceInfo& other) const
+    {
+        return (id > other.id);
+    }
+
 	bool operator== (const ResourceInfo& other) const
 	{
 		return (id == other.id);
 	}
+
+    bool operator!= (const ResourceInfo& other) const
+    {
+        return (id != other.id);
+    }
 };
