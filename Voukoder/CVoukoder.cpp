@@ -516,9 +516,6 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 		delete encoder;
 	}
 
-	// Reset ExportInfo
-	exportInfo = {};
-
 	// FFmpeg logging
 	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
 	{
@@ -537,7 +534,10 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 		fname.Replace("_%d", "");
 		Log::instance()->RemoveFile(fname);
 	}
-
+	
+	// Reset ExportInfo
+	exportInfo = {};
+	
 	return S_OK;
 }
 
