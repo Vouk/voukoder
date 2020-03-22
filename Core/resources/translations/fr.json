@@ -311,7 +311,7 @@
     "hevc_amf.standard.strategy.bitrate._label": "Débit [Kbits]",
     "hevc_amf.standard.strategy.bitrate._description": "Le débit autorisé par l'encodeur.",
     "hevc_amf.frames": "Images",
-    "hevc_amf.frames.gopsize._label": "Taille Max. du GOP",
+    "hevc_amf.frames.gopsize._label": "Taile Max. du GOP",
     "hevc_amf.frames.gopsize._description": "Maximum du nombre d’images arrangées en groupe composé d’intra et d’inter-images. Une valeur plus petite améliore la qualité mais augmente la taille du fichier.",
     "hevc_amf.quantizer": "Quantificateur",
     "hevc_amf.quantizer.qp_i._label": "QPI",
