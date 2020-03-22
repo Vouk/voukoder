@@ -1024,30 +1024,6 @@
       ]
     },
     {
-      "id": "libx265.stats",
-      "class": "advanced",
-      "properties": [
-        {
-          "id": "libx265.stats.ssim",
-          "parameter": "ssim",
-          "control": {
-            "type": "boolean",
-            "value": false
-          },
-          "prependNoIfFalse": true
-        },
-        {
-          "id": "libx265.stats.psnr",
-          "parameter": "psnr",
-          "control": {
-            "type": "boolean",
-            "value": false
-          },
-          "prependNoIfFalse": true
-        }
-      ]
-    },
-    {
       "id": "libx265.qualityratedistortionoptions",
       "class": "advanced",
       "properties": [
@@ -2779,6 +2755,30 @@
             "type": "integer",
             "value": 1
           }
+        }
+      ]
+    },
+    {
+      "id": "libx265.stats",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx265.stats.ssim",
+          "parameter": "ssim",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.stats.psnr",
+          "parameter": "psnr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
         }
       ]
     }

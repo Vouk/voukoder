@@ -375,7 +375,7 @@ void wxOptionEditor::RefreshResults()
 				if (!value.IsEmpty())
 				{
                     std::string param = parameter.ToStdString();
-					if (info.preprendNoIfFalse && value == "0")
+					if (info.prependNoIfFalse && value == "0")
 					{
 						param = "no-" + param;
 						value = "1";

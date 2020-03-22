@@ -48,8 +48,8 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	}
 
 	// Optional: 
-	if (resource.find("preprendNoIfFalse") != resource.end())
-		optionInfo.preprendNoIfFalse = resource["preprendNoIfFalse"].get<bool>();
+	if (resource.find("prependNoIfFalse") != resource.end())
+		optionInfo.prependNoIfFalse = resource["prependNoIfFalse"].get<bool>();
 
 	// Get the control type
 	std::string type = resource["control"]["type"].get<std::string>();
@@ -79,12 +79,12 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 		if (resource["control"].find("minimum") != resource["control"].end())
 			optionInfo.control.minimum.floatValue = resource["control"]["minimum"].get<float>();
 		else
-			optionInfo.control.minimum.floatValue = INT_MIN;
+			optionInfo.control.minimum.floatValue = float(INT_MIN);
 
 		if (resource["control"].find("maximum") != resource["control"].end())
 			optionInfo.control.maximum.floatValue = resource["control"]["maximum"].get<float>();
 		else
-			optionInfo.control.maximum.floatValue = INT_MAX;
+			optionInfo.control.maximum.floatValue = float(INT_MAX);
 
 		optionInfo.control.singleStep.floatValue = resource["control"]["singleStep"].get<float>();
 		optionInfo.control.value.floatValue = resource["control"]["value"].get<float>();
