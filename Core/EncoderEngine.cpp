@@ -1,4 +1,24 @@
-﻿#include <sstream>
+﻿/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+#include <sstream>
 #include "EncoderEngine.h"
 #include "Log.h"
 
@@ -32,6 +52,12 @@ int EncoderEngine::open()
 	formatContext->oformat = av_guess_format(exportInfo.format.id.c_str(), exportInfo.filename.c_str(), NULL);
 	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
+
+	// Reset contexts
+	audioContext.next_pts = 0;
+	videoContext.next_pts = 0;
+	audioContext.firstData = true;
+	videoContext.firstData = true;
 
 	// Mark myself as encoding tool in the mp4/mov container
 	av_dict_set(&formatContext->metadata, "encoding_tool", exportInfo.application.c_str(), 0);
@@ -73,50 +99,46 @@ int EncoderEngine::open()
 		if (audioFrameSize == 0)
 		{
 			if (exportInfo.video.enabled)
-			{
 				audioFrameSize = (int)av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
-			}
 			else
-			{
 				audioFrameSize = 1024;
-			}
 		}
 	}
 
 	AVDictionary *options = NULL;
 
-	wxString filename;
+	char filename[MAX_PATH];
 	if (pass < exportInfo.passes)
-	{
-		filename = "NUL";
-	}
+		strcpy_s(filename, "NUL");
 	else
 	{
-		filename = exportInfo.filename;
-		formatContext->url = av_strdup(exportInfo.filename.c_str());
+		// Convert filename to utf8 char*
+		strcpy(filename, (const char*)exportInfo.filename.mb_str(wxConvUTF8));
+		formatContext->url = av_strdup(filename);
 
 		// Set the faststart flag in the last pass
 		if (exportInfo.format.faststart)
-		{
 			av_dict_set(&options, "movflags", "faststart", 0);
-		}
-
-		/*
-			av_dict_set(&formatContext->metadata, "major_brand", type, 0);
-			av_dict_set_int(&formatContext->metadata, "minor_version", minor_ver, 0);
-		*/
 	}
 
 	// Open file writer
-	ret = avio_open(&formatContext->pb, filename.c_str(), AVIO_FLAG_WRITE);
+	ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE);
 	if (ret < 0)
 	{
 		vkLogError("Unable to open file buffer.");
 		return ret;
 	}
 
+	// Still images should be numbered
+	if (exportInfo.format.id == "image2")
+		av_dict_set(&options, "frame_pts", "1", 0);
+
+	/*
+		av_dict_set(&options, "brand", "abcd", 0);
+	*/
+
 	// Dump format settings
-	av_dump_format(formatContext, 0, filename.c_str(), 1);
+	av_dump_format(formatContext, 0, filename, 1);
 
 	return avformat_write_header(formatContext, &options);
 }
@@ -185,32 +207,22 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 					wxString params;
 					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
 					if (entry != NULL)
-					{
 						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
-					}
 					else
-					{
 						params = wxString::Format("stats='%s':pass=%d", passLogFile, pass);
-					}
 
 					av_dict_set(&dictionary, "x265-params", params.c_str(), 0);
 				}
 				else
-				{
 					av_dict_set(&dictionary, "passlogfile", passLogFile.c_str(), 0);
-				}
 			}
 		}
 
 		// Open the codec
 		if ((ret = avcodec_open2(encoderContext->codecContext, encoderContext->codecContext->codec, &dictionary)) == 0)
-		{
 			ret = avcodec_parameters_from_context(encoderContext->stream->codecpar, encoderContext->codecContext);
-		}
 		else
-		{
 			vkLogErrorVA("Failed opening codec: %s", codecId.c_str());
-		}
 	}
 
 	return ret;
@@ -221,9 +233,7 @@ int EncoderEngine::injectStereoData(AVStream* stream)
 	// Do we have stereo 3d data?
 	wxString type = GetSideData(exportInfo.video.sideData, "s3d_type", "");
 	if (type.IsEmpty())
-	{
 		return 0;
-	}
 
 	// Add basic data
 	AVStereo3D* stereo_3d = av_stereo3d_alloc();
@@ -231,52 +241,30 @@ int EncoderEngine::injectStereoData(AVStream* stream)
 
 	// Add type
 	if (type == "2d")
-	{
 		stereo_3d->type = AV_STEREO3D_2D;
-	}
 	else if (type == "sidebyside")
-	{
 		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE;
-	}
 	else if (type == "topbottom")
-	{
 		stereo_3d->type = AV_STEREO3D_TOPBOTTOM;
-	}
 	else if (type == "framesequence")
-	{
 		stereo_3d->type = AV_STEREO3D_FRAMESEQUENCE;
-	}
 	else if (type == "checkerboard")
-	{
 		stereo_3d->type = AV_STEREO3D_CHECKERBOARD;
-	}
 	else if (type == "sidebyside_quincunx")
-	{
 		stereo_3d->type = AV_STEREO3D_SIDEBYSIDE_QUINCUNX;
-	}
 	else if (type == "lines")
-	{
 		stereo_3d->type = AV_STEREO3D_LINES;
-	}
 	else if (type == "columns")
-	{
 		stereo_3d->type = AV_STEREO3D_COLUMNS;
-	}
 
 	// Add views
 	wxString view = GetSideData(exportInfo.video.sideData, "s3d_view", "");
 	if (view == "2d")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_PACKED;
-	}
 	else if (view == "left")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_LEFT;
-	}
 	else if (view == "right")
-	{
 		stereo_3d->view = AV_STEREO3D_VIEW_RIGHT;
-	}
 
 	return av_stream_add_side_data(stream, AV_PKT_DATA_STEREO3D, (uint8_t*)stereo_3d, sizeof(*stereo_3d));
 }
@@ -286,9 +274,7 @@ int EncoderEngine::injectSphericalData(AVStream *stream)
 	// Do we have spherical projection data?
 	wxString projection = GetSideData(exportInfo.video.sideData, "sph_projection", "");
 	if (projection.IsEmpty())
-	{
 		return 0;
-	}
 
 	size_t size;
 	
@@ -325,9 +311,7 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	// Is this codec supported?
 	const AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
 	if (codec == NULL)
-	{
 		return AVERROR_ENCODER_NOT_FOUND;
-	}
 
 	// No frame server so far
 	encoderContext->frameFilter = NULL;
@@ -355,7 +339,6 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->height = exportInfo.video.height;
 		encoderContext->codecContext->time_base = exportInfo.video.timebase;
 		encoderContext->codecContext->framerate = av_inv_q(encoderContext->codecContext->time_base);
-		encoderContext->codecContext->pix_fmt = exportInfo.video.pixelFormat;
 		encoderContext->codecContext->colorspace = exportInfo.video.colorSpace;
 		encoderContext->codecContext->color_range = exportInfo.video.colorRange;
 		encoderContext->codecContext->color_primaries = exportInfo.video.colorPrimaries;
@@ -363,43 +346,39 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
 
-		// Check for a zscaler filter
-		for (auto const& options : exportInfo.video.filters)
+		// Find pixel format in options
+		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
 		{
-			wxString id = options->id.After('.');
-			if (id == "zscale" &&
-				options->find("width") != options->end() &&
-				options->find("height") != options->end())
-			{
-				encoderContext->codecContext->width = wxAtoi(options->at("width"));
-				encoderContext->codecContext->height = wxAtoi(options->at("height"));
-			}
-			else if (id == "yadif" || id == "bwdif")
-			{
-				encoderContext->codecContext->field_order = AV_FIELD_PROGRESSIVE;
-			}
+			auto format = exportInfo.video.options.at("_pixelFormat");
+			encoderContext->codecContext->pix_fmt = av_get_pix_fmt(format.c_str());
 		}
+		else
+			return -1;
 
 		// Add stats_info to second pass
 		if (codecId != "libx264" && encoderContext->codecContext->flags & AV_CODEC_FLAG_PASS2)
-		{
 			encoderContext->codecContext->stats_in = encoderContext->stats_info;
-		}
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
 		encoderContext->codecContext->channel_layout = exportInfo.audio.channelLayout;
 		encoderContext->codecContext->channels = av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout);
 		encoderContext->codecContext->time_base = exportInfo.audio.timebase;
-		encoderContext->codecContext->sample_fmt = exportInfo.audio.sampleFormat;
 		encoderContext->codecContext->sample_rate = exportInfo.audio.timebase.den;
 		encoderContext->codecContext->bit_rate = 0;
+
+		// Find sample format in options
+		if (exportInfo.audio.options.find("_sampleFormat") != exportInfo.audio.options.end())
+		{
+			auto format = exportInfo.audio.options.at("_sampleFormat");
+			encoderContext->codecContext->sample_fmt = av_get_sample_fmt(format.c_str());
+		}
+		else
+			return -1;
 	}
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
-	{
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-	}
 
 	return 0;
 }
@@ -526,51 +505,21 @@ bool EncoderEngine::hasAudio()
 
 int EncoderEngine::writeVideoFrame(AVFrame *frame)
 {
+	// Return false
+	if (!videoContext.codecContext)
+		return -1;
+
 	// Do we need a frame filter?
-	if (frame->pts == 0)
+	if (videoContext.firstData)
 	{
-		wxString filterconfig;
-
-		// Convert color space or range?
-		if (frame->format != (int)AV_PIX_FMT_ARGB && (videoContext.codecContext->color_range != frame->color_range ||
-			videoContext.codecContext->colorspace != frame->colorspace ||
-			videoContext.codecContext->color_primaries != frame->color_primaries ||
-			videoContext.codecContext->color_trc != frame->color_trc))
-		{
-			// Color range
-			filterconfig << ",colorspace=range=" << (videoContext.codecContext->color_range == AVColorRange::AVCOL_RANGE_MPEG ? "mpeg" : "jpeg");
-
-			// Color space
-			switch (videoContext.codecContext->colorspace)
-			{
-			case AVColorSpace::AVCOL_SPC_BT470BG:
-				filterconfig << ":space=bt470bg:trc=bt470bg:primaries=bt470bg";
-				break;
-			case AVColorSpace::AVCOL_SPC_SMPTE170M:
-				filterconfig << ":space=smpte170m:trc=smpte170m:primaries=smpte170m";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT709:
-				filterconfig << ":space=bt709:trc=bt709:primaries=bt709";
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_CL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
-				break;
-			case AVColorSpace::AVCOL_SPC_BT2020_NCL:
-				filterconfig << ":space=bt2020ncl:trc=bt2020-10:primaries=bt2020"; // TODO
-				break;
-			default:
-				break;
-			}
-		}
+		videoContext.firstData = false;
 
 		// Add users filter config
-		filterconfig << exportInfo.video.filters.AsFilterString();
+		wxString filterconfig = exportInfo.video.filters.AsFilterString();
 
 		// Convert pixel format
 		if (frame->format != (int)videoContext.codecContext->pix_fmt)
-		{
 			filterconfig << ",format=pix_fmts=" << av_get_pix_fmt_name(videoContext.codecContext->pix_fmt);
-		}
 
 		// Create filter
 		if (filterconfig.size() > 0)
@@ -597,15 +546,27 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	frame->top_field_first = videoContext.codecContext->field_order == AVFieldOrder::AV_FIELD_TT;
 	frame->sample_aspect_ratio = videoContext.codecContext->sample_aspect_ratio;
 
+	frame->pts = videoContext.next_pts;
+	videoContext.next_pts++;
+
 	// Send the frame to the encoder
 	return encodeAndWriteFrame(&videoContext, frame);
 }
 
 int EncoderEngine::writeAudioFrame(AVFrame *frame)
 {
-	if (frame->pts == 0)
+	// Return false
+	if (!audioContext.codecContext)
+		return -1;
+
+	if (audioContext.firstData)
 	{
+		audioContext.firstData = false;
+
 		wxString filterconfig;
+
+		// Keep the number of samples constant
+		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
 		
 		// Convert sample format
 		if (audioContext.codecContext->channels != frame->channels ||
@@ -632,12 +593,16 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 			// Set up filter config
 			audioContext.frameFilter = new FrameFilter();
-			audioContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+			audioContext.frameFilter->configure(options, filterconfig.c_str());
 
 			// Log filters
 			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));
 		}
 	}
+
+	frame->pts = audioContext.next_pts;
+
+	audioContext.next_pts += frame->nb_samples;
 
 	// Send the frame to the encoder
 	return encodeAndWriteFrame(&audioContext, frame);

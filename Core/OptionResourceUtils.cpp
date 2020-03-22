@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include <map>
 #include "OptionResourceUtils.h"
 #include "LanguageUtils.h"
@@ -10,21 +30,15 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 
 	// Optional: Is a multiplication factor set?
 	if (resource.find("multiplicationFactor") != resource.end())
-	{
 		optionInfo.multiplicationFactor = resource["multiplicationFactor"].get<int>();
-	}
 
 	// Optional: Is it a forced parameter?
 	if (resource.find("forced") != resource.end())
-	{
 		optionInfo.isForced = resource["forced"].get<bool>();
-	}
 
 	// Optional: Is this property assigned to a parameter name?
 	if (resource.find("parameter") != resource.end())
-	{
 		optionInfo.parameter = resource["parameter"].get<std::string>();
-	}
 
 	// Optional: 
 	if (resource.find("extraOptions") != resource.end())
@@ -35,9 +49,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 
 	// Optional: 
 	if (resource.find("preprendNoIfFalse") != resource.end())
-	{
 		optionInfo.preprendNoIfFalse = resource["preprendNoIfFalse"].get<bool>();
-	}
 
 	// Get the control type
 	std::string type = resource["control"]["type"].get<std::string>();
@@ -46,16 +58,34 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	if (type == "integer")
 	{
 		optionInfo.control.type = EncoderOptionType::Integer;
-		optionInfo.control.minimum.intValue = resource["control"]["minimum"].get<int>();
-		optionInfo.control.maximum.intValue = resource["control"]["maximum"].get<int>();
+
+		if (resource["control"].find("minimum") != resource["control"].end())
+			optionInfo.control.minimum.intValue = resource["control"]["minimum"].get<int>();
+		else
+			optionInfo.control.minimum.intValue = INT_MIN;
+
+		if (resource["control"].find("maximum") != resource["control"].end())
+			optionInfo.control.maximum.intValue = resource["control"]["maximum"].get<int>();
+		else
+			optionInfo.control.maximum.intValue = INT_MAX;
+
 		optionInfo.control.singleStep.intValue = resource["control"]["singleStep"].get<int>();
 		optionInfo.control.value.intValue = resource["control"]["value"].get<int>();
 	}
 	else if (type == "float")
 	{
 		optionInfo.control.type = EncoderOptionType::Float;
-		optionInfo.control.minimum.floatValue = resource["control"]["minimum"].get<float>();
-		optionInfo.control.maximum.floatValue = resource["control"]["maximum"].get<float>();
+
+		if (resource["control"].find("minimum") != resource["control"].end())
+			optionInfo.control.minimum.floatValue = resource["control"]["minimum"].get<float>();
+		else
+			optionInfo.control.minimum.floatValue = INT_MIN;
+
+		if (resource["control"].find("maximum") != resource["control"].end())
+			optionInfo.control.maximum.floatValue = resource["control"]["maximum"].get<float>();
+		else
+			optionInfo.control.maximum.floatValue = INT_MAX;
+
 		optionInfo.control.singleStep.floatValue = resource["control"]["singleStep"].get<float>();
 		optionInfo.control.value.floatValue = resource["control"]["value"].get<float>();
 	}

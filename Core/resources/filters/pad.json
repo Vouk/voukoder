@@ -1,84 +1,85 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "pad"
-  },
+  "id": "filter.pad",
+  "name": "pad",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.pad.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "width",
+          "parameter": "width",
+          "forced": true,
           "control": {
-            "type": "string",
-            "value": "iw"
-          },
-          "id": "filter.pad.standard.width",
-          "parameter": "width"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 16,
+            "value": 800
+          }
         },
         {
+          "id": "height",
+          "parameter": "height",
+          "forced": true,
           "control": {
-            "type": "string",
-            "value": "ih"
-          },
-          "id": "filter.pad.standard.height",
-          "parameter": "height"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 8,
+            "value": 600
+          }
+        }
+      ]
+    },
+    {
+      "class": "advanced",
+      "id": "advanced",
+      "properties": [
+        {
+          "id": "x",
+          "parameter": "x",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 16,
+            "value": 0
+          }
         },
         {
+          "id": "y",
+          "parameter": "y",
           "control": {
-            "type": "string",
-            "value": "0"
-          },
-          "id": "filter.pad.standard.x",
-          "parameter": "x"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8192,
+            "singleStep": 8,
+            "value": 0
+          }
         },
         {
-          "control": {
-            "type": "string",
-            "value": "0"
-          },
-          "id": "filter.pad.standard.y",
-          "parameter": "y"
-        },
-        {
+          "id": "color",
+          "parameter": "color",
           "control": {
             "type": "string",
             "value": "black"
-          },
-          "id": "filter.pad.standard.color",
-          "parameter": "color"
+          }
         },
         {
+          "id": "aspect",
+          "parameter": "aspect",
           "control": {
-            "items": [
-              {
-                "value": "init"
-              },
-              {
-                "value": "frame"
-              }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.pad.standard.eval",
-          "parameter": "eval"
-        },
-        {
-          "control": {
-            "maximum": 3.4028234663852886e+38,
-            "minimum": 0.0,
-            "singleStep": 0.10000000149011612,
             "type": "float",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "singleStep": 0.1,
             "value": 0.0
-          },
-          "id": "filter.pad.standard.aspect",
-          "parameter": "aspect"
+          }
         }
       ]
     }
-  ],
-  "id": "filter.pad",
-  "name": "pad",
-  "type": "video"
+  ]
 }

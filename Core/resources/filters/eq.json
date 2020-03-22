@@ -1,79 +1,107 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "eq"
-  },
+  "id": "filter.eq",
+  "name": "eq",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.eq.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "contrast",
+          "parameter": "contrast",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.contrast",
-          "parameter": "contrast"
+            "type": "float",
+            "minimum": -1000.0,
+            "maximum": 1000.0,
+            "singleStep": 1,
+            "value": 1
+          }
         },
         {
+          "id": "brightness",
+          "parameter": "brightness",
           "control": {
-            "type": "string",
-            "value": "0.0"
-          },
-          "id": "filter.eq.standard.brightness",
-          "parameter": "brightness"
+            "type": "float",
+            "minimum": -1.0,
+            "maximum": 1.0,
+            "singleStep": 0.1,
+            "value": 0
+          }
         },
         {
+          "id": "saturation",
+          "parameter": "saturation",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.saturation",
-          "parameter": "saturation"
+            "type": "float",
+            "minimum": 0.0,
+            "maximum": 3.0,
+            "singleStep": 0.1,
+            "value": 1
+          }
         },
         {
+          "id": "gamma",
+          "parameter": "gamma",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.gamma",
-          "parameter": "gamma"
+            "type": "float",
+            "minimum": 0.1,
+            "maximum": 10.0,
+            "singleStep": 0.1,
+            "value": 1
+          }
         },
         {
+          "id": "gamma_r",
+          "parameter": "gamma_r",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.gamma_r",
-          "parameter": "gamma_r"
+            "type": "float",
+            "minimum": 0.1,
+            "maximum": 10.0,
+            "singleStep": 0.1,
+            "value": 1
+          }
         },
         {
+          "id": "gamma_g",
+          "parameter": "gamma_g",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.gamma_g",
-          "parameter": "gamma_g"
+            "type": "float",
+            "minimum": 0.1,
+            "maximum": 10.0,
+            "singleStep": 0.1,
+            "value": 1
+          }
         },
         {
+          "id": "gamma_b",
+          "parameter": "gamma_b",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.gamma_b",
-          "parameter": "gamma_b"
+            "type": "float",
+            "minimum": 0.1,
+            "maximum": 10.0,
+            "singleStep": 0.1,
+            "value": 1
+          }
         },
         {
+          "id": "gamma_weight",
+          "parameter": "gamma_weight",
           "control": {
-            "type": "string",
-            "value": "1.0"
-          },
-          "id": "filter.eq.standard.gamma_weight",
-          "parameter": "gamma_weight"
+            "type": "float",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "singleStep": 0.1,
+            "value": 0
+          }
         },
         {
+          "id": "eval",
+          "parameter": "eval",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
                 "value": "init"
@@ -81,17 +109,10 @@
               {
                 "value": "frame"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.eq.standard.eval",
-          "parameter": "eval"
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.eq",
-  "name": "eq",
-  "type": "video"
+  ]
 }

@@ -1,61 +1,310 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "removegrain"
-  },
+  "id": "filter.removegrain",
+  "name": "removegrain",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.removegrain.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "m0",
+          "parameter": "m0",
+          "forced": true,
           "control": {
-            "maximum": 24,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.removegrain.standard.m0",
-          "parameter": "m0"
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              },
+              {
+                "value": "15"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "17"
+              },
+              {
+                "value": "18"
+              },
+              {
+                "value": "19"
+              },
+              {
+                "value": "20"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "23"
+              }
+            ]
+          }
         },
         {
+          "id": "m1",
+          "parameter": "m1",
+          "forced": true,
           "control": {
-            "maximum": 24,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.removegrain.standard.m1",
-          "parameter": "m1"
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              },
+              {
+                "value": "15"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "17"
+              },
+              {
+                "value": "18"
+              },
+              {
+                "value": "19"
+              },
+              {
+                "value": "20"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "23"
+              }
+            ]
+          }
         },
         {
+          "id": "m2",
+          "parameter": "m2",
+          "forced": true,
           "control": {
-            "maximum": 24,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.removegrain.standard.m2",
-          "parameter": "m2"
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              },
+              {
+                "value": "15"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "17"
+              },
+              {
+                "value": "18"
+              },
+              {
+                "value": "19"
+              },
+              {
+                "value": "20"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "23"
+              }
+            ]
+          }
         },
         {
+          "id": "m3",
+          "parameter": "m3",
+          "forced": true,
           "control": {
-            "maximum": 24,
-            "minimum": 0,
-            "singleStep": 1,
-            "type": "integer",
-            "value": 0
-          },
-          "id": "filter.removegrain.standard.m3",
-          "parameter": "m3"
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              },
+              {
+                "value": "15"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "17"
+              },
+              {
+                "value": "18"
+              },
+              {
+                "value": "19"
+              },
+              {
+                "value": "20"
+              },
+              {
+                "value": "21"
+              },
+              {
+                "value": "22"
+              },
+              {
+                "value": "23"
+              }
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.removegrain",
-  "name": "removegrain",
-  "type": "video"
+  ]
 }

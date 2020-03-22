@@ -48,6 +48,7 @@
 /AfterEffectsPlugin/.vs/AfterEffectsPlugin/v15
 /AfterEffectsPlugin/logs
 /Voukoder/x64/
-/TestDLL/x64/
 /x64
-
+/Installer/bin/
+/Installer/obj/
+/Server

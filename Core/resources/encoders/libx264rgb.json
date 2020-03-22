@@ -5,6 +5,41 @@
   "defaults": {
     "_pixelFormat": "rgb24"
   },
+  "presets": [
+    {
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "rgb24",
+        "rc": "crf",
+        "crf": "19.0",
+        "preset": "medium",
+        "profile": "high"
+      }
+    },
+    {
+      "name": "High quality",
+      "description": "",
+      "options": {
+        "_pixelFormat": "rgb24",
+        "rc": "crf",
+        "crf": "17.0",
+        "preset": "medium",
+        "profile": "high"
+      }
+    },
+    {
+      "name": "Lossless",
+      "description": "",
+      "options": {
+        "_pixelFormat": "rgb24",
+        "rc": "crf",
+        "crf": "0.0",
+        "preset": "medium",
+        "profile": "high"
+      }
+    }
+  ],
   "parameterGroups": {
     "x264-params": [
       "interlaced",
@@ -297,7 +332,7 @@
           "parameter": "b",
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 1000,
             "value": 15000,

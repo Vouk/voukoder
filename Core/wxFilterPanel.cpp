@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include "wxFilterPanel.h"
 #include "wxEditFilterDialog.h"
 #include "Voukoder.h"
@@ -64,8 +84,7 @@ void wxFilterPanel::PopulateFilterMenu()
 		// Find insert position
 		for (auto item : m_filterMenu->GetMenuItems())
 		{
-			wxString name = Trans(filterInfo.id);
-			if (name.CmpNoCase(item->GetItemLabelText()) <= 0)
+			if (filterInfo.name.CmpNoCase(item->GetItemLabelText()) <= 0)
 				break;
 
 			pos++;
@@ -88,7 +107,7 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 			if (info.id == options->id)
 			{
 				wxListItem item;
-				item.m_itemId = 0;
+				item.m_itemId = m_filterList->GetItemCount();
 				item.SetText(Trans(info.id));
 				item.SetData(options);
 				m_filterList->InsertItem(item);
@@ -104,7 +123,6 @@ void wxFilterPanel::Configure(FilterConfig filterConfig)
 	// Preselect first filter
 	if (m_filterList->GetItemCount() > 0)
 	{
-		//m_filterList->  ->SetSelection(0);
 		m_filterEdit->Enable();
 		m_filterRemove->Enable();
 	}
@@ -223,7 +241,7 @@ void wxFilterPanel::OnPopupClick(wxCommandEvent &evt)
 			// Create a new filter item
 			wxListItem item;
 			item.SetId(itemId);
-			item.SetText(Trans(info.id));
+			item.SetText(Trans(info.name));
 			item.SetData(options);
 			item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_DATA);
 			item.SetState(wxLIST_STATE_SELECTED);

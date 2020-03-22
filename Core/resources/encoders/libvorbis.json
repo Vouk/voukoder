@@ -12,12 +12,14 @@
       "properties": [
         {
           "id": "libvorbis.standard.strategy",
+          "parameter": "_strategy",
           "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
             "items": [
               {
+                "value": "abr",
                 "filters": [
                   {
                     "filter": "OnSelection",
@@ -37,6 +39,7 @@
                 ]
               },
               {
+                "value": "cqp",
                 "filters": [
                   {
                     "filter": "OnSelection",

@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include "wxOptionEditor.h"
 #include "LanguageUtils.h"
 #include "OnChangeValueOptionFilter.h"
@@ -29,15 +49,6 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 	m_propertyGrid->Bind(wxEVT_CHECKBOX_CHANGE, &wxOptionEditor::OnPropertyGridCheckboxChanged, this, m_propertyGrid->GetId());
 	bSizer->Add(m_propertyGrid, 1, wxALL | wxEXPAND, 5);
 
-	// Preview
-	if (hasPreview)
-	{
-		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
-		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
-		m_preview->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
-		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
-	}
-
 	// Buttons
 	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -61,6 +72,15 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 	m_btnPanel->Layout();
 	btnSizer2->Fit(m_btnPanel);
 	bSizer->Add(m_btnPanel, 0, wxEXPAND | wxALL);
+
+	// Preview
+	if (hasPreview)
+	{
+		m_preview = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS | wxTE_READONLY);
+		m_preview->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Fixedsys")));
+		m_preview->SetMinSize(wxDLG_UNIT(this, wxSize(-1, 60)));
+		bSizer->Add(m_preview, 0, wxEXPAND | wxALL, 5);
+	}
 
 	this->SetSizer(bSizer);
 	this->Layout();
@@ -153,7 +173,7 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 					wxString val = options[optionInfo.parameter];
 					val.ToDouble(&doubleVal);
 
-					optionProperty->SetValueFromString(wxString::Format(wxT("%.1f"), doubleVal));
+					optionProperty->SetValueFromString(wxString::Format(wxT("%.3f"), doubleVal));
 				}
 				else
 				{
@@ -344,7 +364,7 @@ void wxOptionEditor::RefreshResults()
 				else if (info.control.type == EncoderOptionType::Float)
 				{
 					double val = prop->GetValue().GetDouble() * info.multiplicationFactor;
-					value = wxString::Format(wxT("%.1f"), val);
+					value = wxString::Format(wxT("%.3f"), val);
 				}
 				else
 				{

@@ -7,19 +7,15 @@
   },
   "presets": [
     {
-      "id": "firstgroup",
-      "presets": [
-        {
-          "id": "test1",
-          "options": "bf=2 preset=slow profile=high qp=19 rc=constqp g=%(fps*10)"
-        }
-      ],
-      "group": [
-        {
-          "id": "testgroup",
-          "presets": []
-        }
-      ]
+      "name": "Good quality (Recommended)",
+      "description": "",
+      "options": {
+        "_pixelFormat": "yuv420p",
+        "rc": "constq",
+        "qp": "15",
+        "preset": "slow",
+        "profile": "high"
+      }
     }
   ],
   "groups": [
@@ -290,7 +286,7 @@
           "parameter": "b",
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 100,
             "value": 15000,
@@ -483,6 +479,28 @@
       "id": "h264_nvenc.quantizer",
       "class": "advanced",
       "properties": [
+        {
+          "id": "h264_nvenc.quantizer.qmin",
+          "parameter": "qmin",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "h264_nvenc.quantizer.qmax",
+          "parameter": "qmax",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
         {
           "id": "h264_nvenc.quantizer.qpi",
           "parameter": "init_qpI",

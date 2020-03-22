@@ -179,13 +179,30 @@
           "parameter": "b",
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 1000,
             "value": 15000,
             "visible": false
           },
           "multiplicationFactor": 1000
+        }
+      ]
+    },
+    {
+      "id": "h264_amf.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "h264_amf.frames.gopsize",
+          "parameter": "g",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1200,
+            "singleStep": 1,
+            "value": 300
+          }
         }
       ]
     },

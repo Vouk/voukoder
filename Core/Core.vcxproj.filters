@@ -129,13 +129,7 @@
     <ClInclude Include="Version.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderOptionPresets.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="FilterConfig.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="wxConfigurationDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="wxOptionEditor.h">
@@ -148,6 +142,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="wxVoukoderTaskBarIcon.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEncoderPage.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxEncoderPanel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PresetInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -191,9 +194,6 @@
     <ClCompile Include="wxFilterPanel.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="wxConfigurationDialog.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="wxOptionEditor.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -201,6 +201,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="wxVoukoderTaskBarIcon.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEncoderPage.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxEncoderPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PresetInfo.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,9 +289,6 @@
     <None Include="resources\muxers\mkv.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
-    <None Include="resources\translations\english.json">
-      <Filter>Ressourcendateien\Translations</Filter>
-    </None>
     <None Include="resources\encoders\hap.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
@@ -303,15 +309,6 @@
     </None>
     <None Include="resources\muxers\wav.json">
       <Filter>Ressourcendateien\Muxers</Filter>
-    </None>
-    <None Include="resources\translations\german.json">
-      <Filter>Ressourcendateien\Translations</Filter>
-    </None>
-    <None Include="resources\translations\french.json">
-      <Filter>Ressourcendateien\Translations</Filter>
-    </None>
-    <None Include="resources\translations\chinese.json">
-      <Filter>Ressourcendateien\Translations</Filter>
     </None>
     <None Include="resources\filters\abench.json">
       <Filter>Ressourcendateien\Filters</Filter>
@@ -398,9 +395,6 @@
       <Filter>Ressourcendateien\Filters</Filter>
     </None>
     <None Include="resources\filters\asendcmd.json">
-      <Filter>Ressourcendateien\Filters</Filter>
-    </None>
-    <None Include="resources\filters\asetnsamples.json">
       <Filter>Ressourcendateien\Filters</Filter>
     </None>
     <None Include="resources\filters\asetpts.json">
@@ -1110,6 +1104,57 @@
     </None>
     <None Include="resources\encoders\libsvt_hevc.json">
       <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\translations\zh.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\en.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\fr.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\translations\de.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\encoders\vp9_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\filters\decimate.json">
+      <Filter>Ressourcendateien\Filters</Filter>
+    </None>
+    <None Include="resources\encoders\libsvt_vp9.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\presets.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="resources\translations\ru.json">
+      <Filter>Ressourcendateien\Translations</Filter>
+    </None>
+    <None Include="resources\muxers\gif.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\encoders\gif.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\bmp.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\png.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\encoders\tiff.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\image2-bmp.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\image2-png.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
+    <None Include="resources\muxers\image2-tiff.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

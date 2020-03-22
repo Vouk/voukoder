@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "tiff",
+  "name": "Image series (TIFF)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "rgb24"
+              },
+              {
+                "value": "rgb48le"
+              },
+              {
+                "value": "yuv444p"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "dpi",
+          "parameter": "dpi",
+          "control": {
+            "maximum": 65535,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 72
+          }
+        },
+        {
+          "id": "compression_algo",
+          "parameter": "compression_algo",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "packbits"
+              },
+              {
+                "value": "raw"
+              },
+              {
+                "value": "lzw"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

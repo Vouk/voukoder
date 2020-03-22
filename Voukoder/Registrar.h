@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #pragma once
 
 #include "stdio.h"
@@ -16,7 +36,8 @@ protected:
 		if (RegCreateKeyEx(hRootKey, subKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyResult, &dwDisposition) != ERROR_SUCCESS)
 			return FALSE;
 
-		dataLength = (DWORD)wcslen(keyValue);
+		dataLength = (DWORD)wcslen(keyValue) * sizeof(wchar_t);
+
 		DWORD retVal = RegSetValueEx(hKeyResult, keyName, 0, REG_SZ, (const BYTE *)keyValue, dataLength);
 
 		RegCloseKey(hKeyResult);
@@ -41,13 +62,6 @@ protected:
 			return false;
 
 		wcscpy(strCLSID, pOleStr);
-
-		//int bytesConv = ::WideCharToMultiByte(CP_ACP, 0, pOleStr, wcslen(pOleStr), strCLSID, MAX_PATH, NULL, NULL);
-		//CoTaskMemFree(pOleStr);
-		//strCLSID[bytesConv] = '\0';
-
-		//if (!bytesConv)
-		//	return false;
 
 		return true;
 	}
@@ -74,7 +88,7 @@ public:
 			return false;
 
 		swprintf_s(Buffer, L"CLSID\\%s", strCLSID);
-		
+
 		wchar_t Class[MAX_PATH];
 		swprintf_s(Class, L"%s Class", ClassId);
 
@@ -96,20 +110,20 @@ public:
 			return false;
 
 		swprintf_s(Buffer, L"%s.%s\\CLSID", LibId, ClassId);
-		
+
 		if (!DelFromRegistry(HKEY_CLASSES_ROOT, Buffer))
 			return false;
-		
+
 		swprintf_s(Buffer, L"%s.%s", LibId, ClassId);
-		
+
 		if (!DelFromRegistry(HKEY_CLASSES_ROOT, Buffer))
 			return false;
-		
+
 		swprintf_s(Buffer, L"CLSID\\%s\\ProgId", strCLSID);
-		
+
 		if (!DelFromRegistry(HKEY_CLASSES_ROOT, Buffer))
 			return false;
-		
+
 		swprintf_s(Buffer, L"CLSID\\%s", strCLSID);
 
 		return DelFromRegistry(HKEY_CLASSES_ROOT, Buffer) ? true : false;
@@ -131,6 +145,9 @@ public:
 			return false;
 
 		swprintf_s(Buffer, L"CLSID\\%s\\InProcServer32", strCLSID);
+
+		if (!SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"ThreadingModel", L"Both"))
+			return false;
 
 		return SetInRegistry(HKEY_CLASSES_ROOT, Buffer, L"", Path) ? true : false;
 	}

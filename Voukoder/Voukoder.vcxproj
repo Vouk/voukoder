@@ -45,14 +45,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\Core;..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;..\..\..\external\lib\debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>voukoder</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\Core;..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;..\..\..\external\lib\release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>voukoder</TargetName>
@@ -76,6 +76,8 @@
       <RandomizedBaseAddress>
       </RandomizedBaseAddress>
       <ModuleDefinitionFile>Voukoder.def</ModuleDefinitionFile>
+      <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
+      <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -89,6 +91,8 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;VOUKODER_EXPORTS;NDEBUG;VOUKODER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,20 +105,20 @@
       <RandomizedBaseAddress>
       </RandomizedBaseAddress>
       <ModuleDefinitionFile>Voukoder.def</ModuleDefinitionFile>
+      <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
+      <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassFactory.h" />
     <ClInclude Include="ComBase.h" />
     <ClInclude Include="CVoukoder.h" />
-    <ClInclude Include="IVoukoder.h" />
     <ClInclude Include="Registrar.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="VoukoderTypeLib_h.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClassFactory.cpp" />
-    <ClCompile Include="ComBase.cpp" />
     <ClCompile Include="CVoukoder.cpp" />
     <ClCompile Include="Voukoder.cpp" />
   </ItemGroup>
@@ -125,6 +129,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Core\Core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="VoukoderTypeLib.idl">
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)voukoder.tlb</TypeLibraryName>
+    </Midl>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

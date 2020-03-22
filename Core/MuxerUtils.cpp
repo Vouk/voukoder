@@ -1,15 +1,34 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include "MuxerUtils.h"
+#include "wx/wx.h"
 #include "Log.h"
 
 bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 {
-	std::string muxerId = resource["id"].get<std::string>();
+	wxString muxerId = resource["id"].get<std::string>();
 
 	// Is this encoder supported?
-	if (!IsAvailable(muxerId))
-	{
+	if (!IsAvailable(muxerId.BeforeFirst('#')))
 		return false;
-	}
 
 	vkLogInfoVA("Loading: muxers/%s.json", muxerId.c_str());
 
@@ -24,7 +43,7 @@ bool MuxerUtils::Create(MuxerInfo &muxerInfo, const json resource)
 	return true;
 }
 
-bool MuxerUtils::IsAvailable(const std::string id)
+bool MuxerUtils::IsAvailable(const wxString id)
 {
 	return av_guess_format(id.c_str(), NULL, NULL) != NULL;
 }

@@ -1,8 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libsvt_av1",
-  "name": "AV1 (SVT)",
+  "name": "AV1 (experimental)",
   "defaults": {},
+  "presets": [],
   "groups": [
     {
       "id": "basic",
@@ -108,7 +109,7 @@
           "forced": true,
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 1000,
             "value": 15000,

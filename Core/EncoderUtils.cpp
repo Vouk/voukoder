@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include <map>
 #include "EncoderUtils.h"
 #include "LanguageUtils.h"
@@ -62,45 +82,9 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validate
 
 	// Optional: Presets
 	if (resource.find("presets") != resource.end())
-	{
-		for (auto& item : resource["presets"])
-		{
-			EncoderOptionPresetGroup group;
-			CreateEncoderOptionPresetGroup(group, item);
-
-			encoderInfo.presets.push_back(group);
-		}
-	}
+		encoderInfo.presets = resource["presets"].get<std::vector<PresetInfo>>();
 
 	return true;
-}
-
-void EncoderUtils::CreateEncoderOptionPresetGroup(EncoderOptionPresetGroup& group, const json json)
-{
-	group.id = json["id"].get<std::string>();
-
-	//
-	if (json.find("presets") != json.end())
-	{
-		for (auto& preset : json["presets"])
-		{
-			EncoderOptionPreset p;
-			p.id = preset["id"].get<std::string>();
-			p.options = preset["options"].get<std::string>();
-		}
-	}
-
-	//
-	if (json.find("group") != json.end())
-	{
-		for (auto& item : json["group"])
-		{
-			EncoderOptionPresetGroup subgroup;
-			CreateEncoderOptionPresetGroup(subgroup, item);
-
-			group.group.push_back(subgroup);
-		}
-	}
 }
 
 AVMediaType EncoderUtils::GetMediaType(const wxString codecId)

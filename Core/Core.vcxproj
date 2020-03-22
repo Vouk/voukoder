@@ -168,7 +168,6 @@
     <ClInclude Include="EncoderUtils.h" />
     <ClInclude Include="ExportInfo.h" />
     <ClInclude Include="FilterConfig.h" />
-    <ClInclude Include="EncoderOptionPresets.h" />
     <ClInclude Include="OptionResourceUtils.h" />
     <ClInclude Include="FrameFilter.h" />
     <ClInclude Include="Images.h" />
@@ -187,6 +186,7 @@
     <ClInclude Include="OptionFilterInfo.h" />
     <ClInclude Include="OptionValue.h" />
     <ClInclude Include="PluginUpdate.h" />
+    <ClInclude Include="PresetInfo.h" />
     <ClInclude Include="RegistryUtils.h" />
     <ClInclude Include="ResourceInfo.h" />
     <ClInclude Include="resource.h" />
@@ -194,7 +194,8 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
     <ClInclude Include="wxEditFilterDialog.h" />
-    <ClInclude Include="wxConfigurationDialog.h" />
+    <ClInclude Include="wxEncoderPage.h" />
+    <ClInclude Include="wxEncoderPanel.h" />
     <ClInclude Include="wxFilterPanel.h" />
     <ClInclude Include="wxVoukoderDialog.h" />
     <ClInclude Include="wxOptionEditor.h" />
@@ -211,9 +212,11 @@
     <ClCompile Include="MuxerUtils.cpp" />
     <ClCompile Include="NvidiaCustomOptions.cpp" />
     <ClCompile Include="OptionContainer.cpp" />
+    <ClCompile Include="PresetInfo.cpp" />
     <ClCompile Include="Voukoder.cpp" />
     <ClCompile Include="wxEditFilterDialog.cpp" />
-    <ClCompile Include="wxConfigurationDialog.cpp" />
+    <ClCompile Include="wxEncoderPage.cpp" />
+    <ClCompile Include="wxEncoderPanel.cpp" />
     <ClCompile Include="wxFilterPanel.cpp" />
     <ClCompile Include="wxVoukoderDialog.cpp" />
     <ClCompile Include="wxOptionEditor.cpp" />
@@ -225,10 +228,12 @@
     <None Include="resources\encoders\aac.json" />
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
+    <None Include="resources\encoders\bmp.json" />
     <None Include="resources\encoders\dca.json" />
     <None Include="resources\encoders\eac3.json" />
     <None Include="resources\encoders\ffv1.json" />
     <None Include="resources\encoders\flac.json" />
+    <None Include="resources\encoders\gif.json" />
     <None Include="resources\encoders\h264_amf.json" />
     <None Include="resources\encoders\h264_nvenc.json" />
     <None Include="resources\encoders\h264_qsv.json" />
@@ -241,6 +246,7 @@
     <None Include="resources\encoders\libopus.json" />
     <None Include="resources\encoders\libsvt_av1.json" />
     <None Include="resources\encoders\libsvt_hevc.json" />
+    <None Include="resources\encoders\libsvt_vp9.json" />
     <None Include="resources\encoders\libvorbis.json" />
     <None Include="resources\encoders\libvpx-vp9.json" />
     <None Include="resources\encoders\libvpx.json" />
@@ -252,8 +258,11 @@
     <None Include="resources\encoders\pcm_s16le.json" />
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
+    <None Include="resources\encoders\png.json" />
     <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\encoders\tiff.json" />
     <None Include="resources\encoders\truehd.json" />
+    <None Include="resources\encoders\vp9_qsv.json" />
     <None Include="resources\filters\abench.json" />
     <None Include="resources\filters\acompressor.json" />
     <None Include="resources\filters\acontrast.json" />
@@ -283,7 +292,6 @@
     <None Include="resources\filters\arealtime.json" />
     <None Include="resources\filters\aresample.json" />
     <None Include="resources\filters\asendcmd.json" />
-    <None Include="resources\filters\asetnsamples.json" />
     <None Include="resources\filters\asetpts.json" />
     <None Include="resources\filters\asetrate.json" />
     <None Include="resources\filters\asettb.json" />
@@ -332,6 +340,7 @@
     <None Include="resources\filters\dctdnoiz.json" />
     <None Include="resources\filters\deband.json" />
     <None Include="resources\filters\deblock.json" />
+    <None Include="resources\filters\decimate.json" />
     <None Include="resources\filters\dedot.json" />
     <None Include="resources\filters\deflate.json" />
     <None Include="resources\filters\deflicker.json" />
@@ -504,10 +513,16 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\gif.json" />
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />
+    <None Include="resources\muxers\image2-bmp.json" />
+    <None Include="resources\muxers\image2-png.json" />
+    <None Include="resources\muxers\image2-tiff.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
+    <None Include="resources\presets.json" />
+    <None Include="resources\translations\ru.json" />
     <None Include="resources\video_side_data.json" />
     <None Include="resources\muxers\aac.json" />
     <None Include="resources\muxers\flac.json" />
@@ -519,10 +534,10 @@
     <None Include="resources\muxers\opus.json" />
     <None Include="resources\muxers\wav.json" />
     <None Include="resources\muxers\webm.json" />
-    <None Include="resources\translations\chinese.json" />
-    <None Include="resources\translations\english.json" />
-    <None Include="resources\translations\french.json" />
-    <None Include="resources\translations\german.json" />
+    <None Include="resources\translations\zh.json" />
+    <None Include="resources\translations\en.json" />
+    <None Include="resources\translations\fr.json" />
+    <None Include="resources\translations\de.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc" />
@@ -532,7 +547,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4mpeg2video_1json__JsonSchema="" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4png_1json__JsonSchema="" resources_4filters_4atrim_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JSONSchema="http://json.schemastore.org/bowerrc" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

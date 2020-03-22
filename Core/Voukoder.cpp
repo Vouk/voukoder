@@ -1,3 +1,23 @@
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 #include "Voukoder.h"
 #include "Callback.h"
 #include "EncoderUtils.h"
@@ -51,22 +71,21 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 			try
 			{
 				json jsonResource = json::parse(resource);
-				wxString id = jsonResource["id"].get<std::string>();
 
 				// Create configs and store them
 				if (lpType == MAKEINTRESOURCE(ID_MISC))
 				{
 					if (lpName == MAKEINTRESOURCE(IDR_VIDEO_SIDE_DATA))
-					{
 						EncoderUtils::Create(videoSideData, jsonResource);
-					}
 					else if (lpName == MAKEINTRESOURCE(IDR_AUDIO_SIDE_DATA))
-					{
 						EncoderUtils::Create(audioSideData, jsonResource);
-					}
+					//else if (lpName == MAKEINTRESOURCE(IDR_PRESETS))
+					//	presets = jsonResource["presets"].get<std::vector<Preset>>();
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_ENCODER))
 				{
+					wxString id = jsonResource["id"].get<std::string>();
+
 					vkLogInfoVA("Loading: encoders/%s.json", id);
 
 					// Is this encoder supported?
@@ -74,7 +93,12 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 					{
 						EncoderInfo encoderInfo;
 						if (EncoderUtils::Create(encoderInfo, jsonResource))
-							encoderInfos.push_back(encoderInfo);
+						{
+							if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
+								videoEncoderInfos.push_back(encoderInfo);
+							else if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
+								audioEncoderInfos.push_back(encoderInfo);
+						}
 					}
 					else
 						vkLogInfoVA("Unloading: encoders/%s.json", id);
@@ -87,7 +111,7 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 				}
 				else if (lpType == MAKEINTRESOURCE(ID_FILTER))
 				{
-					id = jsonResource["name"].get<std::string>();
+					wxString id = jsonResource["name"].get<std::string>();
 
 					vkLogInfoVA("Loading: filters/%s.json", id);
 

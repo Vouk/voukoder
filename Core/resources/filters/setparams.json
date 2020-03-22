@@ -1,101 +1,78 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "defaults": {
-    "_name": "setparams"
-  },
+  "id": "filter.setparams",
+  "name": "setparams",
+  "defaults": {},
   "groups": [
     {
       "class": "standard",
-      "id": "filter.setparams.standard",
+      "id": "standard",
       "properties": [
         {
+          "id": "field_mode",
+          "parameter": "field_mode",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
-                "value": "auto"
+                "value": "prog"
               },
               {
                 "value": "bff"
               },
               {
                 "value": "tff"
-              },
-              {
-                "value": "prog"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.setparams.standard.field_mode",
-          "parameter": "field_mode"
+            ]
+          }
         },
         {
+          "id": "range",
+          "parameter": "range",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
-              {
-                "value": "auto"
-              },
-              {
-                "value": "unspecified"
-              },
-              {
-                "value": "unknown"
-              },
-              {
-                "value": "limited"
-              },
               {
                 "value": "tv"
               },
               {
-                "value": "mpeg"
-              },
-              {
-                "value": "full"
-              },
-              {
                 "value": "pc"
-              },
-              {
-                "value": "jpeg"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.setparams.standard.range",
-          "parameter": "range"
+            ]
+          }
         },
         {
+          "id": "color_primaries",
+          "parameter": "color_primaries",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
-                "value": "auto"
-              },
-              {
-                "value": "bt709"
-              },
-              {
-                "value": "unknown"
+                "value": "bt470bg"
               },
               {
                 "value": "bt470m"
               },
               {
-                "value": "bt470bg"
+                "value": "bt709"
+              },
+              {
+                "value": "bt2020"
+              },
+              {
+                "value": "film"
+              },
+              {
+                "value": "jedec-p22"
               },
               {
                 "value": "smpte170m"
               },
               {
                 "value": "smpte240m"
-              },
-              {
-                "value": "film"
-              },
-              {
-                "value": "bt2020"
               },
               {
                 "value": "smpte428"
@@ -105,40 +82,43 @@
               },
               {
                 "value": "smpte432"
-              },
-              {
-                "value": "jedec-p22"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.setparams.standard.color_primaries",
-          "parameter": "color_primaries"
+            ]
+          }
         },
         {
+          "id": "color_trc",
+          "parameter": "color_trc",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
-                "value": "auto"
-              },
-              {
-                "value": "bt709"
-              },
-              {
-                "value": "unknown"
-              },
-              {
-                "value": "bt470m"
+                "value": "arib-std-b67"
               },
               {
                 "value": "bt470bg"
               },
               {
-                "value": "smpte170m"
+                "value": "bt470m"
               },
               {
-                "value": "smpte240m"
+                "value": "bt709"
+              },
+              {
+                "value": "bt1361e"
+              },
+              {
+                "value": "bt2020-10"
+              },
+              {
+                "value": "bt2020-12"
+              },
+              {
+                "value": "iec61966-2-1"
+              },
+              {
+                "value": "iec61966-2-4"
               },
               {
                 "value": "linear"
@@ -150,56 +130,53 @@
                 "value": "log316"
               },
               {
-                "value": "iec61966-2-4"
+                "value": "smpte170m"
               },
               {
-                "value": "bt1361e"
-              },
-              {
-                "value": "iec61966-2-1"
-              },
-              {
-                "value": "bt2020-10"
-              },
-              {
-                "value": "bt2020-12"
-              },
-              {
-                "value": "smpte2084"
+                "value": "smpte240m"
               },
               {
                 "value": "smpte428"
               },
               {
-                "value": "arib-std-b67"
+                "value": "smpte2084"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.setparams.standard.color_trc",
-          "parameter": "color_trc"
+            ]
+          }
         },
         {
+          "id": "colorspace",
+          "parameter": "colorspace",
           "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
             "items": [
               {
-                "value": "auto"
-              },
-              {
-                "value": "gbr"
+                "value": "bt470bg"
               },
               {
                 "value": "bt709"
               },
               {
-                "value": "unknown"
+                "value": "bt2020c"
+              },
+              {
+                "value": "bt2020nc"
+              },
+              {
+                "value": "chroma-derived-c"
+              },
+              {
+                "value": "chroma-derived-nc"
               },
               {
                 "value": "fcc"
               },
               {
-                "value": "bt470bg"
+                "value": "ictcp"
+              },
+              {
+                "value": "gbr"
               },
               {
                 "value": "smpte170m"
@@ -208,37 +185,15 @@
                 "value": "smpte240m"
               },
               {
-                "value": "ycgco"
-              },
-              {
-                "value": "bt2020nc"
-              },
-              {
-                "value": "bt2020c"
-              },
-              {
                 "value": "smpte2085"
               },
               {
-                "value": "chroma-derived-nc"
-              },
-              {
-                "value": "chroma-derived-c"
-              },
-              {
-                "value": "ictcp"
+                "value": "ycgco"
               }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          },
-          "id": "filter.setparams.standard.colorspace",
-          "parameter": "colorspace"
+            ]
+          }
         }
       ]
     }
-  ],
-  "id": "filter.setparams",
-  "name": "setparams",
-  "type": "video"
+  ]
 }

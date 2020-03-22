@@ -1,3 +1,0 @@
-﻿  DllTest.cpp
-DllTest.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "__imp_open_config_dialog" in Funktion "main".
-C:\Users\Daniel\source\repos\voukoder\x64\Debug\DllTest.exe : fatal error LNK1120: 1 nicht aufgelöste Externe

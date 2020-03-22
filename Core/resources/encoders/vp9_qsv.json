@@ -1,0 +1,481 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "vp9_qsv",
+  "name": "VP9 (Intel QSV)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "nv12"
+              },
+              {
+                "value": "p010le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "strategy",
+          "parameter": "_strategy",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "cqp",
+                "extraOptions": {
+                  "qscale": "1"
+                },
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "la_cqp",
+                "extraOptions": {
+                  "qscale": "1",
+                  "look_ahead": "1"
+                },
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "icq",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "la",
+                "extraOptions": {
+                  "look_ahead": "1"
+                },
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr/vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "avbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "vp9_qsv.standard.global_quality",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_accuracy",
+                          "visible": true
+                        },
+                        {
+                          "id": "vp9_qsv.standard.avbr_convergence",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "global_quality",
+          "parameter": "global_quality",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 25
+          }
+        },
+        {
+          "id": "bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "maxrate",
+          "parameter": "maxrate",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 288000,
+            "singleStep": 1000,
+            "value": 15000
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "avbr_accuracy",
+          "parameter": "avbr_accuracy",
+          "forced": true,
+          "control": {
+            "maximum": 1000,
+            "minimum": 0,
+            "singleStep": 10,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "avbr_convergence",
+          "parameter": "avbr_convergence",
+          "forced": true,
+          "control": {
+            "maximum": 99999,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "preset",
+          "parameter": "preset",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "veryfast"
+              },
+              {
+                "value": "faster"
+              },
+              {
+                "value": "fast"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "slow"
+              },
+              {
+                "value": "slower"
+              },
+              {
+                "value": "veryslow"
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile",
+          "parameter": "profile",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "unknown"
+              },
+              {
+                "value": "profile0"
+              },
+              {
+                "value": "profile1"
+              },
+              {
+                "value": "profile2"
+              },
+              {
+                "value": "profile3"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "async_depth",
+          "parameter": "async_depth",
+          "control": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "rdo",
+          "parameter": "rdo",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "max_frame_size",
+          "parameter": "max_frame_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "id": "max_slice_size",
+          "parameter": "max_slice_size",
+          "control": {
+            "maximum": 65535,
+            "minimum": -1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": -1
+          }
+        },
+        {
+          "id": "bitrate_limit",
+          "parameter": "bitrate_limit",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "mbbrc",
+          "parameter": "mbbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "extbrc",
+          "parameter": "extbrc",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_i",
+          "parameter": "adaptive_i",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "adaptive_b",
+          "parameter": "adaptive_b",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "b_strategy",
+          "parameter": "b_strategy",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "forced_idr",
+          "parameter": "forced_idr",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "low_power",
+          "parameter": "low_power",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

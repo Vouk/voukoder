@@ -1,4 +1,24 @@
-//{{NO_DEPENDENCIES}}
+/**
+ * Voukoder
+ * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * https://www.voukoder.org
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+ //{{NO_DEPENDENCIES}}
 // Von Microsoft Visual C++ generierte Includedatei.
 // Verwendet durch Core.rc
 //
@@ -7,6 +27,7 @@
 #define ID_MISC                         50
 #define IDR_VIDEO_SIDE_DATA             51
 #define IDR_AUDIO_SIDE_DATA             52
+#define IDR_PRESETS                     53
 #define ID_ENCODER                      100
 #define IDR_ENC_AAC                     101
 #define IDR_ENC_AC3                     102
@@ -37,6 +58,12 @@
 #define IDR_ENC_MPEG2                   127
 #define IDR_ENC_SVTAV1                  128
 #define IDR_ENC_SVTHEVC                 129
+#define IDR_ENC_VP9_QSV                 130
+#define IDR_ENC_SVTVP9                  131
+#define IDR_ENC_GIF                     132
+#define IDR_ENC_BMP                     133
+#define IDR_ENC_PNG                     134
+#define IDR_ENC_TIFF                    135
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202
@@ -52,11 +79,16 @@
 #define IDR_MUX_HEVC                    212
 #define IDR_MUX_MPEG2VIDEO              213
 #define IDR_MUX_MPEGTS                  214
+#define IDR_MUX_ANIM_GIF                215
+#define IDR_MUX_IMAGE2_BMP              216
+#define IDR_MUX_IMAGE2_PNG              217
+#define IDR_MUX_IMAGE2_TIFF             218
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302
 #define IDR_TRANS_FR                    303
 #define IDR_TRANS_ZH                    304
+#define IDR_TRANS_RU                    305
 #define ID_FILTER                       400
 #define IDR_FLT_AMPLIFY                 401
 #define IDR_FLT_ATADENOISE              402
@@ -265,7 +297,6 @@
 #define IDR_FLT_AREALTIME				604
 #define IDR_FLT_ARESAMPLE				605
 #define IDR_FLT_ASENDCMD				606
-#define IDR_FLT_ASETNSAMPLES			607
 #define IDR_FLT_ASETPTS					608
 #define IDR_FLT_ASETRATE				609
 #define IDR_FLT_ASETTB					610
@@ -309,3 +340,4 @@
 #define IDR_FLT_TREMOLO					648
 #define IDR_FLT_VIBRATO					649
 #define IDR_FLT_VOLUME					650
+#define IDR_FLT_DECIMATE                651

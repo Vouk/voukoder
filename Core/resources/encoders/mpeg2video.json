@@ -96,7 +96,7 @@
           "forced": true,
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
             "singleStep": 1000,
             "value": 15000
@@ -171,7 +171,7 @@
           "id": "timecode_frame_start",
           "parameter": "timecode_frame_start",
           "control": {
-            "maximum": 2147483648,
+            "maximum": 2147483647,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",
@@ -316,7 +316,7 @@
           "parameter": "luma_elim_threshold",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -327,7 +327,7 @@
           "parameter": "chroma_elim_threshold",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -382,7 +382,7 @@
           "parameter": "rc_qmod_freq",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -445,7 +445,7 @@
           "parameter": "ibias",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -456,7 +456,7 @@
           "parameter": "pbias",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -527,7 +527,7 @@
           "parameter": "skip_threshold",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -538,7 +538,7 @@
           "parameter": "skip_factor",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -549,7 +549,7 @@
           "parameter": "skip_exp",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -615,7 +615,7 @@
           "parameter": "sc_threshold",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -626,7 +626,7 @@
           "parameter": "noise_reduction",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -648,7 +648,7 @@
           "parameter": "ps",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -659,7 +659,7 @@
           "parameter": "mepc",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -670,7 +670,7 @@
           "parameter": "mepre",
           "control": {
             "maximum": 2147483647,
-            "minimum": -2147483648,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
