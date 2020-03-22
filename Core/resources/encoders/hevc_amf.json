@@ -197,6 +197,23 @@
       ]
     },
     {
+      "id": "hevc_amf.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "hevc_amf.frames.gopsize",
+          "parameter": "g",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1200,
+            "singleStep": 1,
+            "value": 300
+          }
+        }
+      ]
+    },
+    {
       "id": "hevc_amf.quantizer",
       "class": "advanced",
       "properties": [
