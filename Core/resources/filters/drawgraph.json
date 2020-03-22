@@ -82,7 +82,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -93,7 +93,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -115,7 +115,7 @@
                 "value": "line"
               }
             ],
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -152,7 +152,7 @@
                 "value": "picture"
               }
             ],
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
