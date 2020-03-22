@@ -115,8 +115,8 @@
         },
         {
           "control": {
-            "maximum": -2147483648,
-            "minimum": -2147483648,
+            "maximum": -2147483647,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -126,8 +126,8 @@
         },
         {
           "control": {
-            "maximum": -2147483648,
-            "minimum": -2147483648,
+            "maximum": -2147483647,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0
@@ -205,7 +205,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -351,7 +351,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -362,7 +362,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -373,7 +373,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -384,7 +384,7 @@
         },
         {
           "control": {
-            "maximum": 2147483648.0,
+            "maximum": 2147483647.0,
             "minimum": 0.0,
             "singleStep": 0.10000000149011612,
             "type": "float",
@@ -395,8 +395,8 @@
         },
         {
           "control": {
-            "maximum": -2147483648,
-            "minimum": -2147483648,
+            "maximum": -2147483647,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
             "value": 0

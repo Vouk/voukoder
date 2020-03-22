@@ -10,7 +10,7 @@
       "properties": [
         {
           "control": {
-            "maximum": -2147483648,
+            "maximum": -2147483647,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",

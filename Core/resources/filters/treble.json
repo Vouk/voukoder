@@ -68,11 +68,11 @@
         },
         {
           "control": {
-            "maximum": -2147483648,
-            "minimum": -2147483648,
+            "maximum": -2147483647,
+            "minimum": -2147483647,
             "singleStep": 1,
             "type": "integer",
-            "value": -2147483648
+            "value": -2147483647
           },
           "id": "filter.treble.standard.channels",
           "parameter": "channels"

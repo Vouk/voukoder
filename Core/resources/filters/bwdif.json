@@ -16,10 +16,10 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "send_field"
+                "value": "send_frame"
               },
               {
-                "value": "send_frame"
+                "value": "send_field"
               }
             ]
           }
@@ -32,13 +32,13 @@
             "selectedIndex": 0,
             "items": [
               {
+                "value": "auto"
+              },
+              {
                 "value": "tff"
               },
               {
                 "value": "bff"
-              },
-              {
-                "value": "auto"
               }
             ]
           }

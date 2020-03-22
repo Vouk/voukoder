@@ -13,7 +13,6 @@
           "parameter": "start",
           "control": {
             "type": "float",
-            "maximum": 2147483648,
             "minimum": 0,
             "singleStep": 1,
             "value": 0
@@ -24,7 +23,6 @@
           "parameter": "end",
           "control": {
             "type": "float",
-            "maximum": 2147483648,
             "minimum": 0,
             "singleStep": 1,
             "value": 0
@@ -35,7 +33,6 @@
           "parameter": "start_sample",
           "control": {
             "type": "integer",
-            "maximum": 2147483648,
             "minimum": 0,
             "singleStep": 256,
             "value": 0
@@ -46,7 +43,6 @@
           "parameter": "end_sample",
           "control": {
             "type": "integer",
-            "maximum": 2147483648,
             "minimum": 0,
             "singleStep": 256,
             "value": 0
