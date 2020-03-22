@@ -40,6 +40,10 @@
     "x265-params": [
       "interlace",
       "lossless",
+      "ssim",
+      "no-ssim",
+      "psnr",
+      "no-psnr",
       "rd",
       "ctu",
       "min-cu-size",
@@ -54,6 +58,8 @@
       "no-early-skip",
       "rskip",
       "no-rskip",
+      "splitrd-skip",
+      "no-splitrd-skip",
       "fast-intra",
       "no-fast-intra",
       "b-intra",
@@ -69,6 +75,8 @@
       "dynamic-refine",
       "no-dynamic-refine",
       "refine-mv",
+      "rdoq-level",
+      "no-rdoq-level",
       "tu-intra-depth",
       "tu-inter-depth",
       "limit-tu",
@@ -93,6 +101,9 @@
       "no-weightb",
       "analyze-src-pics",
       "no-analyze-src-pics",
+      "hme",
+      "no-hme",
+      "hme-search",
       "strong-intra-smoothing",
       "no-strong-intra-smoothing",
       "constrained-intra",
@@ -118,6 +129,8 @@
       "no-b-pyramid",
       "ref",
       "force-flush",
+      "fades",
+      "no-fades",
       "crf-max",
       "crf-min",
       "vbv-bufsize",
@@ -126,10 +139,15 @@
       "vbv-end",
       "aq-mode",
       "aq-strength",
+      "hevc-aq",
+      "qp-adaptation-range",
       "aq-motion",
       "no-aq-motion",
+      "qg-size",
       "cutree",
       "no-cutree",
+      "slow-firstpass",
+      "no-slow-firstpass",
       "multi-pass-opt-analysis",
       "no-multi-pass-opt-analysis",
       "multi-pass-opt-distortion",
@@ -165,6 +183,8 @@
       "output-depth",
       "chromaloc",
       "hdr-opt",
+      "dhdr10-opt",
+      "no-dhdr10-opt",
       "master-display",
       "max-cll",
       "uhd-bd",
@@ -173,6 +193,40 @@
       "aud",
       "hrd",
       "repeat-headers",
+      "hrd-concat",
+      "no-hrd-concat",
+      "dolby-vision-profile",
+      "info",
+      "no-info",
+      "hash",
+      "temporal-layers",
+      "no-temporal-layers",
+      "vui-timing-info",
+      "no-vui-timing-info",
+      "vui-hrd-info",
+      "no-vui-hrd-info",
+      "opt-qp-pps",
+      "no-opt-qp-pps",
+      "opt-ref-list-length-pps",
+      "no-opt-ref-list-length-pps",
+      "multi-pass-opt-rps",
+      "no-multi-pass-opt-rps",
+      "idr-recovery-sei",
+      "no-idr-recovery-sei",
+      "opt-cu-delta-qp",
+      "no-opt-cu-delta-qp",
+      "single-sei",
+      "no-single-sei",
+      "lowpass-dct",
+      "frame-threads",
+      "wpp",
+      "no-wpp",
+      "pmode",
+      "no-pmode",
+      "pme",
+      "no-pme",
+      "pools",
+      "slices",
       "colorprim",
       "colormatrix",
       "transfer"
@@ -802,7 +856,7 @@
             "type": "boolean",
             "value": true
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.standard.strategy",
@@ -824,6 +878,10 @@
                         },
                         {
                           "id": "libx265.standard.strategy.multipass",
+                          "visible": true
+                        },
+                        {
+                          "id": "libx265.standard.strategy.slow-firstpass",
                           "visible": true
                         },
                         {
@@ -855,6 +913,10 @@
                           "visible": false
                         },
                         {
+                          "id": "libx265.standard.strategy.slow-firstpass",
+                          "visible": false
+                        },
+                        {
                           "id": "libx265.standard.strategy.crf",
                           "visible": true
                         },
@@ -880,6 +942,10 @@
                         },
                         {
                           "id": "libx265.standard.strategy.multipass",
+                          "visible": false
+                        },
+                        {
+                          "id": "libx265.standard.strategy.slow-firstpass",
                           "visible": false
                         },
                         {
@@ -925,6 +991,15 @@
           }
         },
         {
+          "id": "libx265.standard.strategy.slow-firstpass",
+          "parameter": "slow-firstpass",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
           "id": "libx265.standard.strategy.crf",
           "parameter": "crf",
           "control": {
@@ -945,6 +1020,30 @@
             "singleStep": 1,
             "value": 23
           }
+        }
+      ]
+    },
+    {
+      "id": "libx265.stats",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx265.stats.ssim",
+          "parameter": "ssim",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.stats.psnr",
+          "parameter": "psnr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
         }
       ]
     },
@@ -1128,13 +1227,54 @@
           }
         },
         {
+          "id": "libx265.qualityratedistortionoptions.hevc-aq",
+          "parameter": "hevc-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "libx265.qualityratedistortionoptions.qp-adaptation-range",
+          "parameter": "qp-adaptation-range",
+          "control": {
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "singleStep": 0.1,
+            "type": "float",
+            "value": 1.0
+          }
+        },
+        {
           "id": "libx265.qualityratedistortionoptions.aq-motion",
           "parameter": "aq-motion",
           "control": {
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.qualityratedistortionoptions.qg-size",
+          "parameter": "qg-size",
+          "control": {
+            "items": [
+              {
+                "value": "8"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "32"
+              },
+              {
+                "value": "64"
+              }
+            ],
+            "selectedIndex": 3,
+            "type": "combobox"
+          }
         },
         {
           "id": "libx265.qualityratedistortionoptions.cutree",
@@ -1143,7 +1283,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.multi-pass-opt-analysis",
@@ -1152,7 +1292,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.multi-pass-opt-distortion",
@@ -1161,7 +1301,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.strict-cbr",
@@ -1170,7 +1310,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.cbqpoffs",
@@ -1291,7 +1431,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.const-vbv",
@@ -1300,7 +1440,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.qualityratedistortionoptions.qblur",
@@ -1419,7 +1559,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.rect",
@@ -1428,7 +1568,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.amp",
@@ -1437,7 +1577,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.early-skip",
@@ -1446,7 +1586,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.rskip",
@@ -1455,7 +1595,16 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.analysis.splitrd-skip",
+          "parameter": "splitrd-skip",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.fast-intra",
@@ -1464,7 +1613,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.b-intra",
@@ -1473,7 +1622,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.cu-lossless",
@@ -1482,7 +1631,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.tskip-fast",
@@ -1491,7 +1640,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.rd-refine",
@@ -1500,7 +1649,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.refine-intra",
@@ -1556,7 +1705,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.refine-mv",
@@ -1564,6 +1713,25 @@
           "control": {
             "type": "boolean",
             "value": false
+          }
+        },
+        {
+          "id": "libx265.analysis.rdoq-level",
+          "parameter": "rdoq-level",
+          "control": {
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
           }
         },
         {
@@ -1642,7 +1810,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.rdpenalty",
@@ -1695,7 +1863,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.analysis.intra-refresh",
@@ -1774,12 +1942,12 @@
         },
         {
           "id": "libx265.motionsearch.temporal-mvp",
-          "parameter": "no-temporal-mvp",
+          "parameter": "temporal-mvp",
           "control": {
             "type": "boolean",
-            "value": false
+            "value": true
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.motionsearch.weightp",
@@ -1788,7 +1956,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.motionsearch.weightb",
@@ -1797,7 +1965,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.motionsearch.analyze-src-pics",
@@ -1806,7 +1974,24 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.motionsearch.hme",
+          "parameter": "hme",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.motionsearch.hme-search",
+          "parameter": "hme-search",
+          "control": {
+            "type": "string",
+            "value": ""
+          }
         }
       ]
     },
@@ -1821,7 +2006,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.spatialintra.constrained-intra",
@@ -1830,7 +2015,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         }
       ]
     },
@@ -1873,7 +2058,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.slicedecision.keyint",
@@ -2011,7 +2196,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.slicedecision.ref",
@@ -2042,6 +2227,15 @@
             "selectedIndex": 0,
             "type": "combobox"
           }
+        },
+        {
+          "id": "libx265.slicedecision.fades",
+          "parameter": "fades",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
         }
       ]
     },
@@ -2056,7 +2250,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.quantization.max-ausize-factor",
@@ -2076,7 +2270,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.quantization.sao-non-deblock",
@@ -2085,7 +2279,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         },
         {
           "id": "libx265.quantization.limit-sao",
@@ -2094,7 +2288,7 @@
             "type": "boolean",
             "value": false
           },
-          "preprendNoIfFalse": true
+          "prependNoIfFalse": true
         }
       ]
     },
@@ -2334,6 +2528,15 @@
           }
         },
         {
+          "id": "libx265.vui.dhdr10-opt",
+          "parameter": "dhdr10-opt",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
           "id": "libx265.vui.uhd-bd",
           "parameter": "uhd-bd",
           "control": {
@@ -2369,6 +2572,212 @@
           "control": {
             "type": "boolean",
             "value": true
+          }
+        },
+        {
+          "id": "libx265.bitstream.hrd-concat",
+          "parameter": "hrd-concat",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.dolby-vision-profile",
+          "parameter": "dolby-vision-profile",
+          "control": {
+            "maximum": 82,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx265.bitstream.info",
+          "parameter": "info",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.hash",
+          "parameter": "hash",
+          "control": {
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              }
+            ],
+            "selectedIndex": 0,
+            "type": "combobox"
+          }
+        },
+        {
+          "id": "libx265.bitstream.temporal-layers",
+          "parameter": "temporal-layers",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.vui-timing-info",
+          "parameter": "vui-timing-info",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.vui-hrd-info",
+          "parameter": "vui-hrd-info",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.opt-qp-pps",
+          "parameter": "opt-qp-pps",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.opt-ref-list-length-pps",
+          "parameter": "opt-ref-list-length-pps",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.multi-pass-opt-rps",
+          "parameter": "multi-pass-opt-rps",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.opt-cu-delta-qp",
+          "parameter": "opt-cu-delta-qp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.idr-recovery-sei",
+          "parameter": "idr-recovery-sei",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.bitstream.single-sei",
+          "parameter": "single-sei",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        }
+      ]
+    },
+    {
+      "id": "libx265.dctapproximations",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx265.dctapproximations.lowpass-dct",
+          "parameter": "lowpass-dct",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "libx265.threadingperformance",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx265.threadingperformance.frame-threads",
+          "parameter": "frame-threads",
+          "control": {
+            "maximum": 16,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          }
+        },
+        {
+          "id": "libx265.threadingperformance.wpp",
+          "parameter": "wpp",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.threadingperformance.pmode",
+          "parameter": "pmode",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.threadingperformance.pme",
+          "parameter": "pme",
+          "control": {
+            "type": "boolean",
+            "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+          "id": "libx265.threadingperformance.pools",
+          "parameter": "pools",
+          "control": {
+            "type": "string",
+            "value": ""
+          }
+        },
+        {
+          "id": "libx265.threadingperformance.slices",
+          "parameter": "slices",
+          "control": {
+            "maximum": 64,
+            "minimum": 1,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
           }
         }
       ]
