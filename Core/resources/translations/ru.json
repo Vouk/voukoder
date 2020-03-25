@@ -1347,7 +1347,7 @@
     "libx265.motionsearch.analyze-src-pics._label": "Анализировать пиксели источника",
     "libx265.motionsearch.hme._label": "3-х уровневая Иерархическая оценка движения",
     "libx265.motionsearch.hme._description": "Включить 3-х уровневую Иерархическую оценку движения для 1/16, 1/4 и Полного разрешений.",
-    "libx265.motionsearch.hme-search._label": "Motion search method for HME",
+    "libx265.motionsearch.hme-search._label": "Метод поиска движения для HME",
     "libx265.motionsearch.hme-search._description": "Motion search method for HME Level 0, 1 and 2. Refer to --me for values. Specify search method for each level. Alternatively, specify a single value which will apply to all levels. Default is hex,umh,umh for levels 0,1,2 respectively.",
     "libx265.motionsearch.temporal-mvp._description": "Включить предсказатели временных векторов движения в P и B слайсах. Это позволяет использовать вектор движения из расположенного рядом блока в предыдущем кадре в качестве предсказателя.",
     "libx265.motionsearch.temporal-mvp._label": "Временные MVP",
