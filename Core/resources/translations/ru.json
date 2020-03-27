@@ -1495,7 +1495,7 @@
     "libx265.bitstream.idr-recovery-sei._label": "Точка восстановления в битовом потоке",
     "libx265.bitstream.idr-recovery-sei._description": "Создаёт информацию о точке восстановления как SEI в битовом потоке для каждого IDR-кадра.",
     "libx265.bitstream.single-sei._label": "Сообщения SEI в NAL",
-    "libx265.bitstream.single-sei._description": "Emit SEI messages in a single NAL unit instead of multiple NALs.",
+    "libx265.bitstream.single-sei._description": "Создаёт сообщения SEI в одном блоке NAL вместо нескольких.",
     "libx265.dctapproximations": "DCT Approximations",
     "libx265.dctapproximations.lowpass-dct._label": "Low-pass subband DCT approximation",
     "libx265.dctapproximations.lowpass-dct._description": "(Experimental) If enabled, x265 will use low-pass subband dct approximation instead of the standard dct for 16x16 and 32x32 blocks. This approximation is less computational intensive but it generates truncated coefficient matrixes for the transformed block. Empirical analysis shows marginal loss in compression and performance gains up to 10%, paticularly at moderate bit-rates.\n\nThis approximation should be considered for platforms with performance and time constrains.",
