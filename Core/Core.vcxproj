@@ -263,6 +263,7 @@
     <None Include="resources\encoders\tiff.json" />
     <None Include="resources\encoders\truehd.json" />
     <None Include="resources\encoders\vp9_qsv.json" />
+    <None Include="resources\encoders\wavpack.json" />
     <None Include="resources\filters\abench.json" />
     <None Include="resources\filters\acompressor.json" />
     <None Include="resources\filters\acontrast.json" />
@@ -521,6 +522,7 @@
     <None Include="resources\muxers\image2-tiff.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
+    <None Include="resources\muxers\wv.json" />
     <None Include="resources\presets.json" />
     <None Include="resources\translations\ru.json" />
     <None Include="resources\video_side_data.json" />
