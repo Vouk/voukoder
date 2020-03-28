@@ -14,8 +14,11 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 2,
+            "selectedIndex": 3,
             "items": [
+              {
+                "value": "u8p"
+              },
               {
                 "value": "s16p"
               },
@@ -24,9 +27,6 @@
               },
               {
                 "value": "fltp"
-              },
-              {
-                "value": "u8p"
               }
             ]
           }
