@@ -2005,7 +2005,7 @@
     "pcm.standard.sampleFormat._item_2": "PCM 32 bit",
     "wavpack.standard": "Standard",
     "wavpack.standard.sampleFormat._label": "Sample format",
-    "wavpack.standard.sampleFormat._description": "Constant encoding bitrate.",
+    "wavpack.standard.sampleFormat._description": "Encoding bit depth.",
     "wavpack.standard.sampleFormat._item_0": "PCM 8 bit",
     "wavpack.standard.sampleFormat._item_1": "PCM 16 bit",
     "wavpack.standard.sampleFormat._item_2": "PCM 32 bit",
