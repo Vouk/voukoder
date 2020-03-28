@@ -316,12 +316,6 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	// No frame server so far
 	encoderContext->frameFilter = NULL;
 
-	// Create new stream
-	encoderContext->stream = avformat_new_stream(formatContext, codec);
-	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = exportInfo.video.timebase;
-	encoderContext->stream->avg_frame_rate = av_inv_q(exportInfo.video.timebase);
-
 	// Create codec context
 	encoderContext->codecContext = avcodec_alloc_context3(codec);
 	encoderContext->codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
@@ -330,10 +324,6 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
-		// Inject side data
-		injectSphericalData(encoderContext->stream);
-		injectStereoData(encoderContext->stream);
-
 		// Configure context
 		encoderContext->codecContext->width = exportInfo.video.width;
 		encoderContext->codecContext->height = exportInfo.video.height;
@@ -345,6 +335,10 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->color_trc = exportInfo.video.colorTransferCharacteristics;
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
+
+		// Bobbing doubles the frame rate
+		if (exportInfo.video.flags & VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING)
+			encoderContext->codecContext->time_base.den *= 2;
 
 		// Find pixel format in options
 		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
@@ -375,6 +369,19 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		}
 		else
 			return -1;
+	}
+
+	// Create new stream
+	encoderContext->stream = avformat_new_stream(formatContext, codec);
+	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
+	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
+
+	// Inject side data
+	if (codec->type == AVMEDIA_TYPE_VIDEO)
+	{
+		injectSphericalData(encoderContext->stream);
+		injectStereoData(encoderContext->stream);
 	}
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
@@ -469,7 +476,12 @@ void EncoderEngine::close()
 
 AVMediaType EncoderEngine::getNextFrameType()
 {
-	return (av_compare_ts(videoContext.next_pts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0) ? AVMEDIA_TYPE_VIDEO : AVMEDIA_TYPE_AUDIO;
+	// Bobbing doubles the frame rate and thus the video pts
+	int videoPts = videoContext.next_pts;
+	if (exportInfo.video.flags & VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING)
+		videoPts *= 2;
+
+	return (av_compare_ts(videoPts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0) ? AVMEDIA_TYPE_VIDEO : AVMEDIA_TYPE_AUDIO;
 }
 
 void EncoderEngine::flushContext(EncoderContext *encoderContext)

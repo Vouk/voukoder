@@ -2010,7 +2010,7 @@
     "wavpack.standard.sampleFormat._item_1": "PCM 16 bit",
     "wavpack.standard.sampleFormat._item_2": "PCM 32 bit",
     "wavpack.standard.sampleFormat._item_3": "FLTP",
-    "wavpack.compression.compression": "Compression",
+    "wavpack.compression": "Compression",
     "wavpack.compression.compression_level._label": "Compression level",
     "wavpack.compression.compression_level._description": "Set speed vs. compression tradeoff.",
     "wavpack.compression.frame_size._label": "Frame size",

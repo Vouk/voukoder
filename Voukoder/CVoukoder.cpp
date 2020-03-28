@@ -125,7 +125,8 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.audio.sideData.Deserialize(config.audio.sidedata);
 	exportInfo.format.id = config.format.container;
 	exportInfo.format.faststart = config.format.faststart;
-	exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
+	exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_UNKNOWN;
+	exportInfo.video.flags = VKEncVideoFlags::VK_FLAG_NONE;
 	exportInfo.video.colorRange = AVColorRange::AVCOL_RANGE_UNSPECIFIED;
 	exportInfo.video.colorSpace = AVColorSpace::AVCOL_SPC_UNSPECIFIED;
 	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
@@ -134,8 +135,12 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	// Apply filter outputs
 	for(const auto & options: exportInfo.video.filters)
 	{
+		// Both bwdif and yadif return progressive frames
 		if (options->id == "filter.yadif" || options->id == "filter.bwdif")
+		{
 			exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
+			exportInfo.video.flags |= VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING;
+		}
 		else if (options->id == "filter.pad" || options->id == "filter.zscale")
 		{
 			if (options->find("width") != options->end())
@@ -393,18 +398,21 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	exportInfo.video.sampleAspectRatio = { info.video.aspectratio.num, info.video.aspectratio.den };
 
 	// Video field order
-	switch (info.video.fieldorder)
+	if (exportInfo.video.fieldOrder == AVFieldOrder::AV_FIELD_UNKNOWN)
 	{
-	case FieldOrder::Top:
-		exportInfo.video.fieldOrder = AV_FIELD_TT;
-		break;
-	case FieldOrder::Bottom:
-		exportInfo.video.fieldOrder = AV_FIELD_BB;
-		break;
-	default:
-		exportInfo.video.fieldOrder = AV_FIELD_PROGRESSIVE;
+		switch (info.video.fieldorder)
+		{
+		case FieldOrder::Top:
+			exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_TT;
+			break;
+		case FieldOrder::Bottom:
+			exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_BB;
+			break;
+		default:
+			exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
+		}
 	}
-
+	
 	exportInfo.audio.enabled = info.audio.enabled;
 	exportInfo.audio.timebase = { 1, info.audio.samplerate };
 
@@ -445,7 +453,12 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		vkLogInfo("- Video -------------------------------------");
 		vkLogInfoVA("Frame size:      %dx%d", exportInfo.video.width, exportInfo.video.height);
 		vkLogInfoVA("Pixel aspect:    %d:%d", exportInfo.video.sampleAspectRatio.num, exportInfo.video.sampleAspectRatio.den);
-		vkLogInfoVA("Timebase:        %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num));
+
+		if (exportInfo.video.flags & VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING)
+			vkLogInfoVA("Timebase:        %d/%d (%.2f fps) -> %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num), 
+				exportInfo.video.timebase.num, exportInfo.video.timebase.den * 2, ((float)exportInfo.video.timebase.den * 2 / (float)exportInfo.video.timebase.num))
+		else
+			vkLogInfoVA("Timebase:        %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num))
 
 		// Log field order
 		switch (info.video.fieldorder)
