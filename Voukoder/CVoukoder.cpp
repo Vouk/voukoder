@@ -445,7 +445,6 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	// Dump
 	vkLogInfoVA("Filename:        %s", exportInfo.filename);
 	vkLogInfoVA("Application:     %s", exportInfo.application);
-	vkLogInfoVA("Passes:          %d", exportInfo.passes);
 
 	// Video
 	if (exportInfo.video.enabled)
@@ -478,6 +477,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.video.options.Serialize(true, "", ' ')));
 		vkLogInfoVA("Side data:       %s", NoneIfEmpty(exportInfo.video.sideData.Serialize(true, "", ' ')));
 		vkLogInfoVA("Filters:         %s", NoneIfEmpty(exportInfo.video.filters.Serialize()));
+		vkLogInfoVA("Passes:          %d", exportInfo.passes);
 		vkLogInfoVA("Color range:     %s", av_color_range_name(exportInfo.video.colorRange));
 		vkLogInfoVA("Color space:     %s", av_color_space_name(exportInfo.video.colorSpace));
 		vkLogInfoVA("Color primaries: %s", av_color_primaries_name(exportInfo.video.colorPrimaries));
