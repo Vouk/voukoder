@@ -121,7 +121,16 @@ void wxEncoderPage::OnEncoderChanged(wxEncoderChangedEvent& event)
 		}
 	}
 
-	m_encoderOptions->Configure(*encoderInfo, settings.options);
+	// Keep the options of the initial encoder, but clear them for other encoders
+	if (settings.encoder == encoderInfo->id)
+	{
+		m_encoderOptions->Configure(*encoderInfo, settings.options);
+	}
+	else
+	{
+		OptionContainer options;
+		m_encoderOptions->Configure(*encoderInfo, options);
+	}
 
 	wxPostEvent(this, event);
 }

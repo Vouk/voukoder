@@ -43,11 +43,13 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	// Video settings
+	videoSettings.encoder = exportInfo.video.id;
 	videoSettings.options.insert(exportInfo.video.options.begin(), exportInfo.video.options.end());
 	videoSettings.sideData.insert(exportInfo.video.sideData.begin(), exportInfo.video.sideData.end());
 	videoSettings.filters.Deserialize(exportInfo.video.filters.Serialize());
 
 	// Audio settings
+	audioSettings.encoder = exportInfo.audio.id;
 	audioSettings.options.insert(exportInfo.audio.options.begin(), exportInfo.audio.options.end());
 	audioSettings.sideData.insert(exportInfo.audio.sideData.begin(), exportInfo.audio.sideData.end());
 	audioSettings.filters.Deserialize(exportInfo.audio.filters.Serialize());

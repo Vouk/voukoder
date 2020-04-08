@@ -29,6 +29,7 @@
 
 struct TrackSettings
 {
+    wxString encoder;
 	OptionContainer options;
 	OptionContainer sideData;
 	FilterConfig filters;

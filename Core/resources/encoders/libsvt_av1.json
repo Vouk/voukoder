@@ -35,6 +35,7 @@
         {
           "id": "rc",
           "parameter": "rc",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -93,6 +94,7 @@
         {
           "id": "qp",
           "parameter": "qp",
+          "forced": true,
           "control": {
             "type": "integer",
             "maximum": 63,
@@ -104,6 +106,7 @@
         {
           "id": "bitrate",
           "parameter": "b",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -117,6 +120,7 @@
         {
           "id": "maxrate",
           "parameter": "maxrate",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -129,6 +133,7 @@
         {
           "id": "preset",
           "parameter": "preset",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 8,
@@ -166,6 +171,7 @@
         {
           "id": "tier",
           "parameter": "tier",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -182,6 +188,7 @@
         {
           "id": "profile",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
