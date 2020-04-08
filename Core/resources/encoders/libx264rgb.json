@@ -601,7 +601,6 @@
           "id": "libx264rgb.ratecontrol.rc-lookahead",
           "parameter": "rc-lookahead",
           "control": {
-            "maximum": 250,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",

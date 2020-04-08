@@ -5,11 +5,11 @@
   "defaults": {},
   "groups": [
     {
-      "id": "wavpack.standard",
+      "id": "standard",
       "class": "standard",
       "properties": [
         {
-          "id": "wavpack.standard.sampleFormat",
+          "id": "sampleFormat",
           "parameter": "_sampleFormat",
           "forced": true,
           "control": {
@@ -34,11 +34,11 @@
       ]
     },
     {
-      "id": "wavpack.compression",
+      "id": "compression",
       "class": "advanced",
       "properties": [
         {
-          "id": "wavpack.compression.compression_level",
+          "id": "compression_level",
           "parameter": "compression_level",
           "control": {
             "maximum": 8,
@@ -49,7 +49,7 @@
           }
         },
         {
-          "id": "wavpack.compression.frame_size",
+          "id": "frame_size",
           "parameter": "frame_size",
           "control": {
             "maximum": 131072,
@@ -62,11 +62,11 @@
       ]
     },
     {
-      "id": "wavpack.optimization",
+      "id": "optimization",
       "class": "advanced",
       "properties": [
         {
-          "id": "wavpack.optimization.joint_stereo",
+          "id": "joint_stereo",
           "parameter": "joint_stereo",
           "control": {
             "type": "combobox",
@@ -85,7 +85,7 @@
           }
         },
         {
-          "id": "wavpack.optimization.optimize_mono",
+          "id": "optimize_mono",
           "parameter": "optimize_mono",
           "control": {
             "type": "combobox",

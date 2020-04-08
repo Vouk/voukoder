@@ -2095,7 +2095,6 @@
           "id": "libx265.slicedecision.rc-lookahead",
           "parameter": "rc-lookahead",
           "control": {
-            "maximum": 250,
             "minimum": 16,
             "singleStep": 1,
             "type": "integer",
