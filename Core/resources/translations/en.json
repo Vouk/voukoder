@@ -1174,8 +1174,6 @@
     "libx265.qualityratedistortionoptions.qg-size._item_1": "16",
     "libx265.qualityratedistortionoptions.qg-size._item_2": "32",
     "libx265.qualityratedistortionoptions.qg-size._item_3": "64",
-    "libx265.qualityratedistortionoptions.aq-motion._label": "AQ Motion",
-    "libx265.qualityratedistortionoptions.aq-motion._description": "Adjust the AQ offsets based on the relative motion of each block with respect to the motion of the frame. The more the relative motion of the block, the more quantization is used.",
     "libx265.qualityratedistortionoptions.cutree._label": "CU Tree",
     "libx265.qualityratedistortionoptions.cutree._description": "Enable the use of lookaheads lowres motion vector fields to determine the amount of reuse of each block to tune adaptive quantization factors. CU blocks which are heavily reused as motion reference for later frames are given a lower QP (more bits) while CU blocks which are quickly changed and are not referenced are given less bits. This tends to improve detail in the backgrounds of video with less detail in areas of high motion.",
     "libx265.qualityratedistortionoptions.multi-pass-opt-analysis._label": "Multi Pass Opt Analysis",
