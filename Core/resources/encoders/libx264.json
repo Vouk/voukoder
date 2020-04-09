@@ -78,6 +78,7 @@
       "vbv-maxrate",
       "vbv-init",
       "rc-lookahead",
+      "lookahead-threads",
       "no-mbtree",
       "fake-interlaced",
       "me",
@@ -93,7 +94,8 @@
       "no-mixed-refs",
       "no-dct-decimate",
       "no-psy",
-      "no-cabac"
+      "no-cabac",
+      "threads"
     ]
   },
   "groups": [
@@ -795,11 +797,21 @@
           "id": "libx264.ratecontrol.rc-lookahead",
           "parameter": "rc-lookahead",
           "control": {
-            "maximum": 250,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",
             "value": 40
+          }
+        },
+        {
+          "id": "libx264.ratecontrol.lookahead-threads",
+          "parameter": "lookahead-threads",
+          "control": {
+            "maximum": 64,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
           }
         },
         {
@@ -1321,6 +1333,17 @@
           "control": {
             "type": "boolean",
             "value": false
+          }
+        },
+        {
+          "id": "libx264.misc.threads",
+          "parameter": "threads",
+          "control": {
+            "maximum": 128,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
           }
         }
       ]

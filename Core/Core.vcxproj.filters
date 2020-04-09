@@ -1156,6 +1156,12 @@
     <None Include="resources\muxers\image2-tiff.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
+    <None Include="resources\encoders\wavpack.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
+    <None Include="resources\muxers\wv.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

@@ -28,6 +28,11 @@
 
 using namespace nlohmann;
 
+enum VKEncVideoFlags {
+	VK_FLAG_NONE = 0x0000,
+	VK_FLAG_DEINTERLACE_BOBBING = 0x0001
+};
+
 struct ExportInfo
 {
 	wxString filename = wxEmptyString;
@@ -51,6 +56,7 @@ struct ExportInfo
 		AVColorPrimaries colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
 		AVColorTransferCharacteristic colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 		int64_t ticksPerFrame = 0;
+		int flags = VKEncVideoFlags::VK_FLAG_NONE;
 	} video;
 
 	struct Audio

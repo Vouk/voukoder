@@ -111,8 +111,8 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 288000,
-            "singleStep": 1000,
-            "value": 15000,
+            "singleStep": 100,
+            "value": 7000,
             "visible": false
           },
           "multiplicationFactor": 1000
@@ -123,10 +123,10 @@
           "forced": true,
           "control": {
             "type": "integer",
-            "minimum": 100,
+            "minimum": 0,
             "maximum": 288000,
-            "singleStep": 1000,
-            "value": 15000
+            "singleStep": 100,
+            "value": 7000
           },
           "multiplicationFactor": 1000
         },
@@ -181,6 +181,26 @@
               },
               {
                 "value": "high"
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile",
+          "parameter": "profile",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              },
+              {
+                "value": "professional"
               }
             ]
           }
@@ -274,11 +294,57 @@
           }
         },
         {
+          "id": "qmin",
+          "parameter": "qmin",
+          "control": {
+            "maximum": 63,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 0
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "libsvt_av1.advanced.qmax"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "qmax",
+          "parameter": "qmax",
+          "control": {
+            "maximum": 63,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 63
+          },
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "libsvt_av1.advanced.qmin"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "id": "la_depth",
           "parameter": "la_depth",
           "control": {
             "type": "integer",
-            "maximum": 256,
+            "maximum": 120,
             "minimum": 0,
             "singleStep": 1,
             "value": 0
@@ -289,14 +355,8 @@
           "parameter": "hielevel",
           "control": {
             "type": "combobox",
-            "selectedIndex": 3,
+            "selectedIndex": 1,
             "items": [
-              {
-                "value": "flat"
-              },
-              {
-                "value": "2level"
-              },
               {
                 "value": "3level"
               },

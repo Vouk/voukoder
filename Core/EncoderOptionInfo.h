@@ -47,7 +47,7 @@ struct EncoderOptionInfo
 	std::vector<OptionFilterInfo> filters;
 	bool isForced = false;
 	bool isActive = false;
-	bool preprendNoIfFalse = false;
+	bool prependNoIfFalse = false;
 
 	struct ComboItem
 	{

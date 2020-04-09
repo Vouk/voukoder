@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "wavpack",
+  "name": "WAVPACK",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "sampleFormat",
+          "parameter": "_sampleFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 3,
+            "items": [
+              {
+                "value": "u8p"
+              },
+              {
+                "value": "s16p"
+              },
+              {
+                "value": "s32p"
+              },
+              {
+                "value": "fltp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "compression",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "compression_level",
+          "parameter": "compression_level",
+          "control": {
+            "maximum": 8,
+            "minimum": 0,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 1
+          }
+        },
+        {
+          "id": "frame_size",
+          "parameter": "frame_size",
+          "control": {
+            "maximum": 131072,
+            "minimum": 128,
+            "singleStep": 1,
+            "type": "float",
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "optimization",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "joint_stereo",
+          "parameter": "joint_stereo",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "on"
+              },
+              {
+                "value": "off"
+              },
+              {
+                "value": "auto"
+              }
+            ]
+          }
+        },
+        {
+          "id": "optimize_mono",
+          "parameter": "optimize_mono",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "on"
+              },
+              {
+                "value": "off"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
