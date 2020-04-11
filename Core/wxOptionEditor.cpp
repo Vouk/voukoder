@@ -125,7 +125,8 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 			// Import stored settings
 			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
 			if (options.find(optionInfo.parameter) != options.end()
-			   || options.find(optionPrefix + optionInfo.parameter) != options.end())
+			   || (options.find(optionPrefix + optionInfo.parameter) != options.end()
+			       && optionInfo.prependNoIfFalse))
 			{
 				optionProperty->SetChecked();
 				
