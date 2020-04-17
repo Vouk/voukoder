@@ -25,6 +25,7 @@
 #include "EncoderUtils.h"
 #include "RegistryUtils.h"
 
+constexpr auto optionPrefix = "no-";
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
 wxIMPLEMENT_DYNAMIC_CLASS(wxOptionEditor, wxPanel);
@@ -143,7 +144,9 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 
 			// Import stored settings
 			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
-			if (options.find(optionInfo.parameter) != options.end())
+			if (options.find(optionInfo.parameter) != options.end()
+			   || (options.find(optionPrefix + optionInfo.parameter) != options.end()
+			       && optionInfo.prependNoIfFalse))
 			{
 				optionProperty->SetChecked();
 				
