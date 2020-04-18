@@ -50,6 +50,7 @@ private:
 	bool hasPreview = true;
 	bool hasAdvancedSwitch = true;
 	bool hasAdvancedOptions = false;
+	void DeflateGroups(EncoderInfo encoderInfo, OptionContainer& options);
 	void ExecuteFilters(wxOptionProperty *optionProperty);
 	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 	void OnPropertyGridCheckboxChanged(wxPropertyGridEvent& event);

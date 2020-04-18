@@ -133,9 +133,14 @@ int EncoderEngine::open()
 	if (exportInfo.format.id == "image2")
 		av_dict_set(&options, "frame_pts", "1", 0);
 
-	/*
-		av_dict_set(&options, "brand", "abcd", 0);
-	*/
+	// Produce a more compatible file
+	//if (exportInfo.format.id == "mp4" ||
+	//	exportInfo.format.id == "mov")
+	//{
+	//	av_dict_set(&options, "brand", "mp42", 0);
+	//	av_dict_set(&options, "minor_version", "0", 0);
+	//	av_dict_set(&options, "compatible_brands", "M4V isommp42mp41", 0);
+	//}
 
 	// Dump format settings
 	av_dump_format(formatContext, 0, filename, 1);

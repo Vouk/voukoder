@@ -87,21 +87,32 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 	bSizer->Fit(this);
 }
 
-void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
+
+void wxOptionEditor::DeflateGroups(EncoderInfo encoderInfo, OptionContainer& options)
 {
-	// Deflate the param groups as single options
 	for (auto& option : options)
 	{
+		// Deflate the param groups as single options
 		if (encoderInfo.paramGroups.find(option.first) != encoderInfo.paramGroups.end())
 		{
+			auto validParams = encoderInfo.paramGroups[option.first];
+
 			wxStringTokenizer tokenizer(option.second, ":");
 			while (tokenizer.HasMoreTokens())
 			{
 				wxString token = tokenizer.GetNextToken();
-				options[token.Before('=').ToStdString()] = token.After('=');
+				auto key = token.Before('=').ToStdString();
+
+				if (std::find(validParams.begin(), validParams.end(), key) != validParams.end())
+					options[key] = token.After('=');
 			}
 		}
 	}
+}
+
+void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
+{
+	DeflateGroups(encoderInfo, options);
 
 	this->encoderInfo = encoderInfo;
 	this->options = options;
@@ -142,8 +153,13 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 			m_propertyGrid->AppendIn(category, optionProperty);
 
 			// Import stored settings
-			//EncoderOptionInfo optionInfo = optionProperty->GetOptionInfo();
-			if (options.find(optionInfo.parameter) != options.end())
+			if (optionInfo.control.type == EncoderOptionType::Boolean &&
+				options.find("no-" + optionInfo.parameter) != options.end())
+			{
+				optionProperty->SetValueFromString("0");
+				optionProperty->SetChecked();
+			}
+			else if (options.find(optionInfo.parameter) != options.end())
 			{
 				optionProperty->SetChecked();
 				
