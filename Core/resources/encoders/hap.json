@@ -3,7 +3,7 @@
   "id": "hap",
   "name": "HAP",
   "defaults": {
-    "_pixelFormat": "rgb"
+    "_pixelFormat": "rgba"
   },
   "groups": [
     {
