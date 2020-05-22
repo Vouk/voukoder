@@ -617,7 +617,8 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		}
 	}
 
-	frame->pts = audioContext.next_pts;
+	// Adding 1024 somehow fixes the AAC offset
+	frame->pts = 1024 + audioContext.next_pts;
 
 	audioContext.next_pts += frame->nb_samples;
 
