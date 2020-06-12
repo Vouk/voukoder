@@ -2641,7 +2641,7 @@
     "filter.atrim.standard.start._label": "开始 (秒)",
     "filter.atrim.standard.start._description": "需要传递的第一帧的时间戳",
     "filter.atrim.standard.end._label": "结尾(秒)",
-    "filter.atrim.standard.end._description": "Timestamp of the first frame that should be dropped again",
+    "filter.atrim.standard.end._description": "需要再次丢弃的第一帧的时间戳",
     "filter.atrim.standard.start_sample._label": "采样起始点 #",
     "filter.atrim.standard.start_sample._description": "应传递到输出的第一个音频的采样数",
     "filter.atrim.standard.end_sample._label": "采样结束点 #",
