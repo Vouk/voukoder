@@ -260,6 +260,7 @@
     <None Include="resources\encoders\pcm_s32le.json" />
     <None Include="resources\encoders\png.json" />
     <None Include="resources\encoders\prores_ks.json" />
+    <None Include="resources\encoders\qtrle.json" />
     <None Include="resources\encoders\tiff.json" />
     <None Include="resources\encoders\truehd.json" />
     <None Include="resources\encoders\vp9_qsv.json" />
@@ -549,7 +550,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4mpeg2video_1json__JsonSchema="" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4png_1json__JsonSchema="" resources_4filters_4atrim_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4encoders_4libx264_1json__JsonSchema="" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4h264_3amf_1json__JSONSchema="" />
+      <UserProperties resources_4encoders_4h264_3amf_1json__JSONSchema="" resources_4encoders_4h264_3nvenc_1json__JSONSchema="http://json.schemastore.org/bozr" resources_4encoders_4hevc_3amf_1json__JSONSchema="" resources_4encoders_4hevc_3nvenc_1json__JsonSchema="" resources_4encoders_4libopus_1json__JSONSchema="" resources_4encoders_4libsvt_3av1_1json__JsonSchema="" resources_4encoders_4libsvt_3vp9_1json__JsonSchema="" resources_4encoders_4libx264_1json__JsonSchema="" resources_4encoders_4libx265_1json__JSONSchema="" resources_4encoders_4mpeg2video_1json__JsonSchema="" resources_4encoders_4pcm_3s16le_1json__JsonSchema="" resources_4encoders_4png_1json__JsonSchema="" resources_4encoders_4qtrle_1json__JsonSchema="" resources_4filters_4atrim_1json__JsonSchema="" resources_4filters_4crop_1json__JsonSchema="" resources_4filters_4setparams_1json__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
