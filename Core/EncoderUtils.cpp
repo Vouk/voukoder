@@ -24,6 +24,7 @@
 #include "NvidiaCustomOptions.h"
 #include "OptionResourceUtils.h"
 #include "Log.h"
+#include "RegistryUtils.h"
 
 bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validateEncoder)
 {
@@ -111,6 +112,20 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
+	// Enable logging
+	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
+	{
+		av_log_set_level(AV_LOG_WARNING);
+		av_log_set_callback([](void*, int level, const char* szFmt, va_list varg) 
+			{
+				char logbuf[2000];
+				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+				logbuf[sizeof(logbuf) - 1] = '\0';
+
+				Log::instance()->AddLine(wxT("FFmpeg: ") + wxString(logbuf).Trim());
+			});
+	}
+
 	bool ret = false;
 
 	AVCodec *codec = avcodec_find_encoder_by_name(name);
@@ -137,14 +152,20 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			}
 			
 			// Open the codec
-			ret = (avcodec_open2(codecContext, codec, NULL) == 0);
+			int res = avcodec_open2(codecContext, codec, NULL);
+			if (res != 0)
+				vkLogInfoVA("Encoder returned: ", res);
 
 			// Close the codec
 			avcodec_free_context(&codecContext);
 		}
 	}
 
-	return ret;
+	// Disable log again
+	av_log_set_level(AV_LOG_QUIET);
+	av_log_set_callback(NULL);
+
+	return ret == 0;
 }
 
 void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer &options)

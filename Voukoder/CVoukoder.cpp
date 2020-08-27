@@ -22,15 +22,6 @@
 #include "../Core/wxVoukoderDialog.h"
 #include "../Core/RegistryUtils.h"
 
-static inline void AvCallback(void*, int level, const char* szFmt, va_list varg)
-{
-	char logbuf[2000];
-	vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
-	logbuf[sizeof(logbuf) - 1] = '\0';
-
-	Log::instance()->AddLine(wxT("FFmpeg: ") + wxString(logbuf).Trim());
-}
-
 struct handle_data {
 	unsigned long process_id;
 	HWND window_handle;
@@ -502,7 +493,14 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
 	{
 		av_log_set_level(AV_LOG_DEBUG);
-		av_log_set_callback(AvCallback);
+		av_log_set_callback([](void*, int level, const char* szFmt, va_list varg)
+			{
+				char logbuf[2000];
+				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+				logbuf[sizeof(logbuf) - 1] = '\0';
+
+				Log::instance()->AddLine(wxT("FFmpeg: ") + wxString(logbuf).Trim());
+			});
 	}
 
 	// Create encoder instance

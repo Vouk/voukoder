@@ -33,6 +33,7 @@
 
 # Build dirs
 /.vs/
+/VfW
 /Core/x64/
 /Core/debug/
 /Core/release/
