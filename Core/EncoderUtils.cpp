@@ -115,14 +115,14 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 	// Enable logging
 	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
 	{
-		av_log_set_level(AV_LOG_WARNING);
+		av_log_set_level(AV_LOG_DEBUG);
 		av_log_set_callback([](void*, int level, const char* szFmt, va_list varg) 
 			{
 				char logbuf[2000];
 				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
 				logbuf[sizeof(logbuf) - 1] = '\0';
 
-				Log::instance()->AddLine(wxT("FFmpeg: ") + wxString(logbuf).Trim());
+				Log::instance()->AddLine(wxT("    FF: ") + wxString(logbuf).Trim());
 			});
 	}
 
@@ -151,10 +151,21 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 			}
 			
+			// Tweak default settings so it's compatible even with older cards
+			AVDictionary* dict = NULL;
+			if (name.EndsWith("_nvenc"))
+			{
+				av_dict_set(&dict, "rc", "cbr", NULL);
+				av_dict_set(&dict, "b", "500000", NULL);
+			}
+
 			// Open the codec
-			int res = avcodec_open2(codecContext, codec, NULL);
+			int res = avcodec_open2(codecContext, codec, &dict);
 			if (res != 0)
-				vkLogInfoVA("Encoder returned: ", res);
+				vkLogInfoVA("Encoder returned: %d", res);
+
+			// Only 0 is successful
+			ret = res == 0;
 
 			// Close the codec
 			avcodec_free_context(&codecContext);
@@ -165,7 +176,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 	av_log_set_level(AV_LOG_QUIET);
 	av_log_set_callback(NULL);
 
-	return ret == 0;
+	return ret;
 }
 
 void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer &options)
