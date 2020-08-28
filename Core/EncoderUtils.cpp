@@ -138,10 +138,15 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 
 			if (codec->type == AVMEDIA_TYPE_VIDEO)
 			{
-				codecContext->width = 320;
-				codecContext->height = 240;
+				codecContext->width = 1280;
+				codecContext->height = 720;
 				codecContext->time_base = { 1, 25 };
+				codecContext->framerate = av_inv_q(codecContext->time_base);
+				codecContext->sample_aspect_ratio = { 1, 1 };
+				codecContext->field_order = AV_FIELD_PROGRESSIVE;
 				codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
+				const char* name = av_get_pix_fmt_name(codecContext->pix_fmt);
+				vkLogInfoVA("Testing pix fmt: %s", name);
 			}
 			else if (codec->type == AVMEDIA_TYPE_AUDIO)
 			{
@@ -151,16 +156,8 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 			}
 			
-			// Tweak default settings so it's compatible even with older cards
-			AVDictionary* dict = NULL;
-			if (name.EndsWith("_nvenc"))
-			{
-				av_dict_set(&dict, "rc", "cbr", NULL);
-				av_dict_set(&dict, "b", "500000", NULL);
-			}
-
 			// Open the codec
-			int res = avcodec_open2(codecContext, codec, &dict);
+			int res = avcodec_open2(codecContext, codec, NULL);
 			if (res != 0)
 				vkLogInfoVA("Encoder returned: %d", res);
 
