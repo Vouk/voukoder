@@ -143,7 +143,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			// Open the codec
 			int res = avcodec_open2(codecContext, codec, NULL);
 			if (res != 0)
-				vkLogInfoVA("Encoder failed with code: %d", res);
+				vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
 
 			// Only 0 is successful
 			ret = res == 0;
