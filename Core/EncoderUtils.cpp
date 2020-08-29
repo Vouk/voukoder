@@ -112,20 +112,6 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
-	// Enable logging
-	if (RegistryUtils::GetValue(VKDR_REG_LOW_LEVEL_LOGGING, false))
-	{
-		av_log_set_level(AV_LOG_DEBUG);
-		av_log_set_callback([](void*, int level, const char* szFmt, va_list varg) 
-			{
-				char logbuf[2000];
-				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
-				logbuf[sizeof(logbuf) - 1] = '\0';
-
-				Log::instance()->AddLine(wxT("    FF: ") + wxString(logbuf).Trim());
-			});
-	}
-
 	bool ret = false;
 
 	AVCodec *codec = avcodec_find_encoder_by_name(name);
@@ -145,8 +131,6 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				codecContext->sample_aspect_ratio = { 1, 1 };
 				codecContext->field_order = AV_FIELD_PROGRESSIVE;
 				codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
-				const char* name = av_get_pix_fmt_name(codecContext->pix_fmt);
-				vkLogInfoVA("Testing pix fmt: %s", name);
 			}
 			else if (codec->type == AVMEDIA_TYPE_AUDIO)
 			{
@@ -159,7 +143,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			// Open the codec
 			int res = avcodec_open2(codecContext, codec, NULL);
 			if (res != 0)
-				vkLogInfoVA("Encoder returned: %d", res);
+				vkLogInfoVA("Encoder failed with code: %d", res);
 
 			// Only 0 is successful
 			ret = res == 0;
@@ -168,10 +152,6 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			avcodec_free_context(&codecContext);
 		}
 	}
-
-	// Disable log again
-	av_log_set_level(AV_LOG_QUIET);
-	av_log_set_callback(NULL);
 
 	return ret;
 }

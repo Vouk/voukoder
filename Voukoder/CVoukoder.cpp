@@ -499,7 +499,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
 				logbuf[sizeof(logbuf) - 1] = '\0';
 
-				Log::instance()->AddLine(wxT("    FFmpeg: ") + wxString(logbuf).Trim());
+				Log::instance()->AddLine(wxT("  FFmpeg: ") + wxString(logbuf).Trim());
 			});
 	}
 
