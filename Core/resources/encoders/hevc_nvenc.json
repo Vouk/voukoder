@@ -81,6 +81,7 @@
         {
           "id": "hevc_nvenc.standard.preset",
           "parameter": "preset",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 1,
@@ -187,6 +188,7 @@
         {
           "id": "hevc_nvenc.standard.profile420-8",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -203,6 +205,7 @@
         {
           "id": "hevc_nvenc.standard.profile420-10",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -216,6 +219,7 @@
         {
           "id": "hevc_nvenc.standard.tier",
           "parameter": "tier",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -232,6 +236,7 @@
         {
           "id": "hevc_nvenc.standard.strategy",
           "parameter": "rc",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -422,6 +427,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.cqp",
           "parameter": "qp",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -433,6 +439,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.bitrate",
           "parameter": "b",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -458,6 +465,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.maxrate",
           "parameter": "maxrate",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -483,6 +491,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.buffersize",
           "parameter": "bufsize",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -496,6 +505,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.cq",
           "parameter": "cq",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -508,6 +518,7 @@
         {
           "id": "hevc_nvenc.standard.strategy.twopass",
           "parameter": "2pass",
+          "forced": true,
           "control": {
             "type": "boolean",
             "value": false

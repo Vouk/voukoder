@@ -26,6 +26,7 @@
         {
           "id": "h264_nvenc.standard.preset",
           "parameter": "preset",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 1,
@@ -132,6 +133,7 @@
         {
           "id": "h264_nvenc.standard.profile",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 1,
@@ -146,7 +148,7 @@
                 "value": "high"
               },
               {
-                "value": "high444"
+                "value": "high444p"
               }
             ]
           }
@@ -154,6 +156,7 @@
         {
           "id": "h264_nvenc.standard.strategy",
           "parameter": "rc",
+          "forced": true,
           "control": {
             "type": "combobox",
             "selectedIndex": 0,
@@ -273,6 +276,7 @@
         {
           "id": "h264_nvenc.standard.strategy.cqp",
           "parameter": "qp",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -284,6 +288,7 @@
         {
           "id": "h264_nvenc.standard.strategy.bitrate",
           "parameter": "b",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -309,6 +314,7 @@
         {
           "id": "h264_nvenc.standard.strategy.maxrate",
           "parameter": "maxrate",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -334,6 +340,7 @@
         {
           "id": "h264_nvenc.standard.strategy.buffersize",
           "parameter": "bufsize",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -347,6 +354,7 @@
         {
           "id": "h264_nvenc.standard.strategy.cq",
           "parameter": "cq",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -359,6 +367,7 @@
         {
           "id": "h264_nvenc.standard.strategy.twopass",
           "parameter": "2pass",
+          "forced": true,
           "control": {
             "type": "boolean",
             "value": false
