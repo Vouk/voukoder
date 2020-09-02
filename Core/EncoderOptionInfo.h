@@ -48,6 +48,7 @@ struct EncoderOptionInfo
 	bool isForced = false;
 	bool isActive = false;
 	bool prependNoIfFalse = false;
+	bool visible = true;
 
 	struct ComboItem
 	{

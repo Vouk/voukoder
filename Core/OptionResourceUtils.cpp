@@ -51,6 +51,10 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	if (resource.find("prependNoIfFalse") != resource.end())
 		optionInfo.prependNoIfFalse = resource["prependNoIfFalse"].get<bool>();
 
+	// Optional: Should this item be invisible?
+	if (resource.find("visible") != resource.end())
+		optionInfo.visible = resource["visible"].get<bool>();
+
 	// Get the control type
 	std::string type = resource["control"]["type"].get<std::string>();
 

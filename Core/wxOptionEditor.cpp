@@ -149,6 +149,10 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 		// Add all options to the group
 		for (const EncoderOptionInfo &optionInfo : group.options)
 		{
+			//skip this item if it is flagged as invisible
+			if (!optionInfo.visible)
+				continue;
+
 			wxOptionProperty *optionProperty = new wxOptionProperty(optionInfo);
 			m_propertyGrid->AppendIn(category, optionProperty);
 
