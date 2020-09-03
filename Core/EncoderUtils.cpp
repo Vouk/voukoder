@@ -24,7 +24,6 @@
 #include "NvidiaCustomOptions.h"
 #include "OptionResourceUtils.h"
 #include "Log.h"
-#include "RegistryUtils.h"
 
 bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validateEncoder)
 {
@@ -134,19 +133,25 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			}
 			else if (codec->type == AVMEDIA_TYPE_AUDIO)
 			{
-				codecContext->channel_layout = AV_CH_LAYOUT_STEREO;
-				codecContext->channels = 2;
-				codecContext->sample_rate = 48000;
+				codecContext->channel_layout = codec->channel_layouts ? codec->channel_layouts[0] : AV_CH_LAYOUT_STEREO;
+				codecContext->channels = av_get_channel_layout_nb_channels(codecContext->channel_layout);
+				codecContext->sample_rate = codec->supported_samplerates ? codec->supported_samplerates[0] : 48000;
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
+			}
+			else
+			{
+				vkLogInfoVA("• This media type is not supported: %d", codec->type);
+				return false;
 			}
 			
 			// Open the codec
-			int res = avcodec_open2(codecContext, codec, NULL);
-			if (res != 0)
-				vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
+			const int res = avcodec_open2(codecContext, codec, NULL);
 
 			// Only 0 is successful
 			ret = res == 0;
+
+			if (!ret)
+				vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
 
 			// Close the codec
 			avcodec_free_context(&codecContext);
@@ -194,9 +199,7 @@ void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContai
 				}
 
 				if (!value.empty())
-				{
 					options[option.parameter] = value;
-				}
 			}
 		}
 	}
