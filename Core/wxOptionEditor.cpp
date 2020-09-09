@@ -208,11 +208,8 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 	Enable(encoderInfo.groups.size() > 0);
 
 	// Execute filters
-	wxPropertyGridConstIterator it;
-	for (it = m_propertyGrid->GetIterator(); !it.AtEnd(); it++)
-	{
+	for (wxPropertyGridIterator it = m_propertyGrid->GetIterator(); !it.AtEnd(); it++)
 		ExecuteFilters(wxDynamicCast(*it, wxOptionProperty));
-	}
 
 	RefreshResults();
 }
@@ -344,8 +341,7 @@ void wxOptionEditor::RefreshResults()
 	this->results.insert(encoderInfo.defaults.begin(), encoderInfo.defaults.end());
 
 	// Iterate over all options
-	wxPropertyGridConstIterator it;
-	for (it = m_propertyGrid->GetIterator(wxPG_ITERATE_VISIBLE); !it.AtEnd(); it++)
+	for (wxPropertyGridIterator it = m_propertyGrid->GetIterator(wxPG_ITERATE_VISIBLE); !it.AtEnd(); it++)
 	{
 		wxOptionProperty *prop = wxDynamicCast(*it, wxOptionProperty);
 		if (prop)

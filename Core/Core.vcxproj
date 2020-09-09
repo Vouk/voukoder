@@ -76,8 +76,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
+    <LibraryPath>$(WXROOT)\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -87,8 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\..\external\include;C:\wxWidgets-3.1.2\include;C:\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;..\..\..\external\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswu;..\..\..\external\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(WXROOT)\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

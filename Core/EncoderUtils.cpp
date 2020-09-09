@@ -113,49 +113,57 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
-	AVCodec *codec = avcodec_find_encoder_by_name(name);
-	if (codec != NULL)
+	try
 	{
-		AVCodecContext* codecContext = avcodec_alloc_context3(codec);
-		if (codecContext != NULL)
+		AVCodec* codec = avcodec_find_encoder_by_name(name);
+		if (codec != NULL)
 		{
-			codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
-
-			if (codec->type == AVMEDIA_TYPE_VIDEO)
+			AVCodecContext* codecContext = avcodec_alloc_context3(codec);
+			if (codecContext != NULL)
 			{
-				codecContext->width = 1280;
-				codecContext->height = 720;
-				codecContext->time_base = { 1, 25 };
-				codecContext->framerate = av_inv_q(codecContext->time_base);
-				codecContext->sample_aspect_ratio = { 1, 1 };
-				codecContext->field_order = AV_FIELD_PROGRESSIVE;
-				codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
-			}
-			else if (codec->type == AVMEDIA_TYPE_AUDIO)
-			{
-				codecContext->channel_layout = codec->channel_layouts ? codec->channel_layouts[0] : AV_CH_LAYOUT_STEREO;
-				codecContext->channels = av_get_channel_layout_nb_channels(codecContext->channel_layout);
-				codecContext->sample_rate = codec->supported_samplerates ? codec->supported_samplerates[0] : 48000;
-				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
-			}
-			else
-			{
-				vkLogInfoVA("• This media type is not supported: %d", codec->type);
-				return false;
-			}
-			
-			// Open the codec
-			const int res = avcodec_open2(codecContext, codec, NULL);
+				codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
-			// Only 0 is successful
-			ret = res == 0;
+				if (codec->type == AVMEDIA_TYPE_VIDEO)
+				{
+					codecContext->width = 320;
+					codecContext->height = 240;
+					codecContext->time_base = { 1, 25 };
+					codecContext->framerate = av_inv_q(codecContext->time_base);
+					codecContext->sample_aspect_ratio = { 1, 1 };
+					codecContext->field_order = AV_FIELD_PROGRESSIVE;
+					codecContext->pix_fmt = codec->pix_fmts ? codec->pix_fmts[0] : AV_PIX_FMT_YUV420P;
+				}
+				else if (codec->type == AVMEDIA_TYPE_AUDIO)
+				{
+					codecContext->channel_layout = codec->channel_layouts ? codec->channel_layouts[0] : AV_CH_LAYOUT_STEREO;
+					codecContext->channels = av_get_channel_layout_nb_channels(codecContext->channel_layout);
+					codecContext->sample_rate = codec->supported_samplerates ? codec->supported_samplerates[0] : 48000;
+					codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
+				}
+				else
+				{
+					vkLogInfoVA("• This media type is not supported: %d", codec->type);
+					return false;
+				}
 
-			if (!ret)
-				vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
+				// Open the codec
+				const int res = avcodec_open2(codecContext, codec, NULL);
 
-			// Close the codec
-			avcodec_free_context(&codecContext);
+				// Only 0 is successful
+				ret = res == 0;
+
+				if (!ret)
+					vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
+
+				// Close the codec
+				avcodec_free_context(&codecContext);
+			}
 		}
+	}
+	catch (...)
+	{
+		vkLogInfo("• Exception cought!");
+		return false;
 	}
 
 	return ret;

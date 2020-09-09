@@ -44,7 +44,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 	if (resource.find("extraOptions") != resource.end())
 	{
 		for (auto& el : resource["extraOptions"].items())
-			optionInfo.extraOptions.insert_or_assign(el.key(), el.value());
+			optionInfo.extraOptions.insert_or_assign(el.key(), el.value().get<std::string>());
 	}
 
 	// Optional: 
@@ -128,7 +128,7 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 			if (item.find("extraOptions") != item.end())
 			{
 				for (auto& el : item["extraOptions"].items())
-					comboItem.extraOptions.insert_or_assign(el.key(), el.value());
+					comboItem.extraOptions.insert_or_assign(el.key(), el.value().get<std::string>());
 			}
 
 			// Parse filters
