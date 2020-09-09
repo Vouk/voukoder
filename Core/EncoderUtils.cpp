@@ -113,6 +113,19 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
+	if (name == "h264_amf")
+	{
+		av_log_set_level(AV_LOG_DEBUG);
+		av_log_set_callback([](void*, int level, const char* szFmt, va_list varg)
+			{
+				char logbuf[2000];
+				vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+				logbuf[sizeof(logbuf) - 1] = '\0';
+
+				Log::instance()->AddLine(wxT("  FFmpeg: ") + wxString(logbuf).Trim());
+			});
+	}
+
 	try
 	{
 		AVCodec* codec = avcodec_find_encoder_by_name(name);
@@ -148,6 +161,12 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 
 				// Open the codec
 				const int res = avcodec_open2(codecContext, codec, NULL);
+
+				if (name == "h264_amf")
+				{
+					av_log_set_level(AV_LOG_QUIET);
+					av_log_set_callback(NULL);
+				}
 
 				// Only 0 is successful
 				ret = res == 0;
