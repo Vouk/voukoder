@@ -111,13 +111,39 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
-	// Hack for FFmpeg 4.3
+	// Hack for FFmpeg 4.3: AMD AMF
+	if (name.EndsWith("_nvenc"))
+	{
+		HINSTANCE lib = LoadLibrary(L"nvcuda.dll");
+		if (lib == NULL)
+		{
+			vkLogInfoVA("• Skipping NVENC encoders - Not supported by this system!");
+			return false;
+		}
+		else
+			FreeLibrary(lib);
+	}
+
+	// Hack for FFmpeg 4.3: AMD AMF
 	if (name.EndsWith("_amf"))
 	{
 		HINSTANCE lib = LoadLibrary(L"amfrt64.dll");
 		if (lib == NULL)
 		{
-			vkLogInfo("• Skipping AMD AMF encoders - Not supported by this system!");
+			vkLogInfoVA("• Skipping AMD AMF encoders - Not supported by this system!");
+			return false;
+		}
+		else
+			FreeLibrary(lib);
+	}
+
+	// Hack for FFmpeg 4.3: FDK AAC
+	if (name == "libfdk_aac")
+	{
+		HINSTANCE lib = LoadLibrary(L"libfdk-aac-2.dll");
+		if (lib == NULL)
+		{
+			vkLogInfoVA("• Skipping FDK AAC encoder - DLL not installed!");
 			return false;
 		}
 		else
