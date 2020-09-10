@@ -68,75 +68,77 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 			resource[dataSize] = 0;
 			FreeResource(hData);
 
+			json jsonResource;
+
 			try
 			{
-				json jsonResource = json::parse(resource);
-
-				// Create configs and store them
-				if (lpType == MAKEINTRESOURCE(ID_MISC))
-				{
-					if (lpName == MAKEINTRESOURCE(IDR_VIDEO_SIDE_DATA))
-						EncoderUtils::Create(videoSideData, jsonResource);
-					else if (lpName == MAKEINTRESOURCE(IDR_AUDIO_SIDE_DATA))
-						EncoderUtils::Create(audioSideData, jsonResource);
-					//else if (lpName == MAKEINTRESOURCE(IDR_PRESETS))
-					//	presets = jsonResource["presets"].get<std::vector<Preset>>();
-				}
-				else if (lpType == MAKEINTRESOURCE(ID_ENCODER))
-				{
-					wxString id = jsonResource["id"].get<std::string>();
-
-					vkLogInfoVA("Loading: encoders/%s.json", id);
-
-					// Is this encoder supported?
-					if (EncoderUtils::IsEncoderAvailable(id))
-					{
-						EncoderInfo encoderInfo;
-						if (EncoderUtils::Create(encoderInfo, jsonResource))
-						{
-							if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
-								videoEncoderInfos.push_back(encoderInfo);
-							else if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
-								audioEncoderInfos.push_back(encoderInfo);
-						}
-					}
-					else
-						vkLogInfoVA("Unloading: encoders/%s.json", id);
-				}
-				else if (lpType == MAKEINTRESOURCE(ID_MUXER))
-				{
-					MuxerInfo muxerInfo;
-					if (MuxerUtils::Create(muxerInfo, jsonResource))
-						muxerInfos.push_back(muxerInfo);
-				}
-				else if (lpType == MAKEINTRESOURCE(ID_FILTER))
-				{
-					wxString id = jsonResource["name"].get<std::string>();
-
-					vkLogInfoVA("Loading: filters/%s.json", id);
-
-					EncoderInfo filterInfo;
-					if (EncoderUtils::Create(filterInfo, jsonResource))
-					{
-						if (filterInfo.type == AVMEDIA_TYPE_VIDEO)
-							videoFilterInfos.push_back(filterInfo);
-						else if (filterInfo.type == AVMEDIA_TYPE_AUDIO)
-							audioFilterInfos.push_back(filterInfo);
-						else
-							vkLogInfoVA("Unloading: filters/%s.json", id);
-					}
-				}
-				else if (lpType == MAKEINTRESOURCE(ID_TRANSLATION))
-				{
-					LanguageInfo languageInfo;
-					if (LanguageUtils::Create(languageInfo, jsonResource))
-						languageInfos.push_back(languageInfo);
-				}
+				jsonResource = json::parse(resource);
 			}
 			catch (json::parse_error p)
 			{
-				OutputDebugStringA(p.what());
+				vkLogInfoVA("Unable to parse json - Error: %s", p.what());
 				return TRUE;
+			}
+
+			// Create configs and store them
+			if (lpType == MAKEINTRESOURCE(ID_MISC))
+			{
+				if (lpName == MAKEINTRESOURCE(IDR_VIDEO_SIDE_DATA))
+					EncoderUtils::Create(videoSideData, jsonResource);
+				else if (lpName == MAKEINTRESOURCE(IDR_AUDIO_SIDE_DATA))
+					EncoderUtils::Create(audioSideData, jsonResource);
+				//else if (lpName == MAKEINTRESOURCE(IDR_PRESETS))
+				//	presets = jsonResource["presets"].get<std::vector<Preset>>();
+			}
+			else if (lpType == MAKEINTRESOURCE(ID_ENCODER))
+			{
+				const wxString id = jsonResource["id"].get<std::string>();
+
+				vkLogInfoVA("Loading: encoders/%s.json", id);
+
+				// Is this encoder supported?
+				if (EncoderUtils::IsEncoderAvailable(id))
+				{
+					EncoderInfo encoderInfo;
+					if (EncoderUtils::Create(encoderInfo, jsonResource))
+					{
+						if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_VIDEO)
+							videoEncoderInfos.push_back(encoderInfo);
+						else if (encoderInfo.type == AVMediaType::AVMEDIA_TYPE_AUDIO)
+							audioEncoderInfos.push_back(encoderInfo);
+					}
+				}
+				else
+					vkLogInfoVA("Unloading: encoders/%s.json", id);
+			}
+			else if (lpType == MAKEINTRESOURCE(ID_MUXER))
+			{
+				MuxerInfo muxerInfo;
+				if (MuxerUtils::Create(muxerInfo, jsonResource))
+					muxerInfos.push_back(muxerInfo);
+			}
+			else if (lpType == MAKEINTRESOURCE(ID_FILTER))
+			{
+				wxString id = jsonResource["name"].get<std::string>();
+
+				vkLogInfoVA("Loading: filters/%s.json", id);
+
+				EncoderInfo filterInfo;
+				if (EncoderUtils::Create(filterInfo, jsonResource))
+				{
+					if (filterInfo.type == AVMEDIA_TYPE_VIDEO)
+						videoFilterInfos.push_back(filterInfo);
+					else if (filterInfo.type == AVMEDIA_TYPE_AUDIO)
+						audioFilterInfos.push_back(filterInfo);
+					else
+						vkLogInfoVA("Unloading: filters/%s.json", id);
+				}
+			}
+			else if (lpType == MAKEINTRESOURCE(ID_TRANSLATION))
+			{
+				LanguageInfo languageInfo;
+				if (LanguageUtils::Create(languageInfo, jsonResource))
+					languageInfos.push_back(languageInfo);
 			}
 		}
 	}

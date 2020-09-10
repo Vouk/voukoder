@@ -111,54 +111,75 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
-	// Hack for FFmpeg 4.3: AMD AMF
-	if (name.EndsWith("_nvenc"))
+	bool ret = false;
+
+	// Hack for FFmpeg 4.3: NVENC
+	if (name.Lower().EndsWith("_nvenc"))
 	{
-		HINSTANCE lib = LoadLibrary(L"nvcuda.dll");
+		vkLogInfoVA("• Checking for 'nvcuda.dll' ...");
+
+		HINSTANCE lib = LoadLibraryA("nvcuda.dll");
 		if (lib == NULL)
 		{
-			vkLogInfoVA("• Skipping NVENC encoders - Not supported by this system!");
+			vkLogInfoVA("• NVENC is not supported on this system!");
 			return false;
 		}
 		else
+		{
 			FreeLibrary(lib);
+			vkLogInfoVA("• Dynamic library 'nvcuda.dll' is present.");
+		}
 	}
 
 	// Hack for FFmpeg 4.3: AMD AMF
-	if (name.EndsWith("_amf"))
+	if (name.Lower().EndsWith("_amf"))
 	{
-		HINSTANCE lib = LoadLibrary(L"amfrt64.dll");
+		vkLogInfoVA("• Checking for 'amfrt64.dll' ...");
+
+		HINSTANCE lib = LoadLibraryA("amfrt64.dll");
 		if (lib == NULL)
 		{
-			vkLogInfoVA("• Skipping AMD AMF encoders - Not supported by this system!");
+			vkLogInfoVA("• AMF is not supported on this system!");
 			return false;
 		}
 		else
+		{
 			FreeLibrary(lib);
+			vkLogInfoVA("• Dynamic library 'amfrt64.dll' is present.");
+		}
 	}
 
 	// Hack for FFmpeg 4.3: FDK AAC
-	if (name == "libfdk_aac")
+	if (name.Lower() == "libfdk_aac")
 	{
-		HINSTANCE lib = LoadLibrary(L"libfdk-aac-2.dll");
+		vkLogInfoVA("• Checking for 'libfdk-aac-2.dll' ...");
+
+		HINSTANCE lib = LoadLibraryA("libfdk-aac-2.dll");
 		if (lib == NULL)
 		{
-			vkLogInfoVA("• Skipping FDK AAC encoder - DLL not installed!");
+			vkLogInfoVA("• FDK AAC is not supported on this system!");
 			return false;
 		}
 		else
+		{
 			FreeLibrary(lib);
+			vkLogInfoVA("• Dynamic library 'libfdk-aac-2.dll' is present.");
+		}
 	}
 
-	bool ret = false;
+	vkLogInfoVA("• Trying to open the encoder ...");
 
 	AVCodec* codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
 	{
+		vkLogInfoVA("• Codec found");
+
 		AVCodecContext* codecContext = avcodec_alloc_context3(codec);
 		if (codecContext != NULL)
 		{
 			codecContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+
+			vkLogInfoVA("• Codec context created");
 
 			if (codec->type == AVMEDIA_TYPE_VIDEO)
 			{
@@ -200,8 +221,12 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				return false;
 			}
 
+			vkLogInfoVA("• Codec successfully opened");
+
 			// Close the codec
 			avcodec_free_context(&codecContext);
+
+			vkLogInfoVA("• Cleaned up");
 		}
 	}
 
