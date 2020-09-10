@@ -108,8 +108,8 @@ BOOL Voukoder::Config::EnumNamesFunc(HMODULE hModule, LPCTSTR lpType, LPTSTR lpN
 							audioEncoderInfos.push_back(encoderInfo);
 					}
 				}
-				else
-					vkLogInfoVA("Unloading: encoders/%s.json", id);
+				//else
+				//	vkLogInfoVA("Unloading: encoders/%s.json", id);
 			}
 			else if (lpType == MAKEINTRESOURCE(ID_MUXER))
 			{
