@@ -113,35 +113,35 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
-	// Hack for FFmpeg 4.3: NVENC
-	if (name.Lower().EndsWith("_nvenc"))
-	{
-		HINSTANCE lib = LoadLibraryA("nvcuda.dll");
-		if (lib == NULL)
-			return false;
-		else
-			FreeLibrary(lib);
-	}
+	//// Hack for FFmpeg 4.3: NVENC
+	//if (name.Lower().EndsWith("_nvenc"))
+	//{
+	//	HINSTANCE lib = LoadLibraryA("nvcuda.dll");
+	//	if (lib == NULL)
+	//		return false;
+	//	else
+	//		FreeLibrary(lib);
+	//}
 
-	// Hack for FFmpeg 4.3: AMD AMF
-	if (name.Lower().EndsWith("_amf"))
-	{
-		HINSTANCE lib = LoadLibraryA("amfrt64.dll");
-		if (lib == NULL)
-			return false;
-		else
-			FreeLibrary(lib);
-	}
+	//// Hack for FFmpeg 4.3: AMD AMF
+	//if (name.Lower().EndsWith("_amf"))
+	//{
+	//	HINSTANCE lib = LoadLibraryA("amfrt64.dll");
+	//	if (lib == NULL)
+	//		return false;
+	//	else
+	//		FreeLibrary(lib);
+	//}
 
-	// Hack for FFmpeg 4.3: FDK AAC
-	if (name.Lower() == "libfdk_aac")
-	{
-		HINSTANCE lib = LoadLibraryA("libfdk-aac-2.dll");
-		if (lib == NULL)
-			return false;
-		else
-			FreeLibrary(lib);
-	}
+	//// Hack for FFmpeg 4.3: FDK AAC
+	//if (name.Lower() == "libfdk_aac")
+	//{
+	//	HINSTANCE lib = LoadLibraryA("libfdk-aac-2.dll");
+	//	if (lib == NULL)
+	//		return false;
+	//	else
+	//		FreeLibrary(lib);
+	//}
 
 	AVCodec* codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
@@ -170,7 +170,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			}
 			else
 			{
-				//vkLogInfoVA("• This media type is not supported: %d", codec->type);
+				vkLogInfoVA("- This media type is not supported: %d", codec->type);
 				return false;
 			}
 
@@ -182,12 +182,12 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 				// Only 0 is successful
 				ret = res == 0;
 
-				//if (!ret)
-				//	vkLogInfoVA("• Encoder initialization failed (Code: %d)", res);
+				if (!ret)
+					vkLogInfoVA("- Encoder initialization failed (Code: %d)", res);
 			}
 			catch (...)
 			{
-				//vkLogInfo("• Exception cought!");
+				vkLogInfo("- Exception cought!");
 				return false;
 			}
 
