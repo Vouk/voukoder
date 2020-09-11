@@ -263,6 +263,7 @@
     <None Include="resources\encoders\qtrle.json" />
     <None Include="resources\encoders\tiff.json" />
     <None Include="resources\encoders\truehd.json" />
+    <None Include="resources\encoders\utvideo.json" />
     <None Include="resources\encoders\vp9_qsv.json" />
     <None Include="resources\encoders\wavpack.json" />
     <None Include="resources\filters\abench.json" />

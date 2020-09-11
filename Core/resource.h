@@ -65,6 +65,7 @@
 #define IDR_ENC_PNG                     134
 #define IDR_ENC_TIFF                    135
 #define IDR_ENC_QTRLE                   136
+#define IDR_ENC_UTVIDEO                 137
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202

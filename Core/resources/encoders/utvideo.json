@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "utvideo",
+  "name": "UT Video",
+  "defaults": {},
+  "presets": [],
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv444p"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "pred",
+          "parameter": "pred",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "left"
+              },
+              {
+                "value": "gradient"
+              },
+              {
+                "value": "median"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
