@@ -142,6 +142,8 @@ void wxEncoderPage::OnApplyPreset(wxApplyPresetEvent& event)
 	if (presetInfo == NULL)
 		return;
 
+	m_encoderOptions->SetAdvancedMode(true);
+
 	// Load preset options
 	settings.options.clear();
 	settings.options.insert(presetInfo->options.begin(), presetInfo->options.end());

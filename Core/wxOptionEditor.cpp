@@ -63,7 +63,7 @@ wxOptionEditor::wxOptionEditor(wxWindow *parent, bool hasPreview, bool hasAdvanc
 		hasAdvancedOptions = RegistryUtils::GetValue(VKDR_REG_SHOW_ADVANCED_OPTIONS, false);
 
 		btnSizer2->Add(0, 0, 1, wxEXPAND, 5);
-		wxCheckBox* m_advCheck = new wxCheckBox(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.advanceCheck"), wxDefaultPosition, wxDefaultSize, 0);
+		m_advCheck = new wxCheckBox(m_btnPanel, wxID_ANY, Trans("ui.encoderconfig.advanceCheck"), wxDefaultPosition, wxDefaultSize, 0);
 		m_advCheck->SetValue(hasAdvancedOptions);
 		m_advCheck->Bind(wxEVT_CHECKBOX, &wxOptionEditor::OnShowAdvancedOptions, this);
 		btnSizer2->Add(m_advCheck, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -212,6 +212,18 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 		ExecuteFilters(wxDynamicCast(*it, wxOptionProperty));
 
 	RefreshResults();
+}
+
+void wxOptionEditor::SetAdvancedMode(bool advanced)
+{
+	if (m_advCheck)
+	{
+		m_advCheck->Set3StateValue(wxCheckBoxState::wxCHK_CHECKED);
+
+		wxCommandEvent e;
+		e.SetInt(1);
+		OnShowAdvancedOptions(e);
+	}
 }
 
 void wxOptionEditor::ExecuteFilters(wxOptionProperty *optionProperty)

@@ -37,12 +37,14 @@ public:
 	wxOptionEditor() : wxOptionEditor(NULL) {};
 	wxOptionEditor(wxWindow *parent, bool hasPreview = true, bool hasAdvancedSwitch = true);
 	void Configure(EncoderInfo encoderInfo, OptionContainer options);
+	void SetAdvancedMode(bool advanced);
 
 protected:
 	wxPropertyGrid* m_propertyGrid = NULL;
 	wxRichTextCtrl* m_preview = NULL;
 	wxButton* m_btnReset = NULL;
 	wxButton* m_btnClear = NULL;
+	wxCheckBox* m_advCheck = NULL;
 
 private:
 	EncoderInfo encoderInfo;
