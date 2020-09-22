@@ -40,12 +40,14 @@
 #include "wxFilterPanel.h"
 #include "wxVoukoderTaskBarIcon.h"
 #include "wxEncoderPage.h"
+#include "BannerService.h"
 
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
 class wxVoukoderDialog: public wxDialog
 {
 protected:
+	wxBanner* m_mainBanner = NULL;
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;
@@ -63,6 +65,7 @@ private:
 	std::vector<MuxerInfo> muxers;
 	std::vector<EncoderInfo> videoEncoders;
 	std::vector<EncoderInfo> audioEncoders;
+	BannerService* bannerService;
 	ExportInfo& exportInfo;
 	TrackSettings videoSettings;
 	TrackSettings audioSettings;

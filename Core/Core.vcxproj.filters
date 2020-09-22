@@ -153,6 +153,15 @@
     <ClInclude Include="PresetInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="BannerService.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wxBanner.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="BannerInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameFilter.cpp">
@@ -210,6 +219,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PresetInfo.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="BannerService.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="wxBanner.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="BannerInfo.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

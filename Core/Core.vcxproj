@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BannerInfo.h" />
+    <ClInclude Include="BannerService.h" />
     <ClInclude Include="Callback.h" />
     <ClInclude Include="EncoderEngine.h" />
     <ClInclude Include="EncoderGroupInfo.h" />
@@ -193,6 +195,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Voukoder.h" />
+    <ClInclude Include="wxBanner.h" />
     <ClInclude Include="wxEditFilterDialog.h" />
     <ClInclude Include="wxEncoderPage.h" />
     <ClInclude Include="wxEncoderPanel.h" />
@@ -203,6 +206,8 @@
     <ClInclude Include="wxVoukoderTaskBarIcon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BannerInfo.cpp" />
+    <ClCompile Include="BannerService.cpp" />
     <ClCompile Include="EncoderEngine.cpp" />
     <ClCompile Include="EncoderUtils.cpp" />
     <ClCompile Include="OptionResourceUtils.cpp" />
@@ -214,6 +219,7 @@
     <ClCompile Include="OptionContainer.cpp" />
     <ClCompile Include="PresetInfo.cpp" />
     <ClCompile Include="Voukoder.cpp" />
+    <ClCompile Include="wxBanner.cpp" />
     <ClCompile Include="wxEditFilterDialog.cpp" />
     <ClCompile Include="wxEncoderPage.cpp" />
     <ClCompile Include="wxEncoderPanel.cpp" />

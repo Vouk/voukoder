@@ -42,6 +42,8 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 	SetSize(wxDLG_UNIT(this, wxSize(340, 340)));
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
 
+	bannerService = new BannerService;
+
 	// Video settings
 	videoSettings.encoder = exportInfo.video.id;
 	videoSettings.options.insert(exportInfo.video.options.begin(), exportInfo.video.options.end());
@@ -94,6 +96,9 @@ wxVoukoderDialog::~wxVoukoderDialog()
 {
 	if (m_voukoderTaskBarIcon)
 		delete m_voukoderTaskBarIcon;
+
+	if (bannerService)
+		delete bannerService;
 }
 
 void wxVoukoderDialog::InitGUI()
@@ -116,6 +121,14 @@ void wxVoukoderDialog::InitGUI()
 		m_voukoderTaskBarIcon = new wxVoukoderTaskBarIcon();
 		m_voukoderTaskBarIcon->SetIcon(icon, Voukoder::GetApplicationName());
 		m_voukoderTaskBarIcon->CheckForUpdate();
+	}
+
+	// Top banner
+	if (bannerService->LoadConfig())
+	{
+		m_mainBanner = bannerService->CreateBanner("main", this);
+		if (m_mainBanner)
+			bDialogLayout->Add(m_mainBanner, 0, wxEXPAND | wxALL, 0);
 	}
 
 	// Categories
