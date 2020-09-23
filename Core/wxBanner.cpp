@@ -4,7 +4,7 @@ wxBanner::wxBanner(wxWindow* parent, wxWindowID id, const wxGDIImage& label, Ban
 	wxStaticBitmap(parent, id, label, wxDefaultPosition, wxDefaultSize, 0L),
 	info(info)
 {
-	Bind(wxEVT_LEFT_DOWN, &wxBanner::OnClick, this);
+	Bind(wxEVT_LEFT_UP, &wxBanner::OnClick, this);
 	Bind(wxEVT_ENTER_WINDOW, &wxBanner::OnEnter, this);
 	Bind(wxEVT_LEAVE_WINDOW, &wxBanner::OnLeave, this);
 }

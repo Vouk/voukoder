@@ -126,9 +126,18 @@ void wxVoukoderDialog::InitGUI()
 	// Top banner
 	if (bannerService->LoadConfig())
 	{
-		m_topBanner = bannerService->CreateBanner("top", this);
+		wxPanel* outerBannerPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+		wxBoxSizer* bBannerSizer = new wxBoxSizer(wxVERTICAL);
+
+		m_topBanner = bannerService->CreateBanner("top", outerBannerPanel);
 		if (m_topBanner)
-			bDialogLayout->Add(m_topBanner, 0, wxEXPAND | wxALL, 0);
+			bBannerSizer->Add(m_topBanner, 0, wxEXPAND | wxALL, 0);
+
+		outerBannerPanel->SetSizer(bBannerSizer);
+		outerBannerPanel->Layout();
+		bBannerSizer->Fit(outerBannerPanel);
+
+		bDialogLayout->Add(outerBannerPanel, 0, wxALIGN_CENTER | wxALL, 0);
 	}
 
 	// Categories
@@ -194,11 +203,21 @@ void wxVoukoderDialog::InitGUI()
 	// Bottom banner
 	if (bannerService->LoadConfig())
 	{
-		m_bottomBanner = bannerService->CreateBanner("bottom", m_btnPanel);
+		wxPanel* outerBannerPanel = new wxPanel(m_btnPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+		wxBoxSizer* bBannerSizer = new wxBoxSizer(wxVERTICAL);
+
+		m_bottomBanner = bannerService->CreateBanner("bottom", outerBannerPanel);
 		if (m_bottomBanner)
-			btnSizer->Add(m_bottomBanner, 1, wxALIGN_CENTER | wxALL, 0);
+			bBannerSizer->Add(m_bottomBanner, 1, wxALIGN_CENTER | wxALL, 0);
+
+		outerBannerPanel->SetSizer(bBannerSizer);
+		outerBannerPanel->Layout();
+		bBannerSizer->Fit(outerBannerPanel);
+
+		btnSizer->Add(outerBannerPanel, 1, wxALIGN_CENTER | wxALL, 0);
 	}
 	
+	// Add a spacer if no banner is shown
 	if (!m_bottomBanner)
 		btnSizer->Add(0, 0, 1, wxEXPAND, 5);
 
