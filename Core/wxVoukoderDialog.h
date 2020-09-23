@@ -47,7 +47,8 @@ WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 class wxVoukoderDialog: public wxDialog
 {
 protected:
-	wxBanner* m_mainBanner = NULL;
+	wxBanner* m_topBanner = NULL;
+	wxBanner* m_bottomBanner = NULL;
 	wxChoice* m_genMuxFormatChoice = NULL;
 	wxCheckBox* m_genMuxFaststartCheck = NULL;
 	wxChoice* m_genLocLanguageChoice = NULL;

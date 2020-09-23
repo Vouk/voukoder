@@ -126,9 +126,9 @@ void wxVoukoderDialog::InitGUI()
 	// Top banner
 	if (bannerService->LoadConfig())
 	{
-		m_mainBanner = bannerService->CreateBanner("main", this);
-		if (m_mainBanner)
-			bDialogLayout->Add(m_mainBanner, 0, wxEXPAND | wxALL, 0);
+		m_topBanner = bannerService->CreateBanner("top", this);
+		if (m_topBanner)
+			bDialogLayout->Add(m_topBanner, 0, wxEXPAND | wxALL, 0);
 	}
 
 	// Categories
@@ -190,12 +190,23 @@ void wxVoukoderDialog::InitGUI()
 	// Button panel
 	wxPanel* m_btnPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
-	btnSizer->Add(0, 0, 1, wxEXPAND, 5);
+	
+	// Bottom banner
+	if (bannerService->LoadConfig())
+	{
+		m_bottomBanner = bannerService->CreateBanner("bottom", m_btnPanel);
+		if (m_bottomBanner)
+			btnSizer->Add(m_bottomBanner, 1, wxALIGN_CENTER | wxALL, 0);
+	}
+	
+	if (!m_bottomBanner)
+		btnSizer->Add(0, 0, 1, wxEXPAND, 5);
+
 	wxButton* m_btnOK = new wxButton(m_btnPanel, wxID_OK, Trans("ui.encoderconfig.buttonOkay"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnOK->Bind(wxEVT_BUTTON, &wxVoukoderDialog::OnOkayClick, this);
-	btnSizer->Add(m_btnOK, 0, wxALL, 5);
+	btnSizer->Add(m_btnOK, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	wxButton* m_btnCancel = new wxButton(m_btnPanel, wxID_CANCEL, Trans("ui.encoderconfig.buttonCancel"), wxDefaultPosition, wxDefaultSize, 0);
-	btnSizer->Add(m_btnCancel, 0, wxALL, 5);
+	btnSizer->Add(m_btnCancel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	m_btnPanel->SetSizer(btnSizer);
 	m_btnPanel->Layout();
 	btnSizer->Fit(m_btnPanel);
