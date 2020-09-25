@@ -39,8 +39,19 @@ wxVoukoderDialog::wxVoukoderDialog(wxWindow *parent, ExportInfo &exportInfo) :
 {
 	// Configure dialog window
 	SetTitle(Voukoder::GetApplicationName());
-	SetSize(wxDLG_UNIT(this, wxSize(340, 340)));
 	SetSizeHints(wxDefaultSize, wxDefaultSize);
+
+	// Restore dialog position
+	wxString pos = RegistryUtils::GetValue(VKDR_REG_DIALOG_SIZE, wxString::Format("%i;%i", wxDefaultPosition.x, wxDefaultPosition.y));
+	wxPoint point(wxAtoi(pos.Before(';')), wxAtoi(pos.After(';')));
+	SetPosition(point);
+
+	// Restore dialog size
+	wxSize dialogSize = wxDLG_UNIT(this, wxSize(340, 340));
+	wxString size = RegistryUtils::GetValue(VKDR_REG_DIALOG_SIZE, wxString::Format("%i;%i", dialogSize.x, dialogSize.y));
+	dialogSize.x = wxAtoi(size.Before(';'));
+	dialogSize.y = wxAtoi(size.After(';'));
+	SetSize(dialogSize);
 
 	bannerService = new BannerService;
 
@@ -675,6 +686,11 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 
 	// Store low level logging
 	RegistryUtils::SetValue(VKDR_REG_LOW_LEVEL_LOGGING, m_checkBox2->GetValue());
+
+	// Store dialog position and size
+	wxRect rect = GetRect();
+	RegistryUtils::SetValue(VKDR_REG_DIALOG_POSITION, wxString::Format("%i;%i", rect.x, rect.y));
+	RegistryUtils::SetValue(VKDR_REG_DIALOG_SIZE, wxString::Format("%i;%i", rect.width, rect.height));
 
 	EndDialog(wxID_OK);
 }
