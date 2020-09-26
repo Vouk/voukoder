@@ -42,6 +42,8 @@
 #include "wxEncoderPage.h"
 #include "BannerService.h"
 
+#define VKDR_PATREON_URL L"http://version.voukoder.org/patreon/patrons.php"
+
 WX_PG_DECLARE_EDITOR_WITH_DECL(SpinCtrl, WXDLLIMPEXP_PROPGRID)
 
 class wxVoukoderDialog: public wxDialog

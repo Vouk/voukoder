@@ -19,8 +19,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 #include "CVoukoder.h"
-#include "../Core/wxVoukoderDialog.h"
-#include "../Core/RegistryUtils.h"
+#include "wxVoukoderDialog.h"
+#include "RegistryUtils.h"
 
 struct handle_data {
 	unsigned long process_id;

@@ -25,211 +25,161 @@
     <Filter Include="Ressourcendateien\Filters">
       <UniqueIdentifier>{2e6e6b05-3efe-475d-a67f-7e8ccd931fe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\WinHttpClient">
+      <UniqueIdentifier>{93d5527a-6820-400a-bc9b-bdb4d004b6f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="include\WinHttpClient\RegExp.h">
+      <Filter>Headerdateien\WinHttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WinHttpClient\StringProcess.h">
+      <Filter>Headerdateien\WinHttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WinHttpClient\WinHttpClient.h">
+      <Filter>Headerdateien\WinHttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ATLRegExp\atlrx.h">
+      <Filter>Headerdateien\WinHttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BannerInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderContext.h">
+    <ClInclude Include="include\BannerService.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="FrameFilter.h">
+    <ClInclude Include="include\Callback.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="lavf.h">
+    <ClInclude Include="include\EncoderContext.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceInfo.h">
+    <ClInclude Include="include\EncoderEngine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="include\EncoderGroupInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Callback.h">
+    <ClInclude Include="include\EncoderInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OptionFilter.h">
+    <ClInclude Include="include\EncoderOptionInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OnSelectionOptionFilter.h">
+    <ClInclude Include="include\EncoderUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OnChangeValueOptionFilter.h">
+    <ClInclude Include="include\ExportInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OptionContainer.h">
+    <ClInclude Include="include\FilterConfig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="PluginUpdate.h">
+    <ClInclude Include="include\FrameFilter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderEngine.h">
+    <ClInclude Include="include\Images.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderInfo.h">
+    <ClInclude Include="include\InstructionSet.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="MuxerInfo.h">
+    <ClInclude Include="include\json.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderGroupInfo.h">
+    <ClInclude Include="include\LanguageInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OptionFilterInfo.h">
+    <ClInclude Include="include\LanguageUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderOptionInfo.h">
+    <ClInclude Include="include\lavf.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OptionValue.h">
+    <ClInclude Include="include\Log.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="NvidiaCustomOptions.h">
+    <ClInclude Include="include\MuxerInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="EncoderUtils.h">
+    <ClInclude Include="include\MuxerUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="MuxerUtils.h">
+    <ClInclude Include="include\NvidiaCustomOptions.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxPGOptionProperty.h">
+    <ClInclude Include="include\OnChangeValueOptionFilter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Images.h">
+    <ClInclude Include="include\OnSelectionOptionFilter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Voukoder.h">
+    <ClInclude Include="include\OptionContainer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxVoukoderDialog.h">
+    <ClInclude Include="include\OptionFilter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ExportInfo.h">
+    <ClInclude Include="include\OptionFilterInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="include\OptionResourceUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="LanguageUtils.h">
+    <ClInclude Include="include\OptionValue.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="LanguageInfo.h">
+    <ClInclude Include="include\PluginUpdate.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="InstructionSet.h">
+    <ClInclude Include="include\PresetInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="OptionResourceUtils.h">
+    <ClInclude Include="include\RegistryUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxFilterPanel.h">
+    <ClInclude Include="include\resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="include\ResourceInfo.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="FilterConfig.h">
+    <ClInclude Include="include\targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxOptionEditor.h">
+    <ClInclude Include="include\Version.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxEditFilterDialog.h">
+    <ClInclude Include="include\Voukoder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RegistryUtils.h">
+    <ClInclude Include="include\wxBanner.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxVoukoderTaskBarIcon.h">
+    <ClInclude Include="include\wxEditFilterDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxEncoderPage.h">
+    <ClInclude Include="include\wxEncoderPage.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxEncoderPanel.h">
+    <ClInclude Include="include\wxEncoderPanel.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="PresetInfo.h">
+    <ClInclude Include="include\wxFilterPanel.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="BannerService.h">
+    <ClInclude Include="include\wxOptionEditor.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="wxBanner.h">
+    <ClInclude Include="include\wxPGOptionProperty.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="BannerInfo.h">
+    <ClInclude Include="include\wxVoukoderDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="FrameFilter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="EncoderEngine.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="NvidiaCustomOptions.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionContainer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="EncoderUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="MuxerUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxPGOptionProperty.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Voukoder.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxVoukoderDialog.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="LanguageUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionResourceUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxFilterPanel.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxOptionEditor.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxEditFilterDialog.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxVoukoderTaskBarIcon.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxEncoderPage.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxEncoderPanel.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="PresetInfo.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="BannerService.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="wxBanner.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="BannerInfo.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
+    <ClInclude Include="include\wxVoukoderTaskBarIcon.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\encoders\aac.json">
@@ -1191,5 +1141,76 @@
     <ResourceCompile Include="Core.rc">
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BannerInfo.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BannerService.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EncoderEngine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EncoderUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FrameFilter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LanguageUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MuxerUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NvidiaCustomOptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OptionContainer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OptionResourceUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PresetInfo.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Voukoder.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxBanner.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxEditFilterDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxEncoderPage.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxEncoderPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxFilterPanel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxOptionEditor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxPGOptionProperty.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxVoukoderDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wxVoukoderTaskBarIcon.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PluginUpdate.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

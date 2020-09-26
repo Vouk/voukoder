@@ -22,6 +22,7 @@
 #include <map>
 #include <wx/clipbrd.h>
 #include <wx/msw/registry.h>
+
 #include "EncoderUtils.h"
 #include "LanguageUtils.h"
 #include "RegistryUtils.h"
@@ -30,6 +31,7 @@
 #include "Voukoder.h"
 #include "wxEncoderPage.h"
 #include "Log.h"
+#include "WinHttpClient/WinHttpClient.h"
 
 wxDEFINE_EVENT(wxEVT_CHECKBOX_CHANGE, wxPropertyGridEvent);
 
@@ -438,52 +440,38 @@ wxRichTextCtrl* wxVoukoderDialog::CreateTopPatrons(wxPanel* parent)
 	wxRichTextCtrl* richText = new wxRichTextCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxVSCROLL | wxHSCROLL | wxWANTS_CHARS);
 	richText->BeginAlignment(wxTextAttrAlignment::wxTEXT_ALIGNMENT_CENTER);
 
-	wxHTTP get;
-	get.SetHeader(_T("Content-type"), _T("text/html; charset=utf-8"));
-	get.SetHeader(_T("User-Agent"), wxString::Format(_T("voukoder/%d.%d.%d"), VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH));
-	get.SetTimeout(2);
-
-	if (get.Connect(VKDR_UPDATE_CHECK_HOST))
+	WinHttpClient client(VKDR_PATREON_URL);
+	client.SetUserAgent(wxString::Format(_T("voukoder/%d.%d.%d"), VKDR_VERSION_MAJOR, VKDR_VERSION_MINOR, VKDR_VERSION_PATCH).ToStdWstring());
+	client.SetTimeouts(0U, 2000U, 2000U, 2000U);
+	if (client.SendHttpRequest())
 	{
-		wxApp::IsMainLoopRunning();
+		wxString content = client.GetResponseContent();
+		
+		int i = 0;
 
-		wxInputStream* httpStream = get.GetInputStream("/patreon/patrons.php");
-
-		if (get.GetError() == wxPROTO_NOERR)
+		wxStringTokenizer tokenizer(content, "|");
+		while (tokenizer.HasMoreTokens())
 		{
-			wxString res;
-			wxStringOutputStream out_stream(&res);
-			httpStream->Read(out_stream);
-
-			int i = 0;
-
-			wxStringTokenizer tokenizer(res, "|");
-			while (tokenizer.HasMoreTokens())
+			wxString patron = tokenizer.GetNextToken();
+			if (i < 3)
 			{
-				wxString patron = tokenizer.GetNextToken();
-				if (i < 3)
-				{
-					richText->BeginBold();
-					richText->BeginFontSize(13);
-				}
-				else
-				{
-					richText->BeginFontSize(10);
-				}
-
-				richText->WriteText(patron + "\n");
-				richText->EndFontSize();
-
-				if (i < 3)
-				{
-					richText->EndBold();
-				}
-				i++;
+				richText->BeginBold();
+				richText->BeginFontSize(13);
 			}
-		}
+			else
+			{
+				richText->BeginFontSize(10);
+			}
 
-		wxDELETE(httpStream);
-		get.Close();
+			richText->WriteText(patron + "\n");
+			richText->EndFontSize();
+
+			if (i < 3)
+			{
+				richText->EndBold();
+			}
+			i++;
+		}
 	}
 
 	richText->EndAlignment();

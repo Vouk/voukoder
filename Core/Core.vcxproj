@@ -76,8 +76,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
+    <IncludePath>include;..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
     <LibraryPath>$(WXROOT)\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(VC_SourcePath);src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -87,8 +88,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswu;..\..\..\external\include;$(IncludePath)</IncludePath>
+    <IncludePath>include;..\..\..\external\include;$(WXROOT)\include;$(WXROOT)\lib\vc_x64_lib\mswu;..\..\..\external\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(WXROOT)\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(VC_SourcePath);src</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -159,75 +161,56 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BannerInfo.h" />
-    <ClInclude Include="BannerService.h" />
-    <ClInclude Include="Callback.h" />
-    <ClInclude Include="EncoderEngine.h" />
-    <ClInclude Include="EncoderGroupInfo.h" />
-    <ClInclude Include="EncoderInfo.h" />
-    <ClInclude Include="EncoderOptionInfo.h" />
-    <ClInclude Include="EncoderContext.h" />
-    <ClInclude Include="EncoderUtils.h" />
-    <ClInclude Include="ExportInfo.h" />
-    <ClInclude Include="FilterConfig.h" />
-    <ClInclude Include="OptionResourceUtils.h" />
-    <ClInclude Include="FrameFilter.h" />
-    <ClInclude Include="Images.h" />
-    <ClInclude Include="InstructionSet.h" />
-    <ClInclude Include="LanguageInfo.h" />
-    <ClInclude Include="LanguageUtils.h" />
-    <ClInclude Include="lavf.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="MuxerInfo.h" />
-    <ClInclude Include="MuxerUtils.h" />
-    <ClInclude Include="NvidiaCustomOptions.h" />
-    <ClInclude Include="OnChangeValueOptionFilter.h" />
-    <ClInclude Include="OnSelectionOptionFilter.h" />
-    <ClInclude Include="OptionContainer.h" />
-    <ClInclude Include="OptionFilter.h" />
-    <ClInclude Include="OptionFilterInfo.h" />
-    <ClInclude Include="OptionValue.h" />
-    <ClInclude Include="PluginUpdate.h" />
-    <ClInclude Include="PresetInfo.h" />
-    <ClInclude Include="RegistryUtils.h" />
-    <ClInclude Include="ResourceInfo.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Version.h" />
-    <ClInclude Include="Voukoder.h" />
-    <ClInclude Include="wxBanner.h" />
-    <ClInclude Include="wxEditFilterDialog.h" />
-    <ClInclude Include="wxEncoderPage.h" />
-    <ClInclude Include="wxEncoderPanel.h" />
-    <ClInclude Include="wxFilterPanel.h" />
-    <ClInclude Include="wxVoukoderDialog.h" />
-    <ClInclude Include="wxOptionEditor.h" />
-    <ClInclude Include="wxPGOptionProperty.h" />
-    <ClInclude Include="wxVoukoderTaskBarIcon.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BannerInfo.cpp" />
-    <ClCompile Include="BannerService.cpp" />
-    <ClCompile Include="EncoderEngine.cpp" />
-    <ClCompile Include="EncoderUtils.cpp" />
-    <ClCompile Include="OptionResourceUtils.cpp" />
-    <ClCompile Include="FrameFilter.cpp" />
-    <ClCompile Include="LanguageUtils.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="MuxerUtils.cpp" />
-    <ClCompile Include="NvidiaCustomOptions.cpp" />
-    <ClCompile Include="OptionContainer.cpp" />
-    <ClCompile Include="PresetInfo.cpp" />
-    <ClCompile Include="Voukoder.cpp" />
-    <ClCompile Include="wxBanner.cpp" />
-    <ClCompile Include="wxEditFilterDialog.cpp" />
-    <ClCompile Include="wxEncoderPage.cpp" />
-    <ClCompile Include="wxEncoderPanel.cpp" />
-    <ClCompile Include="wxFilterPanel.cpp" />
-    <ClCompile Include="wxVoukoderDialog.cpp" />
-    <ClCompile Include="wxOptionEditor.cpp" />
-    <ClCompile Include="wxPGOptionProperty.cpp" />
-    <ClCompile Include="wxVoukoderTaskBarIcon.cpp" />
+    <ClInclude Include="include\ATLRegExp\atlrx.h" />
+    <ClInclude Include="include\BannerInfo.h" />
+    <ClInclude Include="include\BannerService.h" />
+    <ClInclude Include="include\Callback.h" />
+    <ClInclude Include="include\EncoderContext.h" />
+    <ClInclude Include="include\EncoderEngine.h" />
+    <ClInclude Include="include\EncoderGroupInfo.h" />
+    <ClInclude Include="include\EncoderInfo.h" />
+    <ClInclude Include="include\EncoderOptionInfo.h" />
+    <ClInclude Include="include\EncoderUtils.h" />
+    <ClInclude Include="include\ExportInfo.h" />
+    <ClInclude Include="include\FilterConfig.h" />
+    <ClInclude Include="include\FrameFilter.h" />
+    <ClInclude Include="include\Images.h" />
+    <ClInclude Include="include\InstructionSet.h" />
+    <ClInclude Include="include\json.hpp" />
+    <ClInclude Include="include\LanguageInfo.h" />
+    <ClInclude Include="include\LanguageUtils.h" />
+    <ClInclude Include="include\lavf.h" />
+    <ClInclude Include="include\Log.h" />
+    <ClInclude Include="include\MuxerInfo.h" />
+    <ClInclude Include="include\MuxerUtils.h" />
+    <ClInclude Include="include\NvidiaCustomOptions.h" />
+    <ClInclude Include="include\OnChangeValueOptionFilter.h" />
+    <ClInclude Include="include\OnSelectionOptionFilter.h" />
+    <ClInclude Include="include\OptionContainer.h" />
+    <ClInclude Include="include\OptionFilter.h" />
+    <ClInclude Include="include\OptionFilterInfo.h" />
+    <ClInclude Include="include\OptionResourceUtils.h" />
+    <ClInclude Include="include\OptionValue.h" />
+    <ClInclude Include="include\PluginUpdate.h" />
+    <ClInclude Include="include\PresetInfo.h" />
+    <ClInclude Include="include\RegistryUtils.h" />
+    <ClInclude Include="include\resource.h" />
+    <ClInclude Include="include\ResourceInfo.h" />
+    <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\Version.h" />
+    <ClInclude Include="include\Voukoder.h" />
+    <ClInclude Include="include\WinHttpClient\RegExp.h" />
+    <ClInclude Include="include\WinHttpClient\StringProcess.h" />
+    <ClInclude Include="include\WinHttpClient\WinHttpClient.h" />
+    <ClInclude Include="include\wxBanner.h" />
+    <ClInclude Include="include\wxEditFilterDialog.h" />
+    <ClInclude Include="include\wxEncoderPage.h" />
+    <ClInclude Include="include\wxEncoderPanel.h" />
+    <ClInclude Include="include\wxFilterPanel.h" />
+    <ClInclude Include="include\wxOptionEditor.h" />
+    <ClInclude Include="include\wxPGOptionProperty.h" />
+    <ClInclude Include="include\wxVoukoderDialog.h" />
+    <ClInclude Include="include\wxVoukoderTaskBarIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\audio_side_data.json" />
@@ -551,6 +534,31 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PluginUpdate.cpp" />
+    <ClCompile Include="src\BannerInfo.cpp" />
+    <ClCompile Include="src\BannerService.cpp" />
+    <ClCompile Include="src\EncoderEngine.cpp" />
+    <ClCompile Include="src\EncoderUtils.cpp" />
+    <ClCompile Include="src\FrameFilter.cpp" />
+    <ClCompile Include="src\LanguageUtils.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\MuxerUtils.cpp" />
+    <ClCompile Include="src\NvidiaCustomOptions.cpp" />
+    <ClCompile Include="src\OptionContainer.cpp" />
+    <ClCompile Include="src\OptionResourceUtils.cpp" />
+    <ClCompile Include="src\PresetInfo.cpp" />
+    <ClCompile Include="src\Voukoder.cpp" />
+    <ClCompile Include="src\wxBanner.cpp" />
+    <ClCompile Include="src\wxEditFilterDialog.cpp" />
+    <ClCompile Include="src\wxEncoderPage.cpp" />
+    <ClCompile Include="src\wxEncoderPanel.cpp" />
+    <ClCompile Include="src\wxFilterPanel.cpp" />
+    <ClCompile Include="src\wxOptionEditor.cpp" />
+    <ClCompile Include="src\wxPGOptionProperty.cpp" />
+    <ClCompile Include="src\wxVoukoderDialog.cpp" />
+    <ClCompile Include="src\wxVoukoderTaskBarIcon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
