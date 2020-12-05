@@ -536,7 +536,7 @@
     <ResourceCompile Include="Core.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginUpdate.cpp" />
+    <ClCompile Include="src\PluginUpdate.cpp" />
     <ClCompile Include="src\BannerInfo.cpp" />
     <ClCompile Include="src\BannerService.cpp" />
     <ClCompile Include="src\EncoderEngine.cpp" />
