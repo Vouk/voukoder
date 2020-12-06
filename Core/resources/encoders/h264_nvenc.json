@@ -292,8 +292,8 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 288000,
-            "singleStep": 100,
+            "maximum": 512000,
+            "singleStep": 1000,
             "value": 15000,
             "visible": false
           },
@@ -318,8 +318,8 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 288000,
-            "singleStep": 100,
+            "maximum": 512000,
+            "singleStep": 1000,
             "value": 15000,
             "visible": false
           },
@@ -344,8 +344,8 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 288000,
-            "singleStep": 100,
+            "maximum": 512000,
+            "singleStep": 1000,
             "value": 15000,
             "visible": false
           },

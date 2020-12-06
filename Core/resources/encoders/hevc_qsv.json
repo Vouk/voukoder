@@ -263,7 +263,7 @@
           "control": {
             "type": "integer",
             "minimum": 100,
-            "maximum": 288000,
+            "maximum": 512000,
             "singleStep": 1000,
             "value": 15000
           },
@@ -276,7 +276,7 @@
           "control": {
             "type": "integer",
             "minimum": 100,
-            "maximum": 288000,
+            "maximum": 512000,
             "singleStep": 1000,
             "value": 15000
           },

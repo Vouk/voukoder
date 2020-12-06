@@ -970,7 +970,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 288000,
+            "maximum": 512000,
             "singleStep": 1000,
             "value": 15000,
             "visible": false
@@ -1129,7 +1129,7 @@
           "id": "libx265.qualityratedistortionoptions.vbv-bufsize",
           "parameter": "vbv-bufsize",
           "control": {
-            "maximum": 100000,
+            "maximum": 512000,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",
@@ -1140,7 +1140,7 @@
           "id": "libx265.qualityratedistortionoptions.vbv-maxrate",
           "parameter": "vbv-maxrate",
           "control": {
-            "maximum": 100000,
+            "maximum": 512000,
             "minimum": 0,
             "singleStep": 1,
             "type": "integer",
