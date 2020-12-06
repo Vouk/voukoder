@@ -1136,6 +1136,9 @@
     <None Include="resources\encoders\utvideo.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\encoders\cfhd.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">
@@ -1209,7 +1212,7 @@
     <ClCompile Include="src\wxVoukoderTaskBarIcon.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="PluginUpdate.cpp">
+    <ClCompile Include="src\PluginUpdate.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

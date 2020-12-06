@@ -218,6 +218,7 @@
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
     <None Include="resources\encoders\bmp.json" />
+    <None Include="resources\encoders\cfhd.json" />
     <None Include="resources\encoders\dca.json" />
     <None Include="resources\encoders\eac3.json" />
     <None Include="resources\encoders\ffv1.json" />
@@ -536,7 +537,7 @@
     <ResourceCompile Include="Core.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginUpdate.cpp" />
+    <ClCompile Include="src\PluginUpdate.cpp" />
     <ClCompile Include="src\BannerInfo.cpp" />
     <ClCompile Include="src\BannerService.cpp" />
     <ClCompile Include="src\EncoderEngine.cpp" />

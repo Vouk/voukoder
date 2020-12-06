@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "cfhd",
+  "name": "GoPro CineForm HD",
+  "defaults": {
+    "_pixelFormat": "yuv422p10le"
+  },
+  "presets": [],
+  "groups": [
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "quality",
+          "parameter": "quality",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "film3+"
+              },
+              {
+                "value": "film3"
+              },
+              {
+                "value": "film2+"
+              },
+              {
+                "value": "film2"
+              },
+              {
+                "value": "film1.5"
+              },
+              {
+                "value": "film1+"
+              },
+              {
+                "value": "film1"
+              },
+              {
+                "value": "high+"
+              },
+              {
+                "value": "high"
+              },
+              {
+                "value": "medium+"
+              },
+              {
+                "value": "medium"
+              },
+              {
+                "value": "low+"
+              },
+              {
+                "value": "low"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
