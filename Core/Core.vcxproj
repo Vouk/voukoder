@@ -506,6 +506,7 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\avi.json" />
     <None Include="resources\muxers\gif.json" />
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />

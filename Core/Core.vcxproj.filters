@@ -1139,6 +1139,9 @@
     <None Include="resources\encoders\cfhd.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\muxers\avi.json">
+      <Filter>Ressourcendateien\Muxers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

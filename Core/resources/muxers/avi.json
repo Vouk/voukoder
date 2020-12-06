@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "matroska",
-  "name": "Matroska",
-  "extension": "mkv",
+  "id": "avi",
+  "name": "AVI (Audio Video Interleaved)",
+  "extension": "avi",
   "encoders": {
     "video": [ "ffv1", "h264_amf", "h264_nvenc", "hevc_amf", "hevc_nvenc", "libvpx", "libvpx-vp9", "libx264", "libx264rgb", "libx265", "prores_ks", "hap", "h264_qsv", "hevc_qsv", "mpeg2_qsv", "mpeg2video", "libsvt_av1", "libsvt_hevc", "vp9_qsv", "utvideo", "cfhd" ],
-    "audio": [ "aac", "ac3", "eac3", "truehd", "dca", "alac", "flac", "libfdk_aac", "libmp3lame", "libvorbis", "pcm_s16le", "pcm_s24le", "pcm_s32le" ]
+    "audio": [ "aac", "ac3", "eac3", "dca", "flac", "libfdk_aac", "libmp3lame", "libvorbis", "pcm_s16le", "pcm_s24le", "pcm_s32le" ]
   },
   "capabilities": {
     "faststart": false

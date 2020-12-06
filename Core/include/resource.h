@@ -86,6 +86,7 @@
 #define IDR_MUX_IMAGE2_BMP              216
 #define IDR_MUX_IMAGE2_PNG              217
 #define IDR_MUX_IMAGE2_TIFF             218
+#define IDR_MUX_AVI                     219
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302
