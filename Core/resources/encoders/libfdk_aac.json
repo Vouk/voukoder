@@ -67,7 +67,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 1,
+            "selectedIndex": 5,
             "items": [
               {
                 "value": "64000"
