@@ -119,6 +119,9 @@ int EncoderEngine::open()
 		// Set the faststart flag in the last pass
 		if (exportInfo.format.faststart)
 			av_dict_set(&options, "movflags", "faststart", 0);
+
+		// Adding timecode information for mp4/mov
+		av_dict_set(&options, "write_tmcd", "1", 0);
 	}
 
 	// Open file writer
