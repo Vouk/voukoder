@@ -163,6 +163,8 @@
     "ffv1.basic.pixelFormat._item_12": "YUV 4:2:0 (16 bit)",
     "ffv1.basic.pixelFormat._item_13": "YUV 4:2:2 (16 bit)",
     "ffv1.basic.pixelFormat._item_14": "YUV 4:4:4 (16 bit)",
+    "ffv1.basic.pixelFormat._item_15": "RGBA",
+    "ffv1.basic.pixelFormat._item_16": "RGBA (16 bit)",
     "ffv1.frames": "Images",
     "ffv1.frames.g._label": "Taille du GOP",
     "ffv1.frames.g._description": "Pour un archivage, la taille du GOP devrait être '1'.",
