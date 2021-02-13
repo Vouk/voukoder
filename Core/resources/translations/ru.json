@@ -163,6 +163,8 @@
     "ffv1.basic.pixelFormat._item_12": "YUV 4:2:0 (16 бит)",
     "ffv1.basic.pixelFormat._item_13": "YUV 4:2:2 (16 бит)",
     "ffv1.basic.pixelFormat._item_14": "YUV 4:4:4 (16 бит)",
+    "ffv1.basic.pixelFormat._item_15": "RGBA",
+    "ffv1.basic.pixelFormat._item_16": "RGBA (16 бит)",
     "ffv1.frames": "Кадры",
     "ffv1.frames.g._label": "Размер GOP",
     "ffv1.frames.g._description": "Для архивного качества, размер GOP должен быть '1'.",
