@@ -4,7 +4,7 @@
     <LocalDebuggerCommandArguments>
     </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro 2020\Adobe Premiere Pro.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro 2020</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommand>C:\Program Files\VEGAS\VEGAS Pro 17.0\vegas170.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>C:\Program Files\VEGAS\VEGAS Pro 17.0</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>
