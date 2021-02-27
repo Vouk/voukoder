@@ -123,6 +123,10 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.video.colorPrimaries = AVColorPrimaries::AVCOL_PRI_UNSPECIFIED;
 	exportInfo.video.colorTransferCharacteristics = AVColorTransferCharacteristic::AVCOL_TRC_UNSPECIFIED;
 
+	// Default frame size to 0 as we late check if a filter has set this to a size or if it is still 0
+	exportInfo.video.width = 0;
+	exportInfo.video.height = 0;
+
 	// Apply filter outputs
 	for(const auto & options: exportInfo.video.filters)
 	{
