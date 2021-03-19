@@ -2874,7 +2874,7 @@
     "filter.removegrain.standard.m0._item_0": "0 - 保留输入平面",
     "filter.removegrain.standard.m0._item_1": "1 - 使用8个相邻像素中的最小值和最大值裁剪像素",
     "filter.removegrain.standard.m0._item_2": "2 - 使用8个相邻像素中的次小值和次大值裁剪像素",
-    "filter.removegrain.standard.m0._item_3": "2 - 使用8个相邻像素中的第三小的值和第三大的值裁剪像素",
+    "filter.removegrain.standard.m0._item_3": "3 - 使用8个相邻像素中的第三小的值和第三大的值裁剪像素",
     "filter.removegrain.standard.m0._item_4": "2 - 使用8个相邻像素中的第四小的值和第四大的值裁剪像素。这等效于中值滤镜",
     "filter.removegrain.standard.m0._item_5": "5 - 行敏感(Line-sensitive)剪辑，使变化最小",
     "filter.removegrain.standard.m0._item_6": "6 - 行敏感(Line-sensitive)剪辑，平衡方案",
