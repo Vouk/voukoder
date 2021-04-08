@@ -2,10 +2,31 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "alac",
   "name": "ALAC",
-  "defaults": {
-    "_sampleFormat": "s16p"
-  },
+  "defaults": {},
   "groups": [
+    {
+      "id": "alac.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "alac.basic.sampleFormat",
+          "parameter": "_sampleFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "s16p"
+              },
+              {
+                "value": "s32p"
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "alac.prediction_order",
       "class": "advanced",
