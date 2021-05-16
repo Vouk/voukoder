@@ -1,7 +1,7 @@
 ﻿{
   "id": "korean",
   "name": "English",
-  "langId": 1033,
+  "langId": 1042,
   "translations": {
     "ui.voukoder.buttonOkay": "&OK",
     "ui.voukoder.buttonCancel": "&Cancel",
