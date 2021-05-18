@@ -1,6 +1,6 @@
 ﻿{
   "id": "korean",
-  "name": "Korean",
+  "name": "한국어",
   "langId": 1042,
   "translations": {
     "ui.voukoder.buttonOkay": "&확인",
