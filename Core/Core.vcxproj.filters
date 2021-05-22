@@ -180,6 +180,9 @@
     <ClInclude Include="include\wxVoukoderTaskBarIcon.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\encoders\aac.json">

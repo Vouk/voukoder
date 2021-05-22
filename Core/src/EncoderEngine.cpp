@@ -21,6 +21,7 @@
 #include <sstream>
 #include "EncoderEngine.h"
 #include "Log.h"
+#include "Utils.h"
 
 EncoderEngine::EncoderEngine(ExportInfo encoderInfo) :
 	exportInfo(encoderInfo)
@@ -104,50 +105,7 @@ int EncoderEngine::open()
 		}
 	}
 
-	AVDictionary *options = NULL;
-
-	char filename[MAX_PATH];
-	if (pass < exportInfo.passes)
-		strcpy_s(filename, "NUL");
-	else
-	{
-		// Convert filename to utf8 char*
-		strcpy(filename, (const char*)exportInfo.filename.mb_str(wxConvUTF8));
-		formatContext->url = av_strdup(filename);
-
-		// Set the faststart flag in the last pass
-		if (exportInfo.format.faststart)
-			av_dict_set(&options, "movflags", "faststart", 0);
-
-		// Adding timecode information for mp4/mov
-		av_dict_set(&options, "write_tmcd", "1", 0);
-	}
-
-	// Open file writer
-	ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE);
-	if (ret < 0)
-	{
-		vkLogError("Unable to open file buffer.");
-		return ret;
-	}
-
-	// Still images should be numbered
-	if (exportInfo.format.id == "image2")
-		av_dict_set(&options, "frame_pts", "1", 0);
-
-	// Produce a more compatible file
-	//if (exportInfo.format.id == "mp4" ||
-	//	exportInfo.format.id == "mov")
-	//{
-	//	av_dict_set(&options, "brand", "mp42", 0);
-	//	av_dict_set(&options, "minor_version", "0", 0);
-	//	av_dict_set(&options, "compatible_brands", "M4V isommp42mp41", 0);
-	//}
-
-	// Dump format settings
-	av_dump_format(formatContext, 0, filename, 1);
-
-	return avformat_write_header(formatContext, &options);
+	return 0;// avformat_write_header(formatContext, &options);
 }
 
 int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags)
@@ -378,18 +336,18 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 			return -1;
 	}
 
-	// Create new stream
-	encoderContext->stream = avformat_new_stream(formatContext, codec);
-	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
-	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
-
 	// Inject side data
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
 		injectSphericalData(encoderContext->stream);
 		injectStereoData(encoderContext->stream);
 	}
+
+	// Create new stream
+	encoderContext->stream = avformat_new_stream(formatContext, codec);
+	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
+	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
@@ -695,8 +653,13 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 {
 	int ret = 0;
 
-	while (ret >= 0)
+	while (ret >= 0 && 
+		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData)) &&
+		(!exportInfo.audio.enabled || (exportInfo.audio.enabled && !audioContext.firstData)))
 	{
+		if (formatContext->pb == NULL)
+			writeHeader();
+
 		// Receive next packet
 		ret = avcodec_receive_packet(codecContext, packet);
 		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
@@ -728,4 +691,70 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 	}
 
 	return ret;
+}
+
+int EncoderEngine::writeHeader()
+{
+	// Set a new framerate
+	for (OptionContainer* const& filter : exportInfo.video.filters)
+	{
+		if (filter->id == "filter.fps" && filter->find("fps") != filter->end())
+		{
+			wxString newfps = filter->at("fps");
+			double fps;
+			newfps.ToDouble(&fps);
+
+			int64_t num = 0;
+			int64_t den = 0;
+			rat_approx((float)fps, 65535, &num, &den);
+
+			videoContext.codecContext->time_base.den = static_cast<int>(num);
+			videoContext.codecContext->time_base.num = static_cast<int>(den);
+		}
+	}
+
+	AVDictionary* options = NULL;
+
+	char filename[MAX_PATH];
+	if (pass < exportInfo.passes)
+		strcpy_s(filename, "NUL");
+	else
+	{
+		// Convert filename to utf8 char*
+		strcpy(filename, (const char*)exportInfo.filename.mb_str(wxConvUTF8));
+		formatContext->url = av_strdup(filename);
+
+		// Set the faststart flag in the last pass
+		if (exportInfo.format.faststart)
+			av_dict_set(&options, "movflags", "faststart", 0);
+
+		// Adding timecode information for mp4/mov
+		av_dict_set(&options, "write_tmcd", "1", 0);
+	}
+
+	// Open file writer
+	int ret = avio_open(&formatContext->pb, filename, AVIO_FLAG_WRITE);
+	if (ret < 0)
+	{
+		vkLogError("Unable to open file buffer.");
+		return ret;
+	}
+
+	// Still images should be numbered
+	if (exportInfo.format.id == "image2")
+		av_dict_set(&options, "frame_pts", "1", 0);
+
+	// Produce a more compatible file
+	//if (exportInfo.format.id == "mp4" ||
+	//	exportInfo.format.id == "mov")
+	//{
+	//	av_dict_set(&options, "brand", "mp42", 0);
+	//	av_dict_set(&options, "minor_version", "0", 0);
+	//	av_dict_set(&options, "compatible_brands", "M4V isommp42mp41", 0);
+	//}
+
+	// Dump format settings
+	av_dump_format(formatContext, 0, filename, 1);
+
+	return avformat_write_header(formatContext, &options);
 }

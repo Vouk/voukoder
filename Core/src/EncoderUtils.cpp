@@ -90,7 +90,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validate
 AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 {
 	// Is this a codec?
-	AVCodec *codec = avcodec_find_encoder_by_name(codecId);
+	const AVCodec *codec = avcodec_find_encoder_by_name(codecId);
 	if (codec != NULL)
 		return codec->type;
 
@@ -113,7 +113,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
-	AVCodec* codec = avcodec_find_encoder_by_name(name);
+	const AVCodec* codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
 	{
 		AVCodecContext* codecContext = avcodec_alloc_context3(codec);
