@@ -39,7 +39,7 @@ class FrameFilter
 public:
 	FrameFilter();
 	~FrameFilter();
-	int configure(FrameFilterOptions options, const char *filters);
+	int configure(AVCodecContext* context, FrameFilterOptions options, const char *filters);
 	int sendFrame(AVFrame *frame);
 	int receiveFrame(AVFrame *frame);
 private:

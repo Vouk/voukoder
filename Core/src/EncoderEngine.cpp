@@ -301,10 +301,6 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
 		encoderContext->codecContext->field_order = exportInfo.video.fieldOrder;
 
-		// Bobbing doubles the frame rate
-		if (exportInfo.video.flags & VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING)
-			encoderContext->codecContext->time_base.den *= 2;
-
 		// Find pixel format in options
 		if (exportInfo.video.options.find("_pixelFormat") != exportInfo.video.options.end())
 		{
@@ -512,7 +508,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 
 			// Set up filter config
 			videoContext.frameFilter = new FrameFilter();
-			videoContext.frameFilter->configure(options, filterconfig.substr(1).c_str());
+			videoContext.frameFilter->configure(videoContext.codecContext, options, filterconfig.substr(1).c_str());
 
 			// Log filters
 			vkLogInfo("Applying video filters: " + filterconfig.substr(1));
@@ -570,7 +566,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 			// Set up filter config
 			audioContext.frameFilter = new FrameFilter();
-			audioContext.frameFilter->configure(options, filterconfig.c_str());
+			audioContext.frameFilter->configure(audioContext.codecContext, options, filterconfig.c_str());
 
 			// Log filters
 			vkLogInfo("Applying audio filters: " + filterconfig);
@@ -695,22 +691,16 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 
 int EncoderEngine::writeHeader()
 {
-	// Set a new framerate
-	for (OptionContainer* const& filter : exportInfo.video.filters)
+	for (int i = 0; i < formatContext->nb_streams; i++)
 	{
-		if (filter->id == "filter.fps" && filter->find("fps") != filter->end())
-		{
-			wxString newfps = filter->at("fps");
-			double fps;
-			newfps.ToDouble(&fps);
+		// Update stream time base
+		AVStream* stream = formatContext->streams[i];
+		if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+			stream->time_base = videoContext.codecContext->time_base;
+		else if (stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
+			stream->time_base = audioContext.codecContext->time_base;
 
-			int64_t num = 0;
-			int64_t den = 0;
-			rat_approx((float)fps, 65535, &num, &den);
-
-			videoContext.codecContext->time_base.den = static_cast<int>(num);
-			videoContext.codecContext->time_base.num = static_cast<int>(den);
-		}
+		stream->avg_frame_rate = av_inv_q(stream->time_base);
 	}
 
 	AVDictionary* options = NULL;
