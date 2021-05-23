@@ -211,7 +211,6 @@
     <ClInclude Include="include\wxPGOptionProperty.h" />
     <ClInclude Include="include\wxVoukoderDialog.h" />
     <ClInclude Include="include\wxVoukoderTaskBarIcon.h" />
-    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\audio_side_data.json" />

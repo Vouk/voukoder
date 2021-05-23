@@ -21,7 +21,6 @@
 #include <sstream>
 #include "EncoderEngine.h"
 #include "Log.h"
-#include "Utils.h"
 
 EncoderEngine::EncoderEngine(ExportInfo encoderInfo) :
 	exportInfo(encoderInfo)
@@ -274,7 +273,7 @@ int EncoderEngine::injectSphericalData(AVStream *stream)
 int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags)
 {
 	// Is this codec supported?
-	const AVCodec *codec = avcodec_find_encoder_by_name(codecId.c_str());
+	auto codec = avcodec_find_encoder_by_name(codecId.c_str());
 	if (codec == NULL)
 		return AVERROR_ENCODER_NOT_FOUND;
 
@@ -691,7 +690,7 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 
 int EncoderEngine::writeHeader()
 {
-	for (int i = 0; i < formatContext->nb_streams; i++)
+	for (unsigned int i = 0; i < formatContext->nb_streams; i++)
 	{
 		// Update stream time base
 		AVStream* stream = formatContext->streams[i];
