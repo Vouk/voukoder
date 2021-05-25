@@ -71,7 +71,7 @@ int EncoderEngine::open()
 		vkLogInfoVA("Using pass logfile: %s", passLogFile);
 	}
 
-	int ret;
+	int ret = 0;
 
 	// Do we want video export?
 	if (exportInfo.video.enabled)
@@ -104,7 +104,7 @@ int EncoderEngine::open()
 		}
 	}
 
-	return 0;// avformat_write_header(formatContext, &options);
+	return ret;
 }
 
 int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags)
@@ -649,8 +649,8 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 	int ret = 0;
 
 	while (ret >= 0 && 
-		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData)) &&
-		(!exportInfo.audio.enabled || (exportInfo.audio.enabled && !audioContext.firstData)))
+		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData)) && // Video disabled OR filters have been initialized
+		(!exportInfo.audio.enabled || pass < exportInfo.passes || (exportInfo.audio.enabled && !audioContext.firstData))) // Audio disabled OR not final multipass OR filters have been initialized
 	{
 		if (formatContext->pb == NULL)
 			writeHeader();
