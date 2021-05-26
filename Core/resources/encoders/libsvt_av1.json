@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "libsvt_av1",
+  "id": "libsvtav1",
   "name": "AV1 (experimental)",
   "defaults": {},
   "presets": [],
@@ -48,15 +48,15 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvt_av1.standard.qp",
+                          "id": "libsvtav1.standard.qp",
                           "visible": true
                         },
                         {
-                          "id": "libsvt_av1.standard.bitrate",
+                          "id": "libsvtav1.standard.bitrate",
                           "visible": false
                         },
                         {
-                          "id": "libsvt_av1.standard.maxrate",
+                          "id": "libsvtav1.standard.maxrate",
                           "visible": false
                         }
                       ]
@@ -72,15 +72,39 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvt_av1.standard.qp",
+                          "id": "libsvtav1.standard.qp",
                           "visible": false
                         },
                         {
-                          "id": "libsvt_av1.standard.bitrate",
+                          "id": "libsvtav1.standard.bitrate",
                           "visible": true
                         },
                         {
-                          "id": "libsvt_av1.standard.maxrate",
+                          "id": "libsvtav1.standard.maxrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cvbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "libsvtav1.standard.qp",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.standard.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.standard.maxrate",
                           "visible": true
                         }
                       ]
@@ -309,7 +333,7 @@
               "params": {
                 "LimitMaxValue": [
                   {
-                    "id": "libsvt_av1.advanced.qmax"
+                    "id": "libsvtav1.advanced.qmax"
                   }
                 ]
               }
@@ -332,7 +356,7 @@
               "params": {
                 "LimitMinValue": [
                   {
-                    "id": "libsvt_av1.advanced.qmin"
+                    "id": "libsvtav1.advanced.qmin"
                   }
                 ]
               }
