@@ -95,13 +95,12 @@ int EncoderEngine::open()
 		}
 
 		// Find the right sample size (for variable frame size codecs (PCM) we use the number of samples that match for one video frame)
-		audioFrameSize = audioContext.codecContext->frame_size;
-		if (audioFrameSize == 0)
+		if (audioContext.codecContext->frame_size == 0)
 		{
 			if (exportInfo.video.enabled)
-				audioFrameSize = (int)av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
+				audioContext.codecContext->frame_size = (int)av_rescale_q(1, videoContext.codecContext->time_base, audioContext.codecContext->time_base);
 			else
-				audioFrameSize = 1024;
+				audioContext.codecContext->frame_size = 1024;
 		}
 	}
 
@@ -510,7 +509,7 @@ void EncoderEngine::flushContext(EncoderContext *encoderContext)
 
 int EncoderEngine::getAudioFrameSize()
 {
-	return audioFrameSize;
+	return audioContext.codecContext->frame_size;
 }
 
 bool EncoderEngine::hasVideo()
@@ -616,7 +615,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 			audioContext.frameFilter->configure(options, filterconfig.c_str());
 
 			// Log filters
-			vkLogInfo("Applying audio filters: " + filterconfig.substr(1));
+			vkLogInfo("Applying audio filters: " + filterconfig);
 		}
 	}
 
@@ -647,8 +646,9 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		// Receive frames from the frame filter
 		while (context->frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
-			// Send an unfiltered frame 
-			if ((ret = sendFrame(context->codecContext, context->stream, tmp_frame)) < 0)
+			// Not sure why nb_samples != frame_size the first 2 times
+			if (tmp_frame->nb_samples == context->codecContext->frame_size && 
+				(ret = sendFrame(context->codecContext, context->stream, tmp_frame)) < 0)
 			{
 				return ret;
 			}

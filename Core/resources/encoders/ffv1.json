@@ -62,6 +62,12 @@
               },
               {
                 "value": "yuv444p16le"
+              },
+              {
+                "value": "bgra"
+              },
+              {
+                "value": "rgba64le"
               }
             ]
           }

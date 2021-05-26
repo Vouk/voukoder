@@ -5,7 +5,7 @@
   "extension": "mp4",
   "encoders": {
     "video": [ "h264_amf", "h264_nvenc", "hevc_amf", "hevc_nvenc", "libx264", "libx264rgb", "libx265", "libvpx", "libvpx-vp9", "h264_qsv", "hevc_qsv", "libsvt_hevc", "libsvt_av1" ],
-    "audio": [ "aac", "libfdk_aac", "ac3", "eac3", "libmp3lame" ]
+    "audio": [ "aac", "libfdk_aac", "ac3", "eac3", "libmp3lame", "libopus", "libvorbis" ]
   },
   "capabilities": {
     "faststart": true
