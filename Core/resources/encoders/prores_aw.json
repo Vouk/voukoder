@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "prores_aw",
-  "name": "ProRes AW (Performance)",
+  "name": "ProRes AW",
   "defaults": {},
   "groups": [
     {
