@@ -2863,7 +2863,7 @@
     "filter.fps": "Кадров в секунду",
     "filter.fps.standard": "Стандартные",
     "filter.fps.standard.fps._label": "Кадр./сек.",
-    "filter.fps.standard.fps._description": "The new number of FPS.",
+    "filter.fps.standard.fps._description": "Новое количество кадров в секунду.",
     "filter.hqdn3d": "HQ 3D Шумоподавление",
     "filter.hqdn3d.standard": "Стандартные",
     "filter.hqdn3d.standard.luma_spatial._label": "Пространственная яркость",
