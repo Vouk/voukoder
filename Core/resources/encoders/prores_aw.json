@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "prores_aw",
+  "name": "ProRes AW (Performance)",
+  "defaults": {},
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv422p10le"
+              },
+              {
+                "value": "yuv444p10le"
+              },
+              {
+                "value": "yuva444p10le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "vendor",
+          "parameter": "vendor",
+          "control": {
+            "type": "string",
+            "value": "apl0",
+            "regex": "^[a-zA-Z0-9]{0,4}$"
+          }
+        }
+      ]
+    }
+  ]
+}
