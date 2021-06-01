@@ -3086,7 +3086,7 @@
     "filter.tmix": "Временное смешивание",
     "filter.tmix.standard": "Стандартные",
     "filter.tmix.standard.frames._label": "Кадры",
-    "filter.tmix.standard.frames._description": "Количество кадров для смешивания.",
+    "filter.tmix.standard.frames._description": "The number of frames to mix into each other.",
     "filter.tmix.standard.weights._label": "Вес",
     "filter.tmix.standard.weights._description": "Устанавливает вес каждого кадра.",
     "filter.tmix.standard.scale._label": "Масштаб",
