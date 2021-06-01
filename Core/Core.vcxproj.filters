@@ -1142,6 +1142,9 @@
     <None Include="resources\muxers\avi.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
+    <None Include="resources\encoders\prores_aw.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

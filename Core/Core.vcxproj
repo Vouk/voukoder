@@ -249,6 +249,7 @@
     <None Include="resources\encoders\pcm_s24le.json" />
     <None Include="resources\encoders\pcm_s32le.json" />
     <None Include="resources\encoders\png.json" />
+    <None Include="resources\encoders\prores_aw.json" />
     <None Include="resources\encoders\prores_ks.json" />
     <None Include="resources\encoders\qtrle.json" />
     <None Include="resources\encoders\tiff.json" />

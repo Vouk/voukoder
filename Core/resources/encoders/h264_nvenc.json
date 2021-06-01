@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "h264_nvenc",
   "name": "H.264 (NVIDIA NVENC)",
-  "defaults": {
-    "_pixelFormat": "yuv420p"
-  },
+  "defaults": {},
   "presets": [
     {
       "name": "Good quality (Recommended)",
@@ -19,6 +17,35 @@
     }
   ],
   "groups": [
+    {
+      "id": "h264_nvenc.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "h264_nvenc.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "p010le"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv444p16le"
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "h264_nvenc.standard",
       "class": "standard",

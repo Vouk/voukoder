@@ -68,6 +68,46 @@
                     }
                   }
                 ]
+              },
+              {
+                "value": "yuv444p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": true
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "yuv444p16le",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "hevc_nvenc.standard.profile420-8",
+                          "visible": false
+                        },
+                        {
+                          "id": "hevc_nvenc.standard.profile420-10",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             ]
           }
