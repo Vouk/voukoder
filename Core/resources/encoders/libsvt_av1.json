@@ -208,26 +208,6 @@
               }
             ]
           }
-        },
-        {
-          "id": "profile",
-          "parameter": "profile",
-          "forced": true,
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "main"
-              },
-              {
-                "value": "high"
-              },
-              {
-                "value": "professional"
-              }
-            ]
-          }
         }
       ]
     },
