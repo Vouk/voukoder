@@ -3086,7 +3086,7 @@
     "filter.tmix": "Mélange temporel",
     "filter.tmix.standard": "Standard",
     "filter.tmix.standard.frames._label": "Images",
-    "filter.tmix.standard.frames._description": "The number of frames to mix into each other.",
+    "filter.tmix.standard.frames._description": "Le nombre de montures à mélanger.",
     "filter.tmix.standard.weights._label": "Poids",
     "filter.tmix.standard.weights._description": "Définir le poids pour chaque image.",
     "filter.tmix.standard.scale._label": "Échelle",
