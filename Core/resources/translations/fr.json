@@ -2500,7 +2500,7 @@
     "libsvtav1.standard.tier._description": "Définit le tier",
     "libsvtav1.standard.tier._item_0": "Principal (Main)",
     "libsvtav1.standard.tier._item_1": "Haut (High)",
-    "libsvtav1.standard.profile._label": "Profile",
+    "libsvtav1.standard.profile._label": "Profil",
     "libsvtav1.standard.profile._description": "Profil Bitstream à utiliser",
     "libsvtav1.standard.profile._item_0": "Principal",
     "libsvtav1.standard.profile._item_1": "Haut (High)",
