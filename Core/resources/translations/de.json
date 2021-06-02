@@ -3086,7 +3086,7 @@
     "filter.tmix": "Temporaler Mix",
     "filter.tmix.standard": "Standard",
     "filter.tmix.standard.frames._label": "Frames",
-    "filter.tmix.standard.frames._description": "The number of frames to mix into each other.",
+    "filter.tmix.standard.frames._description": "Die Anzahl der Frames die in einander gemischt werden sollen.",
     "filter.tmix.standard.weights._label": "Gewichtung",
     "filter.tmix.standard.weights._description": "Gewichtung für jeden Frame einstellen.",
     "filter.tmix.standard.scale._label": "Skalierung",
