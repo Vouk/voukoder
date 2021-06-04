@@ -344,6 +344,13 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
 	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
+	// Handling custom timecode
+	if (codec->type == AVMEDIA_TYPE_VIDEO && exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
+	{
+		auto timecode = exportInfo.video.options.at("_timecode");
+		av_dict_set(&encoderContext->stream->metadata, "timecode", timecode.c_str(), 0);
+	}
+
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
 		encoderContext->codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
