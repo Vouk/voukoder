@@ -5,7 +5,8 @@
 
 Find these connectors at the [application connectors page](https://github.com/Vouk/voukoder-connectors):
 - Adobe Premiere / Media Encoder
-- Adobe After Effects 
+- Adobe After Effects
+- DaVinci Resolve
 - VEGAS Pro
 - VirtualDub 2
 
