@@ -383,7 +383,7 @@
     "h264_nvenc.hardware.gpu._description": "CUDA 지원 그래픽 카드 입니다.",
     "h264_nvenc.hardware.computecapability._label": "Compute Capability",
     "h264_nvenc.hardware.computecapability._description": "The version of the Compute Capability features.",
-    "h264_nvenc.basic": "Basic",
+    "h264_nvenc.basic": "기본",
     "h264_nvenc.basic.pixelFormat._label": "Bit depth",
     "h264_nvenc.basic.pixelFormat._description": "Bit depth",
     "h264_nvenc.basic.pixelFormat._item_0": "YUV 4:2:0 (8 bit)",
