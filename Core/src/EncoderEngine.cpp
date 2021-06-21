@@ -655,7 +655,7 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 
 	while (ret >= 0 && 
 		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData))) // Video disabled OR filters have been initialized
-		// Audio filters can not be supported!! (bec. of AE "Audio Output Auto")
+		// && (!exportInfo.audio.enabled || pass < exportInfo.passes || (exportInfo.audio.enabled && !audioContext.firstData))) // Audio filters can not be supported!! (bec. of AE "Audio Output Auto")
 	{
 		if (formatContext->pb == NULL)
 			writeHeader();
