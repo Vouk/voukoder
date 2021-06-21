@@ -596,9 +596,7 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	{
 		// Send the uncompressed frame to frame filter
 		if ((ret = context->frameFilter->sendFrame(frame)) < 0)
-		{
 			return ret;
-		}
 
 		AVFrame *tmp_frame;
 		tmp_frame = av_frame_alloc();
@@ -641,10 +639,10 @@ int EncoderEngine::sendFrame(AVCodecContext *context, AVStream *stream, AVFrame 
 		if (ret == AVERROR(EAGAIN))
 		{
 			// Read output buffer first
-			receivePackets(context, stream);
+			ret = receivePackets(context, stream);
 
 			// Retry sending the frame
-			return sendFrame(context, stream, frame);
+			//return sendFrame(context, stream, frame);
 		}
 	}
 
@@ -656,8 +654,8 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 	int ret = 0;
 
 	while (ret >= 0 && 
-		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData)) && // Video disabled OR filters have been initialized
-		(!exportInfo.audio.enabled || pass < exportInfo.passes || (exportInfo.audio.enabled && !audioContext.firstData))) // Audio disabled OR not final multipass OR filters have been initialized
+		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData))) // Video disabled OR filters have been initialized
+		// Audio filters can not be supported!! (bec. of AE "Audio Output Auto")
 	{
 		if (formatContext->pb == NULL)
 			writeHeader();
