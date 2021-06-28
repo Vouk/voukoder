@@ -140,6 +140,12 @@
             "selectedIndex": 1,
             "items": [
               {
+                "value": "16000"
+              },
+              {
+                "value": "32000"
+              },
+              {
                 "value": "64000"
               },
               {
