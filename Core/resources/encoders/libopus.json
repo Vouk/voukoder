@@ -99,8 +99,14 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 0,
+            "selectedIndex": 3,
             "items": [
+              {
+                "value": "16000"
+              },
+              {
+                "value": "32000"
+              },
               {
                 "value": "64000"
               },
@@ -137,7 +143,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 1,
+            "selectedIndex": 3,
             "items": [
               {
                 "value": "16000"
@@ -181,8 +187,14 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 1,
+            "selectedIndex": 3,
             "items": [
+              {
+                "value": "16000"
+              },
+              {
+                "value": "32000"
+              },
               {
                 "value": "64000"
               },
