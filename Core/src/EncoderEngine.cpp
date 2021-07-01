@@ -331,18 +331,18 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 			return -1;
 	}
 
+	// Create new stream
+	encoderContext->stream = avformat_new_stream(formatContext, codec);
+	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
+	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
+
 	// Inject side data
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
 		injectSphericalData(encoderContext->stream);
 		injectStereoData(encoderContext->stream);
 	}
-
-	// Create new stream
-	encoderContext->stream = avformat_new_stream(formatContext, codec);
-	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
-	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
 	// Handling custom timecode
 	if (codec->type == AVMEDIA_TYPE_VIDEO && exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
