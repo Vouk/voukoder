@@ -1970,7 +1970,7 @@
     "libopus.standard.strategy.vbr_on._item_7": "320 kbit/s",
     "libopus.standard.strategy.vbr_on._item_8": "384 kbit/s",
     "libopus.standard.strategy.vbr_on._item_9": "448 kbit/s",
-    "libopus.standard.strategy.vbr_on._item_10": "512 kbit/s", 
+    "libopus.standard.strategy.vbr_on._item_10": "512 kbit/s",
     "libopus.standard.strategy.vbr_off._label": "Bitrate",
     "libopus.standard.strategy.vbr_off._description": "With hard-cbr every frame will be exactly the same size, similar to how speech codecs work. This delivers lower overall quality but is useful where bitrate changes might leak data in encrypted channels or on synchronous transports.",
     "libopus.standard.strategy.vbr_off._item_0": "16 kbit/s",
