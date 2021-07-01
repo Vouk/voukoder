@@ -331,18 +331,18 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 			return -1;
 	}
 
+	// Create new stream
+	encoderContext->stream = avformat_new_stream(formatContext, codec);
+	encoderContext->stream->id = formatContext->nb_streams - 1;
+	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
+	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
+
 	// Inject side data
 	if (codec->type == AVMEDIA_TYPE_VIDEO)
 	{
 		injectSphericalData(encoderContext->stream);
 		injectStereoData(encoderContext->stream);
 	}
-
-	// Create new stream
-	encoderContext->stream = avformat_new_stream(formatContext, codec);
-	encoderContext->stream->id = formatContext->nb_streams - 1;
-	encoderContext->stream->time_base = encoderContext->codecContext->time_base;
-	encoderContext->stream->avg_frame_rate = av_inv_q(encoderContext->stream->time_base);
 
 	// Handling custom timecode
 	if (codec->type == AVMEDIA_TYPE_VIDEO && exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
@@ -596,9 +596,7 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	{
 		// Send the uncompressed frame to frame filter
 		if ((ret = context->frameFilter->sendFrame(frame)) < 0)
-		{
 			return ret;
-		}
 
 		AVFrame *tmp_frame;
 		tmp_frame = av_frame_alloc();
@@ -641,10 +639,10 @@ int EncoderEngine::sendFrame(AVCodecContext *context, AVStream *stream, AVFrame 
 		if (ret == AVERROR(EAGAIN))
 		{
 			// Read output buffer first
-			receivePackets(context, stream);
+			ret = receivePackets(context, stream);
 
 			// Retry sending the frame
-			return sendFrame(context, stream, frame);
+			//return sendFrame(context, stream, frame);
 		}
 	}
 
@@ -656,8 +654,8 @@ int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream
 	int ret = 0;
 
 	while (ret >= 0 && 
-		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData)) && // Video disabled OR filters have been initialized
-		(!exportInfo.audio.enabled || pass < exportInfo.passes || (exportInfo.audio.enabled && !audioContext.firstData))) // Audio disabled OR not final multipass OR filters have been initialized
+		(!exportInfo.video.enabled || (exportInfo.video.enabled && !videoContext.firstData))) // Video disabled OR filters have been initialized
+		// && (!exportInfo.audio.enabled || pass < exportInfo.passes || (exportInfo.audio.enabled && !audioContext.firstData))) // Audio filters can not be supported!! (bec. of AE "Audio Output Auto")
 	{
 		if (formatContext->pb == NULL)
 			writeHeader();

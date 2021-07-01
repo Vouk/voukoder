@@ -1,3 +1,5 @@
+<img src="https://img.shields.io/github/downloads/vouk/voukoder/total.svg">
+
 <p align="center"><img src="https://www.voukoder.org/__resources/logo128.png" width="128" height="128">
 <br><a href="https://www.voukoder.org" style="font-size:20pt;">INFOS & DOWNLOAD HERE: WWW.VOUKODER.ORG</a></p>
 
