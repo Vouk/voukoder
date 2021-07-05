@@ -59,6 +59,5 @@ private:
 	int receivePackets(AVCodecContext *context, AVStream *stream);
 	int injectStereoData(AVStream* stream);
 	int injectSphericalData(AVStream* stream);
-	int writeHeader();
 	wxString passLogFile;
 };
