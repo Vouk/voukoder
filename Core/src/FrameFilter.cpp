@@ -113,24 +113,24 @@ int FrameFilter::configure(AVCodecContext* context, FrameFilterOptions options, 
 	}
 
 	// Get the updated options
-	switch (options.media_type)
-	{
-	case AVMEDIA_TYPE_AUDIO:
-		context->channel_layout = av_buffersink_get_channel_layout(out_ctx);
-		context->sample_fmt = (AVSampleFormat)av_buffersink_get_format(out_ctx);
-		context->time_base = av_buffersink_get_time_base(out_ctx);
-		break;
+	//switch (options.media_type)
+	//{
+	//case AVMEDIA_TYPE_AUDIO:
+	//	context->channel_layout = av_buffersink_get_channel_layout(out_ctx);
+	//	context->sample_fmt = (AVSampleFormat)av_buffersink_get_format(out_ctx);
+	//	context->time_base = av_buffersink_get_time_base(out_ctx);
+	//	break;
 
-	case AVMEDIA_TYPE_VIDEO:
-		context->width = av_buffersink_get_w(out_ctx);
-		context->height = av_buffersink_get_h(out_ctx);
-		context->pix_fmt = (AVPixelFormat)av_buffersink_get_format(out_ctx);
-		context->time_base = av_buffersink_get_time_base(out_ctx);
-		context->sample_aspect_ratio = av_buffersink_get_sample_aspect_ratio(out_ctx);
-		break;
-	default:
-		break;
-	}
+	//case AVMEDIA_TYPE_VIDEO:
+	//	context->width = av_buffersink_get_w(out_ctx);
+	//	context->height = av_buffersink_get_h(out_ctx);
+	//	context->pix_fmt = (AVPixelFormat)av_buffersink_get_format(out_ctx);
+	//	context->time_base = av_buffersink_get_time_base(out_ctx);
+	//	context->sample_aspect_ratio = av_buffersink_get_sample_aspect_ratio(out_ctx);
+	//	break;
+	//default:
+	//	break;
+	//}
 
 	// Free inputs & outputs
 	//avfilter_inout_free(&inputs);
