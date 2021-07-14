@@ -686,10 +686,10 @@ int EncoderEngine::sendFrame(AVCodecContext *context, AVStream *stream, AVFrame 
 		if (ret == AVERROR(EAGAIN))
 		{
 			// Read output buffer first
-			ret = receivePackets(context, stream);
+			receivePackets(context, stream);
 
 			// Retry sending the frame
-			//return sendFrame(context, stream, frame);
+			return sendFrame(context, stream, frame);
 		}
 	}
 
