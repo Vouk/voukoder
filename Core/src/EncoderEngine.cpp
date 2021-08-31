@@ -389,13 +389,29 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	{
 		injectSphericalData(encoderContext->stream);
 		injectStereoData(encoderContext->stream);
-	}
 
-	// Handling custom timecode
-	if (codec->type == AVMEDIA_TYPE_VIDEO && exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
+		// Custom timecode
+		if (exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
+		{
+			auto timecode = exportInfo.video.options.at("_timecode");
+			av_dict_set(&encoderContext->stream->metadata, "timecode", timecode.c_str(), 0);
+		}
+
+		// Language
+		if (exportInfo.video.options.find("_language") != exportInfo.video.options.end())
+		{
+			auto language = exportInfo.video.options.at("_language");
+			av_dict_set(&encoderContext->stream->metadata, "language", language.c_str(), 0);
+		}
+	}
+	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
-		auto timecode = exportInfo.video.options.at("_timecode");
-		av_dict_set(&encoderContext->stream->metadata, "timecode", timecode.c_str(), 0);
+		// Language
+		if (exportInfo.audio.options.find("_language") != exportInfo.audio.options.end())
+		{
+			auto language = exportInfo.audio.options.at("_language");
+			av_dict_set(&encoderContext->stream->metadata, "language", language.c_str(), 0);
+		}
 	}
 
 	if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)

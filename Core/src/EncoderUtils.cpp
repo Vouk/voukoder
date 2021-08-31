@@ -70,6 +70,26 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validate
 		encoderInfo.groups.push_back(encoderGroupInfo);
 	}
 
+	// Add META information
+
+	// Language
+	EncoderOptionInfo metaOptionInfo;
+	metaOptionInfo.id = "language";
+	metaOptionInfo.name = Trans("meta.language", "label");
+	metaOptionInfo.description = Trans("meta.language", "description");
+	metaOptionInfo.parameter = "_language";
+	metaOptionInfo.control.type = EncoderOptionType::String;
+	metaOptionInfo.control.value.stringValue = "";
+	metaOptionInfo.control.regex = "^[a-z]{3}$";
+
+	EncoderGroupInfo metaGroupInfo;
+	metaGroupInfo.id = encoderInfo.id + ".meta";
+	metaGroupInfo.name = Trans("meta");
+	metaGroupInfo.groupClass = "advanced";
+	metaGroupInfo.options.push_back(metaOptionInfo);
+
+	encoderInfo.groups.push_back(metaGroupInfo);
+
 	// Optional: Is a format set?
 	if (resource.find("parameterGroups") != resource.end())
 	{
