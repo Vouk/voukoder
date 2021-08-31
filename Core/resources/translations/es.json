@@ -67,7 +67,7 @@
     "ui.encoderconfig.buttonOkay": "&Aceptar",
     "ui.encoderconfig.buttonCancel": "&Cancelar",
     "ui.encoderconfig.advanceCheck": "Mostrar opciones avanzadas",
-    "meta": "Meta information",
+    "meta": "Meta Information",
     "meta.language._label": "Language",
     "meta.language._description": "Enter the three character ISO 639-2 language code.",
     "vsd.spherical": "Esférica",
