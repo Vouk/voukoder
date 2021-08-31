@@ -67,7 +67,7 @@
     "ui.encoderconfig.buttonOkay": "确定(&O)",
     "ui.encoderconfig.buttonCancel": "取消(&C)",
     "ui.encoderconfig.advanceCheck": "显示高级选项",
-    "meta": "Meta information",
+    "meta": "Meta Information",
     "meta.language._label": "Language",
     "meta.language._description": "Enter the three character ISO 639-2 language code.",
     "vsd.spherical": "球形",
