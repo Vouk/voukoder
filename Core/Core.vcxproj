@@ -231,6 +231,7 @@
     <None Include="resources\encoders\hevc_amf.json" />
     <None Include="resources\encoders\hevc_nvenc.json" />
     <None Include="resources\encoders\hevc_qsv.json" />
+    <None Include="resources\encoders\libaom-av1.json" />
     <None Include="resources\encoders\libfdk_aac.json" />
     <None Include="resources\encoders\libmp3lame.json" />
     <None Include="resources\encoders\libopus.json" />

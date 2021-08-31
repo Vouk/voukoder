@@ -1,0 +1,348 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "libaom-av1",
+  "name": "AOM AV1 (experimental)",
+  "defaults": {
+    "row-mt": "1",
+    "sc_threshold": "0",
+    "tile-columns": "1",
+    "tile-rows": "0"
+  },
+  "presets": [],
+  "groups": [
+    {
+      "id": "basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuv422p"
+              },
+              {
+                "value": "yuv444p"
+              },
+              {
+                "value": "yuv420p10le"
+              },
+              {
+                "value": "yuv422p10le"
+              },
+              {
+                "value": "yuv444p10le"
+              },
+              {
+                "value": "yuv420p12le"
+              },
+              {
+                "value": "yuv422p12le"
+              },
+              {
+                "value": "yuv444p12le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "class": "standard",
+      "id": "standard",
+      "properties": [
+        {
+          "id": "cpu-used",
+          "parameter": "cpu-used",
+          "control": {
+            "type": "integer",
+            "maximum": 9,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 1
+          }
+        },
+        {
+          "id": "usage",
+          "parameter": "usage",
+          "control": {
+            "type": "integer",
+            "maximum": 1,
+            "minimum": 0,
+            "singleStep": 1,
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "enable-cdef",
+          "parameter": "enable-cdef",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-global-motion",
+          "parameter": "enable-global-motion",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-intrabc",
+          "parameter": "enable-intrabc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-restoration",
+          "parameter": "enable-restoration",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-rect-partitions",
+          "parameter": "enable-rect-partitions",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-1to4-partitions",
+          "parameter": "enable-1to4-partitions",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-ab-partitions",
+          "parameter": "enable-ab-partitions",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-angle-delta",
+          "parameter": "enable-angle-delta",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-cfl-intra",
+          "parameter": "enable-cfl-intra",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-filter-intra",
+          "parameter": "enable-filter-intra",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-intra-edge-filter",
+          "parameter": "enable-intra-edge-filter",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-smooth-intra",
+          "parameter": "enable-smooth-intra",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-paeth-intra",
+          "parameter": "enable-paeth-intra",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-palette",
+          "parameter": "enable-palette",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-flip-idtx",
+          "parameter": "enable-flip-idtx",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-tx64",
+          "parameter": "enable-tx64",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "reduced-tx-type-set",
+          "parameter": "reduced-tx-type-set",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "use-intra-dct-only",
+          "parameter": "use-intra-dct-only",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "use-inter-dct-only",
+          "parameter": "use-inter-dct-only",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "use-intra-default-tx-only",
+          "parameter": "use-intra-default-tx-only",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-ref-frame-mvs",
+          "parameter": "enable-ref-frame-mvs",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-reduced-reference-set",
+          "parameter": "enable-reduced-reference-set",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-obmc",
+          "parameter": "enable-obmc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-dual-filter",
+          "parameter": "enable-dual-filter",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-diff-wtd-comp",
+          "parameter": "enable-diff-wtd-comp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-dist-wtd-comp",
+          "parameter": "enable-dist-wtd-comp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-onesided-comp",
+          "parameter": "enable-onesided-comp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-interinter-wedge",
+          "parameter": "enable-interinter-wedge",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-interintra-wedge",
+          "parameter": "enable-interintra-wedge",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-masked-comp",
+          "parameter": "enable-masked-comp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-interintra-comp",
+          "parameter": "enable-interintra-comp",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-smooth-interintra",
+          "parameter": "enable-smooth-interintra",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

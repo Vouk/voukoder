@@ -92,3 +92,7 @@ extern "C" {
 #if __has_include("svt-av1/EbSvtAv1.h")
 #  pragma comment(lib, "SvtAv1Enc.lib")
 #endif
+
+#if __has_include("aom/aom.h")
+#  pragma comment(lib, "aom.lib")
+#endif
