@@ -67,7 +67,7 @@
     "ui.encoderconfig.buttonOkay": "&OK",
     "ui.encoderconfig.buttonCancel": "&Отмена",
     "ui.encoderconfig.advanceCheck": "Дополнительные Параметры",
-    "meta": "Дополнительная информация",
+    "meta": "Мета-данные",
     "meta.language._label": "Язык",
     "meta.language._description": "Введите трехзначный код языка (ISO 639-2).",
     "vsd.spherical": "Сферический",
