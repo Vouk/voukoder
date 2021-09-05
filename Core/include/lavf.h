@@ -86,7 +86,7 @@ extern "C" {
 #endif
 
 #if __has_include("mfx/mfxenc.h")
-#  pragma comment(lib, "mfx.lib")
+#  pragma comment(lib, "libmfx.lib")
 #endif
 
 #if __has_include("svt-av1/EbSvtAv1.h")
