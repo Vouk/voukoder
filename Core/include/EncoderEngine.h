@@ -51,6 +51,7 @@ private:
 	AVFormatContext *formatContext;
 	EncoderContext videoContext = { 0 };
 	EncoderContext audioContext = { 0 };
+	AVBufferRef* hwDev = NULL;
 	int createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags);
 	int encodeAndWriteFrame(EncoderContext *context, AVFrame *frame);
 	int getCodecFlags(const AVMediaType type);
@@ -59,5 +60,7 @@ private:
 	int receivePackets(AVCodecContext *context, AVStream *stream);
 	int injectStereoData(AVStream* stream);
 	int injectSphericalData(AVStream* stream);
+	int injectMasteringDisplayData(AVStream* stream);
+	int injectContentLightLevels(AVStream* stream);
 	wxString passLogFile;
 };

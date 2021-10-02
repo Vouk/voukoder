@@ -133,6 +133,10 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
+	//AVBufferRef* hwDev = nullptr;
+	//if (name.EndsWith("_qsv"))
+	//	ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+
 	auto codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
 	{
@@ -185,6 +189,9 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			avcodec_free_context(&codecContext);
 		}
 	}
+
+	//if (hwDev)
+	//	av_buffer_unref(&hwDev);
 
 	return ret;
 }
