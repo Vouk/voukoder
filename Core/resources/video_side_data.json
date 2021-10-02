@@ -262,6 +262,81 @@
           }
         }
       ]
+    },
+    {
+      "id": "mdcv",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "primaries",
+          "parameter": "mdcv_primaries",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "bt709"
+              },
+              {
+                "value": "dcip3"
+              },
+              {
+                "value": "rec2020"
+              }
+            ]
+          }
+        },
+        {
+          "id": "min_luminance",
+          "parameter": "mdcv_min_luminance",
+          "control": {
+            "type": "float",
+            "minimum": 0.001,
+            "maximum": 0.05,
+            "singleStep": 0.001,
+            "value": 0.005
+          }
+        },
+        {
+          "id": "max_luminance",
+          "parameter": "mdcv_max_luminance",
+          "control": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 4000,
+            "singleStep": 1,
+            "value": 1000
+          }
+        }
+      ]
+    },
+    {
+      "id": "cll",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "maxCLL",
+          "parameter": "cll_maxCLL",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "singleStep": 1,
+            "value": 1000
+          }
+        },
+        {
+          "id": "maxFALL",
+          "parameter": "cll_maxFALL",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "singleStep": 1,
+            "value": 200
+          }
+        }
+      ]
     }
   ]
 }

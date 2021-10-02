@@ -148,6 +148,7 @@ void wxVoukoderDialog::InitGUI()
 
 		outerBannerPanel->SetSizer(bBannerSizer);
 		outerBannerPanel->Layout();
+		outerBannerPanel->Layout();
 		bBannerSizer->Fit(outerBannerPanel);
 
 		bDialogLayout->Add(outerBannerPanel, 0, wxALIGN_CENTER | wxALL, 0);

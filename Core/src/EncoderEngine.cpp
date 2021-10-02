@@ -47,6 +47,11 @@ EncoderEngine::~EncoderEngine()
 
 int EncoderEngine::open()
 {
+	int ret = 0;
+
+	if (exportInfo.video.id.EndsWith("_qsv"))
+		ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportInfo.format.id.c_str(), exportInfo.filename.c_str(), NULL);
@@ -70,8 +75,6 @@ int EncoderEngine::open()
 		vkLogInfoVA("Running pass #%d ...", pass);
 		vkLogInfoVA("Using pass logfile: %s", passLogFile);
 	}
-
-	int ret = 0;
 
 	// Do we want video export?
 	if (exportInfo.video.enabled)
@@ -313,6 +316,90 @@ int EncoderEngine::injectSphericalData(AVStream *stream)
 	return av_stream_add_side_data(stream, AV_PKT_DATA_SPHERICAL, (uint8_t*)spherical, size);
 }
 
+int EncoderEngine::injectMasteringDisplayData(AVStream* stream)
+{
+	// Only proceed if we have at least one of the fields set
+	if (exportInfo.video.sideData.find("mdcv_primaries") == exportInfo.video.sideData.end() &&
+		exportInfo.video.sideData.find("min_luminance") == exportInfo.video.sideData.end() &&
+		exportInfo.video.sideData.find("max_luminance") == exportInfo.video.sideData.end())
+		return 0;
+
+	// Mastering Display Data
+	AVMasteringDisplayMetadata* mdcv = av_mastering_display_metadata_alloc();
+
+	// Do we have mdcv data?
+	wxString primaries = GetSideData(exportInfo.video.sideData, "mdcv_primaries", "");
+	if (!primaries.IsEmpty())
+	{
+		mdcv->has_primaries = 1;
+		if (primaries == "bt709")
+		{
+			// Rec.709 : --master - display G(15000, 30000)B(7500, 3000)R(32000, 16500)WP(15635, 16450)L(10000000, 1) --max - cll 1000, 1
+			// RGB : G(x = 0.30, y = 0.60), B(x = 0.150, y = 0.060), R(x = 0.640, y = 0.330), WP(x = 0.3127, y = 0.329), L(max = 1000, min = 0.0000)
+			mdcv->display_primaries[0][0] = av_d2q(0.64, INT_MAX); // Rx
+			mdcv->display_primaries[0][1] = av_d2q(0.33, INT_MAX); // Ry
+			mdcv->display_primaries[1][0] = av_d2q(0.3, INT_MAX);  // Gx
+			mdcv->display_primaries[1][1] = av_d2q(0.6, INT_MAX);  // Gy
+			mdcv->display_primaries[2][0] = av_d2q(0.15, INT_MAX); // Bx
+			mdcv->display_primaries[2][1] = av_d2q(0.06, INT_MAX); // By
+		}
+		else if (primaries == "dcip3")
+		{
+			// DCI - P3: --master - display G(13250, 34500)B(7500, 3000)R(34000, 16000)WP(15635, 16450)L(10000000, 1) --max - cll 1000, 1
+			// RGB : G(x = 0.265, y = 0.690), B(x = 0.150, y = 0.060), R(x = 0.680, y = 0.320), WP(x = 0.3127, y = 0.329), L(max = 1000, min = 0.0000)
+			mdcv->display_primaries[0][0] = av_d2q(0.68, INT_MAX);  // Rx
+			mdcv->display_primaries[0][1] = av_d2q(0.32, INT_MAX);  // Ry
+			mdcv->display_primaries[1][0] = av_d2q(0.265, INT_MAX); // Gx
+			mdcv->display_primaries[1][1] = av_d2q(0.69, INT_MAX);  // Gy
+			mdcv->display_primaries[2][0] = av_d2q(0.15, INT_MAX);  // Bx
+			mdcv->display_primaries[2][1] = av_d2q(0.06, INT_MAX);  // By
+		}
+		else if (primaries == "rec2020")
+		{
+			// Rec.2020 : --master - display G(8500, 39850)B(6550, 2300)R(35400, 14600)WP(15635, 16450)L(10000000, 1) --max - cll 1000, 1
+			// RGB : G(x = 0.170, y = 0.797), B(x = 0.131, y = 0.046), R(x = 0.708, y = 0.292), WP(x = 0.3127, y = 0.329), L(max = 1000, min = 0.0000)
+			mdcv->display_primaries[0][0] = av_d2q(0.708, INT_MAX); // Rx
+			mdcv->display_primaries[0][1] = av_d2q(0.292, INT_MAX); // Ry
+			mdcv->display_primaries[1][0] = av_d2q(0.17, INT_MAX);  // Gx
+			mdcv->display_primaries[1][1] = av_d2q(0.797, INT_MAX); // Gy
+			mdcv->display_primaries[2][0] = av_d2q(0.131, INT_MAX); // Bx
+			mdcv->display_primaries[2][1] = av_d2q(0.046, INT_MAX); // By
+		}
+
+		mdcv->white_point[0] = av_d2q(0.3127, INT_MAX); // WPx
+		mdcv->white_point[1] = av_d2q(0.329, INT_MAX);  // WPy
+	}
+
+	// Luminance
+	if (exportInfo.video.sideData.find("mdcv_min_luminance") != exportInfo.video.sideData.end() ||
+		exportInfo.video.sideData.find("mdcv_max_luminance") != exportInfo.video.sideData.end())
+	{
+		mdcv->has_luminance = 1;
+		mdcv->min_luminance = { static_cast<int>(wxAtof(GetSideData(exportInfo.video.sideData, "mdcv_min_luminance", "0")) * 10000), 10000 };
+		mdcv->max_luminance = { wxAtoi(GetSideData(exportInfo.video.sideData, "mdcv_max_luminance", "0")), 1 };
+	}
+
+	return av_stream_add_side_data(stream, AV_PKT_DATA_MASTERING_DISPLAY_METADATA, (uint8_t*)mdcv, sizeof(*mdcv));
+
+}
+
+int EncoderEngine::injectContentLightLevels(AVStream* stream)
+{
+	// Only proceed if we have at least one of both fields set
+	if (exportInfo.video.sideData.find("cll_maxCLL") == exportInfo.video.sideData.end() &&
+		exportInfo.video.sideData.find("cll_maxFALL") == exportInfo.video.sideData.end())
+		return 0;
+
+	size_t size;
+
+	// Add basic data
+	AVContentLightMetadata* cll = av_content_light_metadata_alloc(&size);
+	cll->MaxCLL = wxAtoi(GetSideData(exportInfo.video.sideData, "cll_maxCLL", "0"));
+	cll->MaxFALL = wxAtoi(GetSideData(exportInfo.video.sideData, "cll_maxFALL", "0"));
+
+	return av_stream_add_side_data(stream, AV_PKT_DATA_CONTENT_LIGHT_LEVEL, (uint8_t*)cll, size);
+}
+
 int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags)
 {
 	// Is this codec supported?
@@ -389,6 +476,8 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	{
 		injectSphericalData(encoderContext->stream);
 		injectStereoData(encoderContext->stream);
+		injectMasteringDisplayData(encoderContext->stream);
+		injectContentLightLevels(encoderContext->stream);
 
 		// Custom timecode
 		if (exportInfo.video.options.find("_timecode") != exportInfo.video.options.end())
@@ -502,6 +591,9 @@ void EncoderEngine::close()
 	avio_close(formatContext->pb);
 
 	avformat_free_context(formatContext);
+
+	if (hwDev)
+		av_buffer_unref(&hwDev);
 }
 
 AVMediaType EncoderEngine::getNextFrameType()
