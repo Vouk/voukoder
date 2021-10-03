@@ -423,8 +423,8 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 		encoderContext->codecContext->height = exportInfo.video.height;
 		encoderContext->codecContext->time_base = exportInfo.video.timebase;
 		encoderContext->codecContext->framerate = av_inv_q(encoderContext->codecContext->time_base);
-		encoderContext->codecContext->colorspace = exportInfo.video.colorSpace;
 		encoderContext->codecContext->color_range = exportInfo.video.colorRange;
+		encoderContext->codecContext->colorspace = exportInfo.video.colorSpace;
 		encoderContext->codecContext->color_primaries = exportInfo.video.colorPrimaries;
 		encoderContext->codecContext->color_trc = exportInfo.video.colorTransferCharacteristics;
 		encoderContext->codecContext->sample_aspect_ratio = exportInfo.video.sampleAspectRatio;
