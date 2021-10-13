@@ -1180,6 +1180,8 @@
     "libx265.qualityratedistortionoptions.level._item_11": "6.1",
     "libx265.qualityratedistortionoptions.level._item_12": "6.2",
     "libx265.qualityratedistortionoptions.level._item_13": "8.5",
+    "libx265.qualityratedistortionoptions.lossless._label": "Без потерь",
+    "libx265.qualityratedistortionoptions.lossless._description": "Включается режим без потерь бит. Без этого режим и qp=0 он только практически безошибочный.",
     "libx265.qualityratedistortionoptions.crf-max._label": "Макс. CRF",
     "libx265.qualityratedistortionoptions.crf-max._description": "Определяет максимальную величину коэффициента качества для каждого кадра (обеспечивает максимальный QP). Опасно, когда CRF используется совместно с VBV, так как это может приводить к опустошению буфера.",
     "libx265.qualityratedistortionoptions.crf-min._label": "Мин. CRF",
