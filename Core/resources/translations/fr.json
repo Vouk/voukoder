@@ -1180,6 +1180,8 @@
     "libx265.qualityratedistortionoptions.level._item_11": "6.1",
     "libx265.qualityratedistortionoptions.level._item_12": "6.2",
     "libx265.qualityratedistortionoptions.level._item_13": "8.5",
+    "libx265.qualityratedistortionoptions.lossless._label": "Lossless",
+    "libx265.qualityratedistortionoptions.lossless._description": "Enabled bit exact lossless mode. Without this and qp=0 it's only near-lossless mode.",
     "libx265.qualityratedistortionoptions.crf-max._label": "CRF maximum",
     "libx265.qualityratedistortionoptions.crf-max._description": "Spécifie une limite supérieure à la qualité pouvant être affectée à une image (garantissant un QP maximum). Ceci est dangereux lorsque le CRF est utilisé en association avec VBV car cela peut entraîner une insuffisance de mémoire tampon.",
     "libx265.qualityratedistortionoptions.crf-min._label": "CRF minimum",
