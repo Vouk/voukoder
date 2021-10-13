@@ -1080,6 +1080,14 @@
           }
         },
         {
+          "id": "libx265.qualityratedistortionoptions.lossless",
+          "parameter": "lossless",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
           "id": "libx265.qualityratedistortionoptions.crf-max",
           "parameter": "crf-max",
           "control": {

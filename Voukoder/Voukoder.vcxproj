@@ -79,6 +79,9 @@
       <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)" "C:\Program Files\Voukoder\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -108,6 +111,9 @@
       <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)" "C:\Program Files\Voukoder\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassFactory.h" />
