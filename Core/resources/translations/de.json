@@ -1956,7 +1956,7 @@
     "flac.compression.compression_level._description": "Höhere Werte führen zu kleineren Dateien, aber etwas längerer Kodierungszeit.",
     "mp2.standard": "Standard",
     "mp2.standard.b._label": "Bitrate",
-    "mp2.standard.b._description": "Constant encoding bitrate.",
+    "mp2.standard.b._description": "Konstante Kodierungs-Bitrate.",
     "mp2.standard.b._item_0": "32 kbit/s",
     "mp2.standard.b._item_1": "40 kbit/s",
     "mp2.standard.b._item_2": "48 kbit/s",
