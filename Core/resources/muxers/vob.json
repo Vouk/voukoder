@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "mpegts",
-  "name": "Transport Stream",
-  "extension": "ts",
+  "id": "vob",
+  "name": "VOB",
+  "extension": "vob",
   "encoders": {
-    "video": [ "mpeg2video", "mpeg2_qsv", "libsvt_hevc" ],
+    "video": [ "mpeg2video", "mpeg2_qsv" ],
     "audio": [ "ac3", "dca", "libmp3lame", "mp2" ]
   },
   "capabilities": {

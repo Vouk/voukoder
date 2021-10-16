@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "mpeg2video",
-  "name": "MPEG2",
-  "extension": "m2v",
+  "id": "mp2",
+  "name": "MPEG 1 Layer 2",
+  "extension": "mp2",
   "encoders": {
-    "video": [ "mpeg2video", "mpeg2_qsv" ],
-    "audio": []
+    "video": [],
+    "audio": [ "mp2" ]
   },
   "capabilities": {
     "faststart": false

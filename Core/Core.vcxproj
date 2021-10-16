@@ -243,6 +243,7 @@
     <None Include="resources\encoders\libx264.json" />
     <None Include="resources\encoders\libx264rgb.json" />
     <None Include="resources\encoders\libx265.json" />
+    <None Include="resources\encoders\mp2.json" />
     <None Include="resources\encoders\mpeg2video.json" />
     <None Include="resources\encoders\mpeg2_qsv.json" />
     <None Include="resources\encoders\pcm_s16le.json" />
@@ -514,8 +515,10 @@
     <None Include="resources\muxers\image2-bmp.json" />
     <None Include="resources\muxers\image2-png.json" />
     <None Include="resources\muxers\image2-tiff.json" />
+    <None Include="resources\muxers\mp2.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
+    <None Include="resources\muxers\vob.json" />
     <None Include="resources\muxers\wv.json" />
     <None Include="resources\presets.json" />
     <None Include="resources\translations\ru.json" />

@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "mp2",
+  "name": "MP2",
+  "defaults": {
+    "_sampleFormat": "s16"
+  },
+  "groups": [
+    {
+      "id": "standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "b",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 7,
+            "items": [
+              {
+                "value": "32000"
+              },
+              {
+                "value": "40000"
+              },
+              {
+                "value": "48000"
+              },
+              {
+                "value": "64000"
+              },
+              {
+                "value": "80000"
+              },
+              {
+                "value": "96000"
+              },
+              {
+                "value": "112000"
+              },
+              {
+                "value": "128000"
+              },
+              {
+                "value": "160000"
+              },
+              {
+                "value": "192000"
+              },
+              {
+                "value": "224000"
+              },
+              {
+                "value": "256000"
+              },
+              {
+                "value": "320000"
+              },
+              {
+                "value": "384000"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
