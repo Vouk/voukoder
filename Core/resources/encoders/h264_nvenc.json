@@ -33,13 +33,7 @@
                 "value": "yuv420p"
               },
               {
-                "value": "p010le"
-              },
-              {
                 "value": "yuv444p"
-              },
-              {
-                "value": "yuv444p16le"
               }
             ]
           }
