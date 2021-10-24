@@ -101,10 +101,10 @@ void wxOptionEditor::DeflateGroups(EncoderInfo encoderInfo, OptionContainer& opt
 			while (tokenizer.HasMoreTokens())
 			{
 				wxString token = tokenizer.GetNextToken();
-				auto key = token.Before('=').ToStdString();
+				auto key = token.BeforeFirst('=').ToStdString();
 
 				if (std::find(validParams.begin(), validParams.end(), key) != validParams.end())
-					options[key] = token.After('=');
+					options[key] = token.AfterFirst('=');
 			}
 		}
 	}
