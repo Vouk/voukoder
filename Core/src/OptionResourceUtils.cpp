@@ -19,6 +19,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 #include <map>
+#include <sstream>
 #include "OptionResourceUtils.h"
 #include "LanguageUtils.h"
 
@@ -71,6 +72,20 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 
 		optionInfo.control.singleStep.intValue = resource["control"]["singleStep"].get<int>();
 		optionInfo.control.value.intValue = resource["control"]["value"].get<int>();
+
+		std::wstringstream valid;
+		valid << "\n\n" << Trans("ui.generic.minimum") << ": ";
+		if (optionInfo.control.minimum.intValue - 1 <= INT_MIN)
+			valid << "-";
+		else
+			valid << optionInfo.control.minimum.intValue;
+		valid << "\n" << Trans("ui.generic.maximum") << ": ";
+		if (optionInfo.control.maximum.intValue >= INT_MAX)
+			valid << "-";
+		else
+			valid << optionInfo.control.maximum.intValue;
+		valid << "\n" << Trans("ui.generic.default") << ": " << optionInfo.control.value.intValue;
+		optionInfo.description += valid.str();
 	}
 	else if (type == "float")
 	{
@@ -88,11 +103,35 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 
 		optionInfo.control.singleStep.floatValue = resource["control"]["singleStep"].get<float>();
 		optionInfo.control.value.floatValue = resource["control"]["value"].get<float>();
+
+		std::wstringstream valid;
+		valid << std::fixed;
+		valid.precision(3);
+		valid << "\n\n" << Trans("ui.generic.minimum") << ": ";
+		if (optionInfo.control.minimum.floatValue - 1 <= float(INT_MIN))
+			valid << "-";
+		else
+			valid << optionInfo.control.minimum.floatValue;
+		valid << "\n" << Trans("ui.generic.maximum") << ": ";
+		if (optionInfo.control.maximum.floatValue >= float(INT_MAX))
+			valid << "-";
+		else
+			valid << optionInfo.control.maximum.floatValue;
+		valid << "\n" << Trans("ui.generic.default") << ": " << optionInfo.control.value.floatValue;
+		optionInfo.description += valid.str();
 	}
 	else if (type == "boolean")
 	{
 		optionInfo.control.type = EncoderOptionType::Boolean;
 		optionInfo.control.value.boolValue = resource["control"]["value"].get<bool>();
+
+		std::wstringstream valid;
+		valid << "\n\n" << Trans("ui.generic.default") << ": ";
+		if (optionInfo.control.value.boolValue)
+			valid << Trans("ui.encoderconfig.true");
+		else
+			valid << Trans("ui.encoderconfig.false");
+		optionInfo.description += valid.str();
 	}
 	else if (type == "string")
 	{
@@ -100,9 +139,11 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 		optionInfo.control.value.stringValue = resource["control"]["value"].get<std::string>();
 
 		if (resource["control"].find("regex") != resource["control"].end())
-		{
 			optionInfo.control.regex = resource["control"]["regex"].get<std::string>();
-		}
+
+		std::wstringstream valid;
+		valid << "\n\n" << Trans("ui.generic.default") << ": " << optionInfo.control.value.stringValue;
+		optionInfo.description += valid.str();
 	}
 	else if (type == "combobox")
 	{
@@ -111,13 +152,16 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 		// Default selected item
 		optionInfo.control.selectedIndex = resource["control"]["selectedIndex"].get<int>();
 
+		std::wstringstream valid;
+		valid << "\n\n" << Trans("ui.generic.default") << ": " << optionInfo.control.value.stringValue;
+
 		// All items
 		int idx = 0;
 		for (json item : resource["control"]["items"])
 		{
 			// Create combo item
 			EncoderOptionInfo::ComboItem comboItem;
-			comboItem.id = optionInfo.id + "._item_" + std::to_string(idx++);
+			comboItem.id = optionInfo.id + "._item_" + std::to_string(idx);
 			comboItem.name = Trans(comboItem.id);
 
 			if (item.find("value") != item.end())
@@ -135,7 +179,14 @@ bool OptionResourceUtils::CreateOptionInfo(EncoderOptionInfo &optionInfo, const 
 			CreateOptionFilterInfos(comboItem.filters, item, optionInfo.id);
 
 			optionInfo.control.items.push_back(comboItem);
+
+			if (optionInfo.control.selectedIndex == idx)
+				valid << comboItem.name;
+
+			idx++;
 		}
+
+		optionInfo.description += valid.str();
 	}
 
 	// Parse filters
