@@ -932,7 +932,7 @@
           "parameter": "zones",
           "control": {
             "type": "string",
-            "value": ""
+            "value": "0,1500,q=45/150000,175000,q=45"
           }
         },
         {
