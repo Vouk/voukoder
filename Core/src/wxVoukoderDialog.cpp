@@ -681,6 +681,9 @@ void wxVoukoderDialog::OnOkayClick(wxCommandEvent& event)
 	RegistryUtils::SetValue(VKDR_REG_DIALOG_POSITION, wxString::Format("%i;%i", rect.x, rect.y));
 	RegistryUtils::SetValue(VKDR_REG_DIALOG_SIZE, wxString::Format("%i;%i", rect.width, rect.height));
 
+	// Save settings as a preset to registry
+	RegistryUtils::SetValue(VKDR_REG_LAST_SETTINGS, exportInfo.exportPreset());
+
 	EndDialog(wxID_OK);
 }
 

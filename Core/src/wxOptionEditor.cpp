@@ -170,7 +170,10 @@ void wxOptionEditor::Configure(EncoderInfo encoderInfo, OptionContainer options)
 					{
 						if (item.value == options[optionInfo.parameter])
 						{
-							optionProperty->SetValueFromString(Trans(item.id));
+							if (Trans(item.id) == item.id)
+								optionProperty->SetValueFromString(item.name);
+							else
+								optionProperty->SetValueFromString(Trans(item.id));
 							break;
 						}
 					}

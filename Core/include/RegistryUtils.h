@@ -30,6 +30,7 @@
 #define VKDR_REG_LOW_LEVEL_LOGGING "LowLevelLogging"
 #define VKDR_REG_DIALOG_POSITION "DialogPosition"
 #define VKDR_REG_DIALOG_SIZE "DialogSize"
+#define VKDR_REG_LAST_SETTINGS "LastSettings"
 
 class RegistryUtils
 {

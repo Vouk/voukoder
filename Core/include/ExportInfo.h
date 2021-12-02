@@ -26,8 +26,6 @@
 #include "FilterConfig.h"
 #include "json.hpp"
 
-using namespace nlohmann;
-
 enum VKEncVideoFlags {
 	VK_FLAG_NONE = 0x0000,
 	VK_FLAG_DEINTERLACE_BOBBING = 0x0001
@@ -75,4 +73,54 @@ struct ExportInfo
 		wxString id = wxEmptyString;
 		bool faststart = false;
 	} format;
+
+	wxString exportPreset()
+	{
+		nlohmann::json video;
+		video["id"] = this->video.id;
+		video["options"] = this->video.options.Serialize(true);
+		video["sidedata"] = this->video.sideData.Serialize(true);
+		video["filters"] = this->video.filters.Serialize();
+
+		nlohmann::json audio;
+		audio["id"] = this->audio.id;
+		audio["options"] = this->audio.options.Serialize(true);
+		audio["sidedata"] = this->audio.sideData.Serialize(true);
+		audio["filters"] = this->audio.filters.Serialize();
+
+		nlohmann::json format;
+		format["id"] = this->format.id;
+		format["faststart"] = this->format.faststart;
+
+		nlohmann::json preset;
+		preset["name"] = "";
+		preset["video"] = video;
+		preset["audio"] = audio;
+		preset["format"] = format;
+
+		return preset.dump();
+	}
+
+	static EncoderInfo FromPreset(wxString input)
+	{
+		json preset;
+
+		EncoderInfo encoderInfo = {};
+
+		//try
+		//{
+		//	preset = nlohmann::json::parse(input);
+		//}
+		//catch (json::parse_error p)
+		//{
+		//	return encoderInfo;
+		//}
+
+
+
+
+
+
+		return encoderInfo;
+	}
 };
