@@ -88,6 +88,10 @@
 #define IDR_MUX_IMAGE2_PNG              217
 #define IDR_MUX_IMAGE2_TIFF             218
 #define IDR_MUX_AVI                     219
+#define IDR_MUX_AC3                     220
+#define IDR_MUX_EAC3                    221
+#define IDR_MUX_DTS                     222
+#define IDR_MUX_M4A                     223
 #define ID_TRANSLATION                  300
 #define IDR_TRANS_EN                    301
 #define IDR_TRANS_DE                    302

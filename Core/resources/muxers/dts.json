@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "dts",
+  "name": "Digital Theatre Systems",
+  "extension": "dts",
+  "encoders": {
+    "video": [],
+    "audio": [ "dca" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

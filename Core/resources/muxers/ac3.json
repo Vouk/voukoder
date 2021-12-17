@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "ac3",
+  "name": "Audio Codec 3",
+  "extension": "ac3",
+  "encoders": {
+    "video": [],
+    "audio": [ "ac3" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "m4a",
+  "name": "MPEG 4 Audio",
+  "extension": "m4a",
+  "encoders": {
+    "video": [],
+    "audio": [ "alac" ]
+  },
+  "capabilities": {
+    "faststart": false
+  }
+}

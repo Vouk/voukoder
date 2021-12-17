@@ -508,13 +508,17 @@
     <None Include="resources\filters\yadif.json" />
     <None Include="resources\filters\zoompan.json" />
     <None Include="resources\filters\zscale.json" />
+    <None Include="resources\muxers\ac3.json" />
     <None Include="resources\muxers\avi.json" />
+    <None Include="resources\muxers\dts.json" />
+    <None Include="resources\muxers\eac3.json" />
     <None Include="resources\muxers\gif.json" />
     <None Include="resources\muxers\h264.json" />
     <None Include="resources\muxers\hevc.json" />
     <None Include="resources\muxers\image2-bmp.json" />
     <None Include="resources\muxers\image2-png.json" />
     <None Include="resources\muxers\image2-tiff.json" />
+    <None Include="resources\muxers\m4a.json" />
     <None Include="resources\muxers\mp2.json" />
     <None Include="resources\muxers\mpeg2video.json" />
     <None Include="resources\muxers\mpegts.json" />
