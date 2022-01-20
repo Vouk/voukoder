@@ -123,7 +123,7 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 	const AVFilter *filter = avfilter_get_by_name(codecId.After('.'));
 	if (filter != NULL)
 	{
-		if (avfilter_pad_count(filter->outputs) > 0)
+		if (filter->nb_outputs > 0)
 			return avfilter_pad_get_type(filter->outputs, 0);
 	}
 
