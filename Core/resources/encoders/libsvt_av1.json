@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libsvtav1",
-  "name": "AV1 (experimental)",
+  "name": "SVT AV1",
   "defaults": {},
   "presets": [],
   "groups": [
@@ -160,7 +160,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 8,
+            "selectedIndex": 13,
             "items": [
               {
                 "value": "0"
@@ -188,6 +188,21 @@
               },
               {
                 "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "13"
               }
             ]
           }
