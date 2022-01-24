@@ -2530,7 +2530,7 @@
     "libsvtav1.standard.maxrate._label": "Le débit maximale [kbits]",
     "libsvtav1.standard.maxrate._description": "Une valeur plus élevée peut améliorer la qualité maximale, mais augmente les exigences du décodeur.",
     "libsvtav1.standard.preset._label": "Préréglage",
-    "libsvtav1.standard.preset._description": "Encoding preset",
+    "libsvtav1.standard.preset._description": "Preset d'encodage",
     "libsvtav1.standard.preset._item_0": "Ultra qualité",
     "libsvtav1.standard.preset._item_1": "La meilleur qualité",
     "libsvtav1.standard.preset._item_2": "Meilleur qualité",
