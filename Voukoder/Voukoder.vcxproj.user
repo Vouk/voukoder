@@ -4,7 +4,7 @@
     <LocalDebuggerCommandArguments>
     </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro CS6\Adobe Premiere Pro.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro CS6</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommand>C:\Program Files\Adobe\Adobe Premiere Pro 2022\Adobe Premiere Pro.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>C:\Program Files\Adobe\Adobe Premiere Pro 2022</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

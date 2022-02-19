@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.01.0622 */
-/* at Tue Jan 19 04:14:07 2038
+/* at Mon Jan 18 19:14:07 2038
  */
 /* Compiler settings for VoukoderTypeLib.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0622 
@@ -782,7 +782,7 @@ static const unsigned short IVoukoder_FormatStringOffsetTable[] =
 
 
  /* File created by MIDL compiler version 8.01.0622 */
-/* at Tue Jan 19 04:14:07 2038
+/* at Mon Jan 18 19:14:07 2038
  */
 /* Compiler settings for VoukoderTypeLib.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0622 

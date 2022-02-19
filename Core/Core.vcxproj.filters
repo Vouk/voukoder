@@ -1166,6 +1166,9 @@
     <None Include="resources\muxers\m4a.json">
       <Filter>Ressourcendateien\Muxers</Filter>
     </None>
+    <None Include="resources\encoders\av1_qsv.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

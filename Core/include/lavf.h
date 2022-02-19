@@ -89,6 +89,10 @@ extern "C" {
 #  pragma comment(lib, "libmfx.lib")
 #endif
 
+#if __has_include("vpl/mfx.h")
+#  pragma comment(lib, "vpl.lib")
+#endif
+
 #if __has_include("svt-av1/EbSvtAv1.h")
 #  pragma comment(lib, "SvtAv1Enc.lib")
 #endif
