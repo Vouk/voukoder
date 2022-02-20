@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libsvtav1",
-  "name": "SVT AV1",
+  "name": "AV1 (SVT)",
   "defaults": {},
   "presets": [],
   "groups": [
