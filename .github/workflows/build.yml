@@ -19,7 +19,7 @@ jobs:
     - name: Set up dependencies
       shell: wsl-bash {0}
       run: |
-        wget https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz
+        wget --no-check-certificate https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz
         mkdir external external/lib external/lib/release project
         tar zxf ffmpeg-win64-static-release.tar.gz -C external
         mv external/lib/* external/lib/release
