@@ -18,7 +18,7 @@ jobs:
     - name: Set up dependencies
       shell: cmd
       run: |
-        D:\a\_temp\setup-msys2\msys2.cmd -c 'TGZ=$(curl -s https://api.github.com/repos/vouk/voukoder-ffmpeg/releases/latest | grep "browser_download_url.*ffmpeg-win64-static-release" | cut -d : -f 2,3 | tr -d \" | wget -i -) ; echo $TGZ'
+        D:\a\_temp\setup-msys2\msys2.cmd -c 'TGZ=$(curl -s https://api.github.com/repos/vouk/voukoder-ffmpeg/releases/latest | grep browser_download_url.*ffmpeg-win64-static-release | cut -d : -f 2,3 | tr -d \" | wget -i -) ; echo $TGZ'
 #    - name: Set up MSBuild
 #      uses: microsoft/setup-msbuild@v1.1
 #    - name: Checkout Voukoder
