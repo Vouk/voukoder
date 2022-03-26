@@ -19,8 +19,10 @@ jobs:
     - name: Set up dependencies
       shell: wsl-bash {0}
       run: |
-        TGZ=$(curl -s https://api.github.com/repos/vouk/voukoder-ffmpeg/releases/latest | grep browser_download_url.*ffmpeg-win64-static-release | cut -d : -f 2,3 | tr -d \")
-        echo $TGZ
+        wget https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz
+        mkdir external external/lib external/lib/release project
+        tar zxf ffmpeg-win64-static-release.tar.gz -C external
+        mv external/lib/* external/lib/release
 #    - name: Set up MSBuild
 #      uses: microsoft/setup-msbuild@v1.1
 #    - name: Checkout Voukoder
