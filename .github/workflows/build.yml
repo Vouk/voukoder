@@ -2,10 +2,23 @@ name: Build Voukoder
 
 on:
   workflow_dispatch:
+    inputs:
+      verMajor:
+        description: 'Major version'
+        required: true
+        default: '10'
+      verMinor:
+        description: 'Minor version'
+        required: true
+        default: '2'
+      verPatch:
+        description: 'Patch version'
+        required: true
+        default: '149'
         
 env:
   vsPath: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\
-  
+
 jobs:
   voukoder:
     runs-on: windows-2019
@@ -24,17 +37,29 @@ jobs:
         tar zxf ffmpeg-win64-static-release.tar.gz -C external
         mkdir external/lib/release
         mv external/lib/*.lib external/lib/release/
-#    - name: Set up MSBuild
-#      uses: microsoft/setup-msbuild@v1.1
-#    - name: Checkout Voukoder
-#      uses: actions/checkout@v3.0.0
-#      with:
-#        path: project\voukoder
-    - name: Build X265 (10 bit)
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Checkout Voukoder
+      uses: actions/checkout@v3.0.0
+      with:
+        path: project\voukoder
+    - name: Set version number
+      shell: wsl-bash {0}
+      run: |
+        echo ^<?xml version="1.0" encoding="UTF-8"?^>^<Include^>^<?define PrivateProductVersion = "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }}.0" ?^>^<?define PublicProductVersion = "${{ github.event.inputs.verPublic }}" ?^>^</Include^> > project/voukoder/Installer/Properties.wxi
+        echo #pragma once > project/voukoder/Core/include/Version.h
+        echo #define VKDR_VERSION_MAJOR ${{ github.event.inputs.verMajor }} >> project/voukoder/Core/include/Version.h
+        echo #define VKDR_VERSION_MINOR ${{ github.event.inputs.verMinor }} >> project/voukoder/Core/include/Version.h
+        echo #define VKDR_VERSION_PATCH ${{ github.event.inputs.verPatch }} >> project/voukoder/Core/include/Version.h
+        echo #define VKDR_VERSION_PUBLIC "${{ github.event.inputs.verPublic }}" >> project/voukoder/Core/include/Version.h
+        echo #define BINVERSION ${{ github.event.inputs.verMajor }}, ${{ github.event.inputs.verMinor }}, 0, ${{ github.event.inputs.verPatch }} >> project/voukoder/Core/include/Version.h
+        echo #define STRVERSION "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.0.${{ github.event.inputs.verPatch }}" >> project/voukoder/Core/include/Version.h
+    - name: Build Voukoder
       shell: cmd
       run: |
-        rem call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
-        dir /s 
+        call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
+        MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
+        dir /s
 #    - name: Publish artifact
 #      uses: actions/upload-artifact@v2
 #      with:
