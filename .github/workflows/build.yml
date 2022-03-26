@@ -46,7 +46,7 @@ jobs:
     - name: Set version number
       shell: wsl-bash {0}
       run: |
-        echo ^<?xml version="1.0" encoding="UTF-8"?^>^<Include^>^<?define PrivateProductVersion = "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }}.0" ?^>^<?define PublicProductVersion = "${{ github.event.inputs.verPublic }}" ?^>^</Include^> > project/voukoder/Installer/Properties.wxi
+        echo \<?xml version="1.0" encoding="UTF-8"?\>\<Include\>\<?define PrivateProductVersion = "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }}.0" ?\>\<?define PublicProductVersion = "${{ github.event.inputs.verPublic }}" ?\>\</Include\> > project/voukoder/Installer/Properties.wxi
         echo #pragma once > project/voukoder/Core/include/Version.h
         echo #define VKDR_VERSION_MAJOR ${{ github.event.inputs.verMajor }} >> project/voukoder/Core/include/Version.h
         echo #define VKDR_VERSION_MINOR ${{ github.event.inputs.verMinor }} >> project/voukoder/Core/include/Version.h
