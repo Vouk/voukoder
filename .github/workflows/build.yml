@@ -13,7 +13,7 @@ jobs:
     - name: Set up MSYS2
       uses: msys2/setup-msys2@v2
       with:
-        install: base-devel binutils autotools automake mingw-w64-x86_64-cmake nasm wget
+        install: base-devel binutils curl wget
         path-type: inherit
     - name: Set up dependencies
       shell: cmd
