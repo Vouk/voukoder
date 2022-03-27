@@ -67,9 +67,10 @@ jobs:
       run: |
         call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
-        dir /s
+        ren project\voukoder\Installer\bin\x64\Release\voukoder.exe project\voukoder\Installer\bin\x64\Release\voukoder-${{ github.event.inputs.verPublic }}.exe
+        dir /s project\voukoder\Installer
     - name: Publish artifact
       uses: actions/upload-artifact@v2
       with:
         name: Voukoder ${{ github.event.inputs.verPublic }} (${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }})
-        path: project/voukoder/Installer/bin/x64/voukoder.msi
+        path: project\voukoder\Installer\bin\x64\Release\voukoder-${{ github.event.inputs.verPublic }}.exe
