@@ -51,7 +51,7 @@ jobs:
       run: |
         "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         cd project/voukoder
-        wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
+        Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
         mkdir wxWidgets-3.1.2
         & 'C:\Program Files\7-Zip\7z.exe' x wxWidgets-3.1.2.7z
         cd wxWidgets-3.1.2\build\msw
