@@ -52,6 +52,7 @@ jobs:
       if: steps.wxw-cache.outputs.cache-hit != 'true'
       run: |
         dir
+        md project\voukoder\wxWidgets-3.1.2
         cd project\voukoder\wxWidgets-3.1.2
         & 'C:\Program Files\7-Zip\7z.exe' x -y ..\..\..\wxWidgets-3.1.2.7z
         "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
