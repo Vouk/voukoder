@@ -20,7 +20,7 @@
  */
 #pragma once
 
-#include <wx/wx.h>
+#include <wx\wx.h>
 #include "lavf.h"
 #include "OptionContainer.h"
 #include "FilterConfig.h"
