@@ -53,8 +53,9 @@ jobs:
         cd project/voukoder
         Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
         mkdir wxWidgets-3.1.2
+        cd wxWidgets-3.1.2
         & 'C:\Program Files\7-Zip\7z.exe' x -y wxWidgets-3.1.2.7z
-        cd wxWidgets-3.1.2\build\msw
+        cd build\msw
         & nmake /f makefile.vc BUILD=release TARGET_CPU=X64
     - name: Set version number
       shell: wsl-bash {0}
