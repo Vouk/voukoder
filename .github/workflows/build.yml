@@ -15,7 +15,11 @@ on:
         description: 'Patch version'
         required: true
         default: '149'
-        
+      verPublic:
+        description: 'Public version'
+        required: true
+        default: '10.2'
+
 env:
   vsPath: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\
 
@@ -44,11 +48,10 @@ jobs:
       with:
         path: project\voukoder
     - name: Set up wxWidgets 3.1.2
-      shell: wsl-bash {0}
       run: |
-        call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
+        "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         cd project/voukoder
-        wget -q --no-check-certificate https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z
+        wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
         mkdir wxWidgets-3.1.2
         "%ProgramFiles%\7-Zip\7z" x wxWidgets-3.1.2.7z
         cd wxWidgets-3.1.2/build/msw
