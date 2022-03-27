@@ -60,8 +60,8 @@ jobs:
         call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
         dir /s
-#    - name: Publish artifact
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: x265_10bit
-#        path: dist/x265_10bit.lib
+    - name: Publish artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Voukoder ${{ github.event.inputs.verPublic }} (${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }})
+        path: project/voukoder/Installer/bin/x64/voukoder.msi
