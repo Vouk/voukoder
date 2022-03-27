@@ -30,7 +30,8 @@ jobs:
     - name: Set up dependencies
       run: |
         Invoke-WebRequest https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz -OutFile temp.tar.gz
-        md external project
+        md external
+        md project
         & cmd.exe '/C 7z x "temp.tar.gz" -so | 7z x -aoa -si -ttar -o"external"'
         md external\lib\release
         move external\lib\*.lib external\lib\release\
