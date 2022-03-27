@@ -12,7 +12,7 @@
     UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
 
     <Package
-      InstallerVersion="200" 
+      InstallerVersion="301" 
       Manufacturer="Daniel Stankewitz"
       Description="Installs the Voukoder component"
       Compressed="yes"

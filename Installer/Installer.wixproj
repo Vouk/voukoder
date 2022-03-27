@@ -7,7 +7,7 @@
     <ProjectGuid>28f27aff-4920-4de6-9000-1be251c85c1f</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>voukoder</OutputName>
-    <OutputType>Package</OutputType>
+    <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DefineConstants>Debug</DefineConstants>
