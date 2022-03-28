@@ -1,0 +1,82 @@
+name: Build Voukoder
+
+on:
+  workflow_dispatch:
+    inputs:
+      verMajor:
+        description: 'Major version'
+        required: true
+        default: '10'
+      verMinor:
+        description: 'Minor version'
+        required: true
+        default: '2'
+      verPatch:
+        description: 'Patch version'
+        required: true
+        default: '150'
+      verPublic:
+        description: 'Public version'
+        required: true
+        default: '10.3test'
+
+env:
+  vsPath: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\
+
+jobs:
+  voukoder:
+    runs-on: windows-2022
+    steps:
+    - name: Set up dependencies
+      run: |
+        Invoke-WebRequest https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz -Headers @{"Cache-Control"="no-cache"} -OutFile temp.tar.gz
+        Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
+        md external
+        md project
+        & cmd.exe '/C 7z x "temp.tar.gz" -so | 7z x -aoa -si -ttar -o"external"'
+        md external\lib\release
+        move external\lib\*.lib external\lib\release\
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Checkout Voukoder
+      uses: actions/checkout@v3.0.0
+      with:
+        path: project\voukoder
+    - name: Check cache for wxWidgets 3.1.2
+      id: wxw-cache
+      uses: actions/cache@v3
+      with:
+        path: project/voukoder/wxWidgets-3.1.2
+        key: ${{ runner.os }}-${{ hashFiles('wxWidgets-3.1.2.7z') }}
+    - name: Compile wxWidgets 3.1.2
+      if: steps.wxw-cache.outputs.cache-hit != 'true'
+      run: |
+        dir
+        md project\voukoder\wxWidgets-3.1.2
+        cd project\voukoder\wxWidgets-3.1.2
+        & 'C:\Program Files\7-Zip\7z.exe' x -y ..\..\..\wxWidgets-3.1.2.7z
+        "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
+        cd build\msw
+        & '${{ env.vsPath }}MSBuild\Current\Bin\MSBuild.exe' -p:Configuration=release -p:Platform=x64 -p:PlatformToolset=v143 -m wx_vc15.sln
+    - name: Set version number
+      shell: cmd
+      run: |
+        echo ^<?xml version="1.0" encoding="UTF-8"?^>^<Include^>^<?define PrivateProductVersion = "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }}.0" ?^>^<?define PublicProductVersion = "${{ github.event.inputs.verPublic }}" ?^>^</Include^> > project\voukoder\Installer\Properties.wxi
+        echo #pragma once > project\voukoder\Core\include\Version.h
+        echo #define VKDR_VERSION_MAJOR ${{ github.event.inputs.verMajor }} >> project\voukoder\Core\include\Version.h
+        echo #define VKDR_VERSION_MINOR ${{ github.event.inputs.verMinor }} >> project\voukoder\Core\include\Version.h
+        echo #define VKDR_VERSION_PATCH ${{ github.event.inputs.verPatch }} >> project\voukoder\Core\include\Version.h
+        echo #define VKDR_VERSION_PUBLIC "${{ github.event.inputs.verPublic }}" >> project\voukoder\Core\include\Version.h
+        echo #define BINVERSION ${{ github.event.inputs.verMajor }}, ${{ github.event.inputs.verMinor }}, 0, ${{ github.event.inputs.verPatch }} >> project\voukoder\Core\include\Version.h
+        echo #define STRVERSION "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.0.${{ github.event.inputs.verPatch }}" >> project\voukoder\Core\include\Version.h
+    - name: Build Voukoder
+      shell: cmd
+      run: |
+        call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
+        MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
+        move project\voukoder\Installer\bin\x64\Release\voukoder.msi voukoder-${{ github.event.inputs.verPublic }}.msi
+    - name: Publish artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Voukoder ${{ github.event.inputs.verPublic }} (${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.${{ github.event.inputs.verPatch }})
+        path: voukoder-${{ github.event.inputs.verPublic }}.msi

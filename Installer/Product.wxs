@@ -12,7 +12,7 @@
     UpgradeCode="30bbae4a-f5ed-40b1-bd45-5c2ba875ebef">
 
     <Package
-      InstallerVersion="200" 
+      InstallerVersion="301" 
       Manufacturer="Daniel Stankewitz"
       Description="Installs the Voukoder component"
       Compressed="yes"
@@ -33,7 +33,7 @@
     <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-	    <Merge Id="VCRedist" SourceFile="Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0" />
+	    <Merge Id="VCRedist" SourceFile="Microsoft_VC143_CRT_x64.msm" DiskId="1" Language="0" />
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="INSTALLDIR" Name="Voukoder"/>
       </Directory>

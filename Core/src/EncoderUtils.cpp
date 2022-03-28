@@ -109,6 +109,11 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validate
 	if (resource.find("presets") != resource.end())
 		encoderInfo.presets = resource["presets"].get<std::vector<PresetInfo>>();
 
+	// Greate the first preset as "default" preset
+	PresetInfo defaultPreset = {};
+	defaultPreset.name = Trans("ui.generic.default");
+	encoderInfo.presets.insert(encoderInfo.presets.begin(), defaultPreset);
+
 	return true;
 }
 
