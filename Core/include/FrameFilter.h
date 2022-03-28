@@ -28,7 +28,7 @@ struct FrameFilterOptions
 	int height = 0;
 	AVMediaType media_type = AVMEDIA_TYPE_UNKNOWN;
 	AVRational time_base = { 0, 0 };
-	uint64_t channel_layout = 0;
+	AVChannelLayout channel_layout;
 	AVSampleFormat sample_fmt = AV_SAMPLE_FMT_NONE;
 	AVPixelFormat pix_fmt = AV_PIX_FMT_NONE;
 	AVRational sar = { 1, 1 };

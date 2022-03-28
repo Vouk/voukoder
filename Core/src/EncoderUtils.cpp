@@ -167,8 +167,9 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			}
 			else if (codec->type == AVMEDIA_TYPE_AUDIO)
 			{
-				codecContext->channel_layout = codec->channel_layouts ? codec->channel_layouts[0] : AV_CH_LAYOUT_STEREO;
-				codecContext->channels = av_get_channel_layout_nb_channels(codecContext->channel_layout);
+				AVChannelLayout ch_layout;
+				av_channel_layout_from_mask(&ch_layout, AV_CH_LAYOUT_STEREO);
+				codecContext->ch_layout = codec->ch_layouts ? codec->ch_layouts[0] : ch_layout;
 				codecContext->sample_rate = codec->supported_samplerates ? codec->supported_samplerates[0] : 48000;
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 			}
