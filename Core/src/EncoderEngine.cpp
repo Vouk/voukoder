@@ -449,7 +449,8 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
-		encoderContext->codecContext->ch_layout = exportInfo.audio.channelLayout;
+		encoderContext->codecContext->channel_layout = exportInfo.audio.channelLayout;
+		encoderContext->codecContext->channels = av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout);
 		encoderContext->codecContext->time_base = exportInfo.audio.timebase;
 		encoderContext->codecContext->sample_rate = exportInfo.audio.timebase.den;
 		encoderContext->codecContext->bit_rate = 0;
@@ -702,11 +703,11 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
 		
 		// Convert sample format
-		if (audioContext.codecContext->ch_layout.nb_channels != frame->ch_layout.nb_channels ||
+		if (audioContext.codecContext->channels != frame->channels ||
 			(int)audioContext.codecContext->sample_fmt != frame->format ||
 			audioContext.codecContext->sample_rate != frame->sample_rate)
 		{
-			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->ch_layout.nb_channels << "c:";
+			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
 			filterconfig << "sample_fmts=" << av_get_sample_fmt_name(audioContext.codecContext->sample_fmt) << ":";
 			filterconfig << "sample_rates=" << audioContext.codecContext->sample_rate;
 		}
@@ -720,7 +721,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 			// Set frame filter options
 			FrameFilterOptions options;
 			options.media_type = AVMEDIA_TYPE_AUDIO;
-			options.channel_layout = frame->ch_layout;
+			options.channel_layout = frame->channel_layout;
 			options.sample_fmt = (AVSampleFormat)frame->format;
 			options.time_base = { 1, frame->sample_rate };
 
