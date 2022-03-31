@@ -25,14 +25,14 @@
 #include "OptionResourceUtils.h"
 #include "Log.h"
 
-bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validateEncoder)
+bool EncoderUtils::Create(EncoderInfo& encoderInfo, json resource, bool validateEncoder)
 {
 	encoderInfo.id = resource["id"].get<std::string>();
 	encoderInfo.name = resource["name"].get<std::string>();
 	encoderInfo.type = GetMediaType(encoderInfo.id);
 
 	// Default parameters
-	for (auto &item : resource["defaults"].items())
+	for (auto& item : resource["defaults"].items())
 	{
 		std::string value = item.value().get<std::string>();
 		encoderInfo.defaults.insert(make_pair(item.key(), value));
@@ -98,7 +98,7 @@ bool EncoderUtils::Create(EncoderInfo &encoderInfo, json resource, bool validate
 	// Optional: Is a format set?
 	if (resource.find("parameterGroups") != resource.end())
 	{
-		for (auto &item : resource["parameterGroups"].items())
+		for (auto& item : resource["parameterGroups"].items())
 		{
 			std::vector<std::string> paramGroup = item.value().get<std::vector<std::string>>();
 			encoderInfo.paramGroups.insert(make_pair(item.key(), paramGroup));
@@ -125,7 +125,7 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 		return codec->type;
 
 	// Is it a filter?
-	const AVFilter *filter = avfilter_get_by_name(codecId.After('.'));
+	const AVFilter* filter = avfilter_get_by_name(codecId.After('.'));
 	if (filter != NULL)
 	{
 		if (filter->nb_outputs > 0)
@@ -143,9 +143,18 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	bool ret = false;
 
-	//AVBufferRef* hwDev = nullptr;
-	//if (name.EndsWith("_qsv"))
-	//	ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+	// Detect if QSV is generally available
+	if (name.Lower().EndsWith("_qsv"))
+	{
+		AVBufferRef* hwDev = nullptr;
+		int val = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+
+		if (hwDev)
+			av_buffer_unref(&hwDev);
+
+		if (val != 0)
+			return false;
+	}
 
 	auto codec = avcodec_find_encoder_by_name(name);
 	if (codec != NULL)
@@ -167,8 +176,10 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			}
 			else if (codec->type == AVMEDIA_TYPE_AUDIO)
 			{
-				codecContext->channel_layout = codec->channel_layouts ? codec->channel_layouts[0] : AV_CH_LAYOUT_STEREO;
-				codecContext->channels = av_get_channel_layout_nb_channels(codecContext->channel_layout);
+				if (codec->ch_layouts)
+					codecContext->ch_layout = codec->ch_layouts[0];
+				else
+					av_channel_layout_from_mask(&codecContext->ch_layout, AV_CH_LAYOUT_STEREO);
 				codecContext->sample_rate = codec->supported_samplerates ? codec->supported_samplerates[0] : 48000;
 				codecContext->sample_fmt = codec->sample_fmts ? codec->sample_fmts[0] : AV_SAMPLE_FMT_FLTP;
 			}
@@ -200,13 +211,10 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 		}
 	}
 
-	//if (hwDev)
-	//	av_buffer_unref(&hwDev);
-
 	return ret;
 }
 
-void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer &options)
+void EncoderUtils::InitOptionsWithDefaults(EncoderInfo encoderInfo, OptionContainer& options)
 {
 	options.insert(encoderInfo.defaults.begin(), encoderInfo.defaults.end());
 

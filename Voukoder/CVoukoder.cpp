@@ -91,12 +91,12 @@ CVoukoder::CVoukoder()
 CVoukoder::~CVoukoder()
 {}
 
-STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID *ppv)
+STDMETHODIMP CVoukoder::QueryInterface(REFIID riid, LPVOID* ppv)
 {
 	*ppv = NULL;
 	if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, __uuidof(IVoukoder)))
 	{
-		*ppv = (IVoukoder *)this;
+		*ppv = (IVoukoder*)this;
 		_AddRef();
 		return S_OK;
 	}
@@ -128,7 +128,7 @@ STDMETHODIMP CVoukoder::SetConfig(VKENCODERCONFIG config)
 	exportInfo.video.height = 0;
 
 	// Apply filter outputs
-	for(const auto & options: exportInfo.video.filters)
+	for (const auto& options : exportInfo.video.filters)
 	{
 		// Both bwdif and yadif return progressive frames
 		if (options->id == "filter.yadif" || options->id == "filter.bwdif")
@@ -380,7 +380,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	exportInfo.filename = filename;
 	exportInfo.application = wxString::Format("%s (%s)", VKDR_APPNAME, std::wstring(info.application));
 	exportInfo.video.enabled = info.video.enabled;
-	
+
 	// Width (overwrite if width by filter is set)
 	if (exportInfo.video.width == 0)
 		exportInfo.video.width = info.video.width;
@@ -407,26 +407,29 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 			exportInfo.video.fieldOrder = AVFieldOrder::AV_FIELD_PROGRESSIVE;
 		}
 	}
-	
+
 	exportInfo.audio.enabled = info.audio.enabled;
 	exportInfo.audio.timebase = { 1, info.audio.samplerate };
 
 	// Audio channel layout
+	uint64_t mask = 0;
 	switch (info.audio.channellayout)
 	{
 	case ChannelLayout::Mono:
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_MONO;
+		mask = AV_CH_LAYOUT_MONO;
 		break;
 	case ChannelLayout::Stereo:
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_STEREO;
+		mask = AV_CH_LAYOUT_STEREO;
 		break;
 	case ChannelLayout::FivePointOne:
 		if (exportInfo.audio.id == "dca")
-			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+			mask = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
 		else
-			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+			mask = AV_CH_LAYOUT_5POINT1_BACK;
 		break;
 	}
+
+	av_channel_layout_from_mask(&exportInfo.audio.channelLayout, mask);
 
 	// Multipass encoding
 	if (exportInfo.video.enabled && exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
@@ -449,24 +452,24 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 		vkLogInfoVA("Pixel aspect:    %d:%d", exportInfo.video.sampleAspectRatio.num, exportInfo.video.sampleAspectRatio.den);
 
 		if (exportInfo.video.flags & VKEncVideoFlags::VK_FLAG_DEINTERLACE_BOBBING)
-			vkLogInfoVA("Timebase:        %d/%d (%.2f fps) -> %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num), 
+			vkLogInfoVA("Timebase:        %d/%d (%.2f fps) -> %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num),
 				exportInfo.video.timebase.num, exportInfo.video.timebase.den * 2, ((float)exportInfo.video.timebase.den * 2 / (float)exportInfo.video.timebase.num))
 		else
 			vkLogInfoVA("Timebase:        %d/%d (%.2f fps)", exportInfo.video.timebase.num, exportInfo.video.timebase.den, ((float)exportInfo.video.timebase.den / (float)exportInfo.video.timebase.num))
 
-		// Log field order
-		switch (info.video.fieldorder)
-		{
-		case FieldOrder::Progressive:
-			vkLogInfo("Interlaced:      No");
-			break;
-		case FieldOrder::Bottom:
-			vkLogInfo("Interlaced:      Bottom first");
-			break;
-		case FieldOrder::Top:
-			vkLogInfo("Interlaced:      Top first");
-			break;
-		}
+			// Log field order
+			switch (info.video.fieldorder)
+			{
+			case FieldOrder::Progressive:
+				vkLogInfo("Interlaced:      No");
+				break;
+			case FieldOrder::Bottom:
+				vkLogInfo("Interlaced:      Bottom first");
+				break;
+			case FieldOrder::Top:
+				vkLogInfo("Interlaced:      Top first");
+				break;
+			}
 
 		vkLogInfoVA("Encoder:         %s", exportInfo.video.id);
 		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.video.options.Serialize(true, "", ' ')));
@@ -484,7 +487,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	{
 		vkLogInfo("- Audio -------------------------------------");
 		vkLogInfoVA("Timebase:        %d/%d", exportInfo.audio.timebase.num, exportInfo.audio.timebase.den);
-		vkLogInfoVA("Channels:        %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
+		vkLogInfoVA("Channels:        %d", exportInfo.audio.channelLayout.nb_channels);
 		vkLogInfoVA("Encoder:         %s", exportInfo.audio.id);
 		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.audio.options.Serialize(true, "", ' ')));
 		vkLogInfoVA("Side data:       %s", NoneIfEmpty(exportInfo.audio.sideData.Serialize(true, "", ' ')));
@@ -512,7 +515,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	if (encoder->open() < 0)
 	{
 		vkLogInfo("Opening encoder failed! Aborting ...")
-		return E_FAIL;
+			return E_FAIL;
 	}
 
 	return S_OK;
@@ -549,10 +552,10 @@ STDMETHODIMP CVoukoder::Close(BOOL finalize)
 		fname.Replace("_%d", "");
 		Log::instance()->RemoveFile(fname);
 	}
-	
+
 	// Reset ExportInfo
 	exportInfo = {};
-	
+
 	return S_OK;
 }
 
@@ -580,7 +583,7 @@ STDMETHODIMP CVoukoder::IsAudioWaiting(BOOL* isWaiting)
 STDMETHODIMP CVoukoder::IsVideoActive(BOOL* isActive)
 {
 	*isActive = encoder->hasVideo();
-	
+
 	return S_OK;
 }
 
@@ -596,20 +599,18 @@ STDMETHODIMP CVoukoder::SendAudioSampleChunk(VKAUDIOCHUNK chunk)
 	switch (chunk.layout)
 	{
 	case ChannelLayout::Mono:
-		frame->channel_layout = AV_CH_LAYOUT_MONO;
+		av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_MONO);
 		break;
 	case ChannelLayout::Stereo:
-		frame->channel_layout = AV_CH_LAYOUT_STEREO;
+		av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_STEREO);
 		break;
 	case ChannelLayout::FivePointOne:
 		if (exportInfo.audio.id == "dca")
-			frame->channel_layout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+			av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_5POINT1);
 		else
-			frame->channel_layout = AV_CH_LAYOUT_5POINT1_BACK;
+			av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_5POINT1_BACK);
 		break;
 	}
-
-	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
 
 	// Fill each plane
 	for (int p = 0; p < chunk.planes; p++)
@@ -710,7 +711,7 @@ STDMETHODIMP CVoukoder::ShowVoukoderDialog(BOOL video, BOOL audio, BOOL* isOkay,
 
 	// Clean-up and return.
 	wxEntryCleanup();
-	
+
 	*isOkay = result == (int)wxID_OK;
 
 	return S_OK;

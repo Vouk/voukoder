@@ -153,7 +153,7 @@ int EncoderEngine::open()
 	return avformat_write_header(formatContext, &options);
 }
 
-int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions, EncoderContext *encoderContext, const int flags)
+int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions, EncoderContext* encoderContext, const int flags)
 {
 	int ret;
 
@@ -161,7 +161,7 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 	{
 		vkLogInfoVA("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
 
-		AVDictionary *dictionary = NULL;
+		AVDictionary* dictionary = NULL;
 		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), VALUE_SEPARATOR, PARAM_SEPARATOR, 0)) < 0)
 		{
 			vkLogErrorVA("Unable to parse encoder configuration: %s", codecOptions.c_str());
@@ -215,7 +215,7 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 				if (codecId == "libx265")
 				{
 					wxString params;
-					AVDictionaryEntry *entry = av_dict_get(dictionary, "x265-params", NULL, 0);
+					AVDictionaryEntry* entry = av_dict_get(dictionary, "x265-params", NULL, 0);
 					if (entry != NULL)
 						params = wxString::Format("%s:stats='%s':pass=%d", entry->value, passLogFile, pass);
 					else
@@ -279,7 +279,7 @@ int EncoderEngine::injectStereoData(AVStream* stream)
 	return av_stream_add_side_data(stream, AV_PKT_DATA_STEREO3D, (uint8_t*)stereo_3d, sizeof(*stereo_3d));
 }
 
-int EncoderEngine::injectSphericalData(AVStream *stream)
+int EncoderEngine::injectSphericalData(AVStream* stream)
 {
 	// Do we have spherical projection data?
 	wxString projection = GetSideData(exportInfo.video.sideData, "sph_projection", "");
@@ -287,7 +287,7 @@ int EncoderEngine::injectSphericalData(AVStream *stream)
 		return 0;
 
 	size_t size;
-	
+
 	// Add basic data
 	AVSphericalMapping* spherical = av_spherical_alloc(&size);
 	spherical->yaw = wxAtoi(GetSideData(exportInfo.video.sideData, "sph_yaw", "0"));
@@ -400,7 +400,7 @@ int EncoderEngine::injectContentLightLevels(AVStream* stream)
 	return av_stream_add_side_data(stream, AV_PKT_DATA_CONTENT_LIGHT_LEVEL, (uint8_t*)cll, size);
 }
 
-int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *encoderContext, int flags)
+int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext* encoderContext, int flags)
 {
 	// Is this codec supported?
 	auto codec = avcodec_find_encoder_by_name(codecId.c_str());
@@ -449,8 +449,7 @@ int EncoderEngine::createCodecContext(const wxString codecId, EncoderContext *en
 	}
 	else if (codec->type == AVMEDIA_TYPE_AUDIO)
 	{
-		encoderContext->codecContext->channel_layout = exportInfo.audio.channelLayout;
-		encoderContext->codecContext->channels = av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout);
+		encoderContext->codecContext->ch_layout = exportInfo.audio.channelLayout;
 		encoderContext->codecContext->time_base = exportInfo.audio.timebase;
 		encoderContext->codecContext->sample_rate = exportInfo.audio.timebase.den;
 		encoderContext->codecContext->bit_rate = 0;
@@ -606,7 +605,7 @@ AVMediaType EncoderEngine::getNextFrameType()
 	return (av_compare_ts(videoPts, videoContext.codecContext->time_base, audioContext.next_pts, audioContext.codecContext->time_base) <= 0) ? AVMEDIA_TYPE_VIDEO : AVMEDIA_TYPE_AUDIO;
 }
 
-void EncoderEngine::flushContext(EncoderContext *encoderContext)
+void EncoderEngine::flushContext(EncoderContext* encoderContext)
 {
 	// Close frame filter
 	if (encoderContext->frameFilter)
@@ -637,7 +636,7 @@ bool EncoderEngine::hasAudio()
 	return exportInfo.audio.enabled && audioContext.codecContext && (exportInfo.passes == 1 || pass == exportInfo.passes);
 }
 
-int EncoderEngine::writeVideoFrame(AVFrame *frame)
+int EncoderEngine::writeVideoFrame(AVFrame* frame)
 {
 	// Return false
 	if (!videoContext.codecContext)
@@ -687,7 +686,7 @@ int EncoderEngine::writeVideoFrame(AVFrame *frame)
 	return encodeAndWriteFrame(&videoContext, frame);
 }
 
-int EncoderEngine::writeAudioFrame(AVFrame *frame)
+int EncoderEngine::writeAudioFrame(AVFrame* frame)
 {
 	// Return false
 	if (!audioContext.codecContext)
@@ -701,13 +700,13 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 		// Keep the number of samples constant
 		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
-		
+
 		// Convert sample format
-		if (audioContext.codecContext->channels != frame->channels ||
+		if (audioContext.codecContext->ch_layout.nb_channels != frame->ch_layout.nb_channels ||
 			(int)audioContext.codecContext->sample_fmt != frame->format ||
 			audioContext.codecContext->sample_rate != frame->sample_rate)
 		{
-			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->channels << "c:";
+			filterconfig << ",aformat=channel_layouts=" << audioContext.codecContext->ch_layout.nb_channels << "c:";
 			filterconfig << "sample_fmts=" << av_get_sample_fmt_name(audioContext.codecContext->sample_fmt) << ":";
 			filterconfig << "sample_rates=" << audioContext.codecContext->sample_rate;
 		}
@@ -717,11 +716,11 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 
 		// Set up filter config
 		if (filterconfig.size() > 0)
-		{	
+		{
 			// Set frame filter options
 			FrameFilterOptions options;
 			options.media_type = AVMEDIA_TYPE_AUDIO;
-			options.channel_layout = frame->channel_layout;
+			options.channel_layout = frame->ch_layout;
 			options.sample_fmt = (AVSampleFormat)frame->format;
 			options.time_base = { 1, frame->sample_rate };
 
@@ -743,7 +742,7 @@ int EncoderEngine::writeAudioFrame(AVFrame *frame)
 	return encodeAndWriteFrame(&audioContext, frame);
 }
 
-int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
+int EncoderEngine::encodeAndWriteFrame(EncoderContext* context, AVFrame* frame)
 {
 	int ret = 0;
 
@@ -753,14 +752,14 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 		if ((ret = context->frameFilter->sendFrame(frame)) < 0)
 			return ret;
 
-		AVFrame *tmp_frame;
+		AVFrame* tmp_frame;
 		tmp_frame = av_frame_alloc();
 
 		// Receive frames from the frame filter
 		while (context->frameFilter->receiveFrame(tmp_frame) >= 0)
 		{
 			// Not sure why nb_samples != frame_size the first 2 times
-			if (tmp_frame->nb_samples == context->codecContext->frame_size && 
+			if (tmp_frame->nb_samples == context->codecContext->frame_size &&
 				(ret = sendFrame(context->codecContext, context->stream, tmp_frame)) < 0)
 			{
 				return ret;
@@ -783,7 +782,7 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext *context, AVFrame *frame)
 	return receivePackets(context->codecContext, context->stream);
 }
 
-int EncoderEngine::sendFrame(AVCodecContext *context, AVStream *stream, AVFrame *frame)
+int EncoderEngine::sendFrame(AVCodecContext* context, AVStream* stream, AVFrame* frame)
 {
 	int ret;
 
@@ -804,7 +803,7 @@ int EncoderEngine::sendFrame(AVCodecContext *context, AVStream *stream, AVFrame 
 	return ret;
 }
 
-int EncoderEngine::receivePackets(AVCodecContext *codecContext, AVStream *stream)
+int EncoderEngine::receivePackets(AVCodecContext* codecContext, AVStream* stream)
 {
 	int ret = 0;
 
