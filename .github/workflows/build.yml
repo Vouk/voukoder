@@ -69,12 +69,32 @@ jobs:
         echo #define VKDR_VERSION_PUBLIC "${{ github.event.inputs.verPublic }}" >> project\voukoder\Core\include\Version.h
         echo #define BINVERSION ${{ github.event.inputs.verMajor }}, ${{ github.event.inputs.verMinor }}, 0, ${{ github.event.inputs.verPatch }} >> project\voukoder\Core\include\Version.h
         echo #define STRVERSION "${{ github.event.inputs.verMajor }}.${{ github.event.inputs.verMinor }}.0.${{ github.event.inputs.verPatch }}" >> project\voukoder\Core\include\Version.h
-    - name: Build Voukoder
+
+    - name: Create PFX certificate from BASE64_PFX_CONTENT secret
+      id: create-pfx
+      shell: pwsh
+      env:
+        PFX_CONTENT: ${{ secrets.CODESIGN_PFX }} 
+      run: |
+        $pfxPath = Join-Path -Path $env:RUNNER_TEMP -ChildPath "cert.pfx"; 
+        $encodedBytes = [System.Convert]::FromBase64String($env:PFX_CONTENT); 
+        Set-Content $pfxPath -Value $encodedBytes -AsByteStream;
+        Write-Output "::set-output name=PFX_PATH::$pfxPath";
+
+    - name: Build Installer
       shell: cmd
       run: |
         call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
         move project\voukoder\Installer\bin\x64\Release\voukoder.msi voukoder-${{ github.event.inputs.verPublic }}.msi
+
+    - name: Delete PFX certificate
+      shell: pwsh
+      env:
+        PFX_PATH: ${{ steps.create-pfx.outputs.PFX_PATH }}
+      run: |
+        Remove-Item -Path $env:PFX_PATH;
+        
     - name: Publish artifact
       uses: actions/upload-artifact@v2
       with:
