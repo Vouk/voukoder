@@ -111,6 +111,9 @@
       <TypeLibraryFile>voukoder.tlb</TypeLibraryFile>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
+    <PostBuildEvent>
+      <Command>signtool.exe sign /f "$(CODESIGN_PFX_FILE)" /fd SHA256  /tr http://ts.ssl.com /td sha256 /v "$(ProjectDir)$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassFactory.h" />
