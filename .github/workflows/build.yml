@@ -92,7 +92,7 @@ jobs:
         call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
         MSBuild.exe -t:Installer -p:Configuration=Release -m project\voukoder\Voukoder.sln
         move project\voukoder\Installer\bin\x64\Release\voukoder.msi voukoder-${{ github.event.inputs.verPublic }}.msi
-        signtool sign /f "${{ steps.create-pfx.outputs.PFX_PATH }}" /fd SHA256 /d "Voukoder ${{ github.event.inputs.verPublic }}" /t http://timestamp.verisign.com/scripts/timstamp.dll /v voukoder-${{ github.event.inputs.verPublic }}.msi
+        signtool sign /f "${{ steps.create-pfx.outputs.PFX_PATH }}" /fd SHA256  /tr http://ts.ssl.com /td sha256 /v voukoder-${{ github.event.inputs.verPublic }}.msi
 
     - name: Delete PFX certificate
       shell: pwsh
