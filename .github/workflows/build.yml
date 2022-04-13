@@ -88,9 +88,11 @@ jobs:
 
     - name: Build Installer
       shell: cmd
+      env:
+        CODESIGN_PFX_FILE: ${{ steps.create-pfx.outputs.PFX_PATH }}
       run: |
         call "${{ env.vsPath }}VC\Auxiliary\Build\vcvars64.bat"
-        MSBuild.exe -t:Installer -maxCpuCount -p:Configuration=Release -p:Keyfile="${{ steps.create-pfx.outputs.PFX_PATH }}" -m project\voukoder\Voukoder.sln
+        MSBuild.exe -t:Installer -maxCpuCount -p:Configuration=Release -m project\voukoder\Voukoder.sln
         move project\voukoder\Installer\bin\x64\Release\voukoder.msi voukoder-${{ github.event.inputs.verPublic }}.msi
         signtool sign /f "${{ steps.create-pfx.outputs.PFX_PATH }}" /fd SHA256  /tr http://ts.ssl.com /td sha256 /v voukoder-${{ github.event.inputs.verPublic }}.msi
 
