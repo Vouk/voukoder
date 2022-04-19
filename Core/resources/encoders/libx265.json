@@ -2,39 +2,710 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libx265",
   "name": "HEVC (x265)",
-  "defaults": {},
+  "defaults": {
+   "description": "1.Some libx265-s are missing the option: allow-non-conformance, make sure this parameter exists, otherwise encoder may refuse to start. 2.Default parameters may collide with lossless parameters, and if so they need to be moved to presets",
+   "ctu": "64",
+   "ref": "3",
+   "hash": "2",
+   "preset": "slow",
+   "no-open-gop": "1",
+   "allow-non-conformance": "1",
+   "opt-qp-pps": "1",
+   "opt-ref-list-length-pps": "1"
+  },
   "presets": [
-    {
-      "name": "Good quality (Recommended)",
-      "description": "",
+   {
+      "name": "4:2:0 General purpose, 8bit projects (Recommended if you are not sure)",
+      "description": "by iAvoe, require x265 v3.5 since some parameter names are changed; or new parameters added/deleted",
       "options": {
         "_pixelFormat": "yuv420p",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "2",
+        "tu-inter-depth": "2",
+
+        "me": "umh",
+        "subme": "5",
+        "merange": "48",
+        "rskip": "1",
+        "weightb": "1",
+        
+        "early-skip": "1",
+        "max-merge": "2",
+        "min-keyint": "5",
+        "fades": "1",
+        "bframes": "11",
+        "b-adapt": "2",
+        "radl": "2",
+        "fast-intra": "1",
+
         "_strategy": "crf",
         "crf": "19.0",
-        "preset": "medium",
-        "profile": "main"
-      }
-    },
-    {
-      "name": "High quality",
-      "description": "",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+
+        "aq-mode": "3",
+        "aq-motion": "1",
+        "qg-size": "16",
+
+        "rd": "3",
+        "rdpenalty": "1",
+        "splitrd-skip": "1",
+        "rdoq-level": "1",
+        "limit-modes": "1",
+        "rect": "1",
+        "tskip-fast": "1",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+      {
+      "name": "4:2:0 General purpose, 8-10bit projects (Recommended)",
+      "description": "by iAvoe, require x265 v3.5 since some parameter names are changed; or new parameters added/deleted",
       "options": {
-        "_pixelFormat": "yuv420p",
+        "_pixelFormat": "yuv420p10le",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "2",
+        "tu-inter-depth": "2",
+ 
+        "me": "umh",
+        "subme": "5",
+        "merange": "48",
+        "rskip": "1",
+        "weightb": "1",
+        
+        "early-skip": "1",
+        "max-merge": "2",
+        "min-keyint": "5",
+        "fades": "1",
+        "bframes": "11",
+        "b-adapt": "2",
+        "radl": "2",
+        "fast-intra": "1",
+
         "_strategy": "crf",
-        "crf": "17.0",
-        "preset": "medium",
-        "profile": "main"
+        "crf": "19.0",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+
+        "aq-mode": "3",
+        "aq-motion": "1",
+        "qg-size": "16",
+
+        "rd": "3",
+        "rdpenalty": "1",
+        "splitrd-skip": "1",
+        "rdoq-level": "1",
+        "limit-modes": "1",
+        "rect": "1",
+        "tskip-fast": "1",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:4:4 General purpose, 8bit projects (Render & reuse)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "2",
+        "tu-inter-depth": "2",
+
+        "me": "umh",
+        "subme": "5",
+        "merange": "48",
+        "rskip": "1",
+        "weightb": "1",
+      
+        "early-skip": "1",
+        "max-merge": "2",
+        "min-keyint": "5",
+        "fades": "1",
+        "bframes": "11",
+        "b-adapt": "2",
+        "radl": "2",
+        "fast-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "19.0",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+
+        "aq-mode": "3",
+        "aq-motion": "1",
+        "qg-size": "16",
+
+        "rd": "3",
+        "rdpenalty": "1",
+        "splitrd-skip": "1",
+        "rdoq-level": "1",
+        "limit-modes": "1",
+        "rect": "1",
+        "tskip-fast": "1",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:4:4 General purpose, 8-10bit projects (Render & reuse)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "2",
+        "tu-inter-depth": "2",
+
+        "me": "umh",
+        "subme": "5",
+        "merange": "48",
+        "rskip": "1",
+        "weightb": "1",
+      
+        "early-skip": "1",
+        "max-merge": "2",
+        "min-keyint": "5",
+        "fades": "1",
+        "bframes": "11",
+        "b-adapt": "2",
+        "radl": "2",
+        "fast-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "19.0",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+
+        "aq-mode": "3",
+        "aq-motion": "1",
+        "qg-size": "16",
+
+        "rd": "3",
+        "rdpenalty": "1",
+        "splitrd-skip": "1",
+        "rdoq-level": "1",
+        "limit-modes": "1",
+        "rect": "1",
+        "tskip-fast": "1",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:2:0 <40000kbps Lossless, 8-10bit projects",
+      "description": "by iAvoe, If clip is going more than 40000kbps, adjust 'b' to higher rates.",
+      "options": {
+        "_pixelFormat": "yuv420p10le",
+        "_strategy": "abr",
+        "b": "40000",
+        "cu-lossless": "1",
+        "psy-rd": "1:0"
+        }
+   },
+   {
+      "name": "4:4:4 <40000kbps Lossless, 8-10bit projects",
+      "description": "by iAvoe, If clip is going more than 40000kbps, adjust 'b' to higher rates",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "_strategy": "abr",
+        "b": "40000",
+        "cu-lossless": "1",
+        "psy-rd": "1:0"
       }
-    },
-    {
-      "name": "Lossless",
-      "description": "",
+   },
+   {
+      "name": "4:4:4 Scientific lossless, 8-10bit projects",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "lossless": "1"
+        }
+   },
+   {
+      "name": "4:2:0 High compression, 8bit projects (Very slow)",
+      "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented.",
       "options": {
         "_pixelFormat": "yuv420p",
-        "preset": "medium",
-        "lossless": "1"
-      }
-    }
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "5",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+     
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "3",
+        "fades": "1",
+        "bframes": "14",
+        "b-adapt": "2",
+        "radl": "3",
+        "no-fast-intra": "1",
+
+        "constrained-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "22",
+        "qpmin": "10",
+        "crqpoffs": "-2",
+
+        "aq-mode": "2",
+        "aq-strength": "0.9",
+        "qg-size": "8",
+
+        "rd": "5",
+        "splitrd-skip": "1",
+        "rdoq-level": "2",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "no-rskip": "1",
+
+        "rect": "1",
+        "amp": "1",
+        "tskip-fast": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:2:0 High compression, 8-10bit projects (Very slow)",
+      "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
+      "options": {
+        "_pixelFormat": "yuv420p10le",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "5",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+     
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "3",
+        "fades": "1",
+        "bframes": "14",
+        "b-adapt": "2",
+        "radl": "3",
+        "no-fast-intra": "1",
+
+        "constrained-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "22",
+        "qpmin": "10",
+        "crqpoffs": "-2",
+
+        "aq-mode": "2",
+        "aq-strength": "0.9",
+        "qg-size": "8",
+
+        "rd": "5",
+        "splitrd-skip": "1",
+        "rdoq-level": "2",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "no-rskip": "1",
+
+        "rect": "1",
+        "amp": "1",
+        "tskip-fast": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:4:4 High compression, 8bit projects (Very slow)",
+      "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
+      "options": {
+        "_pixelFormat": "yuv444p",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "5",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+     
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "3",
+        "fades": "1",
+        "bframes": "14",
+        "b-adapt": "2",
+        "radl": "3",
+        "no-fast-intra": "1",
+
+        "constrained-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "22",
+        "qpmin": "10",
+        "crqpoffs": "-2",
+
+        "aq-mode": "2",
+        "aq-strength": "0.9",
+        "qg-size": "8",
+
+        "rd": "5",
+        "splitrd-skip": "1",
+        "rdoq-level": "2",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "no-rskip": "1",
+
+        "rect": "1",
+        "amp": "1",
+        "tskip-fast": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+     },
+     {
+      "name": "4:4:4 High compression, 8-10bit projects (Very slow)",
+      "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "min-cu-size": "16",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "5",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+     
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "3",
+        "fades": "1",
+        "bframes": "14",
+        "b-adapt": "2",
+        "radl": "3",
+        "no-fast-intra": "1",
+
+        "constrained-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "22",
+        "qpmin": "10",
+        "crqpoffs": "-2",
+
+        "aq-mode": "2",
+        "aq-strength": "0.9",
+        "qg-size": "8",
+
+        "rd": "5",
+        "splitrd-skip": "1",
+        "rdoq-level": "2",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "no-rskip": "1",
+
+        "rect": "1",
+        "amp": "1",
+        "tskip-fast": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+        "limit-sao": "1",
+        "sao-non-deblock": "1"
+        }
+   },
+   {
+      "name": "4:2:0 Anime +quality, 8-10bit projects (Very slow)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv420p10le",
+        "min-cu-size": "8",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "3",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "1",
+        "bframes": "13",
+        "b-adapt": "2",
+        "radl": "2",
+
+        "no-fast-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "20",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+        "cu-lossless": "1",
+
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "qg-size": "8",
+
+        "psy-rdoq": "2.3",
+        "rdoq-level": "2",
+
+        "rd": "5",
+        "rskip": "1",
+        "splitrd-skip": "1",
+        "limit-modes": "1",
+        "limit-refs": "0",
+
+        "rect": "1",
+        "amp": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1",
+        "single-sei": "1"
+        }
+    },
+    {
+      "name": "4:4:4 Anime +quality, 8-10bit projects (Very slow)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "min-cu-size": "8",
+        "limit-tu": "1",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "3",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "1",
+        "bframes": "13",
+        "b-adapt": "2",
+        "radl": "2",
+
+        "no-fast-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "20",
+        "crqpoffs": "-3",
+        "cbqpoffs": "-1",
+        "cu-lossless": "1",
+
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "qg-size": "8",
+
+        "psy-rdoq": "2.3",
+        "rdoq-level": "2",
+
+        "rd": "5",
+        "rskip": "1",
+        "splitrd-skip": "1",
+        "limit-modes": "1",
+        "limit-refs": "0",
+
+        "rect": "1",
+        "amp": "1",
+
+        "psy-rd": "1.6",
+        "rd-refine": "1",
+        "rdpenalty": "1",
+
+        "deblock": "0:0",
+
+        "limit-sao": "1",
+        "sao-non-deblock": "1",
+        "single-sei": "1"
+        }
+    },
+    {
+      "name": "4:2:0 Anime BDRip Coldwar, 8-10bit projects (Very slow)",
+      "description": "by iAvoe, an unwritten rule requires 4~5x zoom in dark scene must look very similar to source, Ripper who achieves this gets the most downloads, some compression methods disabled, may confuse the hell out of x264-5 devs. I personally don't like this as well",
+      "options": {
+        "_pixelFormat": "yuv420p10le",
+        "min-cu-size": "8",
+        "limit-tu": "0",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "3",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "1",
+        "fades": "1",
+        "bframes": "13",
+        "b-adapt": "2",
+        "radl": "2",
+        "pbratio": "1.2",
+
+        "no-fast-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "19.5",
+        "crqpoffs": "-5",
+        "cbqpoffs": "-3",
+        "cu-lossless": "1",
+
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "qg-size": "8",
+
+        "psy-rdoq": "2.3",
+        "rdoq-level": "2",
+
+        "rd": "5",
+        "rskip": "0",
+        "splitrd-skip": "1",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "rc-lookahead": "90",
+
+        "rect": "1",
+        "amp": "1",
+        "no-cutree": "1",
+
+        "psy-rd": "1.5",
+        "rd-refine": "1",
+        "rdpenalty": "2",
+
+        "deblock": "0:0",
+
+        "no-sao": "1",
+        "single-sei": "1"
+        }
+    },
+    {
+      "name": "4:4:4 Anime BDRip Coldwar, 8-10bit projects (Very slow)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "min-cu-size": "8",
+        "limit-tu": "0",
+        "tu-intra-depth": "4",
+        "tu-inter-depth": "4",
+
+        "me": "star",
+        "subme": "3",
+        "merange": "48",
+        "analyze-src-pics": "1",
+        "weightb": "1",
+
+        "early-skip": "1",
+        "max-merge": "4",
+        "keyint": "480",
+        "min-keyint": "1",
+        "fades": "1",
+        "bframes": "13",
+        "b-adapt": "2",
+        "radl": "2",
+        "pbratio": "1.2",
+
+        "no-fast-intra": "1",
+        "b-intra": "1",
+
+        "_strategy": "crf",
+        "crf": "19.5",
+        "crqpoffs": "-5",
+        "cbqpoffs": "-3",
+        "cu-lossless": "1",
+
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "qg-size": "8",
+
+        "psy-rdoq": "2.3",
+        "rdoq-level": "2",
+
+        "rd": "5",
+        "rskip": "0",
+        "splitrd-skip": "1",
+        "limit-modes": "1",
+        "limit-refs": "0",
+        "rc-lookahead": "90",
+
+        "rect": "1",
+        "amp": "1",
+        "no-cutree": "1",
+
+        "psy-rd": "1.5",
+        "rd-refine": "1",
+        "rdpenalty": "2",
+
+        "deblock": "0:0",
+
+        "no-sao": "1",
+        "single-sei": "1"
+        }
+  }
   ],
   "parameterGroups": {
     "x265-params": [
@@ -1914,8 +2585,8 @@
           }
         },
         {
-          "id": "libx265.motionsearch.merange ",
-          "parameter": "merange ",
+          "id": "libx265.motionsearch.merange",
+          "parameter": "merange",
           "control": {
             "maximum": 32768,
             "minimum": 0,
