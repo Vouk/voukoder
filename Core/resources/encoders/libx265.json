@@ -2,23 +2,17 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "libx265",
   "name": "HEVC (x265)",
-  "defaults": {
-   "description": "1.Some libx265-s are missing the option: allow-non-conformance, make sure this parameter exists, otherwise encoder may refuse to start. 2.Default parameters may collide with lossless parameters, and if so they need to be moved to presets",
-   "ctu": "64",
-   "ref": "3",
-   "hash": "2",
-   "preset": "slow",
-   "no-open-gop": "1",
-   "allow-non-conformance": "1",
-   "opt-qp-pps": "1",
-   "opt-ref-list-length-pps": "1"
-  },
+  "defaults": {},
   "presets": [
    {
       "name": "4:2:0 General purpose, 8bit projects (Recommended if you are not sure)",
       "description": "by iAvoe, require x265 v3.5 since some parameter names are changed; or new parameters added/deleted",
       "options": {
         "_pixelFormat": "yuv420p",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "2",
@@ -57,14 +51,23 @@
         "tskip-fast": "1",
 
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+        
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
       {
-      "name": "4:2:0 General purpose, 8-10bit projects (Recommended)",
+      "name": "4:2:0 General purpose, 10bit projects (Recommended)",
       "description": "by iAvoe, require x265 v3.5 since some parameter names are changed; or new parameters added/deleted",
       "options": {
         "_pixelFormat": "yuv420p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "2",
@@ -103,7 +106,12 @@
         "tskip-fast": "1",
 
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
@@ -111,6 +119,10 @@
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "2",
@@ -149,14 +161,23 @@
         "tskip-fast": "1",
 
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
-      "name": "4:4:4 General purpose, 8-10bit projects (Render & reuse)",
+      "name": "4:4:4 General purpose, 10bit projects (Render & reuse)",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "2",
@@ -195,11 +216,16 @@
         "tskip-fast": "1",
 
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
-      "name": "4:2:0 <40000kbps Lossless, 8-10bit projects",
+      "name": "4:2:0 <40000kbps Lossless, 10bit projects",
       "description": "by iAvoe, If clip is going more than 40000kbps, adjust 'b' to higher rates.",
       "options": {
         "_pixelFormat": "yuv420p10le",
@@ -210,7 +236,7 @@
         }
    },
    {
-      "name": "4:4:4 <40000kbps Lossless, 8-10bit projects",
+      "name": "4:4:4 <40000kbps Lossless, 10bit projects",
       "description": "by iAvoe, If clip is going more than 40000kbps, adjust 'b' to higher rates",
       "options": {
         "_pixelFormat": "yuv444p10le",
@@ -221,7 +247,7 @@
       }
    },
    {
-      "name": "4:4:4 Scientific lossless, 8-10bit projects",
+      "name": "4:4:4 Scientific lossless, 10bit projects",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
@@ -233,6 +259,10 @@
       "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented.",
       "options": {
         "_pixelFormat": "yuv420p",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -283,14 +313,23 @@
 
         "deblock": "0:0",
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
-      "name": "4:2:0 High compression, 8-10bit projects (Very slow)",
+      "name": "4:2:0 High compression, 10bit projects (Very slow)",
       "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
       "options": {
         "_pixelFormat": "yuv420p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -341,7 +380,12 @@
 
         "deblock": "0:0",
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
@@ -349,6 +393,10 @@
       "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
       "options": {
         "_pixelFormat": "yuv444p",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -399,14 +447,23 @@
 
         "deblock": "0:0",
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
      },
      {
-      "name": "4:4:4 High compression, 8-10bit projects (Very slow)",
+      "name": "4:4:4 High compression, 10bit projects (Very slow)",
       "description": "by iAvoe. Missing option: selective-sao, add 'selective-sao 3' at end of this option if libx265 v3.5 gets this option implemented",
       "options": {
         "_pixelFormat": "yuv444p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "16",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -457,14 +514,23 @@
 
         "deblock": "0:0",
         "limit-sao": "1",
-        "sao-non-deblock": "1"
+        "sao-non-deblock": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
    },
    {
-      "name": "4:2:0 Anime +quality, 8-10bit projects (Very slow)",
+      "name": "4:2:0 Anime +quality, 10bit projects (Very slow)",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv420p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "8",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -517,14 +583,23 @@
 
         "limit-sao": "1",
         "sao-non-deblock": "1",
-        "single-sei": "1"
+        "single-sei": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
     },
     {
-      "name": "4:4:4 Anime +quality, 8-10bit projects (Very slow)",
+      "name": "4:4:4 Anime +quality, 10bit projects (Very slow)",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "8",
         "limit-tu": "1",
         "tu-intra-depth": "4",
@@ -577,14 +652,23 @@
 
         "limit-sao": "1",
         "sao-non-deblock": "1",
-        "single-sei": "1"
+        "single-sei": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
     },
     {
-      "name": "4:2:0 Anime BDRip Coldwar, 8-10bit projects (Very slow)",
+      "name": "4:2:0 Anime BDRip Coldwar, 10bit projects (Very slow)",
       "description": "by iAvoe, an unwritten rule requires 4~5x zoom in dark scene must look very similar to source, Ripper who achieves this gets the most downloads, some compression methods disabled, may confuse the hell out of x264-5 devs. I personally don't like this as well",
       "options": {
         "_pixelFormat": "yuv420p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "8",
         "limit-tu": "0",
         "tu-intra-depth": "4",
@@ -640,14 +724,23 @@
         "deblock": "0:0",
 
         "no-sao": "1",
-        "single-sei": "1"
+        "single-sei": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
     },
     {
-      "name": "4:4:4 Anime BDRip Coldwar, 8-10bit projects (Very slow)",
+      "name": "4:4:4 Anime BDRip Coldwar, 10bit projects (Very slow)",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
+        "preset": "slow",
+        "ctu": "64",
+        "ref": "3",
+        "hash": "2",
         "min-cu-size": "8",
         "limit-tu": "0",
         "tu-intra-depth": "4",
@@ -703,12 +796,18 @@
         "deblock": "0:0",
 
         "no-sao": "1",
-        "single-sei": "1"
+        "single-sei": "1",
+
+        "no-open-gop": "1",
+        "allow-non-conformance": "1",
+        "opt-qp-pps": "1",
+        "opt-ref-list-length-pps": "1"
         }
   }
   ],
   "parameterGroups": {
     "x265-params": [
+      "allow-non-conformance",
       "interlace",
       "lossless",
       "ssim",

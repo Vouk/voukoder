@@ -11,7 +11,7 @@
       "description": "by iAvoe. The down side is libx264 does not have fgo (film grain optimization) available, only rdo (rate distorsion optimization)",
       "options": {
         "_pixelFormat": "yuv420p",
-        "preset": "meduim",
+        "preset": "medium",
 
         "me": "umh",
         "subme": "10",
@@ -43,11 +43,11 @@
       }
     },
     {
-     "name": "4:2:0 General purpose, 8-10bit projects (Recommended)",
+     "name": "4:2:0 General purpose, 10bit projects (Recommended)",
      "description": "by iAvoe. There are no option listed for bit-depth, and the implementation of _pixelFormat does not relate to bit depth; may needs a test on 10bit projects",
      "options": {
        "_pixelFormat": "yuv420p10le",
-       "preset": "meduim",
+       "preset": "medium",
 
        "me": "umh",
        "subme": "10",
@@ -115,7 +115,7 @@
      }
     },
     {
-     "name": "4:4:4 General purpose, 8-10bit projects (ProRes alternative)",
+     "name": "4:4:4 General purpose, 10bit projects (ProRes alternative)",
      "description": "by iAvoe",
      "options": {
        "_pixelFormat": "yuv444p10le",
@@ -191,7 +191,7 @@
         }
    },
    {
-      "name": "4:2:0 Lossless, 8-10bit projects",
+      "name": "4:2:0 Lossless, 10bit projects",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv420p10le",
@@ -206,7 +206,7 @@
       }
    },
    {
-      "name": "4:4:4 Lossless, 8-10bit projects",
+      "name": "4:4:4 Lossless, 10bit projects",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
@@ -293,7 +293,7 @@
         }
    },
    {
-      "name": "4:4:4 High compression, 8-10bit projects (Very slow)",
+      "name": "4:4:4 High compression, 10bit projects (Very slow)",
       "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv444p10le",
