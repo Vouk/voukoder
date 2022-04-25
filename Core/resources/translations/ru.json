@@ -1201,7 +1201,7 @@
     "libx265.qualityratedistortionoptions.aq-mode._item_1": "AQ Включен",
     "libx265.qualityratedistortionoptions.aq-mode._item_2": "AQ включен с автовариацией",
     "libx265.qualityratedistortionoptions.aq-mode._item_3": "AQ включен с авто-вариацией и уклоном к темным сценам",
-    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ enabled with auto-variance and edge information",
+    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ включен с информацией об авторазбросе и краю",
     "libx265.qualityratedistortionoptions.aq-strength._label": "Сила AQ",
     "libx265.qualityratedistortionoptions.aq-strength._description": "Регулирует силу смещений адаптивного квантования. Установка --aq-force в 0 отключает AQ. В режимах 2 и 3 высокие значения увеличивают смещения QP, что приводит к большой разнице в достигаемых битрейтах.",
     "libx265.qualityratedistortionoptions.hevc-aq._label": "Адаптивное Квантование",
