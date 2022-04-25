@@ -1201,7 +1201,7 @@
     "libx265.qualityratedistortionoptions.aq-mode._item_1": "AQ activé",
     "libx265.qualityratedistortionoptions.aq-mode._item_2": "AQ activé avec auto-variance",
     "libx265.qualityratedistortionoptions.aq-mode._item_3": "AQ activé avec auto-variance et les scènes sombres",
-    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ enabled with auto-variance and edge information",
+    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ activé avec l'auto-variance et les informations sur les bords",
     "libx265.qualityratedistortionoptions.aq-strength._label": "AQ Valeur",
     "libx265.qualityratedistortionoptions.aq-strength._description": "Ajuster la valeur des décalages de quantification adaptative. Définir AQ-Strength à 0 désactive AQ. Avec les modes 2 et 3 d'AQ, une valeur élevée entraînera des décalages QP élevés, ce qui entraînera une grande différence entre les débits obtenus.",
     "libx265.qualityratedistortionoptions.hevc-aq._label": "Quantification adaptative (Adaptive Quantization)",
