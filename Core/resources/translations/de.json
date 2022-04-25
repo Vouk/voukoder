@@ -1201,7 +1201,7 @@
     "libx265.qualityratedistortionoptions.aq-mode._item_1": "AQ aktiviert",
     "libx265.qualityratedistortionoptions.aq-mode._item_2": "AQ aktiviert mit Auto-Varianz",
     "libx265.qualityratedistortionoptions.aq-mode._item_3": "AQ aktiviert mit Auto-Varianz und Bias zu dunklen Szenen",
-    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ enabled with auto-variance and edge information",
+    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ aktiviert mit Auto-Varianz und Kanteninformationen",
     "libx265.qualityratedistortionoptions.aq-strength._label": "AQ Stärke",
     "libx265.qualityratedistortionoptions.aq-strength._description": "Passt die Stärke der adaptiven Quantisierungsoffsets an. Die Einstellung --aq-strength auf 0 deaktiviert AQ. Im Aq-Modus 2 und 3 führen hohe Aq-Stärken zu hohen QP-Offsets, was zu einer großen Differenz der erreichten Bitraten führt.",
     "libx265.qualityratedistortionoptions.hevc-aq._label": "Anpassungsfähige Quantisierung",
