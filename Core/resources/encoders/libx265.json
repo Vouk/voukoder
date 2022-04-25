@@ -1629,6 +1629,15 @@
           "prependNoIfFalse": true
         },
         {
+          "id": "libx265.standard.allow-non-conformance",
+          "parameter": "allow-non-conformance",
+          "control": {
+            "type": "boolean",
+            "value": true
+          },
+          "prependNoIfFalse": true
+        },
+        {
           "id": "libx265.standard.strategy",
           "parameter": "_strategy",
           "control": {
