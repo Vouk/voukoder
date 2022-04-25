@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "spanish",
   "name": "Español",
   "langId": 1034,
@@ -1201,6 +1201,7 @@
     "libx265.qualityratedistortionoptions.aq-mode._item_1": "AQ enabled",
     "libx265.qualityratedistortionoptions.aq-mode._item_2": "AQ enabled with auto-variance",
     "libx265.qualityratedistortionoptions.aq-mode._item_3": "AQ enabled with auto-variance and bias to dark scene",
+    "libx265.qualityratedistortionoptions.aq-mode._item_4": "AQ enabled with auto-variance and edge information",
     "libx265.qualityratedistortionoptions.aq-strength._label": "AQ Strength",
     "libx265.qualityratedistortionoptions.aq-strength._description": "Adjust the strength of the adaptive quantization offsets. Setting --aq-strength to 0 disables AQ. At aq-modes 2 and 3, high aq-strengths will lead to high QP offsets resulting in a large difference in achieved bitrates.",
     "libx265.qualityratedistortionoptions.hevc-aq._label": "Adaptive Quantization",
