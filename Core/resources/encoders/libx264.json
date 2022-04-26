@@ -7,40 +7,156 @@
   },
   "presets": [
     {
-      "name": "General purpose (Recommended)",
-      "description": "Thanks to iAvoe",
+      "name": "4:2:0 General purpose, 8bit projects (Recommended if you are not sure)",
+      "description": "by iAvoe. The down side is libx264 does not have fgo (film grain optimization) available, only rdo (rate distorsion optimization)",
       "options": {
         "_pixelFormat": "yuv420p",
-        "rc": "crf",
         "preset": "medium",
+
         "me": "umh",
         "subme": "10",
         "merange": "32",
+        "no-fast-pskip": "1",
+        "no-chroma-me": "1",
+        "direct": "auto",
+        "weightb": "1",
+
         "keyint": "480",
         "min-keyint": "3",
         "bframes": "11",
         "b-adapt": "2",
         "ref": "3",
-        "no-fast-pskip": "1",
-        "direct": "auto",
+        "rc-lookahead": "110",
+
+        "rc": "crf",
         "crf": "17",
-        "qpmax": "22",
-        "rc-lookahead": "180",
-        "aq-mode": "2",
-        "aq-strength": "0.7",
+        "qpmax": "24",
+        "chroma-qp-offest": "-2",
+
+        "aq-mode": "3",
+        "aq-strength": "0.8",
         "trellis": "2",
+
         "deblock": "0:0",
-        "psr-rd": "0.7:0.2",
-        "nr": "10"
+        "psr-rd": "0.77:0.22",
+        "nr": "8"
       }
     },
     {
-      "name": "General purpose (Fast)",
-      "description": "Thanks to iAvoe",
+     "name": "4:2:0 General purpose, 10bit projects (Recommended)",
+     "description": "by iAvoe. There are no option listed for bit-depth, and the implementation of _pixelFormat does not relate to bit depth; may needs a test on 10bit projects",
+     "options": {
+       "_pixelFormat": "yuv420p10le",
+       "preset": "medium",
+
+       "me": "umh",
+       "subme": "10",
+       "merange": "32",
+       "no-fast-pskip": "1",
+       "no-chroma-me": "1",
+       "direct": "auto",
+       "weightb": "1",
+
+       "keyint": "480",
+       "min-keyint": "3",
+       "bframes": "11",
+       "b-adapt": "2",
+       "ref": "3",
+       "rc-lookahead": "110",
+
+       "rc": "crf",
+       "crf": "17",
+       "qpmax": "24",
+       "chroma-qp-offest": "-2",
+
+       "aq-mode": "3",
+       "aq-strength": "0.8",
+       "trellis": "2",
+
+       "deblock": "0:0",
+       "psr-rd": "0.77:0.22",
+       "nr": "8"
+     }
+    },
+    {
+     "name": "4:4:4 General purpose, 8bit projects (Render & reuse)",
+     "description": "by iAvoe",
+     "options": {
+       "_pixelFormat": "yuv444p",
+       "preset": "slow",
+
+       "me": "umh",
+       "subme": "10",
+       "merange": "32",
+       "no-fast-pskip": "1",
+       "no-chroma-me": "1",
+       "direct": "auto",
+       "weightb": "1",
+
+       "keyint": "480",
+       "min-keyint": "3",
+       "bframes": "11",
+       "b-adapt": "2",
+       "ref": "3",
+       "rc-lookahead": "110",
+
+       "rc": "crf",
+       "crf": "17",
+       "qpmax": "24",
+       "chroma-qp-offest": "-2",
+
+       "aq-mode": "3",
+       "aq-strength": "0.9",
+       "trellis": "2",
+
+       "deblock": "0:0",
+       "psr-rd": "0.77:0.22",
+       "nr": "8"
+     }
+    },
+    {
+     "name": "4:4:4 General purpose, 10bit projects (ProRes alternative)",
+     "description": "by iAvoe",
+     "options": {
+       "_pixelFormat": "yuv444p10le",
+       "preset": "slow",
+
+       "me": "umh",
+       "subme": "10",
+       "merange": "32",
+       "no-fast-pskip": "1",
+       "no-chroma-me": "1",
+       "direct": "auto",
+       "weightb": "1",
+
+       "keyint": "480",
+       "min-keyint": "3",
+       "bframes": "11",
+       "b-adapt": "2",
+       "ref": "3",
+       "rc-lookahead": "110",
+
+       "rc": "crf",
+       "crf": "17",
+       "qpmax": "24",
+       "chroma-qp-offest": "-2",
+
+       "aq-mode": "3",
+       "aq-strength": "0.9",
+       "trellis": "2",
+
+       "deblock": "0:0",
+       "psr-rd": "0.77:0.22",
+       "nr": "8"
+     }
+    },
+    {
+      "name": "4:2:0 General purpose, 8bit projects (Fast)",
+      "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv420p",
         "rc": "crf",
-        "preset": "medium",
+        "preset": "fast",
         "me": "hex",
         "subme": "8",
         "merange": "16",
@@ -51,17 +167,17 @@
         "ref": "3",
         "scenecut ": "33",
         "crf": "17",
-        "qpmax": "22",
-        "rc-lookahead": "120",
+        "qpmax": "24",
+        "rc-lookahead": "100",
         "aq-mode": "3",
         "aq-strength": "0.8",
         "deblock": "1:0",
         "psr-rd": "0.7:0.3"
       }
-    },
-    {
-      "name": "Lossless",
-      "description": "Thanks to iAvoe",
+   },
+   {
+      "name": "4:2:0 Lossless, 8bit projects",
+      "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv420p",
         "rc": "cqp",
@@ -72,112 +188,176 @@
         "ref": "3",
         "qp": "0",
         "chroma-qp-offest": "-3"
+        }
+   },
+   {
+      "name": "4:2:0 Lossless, 10bit projects",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv420p10le",
+        "rc": "cqp",
+        "preset": "medium",
+        "keyint": "180",
+        "min-keyint": "180",
+        "bframes": "6",
+        "ref": "3",
+        "qp": "0",
+        "chroma-qp-offest": "-3"
       }
-    },
-    {
-      "name": "Good quality, high compression (very slow)",
-      "description": "Thanks to iAvoe",
+   },
+   {
+      "name": "4:4:4 Lossless, 10bit projects",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "rc": "cqp",
+        "preset": "medium",
+        "keyint": "180",
+        "min-keyint": "180",
+        "bframes": "6",
+        "ref": "3",
+        "qp": "0",
+        "chroma-qp-offest": "-3"
+        }
+   },
+   {
+      "name": "4:2:0 High compression, 8bit projects (Very slow)",
+      "description": "by iAvoe",
       "options": {
         "_pixelFormat": "yuv420p",
-        "rc": "crf",
-        "crf": "19",
-        "preset": "medium",
+        "preset": "veryslow",
+        "tune": "grain",
+ 
         "me": "esa",
         "subme": "10",
-        "merange": "52",
-        "keyint": "600",
-        "min-keyint": "1",
-        "bframes": "13",
-        "b-adapt": "2",
-        "ref": "3",
+        "merange": "48",
         "no-fast-pskip": "1",
         "direct": "auto",
-        "scenecut": "35",
-        "ipratio": "1.5",
-        "qpmin": "13",
-        "rc-lookahead": "180",
-        "aq-mode": "3",
-        "aq-strength": "0.8",
-        "trellis": "2",
-        "nr": "20"
-      }
-    },
-    {
-      "name": "High quality, high compression (very slow)",
-      "description": "Thanks to iAvoe",
-      "options": {
-        "_pixelFormat": "yuv420p",
-        "rc": "crf",
-        "crf": "17",
-        "preset": "medium",
-        "me": "esa",
-        "subme": "10",
-        "merange": "52",
-        "keyint": "360",
-        "min-keyint": "1",
-        "bframes": "14",
-        "b-adapt": "2",
-        "ref": "3",
-        "no-fast-pskip": "1",
-        "direct": "auto",
-        "qpmax": "24",
-        "rc-lookahead": "180",
-        "aq-mode": "2",
-        "aq-strength": "0.7",
-        "trellis": "2",
-        "deblock": "0:0",
-        "no-psy": "1",
-        "nr": "10"
-      }
-    },
-    {
-      "name": "Maximum Useful Cost Possible, good quality",
-      "description": "Thanks to iAvoe",
-      "options": {
-        "_pixelFormat": "yuv420p",
-        "rc": "crf",
-        "crf": "18",
-        "preset": "medium",
-        "me": "esa",
-        "subme": "10",
-        "merange": "56",
-        "keyint": "300",
+        "weightb": "1",
+ 
+        "keyint": "480",
         "min-keyint": "1",
         "bframes": "16",
         "b-adapt": "2",
         "ref": "3",
+        "rc-lookahead": "110",
+ 
+        "rc": "crf",
+        "crf": "19",
+        "qpmin": "12",
+        "chroma-qp-offest": "-4",
+ 
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "trellis": "2",
+ 
+        "deblock": "0:0",
+        "psr-rd": "0.77:0.22",
+        "nr": "8"
+        }
+   },
+   {
+      "name": "4:4:4 High compression, 8bit projects (Very slow)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p",
+        "preset": "veryslow",
+        "tune": "grain",
+
+        "me": "esa",
+        "subme": "10",
+        "merange": "48",
+        "no-fast-pskip": "1",
+        "direct": "auto",
+        "weightb": "1",
+
+        "keyint": "480",
+        "min-keyint": "1",
+        "bframes": "16",
+        "b-adapt": "2",
+        "ref": "3",
+        "rc-lookahead": "110",
+
+        "rc": "crf",
+        "crf": "19",
+        "qpmin": "12",
+        "chroma-qp-offest": "-4",
+
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "trellis": "2",
+
+        "deblock": "0:0",
+        "psr-rd": "0.77:0.22",
+        "nr": "8"
+        }
+   },
+   {
+      "name": "4:4:4 High compression, 10bit projects (Very slow)",
+      "description": "by iAvoe",
+      "options": {
+        "_pixelFormat": "yuv444p10le",
+        "preset": "veryslow",
+        "tune": "grain",
+ 
+        "me": "esa",
+        "subme": "10",
+        "merange": "48",
+        "no-fast-pskip": "1",
+        "direct": "auto",
+        "weightb": "1",
+ 
+        "keyint": "480",
+        "min-keyint": "1",
+        "bframes": "16",
+        "b-adapt": "2",
+        "ref": "3",
+        "rc-lookahead": "110",
+ 
+        "rc": "crf",
+        "crf": "19",
+        "qpmin": "12",
+        "chroma-qp-offest": "-4",
+ 
+        "aq-mode": "3",
+        "aq-strength": "0.7",
+        "trellis": "2",
+ 
+        "deblock": "0:0",
+        "psr-rd": "0.77:0.22",
+        "nr": "8"
+        }
+   },
+   {
+      "name": "4:4:4 Encode speed benchmark & stability stress test",
+      "description": "by iAvoe. Lowered output quality to make sure people not using this",
+      "options": {
+        "_pixelFormat": "yuv444p",
+        "rc": "crf",
+        "crf": "28",
+        "preset": "placebo",
+        "me": "tesa",
+        "subme": "10",
+        "merange": "128",
+        "keyint": "300",
+        "min-keyint": "1",
+        "bframes": "16",
+        "b-adapt": "2",
+        "ref": "16",
         "no-fast-pskip": "1",
         "direct": "auto",
         "pbratio": "1.5",
-        "qpmax": "24",
-        "rc-lookahead": "240",
+        "rc-lookahead": "220",
         "chroma-qp-offset": "-2",
-        "vbv-maxrate": "8000",
-        "aq-mode": "2",
-        "aq-strength": "0.7",
+        "vbv-bufsize": "15000",
+        "vbv-maxrate": "11000",
+        "aq-mode": "3",
+        "psy-rd": "2:2",
         "trellis": "2",
-        "deblock": "0:0",
-        "no-psy": "1",
-        "nr": "20"
-      }
-    },
-    {
-      "name": "Manual Quality, unknown compression, very fast",
-      "description": "Thanks to iAvoe",
-      "options": {
-        "_pixelFormat": "yuv420p",
-        "rc": "cqp",
-        "qp": "18",
-        "preset": "medium",
-        "keyint": "180",
-        "min-keyint": "1",
-        "bframes": "6",
-        "ref": "3",
-        "scenecut": "33",
-        "deblock": "0:-1",
-        "psr-rd": "0.7:0.53"
-      }
-    }
+        "deblock": "2:2",
+        "nr": "8"
+        }
+   }
   ],
   "parameterGroups": {
     "x264-params": [
