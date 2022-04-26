@@ -1146,6 +1146,8 @@
     "libx265.standard.tune._item_2": "Зерно",
     "libx265.standard.tune._item_3": "Нулевая задержка",
     "libx265.standard.tune._item_4": "Быстрое декодирование",
+    "libx265.standard.allow-non-conformance._label": "Allow non-conformance",
+    "libx265.standard.allow-non-conformance._description": "Allow libx265 to generate a bitstream with profile and level NONE. By default, it will abort any encode which does not meet strict level compliance. The two most likely causes for non-conformance are --ctu being too small, --ref being too high, or the bitrate or resolution being out of specification.",
     "libx265.standard.high-tier._label": "Включить высокий уровень",
     "libx265.standard.high-tier._description": "Кодек будет кодировать на заданном уровне, используя основной и включая высокий только при необходимости и доступности. Если запрошенный уровень не поддерживает высокий, он не будет использоваться. Если указано –no-high-level, кодек будет использовать только основной уровень.",
     "libx265.standard.strategy._label": "Режим кодирования",
