@@ -1633,7 +1633,7 @@
           "parameter": "allow-non-conformance",
           "control": {
             "type": "boolean",
-            "value": true
+            "value": false
           },
           "prependNoIfFalse": true
         },
