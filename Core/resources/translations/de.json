@@ -1146,6 +1146,8 @@
     "libx265.standard.tune._item_2": "Grain",
     "libx265.standard.tune._item_3": "Null-Latenz",
     "libx265.standard.tune._item_4": "Schnelles decodieren",
+    "libx265.standard.allow-non-conformance._label": "Nichtkonformität erlauben",
+    "libx265.standard.allow-non-conformance._description": "Erlauben Sie libx265, einen Bitstream mit Profil und Level NONE zu generieren. Standardmäßig wird es jede Encodierung abbrechen, die nicht der strengen Einhaltung der Level Compliance entspricht. Die beiden wahrscheinlichsten Ursachen für Nichtkonformität sind -- ctu zu klein -- ref zu hoch, oder die Bitrate oder Auflösung ist außer Spezifikation.",
     "libx265.standard.high-tier._label": "High-Tier aktivieren",
     "libx265.standard.high-tier._description": "Der Encoder versucht zunächst, auf der angegebenen Ebene zu codieren, zuerst auf der Hauptebene, wobei er nur bei Bedarf die obere Ebene einschaltet und auf dieser Ebene verfügbar ist. Wenn -no-high-tier angegeben wurde, dann versucht der Codierer nur auf der Hauptschicht zu codieren.",
     "libx265.standard.strategy._label": "Strategie",
