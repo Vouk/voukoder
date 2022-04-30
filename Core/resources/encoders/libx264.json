@@ -17,7 +17,7 @@
        "subme": "10",
        "merange": "32",
        "no-fast-pskip": "1",
-       "no-chroma-me": "1",
+       "no-chroma-me": true,
        "direct": "auto",
        "no-weightb": "0",
 
@@ -31,7 +31,7 @@
        "rc": "crf",
        "crf": "17",
        "qpmax": "24",
-       "chroma-qp-offest": "-2",
+       "chroma-qp-offset": "-2",
 
        "aq-mode": "3",
        "aq-strength": "0.8",
@@ -53,7 +53,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": "1",
+      "no-chroma-me": true,
       "direct": "auto",
       "no-weightb": "0",
 
@@ -67,7 +67,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.8",
@@ -89,7 +89,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": "1",
+      "no-chroma-me": true,
       "direct": "auto",
       "no-weightb": "0",
 
@@ -103,7 +103,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.9",
@@ -125,7 +125,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": "1",
+      "no-chroma-me": true,
       "direct": "auto",
       "no-weightb": "0",
 
@@ -139,7 +139,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.9",
@@ -160,7 +160,7 @@
        "me": "hex",
        "subme": "8",
        "merange": "16",
-       "no-chroma-me": "1",
+       "no-chroma-me": true,
        "keyint": "300",
        "min-keyint": "150",
        "bframes": "6",
@@ -242,7 +242,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
@@ -278,7 +278,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
@@ -314,7 +314,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
