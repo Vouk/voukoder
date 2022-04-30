@@ -17,7 +17,7 @@
        "subme": "10",
        "merange": "32",
        "no-fast-pskip": "1",
-       "no-chroma-me": true,
+       "no-chroma-me": "1",
        "direct": "auto",
        "no-weightb": "0",
 
@@ -53,7 +53,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": true,
+      "no-chroma-me": "1",
       "direct": "auto",
       "no-weightb": "0",
 
@@ -89,7 +89,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": true,
+      "no-chroma-me": "1",
       "direct": "auto",
       "no-weightb": "0",
 
@@ -125,7 +125,7 @@
       "subme": "10",
       "merange": "32",
       "no-fast-pskip": "1",
-      "no-chroma-me": true,
+      "no-chroma-me": "1",
       "direct": "auto",
       "no-weightb": "0",
 
@@ -160,7 +160,7 @@
        "me": "hex",
        "subme": "8",
        "merange": "16",
-       "no-chroma-me": true,
+       "no-chroma-me": "1",
        "keyint": "300",
        "min-keyint": "150",
        "bframes": "6",
