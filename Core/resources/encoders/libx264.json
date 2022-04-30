@@ -31,7 +31,7 @@
        "rc": "crf",
        "crf": "17",
        "qpmax": "24",
-       "chroma-qp-offest": "-2",
+       "chroma-qp-offset": "-2",
 
        "aq-mode": "3",
        "aq-strength": "0.8",
@@ -67,7 +67,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.8",
@@ -103,7 +103,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.9",
@@ -139,7 +139,7 @@
       "rc": "crf",
       "crf": "17",
       "qpmax": "24",
-      "chroma-qp-offest": "-2",
+      "chroma-qp-offset": "-2",
 
       "aq-mode": "3",
       "aq-strength": "0.9",
@@ -242,7 +242,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
@@ -278,7 +278,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
@@ -314,7 +314,7 @@
        "rc": "crf",
        "crf": "19",
        "qpmin": "12",
-       "chroma-qp-offest": "-4",
+       "chroma-qp-offset": "-4",
 
        "aq-mode": "3",
        "aq-strength": "0.7",
