@@ -830,13 +830,15 @@ int EncoderEngine::receivePackets(AVCodecContext* codecContext, AVStream* stream
 		packet->stream_index = stream->index;
 
 		// Write packet to disk
-		if (av_interleaved_write_frame(formatContext, packet) < 0)
+		ret = av_interleaved_write_frame(formatContext, packet);
+
+		av_packet_unref(packet);
+
+		if (ret < 0)
 		{
 			vkLogError("Unable to write packet to disk.");
 			break;
 		}
-
-		av_packet_unref(packet);
 	}
 
 	return ret;
