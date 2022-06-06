@@ -35,7 +35,7 @@ bool CheckForUpdate(const Version version, PluginUpdate* pluginUpdate)
 
 	WinHttpClient client(url.ToStdWstring());
 	client.SetUserAgent(wxString::Format("voukoder/%d.%d.%d", version.number.major, version.number.minor, version.number.patch).ToStdWstring());
-	client.SetTimeouts(0U, 2000U, 2000U, 2000U);
+	client.SetTimeouts(2000U, 2000U, 2000U, 2000U);
 	if (client.SendHttpRequest())
 	{
 		wxString content = client.GetResponseContent();

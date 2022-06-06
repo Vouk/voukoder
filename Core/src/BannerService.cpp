@@ -42,7 +42,7 @@ bool BannerService::LoadConfig()
 	wxString url(VKDR_BANNER_URL);
 
 	WinHttpClient client(url.ToStdWstring());
-	client.SetTimeouts(0U, 2000U, 2000U, 2000U);
+	client.SetTimeouts(2000U, 2000U, 2000U, 2000U);
 	if (client.SendHttpRequest())
 	{
 		wxString content = client.GetResponseContent();
