@@ -65,7 +65,7 @@ struct ExportInfo
 		OptionContainer sideData;
 		FilterConfig filters;
 		AVRational timebase = { 0, 0 };
-		AVChannelLayout channelLayout;
+		uint64_t channelLayout = 0;
 	} audio;
 
 	struct Format

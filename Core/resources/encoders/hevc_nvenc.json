@@ -124,103 +124,28 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 1,
+            "selectedIndex": 3,
             "items": [
               {
-                "value": "slow",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p1"
               },
               {
-                "value": "medium",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p2"
               },
               {
-                "value": "fast",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p3"
               },
               {
-                "value": "hq",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p4"
               },
               {
-                "value": "bd",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p5"
               },
               {
-                "value": "lossless",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy",
-                          "visible": false
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "value": "p6"
+              },
+              {
+                "value": "p7"
               }
             ]
           }
