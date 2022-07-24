@@ -14,7 +14,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 0,
+            "selectedIndex": 1,
             "items": [
               {
                 "value": "yuv422p10",
