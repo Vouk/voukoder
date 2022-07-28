@@ -7,6 +7,10 @@ on:
         description: 'FFmpeg libraries'
         required: true
         default: 'https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz'
+      refId:
+        description: 'RefId'
+        required: true
+        default: 'master'
       verMajor:
         description: 'Major version'
         required: true
@@ -48,6 +52,7 @@ jobs:
       uses: actions/checkout@v3.0.0
       with:
         path: project\voukoder
+        ref: ${{ github.event.inputs.refId }}
     
     - name: Check cache for wxWidgets 3.1.2
       id: wxw-cache
