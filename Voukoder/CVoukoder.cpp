@@ -608,6 +608,7 @@ STDMETHODIMP CVoukoder::SendAudioSampleChunk(VKAUDIOCHUNK chunk)
 			frame->channel_layout = AV_CH_LAYOUT_5POINT1_BACK;
 		break;
 	}
+	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
 
 	// Fill each plane
 	for (int p = 0; p < chunk.planes; p++)
