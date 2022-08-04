@@ -412,21 +412,24 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	exportInfo.audio.timebase = { 1, info.audio.samplerate };
 
 	// Audio channel layout
+	uint64_t mask = 0;
 	switch (info.audio.channellayout)
 	{
 	case ChannelLayout::Mono:
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_MONO;
+		mask = AV_CH_LAYOUT_MONO;
 		break;
 	case ChannelLayout::Stereo:
-		exportInfo.audio.channelLayout = AV_CH_LAYOUT_STEREO;
+		mask = AV_CH_LAYOUT_STEREO;
 		break;
 	case ChannelLayout::FivePointOne:
 		if (exportInfo.audio.id == "dca")
-			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+			mask = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
 		else
-			exportInfo.audio.channelLayout = AV_CH_LAYOUT_5POINT1_BACK;
+			mask = AV_CH_LAYOUT_5POINT1_BACK;
 		break;
 	}
+
+	av_channel_layout_from_mask(&exportInfo.audio.channelLayout, mask);
 
 	// Multipass encoding
 	if (exportInfo.video.enabled && exportInfo.video.options.find("_2pass") != exportInfo.video.options.end())
@@ -484,7 +487,7 @@ STDMETHODIMP CVoukoder::Open(VKENCODERINFO info)
 	{
 		vkLogInfo("- Audio -------------------------------------");
 		vkLogInfoVA("Timebase:        %d/%d", exportInfo.audio.timebase.num, exportInfo.audio.timebase.den);
-		vkLogInfoVA("Channels:        %d", av_get_channel_layout_nb_channels(exportInfo.audio.channelLayout));
+		vkLogInfoVA("Channels:        %d", exportInfo.audio.channelLayout.nb_channels);
 		vkLogInfoVA("Encoder:         %s", exportInfo.audio.id);
 		vkLogInfoVA("Options:         %s", NoneIfEmpty(exportInfo.audio.options.Serialize(true, "", ' ')));
 		vkLogInfoVA("Side data:       %s", NoneIfEmpty(exportInfo.audio.sideData.Serialize(true, "", ' ')));
@@ -596,19 +599,18 @@ STDMETHODIMP CVoukoder::SendAudioSampleChunk(VKAUDIOCHUNK chunk)
 	switch (chunk.layout)
 	{
 	case ChannelLayout::Mono:
-		frame->channel_layout = AV_CH_LAYOUT_MONO;
+		av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_MONO);
 		break;
 	case ChannelLayout::Stereo:
-		frame->channel_layout = AV_CH_LAYOUT_STEREO;
+		av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_STEREO);
 		break;
 	case ChannelLayout::FivePointOne:
 		if (exportInfo.audio.id == "dca")
-			frame->channel_layout = AV_CH_LAYOUT_5POINT1; //Use 5.1(side) when dts audio is selected
+			av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_5POINT1);
 		else
-			frame->channel_layout = AV_CH_LAYOUT_5POINT1_BACK;
+			av_channel_layout_from_mask(&frame->ch_layout, AV_CH_LAYOUT_5POINT1_BACK);
 		break;
 	}
-	frame->channels = av_get_channel_layout_nb_channels(frame->channel_layout);
 
 	// Fill each plane
 	for (int p = 0; p < chunk.planes; p++)

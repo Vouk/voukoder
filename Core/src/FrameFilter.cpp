@@ -61,10 +61,10 @@ int FrameFilter::configure(AVCodecContext* context, FrameFilterOptions options, 
 	{
 	case AVMEDIA_TYPE_AUDIO:
 		char ch_layout[64];
-		av_get_channel_layout_string(ch_layout, sizeof(ch_layout), NULL, options.channel_layout);
+		av_channel_layout_describe(&options.ch_layout, ch_layout, sizeof(ch_layout));
 		av_opt_set(in_ctx, "channel_layout", ch_layout, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set(in_ctx, "sample_fmt", av_get_sample_fmt_name(options.sample_fmt), AV_OPT_SEARCH_CHILDREN);
-		av_opt_set_int(in_ctx, "channels", av_get_channel_layout_nb_channels(options.channel_layout), AV_OPT_SEARCH_CHILDREN);
+		av_opt_set_int(in_ctx, "channels", options.ch_layout.nb_channels, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set(in_ctx, "sample_fmt", av_get_sample_fmt_name(options.sample_fmt), AV_OPT_SEARCH_CHILDREN);
 		av_opt_set_q(in_ctx, "time_base", options.time_base, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set_int(in_ctx, "sample_rate", options.time_base.den, AV_OPT_SEARCH_CHILDREN);
