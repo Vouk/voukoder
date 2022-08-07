@@ -76,7 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>include;..\..\..\external\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
+    <IncludePath>include;..\..\..\external-11.3\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
     <LibraryPath>..\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);src</SourcePath>
   </PropertyGroup>
@@ -88,7 +88,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>include;..\..\..\external\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(IncludePath)</IncludePath>
+    <IncludePath>include;..\..\..\external-11.3\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(IncludePath)</IncludePath>
     <LibraryPath>..\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);src</SourcePath>
   </PropertyGroup>

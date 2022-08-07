@@ -482,7 +482,7 @@
         },
         {
           "id": "hevc_nvenc.standard.strategy.twopass",
-          "parameter": "2pass",
+          "parameter": "multipass",
           "forced": true,
           "control": {
             "type": "boolean",
