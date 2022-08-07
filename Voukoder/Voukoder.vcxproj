@@ -52,8 +52,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Core\include;..\..\..\external-11.3\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>..\wxWidgets-3.1.2\lib\vc_x64_lib;..\..\..\external-11.3\lib\release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>..\Core\include;..\..\..\external\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswu;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\wxWidgets-3.1.2\lib\vc_x64_lib;..\..\..\external\lib\release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>voukoder</TargetName>
   </PropertyGroup>
