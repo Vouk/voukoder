@@ -37,7 +37,7 @@ jobs:
     steps:
     - name: Set up dependencies
       run: |
-        Invoke-WebRequest ${{ inputs.ffmpegLibs }} -Headers @{"Cache-Control"="no-cache"} -OutFile temp.tar.gz
+        Invoke-WebRequest ${{ github.event.inputs.ffmpegLibs }} -Headers @{"Cache-Control"="no-cache"} -OutFile temp.tar.gz
         Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
         md external
         md project
