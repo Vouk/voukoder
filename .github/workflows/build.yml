@@ -44,6 +44,7 @@ jobs:
         & cmd.exe '/C 7z x "temp.tar.gz" -so | 7z x -aoa -si -ttar -o"external"'
         md external\lib\release
         move external\lib\*.lib external\lib\release\
+        Get-ChildItem -Recurse .\external\
     
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1.1
