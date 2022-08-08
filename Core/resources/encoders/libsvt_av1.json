@@ -4,6 +4,19 @@
   "name": "AV1 (SVT)",
   "defaults": {},
   "presets": [],
+  "parameterGroups": {
+    "svtav1-params": [
+      "rc",
+      "crf",
+      "tbr",
+      "mbr",
+      "profil",
+      "level",
+      "min-qp",
+      "max-qp",
+      "scd"
+    ]
+  },
   "groups": [
     {
       "id": "basic",
@@ -41,22 +54,18 @@
             "selectedIndex": 0,
             "items": [
               {
-                "value": "cqp",
+                "value": "0",
                 "filters": [
                   {
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvtav1.standard.qp",
+                          "id": "libsvtav1.standard.crf",
                           "visible": true
                         },
                         {
                           "id": "libsvtav1.standard.bitrate",
-                          "visible": false
-                        },
-                        {
-                          "id": "libsvtav1.standard.maxrate",
                           "visible": false
                         }
                       ]
@@ -65,22 +74,18 @@
                 ]
               },
               {
-                "value": "vbr",
+                "value": "1",
                 "filters": [
                   {
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvtav1.standard.qp",
+                          "id": "libsvtav1.standard.crf",
                           "visible": false
                         },
                         {
                           "id": "libsvtav1.standard.bitrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "libsvtav1.standard.maxrate",
                           "visible": true
                         }
                       ]
@@ -89,22 +94,18 @@
                 ]
               },
               {
-                "value": "cvbr",
+                "value": "2",
                 "filters": [
                   {
                     "filter": "OnSelection",
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "libsvtav1.standard.qp",
+                          "id": "libsvtav1.standard.crf",
                           "visible": false
                         },
                         {
                           "id": "libsvtav1.standard.bitrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "libsvtav1.standard.maxrate",
                           "visible": true
                         }
                       ]
@@ -116,15 +117,15 @@
           }
         },
         {
-          "id": "qp",
-          "parameter": "qp",
+          "id": "crf",
+          "parameter": "crf",
           "forced": true,
           "control": {
             "type": "integer",
             "maximum": 63,
-            "minimum": 0,
+            "minimum": 1,
             "singleStep": 1,
-            "value": 50
+            "value": 35
           }
         },
         {
@@ -133,24 +134,11 @@
           "forced": true,
           "control": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 288000,
+            "minimum": 1,
+            "maximum": 100000,
             "singleStep": 100,
-            "value": 7000,
+            "value": 2000,
             "visible": false
-          },
-          "multiplicationFactor": 1000
-        },
-        {
-          "id": "maxrate",
-          "parameter": "maxrate",
-          "forced": true,
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 288000,
-            "singleStep": 100,
-            "value": 7000
           },
           "multiplicationFactor": 1000
         },
@@ -160,7 +148,7 @@
           "forced": true,
           "control": {
             "type": "combobox",
-            "selectedIndex": 13,
+            "selectedIndex": 10,
             "items": [
               {
                 "value": "0"
@@ -203,23 +191,6 @@
               },
               {
                 "value": "13"
-              }
-            ]
-          }
-        },
-        {
-          "id": "tier",
-          "parameter": "tier",
-          "forced": true,
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "main"
-              },
-              {
-                "value": "high"
               }
             ]
           }
@@ -314,13 +285,13 @@
         },
         {
           "id": "qmin",
-          "parameter": "qmin",
+          "parameter": "min-qp",
           "control": {
-            "maximum": 63,
-            "minimum": 0,
+            "maximum": 62,
+            "minimum": 1,
             "singleStep": 1,
             "type": "integer",
-            "value": 0
+            "value": 1
           },
           "filters": [
             {
@@ -337,10 +308,10 @@
         },
         {
           "id": "qmax",
-          "parameter": "qmax",
+          "parameter": "max-qp",
           "control": {
             "maximum": 63,
-            "minimum": 0,
+            "minimum": 1,
             "singleStep": 1,
             "type": "integer",
             "value": 63
@@ -359,59 +330,19 @@
           ]
         },
         {
-          "id": "la_depth",
-          "parameter": "la_depth",
-          "control": {
-            "type": "integer",
-            "maximum": 120,
-            "minimum": 0,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
           "id": "hielevel",
-          "parameter": "hielevel",
+          "parameter": "hierarchical-levels",
           "control": {
-            "type": "combobox",
-            "selectedIndex": 1,
-            "items": [
-              {
-                "value": "3level"
-              },
-              {
-                "value": "4level"
-              }
-            ]
+            "maximum": 5,
+            "minimum": 3,
+            "singleStep": 1,
+            "type": "integer",
+            "value": 4
           }
         },
         {
           "id": "sc_detection",
-          "parameter": "sc_detection",
-          "control": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "id": "bl_mode",
-          "parameter": "bl_mode",
-          "control": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "id": "forced-idr",
-          "parameter": "forced-idr",
-          "control": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "id": "aud",
-          "parameter": "aud",
+          "parameter": "scd",
           "control": {
             "type": "boolean",
             "value": false

@@ -76,7 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>include;..\..\..\external\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
+    <IncludePath>include;..\..\..\external-cartwheel\include;..\wxWidgets-3.1.2\include;..\wxWidgets-3.1.2\lib\vc_x64_lib\mswud;$(IncludePath)</IncludePath>
     <LibraryPath>..\wxWidgets-3.1.2\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);src</SourcePath>
   </PropertyGroup>
