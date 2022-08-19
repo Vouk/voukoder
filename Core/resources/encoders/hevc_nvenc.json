@@ -313,78 +313,6 @@
                     }
                   }
                 ]
-              },
-              {
-                "value": "cbr_hq",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy.cqp",
-                          "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.bitrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.maxrate",
-                          "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.buffersize",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.cq",
-                          "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.twopass",
-                          "visible": false
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "value": "vbr_hq",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "hevc_nvenc.standard.strategy.cqp",
-                          "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.bitrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.maxrate",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.buffersize",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.cq",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.twopass",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
               }
             ]
           }
@@ -482,7 +410,7 @@
         },
         {
           "id": "hevc_nvenc.standard.strategy.twopass",
-          "parameter": "2pass",
+          "parameter": "multipass",
           "forced": true,
           "control": {
             "type": "boolean",
