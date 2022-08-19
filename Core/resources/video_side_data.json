@@ -291,8 +291,8 @@
           "parameter": "mdcv_min_luminance",
           "control": {
             "type": "float",
-            "minimum": 0.001,
-            "maximum": 0.05,
+            "minimum": 0.0,
+            "maximum": 5.0,
             "singleStep": 0.001,
             "value": 0.005
           }
@@ -302,8 +302,8 @@
           "parameter": "mdcv_max_luminance",
           "control": {
             "type": "integer",
-            "minimum": 100,
-            "maximum": 4000,
+            "minimum": 5,
+            "maximum": 10000,
             "singleStep": 1,
             "value": 1000
           }
