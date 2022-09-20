@@ -1169,6 +1169,9 @@
     <None Include="resources\encoders\av1_qsv.json">
       <Filter>Ressourcendateien\Encoders</Filter>
     </None>
+    <None Include="resources\encoders\av1_nvenc.json">
+      <Filter>Ressourcendateien\Encoders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Core.rc">

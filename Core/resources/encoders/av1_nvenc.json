@@ -1,0 +1,523 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "av1_nvenc",
+  "name": "AV1 (NVIDIA NVENC)",
+  "defaults": {},
+  "presets": [],
+  "groups": [
+    {
+      "id": "av1_nvenc.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "av1_nvenc.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "p010le"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "av1_nvenc.standard",
+      "class": "standard",
+      "properties": [
+        {
+          "id": "av1_nvenc.standard.preset",
+          "parameter": "preset",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "p1"
+              },
+              {
+                "value": "p2"
+              },
+              {
+                "value": "p3"
+              },
+              {
+                "value": "p4"
+              },
+              {
+                "value": "p5"
+              },
+              {
+                "value": "p6"
+              },
+              {
+                "value": "p7"
+              }
+            ]
+          }
+        },
+        {
+          "id": "av1_nvenc.standard.tune",
+          "parameter": "tune",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "hq"
+              },
+              {
+                "value": "ll"
+              },
+              {
+                "value": "ull"
+              }
+            ]
+          }
+        },
+        {
+          "id": "av1_nvenc.standard.strategy",
+          "parameter": "rc",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "constqp",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_nvenc.standard.strategy.cqp",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.bitrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.buffersize",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.maxrate",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.cq",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.twopass",
+                          "visible": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_nvenc.standard.strategy.cqp",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.bitrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.buffersize",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.cq",
+                          "visible": true
+                        },
+                        {
+                          "id": "av1_nvenc.standard.strategy.twopass",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.cqp",
+          "parameter": "qp",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "singleStep": 1,
+            "value": 23
+          }
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.bitrate",
+          "parameter": "b",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 512000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMaxValue": [
+                  {
+                    "id": "av1_nvenc.standard.strategy.maxrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.maxrate",
+          "parameter": "maxrate",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 512000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000,
+          "filters": [
+            {
+              "filter": "OnChangeValue",
+              "params": {
+                "LimitMinValue": [
+                  {
+                    "id": "av1_nvenc.standard.strategy.bitrate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.buffersize",
+          "parameter": "bufsize",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 512000,
+            "singleStep": 1000,
+            "value": 15000,
+            "visible": false
+          },
+          "multiplicationFactor": 1000
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.cq",
+          "parameter": "cq",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0,
+            "visible": false
+          }
+        },
+        {
+          "id": "av1_nvenc.standard.strategy.twopass",
+          "parameter": "multipass",
+          "forced": true,
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "av1_nvenc.frames",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "av1_nvenc.frames.rclookahead",
+          "parameter": "rc-lookahead",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.frames.strictgop",
+          "parameter": "strict_gop",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "av1_nvenc.frames.noscenecut",
+          "parameter": "no-scenecut",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "av1_nvenc.frames.forcedidr",
+          "parameter": "forced-idr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "av1_nvenc.frames.nonrefp",
+          "parameter": "nonref_p",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "av1_nvenc.quantizer",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "av1_nvenc.quantizer.qpp",
+          "parameter": "init_qpP",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.qpb",
+          "parameter": "init_qpB",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.qpi",
+          "parameter": "init_qpI",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.qp_cb_offset",
+          "parameter": "qp_cb_offset",
+          "control": {
+            "type": "integer",
+            "minimum": -12,
+            "maximum": 12,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.qp_cr_offset",
+          "parameter": "qp_cr_offset",
+          "control": {
+            "type": "integer",
+            "minimum": -12,
+            "maximum": 12,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.spatialaq",
+          "parameter": "spatial-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.spatialaq.strength",
+          "parameter": "aq-strength",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 15,
+            "singleStep": 1,
+            "value": 8
+          }
+        },
+        {
+          "id": "av1_nvenc.quantizer.temporalaq",
+          "parameter": "temporal-aq",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "av1_nvenc.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "av1_nvenc.misc.level",
+          "parameter": "level",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "2"
+              },
+              {
+                "value": "2.1"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "3.1"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "4.1"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "5.1"
+              },
+              {
+                "value": "5.2"
+              },
+              {
+                "value": "5.3"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "6.1"
+              },
+              {
+                "value": "6.2"
+              },
+              {
+                "value": "6.3"
+              }
+            ]
+          }
+        },
+        {
+          "id": "av1_nvenc.misc.surfaces",
+          "parameter": "surfaces",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 64,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "av1_nvenc.misc.zerolat",
+          "parameter": "zerolatency",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

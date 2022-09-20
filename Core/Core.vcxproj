@@ -217,6 +217,7 @@
     <None Include="resources\encoders\aac.json" />
     <None Include="resources\encoders\ac3.json" />
     <None Include="resources\encoders\alac.json" />
+    <None Include="resources\encoders\av1_nvenc.json" />
     <None Include="resources\encoders\av1_qsv.json" />
     <None Include="resources\encoders\bmp.json" />
     <None Include="resources\encoders\cfhd.json" />

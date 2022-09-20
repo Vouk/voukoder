@@ -69,6 +69,7 @@
 #define IDR_ENC_CFHD                    138
 #define IDR_ENC_PRORES_AW               139
 #define IDR_ENC_AV1_QSV					140
+#define IDR_ENC_AV1_NVENC				141
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202
