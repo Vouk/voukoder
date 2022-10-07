@@ -999,7 +999,8 @@
       "slices",
       "colorprim",
       "colormatrix",
-      "transfer"
+      "transfer",
+      "asm"
     ]
   },
   "groups": [
@@ -3568,6 +3569,20 @@
             "value": false
           },
           "prependNoIfFalse": true
+        }
+      ]
+    },
+    {
+      "id": "libx265.misc",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "libx265.misc.asm",
+          "parameter": "asm",
+          "control": {
+            "type": "string",
+            "value": ""
+          }
         }
       ]
     }
