@@ -866,7 +866,7 @@
     "libx264.misc.threads._label": "Потоки",
     "libx264.misc.threads._description": "Устанавливает количество потоков для кодирования (значение выше 16 может снизить качество).",
     "libx264.misc.asm._label": "ASM",
-    "libx264.misc.asm._description": "Sets and/or limits the CPU instruction set extensions to be used. (MMX2, SSE, SSE2, SSE3, SSSE3, SSE4, SSE4.1, SSE4.2, AVX, XOP, FMA4, AVX2, FMA3)",
+    "libx264.misc.asm._description": "Устанавливает и/или ограничивает для использования наборы процессорных инструкций. (MMX2, SSE, SSE2, SSE3, SSSE3, SSE4, SSE4.1, SSE4.2, AVX, XOP, FMA4, AVX2, FMA3)",
     "libx264rgb.standard": "Стандартные",
     "libx264rgb.standard.preset._label": "Предустановка",
     "libx264rgb.standard.preset._description": "Время обработки каждого кадра. Низкие значения увеличивают общее качество видео, но увеличивают время кодирования.",
