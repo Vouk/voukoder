@@ -20,10 +20,10 @@
  */
 #pragma once
 
-#define VKDR_VERSION_MAJOR 7
+#define VKDR_VERSION_MAJOR 0
 #define VKDR_VERSION_MINOR 0
 #define VKDR_VERSION_PATCH 0
-#define VKDR_VERSION_PUBLIC "7 (Dev)"
+#define VKDR_VERSION_PUBLIC "Development Version"
 
 #define xstr(a) str(a)
 #define str(a) #a

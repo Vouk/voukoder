@@ -14,7 +14,10 @@
       "level",
       "min-qp",
       "max-qp",
-      "scd"
+      "scd",
+      "tune",
+      "film-grain",
+      "fast-decode"
     ]
   },
   "groups": [
@@ -217,6 +220,22 @@
               }
             ]
           }
+        },
+        {
+          "id": "tune",
+          "parameter": "tune",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              }
+            ]
+          }
         }
       ]
     },
@@ -364,11 +383,30 @@
           }
         },
         {
+          "id": "fast-decode",
+          "parameter": "fast-decode",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
           "id": "sc_detection",
           "parameter": "scd",
           "control": {
             "type": "boolean",
             "value": false
+          }
+        },
+        {
+          "id": "film-grain",
+          "parameter": "film-grain",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "value": 1,
+            "singleStep": 1
           }
         }
       ]
