@@ -65,26 +65,6 @@
           }
         },
         {
-          "id": "av1_nvenc.standard.tune",
-          "parameter": "tune",
-          "forced": true,
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "hq"
-              },
-              {
-                "value": "ll"
-              },
-              {
-                "value": "ull"
-              }
-            ]
-          }
-        },
-        {
           "id": "av1_nvenc.standard.strategy",
           "parameter": "rc",
           "forced": true,
@@ -302,7 +282,27 @@
             "type": "boolean",
             "value": false
           }
+        },
+        {
+          "id": "av1_nvenc.standard.tune",
+          "parameter": "tune",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "hq"
+              },
+              {
+                "value": "ll"
+              },
+              {
+                "value": "ull"
+              }
+            ]
+          }
         }
+
       ]
     },
     {

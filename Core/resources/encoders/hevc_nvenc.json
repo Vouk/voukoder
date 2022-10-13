@@ -416,6 +416,28 @@
             "type": "boolean",
             "value": false
           }
+        },
+        {
+          "id": "hevc_nvenc.standard.tune",
+          "parameter": "tune",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "hq"
+              },
+              {
+                "value": "ll"
+              },
+              {
+                "value": "ull"
+              },
+              {
+                "value": "lossless"
+              }
+            ]
+          }
         }
       ]
     },
