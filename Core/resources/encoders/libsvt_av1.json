@@ -14,7 +14,7 @@
       "level",
       "tune",
       "film-grain",
-      "hielevel",
+      "hierarchical-levels",
       "keyint",
       "irefresh-type",
       "fast-decode",
@@ -518,7 +518,7 @@
           ]
         },
         {
-          "id": "hielevel",
+          "id": "hierarchical-levels",
           "parameter": "hierarchical-levels",
           "control": {
             "maximum": 5,
