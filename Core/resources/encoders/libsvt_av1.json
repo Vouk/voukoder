@@ -8,16 +8,65 @@
     "svtav1-params": [
       "rc",
       "crf",
+      "qp",
       "tbr",
       "mbr",
-      "profil",
       "level",
-      "min-qp",
-      "max-qp",
-      "scd",
       "tune",
       "film-grain",
-      "fast-decode"
+      "hielevel",
+      "keyint",
+      "irefresh-type",
+      "fast-decode",
+      "enable-hdr",
+      "asm",
+      "lp",
+      "pin",
+      "ss",
+      "pred-struct",
+      "force-key-frames",
+      "aq-mode",
+      "use-fixed-qindex-offsets",
+      "key-frame-qindex-offset",
+      "key-frame-chroma-qindex-offset",
+      "undershoot-pct",
+      "overshoot-pct",
+      "mbr-overshoot-pct",
+      "buf-sz",
+      "buf-initial-sz",
+      "buf-optimal-sz",
+      "recode-loop",
+      "bias-pct",
+      "minsection-pct",
+      "maxsection-pct",
+      "gop-constraint-rc",
+      "enable-qm",
+      "qm-min",
+      "qm-max",
+      "enable-dlf",
+      "enable-cdef",
+      "enable-restoration",
+      "enable-tpl-la",
+      "enable-tf",
+      "enable-overlays",
+      "scm",
+      "rmv",
+      "film-grain-denoise",
+      "superres-mode",
+      "superres-denom",
+      "superres-kf-denom",
+      "superres-qthres",
+      "superres-kf-qthres",
+      "sframe-dist",
+      "sframe-mode",
+      "resize-mode",
+      "resize-denom",
+      "resize-kf-denom",
+      "color-primaries",
+      "transfer-characteristics",
+      "matrix-coefficients",
+      "color-range",
+      "chroma-sample-position"
     ]
   },
   "groups": [
@@ -68,6 +117,10 @@
                           "visible": true
                         },
                         {
+                          "id": "libsvtav1.standard.qp",
+                          "visible": true
+                        },
+                        {
                           "id": "libsvtav1.standard.bitrate",
                           "visible": false
                         },
@@ -89,6 +142,10 @@
                       "ShowOptions": [
                         {
                           "id": "libsvtav1.standard.crf",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.standard.qp",
                           "visible": false
                         },
                         {
@@ -116,6 +173,10 @@
                           "visible": false
                         },
                         {
+                          "id": "libsvtav1.standard.qp",
+                          "visible": false
+                        },
+                        {
                           "id": "libsvtav1.standard.bitrate",
                           "visible": true
                         },
@@ -135,6 +196,18 @@
           "id": "crf",
           "parameter": "crf",
           "forced": true,
+          "control": {
+            "type": "integer",
+            "maximum": 63,
+            "minimum": 1,
+            "singleStep": 1,
+            "value": 35
+          }
+        },
+        {
+          "id": "qp",
+          "parameter": "qp",
+          "forced": false,
           "control": {
             "type": "integer",
             "maximum": 63,
@@ -236,6 +309,41 @@
               }
             ]
           }
+        },
+        {
+          "id": "tier",
+          "parameter": "tier",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile",
+          "parameter": "profile",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "main"
+              },
+              {
+                "value": "high"
+              },
+              {
+                "value": "professional"
+              }
+            ]
+          }
         }
       ]
     },
@@ -327,7 +435,7 @@
         },
         {
           "id": "qmin",
-          "parameter": "min-qp",
+          "parameter": "qmin",
           "control": {
             "maximum": 62,
             "minimum": 1,
@@ -345,12 +453,31 @@
                   }
                 ]
               }
+            },
+            {
+              "filter": "OnSelection",
+              "params": {
+                "ShowOptions": [
+                  {
+                    "id": "libsvtav1.standard.crf",
+                    "visible": false
+                  },
+                  {
+                    "id": "libsvtav1.standard.bitrate",
+                    "visible": true
+                  },
+                  {
+                    "id": "libsvtav1.standard.maxrate",
+                    "visible": true
+                  }
+                ]
+              }
             }
           ]
         },
         {
           "id": "qmax",
-          "parameter": "max-qp",
+          "parameter": "qmax",
           "control": {
             "maximum": 63,
             "minimum": 1,
@@ -365,6 +492,25 @@
                 "LimitMinValue": [
                   {
                     "id": "libsvtav1.advanced.qmin"
+                  }
+                ]
+              }
+            },
+            {
+              "filter": "OnSelection",
+              "params": {
+                "ShowOptions": [
+                  {
+                    "id": "libsvtav1.standard.crf",
+                    "visible": false
+                  },
+                  {
+                    "id": "libsvtav1.standard.bitrate",
+                    "visible": true
+                  },
+                  {
+                    "id": "libsvtav1.standard.maxrate",
+                    "visible": true
                   }
                 ]
               }
@@ -392,7 +538,7 @@
         },
         {
           "id": "sc_detection",
-          "parameter": "scd",
+          "parameter": "sc_detection",
           "control": {
             "type": "boolean",
             "value": false
@@ -407,6 +553,779 @@
             "maximum": 50,
             "value": 1,
             "singleStep": 1
+          }
+        },
+        {
+          "id": "keyint",
+          "parameter": "keyint",
+          "control": {
+            "type": "integer",
+            "minimum": -2,
+            "maximum": 2147483647,
+            "value": -2,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "irefresh-type",
+          "parameter": "irefresh-type",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "enable-hdr",
+          "parameter": "enable-hdr",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "asm",
+          "parameter": "asm",
+          "control": {
+            "type": "string",
+            "value": "max"
+          }
+        },
+        {
+          "id": "lp",
+          "parameter": "lp",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "pin",
+          "parameter": "pin",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "ss",
+          "parameter": "ss",
+          "control": {
+            "type": "integer",
+            "minimum": -1,
+            "maximum": 1,
+            "value": -1,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "la_depth",
+          "parameter": "la_depth",
+          "control": {
+            "type": "integer",
+            "minimum": -1,
+            "maximum": 120,
+            "value": -1,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "pred-struct",
+          "parameter": "pred-struct",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "force-key-frames",
+          "parameter": "force-key-frames",
+          "control": {
+            "type": "string",
+            "value": "none"
+          }
+        },
+        {
+          "id": "aq-mode",
+          "parameter": "aq-mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "use-fixed-qindex-offsets",
+          "parameter": "use-fixed-qindex-offsets",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "key-frame-qindex-offset",
+          "parameter": "key-frame-qindex-offset",
+          "control": {
+            "type": "integer",
+            "minimum": -256,
+            "maximum": 255,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "key-frame-chroma-qindex-offset",
+          "parameter": "key-frame-chroma-qindex-offset",
+          "control": {
+            "type": "integer",
+            "minimum": -256,
+            "maximum": 255,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "undershoot-pct",
+          "parameter": "undershoot-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "value": 25,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "overshoot-pct",
+          "parameter": "overshoot-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "value": 25,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "mbr-overshoot-pct",
+          "parameter": "mbr-overshoot-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "value": 50,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "buf-sz",
+          "parameter": "buf-sz",
+          "control": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 10000,
+            "value": 1000,
+            "singleStep": 10
+          }
+        },
+        {
+          "id": "buf-initial-sz",
+          "parameter": "buf-initial-sz",
+          "control": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 10000,
+            "value": 600,
+            "singleStep": 10
+          }
+        },
+        {
+          "id": "buf-optimal-sz",
+          "parameter": "buf-optimal-sz",
+          "control": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 10000,
+            "value": 600,
+            "singleStep": 10
+          }
+        },
+        {
+          "id": "recode-loop",
+          "parameter": "recode-loop",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 4,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              }
+            ]
+          }
+        },
+        {
+          "id": "bias-pct",
+          "parameter": "bias-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "value": 100,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "minsection-pct",
+          "parameter": "minsection-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "maxsection-pct",
+          "parameter": "maxsection-pct",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "value": 2000,
+            "singleStep": 10
+          }
+        },
+        {
+          "id": "gop-constraint-rc",
+          "parameter": "gop-constraint-rc",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "enable-qm",
+          "parameter": "enable-qm",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "qm-min",
+          "parameter": "qm-min",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 15,
+            "value": 8,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "qm-max",
+          "parameter": "qm-max",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 15,
+            "value": 15,
+            "singleStep": 1
+          }
+        }
+      ]
+    },
+    {
+      "class": "av1_specific",
+      "id": "av1_specific",
+      "properties": [
+        {
+          "id": "tile-rows",
+          "parameter": "tile_rows",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 6,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "tile-columns",
+          "parameter": "tile_columns",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "enable-dlf",
+          "parameter": "enable-dlf",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "enable-cdef",
+          "parameter": "enable-cdef",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "enable-restoration",
+          "parameter": "enable-restoration",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "enable-tpl-la",
+          "parameter": "enable-tpl-la",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "enable-tf",
+          "parameter": "enable-tf",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "enable-overlays",
+          "parameter": "enable-overlays",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "scm",
+          "parameter": "scm",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "rmv",
+          "parameter": "rmv",
+          "control": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "id": "film-grain-denoise",
+          "parameter": "film-grain-denoise",
+          "control": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "id": "superres-mode",
+          "parameter": "superres-mode",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              }
+            ]
+          }
+        },
+        {
+          "id": "superres-denom",
+          "parameter": "superres-denom",
+          "control": {
+            "type": "integer",
+            "minimum": 8,
+            "maximum": 16,
+            "value": 8,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "superres-kf-denom",
+          "parameter": "superres-kf-denom",
+          "control": {
+            "type": "integer",
+            "minimum": 8,
+            "maximum": 16,
+            "value": 8,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "superres-qthres",
+          "parameter": "superres-qthres",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63,
+            "value": 43,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "superres-kf-qthres",
+          "parameter": "superres-kf-qthres",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63,
+            "value": 43,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "sframe-dist",
+          "parameter": "sframe-dist",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "sframe-mode",
+          "parameter": "sframe-mode",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2,
+            "value": 2,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "resize-mode",
+          "parameter": "resize-mode",
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 0,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "resize-denom",
+          "parameter": "resize-denom",
+          "control": {
+            "type": "integer",
+            "minimum": 8,
+            "maximum": 16,
+            "value": 8,
+            "singleStep": 1
+          }
+        },
+        {
+          "id": "resize-kf-denom",
+          "parameter": "resize-kf-denom",
+          "control": {
+            "type": "integer",
+            "minimum": 8,
+            "maximum": 16,
+            "value": 8,
+            "singleStep": 1
+          }
+        }
+      ]
+    },
+    {
+      "class": "color",
+      "id": "color",
+      "properties": [
+        {
+          "id": "color-primaries",
+          "parameter": "color-primaries",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "22"
+              }
+            ]
+          }
+        },
+        {
+          "id": "transfer-characteristics",
+          "parameter": "transfer-characteristics",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 1,
+            "items": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              },
+              {
+                "value": "15"
+              },
+              {
+                "value": "16"
+              },
+              {
+                "value": "17"
+              },
+              {
+                "value": "18"
+              }
+            ]
+          }
+        },
+        {
+          "id": "matrix-coefficients",
+          "parameter": "matrix-coefficients",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 2,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "13"
+              },
+              {
+                "value": "14"
+              }
+            ]
+          }
+        },
+        {
+          "id": "color-range",
+          "parameter": "color-range",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chroma-sample-position",
+          "parameter": "chroma-sample-position",
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "mastering-display",
+          "parameter": "mastering-display",
+          "control": {
+            "type": "string",
+            "value": "none"
+          }
+        },
+        {
+          "id": "content-light",
+          "parameter": "content-light",
+          "control": {
+            "type": "string",
+            "value": "none"
           }
         }
       ]
