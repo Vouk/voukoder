@@ -264,55 +264,6 @@
           }
         },
         {
-          "id": "crf",
-          "parameter": "crf",
-          "forced": false,
-          "control": {
-            "type": "integer",
-            "maximum": 63,
-            "minimum": 1,
-            "singleStep": 1,
-            "value": 35
-          }
-        },
-        {
-          "id": "qp",
-          "parameter": "qp",
-          "forced": false,
-          "control": {
-            "type": "integer",
-            "maximum": 63,
-            "minimum": 1,
-            "singleStep": 1,
-            "value": 35
-          }
-        },
-        {
-          "id": "bitrate",
-          "parameter": "tbr",
-          "forced": true,
-          "control": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 100000,
-            "singleStep": 100,
-            "value": 2000,
-            "visible": false
-          }
-        },
-        {
-          "id": "maxrate",
-          "parameter": "mbr",
-          "forced": true,
-          "control": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 100000,
-            "singleStep": 100,
-            "value": 2000
-          }
-        },
-        {
           "id": "preset",
           "parameter": "preset",
           "forced": true,
@@ -363,6 +314,55 @@
                 "value": "13"
               }
             ]
+          }
+        },
+        {
+          "id": "crf",
+          "parameter": "crf",
+          "forced": false,
+          "control": {
+            "type": "integer",
+            "maximum": 63,
+            "minimum": 1,
+            "singleStep": 1,
+            "value": 35
+          }
+        },
+        {
+          "id": "qp",
+          "parameter": "qp",
+          "forced": false,
+          "control": {
+            "type": "integer",
+            "maximum": 63,
+            "minimum": 1,
+            "singleStep": 1,
+            "value": 35
+          }
+        },
+        {
+          "id": "bitrate",
+          "parameter": "tbr",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "singleStep": 100,
+            "value": 2000,
+            "visible": false
+          }
+        },
+        {
+          "id": "maxrate",
+          "parameter": "mbr",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "singleStep": 100,
+            "value": 2000
           }
         },
         {
