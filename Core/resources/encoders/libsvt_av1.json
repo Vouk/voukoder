@@ -134,6 +134,22 @@
                         {
                           "id": "libsvtav1.advanced.qmax",
                           "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-sz",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-initial-sz",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-optimal-sz",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "visible": true
                         }
                       ]
                     }
@@ -170,6 +186,22 @@
                         {
                           "id": "libsvtav1.advanced.qmax",
                           "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-initial-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-optimal-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "visible": false
                         }
                       ]
                     }
@@ -206,6 +238,22 @@
                         {
                           "id": "libsvtav1.advanced.qmax",
                           "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-initial-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.buf-optimal-sz",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "visible": false
                         }
                       ]
                     }
