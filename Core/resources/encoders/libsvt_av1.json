@@ -127,6 +127,14 @@
                         {
                           "id": "libsvtav1.standard.maxrate",
                           "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmin",
+                          "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmax",
+                          "visible": false
                         }
                       ]
                     }
@@ -154,6 +162,14 @@
                         },
                         {
                           "id": "libsvtav1.standard.maxrate",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmin",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmax",
                           "visible": true
                         }
                       ]
@@ -183,6 +199,14 @@
                         {
                           "id": "libsvtav1.standard.maxrate",
                           "visible": false
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmin",
+                          "visible": true
+                        },
+                        {
+                          "id": "libsvtav1.advanced.qmax",
+                          "visible": true
                         }
                       ]
                     }
@@ -195,7 +219,7 @@
         {
           "id": "crf",
           "parameter": "crf",
-          "forced": true,
+          "forced": false,
           "control": {
             "type": "integer",
             "maximum": 63,
@@ -453,25 +477,6 @@
                   }
                 ]
               }
-            },
-            {
-              "filter": "OnSelection",
-              "params": {
-                "ShowOptions": [
-                  {
-                    "id": "libsvtav1.standard.crf",
-                    "visible": false
-                  },
-                  {
-                    "id": "libsvtav1.standard.bitrate",
-                    "visible": true
-                  },
-                  {
-                    "id": "libsvtav1.standard.maxrate",
-                    "visible": true
-                  }
-                ]
-              }
             }
           ]
         },
@@ -492,25 +497,6 @@
                 "LimitMinValue": [
                   {
                     "id": "libsvtav1.advanced.qmin"
-                  }
-                ]
-              }
-            },
-            {
-              "filter": "OnSelection",
-              "params": {
-                "ShowOptions": [
-                  {
-                    "id": "libsvtav1.standard.crf",
-                    "visible": false
-                  },
-                  {
-                    "id": "libsvtav1.standard.bitrate",
-                    "visible": true
-                  },
-                  {
-                    "id": "libsvtav1.standard.maxrate",
-                    "visible": true
                   }
                 ]
               }
