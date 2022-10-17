@@ -50,7 +50,7 @@ int EncoderEngine::open()
 	int ret = 0;
 
 	if (exportInfo.video.id.EndsWith("_qsv"))
-		ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+		ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_D3D11VA, "auto", NULL, 0);
 
 	// Create format context
 	formatContext = avformat_alloc_context();

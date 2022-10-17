@@ -147,7 +147,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 	if (name.Lower().EndsWith("_qsv"))
 	{
 		AVBufferRef* hwDev = nullptr;
-		int val = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+		int val = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_D3D11VA, "auto", NULL, 0);
 
 		if (hwDev)
 			av_buffer_unref(&hwDev);

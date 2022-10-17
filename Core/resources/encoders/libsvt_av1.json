@@ -148,7 +148,7 @@
                           "visible": false
                         },
                         {
-                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "id": "libsvtav1.av1_specific.enable-tpl-la",
                           "visible": true
                         }
                       ]
@@ -200,7 +200,7 @@
                           "visible": true
                         },
                         {
-                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "id": "libsvtav1.av1_specific.enable-tpl-la",
                           "visible": false
                         }
                       ]
@@ -252,7 +252,7 @@
                           "visible": true
                         },
                         {
-                          "id": "libsvtav1.advanced.enable-tpl-la",
+                          "id": "libsvtav1.av1_specific.enable-tpl-la",
                           "visible": false
                         }
                       ]
@@ -913,7 +913,7 @@
       ]
     },
     {
-      "class": "av1_specific",
+      "class": "advanced",
       "id": "av1_specific",
       "properties": [
         {
