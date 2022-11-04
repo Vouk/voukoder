@@ -142,7 +142,7 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
 	// If it's not an external encoder we can skip this check
-	if (!name.Lower().EndsWith("_qsv") && !name.Lower().EndsWith("_amv") && !name.Lower().EndsWith("_nvenc") &&
+	if (!name.Lower().EndsWith("_qsv") && !name.Lower().EndsWith("_amf") && !name.Lower().EndsWith("_nvenc") &&
 		name.Lower() != "libfdk_aac")
 		return true;
 
