@@ -7,12 +7,13 @@
   },
   "groups": [
     {
-      "id": "h264_amf.standard",
+      "id": "standard",
       "class": "standard",
       "properties": [
         {
-          "id": "h264_amf.standard.usage",
+          "id": "usage",
           "parameter": "usage",
+          "forced": true,
           "control": {
             "items": [
               {
@@ -33,8 +34,9 @@
           }
         },
         {
-          "id": "h264_amf.standard.profile",
+          "id": "profile",
           "parameter": "profile",
+          "forced": true,
           "control": {
             "items": [
               {
@@ -55,8 +57,9 @@
           }
         },
         {
-          "id": "h264_amf.standard.quality",
+          "id": "quality",
           "parameter": "quality",
+          "forced": true,
           "control": {
             "items": [
               {
@@ -74,8 +77,9 @@
           }
         },
         {
-          "id": "h264_amf.standard.strategy",
+          "id": "strategy",
           "parameter": "rc",
+          "forced": true,
           "control": {
             "items": [
               {
@@ -86,11 +90,19 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_amf.standard.strategy.cqp",
+                          "id": "h264_amf.standard.qp_i",
                           "visible": true
                         },
                         {
-                          "id": "h264_amf.standard.strategy.bitrate",
+                          "id": "h264_amf.standard.qp_p",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_amf.standard.qp_b",
+                          "visible": true
+                        },
+                        {
+                          "id": "h264_amf.standard.bitrate",
                           "visible": false
                         }
                       ]
@@ -106,11 +118,19 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_amf.standard.strategy.cqp",
+                          "id": "h264_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "h264_amf.standard.strategy.bitrate",
+                          "id": "h264_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.qp_b",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -126,11 +146,19 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_amf.standard.strategy.cqp",
+                          "id": "h264_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "h264_amf.standard.strategy.bitrate",
+                          "id": "h264_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.qp_b",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -146,11 +174,19 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "h264_amf.standard.strategy.cqp",
+                          "id": "h264_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "h264_amf.standard.strategy.bitrate",
+                          "id": "h264_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.qp_b",
+                          "visible": false
+                        },
+                        {
+                          "id": "h264_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -164,19 +200,45 @@
           }
         },
         {
-          "id": "h264_amf.standard.strategy.cqp",
-          "parameter": "qp",
+          "id": "qp_i",
+          "parameter": "qp_i",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
             "maximum": 51,
             "singleStep": 1,
-            "value": 23
+            "value": 0
           }
         },
         {
-          "id": "h264_amf.standard.strategy.bitrate",
+          "id": "qp_p",
+          "parameter": "qp_p",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "qp_b",
+          "parameter": "qp_b",
+          "forced": true,
+          "control": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 51,
+            "singleStep": 1,
+            "value": 0
+          }
+        },
+        {
+          "id": "bitrate",
           "parameter": "b",
+          "forced": true,
           "control": {
             "type": "integer",
             "minimum": 0,
@@ -190,11 +252,11 @@
       ]
     },
     {
-      "id": "h264_amf.frames",
+      "id": "frames",
       "class": "advanced",
       "properties": [
         {
-          "id": "h264_amf.frames.gopsize",
+          "id": "gopsize",
           "parameter": "g",
           "control": {
             "type": "integer",
@@ -207,44 +269,11 @@
       ]
     },
     {
-      "id": "h264_amf.quantizer",
+      "id": "quantizer",
       "class": "advanced",
       "properties": [
         {
-          "id": "h264_amf.quantizer.qp_i",
-          "parameter": "qp_i",
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 51,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
-          "id": "h264_amf.quantizer.qp_p",
-          "parameter": "qp_p",
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 51,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
-          "id": "h264_amf.quantizer.qp_b",
-          "parameter": "qp_b",
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 51,
-            "singleStep": 1,
-            "value": 0
-          }
-        },
-        {
-          "id": "h264_amf.quantizer.bf_delta_qp",
+          "id": "bf_delta_qp",
           "parameter": "bf_delta_qp",
           "control": {
             "type": "integer",
@@ -255,7 +284,7 @@
           }
         },
         {
-          "id": "h264_amf.quantizer.bf_ref",
+          "id": "bf_ref",
           "parameter": "bf_ref",
           "control": {
             "type": "boolean",
@@ -263,7 +292,7 @@
           }
         },
         {
-          "id": "h264_amf.quantizer.vbaq",
+          "id": "vbaq",
           "parameter": "vbaq",
           "control": {
             "type": "boolean",
@@ -273,11 +302,11 @@
       ]
     },
     {
-      "id": "h264_amf.analysis",
+      "id": "analysis",
       "class": "advanced",
       "properties": [
         {
-          "id": "h264_amf.analysis.me_half_pel",
+          "id": "me_half_pel",
           "parameter": "me_half_pel",
           "control": {
             "type": "boolean",
@@ -285,7 +314,7 @@
           }
         },
         {
-          "id": "h264_amf.analysis.me_quarter_pel",
+          "id": "me_quarter_pel",
           "parameter": "me_quarter_pel",
           "control": {
             "type": "boolean",
@@ -293,7 +322,7 @@
           }
         },
         {
-          "id": "h264_amf.analysis.frame_skipping",
+          "id": "frame_skipping",
           "parameter": "frame_skipping",
           "control": {
             "type": "boolean",
@@ -301,7 +330,7 @@
           }
         },
         {
-          "id": "h264_amf.analysis.preanalysis",
+          "id": "preanalysis",
           "parameter": "preanalysis",
           "control": {
             "type": "boolean",
@@ -309,7 +338,7 @@
           }
         },
         {
-          "id": "h264_amf.analysis.max_au_size",
+          "id": "max_au_size",
           "parameter": "max_au_size",
           "control": {
             "type": "integer",
@@ -320,7 +349,7 @@
           }
         },
         {
-          "id": "h264_amf.analysis.intra_refresh_mb",
+          "id": "intra_refresh_mb",
           "parameter": "intra_refresh_mb",
           "control": {
             "type": "integer",
@@ -333,11 +362,11 @@
       ]
     },
     {
-      "id": "h264_amf.misc",
+      "id": "misc",
       "class": "advanced",
       "properties": [
         {
-          "id": "h264_amf.misc.level",
+          "id": "level",
           "parameter": "level",
           "control": {
             "items": [
@@ -354,7 +383,7 @@
                 "value": "1.3"
               },
               {
-                "value": "2"
+                "value": "2.0"
               },
               {
                 "value": "2.1"
@@ -363,7 +392,7 @@
                 "value": "2.2"
               },
               {
-                "value": "3"
+                "value": "3.0"
               },
               {
                 "value": "3.1"
@@ -372,7 +401,7 @@
                 "value": "3.2"
               },
               {
-                "value": "4"
+                "value": "4.0"
               },
               {
                 "value": "4.1"
@@ -381,7 +410,7 @@
                 "value": "4.2"
               },
               {
-                "value": "5"
+                "value": "5.0"
               },
               {
                 "value": "5.1"
@@ -390,7 +419,7 @@
                 "value": "5.2"
               },
               {
-                "value": "6"
+                "value": "6.0"
               },
               {
                 "value": "6.1"
@@ -404,7 +433,7 @@
           }
         },
         {
-          "id": "h264_amf.misc.filler_data",
+          "id": "filler_data",
           "parameter": "filler_data",
           "control": {
             "type": "boolean",
@@ -412,7 +441,7 @@
           }
         },
         {
-          "id": "h264_amf.misc.coder",
+          "id": "coder",
           "parameter": "coder",
           "control": {
             "type": "combobox",
@@ -428,7 +457,7 @@
           }
         },
         {
-          "id": "h264_amf.misc.header_spacing",
+          "id": "header_spacing",
           "parameter": "header_spacing",
           "control": {
             "type": "integer",
@@ -439,7 +468,7 @@
           }
         },
         {
-          "id": "h264_amf.misc.aud",
+          "id": "aud",
           "parameter": "aud",
           "control": {
             "type": "boolean",
@@ -447,7 +476,7 @@
           }
         },
         {
-          "id": "h264_amf.misc.enforce_hrd",
+          "id": "enforce_hrd",
           "parameter": "enforce_hrd",
           "control": {
             "type": "boolean",

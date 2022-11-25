@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "hevc_amf",
-  "name": "HEVC (AMD AMF)",
+  "id": "av1_amf",
+  "name": "AV1 (AMD AMF)",
   "defaults": {
     "_pixelFormat": "yuv420p"
   },
@@ -20,13 +20,7 @@
                 "value": "transcoding"
               },
               {
-                "value": "ultralowlatency"
-              },
-              {
                 "value": "lowlatency"
-              },
-              {
-                "value": "webcam"
               }
             ],
             "selectedIndex": 0,
@@ -48,23 +42,6 @@
           }
         },
         {
-          "id": "profile_tier",
-          "parameter": "profile_tier",
-          "forced": true,
-          "control": {
-            "items": [
-              {
-                "value": "main"
-              },
-              {
-                "value": "high"
-              }
-            ],
-            "selectedIndex": 0,
-            "type": "combobox"
-          }
-        },
-        {
           "id": "quality",
           "parameter": "quality",
           "forced": true,
@@ -78,6 +55,9 @@
               },
               {
                 "value": "quality"
+              },
+              {
+                "value": "high_quality"
               }
             ],
             "selectedIndex": 0,
@@ -98,15 +78,16 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_amf.standard.qp_i",
+                          "id": "av1_amf.standard.qp_i",
                           "visible": true
                         },
                         {
-                          "id": "hevc_amf.standard.qp_p",
+                          "id": "av1_amf.standard.qp_p",
                           "visible": true
                         },
+
                         {
-                          "id": "hevc_amf.standard.bitrate",
+                          "id": "av1_amf.standard.bitrate",
                           "visible": false
                         }
                       ]
@@ -122,15 +103,39 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_amf.standard.qp_i",
+                          "id": "av1_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "hevc_amf.standard.qp_p",
+                          "id": "av1_amf.standard.qp_p",
                           "visible": false
                         },
                         {
-                          "id": "hevc_amf.standard.bitrate",
+                          "id": "av1_amf.standard.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "cbr_high_quality",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_amf.standard.qp_i",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -146,15 +151,16 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_amf.standard.qp_i",
+                          "id": "av1_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "hevc_amf.standard.qp_p",
+                          "id": "av1_amf.standard.qp_p",
                           "visible": false
                         },
+
                         {
-                          "id": "hevc_amf.standard.bitrate",
+                          "id": "av1_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -170,15 +176,63 @@
                     "params": {
                       "ShowOptions": [
                         {
-                          "id": "hevc_amf.standard.qp_i",
+                          "id": "av1_amf.standard.qp_i",
                           "visible": false
                         },
                         {
-                          "id": "hevc_amf.standard.qp_p",
+                          "id": "av1_amf.standard.qp_p",
                           "visible": false
                         },
                         {
-                          "id": "hevc_amf.standard.bitrate",
+                          "id": "av1_amf.standard.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_quality",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_amf.standard.qp_i",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.bitrate",
+                          "visible": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "value": "vbr_high_quality",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "ShowOptions": [
+                        {
+                          "id": "av1_amf.standard.qp_i",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.qp_p",
+                          "visible": false
+                        },
+                        {
+                          "id": "av1_amf.standard.bitrate",
                           "visible": true
                         }
                       ]
@@ -198,7 +252,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
           }
@@ -210,7 +264,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
           }
@@ -258,7 +312,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
           }
@@ -269,7 +323,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
           }
@@ -280,7 +334,7 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
           }
@@ -291,17 +345,9 @@
           "control": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 51,
+            "maximum": 255,
             "singleStep": 1,
             "value": 0
-          }
-        },
-        {
-          "id": "vbaq",
-          "parameter": "vbaq",
-          "control": {
-            "type": "boolean",
-            "value": false
           }
         }
       ]
@@ -310,22 +356,6 @@
       "id": "analysis",
       "class": "advanced",
       "properties": [
-        {
-          "id": "me_half_pel",
-          "parameter": "me_half_pel",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "id": "me_quarter_pel",
-          "parameter": "me_quarter_pel",
-          "control": {
-            "type": "boolean",
-            "value": true
-          }
-        },
         {
           "id": "skip_frame",
           "parameter": "skip_frame",
@@ -341,17 +371,6 @@
             "type": "boolean",
             "value": false
           }
-        },
-        {
-          "id": "max_au_size",
-          "parameter": "max_au_size",
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9999,
-            "singleStep": 1,
-            "value": 0
-          }
         }
       ]
     },
@@ -365,13 +384,16 @@
           "control": {
             "items": [
               {
-                "value": "1.0"
-              },
-              {
                 "value": "2.0"
               },
               {
                 "value": "2.1"
+              },
+              {
+                "value": "2.2"
+              },
+              {
+                "value": "2.3"
               },
               {
                 "value": "3.0"
@@ -380,10 +402,22 @@
                 "value": "3.1"
               },
               {
+                "value": "3.2"
+              },
+              {
+                "value": "3.3"
+              },
+              {
                 "value": "4.0"
               },
               {
                 "value": "4.1"
+              },
+              {
+                "value": "4.2"
+              },
+              {
+                "value": "4.3"
               },
               {
                 "value": "5.0"
@@ -395,6 +429,9 @@
                 "value": "5.2"
               },
               {
+                "value": "5.3"
+              },
+              {
                 "value": "6.0"
               },
               {
@@ -402,37 +439,25 @@
               },
               {
                 "value": "6.2"
+              },
+              {
+                "value": "6.3"
+              },
+              {
+                "value": "7.0"
+              },
+              {
+                "value": "7.1"
+              },
+              {
+                "value": "7.2"
+              },
+              {
+                "value": "7.3"
               }
             ],
             "selectedIndex": 0,
             "type": "combobox"
-          }
-        },
-        {
-          "id": "header_insertion_mode",
-          "parameter": "header_insertion_mode",
-          "control": {
-            "type": "combobox",
-            "selectedIndex": 0,
-            "items": [
-              {
-                "value": "gop"
-              },
-              {
-                "value": "idr"
-              }
-            ]
-          }
-        },
-        {
-          "id": "gops_per_idr",
-          "parameter": "gops_per_idr",
-          "control": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9999,
-            "singleStep": 1,
-            "value": 60
           }
         },
         {
@@ -444,19 +469,49 @@
           }
         },
         {
-          "id": "aud",
-          "parameter": "aud",
+          "id": "enforce_hrd",
+          "parameter": "enforce_hrd",
           "control": {
             "type": "boolean",
             "value": false
           }
         },
         {
-          "id": "enforce_hrd",
-          "parameter": "enforce_hrd",
+          "id": "align",
+          "parameter": "align",
           "control": {
-            "type": "boolean",
-            "value": false
+            "selectedIndex": 2,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "64x16"
+              },
+              {
+                "value": "1080p"
+              },
+              {
+                "value": "none"
+              }
+            ]
+          }
+        },
+        {
+          "id": "header_insertion_mode",
+          "parameter": "header_insertion_mode",
+          "control": {
+            "selectedIndex": 0,
+            "type": "combobox",
+            "items": [
+              {
+                "value": "none"
+              },
+              {
+                "value": "gop"
+              },
+              {
+                "value": "frame"
+              }
+            ]
           }
         }
       ]
