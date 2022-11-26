@@ -6,7 +6,7 @@
   "presets": [
    {
       "name": "4:2:0 General purpose, 8bit projects (Recommended if you are not sure)",
-      "description": "by iAvoe, require x265 v3.5+69 or higher since new parameters are introduced. Check MCTF, hist-scenecut, hevc-aq api implementation. Removed PPS related parameters for better media player compatibility",
+      "description": "by iAvoe, require x265 v3.5+69 or higher since new parameters are introduced. Check mcstf, hist-scenecut, api implementation. Removed PPS related parameters for better media player compatibility",
       "options": {
         "_pixelFormat": "yuv420p",
         "preset": "slow",
@@ -23,7 +23,7 @@
         "merange": "48",
         "rskip": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
         
         "early-skip": "1",
         "max-merge": "2",
@@ -77,7 +77,7 @@
         "merange": "48",
         "rskip": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
         
         "early-skip": "1",
         "max-merge": "2",
@@ -131,7 +131,7 @@
         "merange": "48",
         "rskip": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
         
         "early-skip": "1",
         "max-merge": "2",
@@ -185,7 +185,7 @@
         "merange": "48",
         "rskip": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
         
         "early-skip": "1",
         "max-merge": "2",
@@ -252,7 +252,7 @@
    },
    {
       "name": "4:2:0 Film high compression, 8bit projects (Very slow)",
-      "description": "by iAvoe. early-skip removed, added mctf, hist-scenecut, raised aq-mode, added qp-adaptation-range, removed PPS related parameters",
+      "description": "by iAvoe. early-skip removed, added mcstf, hist-scenecut, raised aq-mode, added qp-adaptation-range, removed PPS related parameters",
       "options": {
         "_pixelFormat": "yuv420p",
         "preset": "slow",
@@ -269,7 +269,7 @@
         "merange": "48",
         "analyze-src-pics": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -338,7 +338,7 @@
         "merange": "48",
         "analyze-src-pics": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -407,7 +407,7 @@
         "merange": "48",
         "analyze-src-pics": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -476,7 +476,7 @@
         "merange": "48",
         "analyze-src-pics": "1",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -528,7 +528,7 @@
    },
    {
       "name": "4:2:0 Anime & <30fps Projects, 10bit projects (Very slow)",
-      "description": "by iAvoe. Removed analyze-src-pics, added mctf, hist-scenecut, raised aq-mode, added qp-adaptation-range, removed PPS related parameters, increased bframes and bias to use more b-frames. lowered subme. Note: --subme <24fps=3, 48fps=4, 60fps=5, 100fps=6>, increased rdpenalty, lowered deblock, added tskip",
+      "description": "by iAvoe. Removed analyze-src-pics, added mcstf, hist-scenecut, raised aq-mode, added qp-adaptation-range, removed PPS related parameters, increased bframes and bias to use more b-frames. lowered subme. Note: --subme <24fps=3, 48fps=4, 60fps=5, 100fps=6>, increased rdpenalty, lowered deblock, added tskip",
       "options": {
         "_pixelFormat": "yuv420p10le",
         "preset": "slow",
@@ -544,7 +544,7 @@
         "subme": "3",
         "merange": "48",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -615,7 +615,7 @@
         "subme": "3",
         "merange": "48",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
@@ -686,7 +686,7 @@
         "subme": "3",
         "merange": "52",
         "weightb": "1",
-        "mctf": "1",
+        "mcstf": "1",
      
         "max-merge": "4",
         "keyint": "480",
