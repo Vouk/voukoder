@@ -414,6 +414,7 @@
      "no-psy",
      "no-cabac",
      "threads",
+     "asm",
      "opencl"
    ]
  },
@@ -1555,117 +1556,125 @@
    {
      "id": "libx264.misc",
      "class": "advanced",
-     "properties": [
-       {
-         "id": "libx264.misc.level",
-         "parameter": "level",
-         "control": {
-           "selectedIndex": 0,
-           "type": "combobox",
-           "items": [
-             {
-               "value": "1"
-             },
-             {
-               "value": "11"
-             },
-             {
-               "value": "12"
-             },
-             {
-               "value": "13"
-             },
-             {
-               "value": "2"
-             },
-             {
-               "value": "21"
-             },
-             {
-               "value": "22"
-             },
-             {
-               "value": "3"
-             },
-             {
-               "value": "31"
-             },
-             {
-               "value": "32"
-             },
-             {
-               "value": "4"
-             },
-             {
-               "value": "41"
-             },
-             {
-               "value": "42"
-             },
-             {
-               "value": "5"
-             },
-             {
-               "value": "51"
-             }
-           ]
-         }
-       },
-       {
-         "id": "libx264.misc.nal-hrd",
-         "parameter": "nal-hrd",
-         "control": {
-           "items": [
-             {
-               "value": "none"
-             },
-             {
-               "value": "cbr"
-             },
-             {
-               "value": "vbr"
-             }
-           ],
-           "selectedIndex": 0,
-           "type": "combobox"
-         }
-       },
-       {
-         "id": "libx264.misc.bluray-compat",
-         "parameter": "bluray-compat",
-         "control": {
-           "type": "boolean",
-           "value": false
-         }
-       },
-       {
-         "id": "libx264.misc.aud",
-         "parameter": "aud",
-         "control": {
-           "type": "boolean",
-           "value": false
-         }
-       },
-       {
-         "id": "libx264.misc.fake-interlaced",
-         "parameter": "fake-interlaced",
-         "control": {
-           "type": "boolean",
-           "value": false
-         }
-       },
-       {
-         "id": "libx264.misc.threads",
-         "parameter": "threads",
-         "control": {
-           "maximum": 128,
-           "minimum": 0,
-           "singleStep": 1,
-           "type": "integer",
-           "value": 0
-         }
-       }
-     ]
+    "properties": [
+      {
+        "id": "libx264.misc.level",
+        "parameter": "level",
+        "control": {
+          "selectedIndex": 0,
+          "type": "combobox",
+          "items": [
+            {
+              "value": "1"
+            },
+            {
+              "value": "11"
+            },
+            {
+              "value": "12"
+            },
+            {
+              "value": "13"
+            },
+            {
+              "value": "2"
+            },
+            {
+              "value": "21"
+            },
+            {
+              "value": "22"
+            },
+            {
+              "value": "3"
+            },
+            {
+              "value": "31"
+            },
+            {
+              "value": "32"
+            },
+            {
+              "value": "4"
+            },
+            {
+              "value": "41"
+            },
+            {
+              "value": "42"
+            },
+            {
+              "value": "5"
+            },
+            {
+              "value": "51"
+            }
+          ]
+        }
+      },
+      {
+        "id": "libx264.misc.nal-hrd",
+        "parameter": "nal-hrd",
+        "control": {
+          "items": [
+            {
+              "value": "none"
+            },
+            {
+              "value": "cbr"
+            },
+            {
+              "value": "vbr"
+            }
+          ],
+          "selectedIndex": 0,
+          "type": "combobox"
+        }
+      },
+      {
+        "id": "libx264.misc.bluray-compat",
+        "parameter": "bluray-compat",
+        "control": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      {
+        "id": "libx264.misc.aud",
+        "parameter": "aud",
+        "control": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      {
+        "id": "libx264.misc.fake-interlaced",
+        "parameter": "fake-interlaced",
+        "control": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      {
+        "id": "libx264.misc.threads",
+        "parameter": "threads",
+        "control": {
+          "maximum": 128,
+          "minimum": 0,
+          "singleStep": 1,
+          "type": "integer",
+          "value": 0
+        }
+      },
+      {
+        "id": "libx264.misc.asm",
+        "parameter": "asm",
+        "control": {
+          "type": "string",
+          "value": ""
+        }
+      }
+    ]
    }
  ]
 }

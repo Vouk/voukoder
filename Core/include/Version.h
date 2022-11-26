@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,10 +20,10 @@
  */
 #pragma once
 
-#define VKDR_VERSION_MAJOR 7
+#define VKDR_VERSION_MAJOR 0
 #define VKDR_VERSION_MINOR 0
 #define VKDR_VERSION_PATCH 0
-#define VKDR_VERSION_PUBLIC "7 (Dev)"
+#define VKDR_VERSION_PUBLIC "Development Version"
 
 #define xstr(a) str(a)
 #define str(a) #a

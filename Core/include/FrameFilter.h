@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@ struct FrameFilterOptions
 	int height = 0;
 	AVMediaType media_type = AVMEDIA_TYPE_UNKNOWN;
 	AVRational time_base = { 0, 0 };
-	AVChannelLayout channel_layout;
+	AVChannelLayout ch_layout;
 	AVSampleFormat sample_fmt = AV_SAMPLE_FMT_NONE;
 	AVPixelFormat pix_fmt = AV_PIX_FMT_NONE;
 	AVRational sar = { 1, 1 };

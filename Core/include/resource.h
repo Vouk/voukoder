@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -69,6 +69,8 @@
 #define IDR_ENC_CFHD                    138
 #define IDR_ENC_PRORES_AW               139
 #define IDR_ENC_AV1_QSV					140
+#define IDR_ENC_AV1_NVENC				141
+#define IDR_ENC_AV1_AMF  				142
 #define ID_MUXER                        200
 #define IDR_MUX_MKV                     201
 #define IDR_MUX_MOV                     202

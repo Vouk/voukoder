@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -141,13 +141,18 @@ AVMediaType EncoderUtils::GetMediaType(const wxString codecId)
 
 bool EncoderUtils::IsEncoderAvailable(const wxString name)
 {
+	// If it's not an external encoder we can skip this check
+	if (!name.Lower().EndsWith("_qsv") && !name.Lower().EndsWith("_amf") && !name.Lower().EndsWith("_nvenc") &&
+		name.Lower() != "libfdk_aac")
+		return true;
+
 	bool ret = false;
 
 	// Detect if QSV is generally available
 	if (name.Lower().EndsWith("_qsv"))
 	{
 		AVBufferRef* hwDev = nullptr;
-		int val = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+		int val = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_D3D11VA, "auto", NULL, 0);
 
 		if (hwDev)
 			av_buffer_unref(&hwDev);

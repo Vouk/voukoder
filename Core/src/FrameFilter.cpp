@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -61,10 +61,10 @@ int FrameFilter::configure(AVCodecContext* context, FrameFilterOptions options, 
 	{
 	case AVMEDIA_TYPE_AUDIO:
 		char ch_layout[64];
-		av_channel_layout_describe(&options.channel_layout, ch_layout, sizeof(ch_layout));
+		av_channel_layout_describe(&options.ch_layout, ch_layout, sizeof(ch_layout));
 		av_opt_set(in_ctx, "channel_layout", ch_layout, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set(in_ctx, "sample_fmt", av_get_sample_fmt_name(options.sample_fmt), AV_OPT_SEARCH_CHILDREN);
-		av_opt_set_int(in_ctx, "channels", options.channel_layout.nb_channels, AV_OPT_SEARCH_CHILDREN);
+		av_opt_set_int(in_ctx, "channels", options.ch_layout.nb_channels, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set(in_ctx, "sample_fmt", av_get_sample_fmt_name(options.sample_fmt), AV_OPT_SEARCH_CHILDREN);
 		av_opt_set_q(in_ctx, "time_base", options.time_base, AV_OPT_SEARCH_CHILDREN);
 		av_opt_set_int(in_ctx, "sample_rate", options.time_base.den, AV_OPT_SEARCH_CHILDREN);

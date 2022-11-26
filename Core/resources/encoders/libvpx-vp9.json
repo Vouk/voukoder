@@ -18,6 +18,9 @@
                 "value": "yuv420p"
               },
               {
+                "value": "yuva420p"
+              },
+              {
                 "value": "yuv422p"
               },
               {

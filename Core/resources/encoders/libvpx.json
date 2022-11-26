@@ -3,9 +3,44 @@
   "id": "libvpx",
   "name": "VP8",
   "defaults": {
-    "_pixelFormat": "yuv420p"
   },
   "groups": [
+    {
+      "id": "libvpx.basic",
+      "class": "basic",
+      "properties": [
+        {
+          "id": "libvpx.basic.pixelFormat",
+          "parameter": "_pixelFormat",
+          "forced": true,
+          "control": {
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "yuv420p"
+              },
+              {
+                "value": "yuva420p",
+                "filters": [
+                  {
+                    "filter": "OnSelection",
+                    "params": {
+                      "SetValue": [
+                        {
+                          "id": "libvpx.frame.auto-alt-ref",
+                          "value": "0"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "libvpx.standard",
       "class": "standard",

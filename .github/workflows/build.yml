@@ -3,6 +3,14 @@ name: Build Voukoder
 on:
   workflow_dispatch:
     inputs:
+      ffmpegLibs:
+        description: 'FFmpeg libraries'
+        required: true
+        default: 'https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz'
+      refId:
+        description: 'RefId'
+        required: true
+        default: 'master'
       verMajor:
         description: 'Major version'
         required: true
@@ -29,13 +37,14 @@ jobs:
     steps:
     - name: Set up dependencies
       run: |
-        Invoke-WebRequest https://github.com/vouk/voukoder-ffmpeg/releases/latest/download/ffmpeg-win64-static-release.tar.gz -Headers @{"Cache-Control"="no-cache"} -OutFile temp.tar.gz
+        Invoke-WebRequest ${{ github.event.inputs.ffmpegLibs }} -Headers @{"Cache-Control"="no-cache"} -OutFile temp.tar.gz
         Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.2/wxWidgets-3.1.2.7z -OutFile wxWidgets-3.1.2.7z
         md external
         md project
         & cmd.exe '/C 7z x "temp.tar.gz" -so | 7z x -aoa -si -ttar -o"external"'
         md external\lib\release
         move external\lib\*.lib external\lib\release\
+        Get-ChildItem -Recurse .\external\
     
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1.1
@@ -44,6 +53,7 @@ jobs:
       uses: actions/checkout@v3.0.0
       with:
         path: project\voukoder
+        ref: ${{ github.event.inputs.refId }}
     
     - name: Check cache for wxWidgets 3.1.2
       id: wxw-cache

@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -86,7 +86,7 @@ extern "C" {
 #endif
 
 #if __has_include("mfx/mfxenc.h")
-#  pragma comment(lib, "libmfx.lib")
+#  pragma comment(lib, "mfx.lib")
 #endif
 
 #if __has_include("vpl/mfx.h")

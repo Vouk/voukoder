@@ -1,6 +1,6 @@
 /**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,16 @@ Voukoder::Config::Config()
 	(new wxApp());
 	CheckForUpdate(curVersion, &update);
 
+	// Make sure FFmpeg gets logged with debug info during initialization
+	av_log_set_callback([](void*, int level, const char* szFmt, va_list varg)
+		{
+			char logbuf[2000];
+			vsnprintf(logbuf, sizeof(logbuf), szFmt, varg);
+			logbuf[sizeof(logbuf) - 1] = '\0';
+
+			Log::instance()->AddLine(wxT("  FFmpeg: ") + wxString(logbuf).Trim());
+		});
+
 #ifdef _WIN32
 	// Load translations first
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_TRANSLATION));
@@ -51,6 +61,9 @@ Voukoder::Config::Config()
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_MUXER));
 	LoadResources(GetCurrentModule(), MAKEINTRESOURCE(ID_FILTER));
 #endif
+
+	// Restore logging
+	av_log_set_callback(av_log_default_callback);
 }
 
 #ifdef _WIN32

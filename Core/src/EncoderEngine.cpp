@@ -1,6 +1,6 @@
 ﻿/**
  * Voukoder
- * Copyright (C) 2017-2020 Daniel Stankewitz, All Rights Reserved
+ * Copyright (C) 2017-2022 Daniel Stankewitz, All Rights Reserved
  * https://www.voukoder.org
  *
  * This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ int EncoderEngine::open()
 	int ret = 0;
 
 	if (exportInfo.video.id.EndsWith("_qsv"))
-		ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_QSV, "auto", NULL, 0);
+		ret = av_hwdevice_ctx_create(&hwDev, AV_HWDEVICE_TYPE_D3D11VA, "auto", NULL, 0);
 
 	// Create format context
 	formatContext = avformat_alloc_context();
@@ -702,7 +702,7 @@ int EncoderEngine::writeAudioFrame(AVFrame* frame)
 		filterconfig << "asetnsamples=n=" << getAudioFrameSize() << ":p=0";
 
 		// Convert sample format
-		if (audioContext.codecContext->ch_layout.nb_channels != frame->ch_layout.nb_channels ||
+		if (av_channel_layout_compare(&audioContext.codecContext->ch_layout, &frame->ch_layout) == 1 ||
 			(int)audioContext.codecContext->sample_fmt != frame->format ||
 			audioContext.codecContext->sample_rate != frame->sample_rate)
 		{
@@ -720,7 +720,7 @@ int EncoderEngine::writeAudioFrame(AVFrame* frame)
 			// Set frame filter options
 			FrameFilterOptions options;
 			options.media_type = AVMEDIA_TYPE_AUDIO;
-			options.channel_layout = frame->ch_layout;
+			options.ch_layout = frame->ch_layout;
 			options.sample_fmt = (AVSampleFormat)frame->format;
 			options.time_base = { 1, frame->sample_rate };
 
@@ -830,13 +830,15 @@ int EncoderEngine::receivePackets(AVCodecContext* codecContext, AVStream* stream
 		packet->stream_index = stream->index;
 
 		// Write packet to disk
-		if (av_interleaved_write_frame(formatContext, packet) < 0)
+		ret = av_interleaved_write_frame(formatContext, packet);
+
+		av_packet_unref(packet);
+
+		if (ret < 0)
 		{
 			vkLogError("Unable to write packet to disk.");
 			break;
 		}
-
-		av_packet_unref(packet);
 	}
 
 	return ret;
