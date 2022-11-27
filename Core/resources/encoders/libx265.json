@@ -2726,7 +2726,7 @@
           "parameter": "weightp",
           "control": {
             "type": "boolean",
-            "value": false
+            "value": true
           },
           "prependNoIfFalse": true
         },
@@ -2758,12 +2758,30 @@
           "prependNoIfFalse": true
         },
         {
-          "id": "libx265.motionsearch.hme-search",
-          "parameter": "hme-search",
-          "control": {
-            "type": "string",
-            "value": ""
-          }
+         "id": "libx265.motionsearch.hme-search",
+         "parameter": "hme-search",
+         "control": {
+           "type": "string",
+           "value": ""
+         }
+        },
+        {
+         "id": "libx265.motionsearch.mcstf",
+         "parameter": "mcstf",
+         "control": {
+           "type": "boolean",
+           "value": false
+          },
+          "prependNoIfFalse": true
+        },
+        {
+         "id": "libx265.motionsearch.no-mcstf",
+         "parameter": "no-mcstf",
+         "control": {
+           "type": "boolean",
+           "value": false
+          },
+          "prependNoIfFalse": true
         }
       ]
     },
@@ -2876,6 +2894,26 @@
             "value": 5
           }
         },
+        {
+         "id": "libx265.slicedecision.hist-scenecut",
+         "parameter": "hist-scenecut",
+         "control": {
+          "type": "boolean",
+          "value": false
+         },
+         "prependNoIfFalse": false
+       },
+       {
+         "id": "libx265.slicedecision.hist-threshold",
+         "parameter": "hist-threshold",
+         "control": {
+           "maximum": 2,
+           "minimum": 0,
+           "singleStep": 0.01,
+           "type": "float",
+           "value": 0.01
+         }
+       },
         {
           "id": "libx265.slicedecision.radl",
           "parameter": "radl",
@@ -3593,3 +3631,4 @@
     }
   ]
 }
+
