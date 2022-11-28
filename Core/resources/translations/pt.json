@@ -1,7 +1,7 @@
 {
-  "id": "portugues_brazil",
-  "name": "Português (Brasil)",
-  "langId": 1046,
+  "id": "english",
+  "name": "English",
+  "langId": 1033,
   "translations": {
     "ui.voukoder.buttonOkay": "&OK",
     "ui.voukoder.buttonCancel": "&Cancel",
