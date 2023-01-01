@@ -36,7 +36,7 @@
     "ui.encoderconfig.false": "No",
     "ui.encoderconfig.general": "Salida",
     "ui.encoderconfig.general.presets": "Preconfiguraciones",
-    "ui.encoderconfig.general.presets.preset": "Preconfiguración",
+    "ui.encoderconfig.general.presets.preset": "Preajuste",
     "ui.encoderconfig.general.encoders": "Codificadores",
     "ui.encoderconfig.general.encoders.video": "Codificador de video",
     "ui.encoderconfig.general.encoders.video.configure": "Configurar...",
