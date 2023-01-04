@@ -120,30 +120,6 @@
                 ]
               },
               {
-                "value": "cbr_high_quality",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "av1_amf.standard.qp_i",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.qp_p",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.bitrate",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
                 "value": "vbr_peak",
                 "filters": [
                   {
@@ -170,54 +146,6 @@
               },
               {
                 "value": "vbr_latency",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "av1_amf.standard.qp_i",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.qp_p",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.bitrate",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "value": "vbr_quality",
-                "filters": [
-                  {
-                    "filter": "OnSelection",
-                    "params": {
-                      "ShowOptions": [
-                        {
-                          "id": "av1_amf.standard.qp_i",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.qp_p",
-                          "visible": false
-                        },
-                        {
-                          "id": "av1_amf.standard.bitrate",
-                          "visible": true
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "value": "vbr_high_quality",
                 "filters": [
                   {
                     "filter": "OnSelection",
