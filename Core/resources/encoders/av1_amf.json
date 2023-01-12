@@ -182,7 +182,7 @@
             "minimum": 0,
             "maximum": 255,
             "singleStep": 1,
-            "value": 0
+            "value": 110
           }
         },
         {
@@ -194,7 +194,7 @@
             "minimum": 0,
             "maximum": 255,
             "singleStep": 1,
-            "value": 0
+            "value": 110
           }
         },
         {
