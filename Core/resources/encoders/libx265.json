@@ -658,7 +658,7 @@
         "qg-size": "8",
 
         "rd": "3",
-        "splitrd-skip": true,
+        "splitrd-skip": "1",
         "rdoq-level": "2",
 
         "limit-modes": "1",
