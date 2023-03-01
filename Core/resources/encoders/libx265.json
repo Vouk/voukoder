@@ -55,7 +55,7 @@
         "sao-non-deblock": "1",
 
         "deblock": "0:-1",
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -110,7 +110,7 @@
         "sao-non-deblock": "1",
         "deblock": "0:-1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -165,7 +165,7 @@
         "sao-non-deblock": "1",
 
         "deblock": "0:-1",
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -220,7 +220,7 @@
         "sao-non-deblock": "1",
 
         "deblock": "0:-1",
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1",
         "opt-qp-pps": "1",
         "opt-ref-list-length-pps": "1"
@@ -313,7 +313,7 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.6",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "1",
         "qp-adaptation-range": "3",
 
@@ -321,7 +321,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -383,7 +383,7 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.6",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "1",
         "qp-adaptation-range": "3",
 
@@ -391,7 +391,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -453,15 +453,15 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.6",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "1",
         "qp-adaptation-range": "3",
 
         "deblock": "0:0",
-        "limit-sao": "1",
+        "limit-sao": "0",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -522,7 +522,7 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.6",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "1",
         "qp-adaptation-range": "3",
 
@@ -530,7 +530,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -595,7 +595,7 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.5",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "2",
         "qp-adaptation-range": "3",
 
@@ -604,7 +604,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -669,7 +669,7 @@
         "tskip-fast": "1",
 
         "psy-rd": "1.5",
-        "rd-refine": "1",
+        "rd-refine": "0",
         "rdpenalty": "2",
         "qp-adaptation-range": "3",
 
@@ -678,7 +678,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1"
       }
     },
@@ -748,7 +748,7 @@
         "limit-sao": "1",
         "sao-non-deblock": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1",
         "pme": "1"
       }
@@ -819,7 +819,7 @@
         "no-sao": "1",
         "single-sei": "1",
 
-        "no-open-gop": "1",
+        "open-gop": "0",
         "allow-non-conformance": "1",
         "opt-qp-pps": "1",
         "opt-ref-list-length-pps": "1"
@@ -902,7 +902,6 @@
       "psy-rd",
       "psy-rdoq",
       "open-gop",
-      "no-open-gop",
       "keyint",
       "min-keyint",
       "scenecut",
