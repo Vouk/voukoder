@@ -362,6 +362,17 @@
       "class": "advanced",
       "properties": [
         {
+          "id": "g",
+          "parameter": "g",
+          "control": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1200,
+            "singleStep": 1,
+            "value": 300
+          }
+        },
+        {
           "id": "async_depth",
           "parameter": "async_depth",
           "control": {

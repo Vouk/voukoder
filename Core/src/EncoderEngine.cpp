@@ -162,6 +162,11 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 		vkLogInfoVA("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
 
 		AVDictionary* dictionary = NULL;
+
+		// TODO: Workaround for https://trac.ffmpeg.org/ticket/10093
+		if (codecId == "hevc_nvenc")
+			av_dict_set(&dictionary, "b_ref_mode", "0", 0);
+
 		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), VALUE_SEPARATOR, PARAM_SEPARATOR, 0)) < 0)
 		{
 			vkLogErrorVA("Unable to parse encoder configuration: %s", codecOptions.c_str());

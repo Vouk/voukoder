@@ -232,10 +232,6 @@
                         {
                           "id": "hevc_nvenc.standard.strategy.cq",
                           "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.twopass",
-                          "visible": false
                         }
                       ]
                     }
@@ -268,10 +264,6 @@
                         {
                           "id": "hevc_nvenc.standard.strategy.cq",
                           "visible": false
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.twopass",
-                          "visible": false
                         }
                       ]
                     }
@@ -303,10 +295,6 @@
                         },
                         {
                           "id": "hevc_nvenc.standard.strategy.cq",
-                          "visible": true
-                        },
-                        {
-                          "id": "hevc_nvenc.standard.strategy.twopass",
                           "visible": true
                         }
                       ]
@@ -413,8 +401,19 @@
           "parameter": "multipass",
           "forced": true,
           "control": {
-            "type": "boolean",
-            "value": false
+            "type": "combobox",
+            "selectedIndex": 0,
+            "items": [
+              {
+                "value": "disabled"
+              },
+              {
+                "value": "qres"
+              },
+              {
+                "value": "fullres"
+              }
+            ]
           }
         },
         {
