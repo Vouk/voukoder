@@ -641,7 +641,7 @@
     "hevc_nvenc.standard.profile420-10._description": "Ограничивает диапазон битрейта и управляет другими свойствами, такими как алгоритм сжатия и формат цветности.",
     "hevc_nvenc.standard.profile420-10._item_0": "Основной",
     "hevc_nvenc.standard.tier._label": "Профиль",
-    "hevc_nvenc.standard.tier._description": "Этап кодирования.",
+    "hevc_nvenc.standard.tier._description": "Уровень кодирования.",
     "hevc_nvenc.standard.tier._item_0": "Основной",
     "hevc_nvenc.standard.tier._item_1": "Высокий",
     "hevc_nvenc.standard.strategy._label": "Режим кодирования",
