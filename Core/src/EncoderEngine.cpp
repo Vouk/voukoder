@@ -55,7 +55,6 @@ int EncoderEngine::open()
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportInfo.format.id.c_str(), exportInfo.filename.c_str(), NULL);
-	formatContext->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 	//formatContext->debug = FF_FDEBUG_TS;
 
 	// Reset contexts
@@ -162,11 +161,6 @@ int EncoderEngine::openCodec(const wxString codecId, const wxString codecOptions
 		vkLogInfoVA("Opening codec: %s with options: %s", codecId.c_str(), codecOptions.c_str());
 
 		AVDictionary* dictionary = NULL;
-
-		// TODO: Workaround for https://trac.ffmpeg.org/ticket/10093
-		if (codecId == "hevc_nvenc")
-			av_dict_set(&dictionary, "b_ref_mode", "0", 0);
-
 		if ((ret = av_dict_parse_string(&dictionary, codecOptions.c_str(), VALUE_SEPARATOR, PARAM_SEPARATOR, 0)) < 0)
 		{
 			vkLogErrorVA("Unable to parse encoder configuration: %s", codecOptions.c_str());
@@ -767,6 +761,7 @@ int EncoderEngine::encodeAndWriteFrame(EncoderContext* context, AVFrame* frame)
 			if (tmp_frame->nb_samples == context->codecContext->frame_size &&
 				(ret = sendFrame(context->codecContext, context->stream, tmp_frame)) < 0)
 			{
+				//auto a = av_err2str(ret);
 				return ret;
 			}
 
@@ -835,7 +830,8 @@ int EncoderEngine::receivePackets(AVCodecContext* codecContext, AVStream* stream
 		packet->stream_index = stream->index;
 
 		// Write packet to disk
-		ret = av_interleaved_write_frame(formatContext, packet);
+		ret = av_write_frame(formatContext, packet);
+		//ret = av_interleaved_write_frame(formatContext, packet);
 
 		av_packet_unref(packet);
 
