@@ -55,6 +55,8 @@ int EncoderEngine::open()
 	// Create format context
 	formatContext = avformat_alloc_context();
 	formatContext->oformat = av_guess_format(exportInfo.format.id.c_str(), exportInfo.filename.c_str(), NULL);
+	formatContext->max_interleave_delta = INT64_MAX;
+	formatContext->strict_std_compliance = FF_COMPLIANCE_VERY_STRICT;
 	//formatContext->debug = FF_FDEBUG_TS;
 
 	// Reset contexts
@@ -830,8 +832,7 @@ int EncoderEngine::receivePackets(AVCodecContext* codecContext, AVStream* stream
 		packet->stream_index = stream->index;
 
 		// Write packet to disk
-		ret = av_write_frame(formatContext, packet);
-		//ret = av_interleaved_write_frame(formatContext, packet);
+		ret = av_interleaved_write_frame(formatContext, packet);
 
 		av_packet_unref(packet);
 
