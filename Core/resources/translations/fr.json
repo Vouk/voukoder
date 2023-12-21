@@ -2058,6 +2058,8 @@
     "libfdk_aac.misc": "Divers",
     "libfdk_aac.misc.header_period._label": "En-tête Période",
     "libfdk_aac.misc.header_period._description": "Définit StreamMuxConfig et la périodicité de répétition PCE (en nombre d'images) pour l'envoi de mémoires tampons dans LATM / LOAS.",
+    "libfdk_aac.misc.cutoff._label": "Cut-Off frequency (in Hz)",
+    "libfdk_aac.misc.cutoff._description": "Cut-Off frequency (in Hz) - or 0 for default",
     "libfdk_aac.misc.latm._label": "Sortie des données encapsulées LATM/LOAS",
     "libfdk_aac.misc.latm._description": "Sortie des données encapsulées LATM/LOAS.",
     "libfdk_aac.misc.signaling._label": "Signalisation",
