@@ -73,6 +73,23 @@
           }
         }
       ]
+    },
+    {
+      "id": "aac.advanced",
+      "class": "advanced",
+      "properties": [
+        {
+          "id": "cutoff",
+          "parameter": "cutoff",
+          "control": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "singleStep": 1000,
+            "value": 20000
+          }
+        }
+      ]
     }
   ]
-}
+ }
