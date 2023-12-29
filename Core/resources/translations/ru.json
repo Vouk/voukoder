@@ -2070,7 +2070,7 @@
     "libfdk_aac.misc.header_period._label": "Заголовок Периода",
     "libfdk_aac.misc.header_period._description": "Устанавливает StreamMuxConfig и период повторения PCE (в кадрах) для отправки буферов внутриполосной конфигурации в LATM / LOAS.",
     "libfdk_aac.misc.cutoff._label": "Частота отключения (в Гц)",
-    "libfdk_aac.misc.cutoff._description": "Частота отключения (в Гц)",
+    "libfdk_aac.misc.cutoff._description": "Cut-Off frequency (in Hz)",
     "libfdk_aac.misc.latm._label": "Вывод инкапсулированных данных LATM/LOAS",
     "libfdk_aac.misc.latm._description": "Вывод инкапсулированных данных LATM/LOAS",
     "libfdk_aac.misc.signaling._label": "Сигнализирование",
