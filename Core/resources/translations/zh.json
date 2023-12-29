@@ -2070,7 +2070,7 @@
     "libfdk_aac.misc.header_period._label": "头部区域",
     "libfdk_aac.misc.header_period._description": "设置 StreamMuxConfig 和 PCE 重复时间(帧) 用于在LATM/LAS 传输层中发送波段内的配置缓冲区.",
     "libfdk_aac.misc.cutoff._label": "切换频率(Hz)",
-    "libfdk_aac.misc.cutoff._description": "切换频率(Hz) - 或0为默认频率",
+    "libfdk_aac.misc.cutoff._description": "Cut-Off frequency (in Hz)",
     "libfdk_aac.misc.latm._label": "输出LATM/LOAS 封装数据",
     "libfdk_aac.misc.latm._description": "输出LATM/LOAS 封装数据",
     "libfdk_aac.misc.signaling._label": "信号",
