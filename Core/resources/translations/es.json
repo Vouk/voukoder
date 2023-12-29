@@ -2070,7 +2070,7 @@
     "libfdk_aac.misc.header_period._label": "Duración de la cabecera",
     "libfdk_aac.misc.header_period._description": "Set StreamMuxConfig and PCE repetition period (in frames) for sending in-band configuration buffers within LATM/LOAS transport layer.",
     "libfdk_aac.misc.cutoff._label": "Cut-Off frequency (in Hz)",
-    "libfdk_aac.misc.cutoff._description": "Cut-Off frequency (in Hz) - or 0 for default",
+    "libfdk_aac.misc.cutoff._description": "Cut-Off frequency (in Hz)",
     "libfdk_aac.misc.latm._label": "Output LATM/LOAS encapsulated data",
     "libfdk_aac.misc.latm._description": "Output LATM/LOAS encapsulated data",
     "libfdk_aac.misc.signaling._label": "Signaling",
