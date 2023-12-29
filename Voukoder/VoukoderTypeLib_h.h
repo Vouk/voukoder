@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0628 */
 /* at Tue Jan 19 04:14:07 2038
  */
 /* Compiler settings for VoukoderTypeLib.idl:
-    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0622 
+    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0628 
     protocol : all , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -40,6 +40,14 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
+#endif
+
+#ifndef DECLSPEC_XFGVIRT
+#if defined(_CONTROL_FLOW_GUARD_XFG)
+#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#else
+#define DECLSPEC_XFGVIRT(base, func)
+#endif
 #endif
 
 /* Forward Declarations */ 
@@ -253,62 +261,77 @@ EXTERN_C const IID IID_IVoukoder;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IVoukoder * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IVoukoder * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IVoukoder * This);
         
+        DECLSPEC_XFGVIRT(IVoukoder, Close)
         HRESULT ( STDMETHODCALLTYPE *Close )( 
             IVoukoder * This,
             /* [in] */ BOOL finalize);
         
+        DECLSPEC_XFGVIRT(IVoukoder, GetConfig)
         HRESULT ( STDMETHODCALLTYPE *GetConfig )( 
             IVoukoder * This,
             /* [retval][out] */ VKENCODERCONFIG *config);
         
+        DECLSPEC_XFGVIRT(IVoukoder, GetFileExtension)
         HRESULT ( STDMETHODCALLTYPE *GetFileExtension )( 
             IVoukoder * This,
             /* [retval][out] */ BSTR *extension);
         
+        DECLSPEC_XFGVIRT(IVoukoder, GetMaxPasses)
         HRESULT ( STDMETHODCALLTYPE *GetMaxPasses )( 
             IVoukoder * This,
             /* [retval][out] */ UINT *passes);
         
+        DECLSPEC_XFGVIRT(IVoukoder, IsAudioActive)
         HRESULT ( STDMETHODCALLTYPE *IsAudioActive )( 
             IVoukoder * This,
             /* [retval][out] */ BOOL *isActive);
         
+        DECLSPEC_XFGVIRT(IVoukoder, IsAudioWaiting)
         HRESULT ( STDMETHODCALLTYPE *IsAudioWaiting )( 
             IVoukoder * This,
             /* [retval][out] */ BOOL *isWaiting);
         
+        DECLSPEC_XFGVIRT(IVoukoder, IsVideoActive)
         HRESULT ( STDMETHODCALLTYPE *IsVideoActive )( 
             IVoukoder * This,
             /* [retval][out] */ BOOL *isActive);
         
+        DECLSPEC_XFGVIRT(IVoukoder, Log)
         HRESULT ( STDMETHODCALLTYPE *Log )( 
             IVoukoder * This,
             /* [in] */ BSTR text);
         
+        DECLSPEC_XFGVIRT(IVoukoder, Open)
         HRESULT ( STDMETHODCALLTYPE *Open )( 
             IVoukoder * This,
             /* [in] */ VKENCODERINFO info);
         
+        DECLSPEC_XFGVIRT(IVoukoder, SendAudioSampleChunk)
         HRESULT ( STDMETHODCALLTYPE *SendAudioSampleChunk )( 
             IVoukoder * This,
             /* [in] */ VKAUDIOCHUNK chunk);
         
+        DECLSPEC_XFGVIRT(IVoukoder, SendVideoFrame)
         HRESULT ( STDMETHODCALLTYPE *SendVideoFrame )( 
             IVoukoder * This,
             /* [in] */ VKVIDEOFRAME frame);
         
+        DECLSPEC_XFGVIRT(IVoukoder, ShowVoukoderDialog)
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *ShowVoukoderDialog )( 
             IVoukoder * This,
             /* [in] */ BOOL video,
@@ -317,6 +340,7 @@ EXTERN_C const IID IID_IVoukoder;
             /* [in] */ HANDLE act_ctx,
             /* [in] */ HINSTANCE instance);
         
+        DECLSPEC_XFGVIRT(IVoukoder, SetConfig)
         HRESULT ( STDMETHODCALLTYPE *SetConfig )( 
             IVoukoder * This,
             /* [in] */ VKENCODERCONFIG config);

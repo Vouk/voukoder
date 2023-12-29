@@ -197,10 +197,7 @@ bool EncoderUtils::IsEncoderAvailable(const wxString name)
 			// Open the codec
 			try
 			{
-				// TODO: Workaround for https://trac.ffmpeg.org/ticket/10093
 				AVDictionary* dict = nullptr;
-				if (name == "hevc_nvenc")
-					av_dict_set(&dict, "b_ref_mode", "0", 0);
 
 				const int res = avcodec_open2(codecContext, codec, &dict);
 
