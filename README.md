@@ -1,5 +1,7 @@
 <img src="https://img.shields.io/github/downloads/vouk/voukoder/total.svg">
 
+# Voukoder has reached its-end-of-life phase. No further development or bug fixes will be done. I'll focus now entirely on <a href="https://www.voukoder.org">Voukoder Pro</a> - the successor application.
+
 <p align="center"><img src="https://www.voukoder.org/__resources/logo128.png" width="128" height="128">
 <br><a href="https://www.voukoder.org" style="font-size:20pt;">INFOS & DOWNLOAD HERE: WWW.VOUKODER.ORG</a></p>
 
